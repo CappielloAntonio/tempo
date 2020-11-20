@@ -1,0 +1,30 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory app:title="@string/general_header">
+        <ListPreference
+            app:defaultValue="400000000"
+            app:dialogTitle="@string/covers_cache"
+            app:entries="@array/pref_cache_size_titles"
+            app:entryValues="@array/pref_cache_size_values"
+            app:key="image_cache_size"
+            app:title="@string/covers_cache"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="default"
+            app:dialogTitle="@string/theme_selection"
+            app:entries="@array/themeListArray"
+            app:entryValues="@array/themeEntryArray"
+            app:key="themePref"
+            app:title="@string/theme_selection"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="no"
+            app:dialogTitle="@string/save_filters"
+            app:entries="@array/saveFilterListArray"
+            app:entryValues="@array/saveFilterEntryArray"
+            app:key="filtersPref"
+            app:title="@string/save_filters"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+</PreferenceScreen>

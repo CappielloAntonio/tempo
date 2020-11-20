@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Play</string>
+    <string name="storage_permission_rationale">We need permissions because this and that</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_filters">Filters</string>
+    <string name="title_activity_details">Details</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="general_header">General</string>
+    <string name="search_hint">Search title, artists or albums</string>
+    <string name="menu_home">Home</string>
+    <string name="settings_menu_label">Settings</string>
+    <string name="download_label">Download</string>
+    <string name="shelf_label">Shelf</string>
+    <string name="theme_header">Theme</string>
+    <string name="theme_selection">Choose theme</string>
+    <string name="covers_cache">Covers cache</string>
+    <string name="search_label">Search</string>
+    <string name="favorites_label">Favorites</string>
+    <string name="categories_label">Categories</string>
+    <string name="library_menu_label">Library</string>
+    <string name="home_menu_label">Home</string>
+    <string name="search_menu_label">Search</string>
+    <string name="label_placeholder">--</string>
+    <string name="save_filters">Save filters between sessions</string>
+
+    <string name="battery_optimizations_title">Battery Optimizations</string>
+    <string name="battery_optimizations_message">Please disable battery optimizations for media playback while the screen is off.</string>
+
+    <string name="disable">Disable</string>
+    <string name="ignore">Ignore</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

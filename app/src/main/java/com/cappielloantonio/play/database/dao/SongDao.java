@@ -19,6 +19,18 @@ public interface SongDao {
     @Query("SELECT * FROM song WHERE title LIKE '%' || :title || '%'")
     LiveData<List<Song>> searchSong(String title);
 
+    @Query("SELECT * FROM song ORDER BY RANDOM() LIMIT :number")
+    LiveData<List<Song>> getDiscoverSample(int number);
+
+    @Query("SELECT * FROM song ORDER BY RANDOM() LIMIT :number")
+    LiveData<List<Song>> getRecentlyAddedSample(int number);
+
+    @Query("SELECT * FROM song ORDER BY RANDOM() LIMIT :number")
+    LiveData<List<Song>> getRecentlyPlayedSample(int number);
+
+    @Query("SELECT * FROM song ORDER BY RANDOM() LIMIT :number")
+    LiveData<List<Song>> getMostPlayedSample(int number);
+
     @Query("SELECT EXISTS(SELECT * FROM song WHERE id = :id)")
     boolean exist(String id);
 

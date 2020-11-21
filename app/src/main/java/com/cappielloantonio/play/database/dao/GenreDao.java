@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Genre;
 
@@ -16,6 +17,9 @@ import java.util.List;
 public interface GenreDao {
     @Query("SELECT * FROM genre")
     LiveData<List<Genre>> getAll();
+
+    @Query("SELECT * FROM genre ORDER BY RANDOM() LIMIT :number;")
+    LiveData<List<Genre>> getSample(int number);
 
     @Query("SELECT EXISTS(SELECT * FROM genre WHERE id = :id)")
     boolean exist(String id);

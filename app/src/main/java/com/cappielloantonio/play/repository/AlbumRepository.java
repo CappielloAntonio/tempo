@@ -14,15 +14,21 @@ import java.util.List;
 public class AlbumRepository {
     private AlbumDao albumDao;
     private LiveData<List<Album>> listLiveAlbums;
+    private LiveData<List<Album>> listLiveSampleAlbum;
 
     public AlbumRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
         albumDao = database.albumDao();
-        listLiveAlbums = albumDao.getAll();
     }
 
     public LiveData<List<Album>> getListLiveAlbums() {
+        listLiveAlbums = albumDao.getAll();
         return listLiveAlbums;
+    }
+
+    public LiveData<List<Album>> getListLiveSampleAlbum() {
+        listLiveSampleAlbum = albumDao.getSample(10);
+        return listLiveSampleAlbum;
     }
 
     public boolean exist(Album album) {

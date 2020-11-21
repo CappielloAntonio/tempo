@@ -9,7 +9,9 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.util.Util;
 
 import java.util.List;
 
@@ -65,6 +67,11 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
         public void onClick(View view) {
             if (itemClickListener != null) itemClickListener.onItemClick(view, getAdapterPosition());
         }
+    }
+
+    public void setItems(List<Song> songs) {
+        this.songs = songs;
+        notifyDataSetChanged();
     }
 
     public void setClickListener(ItemClickListener itemClickListener) {

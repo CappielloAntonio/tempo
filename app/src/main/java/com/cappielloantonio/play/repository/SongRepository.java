@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.SongDao;
+import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Song;
 
 import java.util.ArrayList;
@@ -15,20 +16,40 @@ public class SongRepository {
     private SongDao songDao;
     private LiveData<List<Song>> listLiveSongs;
     private LiveData<List<Song>> searchListLiveSongs;
+    private LiveData<List<Song>> listLiveSampleDiscoverSongs;
+    private LiveData<List<Song>> listLiveSampleRecentlyAddedSongs;
+    private LiveData<List<Song>> listLiveSampleRecentlyPlayedSongs;
+    private LiveData<List<Song>> listLiveSampleMostPlayedSongs;
+
 
     public SongRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
         songDao = database.songDao();
     }
 
-    public LiveData<List<Song>> getListLiveSongs() {
-        listLiveSongs = songDao.getAll();
-        return listLiveSongs;
-    }
-
-    public LiveData<List<Song>> searchListLiveSongs(String title) {
+    public LiveData<List<Song>> searchListLiveSong(String title) {
         searchListLiveSongs = songDao.searchSong(title);
         return searchListLiveSongs;
+    }
+
+    public LiveData<List<Song>> getListLiveDiscoverSampleSong() {
+        listLiveSampleDiscoverSongs = songDao.getDiscoverSample(5);
+        return listLiveSampleDiscoverSongs;
+    }
+
+    public LiveData<List<Song>> getListLiveRecentlyAddedSampleSong() {
+        listLiveSampleRecentlyAddedSongs = songDao.getRecentlyAddedSample(20);
+        return listLiveSampleRecentlyAddedSongs;
+    }
+
+    public LiveData<List<Song>> getListLiveRecentlyPlayedSampleSong() {
+        listLiveSampleRecentlyPlayedSongs = songDao.getRecentlyPlayedSample(20);
+        return listLiveSampleRecentlyPlayedSongs;
+    }
+
+    public LiveData<List<Song>> getListLiveMostPlayedSampleSong() {
+        listLiveSampleMostPlayedSongs = songDao.getMostPlayedSample(20);
+        return listLiveSampleMostPlayedSongs;
     }
 
     public boolean exist(Song song) {

@@ -47,6 +47,7 @@
 
 
                     <TextView
+                        android:id="@+id/album_catalogue_text_view_clickable"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/open_sans_font_family"
@@ -109,6 +110,7 @@
 
 
                     <TextView
+                        android:id="@+id/artist_catalogue_text_view_clickable"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/open_sans_font_family"
@@ -171,6 +173,7 @@
 
 
                     <TextView
+                        android:id="@+id/genre_catalogue_text_view_clickable"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/open_sans_font_family"

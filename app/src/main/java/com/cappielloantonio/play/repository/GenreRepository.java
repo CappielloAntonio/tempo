@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.GenreDao;
+import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Genre;
 
 import java.util.ArrayList;
@@ -14,15 +15,21 @@ import java.util.List;
 public class GenreRepository {
     private GenreDao genreDao;
     private LiveData<List<Genre>> listLiveGenres;
+    private LiveData<List<Genre>> listLiveAlbumGenre;
 
     public GenreRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
         genreDao = database.genreDao();
-        listLiveGenres = genreDao.getAll();
     }
 
     public LiveData<List<Genre>> getListLiveGenres() {
+        listLiveGenres = genreDao.getAll();
         return listLiveGenres;
+    }
+
+    public LiveData<List<Genre>> getListLiveSampleGenre() {
+        listLiveAlbumGenre = genreDao.getSample(6 * 3);
+        return listLiveAlbumGenre;
     }
 
     public boolean exist(Genre genre) {

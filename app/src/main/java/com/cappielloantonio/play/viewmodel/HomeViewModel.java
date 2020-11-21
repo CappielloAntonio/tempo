@@ -1,41 +1,51 @@
 package com.cappielloantonio.play.viewmodel;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.SongRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeViewModel extends ViewModel {
+public class HomeViewModel extends AndroidViewModel {
+    private SongRepository songRepository;
 
-    public List<Song> getDiscoverSongList() {
-        List<Song> discover_songs = new ArrayList<>();
-        discover_songs.add(new Song("Holiday", "American Idiot"));
-        discover_songs.add(new Song("Brioschi", "Stanza Singola"));
-        discover_songs.add(new Song("HappySad", "Ceri Singles"));
-        discover_songs.add(new Song("Falling back to Earth", "Haken"));
+    private LiveData<List<Song>> dicoverSongSample;
+    private LiveData<List<Song>> recentlyPlayedSongSample;
+    private LiveData<List<Song>> recentlyAddedSongSample;
+    private LiveData<List<Song>> mostPlayedSongSample;
 
-        return discover_songs;
+    public HomeViewModel(@NonNull Application application) {
+        super(application);
+
+        songRepository = new SongRepository(application);
+
+        dicoverSongSample = songRepository.getListLiveDiscoverSampleSong();
+        recentlyPlayedSongSample = songRepository.getListLiveRecentlyPlayedSampleSong();
+        recentlyAddedSongSample = songRepository.getListLiveRecentlyAddedSampleSong();
+        mostPlayedSongSample = songRepository.getListLiveMostPlayedSampleSong();
     }
 
-    public List<Song> getRecentSongList() {
-        List<Song> recent_songs = new ArrayList<>();
-        recent_songs.add(new Song("Holiday", "American Idiot"));
-        recent_songs.add(new Song("Brioschi", "Stanza Singola"));
-        recent_songs.add(new Song("HappySad", "Ceri Singles"));
-        recent_songs.add(new Song("Falling back to Earth", "Haken"));
 
-        return recent_songs;
+    public LiveData<List<Song>> getDiscoverSongList() {
+        return dicoverSongSample;
     }
 
-    public List<Song> getMostPlayedSongList() {
-        List<Song> most_played_songs = new ArrayList<>();
-        most_played_songs.add(new Song("Holiday", "American Idiot"));
-        most_played_songs.add(new Song("Brioschi", "Stanza Singola"));
-        most_played_songs.add(new Song("HappySad", "Ceri Singles"));
-        most_played_songs.add(new Song("Falling back to Earth", "Haken"));
+    public LiveData<List<Song>> getRecentlyAddedSongList() {
+        return recentlyAddedSongSample;
+    }
 
-        return most_played_songs;
+    public LiveData<List<Song>> getRecentlyPlayedSongList() {
+        return recentlyPlayedSongSample;
+    }
+
+    public LiveData<List<Song>> getMostPlayedSongList() {
+        return mostPlayedSongSample;
     }
 }

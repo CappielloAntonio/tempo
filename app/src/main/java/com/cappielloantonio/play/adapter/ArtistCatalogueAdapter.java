@@ -10,18 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.util.Util;
 
 import java.util.List;
 
-public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder> {
+public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogueAdapter.ViewHolder> {
     private static final String TAG = "ArtistAdapter";
     private List<Artist> artists;
     private LayoutInflater mInflater;
     private Context context;
     private ItemClickListener itemClickListener;
 
-    public ArtistAdapter(Context context, List<Artist> artists) {
+    public ArtistCatalogueAdapter(Context context, List<Artist> artists) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.artists = artists;
@@ -29,7 +28,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_library_artist, parent, false);
+        View view = mInflater.inflate(R.layout.item_library_catalogue_artist, parent, false);
         return new ViewHolder(view);
     }
 

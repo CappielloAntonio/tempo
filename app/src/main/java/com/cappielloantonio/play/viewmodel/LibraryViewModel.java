@@ -10,54 +10,53 @@ import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.repository.AlbumRepository;
+import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.GenreRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LibraryViewModel extends AndroidViewModel {
+    private AlbumRepository albumRepository;
+    private ArtistRepository artistRepository;
     private GenreRepository genreRepository;
+
+    private LiveData<List<Album>> sampleAlbum;
+    private LiveData<List<Artist>> sampleArtist;
+    private LiveData<List<Genre>> sampleGenres;
+
     private LiveData<List<Genre>> allGenres;
 
     public LibraryViewModel(@NonNull Application application) {
         super(application);
 
+        albumRepository = new AlbumRepository(application);
+        artistRepository = new ArtistRepository(application);
         genreRepository = new GenreRepository(application);
-        allGenres = genreRepository.getListLiveGenres();
+
+        // Inizializzate all'interno del costruttore, in modo da rimanere immutabili per tutto il
+        // ciclo di vita dell'applicazione
+        sampleAlbum = albumRepository.getListLiveSampleAlbum();
+        sampleArtist = artistRepository.getListLiveSampleArtist();
+        sampleGenres = genreRepository.getListLiveSampleGenre();
     }
 
     public LiveData<List<Genre>> getGenreList() {
+        allGenres = genreRepository.getListLiveGenres();
         return allGenres;
     }
 
-    public ArrayList<Album> getAlbumSample() {
-        ArrayList<Album> albums = new ArrayList<>();
-        albums.add(new Album("1", "aaaa", 1, "1", "qqqq", "", ""));
-        albums.add(new Album("2", "ssss", 1, "2", "wwww", "", ""));
-        albums.add(new Album("3", "dddd", 1, "3", "eeee", "", ""));
-        albums.add(new Album("4", "ffff", 1, "4", "rrrr", "", ""));
-        albums.add(new Album("5", "gggg", 1, "5", "tttt", "", ""));
-        albums.add(new Album("6", "hhhh", 1, "6", "yyyy", "", ""));
-        albums.add(new Album("7", "jjjj", 1, "7", "uuuu", "", ""));
-        albums.add(new Album("8", "kkkk", 1, "8", "iiii", "", ""));
-        albums.add(new Album("9", "llll", 1, "9", "oooo", "", ""));
-
-        return albums;
+    public LiveData<List<Album>> getAlbumSample() {
+        return sampleAlbum;
     }
 
-    public ArrayList<Artist> getArtistSample() {
-        ArrayList<Artist> artists = new ArrayList<>();
-        artists.add(new Artist("1", "dhgr", "", ""));
-        artists.add(new Artist("2", "kdnu", "", ""));
-        artists.add(new Artist("3", "wfty", "", ""));
-        artists.add(new Artist("4", "hfds", "", ""));
-        artists.add(new Artist("5", "jgab", "", ""));
-        artists.add(new Artist("6", "iudg", "", ""));
-        artists.add(new Artist("7", "istr", "", ""));
-        artists.add(new Artist("8", "dger", "", ""));
-        artists.add(new Artist("9", "jhjk", "", ""));
+    public LiveData<List<Artist>> getArtistSample() {
+        return sampleArtist;
+    }
 
-        return artists;
+    public LiveData<List<Genre>> getGenreSample() {
+        return sampleGenres;
     }
 
     public ArrayList<Playlist> getPlaylist() {

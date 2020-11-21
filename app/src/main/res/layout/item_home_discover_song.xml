@@ -9,13 +9,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="156dp">
+        android:layout_height="172dp">
 
         <TextView
             android:id="@+id/title_discover_song_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginTop="18dp"
             android:text="@string/label_placeholder"
             android:textColor="@color/titleTextColor"

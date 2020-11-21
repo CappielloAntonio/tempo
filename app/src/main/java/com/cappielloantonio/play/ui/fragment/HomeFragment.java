@@ -9,15 +9,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.adapter.DiscoverSongAdapter;
 import com.cappielloantonio.play.adapter.RecentMusicAdapter;
 import com.cappielloantonio.play.databinding.FragmentHomeBinding;
+import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.HomeViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment implements RecentMusicAdapter.ItemClickListener {
     private static final String TAG = "CategoriesFragment";
@@ -27,7 +32,7 @@ public class HomeFragment extends Fragment implements RecentMusicAdapter.ItemCli
     private HomeViewModel homeViewModel;
 
     private DiscoverSongAdapter discoverSongAdapter;
-    private RecentMusicAdapter recentMusicAdapter;
+    private RecentMusicAdapter recentlyAddedMusicAdapter;
     private RecentMusicAdapter mostPlayedMusicAdapter;
 
     @Nullable
@@ -61,27 +66,30 @@ public class HomeFragment extends Fragment implements RecentMusicAdapter.ItemCli
     }
 
     private void initDiscoverSongSlideView() {
-        discoverSongAdapter = new DiscoverSongAdapter(requireContext(), homeViewModel.getDiscoverSongList());
+        discoverSongAdapter = new DiscoverSongAdapter(requireContext(), new ArrayList<>());
         bind.discoverSongViewPager.setAdapter(discoverSongAdapter);
         bind.discoverSongViewPager.setPageMargin(20);
+        homeViewModel.getDiscoverSongList().observe(requireActivity(), songs -> discoverSongAdapter.setItems(songs));
     }
 
     private void initRecentPlayedSongView() {
         bind.recentlyPlayedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.recentlyPlayedTracksRecyclerView.setHasFixedSize(true);
 
-        recentMusicAdapter = new RecentMusicAdapter(requireContext(), homeViewModel.getRecentSongList());
-        recentMusicAdapter.setClickListener(this);
-        bind.recentlyPlayedTracksRecyclerView.setAdapter(recentMusicAdapter);
+        recentlyAddedMusicAdapter = new RecentMusicAdapter(requireContext(), new ArrayList<>());
+        recentlyAddedMusicAdapter.setClickListener(this);
+        bind.recentlyPlayedTracksRecyclerView.setAdapter(recentlyAddedMusicAdapter);
+        homeViewModel.getRecentlyAddedSongList().observe(requireActivity(), songs -> recentlyAddedMusicAdapter.setItems(songs));
     }
 
     private void initMostPlayedSongView() {
         bind.mostPlayedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.mostPlayedTracksRecyclerView.setHasFixedSize(true);
 
-        mostPlayedMusicAdapter = new RecentMusicAdapter(requireContext(), homeViewModel.getMostPlayedSongList());
+        mostPlayedMusicAdapter = new RecentMusicAdapter(requireContext(), new ArrayList<>());
         mostPlayedMusicAdapter.setClickListener(this);
         bind.mostPlayedTracksRecyclerView.setAdapter(mostPlayedMusicAdapter);
+        homeViewModel.getMostPlayedSongList().observe(requireActivity(), songs -> mostPlayedMusicAdapter.setItems(songs));
     }
 
     @Override

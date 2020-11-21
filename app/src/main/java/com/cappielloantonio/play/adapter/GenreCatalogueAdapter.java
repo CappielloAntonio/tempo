@@ -9,49 +9,49 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.util.Util;
+import com.cappielloantonio.play.model.Genre;
 
 import java.util.List;
 
-public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder> {
-    private static final String TAG = "ArtistAdapter";
-    private List<Artist> artists;
+public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAdapter.ViewHolder> {
+    private static final String TAG = "GenreAdapter";
+    private List<Genre> genres;
     private LayoutInflater mInflater;
     private Context context;
     private ItemClickListener itemClickListener;
 
-    public ArtistAdapter(Context context, List<Artist> artists) {
+    public GenreCatalogueAdapter(Context context, List<Genre> genres) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
-        this.artists = artists;
+        this.genres = genres;
     }
 
+    // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_library_artist, parent, false);
+        View view = mInflater.inflate(R.layout.item_library_catalogue_genre, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Artist artist = artists.get(position);
+        Genre genre = genres.get(position);
 
-        holder.textArtistName.setText(artist.getName());
+        holder.textGenre.setText(genre.getName());
     }
 
     @Override
     public int getItemCount() {
-        return artists.size();
+        return genres.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView textArtistName;
+        TextView textGenre;
 
         ViewHolder(View itemView) {
             super(itemView);
 
-            textArtistName = itemView.findViewById(R.id.artist_name_label);
+            textGenre = itemView.findViewById(R.id.genre_label);
 
             itemView.setOnClickListener(this);
         }
@@ -62,8 +62,8 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
         }
     }
 
-    public void setItems(List<Artist> artists) {
-        this.artists = artists;
+    public void setItems(List<Genre> genres) {
+        this.genres = genres;
         notifyDataSetChanged();
     }
 

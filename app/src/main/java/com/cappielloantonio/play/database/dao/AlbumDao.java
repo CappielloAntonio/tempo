@@ -17,6 +17,9 @@ public interface AlbumDao {
     @Query("SELECT * FROM album")
     LiveData<List<Album>> getAll();
 
+    @Query("SELECT * FROM album ORDER BY RANDOM() LIMIT :number;")
+    LiveData<List<Album>> getSample(int number);
+
     @Query("SELECT EXISTS(SELECT * FROM album WHERE id = :id)")
     boolean exist(String id);
 

@@ -71,7 +71,17 @@
         android:id="@+id/libraryFragment"
         android:name="com.cappielloantonio.play.ui.fragment.LibraryFragment"
         android:label="LibraryFragment"
-        tools:layout="@layout/fragment_library"/>
+        tools:layout="@layout/fragment_library">
+        <action
+            android:id="@+id/action_libraryFragment_to_artistCatalogueFragment"
+            app:destination="@id/artistCatalogueFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_albumCatalogueFragment"
+            app:destination="@id/albumCatalogueFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_genreCatalogueFragment"
+            app:destination="@id/genreCatalogueFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.cappielloantonio.play.ui.fragment.SettingsFragment"
@@ -84,12 +94,26 @@
         tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_filterFragment"
-            app:destination="@id/filterFragment"
-            app:launchSingleTop="true" />
+            app:destination="@id/filterFragment" />
     </fragment>
     <fragment
         android:id="@+id/filterFragment"
         android:name="com.cappielloantonio.play.ui.fragment.FilterFragment"
         android:label="FilterFragment"
         tools:layout="@layout/fragment_filter" />
+    <fragment
+        android:id="@+id/artistCatalogueFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.ArtistCatalogueFragment"
+        android:label="ArtistCatalogueFragment"
+        tools:layout="@layout/fragment_artist_catalogue"/>
+    <fragment
+        android:id="@+id/albumCatalogueFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.AlbumCatalogueFragment"
+        android:label="AlbumCatalogueFragment"
+        tools:layout="@layout/fragment_album_catalogue"/>
+    <fragment
+        android:id="@+id/genreCatalogueFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.GenreCatalogueFragment"
+        android:label="GenreCatalogueFragment"
+        tools:layout="@layout/fragment_genre_catalogue"/>
 </navigation>

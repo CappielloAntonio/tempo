@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Song;
 
 import java.util.List;
@@ -55,6 +56,11 @@ public class DiscoverSongAdapter extends PagerAdapter {
 
         container.addView(view, 0);
         return view;
+    }
+
+    public void setItems(List<Song> songs) {
+        this.songs = songs;
+        notifyDataSetChanged();
     }
 
     @Override

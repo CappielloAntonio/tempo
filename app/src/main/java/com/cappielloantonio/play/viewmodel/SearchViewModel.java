@@ -33,7 +33,7 @@ public class SearchViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Song>> searchSong(String title) {
-        searchSong = songRepository.searchListLiveSongs(title);
+        searchSong = songRepository.searchListLiveSong(title);
         return searchSong;
     }
 

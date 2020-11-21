@@ -14,15 +14,21 @@ import java.util.List;
 public class SongRepository {
     private SongDao songDao;
     private LiveData<List<Song>> listLiveSongs;
+    private LiveData<List<Song>> searchListLiveSongs;
 
     public SongRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
         songDao = database.songDao();
-        listLiveSongs = songDao.getAll();
     }
 
     public LiveData<List<Song>> getListLiveSongs() {
+        listLiveSongs = songDao.getAll();
         return listLiveSongs;
+    }
+
+    public LiveData<List<Song>> searchListLiveSongs(String title) {
+        searchListLiveSongs = songDao.searchSong(title);
+        return searchListLiveSongs;
     }
 
     public boolean exist(Song song) {
@@ -35,8 +41,7 @@ public class SongRepository {
         try {
             thread.join();
             exist = existThread.exist();
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 

@@ -27,6 +27,7 @@
     <color name="hintTextColor">#303030</color>
     <color name="iconSearchBarColor">#303030</color>
     <color name="contentContainerColor">#EEEEEE</color>
+    <color name="searchBackgroundColor">#EFEFEF</color>
 
     <color name="navigationDrawerTextColor">#383838</color>
     <color name="navigationDrawerIconColor">#757575</color>
@@ -34,4 +35,8 @@
     <color name="bottomNavIconPressedColor">#252525</color>
     <color name="bottomNavIconSelectedColor">#303030</color>
     <color name="bottomNavIconColor">#AFAFAF</color>
+
+    <color name="chipBorderColor">#AFAFAF</color>
+    <color name="chipSelectedBackgroundColor">#EBEBEB</color>
+    <color name="chipUnelectedBackgroundColor">#FFFFFF</color>
 </resources>

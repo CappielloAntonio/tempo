@@ -40,7 +40,7 @@ public class DiscoverSongAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, final int position) {
         layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.item_discover_song, container, false);
+        View view = layoutInflater.inflate(R.layout.item_home_discover_song, container, false);
 
         TextView title;
         TextView desc;

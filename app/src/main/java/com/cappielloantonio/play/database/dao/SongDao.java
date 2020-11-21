@@ -16,6 +16,9 @@ public interface SongDao {
     @Query("SELECT * FROM song")
     LiveData<List<Song>> getAll();
 
+    @Query("SELECT * FROM song WHERE title LIKE '%' || :title || '%'")
+    LiveData<List<Song>> searchSong(String title);
+
     @Query("SELECT EXISTS(SELECT * FROM song WHERE id = :id)")
     boolean exist(String id);
 

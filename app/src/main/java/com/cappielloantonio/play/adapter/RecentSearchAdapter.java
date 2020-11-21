@@ -9,62 +9,67 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.model.RecentSearch;
 
 import java.util.List;
 
-/**
- * Adapter per i brani recenti in home
- */
-public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.ViewHolder> {
-    private static final String TAG = "RecentMusicAdapter";
-    private List<Song> songs;
+public class RecentSearchAdapter extends RecyclerView.Adapter<RecentSearchAdapter.ViewHolder> {
+    private static final String TAG = "GenreAdapter";
+    private List<RecentSearch> searches;
     private LayoutInflater mInflater;
     private Context context;
     private ItemClickListener itemClickListener;
 
-    public RecentMusicAdapter(Context context, List<Song> songs) {
+    public RecentSearchAdapter(Context context, List<RecentSearch> searches) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
-        this.songs = songs;
+        this.searches = searches;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_home_recent_track, parent, false);
+        View view = mInflater.inflate(R.layout.item_search_recent_searches, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Song song = songs.get(position);
+        RecentSearch search = searches.get(position);
 
-        holder.textTitle.setText(song.getTitle());
-        holder.textArtist.setText(song.getAlbumName());
+        holder.recentSearch.setText(search.getSearch());
     }
 
     @Override
     public int getItemCount() {
-        return songs.size();
+        return searches.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView textTitle;
-        TextView textArtist;
+        TextView recentSearch;
 
         ViewHolder(View itemView) {
             super(itemView);
 
-            textTitle = itemView.findViewById(R.id.title_track_label);
-            textArtist = itemView.findViewById(R.id.artist_track_label);
+            recentSearch = itemView.findViewById(R.id.recent_search_text_view);
 
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            if (itemClickListener != null) itemClickListener.onItemClick(view, getAdapterPosition());
+            if (itemClickListener != null)
+                itemClickListener.onItemClick(view, getAdapterPosition());
         }
+    }
+
+    public void setItems(List<RecentSearch> searches) {
+        this.searches = searches;
+        notifyDataSetChanged();
+    }
+
+    public RecentSearch getItem(int id) {
+        return searches.get(id);
     }
 
     public void setClickListener(ItemClickListener itemClickListener) {

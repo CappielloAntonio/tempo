@@ -10,14 +10,16 @@ import com.cappielloantonio.play.database.dao.AlbumDao;
 import com.cappielloantonio.play.database.dao.ArtistDao;
 import com.cappielloantonio.play.database.dao.GenreDao;
 import com.cappielloantonio.play.database.dao.PlaylistDao;
+import com.cappielloantonio.play.database.dao.RecentSearchDao;
 import com.cappielloantonio.play.database.dao.SongDao;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.model.RecentSearch;
 import com.cappielloantonio.play.model.Song;
 
-@Database(entities = {Album.class, Artist.class, Genre.class, Playlist.class, Song.class}, version = 2, exportSchema = false)
+@Database(entities = {Album.class, Artist.class, Genre.class, Playlist.class, Song.class, RecentSearch.class}, version = 3, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String TAG = "AppDatabase";
 
@@ -43,4 +45,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract PlaylistDao playlistDao();
 
     public abstract SongDao songDao();
+
+    public abstract RecentSearchDao recentSearchDao();
 }

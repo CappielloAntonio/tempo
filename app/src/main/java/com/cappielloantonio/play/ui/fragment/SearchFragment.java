@@ -1,31 +1,40 @@
 package com.cappielloantonio.play.ui.fragment;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.adapter.RecentSearchAdapter;
+import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentSearchBinding;
+import com.cappielloantonio.play.model.RecentSearch;
+import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
-import com.paulrybitskyi.persistentsearchview.utils.VoiceRecognitionDelegate;
+import com.cappielloantonio.play.viewmodel.SearchViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchFragment extends Fragment {
     private static final String TAG = "SearchFragment";
-    public static final int REQUEST_CODE = 64545;
 
     private FragmentSearchBinding bind;
     private MainActivity activity;
+    private SearchViewModel searchViewModel;
 
-    protected LinearLayout emptyLinearLayout;
-
-    protected String query = "";
+    private RecentSearchAdapter recentSearchAdapter;
+    private SongResultSearchAdapter songResultSearchAdapter;
 
     @Nullable
     @Override
@@ -34,8 +43,12 @@ public class SearchFragment extends Fragment {
 
         bind = FragmentSearchBinding.inflate(inflater, container, false);
         View view = bind.getRoot();
+        searchViewModel = new ViewModelProvider(requireActivity()).get(SearchViewModel.class);
 
-        searchInit();
+        init();
+        initRecentSearchView();
+        initSearchResultView();
+        initSearchView();
 
         return view;
     }
@@ -46,23 +59,38 @@ public class SearchFragment extends Fragment {
         bind = null;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                String code = data.getStringExtra("result");
-                search(code);
-            }
-        }
-
-        VoiceRecognitionDelegate.handleResult(bind.persistentSearchView, requestCode, resultCode, data);
+    private void init() {
+        bind.clearAllSearchTextViewClickable.setOnClickListener(v -> searchViewModel.deleteAllRecentSearch());
     }
 
-    private void searchInit() {
-        bind.persistentSearchView.showRightButton();
+    private void initRecentSearchView() {
+        bind.recentlySearchedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        bind.recentlySearchedTracksRecyclerView.setHasFixedSize(true);
 
+        recentSearchAdapter = new RecentSearchAdapter(requireContext(), new ArrayList<>());
+        recentSearchAdapter.setClickListener((view, position) -> {
+            RecentSearch search = recentSearchAdapter.getItem(position);
+            search(search.getSearch());
+        });
+        bind.recentlySearchedTracksRecyclerView.setAdapter(recentSearchAdapter);
+
+        searchViewModel.getSearchList().observe(requireActivity(), recentSearches -> recentSearchAdapter.setItems(recentSearches));
+    }
+
+    private void initSearchResultView() {
+        bind.searchResultTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        bind.searchResultTracksRecyclerView.setHasFixedSize(true);
+
+        songResultSearchAdapter = new SongResultSearchAdapter(requireContext(), new ArrayList<>());
+        songResultSearchAdapter.setClickListener((view, position) -> {
+            Toast.makeText(requireContext(), "Song " + position, Toast.LENGTH_SHORT).show();
+        });
+        bind.searchResultTracksRecyclerView.setAdapter(songResultSearchAdapter);
+    }
+
+    private void initSearchView() {
+        bind.persistentSearchView.showRightButton();
+        
         bind.persistentSearchView.setOnSearchQueryChangeListener((searchView, oldQuery, newQuery) -> {
         });
 
@@ -70,49 +98,25 @@ public class SearchFragment extends Fragment {
         });
 
         bind.persistentSearchView.setOnRightBtnClickListener(view -> {
+            activity.navController.navigate(R.id.action_searchFragment_to_filterFragment);
         });
-
-        bind.persistentSearchView.setVoiceRecognitionDelegate(new VoiceRecognitionDelegate(this));
 
         bind.persistentSearchView.setOnSearchConfirmedListener((searchView, query) -> {
-            if (!query.equals("")) {
-                searchView.collapse();
-                search(query);
-            }
+            search(query);
         });
-
-        bind.persistentSearchView.setSuggestionsDisabled(true);
     }
 
     public void search(String query) {
-        emptyScreen();
-        this.query = query;
+        if (!query.equals("")) {
+            searchViewModel.insertNewSearch(query);
+            bind.persistentSearchView.collapse();
 
-        bind.persistentSearchView.setInputQuery(query);
-        performSearch(query);
+            bind.persistentSearchView.setInputQuery(query);
+            performSearch(query);
+        }
     }
 
     private void performSearch(String query) {
-
-    }
-
-    private void loadMoreItemSearch(String query, int page) {
-        manageProgressBar(true);
-
-    }
-
-    private void emptyScreen() {
-        emptyLinearLayout.setVisibility(View.GONE);
-    }
-
-
-    private void manageProgressBar(boolean show) {
-        if (show) {
-            bind.persistentSearchView.hideLeftButton();
-            bind.persistentSearchView.showProgressBar(true);
-        } else {
-            bind.persistentSearchView.showLeftButton();
-            bind.persistentSearchView.hideProgressBar(true);
-        }
+        searchViewModel.searchSong(query).observe(requireActivity(), songs -> songResultSearchAdapter.setItems(songs));
     }
 }

@@ -8,21 +8,19 @@
         android:id="@+id/persistentSearchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="4dp"
-        android:paddingLeft="4dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="4dp"
-        android:paddingRight="4dp"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="8dp"
         app:areSuggestionsDisabled="true"
         app:cardBackgroundColor="@color/cardColor"
         app:cardCornerRadius="4dp"
-        app:cardElevation="2dp"
+        app:cardElevation="0dp"
         app:clearInputButtonDrawable="@drawable/ic_close"
         app:dividerColor="@color/dividerColor"
         app:isClearInputButtonEnabled="true"
         app:isDismissableOnTouchOutside="true"
         app:isProgressBarEnabled="true"
-        app:isVoiceInputButtonEnabled="true"
+        app:isVoiceInputButtonEnabled="false"
         app:leftButtonDrawable="@drawable/ic_search"
         app:progressBarColor="@color/colorAccent"
         app:queryInputBarIconColor="@color/darkIconColor"
@@ -31,18 +29,98 @@
         app:queryInputHintColor="@color/hintTextColor"
         app:queryInputTextColor="@color/hintTextColor"
         app:rightButtonDrawable="@drawable/ic_filter"
-        app:shouldDimBehind="true" />
+        app:shouldDimBehind="false" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:overScrollMode="never"
-        android:paddingStart="2dp"
-        android:paddingLeft="2dp"
-        android:paddingTop="60dp"
-        android:paddingEnd="2dp"
-        android:paddingRight="2dp"
-        android:paddingBottom="4dp" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/persistentSearchView"
+        android:orientation="vertical">
+
+        <!--  Recent searched -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--  Label and button  -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/open_sans_font_family"
+                    android:paddingStart="8dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="Recent Searches"
+                    android:textColor="@color/titleTextColor"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/clear_all_search_text_view_clickable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_font_family"
+                    android:paddingStart="8dp"
+                    android:paddingTop="12dp"
+                    android:paddingEnd="8dp"
+                    android:text="Clear all"
+                    android:textColor="@color/subtitleTextColor"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recently_searched_tracks_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="4dp"
+                android:clipToPadding="false"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="8dp" />
+        </LinearLayout>
+
+        <!-- Search result -->
+        <LinearLayout
+            android:id="@+id/search_result_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--  Label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans_font_family"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:text="Search results"
+                android:textColor="@color/titleTextColor"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_result_tracks_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="4dp"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="56dp" />
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

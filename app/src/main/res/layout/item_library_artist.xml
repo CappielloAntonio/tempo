@@ -7,8 +7,8 @@
 
     <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
-        android:layout_width="172dp"
-        android:layout_height="172dp"
+        android:layout_width="156dp"
+        android:layout_height="156dp"
         android:layout_gravity="center"
         android:backgroundTint="@color/cardColor"
         card_view:cardCornerRadius="4dp"

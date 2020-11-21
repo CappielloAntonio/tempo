@@ -52,7 +52,7 @@
         <action
             android:id="@+id/action_syncFragment_to_homeFragment"
             app:destination="@id/homeFragment"
-            app:popUpTo="@id/landingFragment"
+            app:popUpTo="@id/syncFragment"
             app:popUpToInclusive="true" />
     </fragment>
 
@@ -73,13 +73,23 @@
         android:label="LibraryFragment"
         tools:layout="@layout/fragment_library"/>
     <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.SearchFragment"
-        android:label="SearchFragment"
-        tools:layout="@layout/fragment_search"/>
-    <fragment
         android:id="@+id/settingsFragment"
         android:name="com.cappielloantonio.play.ui.fragment.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings"/>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_filterFragment"
+            app:destination="@id/filterFragment"
+            app:launchSingleTop="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.FilterFragment"
+        android:label="FilterFragment"
+        tools:layout="@layout/fragment_filter" />
 </navigation>

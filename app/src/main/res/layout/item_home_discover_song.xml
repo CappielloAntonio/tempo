@@ -9,7 +9,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="136dp">
+        android:layout_height="156dp">
 
         <TextView
             android:id="@+id/title_discover_song_label"

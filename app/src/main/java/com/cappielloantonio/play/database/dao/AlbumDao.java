@@ -8,7 +8,6 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Song;
 
 import java.util.List;
 
@@ -17,8 +16,14 @@ public interface AlbumDao {
     @Query("SELECT * FROM album")
     LiveData<List<Album>> getAll();
 
+    @Query("SELECT * FROM album WHERE artistId = :artistId;")
+    LiveData<List<Album>> getArtistAlbums(String artistId);
+
     @Query("SELECT * FROM album ORDER BY RANDOM() LIMIT :number;")
     LiveData<List<Album>> getSample(int number);
+
+    @Query("SELECT * FROM album WHERE title LIKE '%' || :name || '%'")
+    LiveData<List<Album>> searchAlbum(String name);
 
     @Query("SELECT EXISTS(SELECT * FROM album WHERE id = :id)")
     boolean exist(String id);

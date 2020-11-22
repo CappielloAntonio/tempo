@@ -5,18 +5,17 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.SongRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomeViewModel extends AndroidViewModel {
+    private static final String TAG = "HomeViewModel";
     private SongRepository songRepository;
 
-    private LiveData<List<Song>> dicoverSongSample;
+    private List<Song> dicoverSongSample;
     private LiveData<List<Song>> recentlyPlayedSongSample;
     private LiveData<List<Song>> recentlyAddedSongSample;
     private LiveData<List<Song>> mostPlayedSongSample;
@@ -26,14 +25,14 @@ public class HomeViewModel extends AndroidViewModel {
 
         songRepository = new SongRepository(application);
 
-        dicoverSongSample = songRepository.getListLiveDiscoverSampleSong();
+        dicoverSongSample = songRepository.getRandomSample(5);
         recentlyPlayedSongSample = songRepository.getListLiveRecentlyPlayedSampleSong();
         recentlyAddedSongSample = songRepository.getListLiveRecentlyAddedSampleSong();
         mostPlayedSongSample = songRepository.getListLiveMostPlayedSampleSong();
     }
 
 
-    public LiveData<List<Song>> getDiscoverSongList() {
+    public List<Song> getDiscoverSongList() {
         return dicoverSongSample;
     }
 

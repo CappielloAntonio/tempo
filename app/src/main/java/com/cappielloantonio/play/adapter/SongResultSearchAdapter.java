@@ -8,8 +8,10 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.util.Util;
 
 import java.util.List;
@@ -22,7 +24,6 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
     private List<Song> songs;
     private LayoutInflater mInflater;
     private Context context;
-    private ItemClickListener itemClickListener;
 
     public SongResultSearchAdapter(Context context, List<Song> songs) {
         this.context = context;
@@ -67,8 +68,8 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
 
         @Override
         public void onClick(View view) {
-            if (itemClickListener != null)
-                itemClickListener.onItemClick(view, getAdapterPosition());
+            SongRepository songRepository = new SongRepository(App.getInstance());
+            songRepository.update(songs.get(getAdapterPosition()));
         }
     }
 
@@ -79,13 +80,5 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
 
     public Song getItem(int id) {
         return songs.get(id);
-    }
-
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
-    }
-
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
     }
 }

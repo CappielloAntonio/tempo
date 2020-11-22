@@ -14,12 +14,11 @@ import java.util.List;
 
 public class SongRepository {
     private SongDao songDao;
-    private LiveData<List<Song>> listLiveSongs;
     private LiveData<List<Song>> searchListLiveSongs;
-    private LiveData<List<Song>> listLiveSampleDiscoverSongs;
     private LiveData<List<Song>> listLiveSampleRecentlyAddedSongs;
     private LiveData<List<Song>> listLiveSampleRecentlyPlayedSongs;
     private LiveData<List<Song>> listLiveSampleMostPlayedSongs;
+    private LiveData<List<Song>> listLiveSampleArtistTopSongs;
 
 
     public SongRepository(Application application) {
@@ -30,11 +29,6 @@ public class SongRepository {
     public LiveData<List<Song>> searchListLiveSong(String title) {
         searchListLiveSongs = songDao.searchSong(title);
         return searchListLiveSongs;
-    }
-
-    public LiveData<List<Song>> getListLiveDiscoverSampleSong() {
-        listLiveSampleDiscoverSongs = songDao.getDiscoverSample(5);
-        return listLiveSampleDiscoverSongs;
     }
 
     public LiveData<List<Song>> getListLiveRecentlyAddedSampleSong() {
@@ -50,6 +44,11 @@ public class SongRepository {
     public LiveData<List<Song>> getListLiveMostPlayedSampleSong() {
         listLiveSampleMostPlayedSongs = songDao.getMostPlayedSample(20);
         return listLiveSampleMostPlayedSongs;
+    }
+
+    public LiveData<List<Song>> getArtistListLiveTopSong(String artistID) {
+        listLiveSampleArtistTopSongs = songDao.getArtistTopSongsSample(artistID, 5);
+        return listLiveSampleArtistTopSongs;
     }
 
     public boolean exist(Song song) {
@@ -85,6 +84,31 @@ public class SongRepository {
         DeleteThreadSafe delete = new DeleteThreadSafe(songDao, song);
         Thread thread = new Thread(delete);
         thread.start();
+    }
+
+    public void update(Song song) {
+        song.nowPlaying();
+
+        UpdateThreadSafe update = new UpdateThreadSafe(songDao, song);
+        Thread thread = new Thread(update);
+        thread.start();
+    }
+
+    public List<Song> getRandomSample(int number) {
+        List<Song> sample = new ArrayList<>();
+
+        PickRandomThreadSafe randomThread = new PickRandomThreadSafe(songDao, number);
+        Thread thread = new Thread(randomThread);
+        thread.start();
+
+        try {
+            thread.join();
+            sample = randomThread.getSample();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return sample;
     }
 
     private static class ExistThreadSafe implements Runnable {
@@ -149,6 +173,41 @@ public class SongRepository {
         @Override
         public void run() {
             songDao.delete(song);
+        }
+    }
+
+    private static class UpdateThreadSafe implements Runnable {
+        private SongDao songDao;
+        private Song song;
+
+        public UpdateThreadSafe(SongDao songDao, Song song) {
+            this.songDao = songDao;
+            this.song = song;
+        }
+
+        @Override
+        public void run() {
+            songDao.update(song);
+        }
+    }
+
+    private static class PickRandomThreadSafe implements Runnable {
+        private SongDao songDao;
+        private int elementNumber;
+        private List<Song> sample;
+
+        public PickRandomThreadSafe(SongDao songDao, int number) {
+            this.songDao = songDao;
+            this.elementNumber = number;
+        }
+
+        @Override
+        public void run() {
+            sample = songDao.random(elementNumber);
+        }
+
+        public List<Song> getSample() {
+            return sample;
         }
     }
 }

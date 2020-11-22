@@ -90,37 +90,104 @@
                 android:paddingEnd="8dp" />
         </LinearLayout>
 
-        <!-- Search result -->
-        <LinearLayout
-            android:id="@+id/search_result_layout"
+        <!--  Label -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_font_family"
+            android:paddingStart="16dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="8dp"
+            android:text="Search results"
+            android:textColor="@color/titleTextColor"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/search_result_nested_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:visibility="gone">
 
-            <!--  Label -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/open_sans_font_family"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="8dp"
-                android:text="Search results"
-                android:textColor="@color/titleTextColor"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/search_result_tracks_recycler_view"
+            <!-- Search result -->
+            <LinearLayout
+                android:id="@+id/search_result_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="4dp"
-                android:clipToPadding="false"
-                android:overScrollMode="never"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="8dp"
-                android:paddingBottom="56dp" />
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_font_family"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="Songs"
+                    android:textColor="@color/titleTextColor"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/search_result_tracks_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="24dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_font_family"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="Albums"
+                    android:textColor="@color/titleTextColor"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/search_result_album_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_font_family"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="8dp"
+                    android:paddingTop="8dp"
+                    android:text="Artists"
+                    android:textColor="@color/titleTextColor"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/search_result_artist_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="56dp" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 </RelativeLayout>

@@ -15,6 +15,7 @@ import com.cappielloantonio.play.adapter.GenreAdapter;
 import com.cappielloantonio.play.adapter.GenreCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistCatalogueBinding;
 import com.cappielloantonio.play.databinding.FragmentGenreCatalogueBinding;
+import com.cappielloantonio.play.helper.recyclerview.ItemlDecoration;
 import com.cappielloantonio.play.viewmodel.ArtistCatalogueViewModel;
 import com.cappielloantonio.play.viewmodel.GenreCatalogueViewModel;
 
@@ -47,11 +48,13 @@ public class GenreCatalogueFragment extends Fragment {
 
     private void initArtistCatalogueView() {
         bind.genreCatalogueRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+        bind.genreCatalogueRecyclerView.addItemDecoration(new ItemlDecoration(2, 20, false));
         bind.genreCatalogueRecyclerView.setHasFixedSize(true);
 
         genreCatalogueAdapter = new GenreCatalogueAdapter(requireContext(), new ArrayList<>());
         genreCatalogueAdapter.setClickListener((view, position) -> Toast.makeText(requireContext(), "Click: " + position, Toast.LENGTH_SHORT).show());
         bind.genreCatalogueRecyclerView.setAdapter(genreCatalogueAdapter);
+
         genreCatalogueViewModel.getGenreList().observe(requireActivity(), genres -> {
             bind.loadingProgressBar.setVisibility(View.GONE);
             bind.genreCatalogueContainer.setVisibility(View.VISIBLE);

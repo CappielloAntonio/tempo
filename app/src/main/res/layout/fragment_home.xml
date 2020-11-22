@@ -17,6 +17,38 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans_font_family"
+                android:paddingStart="16dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="16dp"
+                android:text="Discover Music"
+                android:textColor="@color/titleTextColor"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <!--  slideview  -->
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/discover_song_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="152dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:clipToPadding="false"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp" />
+        </LinearLayout>
+
+        <!--  Recently added tracks -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <!--  Label and button  -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -34,7 +66,7 @@
                     android:paddingStart="8dp"
                     android:paddingTop="12dp"
                     android:paddingEnd="8dp"
-                    android:text="Discover Music"
+                    android:text="Recently added tracks"
                     android:textColor="@color/titleTextColor"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -53,17 +85,16 @@
 
             </LinearLayout>
 
-            <!--  slideview  -->
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/discover_song_view_pager"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recently_added_tracks_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="152dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:clipToPadding="false"
                 android:paddingStart="16dp"
                 android:paddingTop="8dp"
-                android:paddingEnd="16dp"
+                android:paddingEnd="8dp"
                 android:paddingBottom="8dp" />
         </LinearLayout>
 
@@ -181,13 +212,13 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="16dp"
                 android:text="Resync"
                 android:textAllCaps="false"
                 android:textColor="@color/normalTextColor"
-                app:cornerRadius="24dp"/>
+                app:cornerRadius="24dp" />
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

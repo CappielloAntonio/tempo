@@ -11,11 +11,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.cappielloantonio.play.adapter.AlbumCatalogueAdapter;
-import com.cappielloantonio.play.adapter.ArtistCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumCatalogueBinding;
-import com.cappielloantonio.play.databinding.FragmentArtistCatalogueBinding;
+import com.cappielloantonio.play.helper.recyclerview.ItemlDecoration;
 import com.cappielloantonio.play.viewmodel.AlbumCatalogueViewModel;
-import com.cappielloantonio.play.viewmodel.ArtistCatalogueViewModel;
 
 import java.util.ArrayList;
 
@@ -46,6 +44,7 @@ public class AlbumCatalogueFragment extends Fragment {
 
     private void initAlbumCatalogueView() {
         bind.albumCatalogueRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+        bind.albumCatalogueRecyclerView.addItemDecoration(new ItemlDecoration(2, 20, false));
         bind.albumCatalogueRecyclerView.setHasFixedSize(true);
 
         albumAdapter = new AlbumCatalogueAdapter(requireContext(), new ArrayList<>());

@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData;
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.AlbumDao;
 import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Song;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +16,10 @@ import java.util.List;
 public class AlbumRepository {
     private AlbumDao albumDao;
     private LiveData<List<Album>> listLiveAlbums;
+    private LiveData<List<Album>> artistListLiveAlbums;
     private LiveData<List<Album>> listLiveSampleAlbum;
+    private LiveData<List<Album>> searchListLiveAlbum;
+
 
     public AlbumRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
@@ -26,9 +31,19 @@ public class AlbumRepository {
         return listLiveAlbums;
     }
 
+    public LiveData<List<Album>> getArtistListLiveAlbums(String artistId) {
+        artistListLiveAlbums = albumDao.getArtistAlbums(artistId);
+        return artistListLiveAlbums;
+    }
+
     public LiveData<List<Album>> getListLiveSampleAlbum() {
         listLiveSampleAlbum = albumDao.getSample(10);
         return listLiveSampleAlbum;
+    }
+
+    public LiveData<List<Album>> searchListLiveAlbum(String name) {
+        searchListLiveAlbum = albumDao.searchAlbum(name);
+        return searchListLiveAlbum;
     }
 
     public boolean exist(Album album) {

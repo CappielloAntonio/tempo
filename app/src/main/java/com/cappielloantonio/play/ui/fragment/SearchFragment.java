@@ -12,12 +12,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.adapter.AlbumCatalogueAdapter;
+import com.cappielloantonio.play.adapter.ArtistCatalogueAdapter;
 import com.cappielloantonio.play.adapter.RecentSearchAdapter;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentSearchBinding;
+import com.cappielloantonio.play.helper.recyclerview.ItemlDecoration;
+import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.RecentSearch;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
@@ -35,6 +40,8 @@ public class SearchFragment extends Fragment {
 
     private RecentSearchAdapter recentSearchAdapter;
     private SongResultSearchAdapter songResultSearchAdapter;
+    private AlbumCatalogueAdapter albumResultSearchAdapter;
+    private ArtistCatalogueAdapter artistResultSearchAdapter;
 
     @Nullable
     @Override
@@ -78,14 +85,37 @@ public class SearchFragment extends Fragment {
     }
 
     private void initSearchResultView() {
+        // Songs
         bind.searchResultTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.searchResultTracksRecyclerView.setHasFixedSize(true);
 
         songResultSearchAdapter = new SongResultSearchAdapter(requireContext(), new ArrayList<>());
-        songResultSearchAdapter.setClickListener((view, position) -> {
-            Toast.makeText(requireContext(), "Song " + position, Toast.LENGTH_SHORT).show();
-        });
         bind.searchResultTracksRecyclerView.setAdapter(songResultSearchAdapter);
+
+        // Albums
+        bind.searchResultAlbumRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+        bind.searchResultAlbumRecyclerView.addItemDecoration(new ItemlDecoration(2, 20, false));
+        bind.searchResultAlbumRecyclerView.setHasFixedSize(true);
+
+        albumResultSearchAdapter = new AlbumCatalogueAdapter(requireContext(), new ArrayList<>());
+        albumResultSearchAdapter.setClickListener((view, position) -> {
+            Toast.makeText(requireContext(), "Album " + position, Toast.LENGTH_SHORT).show();
+        });
+        bind.searchResultAlbumRecyclerView.setAdapter(albumResultSearchAdapter);
+
+        // Artist
+        bind.searchResultArtistRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+        bind.searchResultArtistRecyclerView.addItemDecoration(new ItemlDecoration(2, 20, false));
+        bind.searchResultArtistRecyclerView.setHasFixedSize(true);
+
+        artistResultSearchAdapter = new ArtistCatalogueAdapter(requireContext(), new ArrayList<>());
+        artistResultSearchAdapter.setClickListener((view, position) -> {
+            Toast.makeText(requireContext(), "Artist " + position, Toast.LENGTH_SHORT).show();
+            Bundle bundle = new Bundle();
+            bundle.putString("artistID", artistResultSearchAdapter.getItem(position).id);
+            activity.navController.navigate(R.id.action_searchFragment_to_artistPageFragment, bundle);
+        });
+        bind.searchResultArtistRecyclerView.setAdapter(artistResultSearchAdapter);
     }
 
     private void initSearchView() {
@@ -118,5 +148,9 @@ public class SearchFragment extends Fragment {
 
     private void performSearch(String query) {
         searchViewModel.searchSong(query).observe(requireActivity(), songs -> songResultSearchAdapter.setItems(songs));
+        searchViewModel.searchAlbum(query).observe(requireActivity(), albums -> albumResultSearchAdapter.setItems(albums));
+        searchViewModel.searchArtist(query).observe(requireActivity(), artists -> artistResultSearchAdapter.setItems(artists));
+
+        bind.searchResultNestedScrollView.setVisibility(View.VISIBLE);
     }
 }

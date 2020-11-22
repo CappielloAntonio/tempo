@@ -44,6 +44,7 @@ public class FilterFragment extends Fragment {
     private void setFilterChips() {
         filterViewModel.getGenreList().observe(requireActivity(), genres -> {
             bind.loadingProgressBar.setVisibility(View.GONE);
+            bind.filterContainer.setVisibility(View.VISIBLE);
             for (Genre genre : genres) {
                 Chip mChip = (Chip) requireActivity().getLayoutInflater().inflate(R.layout.chip_search_filter_genre, null, false);
                 mChip.setText(genre.getName());

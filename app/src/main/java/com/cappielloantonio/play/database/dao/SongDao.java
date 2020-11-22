@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.cappielloantonio.play.model.Song;
 
@@ -22,14 +23,17 @@ public interface SongDao {
     @Query("SELECT * FROM song ORDER BY RANDOM() LIMIT :number")
     LiveData<List<Song>> getDiscoverSample(int number);
 
-    @Query("SELECT * FROM song ORDER BY RANDOM() LIMIT :number")
+    @Query("SELECT * FROM song ORDER BY added DESC LIMIT :number")
     LiveData<List<Song>> getRecentlyAddedSample(int number);
 
-    @Query("SELECT * FROM song ORDER BY RANDOM() LIMIT :number")
+    @Query("SELECT * FROM song WHERE last_play != 0 ORDER BY last_play DESC LIMIT :number")
     LiveData<List<Song>> getRecentlyPlayedSample(int number);
 
-    @Query("SELECT * FROM song ORDER BY RANDOM() LIMIT :number")
+    @Query("SELECT * FROM song WHERE play_count != 0 ORDER BY play_count DESC LIMIT :number")
     LiveData<List<Song>> getMostPlayedSample(int number);
+
+    @Query("SELECT * FROM song WHERE play_count != 0 AND artistId = :artistID ORDER BY play_count DESC LIMIT :number")
+    LiveData<List<Song>> getArtistTopSongsSample(String artistID, int number);
 
     @Query("SELECT EXISTS(SELECT * FROM song WHERE id = :id)")
     boolean exist(String id);
@@ -42,4 +46,10 @@ public interface SongDao {
 
     @Delete
     void delete(Song song);
+
+    @Update
+    public void update(Song song);
+
+    @Query("SELECT * FROM song ORDER BY RANDOM() LIMIT :number")
+    List<Song> random(int number);
 }

@@ -8,6 +8,7 @@ import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.ArtistDao;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Song;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,8 @@ public class ArtistRepository {
     private ArtistDao artistDao;
     private LiveData<List<Artist>> listLiveArtists;
     private LiveData<List<Artist>> listLiveSampleArtist;
+    private LiveData<List<Artist>> searchListLiveArtist;
+
 
     public ArtistRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
@@ -30,6 +33,11 @@ public class ArtistRepository {
     public LiveData<List<Artist>> getListLiveSampleArtist() {
         listLiveSampleArtist = artistDao.getSample(10);
         return listLiveSampleArtist;
+    }
+
+    public LiveData<List<Artist>> searchListLiveArtist(String name) {
+        searchListLiveArtist = artistDao.searchArtist(name);
+        return searchListLiveArtist;
     }
 
     public boolean exist(Artist artist) {

@@ -36,14 +36,22 @@ public class Artist implements Parcelable {
     @ColumnInfo(name = "primary")
     public String primary;
 
-    @ColumnInfo(name = "blurHash")
-    public String blurHash;
+    @ColumnInfo(name = "primary_blurHash")
+    public String primaryBlurHash;
 
-    public Artist(@NonNull String id, String name, String primary, String blurHash) {
+    @ColumnInfo(name = "backdrop")
+    public String backdrop;
+
+    @ColumnInfo(name = "backdrop_blurHash")
+    public String backdropBlurHash;
+
+    public Artist(@NonNull String id, String name, String primary, String primaryBlurHash, String backdrop, String backdropBlurHash) {
         this.id = id;
         this.name = name;
         this.primary = primary;
-        this.blurHash = blurHash;
+        this.primaryBlurHash = primaryBlurHash;
+        this.backdrop = backdrop;
+        this.backdropBlurHash = backdropBlurHash;
     }
 
     @Ignore
@@ -51,10 +59,22 @@ public class Artist implements Parcelable {
         this.id = itemDto.getId();
         this.name = itemDto.getName();
 
-        this.primary = itemDto.getImageTags().containsKey(ImageType.Primary) ? id : null;
+        this.primary = itemDto.getImageTags().getOrDefault(ImageType.Primary, null);
         if (itemDto.getImageBlurHashes() != null && itemDto.getImageBlurHashes().get(ImageType.Primary) != null) {
-            this.blurHash = (String) itemDto.getImageBlurHashes().get(ImageType.Primary).values().toArray()[0];
+            this.primaryBlurHash = (String) itemDto.getImageBlurHashes().get(ImageType.Primary).values().toArray()[0];
         }
+
+        try {
+            this.backdrop = itemDto.getBackdropImageTags().get(0);
+            if (itemDto.getImageBlurHashes() != null && itemDto.getBackdropImageTags().get(0) != null) {
+                this.backdropBlurHash = (String) itemDto.getImageBlurHashes().get(ImageType.Backdrop).values().toArray()[0];
+            }
+        }
+        catch (IndexOutOfBoundsException exception) {
+            this.backdrop = null;
+            this.backdropBlurHash = null;
+        }
+
 
         this.genres = new ArrayList<>();
         this.albums = new ArrayList<>();
@@ -92,12 +112,28 @@ public class Artist implements Parcelable {
         this.primary = primary;
     }
 
-    public String getBlurHash() {
-        return blurHash;
+    public String getPrimaryBlurHash() {
+        return primaryBlurHash;
     }
 
-    public void setBlurHash(String blurHash) {
-        this.blurHash = blurHash;
+    public void setPrimaryBlurHash(String primaryBlurHash) {
+        this.primaryBlurHash = primaryBlurHash;
+    }
+
+    public String getBackdrop() {
+        return backdrop;
+    }
+
+    public void setBackdrop(String backdrop) {
+        this.backdrop = backdrop;
+    }
+
+    public String getBackdropBlurHash() {
+        return backdropBlurHash;
+    }
+
+    public void setBackdropBlurHash(String backdropBlurHash) {
+        this.backdropBlurHash = backdropBlurHash;
     }
 
     @Override
@@ -130,7 +166,9 @@ public class Artist implements Parcelable {
         dest.writeString(id);
         dest.writeString(name);
         dest.writeString(primary);
-        dest.writeString(blurHash);
+        dest.writeString(primaryBlurHash);
+        dest.writeString(backdrop);
+        dest.writeString(backdropBlurHash);
     }
 
     protected Artist(Parcel in) {
@@ -140,7 +178,9 @@ public class Artist implements Parcelable {
         this.id = in.readString();
         this.name = in.readString();
         this.primary = in.readString();
-        this.blurHash = in.readString();
+        this.primaryBlurHash = in.readString();
+        this.backdrop = in.readString();
+        this.backdropBlurHash = in.readString();
     }
 
     public static final Parcelable.Creator<Artist> CREATOR = new Parcelable.Creator<Artist>() {

@@ -81,6 +81,13 @@
         <action
             android:id="@+id/action_libraryFragment_to_genreCatalogueFragment"
             app:destination="@id/genreCatalogueFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_artistPageFragment"
+            app:destination="@id/artistPageFragment">
+            <argument
+                android:name="artistID"
+                app:argType="string"/>
+        </action>
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -95,6 +102,13 @@
         <action
             android:id="@+id/action_searchFragment_to_filterFragment"
             app:destination="@id/filterFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_artistPageFragment"
+            app:destination="@id/artistPageFragment">
+            <argument
+                android:name="artistID"
+                app:argType="string"/>
+        </action>
     </fragment>
     <fragment
         android:id="@+id/filterFragment"
@@ -105,7 +119,15 @@
         android:id="@+id/artistCatalogueFragment"
         android:name="com.cappielloantonio.play.ui.fragment.ArtistCatalogueFragment"
         android:label="ArtistCatalogueFragment"
-        tools:layout="@layout/fragment_artist_catalogue"/>
+        tools:layout="@layout/fragment_artist_catalogue">
+        <action
+            android:id="@+id/action_artistCatalogueFragment_to_artistPageFragment"
+            app:destination="@id/artistPageFragment">
+            <argument
+                android:name="artistID"
+                app:argType="string"/>
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/albumCatalogueFragment"
         android:name="com.cappielloantonio.play.ui.fragment.AlbumCatalogueFragment"
@@ -116,4 +138,10 @@
         android:name="com.cappielloantonio.play.ui.fragment.GenreCatalogueFragment"
         android:label="GenreCatalogueFragment"
         tools:layout="@layout/fragment_genre_catalogue"/>
+
+    <fragment
+        android:id="@+id/artistPageFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.ArtistPageFragment"
+        android:label="ArtistPageFragment"
+        tools:layout="@layout/fragment_artist_page"/>
 </navigation>

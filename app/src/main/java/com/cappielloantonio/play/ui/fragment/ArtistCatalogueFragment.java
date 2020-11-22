@@ -17,6 +17,7 @@ import com.cappielloantonio.play.adapter.ArtistAdapter;
 import com.cappielloantonio.play.adapter.ArtistCatalogueAdapter;
 import com.cappielloantonio.play.adapter.RecentMusicAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistCatalogueBinding;
+import com.cappielloantonio.play.helper.recyclerview.ItemlDecoration;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.viewmodel.ArtistCatalogueViewModel;
@@ -51,6 +52,7 @@ public class ArtistCatalogueFragment extends Fragment {
 
     private void initArtistCatalogueView() {
         bind.artistCatalogueRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+        bind.artistCatalogueRecyclerView.addItemDecoration(new ItemlDecoration(2, 20, false));
         bind.artistCatalogueRecyclerView.setHasFixedSize(true);
 
         artistAdapter = new ArtistCatalogueAdapter(requireContext(), new ArrayList<>());

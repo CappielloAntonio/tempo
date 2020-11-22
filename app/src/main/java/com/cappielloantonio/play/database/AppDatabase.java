@@ -19,7 +19,7 @@ import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.RecentSearch;
 import com.cappielloantonio.play.model.Song;
 
-@Database(entities = {Album.class, Artist.class, Genre.class, Playlist.class, Song.class, RecentSearch.class}, version = 3, exportSchema = false)
+@Database(entities = {Album.class, Artist.class, Genre.class, Playlist.class, Song.class, RecentSearch.class}, version = 4, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String TAG = "AppDatabase";
 

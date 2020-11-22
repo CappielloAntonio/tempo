@@ -22,11 +22,10 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
         super(application);
 
         albumRepository = new AlbumRepository(application);
-
-        albumList = albumRepository.getListLiveAlbums();
     }
 
     public LiveData<List<Album>> getAlbumList() {
+        albumList = albumRepository.getListLiveAlbums();
         return albumList;
     }
 }

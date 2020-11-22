@@ -14,6 +14,7 @@ import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.entities.ImageType;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity(tableName = "song")
@@ -83,7 +84,16 @@ public class Song implements Parcelable {
     @ColumnInfo(name = "channels")
     private int channels;
 
-    public Song(@NonNull String id, String title, int trackNumber, int discNumber, int year, long duration, String albumId, String albumName, String artistId, String artistName, String primary, String blurHash, boolean favorite, String path, long size, String container, String codec, int sampleRate, int bitRate, int bitDepth, int channels) {
+    @ColumnInfo(name = "added")
+    private long added;
+
+    @ColumnInfo(name = "play_count")
+    private int playCount;
+
+    @ColumnInfo(name = "last_play")
+    private long lastPlay;
+
+    public Song(@NonNull String id, String title, int trackNumber, int discNumber, int year, long duration, String albumId, String albumName, String artistId, String artistName, String primary, String blurHash, boolean favorite, String path, long size, String container, String codec, int sampleRate, int bitRate, int bitDepth, int channels, long added, int playCount, long lastPlay) {
         this.id = id;
         this.title = title;
         this.trackNumber = trackNumber;
@@ -105,6 +115,9 @@ public class Song implements Parcelable {
         this.bitRate = bitRate;
         this.bitDepth = bitDepth;
         this.channels = channels;
+        this.added = added;
+        this.playCount = playCount;
+        this.lastPlay = lastPlay;
     }
 
     @Ignore
@@ -152,6 +165,10 @@ public class Song implements Parcelable {
                 this.channels = stream.getChannels() != null ? stream.getChannels() : 0;
             }
         }
+
+        this.added = Instant.now().toEpochMilli();
+        this.playCount = 0;
+        this.lastPlay = 0;
     }
 
     @Ignore
@@ -246,6 +263,18 @@ public class Song implements Parcelable {
         return channels;
     }
 
+    public long getAdded() {
+        return added;
+    }
+
+    public int getPlayCount() {
+        return playCount;
+    }
+
+    public long getLastPlay() {
+        return lastPlay;
+    }
+
     public void setId(@NonNull String id) {
         this.id = id;
     }
@@ -330,6 +359,23 @@ public class Song implements Parcelable {
         this.channels = channels;
     }
 
+    public void setAdded(long added) {
+        this.added = added;
+    }
+
+    public void setAdded(int playCount) {
+        this.playCount = playCount;
+    }
+
+    public void setLastPlay(long lastPlay) {
+        this.lastPlay = lastPlay;
+    }
+
+    public void nowPlaying() {
+        this.playCount++;
+        this.lastPlay = Instant.now().toEpochMilli();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -377,6 +423,9 @@ public class Song implements Parcelable {
         dest.writeInt(this.bitRate);
         dest.writeInt(this.bitDepth);
         dest.writeInt(this.channels);
+        dest.writeLong(this.added);
+        dest.writeInt(this.playCount);
+        dest.writeLong(this.lastPlay);
     }
 
     protected Song(Parcel in) {
@@ -401,6 +450,9 @@ public class Song implements Parcelable {
         this.bitRate = in.readInt();
         this.bitDepth = in.readInt();
         this.channels = in.readInt();
+        this.added = in.readLong();
+        this.playCount = in.readInt();
+        this.lastPlay = in.readLong();
     }
 
     public static final Creator<Song> CREATOR = new Creator<Song>() {

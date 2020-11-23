@@ -19,6 +19,7 @@ public class SongRepository {
     private LiveData<List<Song>> listLiveSampleRecentlyPlayedSongs;
     private LiveData<List<Song>> listLiveSampleMostPlayedSongs;
     private LiveData<List<Song>> listLiveSampleArtistTopSongs;
+    private LiveData<List<Song>> listLiveAlbumSongs;
 
 
     public SongRepository(Application application) {
@@ -49,6 +50,11 @@ public class SongRepository {
     public LiveData<List<Song>> getArtistListLiveTopSong(String artistID) {
         listLiveSampleArtistTopSongs = songDao.getArtistTopSongsSample(artistID, 5);
         return listLiveSampleArtistTopSongs;
+    }
+
+    public LiveData<List<Song>> getAlbumListLiveSong(String albumID) {
+        listLiveAlbumSongs = songDao.getAlbumSong(albumID);
+        return listLiveAlbumSongs;
     }
 
     public boolean exist(Song song) {

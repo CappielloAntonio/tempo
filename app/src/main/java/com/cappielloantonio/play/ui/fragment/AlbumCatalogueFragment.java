@@ -10,9 +10,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumCatalogueBinding;
 import com.cappielloantonio.play.helper.recyclerview.ItemlDecoration;
+import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.viewmodel.AlbumCatalogueViewModel;
 
 import java.util.ArrayList;
@@ -21,12 +23,15 @@ public class AlbumCatalogueFragment extends Fragment {
     private static final String TAG = "ArtistCatalogueFragment";
 
     private FragmentAlbumCatalogueBinding bind;
+    private MainActivity activity;
     private AlbumCatalogueViewModel albumCatalogueViewModel;
 
     private AlbumCatalogueAdapter albumAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        activity = (MainActivity) getActivity();
+
         bind = FragmentAlbumCatalogueBinding.inflate(inflater, container, false);
         View view = bind.getRoot();
         albumCatalogueViewModel = new ViewModelProvider(requireActivity()).get(AlbumCatalogueViewModel.class);
@@ -48,7 +53,11 @@ public class AlbumCatalogueFragment extends Fragment {
         bind.albumCatalogueRecyclerView.setHasFixedSize(true);
 
         albumAdapter = new AlbumCatalogueAdapter(requireContext(), new ArrayList<>());
-        albumAdapter.setClickListener((view, position) -> Toast.makeText(requireContext(), "Click: " + position, Toast.LENGTH_SHORT).show());
+        albumAdapter.setClickListener((view, position) -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("album_object", albumAdapter.getItem(position));
+            activity.navController.navigate(R.id.action_libraryFragment_to_albumPageFragment, bundle);
+        });
         bind.albumCatalogueRecyclerView.setAdapter(albumAdapter);
         albumCatalogueViewModel.getAlbumList().observe(requireActivity(), albums -> {
             bind.loadingProgressBar.setVisibility(View.GONE);

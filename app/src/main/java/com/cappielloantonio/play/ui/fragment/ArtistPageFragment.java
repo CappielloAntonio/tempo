@@ -31,8 +31,6 @@ public class ArtistPageFragment extends Fragment {
     private SongResultSearchAdapter songResultSearchAdapter;
     private AlbumArtistPageAdapter albumArtistPageAdapter;
 
-    private String artistID;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = (MainActivity) getActivity();
@@ -55,7 +53,9 @@ public class ArtistPageFragment extends Fragment {
     }
 
     private void init() {
-        artistID = getArguments().getString("artistID");
+        artistPageViewModel.setArtist(getArguments().getParcelable("artist_object"));
+
+        bind.artistNameLabel.setText(artistPageViewModel.getArtist().getName());
     }
 
     private void initTopSongsView() {
@@ -64,7 +64,7 @@ public class ArtistPageFragment extends Fragment {
 
         songResultSearchAdapter = new SongResultSearchAdapter(requireContext(), new ArrayList<>());
         bind.mostStreamedSongRecyclerView.setAdapter(songResultSearchAdapter);
-        artistPageViewModel.getArtistTopSongList(artistID).observe(requireActivity(), songs -> songResultSearchAdapter.setItems(songs));
+        artistPageViewModel.getArtistTopSongList().observe(requireActivity(), songs -> songResultSearchAdapter.setItems(songs));
     }
 
     private void initAlbumsView() {
@@ -72,7 +72,12 @@ public class ArtistPageFragment extends Fragment {
         bind.albumsRecyclerView.setHasFixedSize(true);
 
         albumArtistPageAdapter = new AlbumArtistPageAdapter(requireContext(), new ArrayList<>());
+        albumArtistPageAdapter.setClickListener((view, position) -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("album_object", albumArtistPageAdapter.getItem(position));
+            activity.navController.navigate(R.id.action_artistPageFragment_to_albumPageFragment, bundle);
+        });
         bind.albumsRecyclerView.setAdapter(albumArtistPageAdapter);
-        artistPageViewModel.getAlbumList(artistID).observe(requireActivity(), songs -> albumArtistPageAdapter.setItems(songs));
+        artistPageViewModel.getAlbumList().observe(requireActivity(), songs -> albumArtistPageAdapter.setItems(songs));
     }
 }

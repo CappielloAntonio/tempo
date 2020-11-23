@@ -61,6 +61,10 @@ public class AlbumArtistPageAdapter extends RecyclerView.Adapter<AlbumArtistPage
         }
     }
 
+    public Album getItem(int position) {
+        return albums.get(position);
+    }
+
     public void setItems(List<Album> albums) {
         this.albums = albums;
         notifyDataSetChanged();

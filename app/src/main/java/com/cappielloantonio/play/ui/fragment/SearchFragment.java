@@ -99,7 +99,9 @@ public class SearchFragment extends Fragment {
 
         albumResultSearchAdapter = new AlbumCatalogueAdapter(requireContext(), new ArrayList<>());
         albumResultSearchAdapter.setClickListener((view, position) -> {
-            Toast.makeText(requireContext(), "Album " + position, Toast.LENGTH_SHORT).show();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("album_object", albumResultSearchAdapter.getItem(position));
+            activity.navController.navigate(R.id.action_searchFragment_to_albumPageFragment, bundle);
         });
         bind.searchResultAlbumRecyclerView.setAdapter(albumResultSearchAdapter);
 
@@ -110,9 +112,8 @@ public class SearchFragment extends Fragment {
 
         artistResultSearchAdapter = new ArtistCatalogueAdapter(requireContext(), new ArrayList<>());
         artistResultSearchAdapter.setClickListener((view, position) -> {
-            Toast.makeText(requireContext(), "Artist " + position, Toast.LENGTH_SHORT).show();
             Bundle bundle = new Bundle();
-            bundle.putString("artistID", artistResultSearchAdapter.getItem(position).id);
+            bundle.putParcelable("artist_object", artistResultSearchAdapter.getItem(position));
             activity.navController.navigate(R.id.action_searchFragment_to_artistPageFragment, bundle);
         });
         bind.searchResultArtistRecyclerView.setAdapter(artistResultSearchAdapter);

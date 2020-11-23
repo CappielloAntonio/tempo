@@ -78,7 +78,11 @@ public class LibraryFragment extends Fragment {
         bind.albumRecyclerView.setHasFixedSize(true);
 
         albumAdapter = new AlbumAdapter(requireContext(), new ArrayList<>());
-        albumAdapter.setClickListener((view, position) -> Toast.makeText(requireContext(), "Album: " + position, Toast.LENGTH_SHORT).show());
+        albumAdapter.setClickListener((view, position) -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("album_object", albumAdapter.getItem(position));
+            activity.navController.navigate(R.id.action_libraryFragment_to_albumPageFragment, bundle);
+        });
         bind.albumRecyclerView.setAdapter(albumAdapter);
         libraryViewModel.getAlbumSample().observe(requireActivity(), albums -> albumAdapter.setItems(albums));
     }
@@ -88,7 +92,11 @@ public class LibraryFragment extends Fragment {
         bind.artistRecyclerView.setHasFixedSize(true);
 
         artistAdapter = new ArtistAdapter(requireContext(), new ArrayList<>());
-        artistAdapter.setClickListener((view, position) -> Toast.makeText(requireContext(), "Artist: " + position, Toast.LENGTH_SHORT).show());
+        artistAdapter.setClickListener((view, position) -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("artist_object", artistAdapter.getItem(position));
+            activity.navController.navigate(R.id.action_libraryFragment_to_artistPageFragment, bundle);
+        });
         bind.artistRecyclerView.setAdapter(artistAdapter);
         libraryViewModel.getArtistSample().observe(requireActivity(), artists -> artistAdapter.setItems(artists));
     }

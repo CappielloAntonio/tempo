@@ -35,6 +35,9 @@ public interface SongDao {
     @Query("SELECT * FROM song WHERE play_count != 0 AND artistId = :artistID ORDER BY play_count DESC LIMIT :number")
     LiveData<List<Song>> getArtistTopSongsSample(String artistID, int number);
 
+    @Query("SELECT * FROM song WHERE albumId = :albumID ORDER BY trackNumber ASC")
+    LiveData<List<Song>> getAlbumSong(String albumID);
+
     @Query("SELECT EXISTS(SELECT * FROM song WHERE id = :id)")
     boolean exist(String id);
 

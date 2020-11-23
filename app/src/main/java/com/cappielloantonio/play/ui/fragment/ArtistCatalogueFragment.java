@@ -29,12 +29,15 @@ public class ArtistCatalogueFragment extends Fragment {
     private static final String TAG = "ArtistCatalogueFragment";
 
     private FragmentArtistCatalogueBinding bind;
+    private MainActivity activity;
     private ArtistCatalogueViewModel artistCatalogueViewModel;
 
     private ArtistCatalogueAdapter artistAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        activity = (MainActivity) getActivity();
+
         bind = FragmentArtistCatalogueBinding.inflate(inflater, container, false);
         View view = bind.getRoot();
         artistCatalogueViewModel = new ViewModelProvider(requireActivity()).get(ArtistCatalogueViewModel.class);
@@ -56,7 +59,11 @@ public class ArtistCatalogueFragment extends Fragment {
         bind.artistCatalogueRecyclerView.setHasFixedSize(true);
 
         artistAdapter = new ArtistCatalogueAdapter(requireContext(), new ArrayList<>());
-        artistAdapter.setClickListener((view, position) -> Toast.makeText(requireContext(), "Click: " + position, Toast.LENGTH_SHORT).show());
+        artistAdapter.setClickListener((view, position) -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("artist_object", artistAdapter.getItem(position));
+            activity.navController.navigate(R.id.action_artistCatalogueFragment_to_artistPageFragment, bundle);
+        });
         bind.artistCatalogueRecyclerView.setAdapter(artistAdapter);
         artistCatalogueViewModel.getArtistList().observe(requireActivity(), artists -> {
             bind.loadingProgressBar.setVisibility(View.GONE);

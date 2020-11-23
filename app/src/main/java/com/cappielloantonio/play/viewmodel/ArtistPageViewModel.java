@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.SongRepository;
@@ -20,6 +21,8 @@ public class ArtistPageViewModel extends AndroidViewModel {
     private LiveData<List<Song>> songList;
     private LiveData<List<Album>> albumList;
 
+    private Artist artist;
+
     public ArtistPageViewModel(@NonNull Application application) {
         super(application);
 
@@ -27,13 +30,21 @@ public class ArtistPageViewModel extends AndroidViewModel {
         albumRepository = new AlbumRepository(application);
     }
 
-    public LiveData<List<Album>> getAlbumList(String artistID) {
-        albumList = albumRepository.getArtistListLiveAlbums(artistID);
+    public LiveData<List<Album>> getAlbumList() {
+        albumList = albumRepository.getArtistListLiveAlbums(artist.id);
         return albumList;
     }
 
-    public LiveData<List<Song>> getArtistTopSongList(String artistID) {
-        songList = songRepository.getArtistListLiveTopSong(artistID);
+    public LiveData<List<Song>> getArtistTopSongList() {
+        songList = songRepository.getArtistListLiveTopSong(artist.id);
         return songList;
+    }
+
+    public Artist getArtist() {
+        return artist;
+    }
+
+    public void setArtist(Artist artist) {
+        this.artist = artist;
     }
 }

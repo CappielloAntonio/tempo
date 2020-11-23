@@ -62,6 +62,10 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
         }
     }
 
+    public Artist getItem(int position) {
+        return artists.get(position);
+    }
+
     public void setItems(List<Artist> artists) {
         this.artists = artists;
         notifyDataSetChanged();

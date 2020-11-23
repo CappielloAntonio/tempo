@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.util.Util;
 
 import java.util.List;
@@ -63,6 +64,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         public void onClick(View view) {
             if (itemClickListener != null) itemClickListener.onItemClick(view, getAdapterPosition());
         }
+    }
+
+    public Album getItem(int position) {
+        return albums.get(position);
     }
 
     public void setItems(List<Album> albums) {

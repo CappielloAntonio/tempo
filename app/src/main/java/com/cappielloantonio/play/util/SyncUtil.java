@@ -9,6 +9,7 @@ import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.SongGenreCross;
 
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
@@ -23,8 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SyncUtil {
-    public static BaseItemDto musicLibrary;
-
     public static void getLibraries(Context context, MediaCallback callback) {
         String id = App.getApiClientInstance(context).getCurrentUserId();
 
@@ -51,7 +50,7 @@ public class SyncUtil {
         query.setFields(new ItemFields[]{ItemFields.MediaSources});
         query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
         query.setRecursive(true);
-        query.setParentId(musicLibrary.getId());
+        query.setParentId(PreferenceUtil.getInstance(context).getMusicLibraryID());
 
         App.getApiClientInstance(context).GetItemsAsync(query, new Response<ItemsResult>() {
             @Override
@@ -78,7 +77,7 @@ public class SyncUtil {
         query.setIncludeItemTypes(new String[]{"MusicAlbum"});
         query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
         query.setRecursive(true);
-        query.setParentId(musicLibrary.getId());
+        query.setParentId(PreferenceUtil.getInstance(context).getMusicLibraryID());
 
         App.getApiClientInstance(context).GetItemsAsync(query, new Response<ItemsResult>() {
             @Override
@@ -104,7 +103,7 @@ public class SyncUtil {
         query.setFields(new ItemFields[]{ItemFields.Genres});
         query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
         query.setRecursive(true);
-        query.setParentId(musicLibrary.getId());
+        query.setParentId(PreferenceUtil.getInstance(context).getMusicLibraryID());
 
         App.getApiClientInstance(context).GetAlbumArtistsAsync(query, new Response<ItemsResult>() {
             @Override
@@ -130,7 +129,7 @@ public class SyncUtil {
         query.setIncludeItemTypes(new String[]{"Playlist"});
         query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
         query.setRecursive(true);
-        query.setParentId(musicLibrary.getId());
+        query.setParentId(PreferenceUtil.getInstance(context).getMusicLibraryID());
 
         App.getApiClientInstance(context).GetItemsAsync(query, new Response<ItemsResult>() {
             @Override
@@ -155,7 +154,7 @@ public class SyncUtil {
 
         query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
         query.setRecursive(true);
-        query.setParentId(musicLibrary.getId());
+        query.setParentId(PreferenceUtil.getInstance(context).getMusicLibraryID());
 
         App.getApiClientInstance(context).GetGenresAsync(query, new Response<ItemsResult>() {
             @Override
@@ -171,6 +170,35 @@ public class SyncUtil {
             @Override
             public void onError(Exception exception) {
                 exception.printStackTrace();
+            }
+        });
+    }
+
+    public static void getSongsPerGenre(Context context, MediaCallback callback, String genreId) {
+        ItemQuery query = new ItemQuery();
+
+        query.setIncludeItemTypes(new String[]{"Audio"});
+        query.setFields(new ItemFields[]{ItemFields.MediaSources});
+        query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
+        query.setRecursive(true);
+        query.setParentId(PreferenceUtil.getInstance(context).getMusicLibraryID());
+        query.setGenreIds(new String[]{genreId});
+
+        App.getApiClientInstance(context).GetItemsAsync(query, new Response<ItemsResult>() {
+            @Override
+            public void onResponse(ItemsResult result) {
+                ArrayList<SongGenreCross> crosses = new ArrayList<>();
+
+                for (BaseItemDto itemDto : result.getItems()) {
+                    crosses.add(new SongGenreCross(itemDto.getId(), genreId));
+                }
+
+                callback.onLoadMedia(crosses);
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                callback.onError(exception);
             }
         });
     }

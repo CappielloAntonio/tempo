@@ -56,7 +56,7 @@ public class AlbumCatalogueFragment extends Fragment {
         albumAdapter.setClickListener((view, position) -> {
             Bundle bundle = new Bundle();
             bundle.putParcelable("album_object", albumAdapter.getItem(position));
-            activity.navController.navigate(R.id.action_libraryFragment_to_albumPageFragment, bundle);
+            activity.navController.navigate(R.id.action_albumCatalogueFragment_to_albumPageFragment, bundle);
         });
         bind.albumCatalogueRecyclerView.setAdapter(albumAdapter);
         albumCatalogueViewModel.getAlbumList().observe(requireActivity(), albums -> {

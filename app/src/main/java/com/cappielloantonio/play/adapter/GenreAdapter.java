@@ -62,6 +62,10 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
         }
     }
 
+    public Genre getItem(int position) {
+        return genres.get(position);
+    }
+
     public void setItems(List<Genre> genres) {
         this.genres = genres;
         notifyDataSetChanged();

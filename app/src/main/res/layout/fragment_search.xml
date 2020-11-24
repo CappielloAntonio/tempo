@@ -90,19 +90,6 @@
                 android:paddingEnd="8dp" />
         </LinearLayout>
 
-        <!--  Label -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/open_sans_font_family"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="8dp"
-            android:text="Search results"
-            android:textColor="@color/titleTextColor"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
         <androidx.core.widget.NestedScrollView
             android:id="@+id/search_result_nested_scroll_view"
             android:layout_width="match_parent"
@@ -115,6 +102,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <!--  Label -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_font_family"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="Search results"
+                    android:textColor="@color/titleTextColor"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"

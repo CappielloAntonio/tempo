@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,9 +11,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.DiscoverSongAdapter;
 import com.cappielloantonio.play.adapter.RecentMusicAdapter;
 import com.cappielloantonio.play.databinding.FragmentHomeBinding;
+import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.HomeViewModel;
@@ -60,7 +61,26 @@ public class HomeFragment extends Fragment {
     private void init() {
         bind.resyncButton.setOnClickListener(v -> {
             PreferenceUtil.getInstance(requireContext()).setSync(false);
+            PreferenceUtil.getInstance(requireContext()).setSongGenreSync(false);
             activity.goToSync();
+        });
+
+        bind.recentlyAddedTracksTextViewClickable.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(Song.RECENTLY_ADDED, Song.RECENTLY_ADDED);
+            activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
+        });
+
+        bind.recentlyPlayedTracksTextViewClickable.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(Song.RECENTLY_PLAYED, Song.RECENTLY_PLAYED);
+            activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
+        });
+
+        bind.mostPlayedTracksTextViewClickable.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(Song.MOST_PLAYED, Song.MOST_PLAYED);
+            activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
         });
     }
 

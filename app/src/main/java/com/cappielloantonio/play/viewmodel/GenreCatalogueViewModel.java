@@ -28,4 +28,8 @@ public class GenreCatalogueViewModel extends AndroidViewModel {
         genreList = genreRepository.getListLiveGenres();
         return genreList;
     }
+
+    public List<Genre> getGenres() {
+        return genreRepository.getListGenre();
+    }
 }

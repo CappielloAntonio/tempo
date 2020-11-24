@@ -46,14 +46,13 @@ public class LibraryViewModel extends AndroidViewModel {
         sampleGenres = genreRepository.getListLiveSampleGenre();
     }
 
-    public LiveData<List<Genre>> getGenreList() {
-        allGenres = genreRepository.getListLiveGenres();
-        return allGenres;
-    }
-
     public LiveData<List<Playlist>> getPlaylistList() {
         allPlaylist = playlistRepository.getListLivePlaylists();
         return allPlaylist;
+    }
+
+    public List<Genre> getGenreList() {
+        return genreRepository.getListGenre();
     }
 
     public LiveData<List<Album>> getAlbumSample() {

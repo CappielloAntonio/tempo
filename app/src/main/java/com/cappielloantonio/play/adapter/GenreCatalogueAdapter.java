@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
         return genres.size();
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textGenre;
 
@@ -60,6 +62,10 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
         public void onClick(View view) {
             if (itemClickListener != null) itemClickListener.onItemClick(view, getAdapterPosition());
         }
+    }
+
+    public Genre getItem(int position) {
+        return genres.get(position);
     }
 
     public void setItems(List<Genre> genres) {

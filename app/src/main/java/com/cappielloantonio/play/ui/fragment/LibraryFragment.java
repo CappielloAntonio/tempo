@@ -9,24 +9,35 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumAdapter;
 import com.cappielloantonio.play.adapter.ArtistAdapter;
 import com.cappielloantonio.play.adapter.GenreAdapter;
 import com.cappielloantonio.play.adapter.PlaylistAdapter;
 import com.cappielloantonio.play.databinding.FragmentLibraryBinding;
+import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.SongGenreCross;
+import com.cappielloantonio.play.repository.GenreRepository;
 import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.util.PreferenceUtil;
+import com.cappielloantonio.play.util.SyncUtil;
 import com.cappielloantonio.play.viewmodel.LibraryViewModel;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +68,7 @@ public class LibraryFragment extends Fragment {
         initArtistView();
         initGenreView();
         initPlaylistView();
+        initCatalogueSyncCheck();
 
         return view;
     }
@@ -106,7 +118,15 @@ public class LibraryFragment extends Fragment {
         bind.genreRecyclerView.setHasFixedSize(true);
 
         genreAdapter = new GenreAdapter(requireContext(), new ArrayList<>());
-        genreAdapter.setClickListener((view, position) -> Toast.makeText(requireContext(), "Genre: " + position, Toast.LENGTH_SHORT).show());
+        genreAdapter.setClickListener(new GenreAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString(Song.BY_GENRE, Song.BY_GENRE);
+                bundle.putParcelable("genre_object", genreAdapter.getItem(position));
+                activity.navController.navigate(R.id.action_libraryFragment_to_songListPageFragment, bundle);
+            }
+        });
         bind.genreRecyclerView.setAdapter(genreAdapter);
         libraryViewModel.getGenreSample().observe(requireActivity(), genres -> genreAdapter.setItems(genres));
     }
@@ -119,5 +139,40 @@ public class LibraryFragment extends Fragment {
         playlistAdapter.setClickListener((view, position) -> Toast.makeText(requireContext(), "Playlist: " + position, Toast.LENGTH_SHORT).show());
         bind.playlistRecyclerView.setAdapter(playlistAdapter);
         libraryViewModel.getPlaylistList().observe(requireActivity(), playlists -> playlistAdapter.setItems(playlists));
+    }
+
+    private void initCatalogueSyncCheck() {
+        if (!PreferenceUtil.getInstance(requireContext()).getSongGenreSync()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setMessage("Sync song's genres otherwise nothing will be shown in each genre category")
+                    .setTitle("Song's genres not synchronized")
+                    .setNegativeButton(R.string.ignore, null)
+                    .setPositiveButton("Sync", (dialog, id) -> syncSongsPerGenre(libraryViewModel.getGenreList()))
+                    .show();
+        }
+    }
+
+    private void syncSongsPerGenre(List<Genre> genres) {
+        Snackbar.make(requireView(), "This may take a while...", BaseTransientBottomBar.LENGTH_LONG)
+                .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.cardColor))
+                .setTextColor(ContextCompat.getColor(requireContext(), R.color.titleTextColor))
+                .show();
+
+        for (Genre genre : genres) {
+            SyncUtil.getSongsPerGenre(requireContext(), new MediaCallback() {
+                @Override
+                public void onError(Exception exception) {
+                    Log.e(TAG, "onError: " + exception.getMessage());
+                }
+
+                @Override
+                public void onLoadMedia(List<?> media) {
+                    GenreRepository repository = new GenreRepository(App.getInstance());
+                    repository.insertPerGenre((ArrayList<SongGenreCross>) media);
+                }
+            }, genre.id);
+        }
+
+        PreferenceUtil.getInstance(requireContext()).setSongGenreSync(true);
     }
 }

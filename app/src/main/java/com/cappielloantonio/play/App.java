@@ -2,12 +2,7 @@ package com.cappielloantonio.play;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
 
-import androidx.preference.PreferenceManager;
-
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.cappielloantonio.play.helper.ThemeHelper;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
@@ -44,10 +39,6 @@ public class App extends Application {
             apiClient = getApiClient(context);
         }
         return apiClient;
-    }
-
-    public RequestQueue getRequestQueue(Context context) {
-        return Volley.newRequestQueue(context);
     }
 
     private static ApiClient getApiClient(Context context) {

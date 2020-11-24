@@ -33,7 +33,7 @@
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/discover_song_view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="152dp"
+                android:layout_height="172dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:clipToPadding="false"
@@ -41,6 +41,18 @@
                 android:paddingTop="8dp"
                 android:paddingEnd="16dp"
                 android:paddingBottom="8dp" />
+
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/discover_song_recycler_view"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="172dp"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:layout_marginBottom="8dp"-->
+<!--                android:clipToPadding="false"-->
+<!--                android:paddingStart="16dp"-->
+<!--                android:paddingTop="8dp"-->
+<!--                android:paddingEnd="16dp"-->
+<!--                android:paddingBottom="8dp" />-->
         </LinearLayout>
 
         <!--  Recently added tracks -->
@@ -73,6 +85,7 @@
 
 
                 <TextView
+                    android:id="@+id/recently_added_tracks_text_view_clickable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_font_family"
@@ -128,6 +141,7 @@
 
 
                 <TextView
+                    android:id="@+id/recently_played_tracks_text_view_clickable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_font_family"
@@ -183,6 +197,7 @@
 
 
                 <TextView
+                    android:id="@+id/most_played_tracks_text_view_clickable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_font_family"

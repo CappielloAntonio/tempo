@@ -183,7 +183,6 @@
                         android:text="See all"
                         android:textColor="@color/subtitleTextColor"
                         android:textSize="14sp" />
-
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView

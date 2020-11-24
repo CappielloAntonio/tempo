@@ -1,20 +1,20 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.util.Util;
 
 import java.util.List;
 
@@ -29,8 +29,6 @@ public class DiscoverSongAdapter extends PagerAdapter {
     public DiscoverSongAdapter(Context context, List<Song> songs) {
         this.context = context;
         this.songs = songs;
-
-        Log.d(TAG, "DiscoverSongAdapter: " + songs.toString());
     }
 
     @Override
@@ -50,7 +48,7 @@ public class DiscoverSongAdapter extends PagerAdapter {
         view = layoutInflater.inflate(R.layout.item_home_discover_song, container, false);
 
         TextView title = view.findViewById(R.id.title_discover_song_label);
-        TextView desc = view.findViewById(R.id.artist_discover_song_label);
+        TextView desc = view.findViewById(R.id.album_discover_song_label);
         title.setText(songs.get(position).getTitle());
         desc.setText(songs.get(position).getAlbumName());
 
@@ -64,8 +62,6 @@ public class DiscoverSongAdapter extends PagerAdapter {
     }
 
     public void setItems(List<Song> songs) {
-        Log.d(TAG, "setItems: CHANGING");
-
         this.songs = songs;
         notifyDataSetChanged();
     }

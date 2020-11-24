@@ -18,6 +18,9 @@ public interface GenreDao {
     @Query("SELECT * FROM genre")
     LiveData<List<Genre>> getAll();
 
+    @Query("SELECT * FROM genre")
+    List<Genre> getGenreList();
+
     @Query("SELECT * FROM genre ORDER BY RANDOM() LIMIT :number;")
     LiveData<List<Genre>> getSample(int number);
 

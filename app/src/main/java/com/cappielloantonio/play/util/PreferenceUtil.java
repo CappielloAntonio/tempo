@@ -11,8 +11,10 @@ public class PreferenceUtil {
     public static final String SERVER = "server";
     public static final String USER = "user";
     public static final String TOKEN = "token";
+    public static final String MUSIC_LIBRARY_ID = "music_library_id";
 
     public static final String SYNC = "sync";
+    public static final String SONG_GENRE_SYNC = "song_genre_sync";
 
     public static final String HOST_URL = "host";
     public static final String IMAGE_CACHE_SIZE = "image_cache_size";
@@ -72,6 +74,26 @@ public class PreferenceUtil {
     public void setSync(Boolean sync) {
         final SharedPreferences.Editor editor = mPreferences.edit();
         editor.putBoolean(SYNC, sync);
+        editor.apply();
+    }
+
+    public Boolean getSongGenreSync() {
+        return mPreferences.getBoolean(SONG_GENRE_SYNC, false);
+    }
+
+    public void setSongGenreSync(Boolean sync) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(SONG_GENRE_SYNC, sync);
+        editor.apply();
+    }
+
+    public String getMusicLibraryID() {
+        return mPreferences.getString(MUSIC_LIBRARY_ID, "");
+    }
+
+    public void setMusicLibraryID(String musicLibraryID) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putString(MUSIC_LIBRARY_ID, musicLibraryID);
         editor.apply();
     }
 

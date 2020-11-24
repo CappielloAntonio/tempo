@@ -26,13 +26,17 @@ public class HomeViewModel extends AndroidViewModel {
         songRepository = new SongRepository(application);
 
         dicoverSongSample = songRepository.getRandomSample(5);
-        recentlyPlayedSongSample = songRepository.getListLiveRecentlyPlayedSampleSong();
-        recentlyAddedSongSample = songRepository.getListLiveRecentlyAddedSampleSong();
-        mostPlayedSongSample = songRepository.getListLiveMostPlayedSampleSong();
+        recentlyPlayedSongSample = songRepository.getListLiveRecentlyPlayedSampleSong(20);
+        recentlyAddedSongSample = songRepository.getListLiveRecentlyAddedSampleSong(20);
+        mostPlayedSongSample = songRepository.getListLiveMostPlayedSampleSong(20);
     }
 
 
     public List<Song> getDiscoverSongList() {
+        if(dicoverSongSample.isEmpty()) {
+            dicoverSongSample = songRepository.getRandomSample(5);
+        }
+
         return dicoverSongSample;
     }
 

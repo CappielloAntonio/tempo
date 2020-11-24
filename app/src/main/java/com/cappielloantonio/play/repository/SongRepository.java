@@ -20,6 +20,7 @@ public class SongRepository {
     private LiveData<List<Song>> listLiveSampleMostPlayedSongs;
     private LiveData<List<Song>> listLiveSampleArtistTopSongs;
     private LiveData<List<Song>> listLiveAlbumSongs;
+    private LiveData<List<Song>> listLiveSongByGenre;
 
 
     public SongRepository(Application application) {
@@ -32,23 +33,33 @@ public class SongRepository {
         return searchListLiveSongs;
     }
 
-    public LiveData<List<Song>> getListLiveRecentlyAddedSampleSong() {
-        listLiveSampleRecentlyAddedSongs = songDao.getRecentlyAddedSample(20);
+    public LiveData<List<Song>> getListLiveRecentlyAddedSampleSong(int number) {
+        listLiveSampleRecentlyAddedSongs = songDao.getRecentlyAddedSample(number);
         return listLiveSampleRecentlyAddedSongs;
     }
 
-    public LiveData<List<Song>> getListLiveRecentlyPlayedSampleSong() {
-        listLiveSampleRecentlyPlayedSongs = songDao.getRecentlyPlayedSample(20);
+    public LiveData<List<Song>> getListLiveRecentlyPlayedSampleSong(int number) {
+        listLiveSampleRecentlyPlayedSongs = songDao.getRecentlyPlayedSample(number);
         return listLiveSampleRecentlyPlayedSongs;
     }
 
-    public LiveData<List<Song>> getListLiveMostPlayedSampleSong() {
-        listLiveSampleMostPlayedSongs = songDao.getMostPlayedSample(20);
+    public LiveData<List<Song>> getListLiveMostPlayedSampleSong(int number) {
+        listLiveSampleMostPlayedSongs = songDao.getMostPlayedSample(number);
         return listLiveSampleMostPlayedSongs;
     }
 
-    public LiveData<List<Song>> getArtistListLiveTopSong(String artistID) {
+    public LiveData<List<Song>> getListLiveSongByGenre(String genreID) {
+        listLiveSongByGenre = songDao.getSongByGenre(genreID);
+        return listLiveSongByGenre;
+    }
+
+    public LiveData<List<Song>> getArtistListLiveTopSongSample(String artistID) {
         listLiveSampleArtistTopSongs = songDao.getArtistTopSongsSample(artistID, 5);
+        return listLiveSampleArtistTopSongs;
+    }
+
+    public LiveData<List<Song>> getArtistListLiveTopSong(String artistID) {
+        listLiveSampleArtistTopSongs = songDao.getArtistTopSongs(artistID);
         return listLiveSampleArtistTopSongs;
     }
 

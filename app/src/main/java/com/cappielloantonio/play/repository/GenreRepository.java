@@ -6,20 +6,24 @@ import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.GenreDao;
+import com.cappielloantonio.play.database.dao.SongGenreCrossDao;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Genre;
+import com.cappielloantonio.play.model.SongGenreCross;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GenreRepository {
     private GenreDao genreDao;
+    private SongGenreCrossDao songGenreCrossDao;
     private LiveData<List<Genre>> listLiveGenres;
     private LiveData<List<Genre>> listLiveAlbumGenre;
 
     public GenreRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
         genreDao = database.genreDao();
+        songGenreCrossDao = database.songGenreCrossDao();
     }
 
     public LiveData<List<Genre>> getListLiveGenres() {
@@ -30,6 +34,24 @@ public class GenreRepository {
     public LiveData<List<Genre>> getListLiveSampleGenre() {
         listLiveAlbumGenre = genreDao.getSample(6 * 3);
         return listLiveAlbumGenre;
+    }
+
+    public List<Genre> getListGenre() {
+        List<Genre> list = null;
+
+        GetGenreListThreadSafe getGenreListThread = new GetGenreListThreadSafe(genreDao);
+        Thread thread = new Thread(getGenreListThread);
+        thread.start();
+
+        try {
+            thread.join();
+            list = getGenreListThread.getList();
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 
     public boolean exist(Genre genre) {
@@ -62,10 +84,34 @@ public class GenreRepository {
         thread.start();
     }
 
+    public void insertPerGenre(ArrayList<SongGenreCross> songGenreCrosses) {
+        InsertPerGenreThreadSafe insertPerGenre = new InsertPerGenreThreadSafe(songGenreCrossDao, songGenreCrosses);
+        Thread thread = new Thread(insertPerGenre);
+        thread.start();
+    }
+
     public void delete(Genre genre) {
         DeleteThreadSafe delete = new DeleteThreadSafe(genreDao, genre);
         Thread thread = new Thread(delete);
         thread.start();
+    }
+
+    private static class GetGenreListThreadSafe implements Runnable {
+        private GenreDao genreDao;
+        private List<Genre> list = null;
+
+        public GetGenreListThreadSafe(GenreDao genreDao) {
+            this.genreDao = genreDao;
+        }
+
+        @Override
+        public void run() {
+            list = genreDao.getGenreList();
+        }
+
+        public List<Genre> getList() {
+            return list;
+        }
     }
 
     private static class ExistThreadSafe implements Runnable {
@@ -115,6 +161,21 @@ public class GenreRepository {
         @Override
         public void run() {
             genreDao.insertAll(genres);
+        }
+    }
+
+    private static class InsertPerGenreThreadSafe implements Runnable {
+        private SongGenreCrossDao songGenreCrossDao;
+        private ArrayList<SongGenreCross> cross;
+
+        public InsertPerGenreThreadSafe(SongGenreCrossDao songGenreCrossDao, ArrayList<SongGenreCross> cross) {
+            this.songGenreCrossDao = songGenreCrossDao;
+            this.cross = cross;
+        }
+
+        @Override
+        public void run() {
+            songGenreCrossDao.insertAll(cross);
         }
     }
 

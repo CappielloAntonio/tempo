@@ -16,6 +16,7 @@ import com.cappielloantonio.play.adapter.RecentMusicAdapter;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistPageBinding;
 import com.cappielloantonio.play.databinding.FragmentHomeBinding;
+import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.viewmodel.ArtistPageViewModel;
 import com.cappielloantonio.play.viewmodel.HomeViewModel;
@@ -54,8 +55,17 @@ public class ArtistPageFragment extends Fragment {
 
     private void init() {
         artistPageViewModel.setArtist(getArguments().getParcelable("artist_object"));
-
         bind.artistNameLabel.setText(artistPageViewModel.getArtist().getName());
+
+        bind.mostStreamedSongTextViewClickable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString(Song.BY_ARTIST, Song.BY_ARTIST);
+                bundle.putParcelable("artist_object", artistPageViewModel.getArtist());
+                activity.navController.navigate(R.id.action_artistPageFragment_to_songListPageFragment, bundle);
+            }
+        });
     }
 
     private void initTopSongsView() {

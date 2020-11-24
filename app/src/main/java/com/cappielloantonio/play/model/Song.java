@@ -19,6 +19,21 @@ import java.util.UUID;
 
 @Entity(tableName = "song")
 public class Song implements Parcelable {
+    @Ignore
+    public static final String RECENTLY_PLAYED = "RECENTLY_PLAYED";
+
+    @Ignore
+    public static final String MOST_PLAYED = "MOST_PLAYED";
+
+    @Ignore
+    public static final String RECENTLY_ADDED = "RECENTLY_ADDED";
+
+    @Ignore
+    public static final String BY_GENRE = "BY_GENRE";
+
+    @Ignore
+    public static final String BY_ARTIST = "BY_ARTIST";
+
     @NonNull
     @PrimaryKey
     @ColumnInfo(name = "id")

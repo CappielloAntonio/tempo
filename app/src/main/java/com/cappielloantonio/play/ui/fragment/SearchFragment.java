@@ -143,7 +143,7 @@ public class SearchFragment extends Fragment {
             bind.persistentSearchView.collapse();
 
             bind.persistentSearchView.setInputQuery(query);
-            performSearch(query);
+            performSearch(query.trim());
         }
     }
 

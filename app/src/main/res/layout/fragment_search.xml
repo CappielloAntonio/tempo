@@ -11,7 +11,7 @@
         android:paddingStart="8dp"
         android:paddingTop="8dp"
         android:paddingEnd="8dp"
-        app:areSuggestionsDisabled="true"
+        app:areSuggestionsDisabled="false"
         app:cardBackgroundColor="@color/cardColor"
         app:cardCornerRadius="4dp"
         app:cardElevation="2dp"
@@ -28,7 +28,13 @@
         app:queryInputHint="@string/search_hint"
         app:queryInputHintColor="@color/hintTextColor"
         app:queryInputTextColor="@color/hintTextColor"
-        app:shouldDimBehind="false" />
+        app:shouldDimBehind="true"
+
+        app:suggestionIconColor="@color/suggestionIconColor"
+        app:suggestionRecentSearchIconColor="@color/suggestionIconColor"
+        app:suggestionSearchSuggestionIconColor="@color/suggestionIconColor"
+        app:suggestionTextColor="@color/suggestionTextColor"
+        app:suggestionSelectedTextColor="@color/suggestionSelectedTextColor" />
 
     <LinearLayout
         android:layout_width="match_parent"

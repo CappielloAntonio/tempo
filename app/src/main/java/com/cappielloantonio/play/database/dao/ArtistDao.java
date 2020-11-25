@@ -33,4 +33,7 @@ public interface ArtistDao {
 
     @Delete
     void delete(Artist artist);
+
+    @Query("SELECT name FROM artist WHERE name LIKE :query || '%' GROUP BY name LIMIT :number")
+    List<String> searchSuggestions(String query, int number);
 }

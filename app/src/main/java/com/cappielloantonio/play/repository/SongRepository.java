@@ -5,11 +5,13 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.database.AppDatabase;
+import com.cappielloantonio.play.database.dao.AlbumDao;
 import com.cappielloantonio.play.database.dao.SongDao;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Song;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class SongRepository {
@@ -72,6 +74,23 @@ public class SongRepository {
     public LiveData<List<Song>> getFilteredListLiveSong(ArrayList<String> filters) {
         listLiveFilteredSongs = songDao.getFilteredSong(filters);
         return listLiveFilteredSongs;
+    }
+
+    public List<String> getSearchSuggestion(String query) {
+        List<String> suggestions = new ArrayList<>();
+
+        SearchSuggestionsThreadSafe suggestionsThread = new SearchSuggestionsThreadSafe(songDao, query, 5);
+        Thread thread = new Thread(suggestionsThread);
+        thread.start();
+
+        try {
+            thread.join();
+            suggestions = suggestionsThread.getSuggestions();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return suggestions;
     }
 
     public boolean exist(Song song) {
@@ -231,6 +250,28 @@ public class SongRepository {
 
         public List<Song> getSample() {
             return sample;
+        }
+    }
+
+    private static class SearchSuggestionsThreadSafe implements Runnable {
+        private SongDao songDao;
+        private String query;
+        private int number;
+        private List<String> suggestions = new ArrayList<>();
+
+        public SearchSuggestionsThreadSafe(SongDao songDao, String query, int number) {
+            this.songDao = songDao;
+            this.query = query;
+            this.number = number;
+        }
+
+        @Override
+        public void run() {
+            suggestions = songDao.searchSuggestions(query, number);
+        }
+
+        public List<String> getSuggestions() {
+            return suggestions;
         }
     }
 }

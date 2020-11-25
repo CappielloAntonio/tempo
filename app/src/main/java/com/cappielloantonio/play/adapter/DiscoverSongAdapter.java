@@ -6,68 +6,69 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.PagerAdapter;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.SongRepository;
-import com.cappielloantonio.play.util.Util;
 
 import java.util.List;
 
-public class DiscoverSongAdapter extends PagerAdapter {
+public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapter.ViewHolder> {
     private static final String TAG = "DiscoverSongAdapter";
 
     private List<Song> songs;
     private LayoutInflater layoutInflater;
     private Context context;
-    private View view;
 
     public DiscoverSongAdapter(Context context, List<Song> songs) {
         this.context = context;
+        this.layoutInflater = LayoutInflater.from(context);
         this.songs = songs;
     }
 
     @Override
-    public int getCount() {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = layoutInflater.inflate(R.layout.item_home_discover_song, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        Song song = songs.get(position);
+
+        holder.textTitle.setText(song.getTitle());
+        holder.textAlbum.setText(song.getAlbumName());
+    }
+
+    @Override
+    public int getItemCount() {
         return songs.size();
     }
 
-    @Override
-    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return view.equals(object);
-    }
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView textTitle;
+        TextView textAlbum;
 
-    @NonNull
-    @Override
-    public Object instantiateItem(@NonNull ViewGroup container, final int position) {
-        layoutInflater = LayoutInflater.from(context);
-        view = layoutInflater.inflate(R.layout.item_home_discover_song, container, false);
+        ViewHolder(View itemView) {
+            super(itemView);
 
-        TextView title = view.findViewById(R.id.title_discover_song_label);
-        TextView desc = view.findViewById(R.id.album_discover_song_label);
-        title.setText(songs.get(position).getTitle());
-        desc.setText(songs.get(position).getAlbumName());
+            textTitle = itemView.findViewById(R.id.title_discover_song_label);
+            textAlbum = itemView.findViewById(R.id.album_discover_song_label);
 
-        view.setOnClickListener(v -> {
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
             SongRepository songRepository = new SongRepository(App.getInstance());
-            songRepository.update(songs.get(position));
-        });
-
-        container.addView(view, 0);
-        return view;
+            songRepository.update(songs.get(getAdapterPosition()));
+        }
     }
 
     public void setItems(List<Song> songs) {
         this.songs = songs;
         notifyDataSetChanged();
-    }
-
-    @Override
-    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeView((View) object);
     }
 }

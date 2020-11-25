@@ -4,13 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,14 +20,14 @@ import com.cappielloantonio.play.adapter.RecentSearchAdapter;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentSearchBinding;
 import com.cappielloantonio.play.helper.recyclerview.ItemlDecoration;
-import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.RecentSearch;
-import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.viewmodel.SearchViewModel;
+import com.paulrybitskyi.persistentsearchview.adapters.model.SuggestionItem;
+import com.paulrybitskyi.persistentsearchview.listeners.OnSuggestionChangeListener;
+import com.paulrybitskyi.persistentsearchview.utils.SuggestionCreationUtil;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SearchFragment extends Fragment {
     private static final String TAG = "SearchFragment";
@@ -120,12 +118,23 @@ public class SearchFragment extends Fragment {
     }
 
     private void initSearchView() {
-        bind.persistentSearchView.showRightButton();
-        
         bind.persistentSearchView.setOnSearchQueryChangeListener((searchView, oldQuery, newQuery) -> {
+            if (!newQuery.trim().equals("") && newQuery.trim().length() > 1) {
+                searchView.setSuggestions(SuggestionCreationUtil.asRegularSearchSuggestions(searchViewModel.getSearchSuggestion(newQuery)), false);
+            } else {
+                searchView.setSuggestions(new ArrayList<>());
+            }
         });
 
-        bind.persistentSearchView.setOnLeftBtnClickListener(view -> {
+        bind.persistentSearchView.setOnSuggestionChangeListener(new OnSuggestionChangeListener() {
+            @Override
+            public void onSuggestionPicked(SuggestionItem suggestion) {
+                search(suggestion.getItemModel().getText());
+            }
+
+            @Override
+            public void onSuggestionRemoved(SuggestionItem suggestion) {
+            }
         });
 
         bind.persistentSearchView.setOnSearchConfirmedListener((searchView, query) -> {
@@ -134,12 +143,14 @@ public class SearchFragment extends Fragment {
     }
 
     public void search(String query) {
-        if (!query.equals("")) {
+        if (!query.trim().equals("") && query.trim().length() > 1) {
             searchViewModel.insertNewSearch(query);
             bind.persistentSearchView.collapse();
 
             bind.persistentSearchView.setInputQuery(query);
             performSearch(query.trim());
+        } else {
+            Toast.makeText(requireContext(), "Enter at least two characters", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -7,9 +7,11 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.DiscoverSongAdapter;
@@ -85,9 +87,12 @@ public class HomeFragment extends Fragment {
     }
 
     private void initDiscoverSongSlideView() {
+        bind.discoverSongViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+
         discoverSongAdapter = new DiscoverSongAdapter(requireContext(), homeViewModel.getDiscoverSongList());
         bind.discoverSongViewPager.setAdapter(discoverSongAdapter);
-        bind.discoverSongViewPager.setPageMargin(20);
+        bind.discoverSongViewPager.setOffscreenPageLimit(3);
+        settDiscoverSongSlideViewOffset(20, 16);
     }
 
     private void initRecentAddedSongView() {
@@ -115,5 +120,20 @@ public class HomeFragment extends Fragment {
         mostPlayedMusicAdapter = new RecentMusicAdapter(requireContext(), new ArrayList<>());
         bind.mostPlayedTracksRecyclerView.setAdapter(mostPlayedMusicAdapter);
         homeViewModel.getMostPlayedSongList().observe(requireActivity(), songs -> mostPlayedMusicAdapter.setItems(songs));
+    }
+
+    private void settDiscoverSongSlideViewOffset(float pageOffset, float pageMargin) {
+        bind.discoverSongViewPager.setPageTransformer((page, position) -> {
+            float myOffset = position * -(2 * pageOffset + pageMargin);
+            if (bind.discoverSongViewPager.getOrientation() == ViewPager2.ORIENTATION_HORIZONTAL) {
+                if (ViewCompat.getLayoutDirection(bind.discoverSongViewPager) == ViewCompat.LAYOUT_DIRECTION_RTL) {
+                    page.setTranslationX(-myOffset);
+                } else {
+                    page.setTranslationX(myOffset);
+                }
+            } else {
+                page.setTranslationY(myOffset);
+            }
+        });
     }
 }

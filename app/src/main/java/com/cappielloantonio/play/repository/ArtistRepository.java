@@ -5,12 +5,14 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.database.AppDatabase;
+import com.cappielloantonio.play.database.dao.AlbumDao;
 import com.cappielloantonio.play.database.dao.ArtistDao;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Song;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ArtistRepository {
@@ -38,6 +40,23 @@ public class ArtistRepository {
     public LiveData<List<Artist>> searchListLiveArtist(String name) {
         searchListLiveArtist = artistDao.searchArtist(name);
         return searchListLiveArtist;
+    }
+
+    public List<String> getSearchSuggestion(String query) {
+        List<String> suggestions = new ArrayList<>();
+
+        SearchSuggestionsThreadSafe suggestionsThread = new SearchSuggestionsThreadSafe(artistDao, query, 5);
+        Thread thread = new Thread(suggestionsThread);
+        thread.start();
+
+        try {
+            thread.join();
+            suggestions = suggestionsThread.getSuggestions();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return suggestions;
     }
 
     public boolean exist(Artist artist) {
@@ -138,6 +157,28 @@ public class ArtistRepository {
         @Override
         public void run() {
             artistDao.delete(artist);
+        }
+    }
+
+    private static class SearchSuggestionsThreadSafe implements Runnable {
+        private ArtistDao artistDao;
+        private String query;
+        private int number;
+        private List<String> suggestions = new ArrayList<>();
+
+        public SearchSuggestionsThreadSafe(ArtistDao artistDao, String query, int number) {
+            this.artistDao = artistDao;
+            this.query = query;
+            this.number = number;
+        }
+
+        @Override
+        public void run() {
+            suggestions = artistDao.searchSuggestions(query, number);
+        }
+
+        public List<String> getSuggestions() {
+            return suggestions;
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -16,10 +17,14 @@ import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.GenreRepository;
 import com.cappielloantonio.play.repository.RecentSearchRepository;
 import com.cappielloantonio.play.repository.SongRepository;
+import com.paulrybitskyi.persistentsearchview.adapters.model.SuggestionItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchViewModel extends AndroidViewModel {
+    private static final String TAG = "SearchViewModel";
+
     private SongRepository songRepository;
     private AlbumRepository albumRepository;
     private ArtistRepository artistRepository;
@@ -65,5 +70,14 @@ public class SearchViewModel extends AndroidViewModel {
 
     public void deleteAllRecentSearch() {
         recentSearchRepository.deleteAll();
+    }
+
+    public List<String> getSearchSuggestion(String query) {
+        ArrayList<String> suggestions = new ArrayList<>();
+        suggestions.addAll(songRepository.getSearchSuggestion(query));
+        suggestions.addAll(albumRepository.getSearchSuggestion(query));
+        suggestions.addAll(artistRepository.getSearchSuggestion(query));
+
+        return suggestions;
     }
 }

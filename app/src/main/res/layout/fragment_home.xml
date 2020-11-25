@@ -30,29 +30,13 @@
                 android:textStyle="bold" />
 
             <!--  slideview  -->
-            <androidx.viewpager.widget.ViewPager
+            <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/discover_song_view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="172dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_height="188dp"
                 android:clipToPadding="false"
-                android:paddingStart="16dp"
                 android:paddingTop="8dp"
-                android:paddingEnd="16dp"
                 android:paddingBottom="8dp" />
-
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:id="@+id/discover_song_recycler_view"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="172dp"-->
-<!--                android:layout_marginTop="8dp"-->
-<!--                android:layout_marginBottom="8dp"-->
-<!--                android:clipToPadding="false"-->
-<!--                android:paddingStart="16dp"-->
-<!--                android:paddingTop="8dp"-->
-<!--                android:paddingEnd="16dp"-->
-<!--                android:paddingBottom="8dp" />-->
         </LinearLayout>
 
         <!--  Recently added tracks -->

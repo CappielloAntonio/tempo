@@ -65,4 +65,7 @@ public interface SongDao {
 
     @Query("SELECT * FROM song ORDER BY RANDOM() LIMIT :number")
     List<Song> random(int number);
+
+    @Query("SELECT title FROM song WHERE title LIKE :query || '%' GROUP BY title LIMIT :number")
+    List<String> searchSuggestions(String query, int number);
 }

@@ -21,6 +21,7 @@ public class SongRepository {
     private LiveData<List<Song>> listLiveSampleArtistTopSongs;
     private LiveData<List<Song>> listLiveAlbumSongs;
     private LiveData<List<Song>> listLiveSongByGenre;
+    private LiveData<List<Song>> listLiveFilteredSongs;
 
 
     public SongRepository(Application application) {
@@ -66,6 +67,11 @@ public class SongRepository {
     public LiveData<List<Song>> getAlbumListLiveSong(String albumID) {
         listLiveAlbumSongs = songDao.getAlbumSong(albumID);
         return listLiveAlbumSongs;
+    }
+
+    public LiveData<List<Song>> getFilteredListLiveSong(ArrayList<String> filters) {
+        listLiveFilteredSongs = songDao.getFilteredSong(filters);
+        return listLiveFilteredSongs;
     }
 
     public boolean exist(Song song) {

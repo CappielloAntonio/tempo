@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph">
+
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.LibraryFragment"
+        android:label="LibraryFragment"
+        tools:layout="@layout/fragment_library">
+        <action
+            android:id="@+id/action_libraryFragment_to_artistCatalogueFragment"
+            app:destination="@id/artistCatalogueFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_albumCatalogueFragment"
+            app:destination="@id/albumCatalogueFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_genreCatalogueFragment"
+            app:destination="@id/genreCatalogueFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_artistPageFragment"
+            app:destination="@id/artistPageFragment"/>
+        <action
+            android:id="@+id/action_libraryFragment_to_albumPageFragment"
+            app:destination="@id/albumPageFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_songListPageFragment"
+            app:destination="@id/songListPageFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/artistCatalogueFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.ArtistCatalogueFragment"
+        android:label="ArtistCatalogueFragment"
+        tools:layout="@layout/fragment_artist_catalogue">
+        <action
+            android:id="@+id/action_artistCatalogueFragment_to_artistPageFragment"
+            app:destination="@id/artistPageFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/albumCatalogueFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.AlbumCatalogueFragment"
+        android:label="AlbumCatalogueFragment"
+        tools:layout="@layout/fragment_album_catalogue">
+        <action
+            android:id="@+id/action_albumCatalogueFragment_to_albumPageFragment"
+            app:destination="@id/albumPageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/genreCatalogueFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.GenreCatalogueFragment"
+        android:label="GenreCatalogueFragment"
+        tools:layout="@layout/fragment_genre_catalogue">
+        <action
+            android:id="@+id/action_genreCatalogueFragment_to_songListPageFragment"
+            app:destination="@id/songListPageFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/artistPageFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.ArtistPageFragment"
+        android:label="ArtistPageFragment"
+        tools:layout="@layout/fragment_artist_page">
+        <action
+            android:id="@+id/action_artistPageFragment_to_albumPageFragment"
+            app:destination="@id/albumPageFragment" />
+        <action
+            android:id="@+id/action_artistPageFragment_to_songListPageFragment"
+            app:destination="@id/songListPageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumPageFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.AlbumPageFragment"
+        android:label="AlbumPageFragment"
+        tools:layout="@layout/fragment_album_page"/>
+    <fragment
+        android:id="@+id/songListPageFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.SongListPageFragment"
+        android:label="SongListPageFragment"
+        tools:layout="@layout/fragment_song_list_page"/>
+</navigation>

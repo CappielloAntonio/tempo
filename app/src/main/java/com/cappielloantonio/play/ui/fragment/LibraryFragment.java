@@ -83,6 +83,7 @@ public class LibraryFragment extends Fragment {
         bind.albumCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_albumCatalogueFragment));
         bind.artistCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_artistCatalogueFragment));
         bind.genreCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_genreCatalogueFragment));
+        bind.syncGenreButton.setOnClickListener(v -> syncSongsPerGenre());
     }
 
     private void initAlbumView() {
@@ -118,14 +119,11 @@ public class LibraryFragment extends Fragment {
         bind.genreRecyclerView.setHasFixedSize(true);
 
         genreAdapter = new GenreAdapter(requireContext(), new ArrayList<>());
-        genreAdapter.setClickListener(new GenreAdapter.ItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Bundle bundle = new Bundle();
-                bundle.putString(Song.BY_GENRE, Song.BY_GENRE);
-                bundle.putParcelable("genre_object", genreAdapter.getItem(position));
-                activity.navController.navigate(R.id.action_libraryFragment_to_songListPageFragment, bundle);
-            }
+        genreAdapter.setClickListener((view, position) -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(Song.BY_GENRE, Song.BY_GENRE);
+            bundle.putParcelable("genre_object", genreAdapter.getItem(position));
+            activity.navController.navigate(R.id.action_libraryFragment_to_songListPageFragment, bundle);
         });
         bind.genreRecyclerView.setAdapter(genreAdapter);
         libraryViewModel.getGenreSample().observe(requireActivity(), genres -> genreAdapter.setItems(genres));
@@ -147,32 +145,13 @@ public class LibraryFragment extends Fragment {
             builder.setMessage("Sync song's genres otherwise nothing will be shown in each genre category")
                     .setTitle("Song's genres not synchronized")
                     .setNegativeButton(R.string.ignore, null)
-                    .setPositiveButton("Sync", (dialog, id) -> syncSongsPerGenre(libraryViewModel.getGenreList()))
+                    .setPositiveButton("Sync", (dialog, id) -> syncSongsPerGenre())
                     .show();
         }
     }
 
-    private void syncSongsPerGenre(List<Genre> genres) {
-        Snackbar.make(requireView(), "This may take a while...", BaseTransientBottomBar.LENGTH_LONG)
-                .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.cardColor))
-                .setTextColor(ContextCompat.getColor(requireContext(), R.color.titleTextColor))
-                .show();
-
-        for (Genre genre : genres) {
-            SyncUtil.getSongsPerGenre(requireContext(), new MediaCallback() {
-                @Override
-                public void onError(Exception exception) {
-                    Log.e(TAG, "onError: " + exception.getMessage());
-                }
-
-                @Override
-                public void onLoadMedia(List<?> media) {
-                    GenreRepository repository = new GenreRepository(App.getInstance());
-                    repository.insertPerGenre((ArrayList<SongGenreCross>) media);
-                }
-            }, genre.id);
-        }
-
-        PreferenceUtil.getInstance(requireContext()).setSongGenreSync(true);
+    private void syncSongsPerGenre() {
+        Bundle bundle = SyncUtil.getSyncBundle(false, false, true, false, false, true);
+        activity.navController.navigate(R.id.action_libraryFragment_to_syncFragment, bundle);
     }
 }

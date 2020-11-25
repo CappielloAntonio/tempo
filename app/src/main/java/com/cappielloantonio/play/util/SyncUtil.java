@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.util;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.MediaCallback;
@@ -201,5 +202,17 @@ public class SyncUtil {
                 callback.onError(exception);
             }
         });
+    }
+
+    public static Bundle getSyncBundle(Boolean syncAlbum, Boolean syncArtist, Boolean syncGenres, Boolean syncPlaylist, Boolean syncSong, Boolean crossSyncSongGenre) {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("sync_album", syncAlbum);
+        bundle.putBoolean("sync_artist", syncArtist);
+        bundle.putBoolean("sync_genres", syncGenres);
+        bundle.putBoolean("sync_playlist", syncPlaylist);
+        bundle.putBoolean("sync_song", syncSong);
+        bundle.putBoolean("cross_sync_song_genre", crossSyncSongGenre);
+
+        return bundle;
     }
 }

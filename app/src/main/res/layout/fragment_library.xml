@@ -194,8 +194,21 @@
                     android:clipToPadding="false"
                     android:paddingStart="16dp"
                     android:paddingTop="8dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="8dp" />
+                    android:paddingEnd="8dp"/>
+
+                <Button
+                    android:id="@+id/sync_genre_button"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:paddingBottom="12dp"
+                    android:text="Sync Genres"
+                    android:textAllCaps="false"
+                    android:textColor="@color/normalTextColor"
+                    app:cornerRadius="24dp" />
             </LinearLayout>
         </LinearLayout>
 

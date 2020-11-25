@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.viewmodel;
 
 import android.app.Application;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -11,6 +12,7 @@ import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.SongRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SongListPageViewModel extends AndroidViewModel {
@@ -21,6 +23,8 @@ public class SongListPageViewModel extends AndroidViewModel {
     public String title;
     public Genre genre;
     public Artist artist;
+    public ArrayList<String> filters = new ArrayList<>();
+    public ArrayList<String> filterNames = new ArrayList<>();
 
     public SongListPageViewModel(@NonNull Application application) {
         super(application);
@@ -45,8 +49,15 @@ public class SongListPageViewModel extends AndroidViewModel {
             case Song.BY_ARTIST:
                 songList = songRepository.getArtistListLiveTopSong(artist.getId());
                 break;
+            case Song.BY_GENRES:
+                songList = songRepository.getFilteredListLiveSong(filters);
+                break;
         }
 
         return songList;
+    }
+
+    public String getFiltersTitle() {
+        return TextUtils.join(", ", filterNames);
     }
 }

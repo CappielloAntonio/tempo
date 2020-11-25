@@ -13,6 +13,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.ActivityMainBinding;
 import com.cappielloantonio.play.ui.activities.base.BaseActivity;
 import com.cappielloantonio.play.util.PreferenceUtil;
+import com.cappielloantonio.play.util.SyncUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -86,12 +87,15 @@ public class MainActivity extends BaseActivity {
     }
 
     public void goToSync() {
+        bottomNavigationView.setVisibility(View.GONE);
+        Bundle bundle = SyncUtil.getSyncBundle(true, true, true, true, true, false);
+
         if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.landingFragment) {
-            navController.navigate(R.id.action_landingFragment_to_syncFragment);
+            navController.navigate(R.id.action_landingFragment_to_syncFragment, bundle);
         } else if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.loginFragment) {
-            navController.navigate(R.id.action_loginFragment_to_syncFragment);
+            navController.navigate(R.id.action_loginFragment_to_syncFragment, bundle);
         } else if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.homeFragment) {
-            navController.navigate(R.id.action_homeFragment_to_syncFragment);
+            navController.navigate(R.id.action_homeFragment_to_syncFragment, bundle);
         }
     }
 

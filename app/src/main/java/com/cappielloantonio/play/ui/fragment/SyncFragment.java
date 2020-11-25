@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
@@ -32,6 +33,7 @@ import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.util.SyncUtil;
+import com.cappielloantonio.play.viewmodel.SyncViewModel;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -45,12 +47,7 @@ public class SyncFragment extends Fragment {
 
     private MainActivity activity;
     private FragmentSyncBinding bind;
-
-    private ArrayList<Integer> progressing;
-    private List<Genre> genres;
-
-    private int stepMax = 5;
-    private int increment = 25;
+    private SyncViewModel syncViewModel;
 
     @Nullable
     @Override
@@ -59,6 +56,7 @@ public class SyncFragment extends Fragment {
 
         bind = FragmentSyncBinding.inflate(inflater, container, false);
         View view = bind.getRoot();
+        syncViewModel = new ViewModelProvider(requireActivity()).get(SyncViewModel.class);
 
         init();
         syncLibraries();
@@ -73,13 +71,11 @@ public class SyncFragment extends Fragment {
     }
 
     private void init() {
+        syncViewModel.setArguemnts(getArguments());
         bind.loadingProgressBar.setVisibility(View.VISIBLE);
     }
 
     private void syncLibraries() {
-        Log.d(TAG, "syncLibraries");
-        progressing = new ArrayList<>();
-
         SyncUtil.getLibraries(requireContext(), new MediaCallback() {
             @Override
             public void onError(Exception exception) {
@@ -101,11 +97,11 @@ public class SyncFragment extends Fragment {
     }
 
     private void startSyncing() {
-        syncAlbums();
-        syncArtists();
-        syncGenres();
-        syncPlaylist();
-        syncSongs();
+        if(syncViewModel.isSyncAlbum()) syncAlbums();
+        if(syncViewModel.isSyncArtist()) syncArtists();
+        if(syncViewModel.isSyncGenres()) syncGenres();
+        if(syncViewModel.isSyncPlaylist()) syncPlaylist();
+        if(syncViewModel.isSyncSong()) syncSongs();
     }
 
     private void syncAlbums() {
@@ -114,14 +110,14 @@ public class SyncFragment extends Fragment {
             @Override
             public void onError(Exception exception) {
                 Log.e(TAG, "onError: " + exception.getMessage());
-                setProgress(false, "Album");
+                animateProgressBar(false);
             }
 
             @Override
             public void onLoadMedia(List<?> media) {
                 AlbumRepository repository = new AlbumRepository(activity.getApplication());
                 repository.insertAll((ArrayList<Album>) media);
-                setProgress(true, "Album");
+                animateProgressBar(true);
             }
         });
     }
@@ -132,14 +128,14 @@ public class SyncFragment extends Fragment {
             @Override
             public void onError(Exception exception) {
                 Log.e(TAG, "onError: " + exception.getMessage());
-                setProgress(false, "Artist");
+                animateProgressBar(false);
             }
 
             @Override
             public void onLoadMedia(List<?> media) {
                 ArtistRepository repository = new ArtistRepository(activity.getApplication());
                 repository.insertAll((ArrayList<Artist>) media);
-                setProgress(true, "Artist");
+                animateProgressBar(true);
             }
         });
     }
@@ -150,14 +146,17 @@ public class SyncFragment extends Fragment {
             @Override
             public void onError(Exception exception) {
                 Log.e(TAG, "onError: " + exception.getMessage());
-                setProgress(false, "Genres");
+                animateProgressBar(false);
             }
 
             @Override
             public void onLoadMedia(List<?> media) {
                 GenreRepository repository = new GenreRepository(activity.getApplication());
                 repository.insertAll((ArrayList<Genre>) media);
-                setProgress(true, "Genres");
+                animateProgressBar(true);
+
+                if(syncViewModel.isCrossSyncSongGenre()) syncSongsPerGenre((ArrayList<Genre>) media);
+
             }
         });
     }
@@ -168,14 +167,14 @@ public class SyncFragment extends Fragment {
             @Override
             public void onError(Exception exception) {
                 Log.e(TAG, "onError: " + exception.getMessage());
-                setProgress(false, "PlayList");
+                animateProgressBar(false);
             }
 
             @Override
             public void onLoadMedia(List<?> media) {
                 PlaylistRepository repository = new PlaylistRepository(activity.getApplication());
                 repository.insertAll((ArrayList<Playlist>) media);
-                setProgress(true, "PlayList");
+                animateProgressBar(true);
             }
         });
     }
@@ -186,41 +185,52 @@ public class SyncFragment extends Fragment {
             @Override
             public void onError(Exception exception) {
                 Log.e(TAG, "onError: " + exception.getMessage());
-                setProgress(false, "Songs");
+                animateProgressBar(false);
             }
 
             @Override
             public void onLoadMedia(List<?> media) {
                 SongRepository repository = new SongRepository(activity.getApplication());
                 repository.insertAll((ArrayList<Song>) media);
-                setProgress(true, "Songs");
+                animateProgressBar(true);
             }
         });
     }
 
+    private void syncSongsPerGenre(List<Genre> genres) {
+        for (Genre genre : genres) {
+            SyncUtil.getSongsPerGenre(requireContext(), new MediaCallback() {
+                @Override
+                public void onError(Exception exception) {
+                    Log.e(TAG, "onError: " + exception.getMessage());
+                }
 
-    private void setProgress(boolean step, String who) {
-        if (step) {
-            Log.d(TAG, "setProgress " + who + ": adding " + increment);
-            progressing.add(increment);
-            bind.loadingProgressBar.setProgress(bind.loadingProgressBar.getProgress() + increment, true);
-        } else {
-            Log.d(TAG, "setProgress" + who + ": adding " + 0);
-            progressing.add(0);
+                @Override
+                public void onLoadMedia(List<?> media) {
+                    GenreRepository repository = new GenreRepository(App.getInstance());
+                    repository.insertPerGenre((ArrayList<SongGenreCross>) media);
+                }
+            }, genre.id);
         }
 
+        animateProgressBar(true);
+        PreferenceUtil.getInstance(requireContext()).setSongGenreSync(true);
+    }
+
+
+    private void animateProgressBar(boolean step) {
+        syncViewModel.setProgress(step);
+        bind.loadingProgressBar.setProgress(syncViewModel.getProgressBarInfo(), true);
         countProgress();
     }
 
     private void countProgress() {
-        if (progressing.size() == stepMax) {
-            if (bind.loadingProgressBar.getProgress() == 100)
+        if (syncViewModel.getProgress() == syncViewModel.getStep()) {
+            if (syncViewModel.getProgressBarInfo() >= 100)
                 terminate();
             else
                 Toast.makeText(requireContext(), "Sync error", Toast.LENGTH_SHORT).show();
         }
-
-        Log.d(TAG, "countProgress: SIZE: " + progressing.size() + " - SUM: " + bind.loadingProgressBar.getProgress());
     }
 
     private void terminate() {

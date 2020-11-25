@@ -7,18 +7,17 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.model.Genre;
-import com.cappielloantonio.play.model.RecentSearch;
-import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.GenreRepository;
-import com.cappielloantonio.play.repository.RecentSearchRepository;
-import com.cappielloantonio.play.repository.SongRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FilterViewModel extends AndroidViewModel {
     private GenreRepository genreRepository;
 
     private LiveData<List<Genre>> allGenres;
+    private ArrayList<String> selectedFiltersID = new ArrayList<>();
+    private ArrayList<String> selectedFilters = new ArrayList<>();
 
     public FilterViewModel(@NonNull Application application) {
         super(application);
@@ -29,5 +28,23 @@ public class FilterViewModel extends AndroidViewModel {
     public LiveData<List<Genre>> getGenreList() {
         allGenres = genreRepository.getListLiveGenres();
         return allGenres;
+    }
+
+    public void addFilter(String filterID, String filterName) {
+        selectedFiltersID.add(filterID);
+        selectedFilters.add(filterName);
+    }
+
+    public void removeFilter(String filterID, String filterName) {
+        selectedFiltersID.remove(filterID);
+        selectedFilters.remove(filterName);
+    }
+
+    public ArrayList<String> getFilters() {
+        return selectedFiltersID;
+    }
+
+    public ArrayList<String> getFilterNames() {
+        return selectedFilters;
     }
 }

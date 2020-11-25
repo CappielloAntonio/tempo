@@ -14,7 +14,7 @@
         app:areSuggestionsDisabled="true"
         app:cardBackgroundColor="@color/cardColor"
         app:cardCornerRadius="4dp"
-        app:cardElevation="0dp"
+        app:cardElevation="2dp"
         app:clearInputButtonDrawable="@drawable/ic_close"
         app:dividerColor="@color/dividerColor"
         app:isClearInputButtonEnabled="true"
@@ -28,7 +28,6 @@
         app:queryInputHint="@string/search_hint"
         app:queryInputHintColor="@color/hintTextColor"
         app:queryInputTextColor="@color/hintTextColor"
-        app:rightButtonDrawable="@drawable/ic_filter"
         app:shouldDimBehind="false" />
 
     <LinearLayout

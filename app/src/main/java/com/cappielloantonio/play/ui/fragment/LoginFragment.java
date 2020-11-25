@@ -26,14 +26,9 @@ public class LoginFragment extends Fragment {
     private FragmentLoginBinding bind;
     private MainActivity activity;
 
-    //    private TextView usernameTextView;
-//    private TextView passwordTextView;
-//    private TextView serverTextView;
     private String username;
     private String password;
     private String server;
-
-//    private Button loginButton;
 
     @Nullable
     @Override

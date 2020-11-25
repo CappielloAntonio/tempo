@@ -128,10 +128,6 @@ public class SearchFragment extends Fragment {
         bind.persistentSearchView.setOnLeftBtnClickListener(view -> {
         });
 
-        bind.persistentSearchView.setOnRightBtnClickListener(view -> {
-            activity.navController.navigate(R.id.action_searchFragment_to_filterFragment);
-        });
-
         bind.persistentSearchView.setOnSearchConfirmedListener((searchView, query) -> {
             search(query);
         });

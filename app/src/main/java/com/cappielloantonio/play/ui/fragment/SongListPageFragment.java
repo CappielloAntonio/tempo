@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cappielloantonio.play.adapter.AlbumArtistPageAdapter;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentSongListPageBinding;
 import com.cappielloantonio.play.model.Song;
@@ -49,25 +48,31 @@ public class SongListPageFragment extends Fragment {
     private void init() {
         if(getArguments().getString(Song.RECENTLY_PLAYED) != null) {
             songListPageViewModel.title = Song.RECENTLY_PLAYED;
-            bind.pageTitleLabel.setText(Song.RECENTLY_PLAYED);
+            bind.pageTitleLabel.setText("Recently played songs");
         }
         else if(getArguments().getString(Song.MOST_PLAYED) != null) {
             songListPageViewModel.title = Song.MOST_PLAYED;
-            bind.pageTitleLabel.setText(Song.MOST_PLAYED);
+            bind.pageTitleLabel.setText("Most played songs");
         }
         else if(getArguments().getString(Song.RECENTLY_ADDED) != null) {
             songListPageViewModel.title = Song.RECENTLY_ADDED;
-            bind.pageTitleLabel.setText(Song.RECENTLY_ADDED);
+            bind.pageTitleLabel.setText("Recently added song");
         }
         else if(getArguments().getString(Song.BY_GENRE) != null) {
             songListPageViewModel.title = Song.BY_GENRE;
             songListPageViewModel.genre = getArguments().getParcelable("genre_object");
-            bind.pageTitleLabel.setText(Song.BY_GENRE);
+            bind.pageTitleLabel.setText(songListPageViewModel.genre.getName() + ": all songs");
         }
         else if(getArguments().getString(Song.BY_ARTIST) != null) {
             songListPageViewModel.title = Song.BY_ARTIST;
             songListPageViewModel.artist = getArguments().getParcelable("artist_object");
-            bind.pageTitleLabel.setText(Song.BY_ARTIST);
+            bind.pageTitleLabel.setText(songListPageViewModel.artist.getName() + "'s top songs");
+        }
+        else if(getArguments().getString(Song.BY_GENRES) != null) {
+            songListPageViewModel.title = Song.BY_GENRES;
+            songListPageViewModel.filters = getArguments().getStringArrayList("filters_list");
+            songListPageViewModel.filterNames = getArguments().getStringArrayList("filter_name_list");
+            bind.pageTitleLabel.setText(songListPageViewModel.getFiltersTitle());
         }
     }
 

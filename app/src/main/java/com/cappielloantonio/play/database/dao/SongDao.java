@@ -10,6 +10,7 @@ import androidx.room.Update;
 
 import com.cappielloantonio.play.model.Song;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Dao
@@ -43,6 +44,9 @@ public interface SongDao {
 
     @Query("SELECT * FROM song INNER Join song_genre_cross ON song.id = song_genre_cross.song_id AND song_genre_cross.genre_id = :genreID")
     LiveData<List<Song>> getSongByGenre(String genreID);
+
+    @Query("SELECT * FROM song INNER Join song_genre_cross ON song.id = song_genre_cross.song_id AND song_genre_cross.genre_id IN (:filters) GROUP BY song.id")
+    LiveData<List<Song>> getFilteredSong(ArrayList<String> filters);
 
     @Query("SELECT EXISTS(SELECT * FROM song WHERE id = :id)")
     boolean exist(String id);

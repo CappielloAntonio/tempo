@@ -36,7 +36,7 @@
     <color name="bottomNavIconColor">#707070</color>
 
     <color name="chipBorderColor">#707070</color>
-    <color name="chipSelectedBackgroundColor">#444444</color>
+    <color name="chipSelectedBackgroundColor">#606060</color>
     <color name="chipUnelectedBackgroundColor">#1D1D1D</color>
 </resources>
 

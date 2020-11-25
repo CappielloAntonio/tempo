@@ -32,6 +32,9 @@ public class Song implements Parcelable {
     public static final String BY_GENRE = "BY_GENRE";
 
     @Ignore
+    public static final String BY_GENRES = "BY_GENRES";
+
+    @Ignore
     public static final String BY_ARTIST = "BY_ARTIST";
 
     @NonNull

@@ -53,6 +53,7 @@ public class GenreCatalogueFragment extends Fragment {
         View view = bind.getRoot();
         genreCatalogueViewModel = new ViewModelProvider(requireActivity()).get(GenreCatalogueViewModel.class);
 
+        init();
         initArtistCatalogueView();
 
         return view;
@@ -64,9 +65,13 @@ public class GenreCatalogueFragment extends Fragment {
         bind = null;
     }
 
+    private void init() {
+        bind.filterGenresTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_genreCatalogueFragment_to_filterFragment));
+    }
+
     private void initArtistCatalogueView() {
         bind.genreCatalogueRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-        bind.genreCatalogueRecyclerView.addItemDecoration(new ItemlDecoration(2, 20, false));
+        bind.genreCatalogueRecyclerView.addItemDecoration(new ItemlDecoration(2, 16, false));
         bind.genreCatalogueRecyclerView.setHasFixedSize(true);
 
         genreCatalogueAdapter = new GenreCatalogueAdapter(requireContext(), new ArrayList<>());

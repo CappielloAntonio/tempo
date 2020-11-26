@@ -59,13 +59,13 @@ public class Artist implements Parcelable {
         this.id = itemDto.getId();
         this.name = itemDto.getName();
 
-        this.primary = itemDto.getImageTags().getOrDefault(ImageType.Primary, null);
+        this.primary = itemDto.getImageTags().containsKey(ImageType.Primary) ? id : null;
         if (itemDto.getImageBlurHashes() != null && itemDto.getImageBlurHashes().get(ImageType.Primary) != null) {
             this.primaryBlurHash = (String) itemDto.getImageBlurHashes().get(ImageType.Primary).values().toArray()[0];
         }
 
         try {
-            this.backdrop = itemDto.getBackdropImageTags().get(0);
+            this.backdrop = !itemDto.getBackdropImageTags().get(0).isEmpty() ? id : null;
             if (itemDto.getImageBlurHashes() != null && itemDto.getBackdropImageTags().get(0) != null) {
                 this.backdropBlurHash = (String) itemDto.getImageBlurHashes().get(ImageType.Backdrop).values().toArray()[0];
             }

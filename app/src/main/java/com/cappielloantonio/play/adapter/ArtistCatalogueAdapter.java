@@ -4,11 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Artist;
 
 import java.util.List;
@@ -37,6 +39,11 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
         Artist artist = artists.get(position);
 
         holder.textArtistName.setText(artist.getName());
+
+        CustomGlideRequest.Builder
+                .from(context, artist.getPrimary(), artist.getPrimaryBlurHash(), CustomGlideRequest.PRIMARY)
+                .build()
+                .into(holder.cover);
     }
 
     @Override
@@ -46,11 +53,13 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textArtistName;
+        ImageView cover;
 
         ViewHolder(View itemView) {
             super(itemView);
 
             textArtistName = itemView.findViewById(R.id.artist_name_label);
+            cover = itemView.findViewById(R.id.artist_catalogue_cover_image_view);
 
             itemView.setOnClickListener(this);
         }

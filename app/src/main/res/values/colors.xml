@@ -5,11 +5,13 @@
     <color name="colorAccent">#3700B3</color>
     <color name="colorAccentLight">#733ae6</color>
 
+    <color name="gradientTitleColor">#FFFFFF</color>
+    <color name="gradientSubtitleColor">#BFBFBF</color>
+
     <!--    Ui color -->
     <color name="statusBarColor">#FFFFFF</color>
     <color name="navigationBarColor">#FFFFFF</color>
     <color name="navigationDrawerColor">#FFFFFF</color>
-
 
     <color name="cardColor">#FFFFFF</color>
 

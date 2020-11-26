@@ -17,18 +17,25 @@
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="2dp"
         card_view:cardPreventCornerOverlap="false"
-        card_view:cardUseCompatPadding="true" />
+        card_view:cardUseCompatPadding="true">
+
+        <ImageView
+            android:id="@+id/artist_catalogue_cover_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/artist_name_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
         android:fontFamily="@font/open_sans_font_family"
         android:maxWidth="172dp"
+        android:maxLines="2"
         android:paddingStart="2dp"
         android:paddingBottom="16dp"
         android:singleLine="false"
-        android:text="@string/label_placeholder"
         android:textColor="@color/titleTextColor"
         android:textSize="14sp"
         android:textStyle="bold"

@@ -1,7 +1,6 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,37 +9,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumAdapter;
 import com.cappielloantonio.play.adapter.ArtistAdapter;
 import com.cappielloantonio.play.adapter.GenreAdapter;
 import com.cappielloantonio.play.adapter.PlaylistAdapter;
 import com.cappielloantonio.play.databinding.FragmentLibraryBinding;
-import com.cappielloantonio.play.interfaces.MediaCallback;
-import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Genre;
-import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.model.SongGenreCross;
-import com.cappielloantonio.play.repository.GenreRepository;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.util.PreferenceUtil;
-import com.cappielloantonio.play.util.SyncUtil;
 import com.cappielloantonio.play.viewmodel.LibraryViewModel;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class LibraryFragment extends Fragment {
     private static final String TAG = "LibraryFragment";
@@ -151,7 +136,6 @@ public class LibraryFragment extends Fragment {
     }
 
     private void syncSongsPerGenre() {
-        Bundle bundle = SyncUtil.getSyncBundle(false, false, true, false, false, true);
-        activity.navController.navigate(R.id.action_libraryFragment_to_syncFragment, bundle);
+        activity.goToSync();
     }
 }

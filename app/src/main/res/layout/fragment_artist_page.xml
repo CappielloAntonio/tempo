@@ -28,12 +28,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+                    <ImageView
+                        android:id="@+id/artist_backdrop_image_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/gradient_background_image" />
+
                     <TextView
                         android:id="@+id/artist_name_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/open_sans_font_family"
-                        android:textColor="@color/titleTextColor"
+                        android:textColor="@android:color/white"
                         android:textSize="40sp"
                         android:textStyle="bold"
                         android:textAlignment="center"

@@ -4,12 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.SongRepository;
 
@@ -32,7 +34,7 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_home_recent_track, parent, false);
+        View view = mInflater.inflate(R.layout.item_home_track, parent, false);
         return new ViewHolder(view);
     }
 
@@ -42,6 +44,11 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
 
         holder.textTitle.setText(song.getTitle());
         holder.textAlbum.setText(song.getAlbumName());
+
+        CustomGlideRequest.Builder
+                .from(context, song.getPrimary(), song.getPrimary(), CustomGlideRequest.PRIMARY)
+                .build()
+                .into(holder.cover);
     }
 
     @Override
@@ -52,12 +59,14 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textTitle;
         TextView textAlbum;
+        ImageView cover;
 
         ViewHolder(View itemView) {
             super(itemView);
 
             textTitle = itemView.findViewById(R.id.title_track_label);
             textAlbum = itemView.findViewById(R.id.album_track_label);
+            cover = itemView.findViewById(R.id.track_cover_image_view);
 
             itemView.setOnClickListener(this);
         }

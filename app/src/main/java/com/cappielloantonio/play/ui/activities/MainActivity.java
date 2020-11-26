@@ -88,14 +88,19 @@ public class MainActivity extends BaseActivity {
 
     public void goToSync() {
         bottomNavigationView.setVisibility(View.GONE);
-        Bundle bundle = SyncUtil.getSyncBundle(true, true, true, true, true, false);
 
         if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.landingFragment) {
+            Bundle bundle = SyncUtil.getSyncBundle(true, true, true, true, true, false);
             navController.navigate(R.id.action_landingFragment_to_syncFragment, bundle);
         } else if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.loginFragment) {
+            Bundle bundle = SyncUtil.getSyncBundle(true, true, true, true, true, false);
             navController.navigate(R.id.action_loginFragment_to_syncFragment, bundle);
         } else if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.homeFragment) {
+            Bundle bundle = SyncUtil.getSyncBundle(true, true, true, true, true, false);
             navController.navigate(R.id.action_homeFragment_to_syncFragment, bundle);
+        } else if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.libraryFragment) {
+            Bundle bundle = SyncUtil.getSyncBundle(false, false, true, false, false, true);
+            navController.navigate(R.id.action_libraryFragment_to_syncFragment, bundle);
         }
     }
 

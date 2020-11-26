@@ -19,7 +19,7 @@ import com.cappielloantonio.play.adapter.ArtistCatalogueAdapter;
 import com.cappielloantonio.play.adapter.RecentSearchAdapter;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentSearchBinding;
-import com.cappielloantonio.play.helper.recyclerview.ItemlDecoration;
+import com.cappielloantonio.play.helper.recyclerview.ItemDecoration;
 import com.cappielloantonio.play.model.RecentSearch;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.viewmodel.SearchViewModel;
@@ -92,7 +92,7 @@ public class SearchFragment extends Fragment {
 
         // Albums
         bind.searchResultAlbumRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-        bind.searchResultAlbumRecyclerView.addItemDecoration(new ItemlDecoration(2, 20, false));
+        bind.searchResultAlbumRecyclerView.addItemDecoration(new ItemDecoration(2, 20, false));
         bind.searchResultAlbumRecyclerView.setHasFixedSize(true);
 
         albumResultSearchAdapter = new AlbumCatalogueAdapter(requireContext(), new ArrayList<>());
@@ -105,7 +105,7 @@ public class SearchFragment extends Fragment {
 
         // Artist
         bind.searchResultArtistRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-        bind.searchResultArtistRecyclerView.addItemDecoration(new ItemlDecoration(2, 20, false));
+        bind.searchResultArtistRecyclerView.addItemDecoration(new ItemDecoration(2, 20, false));
         bind.searchResultArtistRecyclerView.setHasFixedSize(true);
 
         artistResultSearchAdapter = new ArtistCatalogueAdapter(requireContext(), new ArrayList<>());

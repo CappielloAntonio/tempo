@@ -5,12 +5,12 @@ import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ItemlDecoration extends RecyclerView.ItemDecoration {
+public class ItemDecoration extends RecyclerView.ItemDecoration {
     private int spanCount;
     private int spacing;
     private boolean includeEdge;
 
-    public ItemlDecoration(int spanCount, int spacing, boolean includeEdge) {
+    public ItemDecoration(int spanCount, int spacing, boolean includeEdge) {
         this.spanCount = spanCount;
         this.spacing = spacing;
         this.includeEdge = includeEdge;

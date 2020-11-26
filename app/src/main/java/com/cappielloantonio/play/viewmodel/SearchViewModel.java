@@ -1,7 +1,6 @@
 package com.cappielloantonio.play.viewmodel;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -9,17 +8,15 @@ import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.RecentSearch;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
-import com.cappielloantonio.play.repository.GenreRepository;
 import com.cappielloantonio.play.repository.RecentSearchRepository;
 import com.cappielloantonio.play.repository.SongRepository;
-import com.paulrybitskyi.persistentsearchview.adapters.model.SuggestionItem;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public class SearchViewModel extends AndroidViewModel {
@@ -78,6 +75,9 @@ public class SearchViewModel extends AndroidViewModel {
         suggestions.addAll(albumRepository.getSearchSuggestion(query));
         suggestions.addAll(artistRepository.getSearchSuggestion(query));
 
-        return suggestions;
+        LinkedHashSet<String> hashSet = new LinkedHashSet<>(suggestions);
+        ArrayList<String> suggestionsWithoutDuplicates = new ArrayList<>(hashSet);
+
+        return suggestionsWithoutDuplicates;
     }
 }

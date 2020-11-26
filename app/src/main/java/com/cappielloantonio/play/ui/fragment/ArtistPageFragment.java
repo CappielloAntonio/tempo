@@ -1,25 +1,22 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumArtistPageAdapter;
-import com.cappielloantonio.play.adapter.RecentMusicAdapter;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistPageBinding;
-import com.cappielloantonio.play.databinding.FragmentHomeBinding;
+import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.viewmodel.ArtistPageViewModel;
-import com.cappielloantonio.play.viewmodel.HomeViewModel;
 
 import java.util.ArrayList;
 
@@ -41,6 +38,7 @@ public class ArtistPageFragment extends Fragment {
         artistPageViewModel = new ViewModelProvider(requireActivity()).get(ArtistPageViewModel.class);
 
         init();
+        initBackdrop();
         initTopSongsView();
         initAlbumsView();
 
@@ -66,6 +64,13 @@ public class ArtistPageFragment extends Fragment {
                 activity.navController.navigate(R.id.action_artistPageFragment_to_songListPageFragment, bundle);
             }
         });
+    }
+
+    private void initBackdrop() {
+        CustomGlideRequest.Builder
+                .from(requireContext(), artistPageViewModel.getArtist().getBackdrop(), artistPageViewModel.getArtist().getBackdropBlurHash(), CustomGlideRequest.BACKDROP)
+                .build()
+                .into(bind.artistBackdropImageView);
     }
 
     private void initTopSongsView() {

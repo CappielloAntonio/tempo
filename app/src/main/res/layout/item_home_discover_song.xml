@@ -3,12 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/cardColor"
-    app:cardCornerRadius="4dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="16dp"
     android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp">
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="16dp"
+    android:backgroundTint="@color/cardColor"
+    app:cardCornerRadius="4dp">
+
+    <ImageView
+        android:id="@+id/discover_song_cover_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="172dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="172dp"
+        android:background="@drawable/discover_background_image" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,8 +31,9 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="18dp"
             android:layout_marginRight="16dp"
-            android:text="@string/label_placeholder"
-            android:textColor="@color/titleTextColor"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/gradientTitleColor"
             android:textSize="20sp" />
 
         <TextView
@@ -34,9 +45,8 @@
             android:layout_marginRight="16dp"
             android:drawablePadding="10dp"
             android:ellipsize="end"
-            android:maxLines="3"
-            android:text="@string/label_placeholder"
-            android:textColor="@color/subtitleTextColor"
+            android:maxLines="1"
+            android:textColor="@color/gradientSubtitleColor"
             android:textSize="14sp" />
 
     </RelativeLayout>

@@ -7,21 +7,29 @@
 
     <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
-        android:layout_width="172dp"
-        android:layout_height="172dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:backgroundTint="@color/cardColor"
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="2dp"
         card_view:cardPreventCornerOverlap="false"
-        card_view:cardUseCompatPadding="true" />
+        card_view:cardUseCompatPadding="true">
+
+        <ImageView
+            android:id="@+id/track_cover_image_view"
+            android:layout_width="172dp"
+            android:layout_height="172dp" />
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/title_track_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
         android:fontFamily="@font/open_sans_font_family"
         android:maxWidth="172dp"
+        android:maxLines="2"
         android:paddingStart="2dp"
         android:paddingTop="8dp"
         android:singleLine="false"
@@ -33,7 +41,9 @@
         android:id="@+id/album_track_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
         android:fontFamily="@font/open_sans_font_family"
+        android:maxLines="1"
         android:paddingStart="2dp"
         android:textColor="@color/titleTextColor"
         android:textSize="12sp" />

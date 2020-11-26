@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior">
+    app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+    android:paddingTop="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -166,7 +167,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="My Genres"
+                        android:text="Music By Genre"
                         android:textColor="@color/titleTextColor"
                         android:textSize="22sp"
                         android:textStyle="bold" />

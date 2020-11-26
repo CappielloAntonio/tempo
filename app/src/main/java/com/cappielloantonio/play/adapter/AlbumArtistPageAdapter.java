@@ -4,17 +4,19 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Album;
 
 import java.util.List;
 
 public class AlbumArtistPageAdapter extends RecyclerView.Adapter<AlbumArtistPageAdapter.ViewHolder> {
-    private static final String TAG = "RecentMusicAdapter";
+    private static final String TAG = "AlbumArtistPageAdapter";
     private List<Album> albums;
     private LayoutInflater mInflater;
     private Context context;
@@ -37,6 +39,11 @@ public class AlbumArtistPageAdapter extends RecyclerView.Adapter<AlbumArtistPage
         Album album = albums.get(position);
 
         holder.textAlbumName.setText(album.getTitle());
+
+        CustomGlideRequest.Builder
+                .from(context, album.getPrimary(), album.getBlurHash(), CustomGlideRequest.PRIMARY)
+                .build()
+                .into(holder.cover);
     }
 
     @Override
@@ -46,11 +53,13 @@ public class AlbumArtistPageAdapter extends RecyclerView.Adapter<AlbumArtistPage
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textAlbumName;
+        ImageView cover;
 
         ViewHolder(View itemView) {
             super(itemView);
 
             textAlbumName = itemView.findViewById(R.id.album_name_label);
+            cover = itemView.findViewById(R.id.artist_page_album_cover_image_view);
 
             itemView.setOnClickListener(this);
         }

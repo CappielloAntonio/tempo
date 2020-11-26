@@ -4,14 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.util.Util;
 
 import java.util.List;
 
@@ -40,6 +40,11 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
         holder.textAlbumName.setText(album.getTitle());
         holder.textArtistName.setText(album.getArtistName());
+
+        CustomGlideRequest.Builder
+                .from(context, album.getPrimary(), album.getBlurHash(), CustomGlideRequest.PRIMARY)
+                .build()
+                .into(holder.cover);
     }
 
     @Override
@@ -50,12 +55,14 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textAlbumName;
         TextView textArtistName;
+        ImageView cover;
 
         ViewHolder(View itemView) {
             super(itemView);
 
             textAlbumName = itemView.findViewById(R.id.album_name_label);
             textArtistName = itemView.findViewById(R.id.artist_name_label);
+            cover = itemView.findViewById(R.id.album_cover_image_view);
 
             itemView.setOnClickListener(this);
         }

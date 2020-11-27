@@ -7,9 +7,7 @@ import androidx.lifecycle.LiveData;
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.GenreDao;
 import com.cappielloantonio.play.database.dao.SongGenreCrossDao;
-import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Genre;
-import com.cappielloantonio.play.model.SongGenreCross;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,14 +82,20 @@ public class GenreRepository {
         thread.start();
     }
 
-    public void insertPerGenre(ArrayList<SongGenreCross> songGenreCrosses) {
-        InsertPerGenreThreadSafe insertPerGenre = new InsertPerGenreThreadSafe(songGenreCrossDao, songGenreCrosses);
-        Thread thread = new Thread(insertPerGenre);
+    public void delete(Genre genre) {
+        DeleteThreadSafe delete = new DeleteThreadSafe(genreDao, genre);
+        Thread thread = new Thread(delete);
         thread.start();
     }
 
-    public void delete(Genre genre) {
-        DeleteThreadSafe delete = new DeleteThreadSafe(genreDao, genre);
+    public void deleteAll() {
+        DeleteAllGenreThreadSafe delete = new DeleteAllGenreThreadSafe(genreDao);
+        Thread thread = new Thread(delete);
+        thread.start();
+    }
+
+    public void deleteAllSongGenreCross() {
+        DeleteAllSongGenreCrossThreadSafe delete = new DeleteAllSongGenreCrossThreadSafe(songGenreCrossDao);
         Thread thread = new Thread(delete);
         thread.start();
     }
@@ -160,22 +164,8 @@ public class GenreRepository {
 
         @Override
         public void run() {
+            genreDao.deleteAll();
             genreDao.insertAll(genres);
-        }
-    }
-
-    private static class InsertPerGenreThreadSafe implements Runnable {
-        private SongGenreCrossDao songGenreCrossDao;
-        private ArrayList<SongGenreCross> cross;
-
-        public InsertPerGenreThreadSafe(SongGenreCrossDao songGenreCrossDao, ArrayList<SongGenreCross> cross) {
-            this.songGenreCrossDao = songGenreCrossDao;
-            this.cross = cross;
-        }
-
-        @Override
-        public void run() {
-            songGenreCrossDao.insertAll(cross);
         }
     }
 
@@ -191,6 +181,32 @@ public class GenreRepository {
         @Override
         public void run() {
             genreDao.delete(genre);
+        }
+    }
+
+    private static class DeleteAllGenreThreadSafe implements Runnable {
+        private GenreDao genreDao;
+
+        public DeleteAllGenreThreadSafe(GenreDao genreDao) {
+            this.genreDao = genreDao;
+        }
+
+        @Override
+        public void run() {
+            genreDao.deleteAll();
+        }
+    }
+
+    private static class DeleteAllSongGenreCrossThreadSafe implements Runnable {
+        private SongGenreCrossDao songGenreCrossDao;
+
+        public DeleteAllSongGenreCrossThreadSafe(SongGenreCrossDao songGenreCrossDao) {
+            this.songGenreCrossDao = songGenreCrossDao;
+        }
+
+        @Override
+        public void run() {
+            songGenreCrossDao.deleteAll();
         }
     }
 }

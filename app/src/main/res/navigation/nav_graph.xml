@@ -63,7 +63,9 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_syncFragment"
-            app:destination="@id/syncFragment" />
+            app:destination="@id/syncFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_homeFragment_to_songListPageFragment"
             app:destination="@id/songListPageFragment" />

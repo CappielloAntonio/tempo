@@ -167,7 +167,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="Music By Genre"
+                        android:text="Music by genre"
                         android:textColor="@color/titleTextColor"
                         android:textSize="22sp"
                         android:textStyle="bold" />

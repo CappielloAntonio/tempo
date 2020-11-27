@@ -1,17 +1,12 @@
 package com.cappielloantonio.play.repository;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.AlbumDao;
-import com.cappielloantonio.play.database.dao.SongDao;
 import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Song;
-import com.paulrybitskyi.persistentsearchview.adapters.model.SuggestionItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,6 +98,12 @@ public class AlbumRepository {
         thread.start();
     }
 
+    public void deleteAll() {
+        DeleteAllThreadSafe delete = new DeleteAllThreadSafe(albumDao);
+        Thread thread = new Thread(delete);
+        thread.start();
+    }
+
     private static class ExistThreadSafe implements Runnable {
         private AlbumDao albumDao;
         private Album album;
@@ -149,6 +150,7 @@ public class AlbumRepository {
 
         @Override
         public void run() {
+            albumDao.deleteAll();
             albumDao.insertAll(albums);
         }
     }
@@ -187,6 +189,19 @@ public class AlbumRepository {
 
         public List<String> getSuggestions() {
             return suggestions;
+        }
+    }
+
+    private static class DeleteAllThreadSafe implements Runnable {
+        private AlbumDao albumDao;
+
+        public DeleteAllThreadSafe(AlbumDao albumDao) {
+            this.albumDao = albumDao;
+        }
+
+        @Override
+        public void run() {
+            albumDao.deleteAll();
         }
     }
 }

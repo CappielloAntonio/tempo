@@ -5,14 +5,10 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.database.AppDatabase;
-import com.cappielloantonio.play.database.dao.AlbumDao;
 import com.cappielloantonio.play.database.dao.ArtistDao;
-import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Song;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class ArtistRepository {
@@ -95,6 +91,12 @@ public class ArtistRepository {
         thread.start();
     }
 
+    public void deleteAll() {
+        DeleteAllThreadSafe delete = new DeleteAllThreadSafe(artistDao);
+        Thread thread = new Thread(delete);
+        thread.start();
+    }
+
     private static class ExistThreadSafe implements Runnable {
         private ArtistDao artistDao;
         private Artist artist;
@@ -141,6 +143,7 @@ public class ArtistRepository {
 
         @Override
         public void run() {
+            artistDao.deleteAll();
             artistDao.insertAll(artists);
         }
     }
@@ -179,6 +182,19 @@ public class ArtistRepository {
 
         public List<String> getSuggestions() {
             return suggestions;
+        }
+    }
+
+    private static class DeleteAllThreadSafe implements Runnable {
+        private ArtistDao artistDao;
+
+        public DeleteAllThreadSafe(ArtistDao artistDao) {
+            this.artistDao = artistDao;
+        }
+
+        @Override
+        public void run() {
+            artistDao.deleteAll();
         }
     }
 }

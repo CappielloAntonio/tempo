@@ -48,7 +48,7 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
         holder.songDuration.setText(Util.getReadableDurationString(song.getDuration()));
 
         CustomGlideRequest.Builder
-                .from(context, song.getPrimary(), song.getPrimary(), CustomGlideRequest.PRIMARY)
+                .from(context, song.getPrimary(), song.getPrimary(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY)
                 .build()
                 .into(holder.cover);
     }

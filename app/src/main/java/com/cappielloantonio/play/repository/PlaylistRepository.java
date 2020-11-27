@@ -61,6 +61,12 @@ public class PlaylistRepository {
         thread.start();
     }
 
+    public void deleteAll() {
+        DeleteAllThreadSafe delete = new DeleteAllThreadSafe(playlistDao);
+        Thread thread = new Thread(delete);
+        thread.start();
+    }
+
     private static class ExistThreadSafe implements Runnable {
         private PlaylistDao playlistDao;
         private Playlist playlist;
@@ -107,6 +113,7 @@ public class PlaylistRepository {
 
         @Override
         public void run() {
+            playlistDao.deleteAll();
             playlistDao.insertAll(playlists);
         }
     }
@@ -123,6 +130,19 @@ public class PlaylistRepository {
         @Override
         public void run() {
             playlistDao.delete(playlist);
+        }
+    }
+
+    private static class DeleteAllThreadSafe implements Runnable {
+        private PlaylistDao playlistDao;
+
+        public DeleteAllThreadSafe(PlaylistDao playlistDao) {
+            this.playlistDao = playlistDao;
+        }
+
+        @Override
+        public void run() {
+            playlistDao.deleteAll();
         }
     }
 }

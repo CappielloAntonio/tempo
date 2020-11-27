@@ -55,20 +55,17 @@ public class ArtistPageFragment extends Fragment {
         artistPageViewModel.setArtist(getArguments().getParcelable("artist_object"));
         bind.artistNameLabel.setText(artistPageViewModel.getArtist().getName());
 
-        bind.mostStreamedSongTextViewClickable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString(Song.BY_ARTIST, Song.BY_ARTIST);
-                bundle.putParcelable("artist_object", artistPageViewModel.getArtist());
-                activity.navController.navigate(R.id.action_artistPageFragment_to_songListPageFragment, bundle);
-            }
+        bind.mostStreamedSongTextViewClickable.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(Song.BY_ARTIST, Song.BY_ARTIST);
+            bundle.putParcelable("artist_object", artistPageViewModel.getArtist());
+            activity.navController.navigate(R.id.action_artistPageFragment_to_songListPageFragment, bundle);
         });
     }
 
     private void initBackdrop() {
         CustomGlideRequest.Builder
-                .from(requireContext(), artistPageViewModel.getArtist().getBackdrop(), artistPageViewModel.getArtist().getBackdropBlurHash(), CustomGlideRequest.BACKDROP)
+                .from(requireContext(), artistPageViewModel.getArtist().getBackdrop(), artistPageViewModel.getArtist().getBackdropBlurHash(), CustomGlideRequest.BACKDROP, CustomGlideRequest.TOP_QUALITY)
                 .build()
                 .into(bind.artistBackdropImageView);
     }

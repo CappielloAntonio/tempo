@@ -37,6 +37,9 @@ public interface AlbumDao {
     @Delete
     void delete(Album album);
 
-    @Query("SELECT title FROM album WHERE title LIKE :query || '%' GROUP BY title LIMIT :number")
+    @Query("SELECT title FROM album WHERE title LIKE :query || '%' OR title like '% ' || :query || '%' GROUP BY title LIMIT :number")
     List<String> searchSuggestions(String query, int number);
+
+    @Query("DELETE FROM album")
+    void deleteAll();
 }

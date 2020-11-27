@@ -7,7 +7,6 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Playlist;
 
 import java.util.List;
@@ -28,4 +27,7 @@ public interface PlaylistDao {
 
     @Delete
     void delete(Playlist playlist);
+
+    @Query("DELETE FROM playlist")
+    void deleteAll();
 }

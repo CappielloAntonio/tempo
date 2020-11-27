@@ -81,6 +81,16 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    // True: VISIBLE
+    // False: GONE
+    public void setBottomNavigationBarVisibility(boolean visibility) {
+        if (visibility) {
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        } else {
+            bottomNavigationView.setVisibility(View.GONE);
+        }
+    }
+
     public void goToLogin() {
         if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.landingFragment)
             navController.navigate(R.id.action_landingFragment_to_loginFragment);
@@ -89,10 +99,7 @@ public class MainActivity extends BaseActivity {
     public void goToSync() {
         bottomNavigationView.setVisibility(View.GONE);
 
-        if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.landingFragment) {
-            Bundle bundle = SyncUtil.getSyncBundle(true, true, true, true, true, false);
-            navController.navigate(R.id.action_landingFragment_to_syncFragment, bundle);
-        } else if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.loginFragment) {
+        if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.loginFragment) {
             Bundle bundle = SyncUtil.getSyncBundle(true, true, true, true, true, false);
             navController.navigate(R.id.action_loginFragment_to_syncFragment, bundle);
         } else if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.homeFragment) {

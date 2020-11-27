@@ -2,6 +2,7 @@ package com.cappielloantonio.play.util;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.MediaCallback;
@@ -23,8 +24,11 @@ import org.jellyfin.apiclient.model.querying.ItemsResult;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class SyncUtil {
+    private static final String TAG = "SyncUtil";
+
     public static void getLibraries(Context context, MediaCallback callback) {
         String id = App.getApiClientInstance(context).getCurrentUserId();
 
@@ -44,7 +48,7 @@ public class SyncUtil {
         });
     }
 
-    public static void getSongs(Context context, MediaCallback callback) {
+    public static void getSongs(Context context, Map<Integer, Song> currentCatalogue, MediaCallback callback) {
         ItemQuery query = new ItemQuery();
 
         query.setIncludeItemTypes(new String[]{"Audio"});
@@ -59,7 +63,7 @@ public class SyncUtil {
                 ArrayList<Song> songs = new ArrayList<>();
 
                 for (BaseItemDto itemDto : result.getItems()) {
-                    songs.add(new Song(itemDto));
+                    songs.add(updateSongData(currentCatalogue, new Song(itemDto)));
                 }
 
                 callback.onLoadMedia(songs);
@@ -214,5 +218,19 @@ public class SyncUtil {
         bundle.putBoolean("cross_sync_song_genre", crossSyncSongGenre);
 
         return bundle;
+    }
+
+    private static Song updateSongData(Map<Integer, Song> library, Song newSong) {
+        if(library.containsKey(newSong.hashCode())) {
+            Log.d(TAG, "updateSongData: " + newSong.getTitle());
+
+            Song oldSong = library.get(newSong.hashCode());
+            newSong.setFavorite(oldSong.isFavorite());
+            newSong.setAdded(oldSong.getAdded());
+            newSong.setLastPlay(oldSong.getLastPlay());
+            newSong.setPlayCount(oldSong.getPlayCount());
+        }
+
+        return newSong;
     }
 }

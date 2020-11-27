@@ -8,7 +8,6 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.model.SongGenreCross;
 
 import java.util.List;
@@ -32,4 +31,7 @@ public interface SongGenreCrossDao {
 
     @Update
     void update(SongGenreCross songGenreCross);
+
+    @Query("DELETE FROM song_genre_cross")
+    void deleteAll();
 }

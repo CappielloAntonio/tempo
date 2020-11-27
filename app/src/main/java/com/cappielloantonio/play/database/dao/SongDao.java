@@ -18,6 +18,9 @@ public interface SongDao {
     @Query("SELECT * FROM song")
     LiveData<List<Song>> getAll();
 
+    @Query("SELECT * FROM song")
+    List<Song> getAllList();
+
     @Query("SELECT * FROM song WHERE title LIKE '%' || :title || '%'")
     LiveData<List<Song>> searchSong(String title);
 
@@ -60,12 +63,15 @@ public interface SongDao {
     @Delete
     void delete(Song song);
 
+    @Query("DELETE FROM song")
+    void deleteAll();
+
     @Update
     public void update(Song song);
 
     @Query("SELECT * FROM song ORDER BY RANDOM() LIMIT :number")
     List<Song> random(int number);
 
-    @Query("SELECT title FROM song WHERE title LIKE :query || '%' GROUP BY title LIMIT :number")
+    @Query("SELECT title FROM song WHERE title LIKE :query || '%' OR title like '% ' || :query || '%' GROUP BY title LIMIT :number")
     List<String> searchSuggestions(String query, int number);
 }

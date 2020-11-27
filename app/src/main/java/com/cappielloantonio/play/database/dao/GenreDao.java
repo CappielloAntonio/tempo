@@ -7,8 +7,6 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Genre;
 
 import java.util.List;
@@ -35,4 +33,7 @@ public interface GenreDao {
 
     @Delete
     void delete(Genre genre);
+
+    @Query("DELETE FROM genre")
+    void deleteAll();
 }

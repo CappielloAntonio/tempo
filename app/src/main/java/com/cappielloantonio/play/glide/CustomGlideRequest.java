@@ -24,6 +24,10 @@ public class CustomGlideRequest {
     public static final String PRIMARY = "PRIMARY";
     public static final String BACKDROP = "BACKDROP";
 
+    public static final String TOP_QUALITY = "TOP";
+    public static final String MEDIUM_QUALITY = "MEDIUM";
+    public static final String LOW_QUALITY = "LOW";
+
     public static final DiskCacheStrategy DEFAULT_DISK_CACHE_STRATEGY = DiskCacheStrategy.ALL;
     public static final int DEFAULT_IMAGE = R.drawable.ic_launcher_background;
 
@@ -32,9 +36,9 @@ public class CustomGlideRequest {
         private final Object item;
         private final Context context;
 
-        private Builder(Context context, String item, String placeholder, String itemType) {
+        private Builder(Context context, String item, String placeholder, String itemType, String quality) {
             this.requestManager = Glide.with(context);
-            this.item = item != null ? createUrl(item, itemType) : DEFAULT_IMAGE;
+            this.item = item != null ? createUrl(item, itemType, quality) : DEFAULT_IMAGE;
             this.context = context;
 
             if (placeholder != null) {
@@ -47,8 +51,8 @@ public class CustomGlideRequest {
             }
         }
 
-        public static Builder from(Context context, String item, String placeholder, String itemType) {
-            return new Builder(context, item, placeholder, itemType);
+        public static Builder from(Context context, String item, String placeholder, String itemType, String quality) {
+            return new Builder(context, item, placeholder, itemType, quality);
         }
 
         public RequestBuilder<Drawable> build() {
@@ -67,8 +71,9 @@ public class CustomGlideRequest {
         return options;
     }
 
-    public static String createUrl(String item, String itemType) {
+    public static String createUrl(String item, String itemType, String quality) {
         ImageOptions options = new ImageOptions();
+
         switch(itemType) {
             case PRIMARY: {
                 options.setImageType(ImageType.Primary);
@@ -79,9 +84,27 @@ public class CustomGlideRequest {
                 break;
             }
         }
-        options.setQuality(100);
-        options.setMaxHeight(500);
-        options.setEnableImageEnhancers(true);
+
+        switch(quality) {
+            case TOP_QUALITY: {
+                options.setQuality(100);
+                options.setMaxHeight(800);
+                options.setEnableImageEnhancers(true);
+                break;
+            }
+            case MEDIUM_QUALITY: {
+                options.setQuality(80);
+                options.setMaxHeight(500);
+                options.setEnableImageEnhancers(true);
+                break;
+            }
+            case LOW_QUALITY: {
+                options.setQuality(60);
+                options.setMaxHeight(300);
+                options.setEnableImageEnhancers(true);
+                break;
+            }
+        }
 
         return App.getApiClientInstance(App.getInstance()).GetImageUrl(item, options);
     }

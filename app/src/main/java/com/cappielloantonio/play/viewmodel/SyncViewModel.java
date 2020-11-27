@@ -2,19 +2,20 @@ package com.cappielloantonio.play.viewmodel;
 
 import android.app.Application;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.SongRepository;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SyncViewModel extends AndroidViewModel {
     private static final String TAG = "SyncViewModel";
+
+    private SongRepository songRepository;
 
     private boolean syncAlbum = false;
     private boolean syncArtist = false;
@@ -29,9 +30,14 @@ public class SyncViewModel extends AndroidViewModel {
 
     public SyncViewModel(@NonNull Application application) {
         super(application);
+
+        songRepository = new SongRepository(application);
     }
 
     public void setArguemnts(Bundle bundle) {
+        step = 0;
+        progress = 0;
+
         syncAlbum = bundle.getBoolean("sync_album", false);
         syncArtist = bundle.getBoolean("sync_artist", false);
         syncGenres = bundle.getBoolean("sync_genres", false);
@@ -89,5 +95,15 @@ public class SyncViewModel extends AndroidViewModel {
 
     public int getProgressBarInfo() {
         return progress * (100 / step);
+    }
+
+    public Map<Integer, Song> getCatalogue() {
+        Map<Integer, Song> map = new HashMap<>();
+
+        for(Song song: songRepository.getCatalogue()){
+            map.put(song.hashCode(), song);
+        }
+
+        return map;
     }
 }

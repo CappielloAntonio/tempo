@@ -58,14 +58,11 @@ public class GenreCatalogueFragment extends Fragment {
         bind.genreCatalogueRecyclerView.setHasFixedSize(true);
 
         genreCatalogueAdapter = new GenreCatalogueAdapter(requireContext(), new ArrayList<>());
-        genreCatalogueAdapter.setClickListener(new GenreCatalogueAdapter.ItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Bundle bundle = new Bundle();
-                bundle.putString(Song.BY_GENRE, Song.BY_GENRE);
-                bundle.putParcelable("genre_object", genreCatalogueAdapter.getItem(position));
-                activity.navController.navigate(R.id.action_genreCatalogueFragment_to_songListPageFragment, bundle);
-            }
+        genreCatalogueAdapter.setClickListener((view, position) -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(Song.BY_GENRE, Song.BY_GENRE);
+            bundle.putParcelable("genre_object", genreCatalogueAdapter.getItem(position));
+            activity.navController.navigate(R.id.action_genreCatalogueFragment_to_songListPageFragment, bundle);
         });
         bind.genreCatalogueRecyclerView.setAdapter(genreCatalogueAdapter);
 

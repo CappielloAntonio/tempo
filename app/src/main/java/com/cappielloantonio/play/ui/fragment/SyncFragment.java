@@ -1,8 +1,6 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +9,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.cappielloantonio.play.App;
-import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.FragmentSyncBinding;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Album;
@@ -34,8 +30,6 @@ import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.util.SyncUtil;
 import com.cappielloantonio.play.viewmodel.SyncViewModel;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
@@ -181,7 +175,7 @@ public class SyncFragment extends Fragment {
 
     private void syncSongs() {
         Log.d(TAG, "syncSongs");
-        SyncUtil.getSongs(requireContext(), new MediaCallback() {
+        SyncUtil.getSongs(requireContext(), syncViewModel.getCatalogue(), new MediaCallback() {
             @Override
             public void onError(Exception exception) {
                 Log.e(TAG, "onError: " + exception.getMessage());
@@ -191,6 +185,7 @@ public class SyncFragment extends Fragment {
             @Override
             public void onLoadMedia(List<?> media) {
                 SongRepository repository = new SongRepository(activity.getApplication());
+                repository.deleteAllSongGenreCross();
                 repository.insertAll((ArrayList<Song>) media);
                 animateProgressBar(true);
             }
@@ -198,6 +193,8 @@ public class SyncFragment extends Fragment {
     }
 
     private void syncSongsPerGenre(List<Genre> genres) {
+        Log.d(TAG, "syncSongsPerGenre");
+
         for (Genre genre : genres) {
             SyncUtil.getSongsPerGenre(requireContext(), new MediaCallback() {
                 @Override
@@ -207,11 +204,13 @@ public class SyncFragment extends Fragment {
 
                 @Override
                 public void onLoadMedia(List<?> media) {
-                    GenreRepository repository = new GenreRepository(App.getInstance());
-                    repository.insertPerGenre((ArrayList<SongGenreCross>) media);
+                    SongRepository repository = new SongRepository(App.getInstance());
+                    repository.insertSongPerGenre((ArrayList<SongGenreCross>) media);
                 }
             }, genre.id);
         }
+
+        Log.d(TAG, "syncSongsPerGenre: set progress");
 
         animateProgressBar(true);
         PreferenceUtil.getInstance(requireContext()).setSongGenreSync(true);
@@ -219,12 +218,16 @@ public class SyncFragment extends Fragment {
 
 
     private void animateProgressBar(boolean step) {
+        Log.d(TAG, "animateProgressBar: PROGRESS " + step);
         syncViewModel.setProgress(step);
         bind.loadingProgressBar.setProgress(syncViewModel.getProgressBarInfo(), true);
         countProgress();
     }
 
     private void countProgress() {
+        Log.d(TAG, "countProgress = " + syncViewModel.getProgress());
+        Log.d(TAG, "progressbar = " + syncViewModel.getProgressBarInfo());
+
         if (syncViewModel.getProgress() == syncViewModel.getStep()) {
             if (syncViewModel.getProgressBarInfo() >= 100)
                 terminate();

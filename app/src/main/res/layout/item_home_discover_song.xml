@@ -18,7 +18,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="172dp"
-        android:background="@drawable/discover_background_image" />
+        android:background="@drawable/gradient_discover_background_image" />
 
     <RelativeLayout
         android:layout_width="match_parent"

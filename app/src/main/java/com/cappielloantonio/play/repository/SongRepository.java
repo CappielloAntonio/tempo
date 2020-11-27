@@ -5,17 +5,17 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.database.AppDatabase;
-import com.cappielloantonio.play.database.dao.AlbumDao;
 import com.cappielloantonio.play.database.dao.SongDao;
-import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.database.dao.SongGenreCrossDao;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.SongGenreCross;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class SongRepository {
     private SongDao songDao;
+    private SongGenreCrossDao songGenreCrossDao;
     private LiveData<List<Song>> searchListLiveSongs;
     private LiveData<List<Song>> listLiveSampleRecentlyAddedSongs;
     private LiveData<List<Song>> listLiveSampleRecentlyPlayedSongs;
@@ -29,6 +29,7 @@ public class SongRepository {
     public SongRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
         songDao = database.songDao();
+        songGenreCrossDao = database.songGenreCrossDao();
     }
 
     public LiveData<List<Song>> searchListLiveSong(String title) {
@@ -93,6 +94,27 @@ public class SongRepository {
         return suggestions;
     }
 
+    /*
+     * Funzione che ritorna l'intero set di canzoni.
+     * Utilizzato per l'aggiornamento del catalogo.
+     */
+    public List<Song> getCatalogue() {
+        List<Song> catalogue = new ArrayList<>();
+
+        GetCatalogueThreadSafe getCatalogueThread = new GetCatalogueThreadSafe(songDao);
+        Thread thread = new Thread(getCatalogueThread);
+        thread.start();
+
+        try {
+            thread.join();
+            catalogue = getCatalogueThread.getCatalogue();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return catalogue;
+    }
+
     public boolean exist(Song song) {
         boolean exist = false;
 
@@ -117,7 +139,7 @@ public class SongRepository {
     }
 
     public void insertAll(ArrayList<Song> songs) {
-        InsertAllThreadSafe insertAll = new InsertAllThreadSafe(songDao, songs);
+        InsertAllThreadSafe insertAll = new InsertAllThreadSafe(songDao, songGenreCrossDao, songs);
         Thread thread = new Thread(insertAll);
         thread.start();
     }
@@ -133,6 +155,30 @@ public class SongRepository {
 
         UpdateThreadSafe update = new UpdateThreadSafe(songDao, song);
         Thread thread = new Thread(update);
+        thread.start();
+    }
+
+    public void getAll() {
+        GetCatalogueThreadSafe catalogue = new GetCatalogueThreadSafe(songDao);
+        Thread thread = new Thread(catalogue);
+        thread.start();
+    }
+
+    public void insertSongPerGenre(ArrayList<SongGenreCross> songGenreCrosses) {
+        InsertPerGenreThreadSafe insertPerGenre = new InsertPerGenreThreadSafe(songGenreCrossDao, songGenreCrosses);
+        Thread thread = new Thread(insertPerGenre);
+        thread.start();
+    }
+
+    public void deleteAllSong() {
+        DeleteAllSongThreadSafe delete = new DeleteAllSongThreadSafe(songDao);
+        Thread thread = new Thread(delete);
+        thread.start();
+    }
+
+    public void deleteAllSongGenreCross() {
+        DeleteAllSongGenreCrossThreadSafe delete = new DeleteAllSongGenreCrossThreadSafe(songGenreCrossDao);
+        Thread thread = new Thread(delete);
         thread.start();
     }
 
@@ -190,15 +236,19 @@ public class SongRepository {
 
     private static class InsertAllThreadSafe implements Runnable {
         private SongDao songDao;
+        private SongGenreCrossDao songGenreCrossDao;
         private ArrayList<Song> songs;
 
-        public InsertAllThreadSafe(SongDao songDao, ArrayList<Song> songs) {
+        public InsertAllThreadSafe(SongDao songDao, SongGenreCrossDao songGenreCrossDao, ArrayList<Song> songs) {
             this.songDao = songDao;
+            this.songGenreCrossDao = songGenreCrossDao;
             this.songs = songs;
         }
 
         @Override
         public void run() {
+            songDao.deleteAll();
+            songGenreCrossDao.deleteAll();
             songDao.insertAll(songs);
         }
     }
@@ -272,6 +322,65 @@ public class SongRepository {
 
         public List<String> getSuggestions() {
             return suggestions;
+        }
+    }
+
+    private static class GetCatalogueThreadSafe implements Runnable {
+        private SongDao songDao;
+        private List<Song> catalogue = new ArrayList<>();
+
+        public GetCatalogueThreadSafe(SongDao songDao) {
+            this.songDao = songDao;
+        }
+
+        @Override
+        public void run() {
+            catalogue = songDao.getAllList();
+        }
+
+        public List<Song> getCatalogue() {
+            return catalogue;
+        }
+    }
+
+    private static class InsertPerGenreThreadSafe implements Runnable {
+        private SongGenreCrossDao songGenreCrossDao;
+        private ArrayList<SongGenreCross> cross;
+
+        public InsertPerGenreThreadSafe(SongGenreCrossDao songGenreCrossDao, ArrayList<SongGenreCross> cross) {
+            this.songGenreCrossDao = songGenreCrossDao;
+            this.cross = cross;
+        }
+
+        @Override
+        public void run() {
+            songGenreCrossDao.insertAll(cross);
+        }
+    }
+
+    private static class DeleteAllSongThreadSafe implements Runnable {
+        private SongDao songDao;
+
+        public DeleteAllSongThreadSafe(SongDao songDao) {
+            this.songDao = songDao;
+        }
+
+        @Override
+        public void run() {
+            songDao.deleteAll();
+        }
+    }
+
+    private static class DeleteAllSongGenreCrossThreadSafe implements Runnable {
+        private SongGenreCrossDao songGenreCrossDao;
+
+        public DeleteAllSongGenreCrossThreadSafe(SongGenreCrossDao songGenreCrossDao) {
+            this.songGenreCrossDao = songGenreCrossDao;
+        }
+
+        @Override
+        public void run() {
+            songGenreCrossDao.deleteAll();
         }
     }
 }

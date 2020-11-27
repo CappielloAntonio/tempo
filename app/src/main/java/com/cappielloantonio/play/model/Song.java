@@ -381,12 +381,12 @@ public class Song implements Parcelable {
         this.added = added;
     }
 
-    public void setAdded(int playCount) {
-        this.playCount = playCount;
-    }
-
     public void setLastPlay(long lastPlay) {
         this.lastPlay = lastPlay;
+    }
+
+    public void setPlayCount(int playCount) {
+        this.playCount = playCount;
     }
 
     public void nowPlaying() {

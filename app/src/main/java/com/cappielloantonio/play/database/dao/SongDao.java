@@ -24,9 +24,6 @@ public interface SongDao {
     @Query("SELECT * FROM song WHERE title LIKE '%' || :title || '%'")
     LiveData<List<Song>> searchSong(String title);
 
-    @Query("SELECT * FROM song ORDER BY RANDOM() LIMIT :number")
-    LiveData<List<Song>> getDiscoverSample(int number);
-
     @Query("SELECT * FROM song ORDER BY added DESC LIMIT :number")
     LiveData<List<Song>> getRecentlyAddedSample(int number);
 
@@ -74,4 +71,10 @@ public interface SongDao {
 
     @Query("SELECT title FROM song WHERE title LIKE :query || '%' OR title like '% ' || :query || '%' GROUP BY title LIMIT :number")
     List<String> searchSuggestions(String query, int number);
+
+    @Query("SELECT year FROM song WHERE year != 0 GROUP BY year")
+    List<Integer> getYearList();
+
+    @Query("SELECT * FROM song WHERE year = :year")
+    LiveData<List<Song>> getSongsByYear(int year);
 }

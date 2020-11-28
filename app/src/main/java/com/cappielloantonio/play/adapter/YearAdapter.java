@@ -4,62 +4,52 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.model.Artist;
 
 import java.util.List;
 
-public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogueAdapter.ViewHolder> {
-    private static final String TAG = "ArtistCatalogueAdapter";
-
-    private List<Artist> artists;
-    private LayoutInflater inflater;
+public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {
+    private static final String TAG = "YearAdapter";
+    private List<Integer> years;
+    private LayoutInflater mInflater;
     private Context context;
     private ItemClickListener itemClickListener;
 
-    public ArtistCatalogueAdapter(Context context) {
+    public YearAdapter(Context context, List<Integer> years) {
         this.context = context;
-        this.inflater = LayoutInflater.from(context);
+        this.mInflater = LayoutInflater.from(context);
+        this.years = years;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_library_catalogue_artist, parent, false);
+        View view = mInflater.inflate(R.layout.item_home_year, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Artist artist = artists.get(position);
+        int year = years.get(position);
 
-        holder.textArtistName.setText(artist.getName());
-
-        CustomGlideRequest.Builder
-                .from(context, artist.getPrimary(), artist.getPrimaryBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY)
-                .build()
-                .into(holder.cover);
+        holder.textYear.setText(Integer.toString(year));
     }
 
     @Override
     public int getItemCount() {
-        return artists.size();
+        return years.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView textArtistName;
-        ImageView cover;
+        TextView textYear;
 
         ViewHolder(View itemView) {
             super(itemView);
 
-            textArtistName = itemView.findViewById(R.id.artist_name_label);
-            cover = itemView.findViewById(R.id.artist_catalogue_cover_image_view);
+            textYear = itemView.findViewById(R.id.year_label);
 
             itemView.setOnClickListener(this);
         }
@@ -70,12 +60,12 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
         }
     }
 
-    public Artist getItem(int position) {
-        return artists.get(position);
+    public Integer getItem(int position) {
+        return years.get(position);
     }
 
-    public void setItems(List<Artist> artists) {
-        this.artists = artists;
+    public void setItems(List<Integer> years) {
+        this.years = years;
         notifyDataSetChanged();
     }
 

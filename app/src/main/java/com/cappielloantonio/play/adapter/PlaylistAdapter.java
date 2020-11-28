@@ -9,22 +9,21 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Playlist;
 
 import java.util.List;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
     private static final String TAG = "PlaylistAdapter";
+
     private List<Playlist> playlists;
     private LayoutInflater mInflater;
     private Context context;
     private ItemClickListener itemClickListener;
 
-    public PlaylistAdapter(Context context, List<Playlist> playlists) {
+    public PlaylistAdapter(Context context) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
-        this.playlists = playlists;
     }
 
     @Override
@@ -58,7 +57,8 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
         @Override
         public void onClick(View view) {
-            if (itemClickListener != null) itemClickListener.onItemClick(view, getAdapterPosition());
+            if (itemClickListener != null)
+                itemClickListener.onItemClick(view, getAdapterPosition());
         }
     }
 

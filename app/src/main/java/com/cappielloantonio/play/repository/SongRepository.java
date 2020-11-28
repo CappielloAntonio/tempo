@@ -24,6 +24,7 @@ public class SongRepository {
     private LiveData<List<Song>> listLiveAlbumSongs;
     private LiveData<List<Song>> listLiveSongByGenre;
     private LiveData<List<Song>> listLiveFilteredSongs;
+    private LiveData<List<Song>> listLiveSongByYear;
 
 
     public SongRepository(Application application) {
@@ -113,6 +114,28 @@ public class SongRepository {
         }
 
         return catalogue;
+    }
+
+    public List<Integer> getYearList() {
+        List<Integer> years = new ArrayList<>();
+
+        GetYearListThreadSafe getYearListThreadSafe = new GetYearListThreadSafe(songDao);
+        Thread thread = new Thread(getYearListThreadSafe);
+        thread.start();
+
+        try {
+            thread.join();
+            years = getYearListThreadSafe.getYearList();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return years;
+    }
+
+    public LiveData<List<Song>> getSongByYearListLive(int year) {
+        listLiveSongByYear = songDao.getSongsByYear(year);
+        return listLiveSongByYear;
     }
 
     public boolean exist(Song song) {
@@ -381,6 +404,35 @@ public class SongRepository {
         @Override
         public void run() {
             songGenreCrossDao.deleteAll();
+        }
+    }
+
+    private static class GetYearListThreadSafe implements Runnable {
+        private SongDao songDao;
+        private List<Integer> years = new ArrayList<>();
+        private List<Integer> decades = new ArrayList<>();
+
+        public GetYearListThreadSafe(SongDao songDao) {
+            this.songDao = songDao;
+        }
+
+        @Override
+        public void run() {
+            years = songDao.getYearList();
+
+            for(int year : years) {
+                if(!decades.contains(year - year % 10)) {
+                    decades.add(year);
+                }
+            }
+        }
+
+        public List<Integer> getYearList() {
+            return years;
+        }
+
+        public List<Integer> getDecadeList() {
+            return decades;
         }
     }
 }

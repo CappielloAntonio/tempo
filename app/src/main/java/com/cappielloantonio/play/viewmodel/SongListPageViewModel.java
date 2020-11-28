@@ -25,6 +25,7 @@ public class SongListPageViewModel extends AndroidViewModel {
     public Artist artist;
     public ArrayList<String> filters = new ArrayList<>();
     public ArrayList<String> filterNames = new ArrayList<>();
+    public int year = 0;
 
     public SongListPageViewModel(@NonNull Application application) {
         super(application);
@@ -51,6 +52,9 @@ public class SongListPageViewModel extends AndroidViewModel {
                 break;
             case Song.BY_GENRES:
                 songList = songRepository.getFilteredListLiveSong(filters);
+                break;
+            case Song.BY_YEAR:
+                songList = songRepository.getSongByYearListLive(year);
                 break;
         }
 

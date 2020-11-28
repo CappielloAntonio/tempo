@@ -23,14 +23,14 @@ import java.util.List;
  */
 public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSearchAdapter.ViewHolder> {
     private static final String TAG = "SongResultSearchAdapter";
+
     private List<Song> songs;
     private LayoutInflater mInflater;
     private Context context;
 
-    public SongResultSearchAdapter(Context context, List<Song> songs) {
+    public SongResultSearchAdapter(Context context) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
-        this.songs = songs;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
         holder.songDuration.setText(Util.getReadableDurationString(song.getDuration()));
 
         CustomGlideRequest.Builder
-                .from(context, song.getPrimary(), song.getPrimary(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY)
+                .from(context, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY)
                 .build()
                 .into(holder.cover);
     }

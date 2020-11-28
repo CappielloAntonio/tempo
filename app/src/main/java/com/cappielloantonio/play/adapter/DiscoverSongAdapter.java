@@ -21,18 +21,18 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
     private static final String TAG = "DiscoverSongAdapter";
 
     private List<Song> songs;
-    private LayoutInflater layoutInflater;
+    private LayoutInflater inflater;
     private Context context;
 
     public DiscoverSongAdapter(Context context, List<Song> songs) {
         this.context = context;
-        this.layoutInflater = LayoutInflater.from(context);
+        this.inflater = LayoutInflater.from(context);
         this.songs = songs;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.item_home_discover_song, parent, false);
+        View view = inflater.inflate(R.layout.item_home_discover_song, parent, false);
         return new ViewHolder(view);
     }
 

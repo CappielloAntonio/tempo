@@ -9,22 +9,21 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.RecentSearch;
 
 import java.util.List;
 
 public class RecentSearchAdapter extends RecyclerView.Adapter<RecentSearchAdapter.ViewHolder> {
-    private static final String TAG = "GenreAdapter";
+    private static final String TAG = "RecentSearchAdapter";
+
     private List<RecentSearch> searches;
     private LayoutInflater mInflater;
     private Context context;
     private ItemClickListener itemClickListener;
 
-    public RecentSearchAdapter(Context context, List<RecentSearch> searches) {
+    public RecentSearchAdapter(Context context) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
-        this.searches = searches;
     }
 
     @Override

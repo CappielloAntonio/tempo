@@ -22,14 +22,14 @@ import java.util.List;
  */
 public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.ViewHolder> {
     private static final String TAG = "RecentMusicAdapter";
+
     private List<Song> songs;
     private LayoutInflater mInflater;
     private Context context;
 
-    public RecentMusicAdapter(Context context, List<Song> songs) {
+    public RecentMusicAdapter(Context context) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
-        this.songs = songs;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
         holder.textAlbum.setText(song.getAlbumName());
 
         CustomGlideRequest.Builder
-                .from(context, song.getPrimary(), song.getPrimary(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY)
+                .from(context, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY)
                 .build()
                 .into(holder.cover);
     }

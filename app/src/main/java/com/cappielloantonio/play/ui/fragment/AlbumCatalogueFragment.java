@@ -16,8 +16,6 @@ import com.cappielloantonio.play.helper.recyclerview.ItemDecoration;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.viewmodel.AlbumCatalogueViewModel;
 
-import java.util.ArrayList;
-
 public class AlbumCatalogueFragment extends Fragment {
     private static final String TAG = "ArtistCatalogueFragment";
 
@@ -51,7 +49,7 @@ public class AlbumCatalogueFragment extends Fragment {
         bind.albumCatalogueRecyclerView.addItemDecoration(new ItemDecoration(2, 20, false));
         bind.albumCatalogueRecyclerView.setHasFixedSize(true);
 
-        albumAdapter = new AlbumCatalogueAdapter(requireContext(), new ArrayList<>());
+        albumAdapter = new AlbumCatalogueAdapter(requireContext());
         albumAdapter.setClickListener((view, position) -> {
             Bundle bundle = new Bundle();
             bundle.putParcelable("album_object", albumAdapter.getItem(position));

@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingTop="20dp">
 
     <ProgressBar
         android:id="@+id/loading_progress_bar"
@@ -12,7 +13,8 @@
         android:layout_height="wrap_content"
         android:indeterminate="true"
         android:minWidth="128dp"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:visibility="visible"/>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/album_catalogue_container"

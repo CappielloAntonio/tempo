@@ -16,13 +16,12 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.DiscoverSongAdapter;
 import com.cappielloantonio.play.adapter.RecentMusicAdapter;
+import com.cappielloantonio.play.adapter.YearAdapter;
 import com.cappielloantonio.play.databinding.FragmentHomeBinding;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.HomeViewModel;
-
-import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = "CategoriesFragment";
@@ -33,6 +32,7 @@ public class HomeFragment extends Fragment {
 
     private DiscoverSongAdapter discoverSongAdapter;
     private RecentMusicAdapter recentlyAddedMusicAdapter;
+    private YearAdapter yearAdapter;
     private RecentMusicAdapter recentlyPlayedMusicAdapter;
     private RecentMusicAdapter mostPlayedMusicAdapter;
 
@@ -48,6 +48,7 @@ public class HomeFragment extends Fragment {
         init();
         initDiscoverSongSlideView();
         initRecentAddedSongView();
+        initYearSongView();
         initRecentPlayedSongView();
         initMostPlayedSongView();
 
@@ -99,16 +100,30 @@ public class HomeFragment extends Fragment {
         bind.recentlyAddedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.recentlyAddedTracksRecyclerView.setHasFixedSize(true);
 
-        recentlyAddedMusicAdapter = new RecentMusicAdapter(requireContext(), new ArrayList<>());
+        recentlyAddedMusicAdapter = new RecentMusicAdapter(requireContext());
         bind.recentlyAddedTracksRecyclerView.setAdapter(recentlyAddedMusicAdapter);
         homeViewModel.getRecentlyAddedSongList().observe(requireActivity(), songs -> recentlyAddedMusicAdapter.setItems(songs));
+    }
+
+    private void initYearSongView() {
+        bind.yearsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        bind.yearsRecyclerView.setHasFixedSize(true);
+
+        yearAdapter = new YearAdapter(requireContext(), homeViewModel.getYearList());
+        yearAdapter.setClickListener((view, position) -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(Song.BY_YEAR, Song.BY_YEAR);
+            bundle.putInt("year_object", yearAdapter.getItem(position));
+            activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
+        });
+        bind.yearsRecyclerView.setAdapter(yearAdapter);
     }
 
     private void initRecentPlayedSongView() {
         bind.recentlyPlayedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.recentlyPlayedTracksRecyclerView.setHasFixedSize(true);
 
-        recentlyPlayedMusicAdapter = new RecentMusicAdapter(requireContext(), new ArrayList<>());
+        recentlyPlayedMusicAdapter = new RecentMusicAdapter(requireContext());
         bind.recentlyPlayedTracksRecyclerView.setAdapter(recentlyPlayedMusicAdapter);
         homeViewModel.getRecentlyPlayedSongList().observe(requireActivity(), songs -> recentlyPlayedMusicAdapter.setItems(songs));
     }
@@ -117,7 +132,7 @@ public class HomeFragment extends Fragment {
         bind.mostPlayedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.mostPlayedTracksRecyclerView.setHasFixedSize(true);
 
-        mostPlayedMusicAdapter = new RecentMusicAdapter(requireContext(), new ArrayList<>());
+        mostPlayedMusicAdapter = new RecentMusicAdapter(requireContext());
         bind.mostPlayedTracksRecyclerView.setAdapter(mostPlayedMusicAdapter);
         homeViewModel.getMostPlayedSongList().observe(requireActivity(), songs -> mostPlayedMusicAdapter.setItems(songs));
     }

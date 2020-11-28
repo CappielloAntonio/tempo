@@ -16,21 +16,21 @@ import com.cappielloantonio.play.model.Album;
 import java.util.List;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
-    private static final String TAG = "RecentMusicAdapter";
+    private static final String TAG = "AlbumAdapter";
+
     private List<Album> albums;
-    private LayoutInflater mInflater;
+    private LayoutInflater inflater;
     private Context context;
     private ItemClickListener itemClickListener;
 
-    public AlbumAdapter(Context context, List<Album> albums) {
+    public AlbumAdapter(Context context) {
         this.context = context;
-        this.mInflater = LayoutInflater.from(context);
-        this.albums = albums;
+        this.inflater = LayoutInflater.from(context);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_library_album, parent, false);
+        View view = inflater.inflate(R.layout.item_library_album, parent, false);
         return new ViewHolder(view);
     }
 
@@ -69,7 +69,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
         @Override
         public void onClick(View view) {
-            if (itemClickListener != null) itemClickListener.onItemClick(view, getAdapterPosition());
+            if (itemClickListener != null)
+                itemClickListener.onItemClick(view, getAdapterPosition());
         }
     }
 

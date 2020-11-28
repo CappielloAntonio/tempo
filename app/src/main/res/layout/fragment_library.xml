@@ -41,7 +41,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="My Albums"
+                        android:text="Albums"
                         android:textColor="@color/titleTextColor"
                         android:textSize="22sp"
                         android:textStyle="bold" />
@@ -104,7 +104,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="My Artists"
+                        android:text="Artists"
                         android:textColor="@color/titleTextColor"
                         android:textSize="22sp"
                         android:textStyle="bold" />
@@ -167,7 +167,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="Music by genre"
+                        android:text="Genres"
                         android:textColor="@color/titleTextColor"
                         android:textSize="22sp"
                         android:textStyle="bold" />

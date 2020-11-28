@@ -25,8 +25,6 @@ import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.LibraryViewModel;
 
-import java.util.ArrayList;
-
 public class LibraryFragment extends Fragment {
     private static final String TAG = "LibraryFragment";
 
@@ -75,7 +73,7 @@ public class LibraryFragment extends Fragment {
         bind.albumRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.albumRecyclerView.setHasFixedSize(true);
 
-        albumAdapter = new AlbumAdapter(requireContext(), new ArrayList<>());
+        albumAdapter = new AlbumAdapter(requireContext());
         albumAdapter.setClickListener((view, position) -> {
             Bundle bundle = new Bundle();
             bundle.putParcelable("album_object", albumAdapter.getItem(position));
@@ -89,7 +87,7 @@ public class LibraryFragment extends Fragment {
         bind.artistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.artistRecyclerView.setHasFixedSize(true);
 
-        artistAdapter = new ArtistAdapter(requireContext(), new ArrayList<>());
+        artistAdapter = new ArtistAdapter(requireContext());
         artistAdapter.setClickListener((view, position) -> {
             Bundle bundle = new Bundle();
             bundle.putParcelable("artist_object", artistAdapter.getItem(position));
@@ -103,7 +101,7 @@ public class LibraryFragment extends Fragment {
         bind.genreRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3, GridLayoutManager.HORIZONTAL, false));
         bind.genreRecyclerView.setHasFixedSize(true);
 
-        genreAdapter = new GenreAdapter(requireContext(), new ArrayList<>());
+        genreAdapter = new GenreAdapter(requireContext());
         genreAdapter.setClickListener((view, position) -> {
             Bundle bundle = new Bundle();
             bundle.putString(Song.BY_GENRE, Song.BY_GENRE);
@@ -118,7 +116,7 @@ public class LibraryFragment extends Fragment {
         bind.playlistRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
         bind.playlistRecyclerView.setHasFixedSize(true);
 
-        playlistAdapter = new PlaylistAdapter(requireContext(), new ArrayList<>());
+        playlistAdapter = new PlaylistAdapter(requireContext());
         playlistAdapter.setClickListener((view, position) -> Toast.makeText(requireContext(), "Playlist: " + position, Toast.LENGTH_SHORT).show());
         bind.playlistRecyclerView.setAdapter(playlistAdapter);
         libraryViewModel.getPlaylistList().observe(requireActivity(), playlists -> playlistAdapter.setItems(playlists));

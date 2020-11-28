@@ -93,14 +93,14 @@ public class CustomGlideRequest {
                 break;
             }
             case MEDIUM_QUALITY: {
-                options.setQuality(80);
-                options.setMaxHeight(500);
+                options.setQuality(100);
+                options.setMaxHeight(600);
                 options.setEnableImageEnhancers(true);
                 break;
             }
             case LOW_QUALITY: {
-                options.setQuality(60);
-                options.setMaxHeight(300);
+                options.setQuality(100);
+                options.setMaxHeight(400);
                 options.setEnableImageEnhancers(true);
                 break;
             }

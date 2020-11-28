@@ -1,7 +1,6 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +14,16 @@ import com.cappielloantonio.play.model.Genre;
 import java.util.List;
 
 public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAdapter.ViewHolder> {
-    private static final String TAG = "GenreAdapter";
+    private static final String TAG = "GenreCatalogueAdapter";
+
     private List<Genre> genres;
     private LayoutInflater mInflater;
     private Context context;
     private ItemClickListener itemClickListener;
 
-    public GenreCatalogueAdapter(Context context, List<Genre> genres) {
+    public GenreCatalogueAdapter(Context context) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
-        this.genres = genres;
     }
 
     // inflates the row layout from xml when needed

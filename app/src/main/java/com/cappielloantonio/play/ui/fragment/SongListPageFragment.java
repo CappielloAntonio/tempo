@@ -74,6 +74,11 @@ public class SongListPageFragment extends Fragment {
             songListPageViewModel.filterNames = getArguments().getStringArrayList("filter_name_list");
             bind.pageTitleLabel.setText(songListPageViewModel.getFiltersTitle());
         }
+        else if(getArguments().getString(Song.BY_YEAR) != null) {
+            songListPageViewModel.title = Song.BY_YEAR;
+            songListPageViewModel.year = getArguments().getInt("year_object");
+            bind.pageTitleLabel.setText("Year " + songListPageViewModel.year);
+        }
     }
 
     private void initSongListView() {

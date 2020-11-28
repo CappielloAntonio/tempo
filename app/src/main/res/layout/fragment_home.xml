@@ -25,7 +25,7 @@
                 android:paddingStart="16dp"
                 android:paddingTop="20dp"
                 android:paddingEnd="16dp"
-                android:text="Discover Music"
+                android:text="Music discovery"
                 android:textColor="@color/titleTextColor"
                 android:textSize="22sp"
                 android:textStyle="bold" />
@@ -63,7 +63,7 @@
                     android:paddingStart="8dp"
                     android:paddingTop="12dp"
                     android:paddingEnd="8dp"
-                    android:text="Recently added tracks"
+                    android:text="Recently added"
                     android:textColor="@color/titleTextColor"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -85,6 +85,38 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recently_added_tracks_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:clipToPadding="false"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp" />
+        </LinearLayout>
+
+        <!--  Recently added tracks -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--  Label and button  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans_font_family"
+                android:paddingStart="16dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="16dp"
+                android:text="Flashback"
+                android:textColor="@color/titleTextColor"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/years_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -119,7 +151,7 @@
                     android:paddingStart="8dp"
                     android:paddingTop="12dp"
                     android:paddingEnd="8dp"
-                    android:text="Recently played tracks"
+                    android:text="Last played"
                     android:textColor="@color/titleTextColor"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -175,7 +207,7 @@
                     android:paddingStart="8dp"
                     android:paddingTop="12dp"
                     android:paddingEnd="8dp"
-                    android:text="Most played tracks"
+                    android:text="Most played"
                     android:textColor="@color/titleTextColor"
                     android:textSize="22sp"
                     android:textStyle="bold" />

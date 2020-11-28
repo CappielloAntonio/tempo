@@ -16,21 +16,21 @@ import com.cappielloantonio.play.model.Album;
 import java.util.List;
 
 public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAdapter.ViewHolder> {
-    private static final String TAG = "AlbumAdapter";
+    private static final String TAG = "AlbumCatalogueAdapter";
+
     private List<Album> albums;
-    private LayoutInflater mInflater;
+    private LayoutInflater inflater;
     private Context context;
     private ItemClickListener itemClickListener;
 
-    public AlbumCatalogueAdapter(Context context, List<Album> albums) {
+    public AlbumCatalogueAdapter(Context context) {
         this.context = context;
-        this.mInflater = LayoutInflater.from(context);
-        this.albums = albums;
+        this.inflater = LayoutInflater.from(context);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_library_catalogue_album, parent, false);
+        View view = inflater.inflate(R.layout.item_library_catalogue_album, parent, false);
         return new ViewHolder(view);
     }
 
@@ -70,7 +70,8 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
 
         @Override
         public void onClick(View view) {
-            if (itemClickListener != null) itemClickListener.onItemClick(view, getAdapterPosition());
+            if (itemClickListener != null)
+                itemClickListener.onItemClick(view, getAdapterPosition());
         }
     }
 

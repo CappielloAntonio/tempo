@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -19,6 +20,7 @@ public class HomeViewModel extends AndroidViewModel {
     private LiveData<List<Song>> recentlyPlayedSongSample;
     private LiveData<List<Song>> recentlyAddedSongSample;
     private LiveData<List<Song>> mostPlayedSongSample;
+    private List<Integer> years;
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
@@ -29,6 +31,7 @@ public class HomeViewModel extends AndroidViewModel {
         recentlyPlayedSongSample = songRepository.getListLiveRecentlyPlayedSampleSong(20);
         recentlyAddedSongSample = songRepository.getListLiveRecentlyAddedSampleSong(20);
         mostPlayedSongSample = songRepository.getListLiveMostPlayedSampleSong(20);
+        years = songRepository.getYearList();
     }
 
 
@@ -50,5 +53,10 @@ public class HomeViewModel extends AndroidViewModel {
 
     public LiveData<List<Song>> getMostPlayedSongList() {
         return mostPlayedSongSample;
+    }
+
+    public List<Integer> getYearList() {
+        Log.d(TAG, "getYearList: " + years.toString());
+        return years;
     }
 }

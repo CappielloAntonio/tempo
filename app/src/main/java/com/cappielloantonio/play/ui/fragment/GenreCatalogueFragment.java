@@ -17,8 +17,6 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.viewmodel.GenreCatalogueViewModel;
 
-import java.util.ArrayList;
-
 public class GenreCatalogueFragment extends Fragment {
     private static final String TAG = "GenreCatalogueFragment";;
 
@@ -57,7 +55,7 @@ public class GenreCatalogueFragment extends Fragment {
         bind.genreCatalogueRecyclerView.addItemDecoration(new ItemDecoration(2, 16, false));
         bind.genreCatalogueRecyclerView.setHasFixedSize(true);
 
-        genreCatalogueAdapter = new GenreCatalogueAdapter(requireContext(), new ArrayList<>());
+        genreCatalogueAdapter = new GenreCatalogueAdapter(requireContext());
         genreCatalogueAdapter.setClickListener((view, position) -> {
             Bundle bundle = new Bundle();
             bundle.putString(Song.BY_GENRE, Song.BY_GENRE);

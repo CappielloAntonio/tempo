@@ -17,20 +17,20 @@ import java.util.List;
 
 public class AlbumArtistPageAdapter extends RecyclerView.Adapter<AlbumArtistPageAdapter.ViewHolder> {
     private static final String TAG = "AlbumArtistPageAdapter";
+
     private List<Album> albums;
-    private LayoutInflater mInflater;
+    private LayoutInflater inflater;
     private Context context;
     private ItemClickListener itemClickListener;
 
-    public AlbumArtistPageAdapter(Context context, List<Album> albums) {
+    public AlbumArtistPageAdapter(Context context) {
         this.context = context;
-        this.mInflater = LayoutInflater.from(context);
-        this.albums = albums;
+        this.inflater = LayoutInflater.from(context);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_artist_page_album, parent, false);
+        View view = inflater.inflate(R.layout.item_artist_page_album, parent, false);
         return new ViewHolder(view);
     }
 

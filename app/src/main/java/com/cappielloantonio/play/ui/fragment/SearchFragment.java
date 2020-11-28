@@ -72,7 +72,7 @@ public class SearchFragment extends Fragment {
         bind.recentlySearchedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.recentlySearchedTracksRecyclerView.setHasFixedSize(true);
 
-        recentSearchAdapter = new RecentSearchAdapter(requireContext(), new ArrayList<>());
+        recentSearchAdapter = new RecentSearchAdapter(requireContext());
         recentSearchAdapter.setClickListener((view, position) -> {
             RecentSearch search = recentSearchAdapter.getItem(position);
             search(search.getSearch());
@@ -95,7 +95,7 @@ public class SearchFragment extends Fragment {
         bind.searchResultAlbumRecyclerView.addItemDecoration(new ItemDecoration(2, 20, false));
         bind.searchResultAlbumRecyclerView.setHasFixedSize(true);
 
-        albumResultSearchAdapter = new AlbumCatalogueAdapter(requireContext(), new ArrayList<>());
+        albumResultSearchAdapter = new AlbumCatalogueAdapter(requireContext());
         albumResultSearchAdapter.setClickListener((view, position) -> {
             Bundle bundle = new Bundle();
             bundle.putParcelable("album_object", albumResultSearchAdapter.getItem(position));
@@ -108,7 +108,7 @@ public class SearchFragment extends Fragment {
         bind.searchResultArtistRecyclerView.addItemDecoration(new ItemDecoration(2, 20, false));
         bind.searchResultArtistRecyclerView.setHasFixedSize(true);
 
-        artistResultSearchAdapter = new ArtistCatalogueAdapter(requireContext(), new ArrayList<>());
+        artistResultSearchAdapter = new ArtistCatalogueAdapter(requireContext());
         artistResultSearchAdapter.setClickListener((view, position) -> {
             Bundle bundle = new Bundle();
             bundle.putParcelable("artist_object", artistResultSearchAdapter.getItem(position));

@@ -19,7 +19,7 @@
         <ImageView
             android:id="@+id/track_cover_image_view"
             android:layout_width="172dp"
-            android:layout_height="172dp" />
+            android:layout_height="172dp"/>
     </androidx.cardview.widget.CardView>
 
     <TextView

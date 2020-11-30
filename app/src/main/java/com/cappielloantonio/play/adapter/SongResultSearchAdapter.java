@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.App;
@@ -14,8 +15,10 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.ui.fragment.bottomsheetdialog.SongBottomSheetDialog;
 import com.cappielloantonio.play.util.Util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,10 +30,13 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
     private List<Song> songs;
     private LayoutInflater mInflater;
     private Context context;
+    private FragmentManager fragmentManager;
 
-    public SongResultSearchAdapter(Context context) {
+    public SongResultSearchAdapter(Context context, FragmentManager fragmentManager) {
         this.context = context;
+        this.fragmentManager = fragmentManager;
         this.mInflater = LayoutInflater.from(context);
+        this.songs = new ArrayList<>();
     }
 
     @Override
@@ -58,7 +64,7 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
         return songs.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView songTitle;
         TextView songArtist;
         TextView songDuration;
@@ -73,12 +79,20 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
             cover = itemView.findViewById(R.id.song_cover_image_view);
 
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
             SongRepository songRepository = new SongRepository(App.getInstance());
-            songRepository.update(songs.get(getAdapterPosition()));
+            songRepository.increasePlayCount(songs.get(getAdapterPosition()));
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            SongBottomSheetDialog songBottomSheetDialog = new SongBottomSheetDialog(songs.get(getAdapterPosition()));
+            songBottomSheetDialog.show(fragmentManager, null);
+            return true;
         }
     }
 
@@ -90,4 +104,5 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
     public Song getItem(int id) {
         return songs.get(id);
     }
+
 }

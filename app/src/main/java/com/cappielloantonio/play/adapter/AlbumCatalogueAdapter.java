@@ -13,6 +13,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Album;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAdapter.ViewHolder> {
@@ -26,6 +27,7 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
     public AlbumCatalogueAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
+        this.albums = new ArrayList<>();
     }
 
     @Override

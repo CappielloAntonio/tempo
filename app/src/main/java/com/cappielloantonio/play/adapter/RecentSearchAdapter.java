@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.model.RecentSearch;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecentSearchAdapter extends RecyclerView.Adapter<RecentSearchAdapter.ViewHolder> {
@@ -24,6 +25,7 @@ public class RecentSearchAdapter extends RecyclerView.Adapter<RecentSearchAdapte
     public RecentSearchAdapter(Context context) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
+        this.searches = new ArrayList<>();
     }
 
     @Override

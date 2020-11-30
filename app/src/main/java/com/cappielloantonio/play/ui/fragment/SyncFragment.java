@@ -99,7 +99,6 @@ public class SyncFragment extends Fragment {
     }
 
     private void syncAlbums() {
-        Log.d(TAG, "syncAlbums");
         SyncUtil.getAlbums(requireContext(), new MediaCallback() {
             @Override
             public void onError(Exception exception) {
@@ -117,7 +116,6 @@ public class SyncFragment extends Fragment {
     }
 
     private void syncArtists() {
-        Log.d(TAG, "syncArtists");
         SyncUtil.getArtists(requireContext(), new MediaCallback() {
             @Override
             public void onError(Exception exception) {
@@ -135,7 +133,6 @@ public class SyncFragment extends Fragment {
     }
 
     private void syncGenres() {
-        Log.d(TAG, "syncGenres");
         SyncUtil.getGenres(requireContext(), new MediaCallback() {
             @Override
             public void onError(Exception exception) {
@@ -156,7 +153,6 @@ public class SyncFragment extends Fragment {
     }
 
     private void syncPlaylist() {
-        Log.d(TAG, "syncPlaylist");
         SyncUtil.getPlaylists(requireContext(), new MediaCallback() {
             @Override
             public void onError(Exception exception) {
@@ -174,7 +170,6 @@ public class SyncFragment extends Fragment {
     }
 
     private void syncSongs() {
-        Log.d(TAG, "syncSongs");
         SyncUtil.getSongs(requireContext(), syncViewModel.getCatalogue(), new MediaCallback() {
             @Override
             public void onError(Exception exception) {
@@ -193,8 +188,6 @@ public class SyncFragment extends Fragment {
     }
 
     private void syncSongsPerGenre(List<Genre> genres) {
-        Log.d(TAG, "syncSongsPerGenre");
-
         for (Genre genre : genres) {
             SyncUtil.getSongsPerGenre(requireContext(), new MediaCallback() {
                 @Override
@@ -210,29 +203,23 @@ public class SyncFragment extends Fragment {
             }, genre.id);
         }
 
-        Log.d(TAG, "syncSongsPerGenre: set progress");
-
         animateProgressBar(true);
         PreferenceUtil.getInstance(requireContext()).setSongGenreSync(true);
     }
 
 
     private void animateProgressBar(boolean step) {
-        Log.d(TAG, "animateProgressBar: PROGRESS " + step);
         syncViewModel.setProgress(step);
         bind.loadingProgressBar.setProgress(syncViewModel.getProgressBarInfo(), true);
         countProgress();
     }
 
     private void countProgress() {
-        Log.d(TAG, "countProgress = " + syncViewModel.getProgress());
-        Log.d(TAG, "progressbar = " + syncViewModel.getProgressBarInfo());
-
         if (syncViewModel.getProgress() == syncViewModel.getStep()) {
-            if (syncViewModel.getProgressBarInfo() >= 100)
-                terminate();
-            else
+            if (syncViewModel.getProgressBarInfo() < 100)
                 Toast.makeText(requireContext(), "Sync error", Toast.LENGTH_SHORT).show();
+
+            terminate();
         }
     }
 

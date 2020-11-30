@@ -15,6 +15,7 @@ import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.SongRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +31,7 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
     public RecentMusicAdapter(Context context) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
+        this.songs = new ArrayList<>();
     }
 
     @Override
@@ -74,7 +76,7 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
         @Override
         public void onClick(View view) {
             SongRepository songRepository = new SongRepository(App.getInstance());
-            songRepository.update(songs.get(getAdapterPosition()));
+            songRepository.increasePlayCount(songs.get(getAdapterPosition()));
         }
     }
 

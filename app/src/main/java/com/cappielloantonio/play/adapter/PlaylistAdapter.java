@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.model.Playlist;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
@@ -24,6 +25,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     public PlaylistAdapter(Context context) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
+        this.playlists = new ArrayList<>();
     }
 
     @Override

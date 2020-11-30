@@ -59,6 +59,12 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        activity.setBottomNavigationBarVisibility(true);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         bind = null;
@@ -87,7 +93,7 @@ public class SearchFragment extends Fragment {
         bind.searchResultTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.searchResultTracksRecyclerView.setHasFixedSize(true);
 
-        songResultSearchAdapter = new SongResultSearchAdapter(requireContext(), new ArrayList<>());
+        songResultSearchAdapter = new SongResultSearchAdapter(requireContext(), getChildFragmentManager());
         bind.searchResultTracksRecyclerView.setAdapter(songResultSearchAdapter);
 
         // Albums

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/cardColor">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp">
+
+        <!-- Header -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:backgroundTint="@color/cardColor"
+            android:paddingTop="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/subtitleTextColor"
+            card_view:cardCornerRadius="4dp"
+            card_view:cardElevation="0dp"
+            card_view:cardPreventCornerOverlap="false"
+            card_view:cardUseCompatPadding="false">
+
+            <ImageView
+                android:id="@+id/song_cover_image_view"
+                android:layout_width="54dp"
+                android:layout_height="54dp" />
+        </androidx.cardview.widget.CardView>
+
+        <ToggleButton
+            android:id="@+id/button_favorite"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/button_favorite_selector"
+            android:checked="false"
+            android:gravity="center_vertical"
+            android:paddingStart="8dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="20dp"
+            android:text=""
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/song_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/open_sans_font_family"
+            android:maxLines="1"
+            android:paddingTop="8dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="@string/label_placeholder"
+            android:textColor="@color/titleTextColor"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/song_artist_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_font_family"
+            android:paddingStart="12dp"
+            android:text="@string/label_placeholder"
+            android:textColor="@color/subtitleTextColor"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/song_title_text_view" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/option_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:paddingTop="8dp"
+        android:paddingBottom="12dp">
+
+        <TextView
+            android:id="@+id/play_radio_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Avvia radio"
+            android:fontFamily="@font/open_sans_font_family"
+            android:textFontWeight="700"
+            android:textSize="15dp"
+            android:textColor="@color/titleTextColor"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:paddingStart="20dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"/>
+
+        <TextView
+            android:id="@+id/play_next_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:text="Riproduci dopo"
+            android:paddingStart="20dp"
+            android:fontFamily="@font/open_sans_font_family"
+            android:textFontWeight="700"
+            android:textSize="15dp"
+            android:textColor="@color/titleTextColor"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true" />
+
+        <TextView
+            android:id="@+id/add_to_queue_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:text="Aggiungi alla coda"
+            android:paddingStart="20dp"
+            android:fontFamily="@font/open_sans_font_family"
+            android:textFontWeight="700"
+            android:textSize="15dp"
+            android:textColor="@color/titleTextColor"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"/>
+
+        <TextView
+            android:id="@+id/download_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:text="Scarica"
+            android:paddingStart="20dp"
+            android:fontFamily="@font/open_sans_font_family"
+            android:textFontWeight="700"
+            android:textSize="15dp"
+            android:textColor="@color/titleTextColor"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            />
+
+        <TextView
+            android:id="@+id/add_to_playlist_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:text="Aggiungi alla playlist"
+            android:paddingStart="20dp"
+            android:fontFamily="@font/open_sans_font_family"
+            android:textFontWeight="700"
+            android:textSize="15dp"
+            android:textColor="@color/titleTextColor"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"/>
+
+        <TextView
+            android:id="@+id/go_to_artist_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:text="Vai all'artista"
+            android:paddingStart="20dp"
+            android:fontFamily="@font/open_sans_font_family"
+            android:textFontWeight="700"
+            android:textSize="15dp"
+            android:textColor="@color/titleTextColor"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"/>
+
+    </LinearLayout>
+</LinearLayout>

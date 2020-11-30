@@ -13,9 +13,8 @@ import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.ui.fragment.bottomsheetdialog.AlbumBottomSheetDialog;
 import com.cappielloantonio.play.viewmodel.AlbumPageViewModel;
-
-import java.util.ArrayList;
 
 public class AlbumPageFragment extends Fragment {
 
@@ -26,7 +25,7 @@ public class AlbumPageFragment extends Fragment {
     private SongResultSearchAdapter songResultSearchAdapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)  {
         activity = (MainActivity) getActivity();
 
         bind = FragmentAlbumPageBinding.inflate(inflater, container, false);
@@ -34,10 +33,17 @@ public class AlbumPageFragment extends Fragment {
         albumPageViewModel = new ViewModelProvider(requireActivity()).get(AlbumPageViewModel.class);
 
         init();
+        initBottomSheetDialog();
         initBackCover();
         initSongsView();
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        activity.setBottomNavigationBarVisibility(false);
     }
 
     @Override
@@ -59,11 +65,18 @@ public class AlbumPageFragment extends Fragment {
         bind.albumTitleLabel.setText(albumPageViewModel.getAlbum().getTitle());
     }
 
+    private void initBottomSheetDialog() {
+        bind.albumSettingsImageButton.setOnClickListener(v -> {
+            AlbumBottomSheetDialog albumBottomSheetDialog = new AlbumBottomSheetDialog(albumPageViewModel.getAlbum());
+            albumBottomSheetDialog.show(this.getChildFragmentManager(), null);
+        });
+    }
+
     private void initSongsView() {
         bind.songRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.songRecyclerView.setHasFixedSize(true);
 
-        songResultSearchAdapter = new SongResultSearchAdapter(requireContext(), new ArrayList<>());
+        songResultSearchAdapter = new SongResultSearchAdapter(requireContext(), getChildFragmentManager());
         bind.songRecyclerView.setAdapter(songResultSearchAdapter);
         albumPageViewModel.getAlbumSongList().observe(requireActivity(), songs -> songResultSearchAdapter.setItems(songs));
     }

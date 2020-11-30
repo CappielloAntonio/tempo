@@ -39,6 +39,12 @@ public class AlbumCatalogueFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        activity.setBottomNavigationBarVisibility(false);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         bind = null;

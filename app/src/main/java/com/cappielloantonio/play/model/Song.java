@@ -40,6 +40,9 @@ public class Song implements Parcelable {
     @Ignore
     public static final String BY_YEAR = "BY_YEAR";
 
+    @Ignore
+    public static final String IS_FAVORITE = "IS_FAVORITE";
+
     @NonNull
     @PrimaryKey
     @ColumnInfo(name = "id")

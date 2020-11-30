@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -21,7 +22,8 @@
                 app:layout_constraintDimensionRatio="W, 4:5"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:cardCornerRadius="0dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -47,7 +49,6 @@
                 android:id="@+id/album_title_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="60dp"
                 android:elevation="4dp"
                 android:fontFamily="@font/open_sans_font_family"
                 android:paddingStart="20dp"
@@ -62,27 +63,41 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="86dp"
-                android:background="@drawable/gradient_backdrop_fading_down_background_image"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/card_view" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!--  Label and button  -->
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-54dp"
-            android:fontFamily="@font/open_sans_font_family"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:text="Song"
-            android:textColor="@color/titleTextColor"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/open_sans_font_family"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="Songs"
+                android:textColor="@color/titleTextColor"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+
+            <ImageButton
+                android:id="@+id/album_settings_image_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:layout_marginTop="-6dp"
+                android:backgroundTint="@android:color/transparent"
+                android:tint="@color/titleTextColor"
+                android:src="@drawable/ic_more" />
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/song_recycler_view"
@@ -91,9 +106,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:clipToPadding="false"
-            android:paddingStart="16dp"
             android:paddingTop="8dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="54dp" />
+            android:paddingBottom="8dp" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

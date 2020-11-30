@@ -18,8 +18,6 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.viewmodel.ArtistPageViewModel;
 
-import java.util.ArrayList;
-
 public class ArtistPageFragment extends Fragment {
 
     private FragmentArtistPageBinding bind;
@@ -43,6 +41,13 @@ public class ArtistPageFragment extends Fragment {
         initAlbumsView();
 
         return view;
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        activity.setBottomNavigationBarVisibility(false);
     }
 
     @Override
@@ -74,7 +79,7 @@ public class ArtistPageFragment extends Fragment {
         bind.mostStreamedSongRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.mostStreamedSongRecyclerView.setHasFixedSize(true);
 
-        songResultSearchAdapter = new SongResultSearchAdapter(requireContext(), new ArrayList<>());
+        songResultSearchAdapter = new SongResultSearchAdapter(requireContext(), getChildFragmentManager());
         bind.mostStreamedSongRecyclerView.setAdapter(songResultSearchAdapter);
         artistPageViewModel.getArtistTopSongList().observe(requireActivity(), songs -> songResultSearchAdapter.setItems(songs));
     }

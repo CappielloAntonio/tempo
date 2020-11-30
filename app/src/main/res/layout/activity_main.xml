@@ -28,5 +28,23 @@
         app:labelVisibilityMode="unlabeled"
         app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
         app:layout_scrollFlags="scroll|enterAlways|snap"
-        app:menu="@menu/bottom_nav_menu" />
+        app:menu="@menu/bottom_nav_menu">
+
+        <LinearLayout
+            android:id="@+id/offline_mode_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="6dp"
+                android:text="Offline mode"/>
+        </LinearLayout>
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

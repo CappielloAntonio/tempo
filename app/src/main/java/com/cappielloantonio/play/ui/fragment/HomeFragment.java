@@ -7,15 +7,18 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.DiscoverSongAdapter;
 import com.cappielloantonio.play.adapter.RecentMusicAdapter;
+import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.adapter.YearAdapter;
 import com.cappielloantonio.play.databinding.FragmentHomeBinding;
 import com.cappielloantonio.play.model.Song;
@@ -33,6 +36,7 @@ public class HomeFragment extends Fragment {
     private DiscoverSongAdapter discoverSongAdapter;
     private RecentMusicAdapter recentlyAddedMusicAdapter;
     private YearAdapter yearAdapter;
+    private SongResultSearchAdapter favoriteSongAdapter;
     private RecentMusicAdapter recentlyPlayedMusicAdapter;
     private RecentMusicAdapter mostPlayedMusicAdapter;
 
@@ -46,13 +50,21 @@ public class HomeFragment extends Fragment {
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
         init();
+        initSwipeToRefresh();
         initDiscoverSongSlideView();
         initRecentAddedSongView();
+        initFavoritesSongView();
         initYearSongView();
-        initRecentPlayedSongView();
         initMostPlayedSongView();
+        initRecentPlayedSongView();
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        activity.setBottomNavigationBarVisibility(true);
     }
 
     @Override
@@ -62,12 +74,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void init() {
-        bind.resyncButton.setOnClickListener(v -> {
-            PreferenceUtil.getInstance(requireContext()).setSync(false);
-            PreferenceUtil.getInstance(requireContext()).setSongGenreSync(false);
-            activity.goToSync();
-        });
-
         bind.recentlyAddedTracksTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putString(Song.RECENTLY_ADDED, Song.RECENTLY_ADDED);
@@ -84,6 +90,29 @@ public class HomeFragment extends Fragment {
             Bundle bundle = new Bundle();
             bundle.putString(Song.MOST_PLAYED, Song.MOST_PLAYED);
             activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
+        });
+
+        bind.favoritesTracksTextViewClickable.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(Song.IS_FAVORITE, Song.IS_FAVORITE);
+            activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
+        });
+    }
+
+    private void initSwipeToRefresh() {
+        bind.pullToRefreshLayout.setOnRefreshListener(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setMessage("Force reload your entire music library")
+                    .setTitle("Force sync")
+                    .setNegativeButton(R.string.ignore, null)
+                    .setPositiveButton("Sync", (dialog, id) -> {
+                        PreferenceUtil.getInstance(requireContext()).setSync(false);
+                        PreferenceUtil.getInstance(requireContext()).setSongGenreSync(false);
+                        activity.goToSync();
+                    })
+                    .show();
+
+            bind.pullToRefreshLayout.setRefreshing(false);
         });
     }
 
@@ -119,13 +148,13 @@ public class HomeFragment extends Fragment {
         bind.yearsRecyclerView.setAdapter(yearAdapter);
     }
 
-    private void initRecentPlayedSongView() {
-        bind.recentlyPlayedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        bind.recentlyPlayedTracksRecyclerView.setHasFixedSize(true);
+    private void initFavoritesSongView() {
+        bind.favoritesTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3, GridLayoutManager.HORIZONTAL, false));
+        bind.favoritesTracksRecyclerView.setHasFixedSize(true);
 
-        recentlyPlayedMusicAdapter = new RecentMusicAdapter(requireContext());
-        bind.recentlyPlayedTracksRecyclerView.setAdapter(recentlyPlayedMusicAdapter);
-        homeViewModel.getRecentlyPlayedSongList().observe(requireActivity(), songs -> recentlyPlayedMusicAdapter.setItems(songs));
+        favoriteSongAdapter = new SongResultSearchAdapter(requireContext(), getChildFragmentManager());
+        bind.favoritesTracksRecyclerView.setAdapter(favoriteSongAdapter);
+        homeViewModel.getFavorites().observe(requireActivity(), songs -> favoriteSongAdapter.setItems(songs));
     }
 
     private void initMostPlayedSongView() {
@@ -135,6 +164,15 @@ public class HomeFragment extends Fragment {
         mostPlayedMusicAdapter = new RecentMusicAdapter(requireContext());
         bind.mostPlayedTracksRecyclerView.setAdapter(mostPlayedMusicAdapter);
         homeViewModel.getMostPlayedSongList().observe(requireActivity(), songs -> mostPlayedMusicAdapter.setItems(songs));
+    }
+
+    private void initRecentPlayedSongView() {
+        bind.recentlyPlayedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        bind.recentlyPlayedTracksRecyclerView.setHasFixedSize(true);
+
+        recentlyPlayedMusicAdapter = new RecentMusicAdapter(requireContext());
+        bind.recentlyPlayedTracksRecyclerView.setAdapter(recentlyPlayedMusicAdapter);
+        homeViewModel.getRecentlyPlayedSongList().observe(requireActivity(), songs -> recentlyPlayedMusicAdapter.setItems(songs));
     }
 
     private void settDiscoverSongSlideViewOffset(float pageOffset, float pageMargin) {

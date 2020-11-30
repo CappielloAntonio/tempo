@@ -141,9 +141,7 @@
                     android:layout_marginTop="4dp"
                     android:clipToPadding="false"
                     android:overScrollMode="never"
-                    android:paddingStart="16dp"
                     android:paddingTop="8dp"
-                    android:paddingEnd="8dp"
                     android:paddingBottom="24dp" />
 
                 <TextView

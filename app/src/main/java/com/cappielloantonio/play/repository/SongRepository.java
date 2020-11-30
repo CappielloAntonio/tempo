@@ -17,6 +17,7 @@ public class SongRepository {
     private SongDao songDao;
     private SongGenreCrossDao songGenreCrossDao;
     private LiveData<List<Song>> searchListLiveSongs;
+    private LiveData<Song> liveDataSong;
     private LiveData<List<Song>> listLiveSampleRecentlyAddedSongs;
     private LiveData<List<Song>> listLiveSampleRecentlyPlayedSongs;
     private LiveData<List<Song>> listLiveSampleMostPlayedSongs;
@@ -25,6 +26,8 @@ public class SongRepository {
     private LiveData<List<Song>> listLiveSongByGenre;
     private LiveData<List<Song>> listLiveFilteredSongs;
     private LiveData<List<Song>> listLiveSongByYear;
+    private LiveData<List<Song>> listLiveSampleFavoritesSong;
+    private LiveData<List<Song>> listLiveFavoritesSong;
 
 
     public SongRepository(Application application) {
@@ -36,6 +39,11 @@ public class SongRepository {
     public LiveData<List<Song>> searchListLiveSong(String title) {
         searchListLiveSongs = songDao.searchSong(title);
         return searchListLiveSongs;
+    }
+
+    public LiveData<Song> getLiveDataSong(String id) {
+        liveDataSong = songDao.getOne(id);
+        return liveDataSong;
     }
 
     public LiveData<List<Song>> getListLiveRecentlyAddedSampleSong(int number) {
@@ -138,6 +146,16 @@ public class SongRepository {
         return listLiveSongByYear;
     }
 
+    public LiveData<List<Song>> getListLiveFavoritesSampleSong(int number) {
+        listLiveSampleFavoritesSong = songDao.getFavoriteSongSample(number);
+        return listLiveSampleFavoritesSong;
+    }
+
+    public LiveData<List<Song>> getListLiveFavoritesSong() {
+        listLiveFavoritesSong = songDao.getFavoriteSong();
+        return listLiveFavoritesSong;
+    }
+
     public boolean exist(Song song) {
         boolean exist = false;
 
@@ -173,9 +191,15 @@ public class SongRepository {
         thread.start();
     }
 
-    public void update(Song song) {
+    public void increasePlayCount(Song song) {
         song.nowPlaying();
 
+        UpdateThreadSafe update = new UpdateThreadSafe(songDao, song);
+        Thread thread = new Thread(update);
+        thread.start();
+    }
+
+    public void setFavoriteStatus(Song song) {
         UpdateThreadSafe update = new UpdateThreadSafe(songDao, song);
         Thread thread = new Thread(update);
         thread.start();

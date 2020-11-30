@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.model.Genre;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> {
@@ -24,6 +25,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
     public GenreAdapter(Context context) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
+        this.genres = new ArrayList<>();
     }
 
     @Override

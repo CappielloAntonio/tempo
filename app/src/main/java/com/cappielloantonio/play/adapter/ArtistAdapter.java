@@ -13,6 +13,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Artist;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder> {
@@ -26,6 +27,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
     public ArtistAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
+        this.artists = new ArrayList<>();
     }
 
     @Override

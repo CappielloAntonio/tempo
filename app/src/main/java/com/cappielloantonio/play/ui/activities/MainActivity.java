@@ -1,5 +1,7 @@
 package com.cappielloantonio.play.ui.activities;
 
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 
@@ -10,6 +12,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.broadcast.receiver.ConnectivityStatusBroadcastReceiver;
 import com.cappielloantonio.play.databinding.ActivityMainBinding;
 import com.cappielloantonio.play.ui.activities.base.BaseActivity;
 import com.cappielloantonio.play.util.PreferenceUtil;
@@ -26,12 +29,14 @@ import java.util.Objects;
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
 
-    private ActivityMainBinding activityMainBinding;
+    public ActivityMainBinding activityMainBinding;
 
     private FragmentManager fragmentManager;
     private NavHostFragment navHostFragment;
     private BottomNavigationView bottomNavigationView;
     public NavController navController;
+
+    ConnectivityStatusBroadcastReceiver connectivityStatusBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +44,16 @@ public class MainActivity extends BaseActivity {
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = activityMainBinding.getRoot();
         setContentView(view);
+        connectivityStatusBroadcastReceiver = new ConnectivityStatusBroadcastReceiver(this);
+        connectivityStatusReceiverManager(true);
 
         init();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        connectivityStatusReceiverManager(false);
     }
 
     public void init() {
@@ -76,7 +89,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onError(Exception exception) {
-                goToLogin();
+                goFromLogin();
             }
         });
     }
@@ -128,6 +141,16 @@ public class MainActivity extends BaseActivity {
             goToHome();
         } else {
             goToSync();
+        }
+    }
+
+    private void connectivityStatusReceiverManager(boolean isActive) {
+        if(isActive) {
+            IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+            registerReceiver(connectivityStatusBroadcastReceiver, filter);
+        }
+        else {
+            unregisterReceiver(connectivityStatusBroadcastReceiver);
         }
     }
 }

@@ -31,9 +31,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:clipToPadding="false"
-            android:paddingStart="16dp"
             android:paddingTop="8dp"
-            android:paddingEnd="8dp"
             android:paddingBottom="8dp" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

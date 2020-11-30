@@ -57,6 +57,12 @@ public class LibraryFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        activity.setBottomNavigationBarVisibility(true);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         bind = null;
@@ -66,7 +72,6 @@ public class LibraryFragment extends Fragment {
         bind.albumCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_albumCatalogueFragment));
         bind.artistCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_artistCatalogueFragment));
         bind.genreCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_genreCatalogueFragment));
-        bind.syncGenreButton.setOnClickListener(v -> syncSongsPerGenre());
     }
 
     private void initAlbumView() {

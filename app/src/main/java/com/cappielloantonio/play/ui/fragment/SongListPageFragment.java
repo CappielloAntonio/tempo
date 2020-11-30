@@ -15,8 +15,6 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.viewmodel.SongListPageViewModel;
 
-import java.util.ArrayList;
-
 public class SongListPageFragment extends Fragment {
 
     private FragmentSongListPageBinding bind;
@@ -37,6 +35,12 @@ public class SongListPageFragment extends Fragment {
         initSongListView();
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        activity.setBottomNavigationBarVisibility(false);
     }
 
     @Override
@@ -79,13 +83,17 @@ public class SongListPageFragment extends Fragment {
             songListPageViewModel.year = getArguments().getInt("year_object");
             bind.pageTitleLabel.setText("Year " + songListPageViewModel.year);
         }
+        else if(getArguments().getString(Song.IS_FAVORITE) != null) {
+            songListPageViewModel.title = Song.IS_FAVORITE;
+            bind.pageTitleLabel.setText("Favourite song");
+        }
     }
 
     private void initSongListView() {
         bind.songListRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.songListRecyclerView.setHasFixedSize(true);
 
-        songResultSearchAdapter = new SongResultSearchAdapter(requireContext(), new ArrayList<>());
+        songResultSearchAdapter = new SongResultSearchAdapter(requireContext(), getChildFragmentManager());
         bind.songListRecyclerView.setAdapter(songResultSearchAdapter);
         songListPageViewModel.getSongList().observe(requireActivity(), songs -> songResultSearchAdapter.setItems(songs));
     }

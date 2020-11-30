@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:fontFamily="@font/open_sans_font_family"
-        android:maxWidth="172dp"
+        android:maxWidth="256dp"
         android:maxLines="2"
         android:paddingStart="2dp"
         android:paddingTop="8dp"

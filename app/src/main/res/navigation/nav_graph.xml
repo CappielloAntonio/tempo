@@ -178,4 +178,22 @@
         android:name="com.cappielloantonio.play.ui.fragment.SongListPageFragment"
         android:label="SongListPageFragment"
         tools:layout="@layout/fragment_song_list_page"/>
+    <dialog
+        android:id="@+id/songBottomSheetDialog"
+        android:name="com.cappielloantonio.play.ui.fragment.bottomsheetdialog.SongBottomSheetDialog"
+        android:label="SongBottomSheetDialog"
+        tools:layout="@layout/bottom_sheet_song_dialog">
+    </dialog>
+    <dialog
+        android:id="@+id/artistBottomSheetDialog"
+        android:name="com.cappielloantonio.play.ui.fragment.bottomsheetdialog.ArtistBottomSheetDialog"
+        android:label="ArtistBottomSheetDialog"
+        tools:layout="@layout/bottom_sheet_artist_dialog">
+    </dialog>
+    <dialog
+        android:id="@+id/albumBottomSheetDialog"
+        android:name="com.cappielloantonio.play.ui.fragment.bottomsheetdialog.AlbumBottomSheetDialog"
+        android:label="AlbumBottomSheetDialog"
+        tools:layout="@layout/bottom_sheet_album_dialog">
+    </dialog>
 </navigation>

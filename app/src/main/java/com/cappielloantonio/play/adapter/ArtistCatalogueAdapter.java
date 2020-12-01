@@ -1,12 +1,14 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
@@ -15,6 +17,7 @@ import com.cappielloantonio.play.model.Artist;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogueAdapter.ViewHolder> {
     private static final String TAG = "ArtistCatalogueAdapter";
@@ -22,7 +25,6 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
     private List<Artist> artists;
     private LayoutInflater inflater;
     private Context context;
-    private ItemClickListener itemClickListener;
 
     public ArtistCatalogueAdapter(Context context) {
         this.context = context;
@@ -53,7 +55,7 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
         return artists.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView textArtistName;
         ImageView cover;
 
@@ -64,11 +66,31 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
             cover = itemView.findViewById(R.id.artist_catalogue_cover_image_view);
 
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            if (itemClickListener != null) itemClickListener.onItemClick(view, getAdapterPosition());
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("artist_object", artists.get(getAdapterPosition()));
+
+            if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.searchFragment) {
+                Navigation.findNavController(view).navigate(R.id.action_searchFragment_to_artistPageFragment, bundle);
+            }
+            else if(Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.libraryFragment) {
+                Navigation.findNavController(view).navigate(R.id.action_libraryFragment_to_artistPageFragment, bundle);
+            }
+            else if(Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.artistCatalogueFragment) {
+                Navigation.findNavController(view).navigate(R.id.action_artistCatalogueFragment_to_artistPageFragment, bundle);
+            }
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("artist_object", artists.get(getAdapterPosition()));
+            Navigation.findNavController(v).navigate(R.id.artistBottomSheetDialog, bundle);
+            return true;
         }
     }
 
@@ -79,13 +101,5 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
     public void setItems(List<Artist> artists) {
         this.artists = artists;
         notifyDataSetChanged();
-    }
-
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
-    }
-
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
     }
 }

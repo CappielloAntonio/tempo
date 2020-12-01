@@ -2,7 +2,6 @@ package com.cappielloantonio.play.util;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.MediaCallback;
@@ -222,8 +221,6 @@ public class SyncUtil {
 
     private static Song updateSongData(Map<Integer, Song> library, Song newSong) {
         if(library.containsKey(newSong.hashCode())) {
-            Log.d(TAG, "updateSongData: " + newSong.getTitle());
-
             Song oldSong = library.get(newSong.hashCode());
             newSong.setFavorite(oldSong.isFavorite());
             newSong.setAdded(oldSong.getAdded());

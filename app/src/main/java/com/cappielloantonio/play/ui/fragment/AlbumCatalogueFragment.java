@@ -9,10 +9,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumCatalogueBinding;
-import com.cappielloantonio.play.helper.recyclerview.ItemDecoration;
+import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.viewmodel.AlbumCatalogueViewModel;
 
@@ -52,15 +51,10 @@ public class AlbumCatalogueFragment extends Fragment {
 
     private void initAlbumCatalogueView() {
         bind.albumCatalogueRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-        bind.albumCatalogueRecyclerView.addItemDecoration(new ItemDecoration(2, 20, false));
+        bind.albumCatalogueRecyclerView.addItemDecoration(new GridItemDecoration(2, 20, false));
         bind.albumCatalogueRecyclerView.setHasFixedSize(true);
 
         albumAdapter = new AlbumCatalogueAdapter(requireContext());
-        albumAdapter.setClickListener((view, position) -> {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("album_object", albumAdapter.getItem(position));
-            activity.navController.navigate(R.id.action_albumCatalogueFragment_to_albumPageFragment, bundle);
-        });
         bind.albumCatalogueRecyclerView.setAdapter(albumAdapter);
         albumCatalogueViewModel.getAlbumList().observe(requireActivity(), albums -> {
             bind.loadingProgressBar.setVisibility(View.GONE);

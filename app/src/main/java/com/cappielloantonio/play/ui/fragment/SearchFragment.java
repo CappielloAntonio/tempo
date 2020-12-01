@@ -13,13 +13,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumCatalogueAdapter;
 import com.cappielloantonio.play.adapter.ArtistCatalogueAdapter;
 import com.cappielloantonio.play.adapter.RecentSearchAdapter;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentSearchBinding;
-import com.cappielloantonio.play.helper.recyclerview.ItemDecoration;
+import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
 import com.cappielloantonio.play.model.RecentSearch;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.viewmodel.SearchViewModel;
@@ -98,28 +97,18 @@ public class SearchFragment extends Fragment {
 
         // Albums
         bind.searchResultAlbumRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-        bind.searchResultAlbumRecyclerView.addItemDecoration(new ItemDecoration(2, 20, false));
+        bind.searchResultAlbumRecyclerView.addItemDecoration(new GridItemDecoration(2, 20, false));
         bind.searchResultAlbumRecyclerView.setHasFixedSize(true);
 
         albumResultSearchAdapter = new AlbumCatalogueAdapter(requireContext());
-        albumResultSearchAdapter.setClickListener((view, position) -> {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("album_object", albumResultSearchAdapter.getItem(position));
-            activity.navController.navigate(R.id.action_searchFragment_to_albumPageFragment, bundle);
-        });
         bind.searchResultAlbumRecyclerView.setAdapter(albumResultSearchAdapter);
 
         // Artist
         bind.searchResultArtistRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-        bind.searchResultArtistRecyclerView.addItemDecoration(new ItemDecoration(2, 20, false));
+        bind.searchResultArtistRecyclerView.addItemDecoration(new GridItemDecoration(2, 20, false));
         bind.searchResultArtistRecyclerView.setHasFixedSize(true);
 
         artistResultSearchAdapter = new ArtistCatalogueAdapter(requireContext());
-        artistResultSearchAdapter.setClickListener((view, position) -> {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("artist_object", artistResultSearchAdapter.getItem(position));
-            activity.navController.navigate(R.id.action_searchFragment_to_artistPageFragment, bundle);
-        });
         bind.searchResultArtistRecyclerView.setAdapter(artistResultSearchAdapter);
     }
 

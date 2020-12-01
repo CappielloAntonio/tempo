@@ -11,17 +11,20 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.viewmodel.AlbumBottomSheetViewModel;
+import com.cappielloantonio.play.viewmodel.SongBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class SongBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
-    private static final String TAG = "AlbumBottomSheetDialog";
+    private static final String TAG = "SongBottomSheetDialog";
 
-    private AlbumBottomSheetViewModel albumBottomSheetViewModel;
+    private SongBottomSheetViewModel songBottomSheetViewModel;
     private Song song;
 
     private ImageView coverSong;
@@ -34,19 +37,18 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
     private TextView addToQueue;
     private TextView Download;
     private TextView addToPlaylist;
+    private TextView goToAlbum;
     private TextView goToArtist;
-
-
-    public SongBottomSheetDialog(Song song) {
-        this.song = song;
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet_song_dialog, container, false);
-        albumBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(AlbumBottomSheetViewModel.class);
-        albumBottomSheetViewModel.setSong(song);
+
+        song = this.getArguments().getParcelable("song_object");
+
+        songBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(SongBottomSheetViewModel.class);
+        songBottomSheetViewModel.setSong(song);
 
         init(view);
 
@@ -56,20 +58,20 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
     private void init(View view) {
         coverSong = view.findViewById(R.id.song_cover_image_view);
         CustomGlideRequest.Builder
-                .from(requireContext(), albumBottomSheetViewModel.getSong().getPrimary(), albumBottomSheetViewModel.getSong().getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY)
+                .from(requireContext(), songBottomSheetViewModel.getSong().getPrimary(), songBottomSheetViewModel.getSong().getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY)
                 .build()
                 .into(coverSong);
 
         titleSong = view.findViewById(R.id.song_title_text_view);
-        titleSong.setText(albumBottomSheetViewModel.getSong().getTitle());
+        titleSong.setText(songBottomSheetViewModel.getSong().getTitle());
 
         artistSong = view.findViewById(R.id.song_artist_text_view);
-        artistSong.setText(albumBottomSheetViewModel.getSong().getArtistName());
+        artistSong.setText(songBottomSheetViewModel.getSong().getArtistName());
 
         thumbToggle = view.findViewById(R.id.button_favorite);
-        thumbToggle.setChecked(albumBottomSheetViewModel.getSong().isFavorite());
+        thumbToggle.setChecked(songBottomSheetViewModel.getSong().isFavorite());
         thumbToggle.setOnClickListener(v -> {
-            albumBottomSheetViewModel.setFavorite();
+            songBottomSheetViewModel.setFavorite();
             dismissBottomSheet();
         });
 
@@ -103,9 +105,30 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
             dismissBottomSheet();
         });
 
+        goToAlbum = view.findViewById(R.id.go_to_album_text_view);
+        goToAlbum.setOnClickListener(v -> {
+            Album album = songBottomSheetViewModel.getAlbum();
+
+            if(album != null) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("album_object", album);
+                NavHostFragment.findNavController(this).navigate(R.id.albumPageFragment, bundle);
+            }
+            else Toast.makeText(requireContext(), "Error retrieving album", Toast.LENGTH_SHORT).show();
+
+            dismissBottomSheet();
+        });
+
         goToArtist = view.findViewById(R.id.go_to_artist_text_view);
         goToArtist.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Go to artist", Toast.LENGTH_SHORT).show();
+            Artist artist = songBottomSheetViewModel.getArtist();
+            if(artist != null) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("artist_object", artist);
+                NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
+            }
+            else Toast.makeText(requireContext(), "Error retrieving artist", Toast.LENGTH_SHORT).show();
+
             dismissBottomSheet();
         });
     }

@@ -5,35 +5,30 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.repository.ArtistRepository;
 
 public class AlbumBottomSheetViewModel extends AndroidViewModel {
-    private SongRepository songRepository;
-    private Song song;
+    private ArtistRepository artistRepository;
+
+    private Album album;
 
     public AlbumBottomSheetViewModel(@NonNull Application application) {
         super(application);
 
-        songRepository = new SongRepository(application);
+        artistRepository = new ArtistRepository(application);
     }
 
-    public void setSong(Song song) {
-        this.song = song;
+    public Album getAlbum() {
+        return album;
     }
 
-    public Song getSong() {
-        return song;
+    public void setAlbum(Album album) {
+        this.album = album;
     }
 
-    public void setFavorite() {
-        if(song.isFavorite()) {
-            song.setFavorite(false);
-        }
-        else {
-            song.setFavorite(true);
-        }
-
-        songRepository.setFavoriteStatus(song);
+    public Artist getArtist() {
+        return artistRepository.getArtistByID(album.getArtistId());
     }
 }

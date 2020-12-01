@@ -104,6 +104,23 @@ public class AlbumRepository {
         thread.start();
     }
 
+    public Album getAlbumByID(String id) {
+        Album album = null;
+
+        GetAlbumByIDThreadSafe getAlbum = new GetAlbumByIDThreadSafe(albumDao, id);
+        Thread thread = new Thread(getAlbum);
+        thread.start();
+
+        try {
+            thread.join();
+            album = getAlbum.getAlbum();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return album;
+    }
+
     private static class ExistThreadSafe implements Runnable {
         private AlbumDao albumDao;
         private Album album;
@@ -202,6 +219,26 @@ public class AlbumRepository {
         @Override
         public void run() {
             albumDao.deleteAll();
+        }
+    }
+
+    private static class GetAlbumByIDThreadSafe implements Runnable {
+        private Album album;
+        private AlbumDao albumDao;
+        private String id;
+
+        public GetAlbumByIDThreadSafe(AlbumDao albumDao, String id) {
+            this.albumDao = albumDao;
+            this.id = id;
+        }
+
+        @Override
+        public void run() {
+            album = albumDao.getAlbumByID(id);
+        }
+
+        public Album getAlbum() {
+            return album;
         }
     }
 }

@@ -13,7 +13,6 @@ import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.ui.activities.MainActivity;
-import com.cappielloantonio.play.ui.fragment.bottomsheetdialog.AlbumBottomSheetDialog;
 import com.cappielloantonio.play.viewmodel.AlbumPageViewModel;
 
 public class AlbumPageFragment extends Fragment {
@@ -33,7 +32,6 @@ public class AlbumPageFragment extends Fragment {
         albumPageViewModel = new ViewModelProvider(requireActivity()).get(AlbumPageViewModel.class);
 
         init();
-        initBottomSheetDialog();
         initBackCover();
         initSongsView();
 
@@ -63,13 +61,6 @@ public class AlbumPageFragment extends Fragment {
         albumPageViewModel.setAlbum(getArguments().getParcelable("album_object"));
 
         bind.albumTitleLabel.setText(albumPageViewModel.getAlbum().getTitle());
-    }
-
-    private void initBottomSheetDialog() {
-        bind.albumSettingsImageButton.setOnClickListener(v -> {
-            AlbumBottomSheetDialog albumBottomSheetDialog = new AlbumBottomSheetDialog(albumPageViewModel.getAlbum());
-            albumBottomSheetDialog.show(this.getChildFragmentManager(), null);
-        });
     }
 
     private void initSongsView() {

@@ -89,11 +89,6 @@ public class ArtistPageFragment extends Fragment {
         bind.albumsRecyclerView.setHasFixedSize(true);
 
         albumArtistPageAdapter = new AlbumArtistPageAdapter(requireContext());
-        albumArtistPageAdapter.setClickListener((view, position) -> {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("album_object", albumArtistPageAdapter.getItem(position));
-            activity.navController.navigate(R.id.action_artistPageFragment_to_albumPageFragment, bundle);
-        });
         bind.albumsRecyclerView.setAdapter(albumArtistPageAdapter);
         artistPageViewModel.getAlbumList().observe(requireActivity(), songs -> albumArtistPageAdapter.setItems(songs));
     }

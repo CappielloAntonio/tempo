@@ -1,12 +1,15 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.App;
@@ -27,9 +30,11 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
     private List<Song> songs;
     private LayoutInflater mInflater;
     private Context context;
+    private FragmentManager fragmentManager;
 
-    public RecentMusicAdapter(Context context) {
+    public RecentMusicAdapter(Context context, FragmentManager fragmentManager) {
         this.context = context;
+        this.fragmentManager = fragmentManager;
         this.mInflater = LayoutInflater.from(context);
         this.songs = new ArrayList<>();
     }
@@ -58,7 +63,7 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
         return songs.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView textTitle;
         TextView textAlbum;
         ImageView cover;
@@ -71,12 +76,21 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
             cover = itemView.findViewById(R.id.track_cover_image_view);
 
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
             SongRepository songRepository = new SongRepository(App.getInstance());
             songRepository.increasePlayCount(songs.get(getAdapterPosition()));
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("song_object", songs.get(getAdapterPosition()));
+            Navigation.findNavController(view).navigate(R.id.songBottomSheetDialog, bundle);
+            return true;
         }
     }
 

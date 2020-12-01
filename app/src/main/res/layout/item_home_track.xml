@@ -14,12 +14,13 @@
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="2dp"
         card_view:cardPreventCornerOverlap="false"
-        card_view:cardUseCompatPadding="true">
+        card_view:cardUseCompatPadding="true"
+        android:foreground="?attr/selectableItemBackground">
 
         <ImageView
             android:id="@+id/track_cover_image_view"
             android:layout_width="172dp"
-            android:layout_height="172dp"/>
+            android:layout_height="172dp" />
     </androidx.cardview.widget.CardView>
 
     <TextView

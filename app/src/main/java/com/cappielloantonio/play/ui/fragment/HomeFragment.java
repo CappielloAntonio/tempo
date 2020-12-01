@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.cappielloantonio.play.R;
@@ -129,7 +130,7 @@ public class HomeFragment extends Fragment {
         bind.recentlyAddedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.recentlyAddedTracksRecyclerView.setHasFixedSize(true);
 
-        recentlyAddedMusicAdapter = new RecentMusicAdapter(requireContext());
+        recentlyAddedMusicAdapter = new RecentMusicAdapter(requireContext(), getChildFragmentManager());
         bind.recentlyAddedTracksRecyclerView.setAdapter(recentlyAddedMusicAdapter);
         homeViewModel.getRecentlyAddedSongList().observe(requireActivity(), songs -> recentlyAddedMusicAdapter.setItems(songs));
     }
@@ -149,19 +150,22 @@ public class HomeFragment extends Fragment {
     }
 
     private void initFavoritesSongView() {
-        bind.favoritesTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3, GridLayoutManager.HORIZONTAL, false));
+        bind.favoritesTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 5, GridLayoutManager.HORIZONTAL, false));
         bind.favoritesTracksRecyclerView.setHasFixedSize(true);
 
         favoriteSongAdapter = new SongResultSearchAdapter(requireContext(), getChildFragmentManager());
         bind.favoritesTracksRecyclerView.setAdapter(favoriteSongAdapter);
         homeViewModel.getFavorites().observe(requireActivity(), songs -> favoriteSongAdapter.setItems(songs));
+
+        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+        pagerSnapHelper.attachToRecyclerView(bind.favoritesTracksRecyclerView);
     }
 
     private void initMostPlayedSongView() {
         bind.mostPlayedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.mostPlayedTracksRecyclerView.setHasFixedSize(true);
 
-        mostPlayedMusicAdapter = new RecentMusicAdapter(requireContext());
+        mostPlayedMusicAdapter = new RecentMusicAdapter(requireContext(), getChildFragmentManager());
         bind.mostPlayedTracksRecyclerView.setAdapter(mostPlayedMusicAdapter);
         homeViewModel.getMostPlayedSongList().observe(requireActivity(), songs -> mostPlayedMusicAdapter.setItems(songs));
     }
@@ -170,7 +174,7 @@ public class HomeFragment extends Fragment {
         bind.recentlyPlayedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.recentlyPlayedTracksRecyclerView.setHasFixedSize(true);
 
-        recentlyPlayedMusicAdapter = new RecentMusicAdapter(requireContext());
+        recentlyPlayedMusicAdapter = new RecentMusicAdapter(requireContext(), getChildFragmentManager());
         bind.recentlyPlayedTracksRecyclerView.setAdapter(recentlyPlayedMusicAdapter);
         homeViewModel.getRecentlyPlayedSongList().observe(requireActivity(), songs -> recentlyPlayedMusicAdapter.setItems(songs));
     }

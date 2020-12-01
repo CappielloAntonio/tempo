@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.GenreCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentGenreCatalogueBinding;
-import com.cappielloantonio.play.helper.recyclerview.ItemDecoration;
+import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.viewmodel.GenreCatalogueViewModel;
@@ -58,7 +58,7 @@ public class GenreCatalogueFragment extends Fragment {
 
     private void initArtistCatalogueView() {
         bind.genreCatalogueRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-        bind.genreCatalogueRecyclerView.addItemDecoration(new ItemDecoration(2, 16, false));
+        bind.genreCatalogueRecyclerView.addItemDecoration(new GridItemDecoration(2, 16, false));
         bind.genreCatalogueRecyclerView.setHasFixedSize(true);
 
         genreCatalogueAdapter = new GenreCatalogueAdapter(requireContext());

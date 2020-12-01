@@ -42,4 +42,7 @@ public interface AlbumDao {
 
     @Query("DELETE FROM album")
     void deleteAll();
+
+    @Query("SELECT * FROM album WHERE id = :id")
+    Album getAlbumByID(String id);
 }

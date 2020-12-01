@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.App;
@@ -15,7 +17,6 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.SongRepository;
-import com.cappielloantonio.play.ui.fragment.bottomsheetdialog.SongBottomSheetDialog;
 import com.cappielloantonio.play.util.Util;
 
 import java.util.ArrayList;
@@ -90,8 +91,9 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
 
         @Override
         public boolean onLongClick(View v) {
-            SongBottomSheetDialog songBottomSheetDialog = new SongBottomSheetDialog(songs.get(getAdapterPosition()));
-            songBottomSheetDialog.show(fragmentManager, null);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("song_object", songs.get(getAdapterPosition()));
+            Navigation.findNavController(v).navigate(R.id.songBottomSheetDialog, bundle);
             return true;
         }
     }

@@ -39,4 +39,7 @@ public interface ArtistDao {
 
     @Query("DELETE FROM artist")
     void deleteAll();
+
+    @Query("SELECT * FROM artist WHERE id = :id")
+    Artist getArtistByID(String id);
 }

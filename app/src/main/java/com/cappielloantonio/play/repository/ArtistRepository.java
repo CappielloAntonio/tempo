@@ -97,6 +97,23 @@ public class ArtistRepository {
         thread.start();
     }
 
+    public Artist getArtistByID(String id) {
+        Artist artist = null;
+
+        GetArtistByIDThreadSafe getArtist = new GetArtistByIDThreadSafe(artistDao, id);
+        Thread thread = new Thread(getArtist);
+        thread.start();
+
+        try {
+            thread.join();
+            artist = getArtist.getArtist();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return artist;
+    }
+
     private static class ExistThreadSafe implements Runnable {
         private ArtistDao artistDao;
         private Artist artist;
@@ -195,6 +212,26 @@ public class ArtistRepository {
         @Override
         public void run() {
             artistDao.deleteAll();
+        }
+    }
+
+    private static class GetArtistByIDThreadSafe implements Runnable {
+        private Artist artist;
+        private ArtistDao artistDao;
+        private String id;
+
+        public GetArtistByIDThreadSafe(ArtistDao artistDao, String id) {
+            this.artistDao = artistDao;
+            this.id = id;
+        }
+
+        @Override
+        public void run() {
+            artist = artistDao.getArtistByID(id);
+        }
+
+        public Artist getArtist() {
+            return artist;
         }
     }
 }

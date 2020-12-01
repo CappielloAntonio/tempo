@@ -1,12 +1,14 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
@@ -22,7 +24,6 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
     private List<Artist> artists;
     private LayoutInflater inflater;
     private Context context;
-    private ItemClickListener itemClickListener;
 
     public ArtistAdapter(Context context) {
         this.context = context;
@@ -53,7 +54,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
         return artists.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView textArtistName;
         ImageView cover;
 
@@ -64,11 +65,22 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
             cover = itemView.findViewById(R.id.artist_cover_image_view);
 
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            if (itemClickListener != null) itemClickListener.onItemClick(view, getAdapterPosition());
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("artist_object", artists.get(getAdapterPosition()));
+            Navigation.findNavController(view).navigate(R.id.action_libraryFragment_to_artistPageFragment, bundle);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("artist_object", artists.get(getAdapterPosition()));
+            Navigation.findNavController(v).navigate(R.id.artistBottomSheetDialog, bundle);
+            return true;
         }
     }
 
@@ -79,13 +91,5 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
     public void setItems(List<Artist> artists) {
         this.artists = artists;
         notifyDataSetChanged();
-    }
-
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
-    }
-
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
     }
 }

@@ -66,38 +66,17 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!--  Label and button  -->
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_font_family"
             android:layout_marginTop="12dp"
-            android:orientation="horizontal"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/open_sans_font_family"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:text="Songs"
-                android:textColor="@color/titleTextColor"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-
-            <ImageButton
-                android:id="@+id/album_settings_image_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:layout_marginTop="-6dp"
-                android:backgroundTint="@android:color/transparent"
-                android:tint="@color/titleTextColor"
-                android:src="@drawable/ic_more" />
-        </LinearLayout>
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="Songs"
+            android:textColor="@color/titleTextColor"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/song_recycler_view"

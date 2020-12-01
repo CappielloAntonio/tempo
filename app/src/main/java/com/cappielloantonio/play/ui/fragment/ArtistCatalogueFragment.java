@@ -9,10 +9,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.ArtistCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistCatalogueBinding;
-import com.cappielloantonio.play.helper.recyclerview.ItemDecoration;
+import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.viewmodel.ArtistCatalogueViewModel;
 
@@ -52,15 +51,10 @@ public class ArtistCatalogueFragment extends Fragment {
 
     private void initArtistCatalogueView() {
         bind.artistCatalogueRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-        bind.artistCatalogueRecyclerView.addItemDecoration(new ItemDecoration(2, 20, false));
+        bind.artistCatalogueRecyclerView.addItemDecoration(new GridItemDecoration(2, 20, false));
         bind.artistCatalogueRecyclerView.setHasFixedSize(true);
 
         artistAdapter = new ArtistCatalogueAdapter(requireContext());
-        artistAdapter.setClickListener((view, position) -> {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("artist_object", artistAdapter.getItem(position));
-            activity.navController.navigate(R.id.action_artistCatalogueFragment_to_artistPageFragment, bundle);
-        });
         bind.artistCatalogueRecyclerView.setAdapter(artistAdapter);
         artistCatalogueViewModel.getArtistList().observe(requireActivity(), artists -> {
             bind.loadingProgressBar.setVisibility(View.GONE);

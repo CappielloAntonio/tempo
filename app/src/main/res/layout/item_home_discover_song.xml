@@ -13,16 +13,16 @@
     <ImageView
         android:id="@+id/discover_song_cover_image_view"
         android:layout_width="match_parent"
-        android:layout_height="172dp" />
+        android:layout_height="196dp" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="172dp"
+        android:layout_height="196dp"
         android:background="@drawable/gradient_discover_background_image" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="172dp">
+        android:layout_height="196dp">
 
         <TextView
             android:id="@+id/title_discover_song_label"

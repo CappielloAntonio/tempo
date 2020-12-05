@@ -14,6 +14,7 @@
     <color name="navigationDrawerColor">#FFFFFF</color>
 
     <color name="cardColor">#FFFFFF</color>
+    <color name="almostCardColor">#FFFFFE</color>
 
     <color name="titleTextColor">#252525</color>
     <color name="subtitleTextColor">#646464</color>
@@ -41,4 +42,6 @@
     <color name="chipBorderColor">#AFAFAF</color>
     <color name="chipSelectedBackgroundColor">#EBEBEB</color>
     <color name="chipUnelectedBackgroundColor">#FFFFFF</color>
+
+    <color name="white">#FFFFFF</color>
 </resources>

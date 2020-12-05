@@ -1,7 +1,6 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentManager;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.App;
@@ -24,10 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Adapter per i brani recenti in home
+ * Adapter per i brani ritrovati nella ricerca
  */
-public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.ViewHolder> {
-    private static final String TAG = "RecentMusicAdapter";
+public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueueAdapter.ViewHolder> {
+    private static final String TAG = "SongResultSearchAdapter";
 
     private List<Song> songs;
     private LayoutInflater mInflater;
@@ -35,7 +33,7 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
     private Context context;
     private FragmentManager fragmentManager;
 
-    public RecentMusicAdapter(MainActivity mainActivity, Context context, FragmentManager fragmentManager) {
+    public PlayerSongQueueAdapter(MainActivity mainActivity, Context context, FragmentManager fragmentManager) {
         this.mainActivity = mainActivity;
         this.context = context;
         this.fragmentManager = fragmentManager;
@@ -45,7 +43,7 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_home_track, parent, false);
+        View view = mInflater.inflate(R.layout.item_player_queue_song, parent, false);
         return new ViewHolder(view);
     }
 
@@ -53,8 +51,8 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         Song song = songs.get(position);
 
-        holder.textTitle.setText(song.getTitle());
-        holder.textAlbum.setText(song.getAlbumName());
+        holder.songTitle.setText(song.getTitle());
+        holder.songArtist.setText(song.getArtistName());
 
         CustomGlideRequest.Builder
                 .from(context, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY)
@@ -67,20 +65,19 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
         return songs.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        TextView textTitle;
-        TextView textAlbum;
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView songTitle;
+        TextView songArtist;
         ImageView cover;
 
         ViewHolder(View itemView) {
             super(itemView);
 
-            textTitle = itemView.findViewById(R.id.title_track_label);
-            textAlbum = itemView.findViewById(R.id.album_track_label);
-            cover = itemView.findViewById(R.id.track_cover_image_view);
+            songTitle = itemView.findViewById(R.id.queue_song_title_text_view);
+            songArtist = itemView.findViewById(R.id.queue_song_artist_text_view);
+            cover = itemView.findViewById(R.id.queue_song_cover_image_view);
 
             itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
         }
 
         @Override
@@ -89,22 +86,15 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
             QueueRepository queueRepository = new QueueRepository(App.getInstance());
 
             songRepository.increasePlayCount(songs.get(getAdapterPosition()));
-            queueRepository.insertAllAndStartNew(songs.subList(getAdapterPosition(), songs.size()));
-
-            mainActivity.isBottomSheetInPeek(true);
-        }
-
-        @Override
-        public boolean onLongClick(View view) {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("song_object", songs.get(getAdapterPosition()));
-            Navigation.findNavController(view).navigate(R.id.songBottomSheetDialog, bundle);
-            return true;
         }
     }
 
     public void setItems(List<Song> songs) {
         this.songs = songs;
         notifyDataSetChanged();
+    }
+
+    public Song getItem(int id) {
+        return songs.get(id);
     }
 }

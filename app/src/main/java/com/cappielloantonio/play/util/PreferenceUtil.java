@@ -58,7 +58,7 @@ public class PreferenceUtil {
     }
 
     public String getToken() {
-        return mPreferences.getString(TOKEN, "");
+        return mPreferences.getString(TOKEN, null);
     }
 
     public void setToken(String token) {

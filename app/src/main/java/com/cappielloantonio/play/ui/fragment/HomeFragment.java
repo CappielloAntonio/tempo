@@ -66,6 +66,7 @@ public class HomeFragment extends Fragment {
     public void onStart() {
         super.onStart();
         activity.setBottomNavigationBarVisibility(true);
+        activity.setBottomSheetVisibility(true);
     }
 
     @Override
@@ -123,14 +124,14 @@ public class HomeFragment extends Fragment {
         discoverSongAdapter = new DiscoverSongAdapter(requireContext(), homeViewModel.getDiscoverSongList());
         bind.discoverSongViewPager.setAdapter(discoverSongAdapter);
         bind.discoverSongViewPager.setOffscreenPageLimit(3);
-        settDiscoverSongSlideViewOffset(20, 16);
+        setDiscoverSongSlideViewOffset(20, 16);
     }
 
     private void initRecentAddedSongView() {
         bind.recentlyAddedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.recentlyAddedTracksRecyclerView.setHasFixedSize(true);
 
-        recentlyAddedMusicAdapter = new RecentMusicAdapter(requireContext(), getChildFragmentManager());
+        recentlyAddedMusicAdapter = new RecentMusicAdapter(activity, requireContext(), getChildFragmentManager());
         bind.recentlyAddedTracksRecyclerView.setAdapter(recentlyAddedMusicAdapter);
         homeViewModel.getRecentlyAddedSongList().observe(requireActivity(), songs -> recentlyAddedMusicAdapter.setItems(songs));
     }
@@ -153,7 +154,7 @@ public class HomeFragment extends Fragment {
         bind.favoritesTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 5, GridLayoutManager.HORIZONTAL, false));
         bind.favoritesTracksRecyclerView.setHasFixedSize(true);
 
-        favoriteSongAdapter = new SongResultSearchAdapter(requireContext(), getChildFragmentManager());
+        favoriteSongAdapter = new SongResultSearchAdapter(activity, requireContext(), getChildFragmentManager());
         bind.favoritesTracksRecyclerView.setAdapter(favoriteSongAdapter);
         homeViewModel.getFavorites().observe(requireActivity(), songs -> favoriteSongAdapter.setItems(songs));
 
@@ -165,7 +166,7 @@ public class HomeFragment extends Fragment {
         bind.mostPlayedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.mostPlayedTracksRecyclerView.setHasFixedSize(true);
 
-        mostPlayedMusicAdapter = new RecentMusicAdapter(requireContext(), getChildFragmentManager());
+        mostPlayedMusicAdapter = new RecentMusicAdapter(activity, requireContext(), getChildFragmentManager());
         bind.mostPlayedTracksRecyclerView.setAdapter(mostPlayedMusicAdapter);
         homeViewModel.getMostPlayedSongList().observe(requireActivity(), songs -> mostPlayedMusicAdapter.setItems(songs));
     }
@@ -174,12 +175,12 @@ public class HomeFragment extends Fragment {
         bind.recentlyPlayedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.recentlyPlayedTracksRecyclerView.setHasFixedSize(true);
 
-        recentlyPlayedMusicAdapter = new RecentMusicAdapter(requireContext(), getChildFragmentManager());
+        recentlyPlayedMusicAdapter = new RecentMusicAdapter(activity, requireContext(), getChildFragmentManager());
         bind.recentlyPlayedTracksRecyclerView.setAdapter(recentlyPlayedMusicAdapter);
         homeViewModel.getRecentlyPlayedSongList().observe(requireActivity(), songs -> recentlyPlayedMusicAdapter.setItems(songs));
     }
 
-    private void settDiscoverSongSlideViewOffset(float pageOffset, float pageMargin) {
+    private void setDiscoverSongSlideViewOffset(float pageOffset, float pageMargin) {
         bind.discoverSongViewPager.setPageTransformer((page, position) -> {
             float myOffset = position * -(2 * pageOffset + pageMargin);
             if (bind.discoverSongViewPager.getOrientation() == ViewPager2.ORIENTATION_HORIZONTAL) {

@@ -11,6 +11,7 @@
     <color name="navigationDrawerColor">#121211</color>
 
     <color name="cardColor">#1D1D1D</color>
+    <color name="almostCardColor">#1D1D1C</color>
 
     <color name="titleTextColor">#DADADA</color>
     <color name="subtitleTextColor">#9B9B9B</color>

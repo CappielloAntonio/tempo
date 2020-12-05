@@ -16,7 +16,9 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.util.Util;
 
 import java.util.ArrayList;
@@ -30,10 +32,12 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
 
     private List<Song> songs;
     private LayoutInflater mInflater;
+    private MainActivity mainActivity;
     private Context context;
     private FragmentManager fragmentManager;
 
-    public SongResultSearchAdapter(Context context, FragmentManager fragmentManager) {
+    public SongResultSearchAdapter(MainActivity mainActivity, Context context, FragmentManager fragmentManager) {
+        this.mainActivity = mainActivity;
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.mInflater = LayoutInflater.from(context);
@@ -86,7 +90,12 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
         @Override
         public void onClick(View view) {
             SongRepository songRepository = new SongRepository(App.getInstance());
+            QueueRepository queueRepository = new QueueRepository(App.getInstance());
+
             songRepository.increasePlayCount(songs.get(getAdapterPosition()));
+            queueRepository.insertAllAndStartNew(songs.subList(getAdapterPosition(), songs.size()));
+
+            mainActivity.isBottomSheetInPeek(true);
         }
 
         @Override
@@ -106,5 +115,4 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
     public Song getItem(int id) {
         return songs.get(id);
     }
-
 }

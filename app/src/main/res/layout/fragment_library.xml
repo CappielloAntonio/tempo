@@ -4,13 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
-    android:paddingTop="20dp">
+    app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/global_padding_bottom">
 
         <LinearLayout
             android:layout_width="match_parent"

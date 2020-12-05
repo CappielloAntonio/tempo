@@ -9,14 +9,13 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
-        android:paddingTop="20dp">
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="8dp">
+            android:paddingBottom="@dimen/global_padding_bottom">
 
             <!--  Discover music  -->
             <LinearLayout
@@ -40,7 +39,7 @@
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/discover_song_view_pager"
                     android:layout_width="match_parent"
-                    android:layout_height="188dp"
+                    android:layout_height="212dp"
                     android:clipToPadding="false"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp" />
@@ -297,7 +296,7 @@
                     android:paddingStart="16dp"
                     android:paddingTop="8dp"
                     android:paddingEnd="8dp"
-                    android:paddingBottom="24dp" />
+                    android:paddingBottom="8dp" />
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -1,5 +1,7 @@
 package com.cappielloantonio.play.util;
 
+import android.content.Context;
+
 import java.util.Locale;
 
 public class Util {
@@ -14,5 +16,13 @@ public class Util {
             minutes = minutes % 60;
             return String.format(Locale.getDefault(), "%d:%02d:%02d", hours, minutes, seconds);
         }
+    }
+
+    public static float dpFromPx(final Context context, final float px) {
+        return px / context.getResources().getDisplayMetrics().density;
+    }
+
+    public static float pxFromDp(final Context context, final float dp) {
+        return dp * context.getResources().getDisplayMetrics().density;
     }
 }

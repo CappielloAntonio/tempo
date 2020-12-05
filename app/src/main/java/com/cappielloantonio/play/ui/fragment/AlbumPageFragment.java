@@ -1,14 +1,18 @@
 package com.cappielloantonio.play.ui.fragment;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
@@ -24,7 +28,14 @@ public class AlbumPageFragment extends Fragment {
     private SongResultSearchAdapter songResultSearchAdapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)  {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        initAppBar();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = (MainActivity) getActivity();
 
         bind = FragmentAlbumPageBinding.inflate(inflater, container, false);
@@ -50,6 +61,29 @@ public class AlbumPageFragment extends Fragment {
         bind = null;
     }
 
+    private void init() {
+        albumPageViewModel.setAlbum(getArguments().getParcelable("album_object"));
+    }
+
+    private void initAppBar() {
+        activity.setSupportActionBar(bind.animToolbar);
+        if (activity.getSupportActionBar() != null)
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        bind.collapsingToolbar.setTitle(albumPageViewModel.getAlbum().getTitle());
+        bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
+        bind.collapsingToolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.titleTextColor, null));
+
+        bind.appbar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            if ((bind.collapsingToolbar.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.collapsingToolbar))) {
+                bind.animToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.titleTextColor, null), PorterDuff.Mode.SRC_ATOP);
+            } else {
+                bind.animToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white, null), PorterDuff.Mode.SRC_ATOP);
+            }
+        });
+
+    }
+
     private void initBackCover() {
         CustomGlideRequest.Builder
                 .from(requireContext(), albumPageViewModel.getAlbum().getPrimary(), albumPageViewModel.getAlbum().getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY)
@@ -57,17 +91,11 @@ public class AlbumPageFragment extends Fragment {
                 .into(bind.albumBackCoverImageView);
     }
 
-    private void init() {
-        albumPageViewModel.setAlbum(getArguments().getParcelable("album_object"));
-
-        bind.albumTitleLabel.setText(albumPageViewModel.getAlbum().getTitle());
-    }
-
     private void initSongsView() {
         bind.songRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.songRecyclerView.setHasFixedSize(true);
 
-        songResultSearchAdapter = new SongResultSearchAdapter(requireContext(), getChildFragmentManager());
+        songResultSearchAdapter = new SongResultSearchAdapter(activity, requireContext(), getChildFragmentManager());
         bind.songRecyclerView.setAdapter(songResultSearchAdapter);
         albumPageViewModel.getAlbumSongList().observe(requireActivity(), songs -> songResultSearchAdapter.setItems(songs));
     }

@@ -93,7 +93,7 @@ public class SongListPageFragment extends Fragment {
         bind.songListRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.songListRecyclerView.setHasFixedSize(true);
 
-        songResultSearchAdapter = new SongResultSearchAdapter(requireContext(), getChildFragmentManager());
+        songResultSearchAdapter = new SongResultSearchAdapter(activity, requireContext(), getChildFragmentManager());
         bind.songListRecyclerView.setAdapter(songResultSearchAdapter);
         songListPageViewModel.getSongList().observe(requireActivity(), songs -> songResultSearchAdapter.setItems(songs));
     }

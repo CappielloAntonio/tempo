@@ -21,9 +21,9 @@ public class ConnectivityStatusBroadcastReceiver extends BroadcastReceiver {
             boolean noConnectivity = intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
 
             if (noConnectivity) {
-                activity.activityMainBinding.offlineModeLinearLayout.setVisibility(View.VISIBLE);
+                activity.bind.offlineModeTextView.setVisibility(View.VISIBLE);
             } else {
-                activity.activityMainBinding.offlineModeLinearLayout.setVisibility(View.GONE);
+                activity.bind.offlineModeTextView.setVisibility(View.GONE);
             }
         }
     }

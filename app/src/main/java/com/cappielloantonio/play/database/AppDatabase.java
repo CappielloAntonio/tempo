@@ -10,6 +10,7 @@ import com.cappielloantonio.play.database.dao.AlbumDao;
 import com.cappielloantonio.play.database.dao.ArtistDao;
 import com.cappielloantonio.play.database.dao.GenreDao;
 import com.cappielloantonio.play.database.dao.PlaylistDao;
+import com.cappielloantonio.play.database.dao.QueueDao;
 import com.cappielloantonio.play.database.dao.RecentSearchDao;
 import com.cappielloantonio.play.database.dao.SongDao;
 import com.cappielloantonio.play.database.dao.SongGenreCrossDao;
@@ -17,11 +18,12 @@ import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.RecentSearch;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.model.SongGenreCross;
 
-@Database(entities = {Album.class, Artist.class, Genre.class, Playlist.class, Song.class, RecentSearch.class, SongGenreCross.class}, version = 5, exportSchema = false)
+@Database(entities = {Album.class, Artist.class, Genre.class, Playlist.class, Song.class, RecentSearch.class, SongGenreCross.class, Queue.class}, version = 6, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String TAG = "AppDatabase";
 
@@ -51,4 +53,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract RecentSearchDao recentSearchDao();
 
     public abstract SongGenreCrossDao songGenreCrossDao();
+
+    public abstract QueueDao queueDao();
 }

@@ -135,7 +135,7 @@ public class MainActivity extends BaseActivity {
          * lo chiudo
          */
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED && (
+            if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED && (
                     destination.getId() == R.id.homeFragment ||
                             destination.getId() == R.id.libraryFragment ||
                             destination.getId() == R.id.searchFragment ||
@@ -164,32 +164,32 @@ public class MainActivity extends BaseActivity {
     }
 
     private BottomSheetBehavior.BottomSheetCallback bottomSheetCallback =
-        new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View view, int state) {
-                switch (state) {
-                    case BottomSheetBehavior.STATE_SETTLING:
-                        PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
-                        if(playerBottomSheetFragment == null) break;
+            new BottomSheetBehavior.BottomSheetCallback() {
+                @Override
+                public void onStateChanged(@NonNull View view, int state) {
+                    switch (state) {
+                        case BottomSheetBehavior.STATE_SETTLING:
+                            PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
+                            if (playerBottomSheetFragment == null) break;
 
-                        playerBottomSheetFragment.scrollOnTop();
-                        break;
-                    case BottomSheetBehavior.STATE_HIDDEN:
-                        mainViewModel.deleteQueue();
-                        break;
+                            playerBottomSheetFragment.scrollOnTop();
+                            break;
+                        case BottomSheetBehavior.STATE_HIDDEN:
+                            mainViewModel.deleteQueue();
+                            break;
+                    }
                 }
-            }
 
-            @Override
-            public void onSlide(@NonNull View view, float slideOffset) {
-                PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
-                if(playerBottomSheetFragment == null) return;
+                @Override
+                public void onSlide(@NonNull View view, float slideOffset) {
+                    PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
+                    if (playerBottomSheetFragment == null) return;
 
-                float condensedSlideOffset = Math.max(0.0f, Math.min(0.2f, slideOffset - 0.2f)) / 0.2f;
-                playerBottomSheetFragment.getPlayerHeader().setAlpha(1 - condensedSlideOffset);
-                playerBottomSheetFragment.getPlayerHeader().setVisibility(condensedSlideOffset > 0.99 ? View.GONE : View.VISIBLE);
-            }
-        };
+                    float condensedSlideOffset = Math.max(0.0f, Math.min(0.2f, slideOffset - 0.2f)) / 0.2f;
+                    playerBottomSheetFragment.getPlayerHeader().setAlpha(1 - condensedSlideOffset);
+                    playerBottomSheetFragment.getPlayerHeader().setVisibility(condensedSlideOffset > 0.99 ? View.GONE : View.VISIBLE);
+                }
+            };
 
     /*
      * Scroll on top del bottom sheet quando chiudo
@@ -197,7 +197,7 @@ public class MainActivity extends BaseActivity {
      */
     public void setBottomSheetMusicInfo(Song song) {
         PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
-        if(playerBottomSheetFragment == null) return;
+        if (playerBottomSheetFragment == null) return;
 
         playerBottomSheetFragment.scrollPager(song, 0, false);
     }
@@ -246,7 +246,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED)
+        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED)
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         else
             super.onBackPressed();

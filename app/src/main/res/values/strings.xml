@@ -29,7 +29,22 @@
 
     <string name="disable">Disable</string>
     <string name="ignore">Ignore</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="playback_channel_name">Playback</string>
+    <string name="download_channel_name">Download</string>
+    <string name="unplayable_file">Couldn\'t play this song.</string>
+    <string name="playlist_is_empty">Playlist is empty</string>
+    <string name="audio_focus_denied">Audio focus denied.</string>
+
+    <string name="action_play_next">Play next</string>
+    <string name="action_play">Play</string>
+    <string name="action_play_pause">Play/Pause</string>
+    <string name="action_previous">Previous</string>
+    <string name="action_next">Next</string>
+    <string name="action_add_to_queue">Add to queue</string>
+    <string name="action_remove_from_queue">Remove from queue</string>
+    <string name="action_add_to_playlist">Add to playlist</string>
+
+    <string name="playing_notification_description">The playing notification provides actions for play/pause etc.</string>
+    <string name="playing_notification_name">Playing Notification</string>
 </resources>

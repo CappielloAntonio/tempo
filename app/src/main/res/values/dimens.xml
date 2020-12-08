@@ -12,4 +12,7 @@
     <dimen name="bottom_sheet_peek_height">56dp</dimen>
 
     <dimen name="global_padding_bottom">64dp</dimen>
+
+    <dimen name="notification_big_image_size">128dp</dimen>
+
 </resources>

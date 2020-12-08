@@ -19,18 +19,24 @@ public class PreferenceUtil {
     public static final String TOKEN = "token";
     public static final String MUSIC_LIBRARY_ID = "music_library_id";
 
+    public static final String SHUFFLE = "shuffle";
+    public static final String REPEAT = "repeat";
+    public static final String POSITION = "position";
+    public static final String PROGRESS = "progress";
+
     public static final String SYNC = "sync";
     public static final String SONG_GENRE_SYNC = "song_genre_sync";
 
     public static final String HOST_URL = "host";
     public static final String IMAGE_CACHE_SIZE = "image_cache_size";
+    public static final String MEDIA_CACHE_SIZE = "media_cache_size";
 
     public static final String TRANSCODE_CODEC = "transcode_codec";
     public static final String DIRECT_PLAY_CODECS = "direct_play_codecs";
     public static final String MAXIMUM_BITRATE = "maximum_bitrate";
+    public static final String AUDIO_DUCKING = "audio_ducking";
 
     private static PreferenceUtil sInstance;
-
     private final SharedPreferences mPreferences;
 
     private PreferenceUtil(final Context context) {
@@ -155,5 +161,22 @@ public class PreferenceUtil {
         final SharedPreferences.Editor editor = mPreferences.edit();
         editor.putStringSet(DIRECT_PLAY_CODECS, codecNames);
         editor.apply();
+    }
+
+    public final int getMediaCacheSize() {
+        return Integer.parseInt(mPreferences.getString(MEDIA_CACHE_SIZE, "400000000"));
+    }
+
+    public final boolean getAudioDucking() {
+        return mPreferences.getBoolean(AUDIO_DUCKING, true);
+    }
+
+
+    public void registerOnSharedPreferenceChangedListener(SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener) {
+        mPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+    }
+
+    public void unregisterOnSharedPreferenceChangedListener(SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener) {
+        mPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     }
 }

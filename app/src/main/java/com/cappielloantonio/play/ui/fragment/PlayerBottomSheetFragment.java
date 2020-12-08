@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,7 +19,6 @@ import com.cappielloantonio.play.adapter.PlayerSongQueueAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlayerBottomSheetBinding;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
-import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 
 public class PlayerBottomSheetFragment extends Fragment {
@@ -98,7 +96,7 @@ public class PlayerBottomSheetFragment extends Fragment {
     }
 
     private void playSong(Song song) {
-        Toast.makeText(activity, MusicUtil.getSongFileUri(song), Toast.LENGTH_SHORT).show();
+        // Toast.makeText(activity, MusicUtil.getSongFileUri(song), Toast.LENGTH_SHORT).show();
     }
 
     public View getPlayerHeader() {

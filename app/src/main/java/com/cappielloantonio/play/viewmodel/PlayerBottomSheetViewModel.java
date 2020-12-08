@@ -5,24 +5,25 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.repository.SongRepository;
 
 import java.util.List;
 
 public class PlayerBottomSheetViewModel extends AndroidViewModel {
-    private static final String TAG = "HomeViewModel";
+    private static final String TAG = "PlayerBottomSheetViewModel";
+    private SongRepository songRepository;
     private QueueRepository queueRepository;
 
     private LiveData<List<Song>> queueSong;
-    private LiveData<Song> nowPlayingSong = new MutableLiveData<>();
-
+    private Song song;
 
     public PlayerBottomSheetViewModel(@NonNull Application application) {
         super(application);
 
+        songRepository = new SongRepository(application);
         queueRepository = new QueueRepository(application);
 
         queueSong = queueRepository.getLiveQueue();
@@ -32,17 +33,24 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         return queueSong;
     }
 
-    public LiveData<Song> getNowPlayingSong() {
-        return nowPlayingSong;
+    public void setNowPlayingSong(Song song) {
+        this.song = song;
     }
 
-    public LiveData<Song> setNowPlayingSong(int position) {
-         Song song = queueRepository.getSongs().get(position);
+    public void setFavorite() {
+        if(song.isFavorite())
+            song.setFavorite(false);
+        else
+            song.setFavorite(true);
 
-        if(song != null) {
-            nowPlayingSong = new MutableLiveData<>(song);
-        }
+        songRepository.setFavoriteStatus(song);
+    }
 
-        return nowPlayingSong;
+    public Song getSong() {
+        return song;
+    }
+
+    public void setSong(Song song) {
+        this.song = song;
     }
 }

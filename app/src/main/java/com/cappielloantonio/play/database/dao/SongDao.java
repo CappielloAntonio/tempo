@@ -51,11 +51,14 @@ public interface SongDao {
     @Query("SELECT * FROM song INNER Join song_genre_cross ON song.id = song_genre_cross.song_id AND song_genre_cross.genre_id IN (:filters) GROUP BY song.id")
     LiveData<List<Song>> getFilteredSong(ArrayList<String> filters);
 
-    @Query("SELECT * FROM song WHERE favorite = 1 ORDER BY play_count DESC LIMIT :number")
+    @Query("SELECT * FROM song WHERE favorite = 1 LIMIT :number")
     LiveData<List<Song>> getFavoriteSongSample(int number);
 
-    @Query("SELECT * FROM song WHERE favorite = 1 ORDER BY play_count DESC")
+    @Query("SELECT * FROM song WHERE favorite = 1")
     LiveData<List<Song>> getFavoriteSong();
+
+    @Query("SELECT * FROM song WHERE id = :id")
+    Song getSongByID(String id);
 
     @Query("SELECT EXISTS(SELECT * FROM song WHERE id = :id)")
     boolean exist(String id);

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +21,7 @@ import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.util.Util;
+import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +98,10 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
             queueRepository.insertAllAndStartNew(songs.subList(getAdapterPosition(), songs.size()));
 
             mainActivity.isBottomSheetInPeek(true);
+            mainActivity.setBottomSheetMusicInfo(songs.get(getAdapterPosition()));
+
+            PlayerBottomSheetViewModel playerBottomSheetViewModel = new ViewModelProvider(mainActivity).get(PlayerBottomSheetViewModel.class);
+            playerBottomSheetViewModel.setNowPlayingSong(songs.get(getAdapterPosition()));
         }
 
         @Override

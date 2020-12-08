@@ -6,6 +6,12 @@ import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
 
 import com.cappielloantonio.play.helper.ThemeHelper;
+import com.cappielloantonio.play.model.DirectPlayCodec;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class PreferenceUtil {
     public static final String SERVER = "server";
@@ -18,6 +24,10 @@ public class PreferenceUtil {
 
     public static final String HOST_URL = "host";
     public static final String IMAGE_CACHE_SIZE = "image_cache_size";
+
+    public static final String TRANSCODE_CODEC = "transcode_codec";
+    public static final String DIRECT_PLAY_CODECS = "direct_play_codecs";
+    public static final String MAXIMUM_BITRATE = "maximum_bitrate";
 
     private static PreferenceUtil sInstance;
 
@@ -103,5 +113,47 @@ public class PreferenceUtil {
 
     public final int getImageCacheSize() {
         return Integer.parseInt(mPreferences.getString(IMAGE_CACHE_SIZE, "400000000"));
+    }
+
+    public final String getTranscodeCodec() {
+        return mPreferences.getString(TRANSCODE_CODEC, "aac");
+    }
+
+    public final String getMaximumBitrate() {
+        return mPreferences.getString(MAXIMUM_BITRATE, "10000000");
+    }
+
+    public List<DirectPlayCodec> getDirectPlayCodecs() {
+        DirectPlayCodec.Codec[] codecs = DirectPlayCodec.Codec.values();
+
+        Set<String> selectedCodecNames = new HashSet<>();
+        for (DirectPlayCodec.Codec codec : codecs) {
+            // this will be the default value
+            selectedCodecNames.add(codec.name());
+        }
+
+        selectedCodecNames = mPreferences.getStringSet(DIRECT_PLAY_CODECS, selectedCodecNames);
+
+        ArrayList<DirectPlayCodec> directPlayCodecs = new ArrayList<>();
+        for (DirectPlayCodec.Codec codec : codecs) {
+            String name = codec.name();
+            boolean selected = selectedCodecNames.contains(name);
+            directPlayCodecs.add(new DirectPlayCodec(codec, selected));
+        }
+
+        return directPlayCodecs;
+    }
+
+    public void setDirectPlayCodecs(List<DirectPlayCodec> directPlayCodecs) {
+        Set<String> codecNames = new HashSet<>();
+        for (DirectPlayCodec directPlayCodec : directPlayCodecs) {
+            if (directPlayCodec.selected) {
+                codecNames.add(directPlayCodec.codec.toString());
+            }
+        }
+
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putStringSet(DIRECT_PLAY_CODECS, codecNames);
+        editor.apply();
     }
 }

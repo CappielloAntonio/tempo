@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/player_big_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
     <TextView
         android:id="@+id/collapse_bottom_sheet_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:paddingStart="20dp"
+        android:paddingStart="24dp"
         android:paddingTop="20dp"
         android:text="Now playing"
         android:textColor="@color/titleTextColor"
@@ -23,9 +26,7 @@
         android:id="@+id/player_song_cover_view_pager"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -37,51 +38,80 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="28dp"
         android:layout_marginTop="18dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="28dp"
         android:progress="50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/player_song_cover_view_pager" />
 
-    <TextView
-        android:id="@+id/player_song_title_label"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/head_title_favorite_linear_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:layout_marginTop="18dp"
-        android:text="@string/label_placeholder"
-        android:textColor="@color/titleTextColor"
-        android:textSize="22sp"
-        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player_big_progress_bar" />
+        app:layout_constraintTop_toBottomOf="@+id/player_big_progress_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/player_song_title_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="18dp"
+            android:paddingStart="24dp"
+            android:text="@string/label_placeholder"
+            android:textColor="@color/titleTextColor"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <ToggleButton
+            android:id="@+id/button_favorite"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:background="@drawable/button_favorite_selector"
+            android:checked="false"
+            android:gravity="center_vertical"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="24dp"
+            android:text=""
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/player_big_progress_bar" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/player_artist_name_label"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="20dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
         android:text="@string/label_placeholder"
         android:textColor="@color/subtitleTextColor"
         android:textSize="14sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player_song_title_label" />
+        app:layout_constraintTop_toBottomOf="@+id/head_title_favorite_linear_layout" />
 
-    <ToggleButton
-        android:id="@+id/button_favorite"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        android:background="@drawable/button_favorite_selector"
-        android:checked="false"
-        android:gravity="center_vertical"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:text=""
-        android:textOff=""
-        android:textOn=""
+    <View style="@style/Divider"
+        android:id="@+id/player_divider"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player_big_progress_bar" />
+        app:layout_constraintTop_toBottomOf="@+id/player_artist_name_label"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/player_queue_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingTop="18dp"
+        android:paddingBottom="18dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player_divider"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

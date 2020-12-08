@@ -7,16 +7,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
-import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.ui.fragment.PlayerBottomSheetFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,14 +27,12 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
 
     private List<Song> songs;
     private LayoutInflater mInflater;
-    private MainActivity mainActivity;
+    private PlayerBottomSheetFragment playerBottomSheetFragment;
     private Context context;
-    private FragmentManager fragmentManager;
 
-    public PlayerSongQueueAdapter(MainActivity mainActivity, Context context, FragmentManager fragmentManager) {
-        this.mainActivity = mainActivity;
+    public PlayerSongQueueAdapter(Context context, PlayerBottomSheetFragment playerBottomSheetFragment) {
         this.context = context;
-        this.fragmentManager = fragmentManager;
+        this.playerBottomSheetFragment = playerBottomSheetFragment;
         this.mInflater = LayoutInflater.from(context);
         this.songs = new ArrayList<>();
     }
@@ -83,9 +79,9 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
         @Override
         public void onClick(View view) {
             SongRepository songRepository = new SongRepository(App.getInstance());
-            QueueRepository queueRepository = new QueueRepository(App.getInstance());
-
             songRepository.increasePlayCount(songs.get(getAdapterPosition()));
+
+            playerBottomSheetFragment.scrollPager(songs.get(getAdapterPosition()), getAdapterPosition(), true);
         }
     }
 

@@ -246,6 +246,23 @@ public class SongRepository {
         return sample;
     }
 
+    public Song getSongByID(String id) {
+        Song song = null;
+
+        GetSongByIDThreadSafe songByID = new GetSongByIDThreadSafe(songDao, id);
+        Thread thread = new Thread(songByID);
+        thread.start();
+
+        try {
+            thread.join();
+            song = songByID.getSong();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return song;
+    }
+
     private static class ExistThreadSafe implements Runnable {
         private SongDao songDao;
         private Song song;
@@ -457,6 +474,26 @@ public class SongRepository {
 
         public List<Integer> getDecadeList() {
             return decades;
+        }
+    }
+
+    private static class GetSongByIDThreadSafe implements Runnable {
+        private SongDao songDao;
+        private String id;
+        private Song song;
+
+        public GetSongByIDThreadSafe(SongDao songDao, String id) {
+            this.songDao = songDao;
+            this.id = id;
+        }
+
+        @Override
+        public void run() {
+            song = songDao.getSongByID(id);
+        }
+
+        public Song getSong() {
+            return song;
         }
     }
 }

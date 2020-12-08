@@ -3,7 +3,6 @@ package com.cappielloantonio.play.ui.activities;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -17,6 +16,7 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.broadcast.receiver.ConnectivityStatusBroadcastReceiver;
 import com.cappielloantonio.play.databinding.ActivityMainBinding;
+import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.base.BaseActivity;
 import com.cappielloantonio.play.ui.fragment.PlayerBottomSheetFragment;
 import com.cappielloantonio.play.util.PreferenceUtil;
@@ -81,42 +81,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void initBottomSheet() {
-        bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.player_bottom_sheet));
-        bottomSheetBehavior.addBottomSheetCallback(bottomSheetCallback);
-        fragmentManager.beginTransaction().replace(R.id.player_bottom_sheet, new PlayerBottomSheetFragment(), "PlayerBottomSheet").commit();
-
-        isBottomSheetInPeek(mainViewModel.isQueueLoaded());
-    }
-
-    public void isBottomSheetInPeek(Boolean isVisible) {
-
-        Log.d(TAG, "isBottomSheetInPeek: " + isVisible);
-
-        if (isVisible) {
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        } else {
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        }
-    }
-
-    private void initNavigation() {
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
-        navHostFragment = (NavHostFragment) fragmentManager.findFragmentById(R.id.nav_host_fragment);
-        navController = navHostFragment.getNavController();
-        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED && (
-                    destination.getId() == R.id.homeFragment ||
-                            destination.getId() == R.id.libraryFragment ||
-                            destination.getId() == R.id.searchFragment ||
-                            destination.getId() == R.id.settingsFragment)
-            ) {
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            }
-        });
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
-    }
-
     private void checkPreviousSession() {
         App.getApiClientInstance(getApplicationContext()).ChangeServerLocation(PreferenceUtil.getInstance(this).getServer());
         App.getApiClientInstance(getApplicationContext()).SetAuthenticationInfo(PreferenceUtil.getInstance(this).getToken(), PreferenceUtil.getInstance(this).getUser());
@@ -140,6 +104,49 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+
+    // BOTTOM SHEET/NAVIGATION
+    private void initBottomSheet() {
+        bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.player_bottom_sheet));
+        bottomSheetBehavior.addBottomSheetCallback(bottomSheetCallback);
+        fragmentManager.beginTransaction().replace(R.id.player_bottom_sheet, new PlayerBottomSheetFragment(), "PlayerBottomSheet").commit();
+
+        /*
+         * All'apertura mostro il bottom sheet solo se in coda c'è qualcosa
+         */
+        isBottomSheetInPeek(mainViewModel.isQueueLoaded());
+    }
+
+    public void isBottomSheetInPeek(Boolean isVisible) {
+        if (isVisible) {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        } else {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        }
+    }
+
+    private void initNavigation() {
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        navHostFragment = (NavHostFragment) fragmentManager.findFragmentById(R.id.nav_host_fragment);
+        navController = navHostFragment.getNavController();
+
+        /*
+         * In questo modo intercetto il cambio schermata tramite navbar e se il bottom sheet è aperto,
+         * lo chiudo
+         */
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED && (
+                    destination.getId() == R.id.homeFragment ||
+                            destination.getId() == R.id.libraryFragment ||
+                            destination.getId() == R.id.searchFragment ||
+                            destination.getId() == R.id.settingsFragment)
+            ) {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+    }
+
     public void setBottomNavigationBarVisibility(boolean visibility) {
         if (visibility) {
             bottomNavigationView.setVisibility(View.VISIBLE);
@@ -161,7 +168,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onStateChanged(@NonNull View view, int state) {
                 switch (state) {
-                    case BottomSheetBehavior.STATE_COLLAPSED:
+                    case BottomSheetBehavior.STATE_SETTLING:
                         PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
                         if(playerBottomSheetFragment == null) break;
 
@@ -184,6 +191,18 @@ public class MainActivity extends BaseActivity {
             }
         };
 
+    /*
+     * Scroll on top del bottom sheet quando chiudo
+     * In questo modo non mi ritrovo al posto dell'header una parte centrale del player
+     */
+    public void setBottomSheetMusicInfo(Song song) {
+        PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
+        if(playerBottomSheetFragment == null) return;
+
+        playerBottomSheetFragment.scrollPager(song, 0, false);
+    }
+
+    // NAVIGATION
     public void goToLogin() {
         if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.landingFragment)
             navController.navigate(R.id.action_landingFragment_to_loginFragment);
@@ -225,6 +244,15 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED)
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        else
+            super.onBackPressed();
+    }
+
+    // CONNECTION
     private void connectivityStatusReceiverManager(boolean isActive) {
         if (isActive) {
             IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -232,13 +260,5 @@ public class MainActivity extends BaseActivity {
         } else {
             unregisterReceiver(connectivityStatusBroadcastReceiver);
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED)
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        else
-            super.onBackPressed();
     }
 }

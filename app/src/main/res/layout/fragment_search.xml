@@ -99,15 +99,15 @@
             android:id="@+id/search_result_nested_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:paddingBottom="@dimen/global_padding_bottom">
+            android:visibility="gone">
 
             <!-- Search result -->
             <LinearLayout
                 android:id="@+id/search_result_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/global_padding_bottom">
 
                 <!--  Label -->
                 <TextView

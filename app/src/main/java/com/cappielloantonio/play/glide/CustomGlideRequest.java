@@ -74,7 +74,7 @@ public class CustomGlideRequest {
     public static String createUrl(String item, String itemType, String quality) {
         ImageOptions options = new ImageOptions();
 
-        switch(itemType) {
+        switch (itemType) {
             case PRIMARY: {
                 options.setImageType(ImageType.Primary);
                 break;
@@ -85,7 +85,7 @@ public class CustomGlideRequest {
             }
         }
 
-        switch(quality) {
+        switch (quality) {
             case TOP_QUALITY: {
                 options.setQuality(100);
                 options.setMaxHeight(800);

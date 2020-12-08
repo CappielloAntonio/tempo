@@ -14,11 +14,23 @@ import java.util.List;
 
 @Dao
 public interface QueueDao {
-    @Query("SELECT * FROM song JOIN queue ON song.id = queue.song_id")
+    @Query("SELECT * FROM song JOIN queue ON song.id = queue.id")
     LiveData<List<Song>> getAll();
 
-    @Query("SELECT * FROM song JOIN queue ON song.id = queue.song_id")
+    @Query("SELECT * FROM song JOIN queue ON song.id = queue.id")
     List<Song> getAllSimple();
+
+    @Query("SELECT * FROM song JOIN queue ON song.id = queue.id WHERE queue.rowid = :position")
+    Song getSongByIndex(int position);
+
+    @Query("SELECT * FROM song JOIN queue ON song.id = queue.id WHERE queue.last_played != 0 ORDER BY queue.last_played DESC LIMIT 1")
+    LiveData<Song> getLastPlayedSong();
+
+    @Query("UPDATE queue SET last_played = :timestamp WHERE queue.rowid = :position")
+    void setLastPlayedSong(int position, long timestamp);
+
+    @Query("UPDATE queue SET last_played = :timestamp WHERE queue.id = :songID")
+    void setLastPlayedSong(String songID, long timestamp);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Queue songQueueObject);

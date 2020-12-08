@@ -5,10 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,6 +20,7 @@ import com.cappielloantonio.play.adapter.PlayerSongQueueAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlayerBottomSheetBinding;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 
 public class PlayerBottomSheetFragment extends Fragment {
@@ -32,6 +33,8 @@ public class PlayerBottomSheetFragment extends Fragment {
     private PlayerNowPlayingSongAdapter playerNowPlayingSongAdapter;
     private PlayerSongQueueAdapter playerSongQueueAdapter;
 
+    private boolean isNowPlaying = false;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,64 +46,59 @@ public class PlayerBottomSheetFragment extends Fragment {
 
         initQueueSlideView();
         initQueueRecyclerView();
+        initFavoriteButtonClick();
 
         return view;
     }
 
     private void initQueueSlideView() {
-        bind.playerSongCoverViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        bind.playerBodyLayout.playerSongCoverViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
         playerNowPlayingSongAdapter = new PlayerNowPlayingSongAdapter(requireContext());
-        bind.playerSongCoverViewPager.setAdapter(playerNowPlayingSongAdapter);
+        bind.playerBodyLayout.playerSongCoverViewPager.setAdapter(playerNowPlayingSongAdapter);
         playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), songs -> playerNowPlayingSongAdapter.setItems(songs));
 
-        bind.playerSongCoverViewPager.setOffscreenPageLimit(3);
-        setDiscoverSongSlideViewOffset(40, 4);
-
-        bind.playerSongCoverViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        bind.playerBodyLayout.playerSongCoverViewPager.setOffscreenPageLimit(3);
+        bind.playerBodyLayout.playerSongCoverViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
 
-                playerBottomSheetViewModel.setNowPlayingSong(position);
+                Song song = playerNowPlayingSongAdapter.getItem(position);
+                if (song != null && song != playerBottomSheetViewModel.getSong()) setSongInfo(song);
             }
-        });
-
-        playerBottomSheetViewModel.getNowPlayingSong().observe(requireActivity(), song -> {
-            if(song != null)
-                setSongInfo(song);
         });
     }
 
     private void initQueueRecyclerView() {
-        bind.playerQueueRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        bind.playerQueueRecyclerView.setHasFixedSize(true);
+        bind.playerBodyLayout.playerQueueRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        bind.playerBodyLayout.playerQueueRecyclerView.setHasFixedSize(true);
 
-        playerSongQueueAdapter = new PlayerSongQueueAdapter(activity, requireContext(), getChildFragmentManager());
-        bind.playerQueueRecyclerView.setAdapter(playerSongQueueAdapter);
+        playerSongQueueAdapter = new PlayerSongQueueAdapter(requireContext(), this);
+        bind.playerBodyLayout.playerQueueRecyclerView.setAdapter(playerSongQueueAdapter);
         playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), songs -> playerSongQueueAdapter.setItems(songs));
     }
 
-    private void setDiscoverSongSlideViewOffset(float pageOffset, float pageMargin) {
-        bind.playerSongCoverViewPager.setPageTransformer((page, position) -> {
-            float myOffset = position * -(2 * pageOffset + pageMargin);
-            if (bind.playerSongCoverViewPager.getOrientation() == ViewPager2.ORIENTATION_HORIZONTAL) {
-                if (ViewCompat.getLayoutDirection(bind.playerSongCoverViewPager) == ViewCompat.LAYOUT_DIRECTION_RTL) {
-                    page.setTranslationX(-myOffset);
-                } else {
-                    page.setTranslationX(myOffset);
-                }
-            } else {
-                page.setTranslationY(myOffset);
-            }
-        });
+    private void initFavoriteButtonClick() {
+        bind.playerBodyLayout.buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite());
     }
 
     private void setSongInfo(Song song) {
-        if(song != null) {
-            bind.playerSongTitleLabel.setText(song.getTitle());
-            bind.playerArtistNameLabel.setText(song.getArtistName());
-        }
+        playerBottomSheetViewModel.setNowPlayingSong(song);
+
+        bind.playerBodyLayout.playerSongTitleLabel.setText(song.getTitle());
+        bind.playerBodyLayout.playerArtistNameLabel.setText(song.getArtistName());
+
+        bind.playerHeaderLayout.playerHeaderSongTitleLabel.setText(song.getTitle());
+        bind.playerHeaderLayout.playerHeaderSongArtistLabel.setText(song.getArtistName());
+
+        bind.playerBodyLayout.buttonFavorite.setChecked(song.isFavorite());
+
+        playSong(song);
+    }
+
+    private void playSong(Song song) {
+        Toast.makeText(activity, MusicUtil.getSongFileUri(song), Toast.LENGTH_SHORT).show();
     }
 
     public View getPlayerHeader() {
@@ -109,5 +107,10 @@ public class PlayerBottomSheetFragment extends Fragment {
 
     public void scrollOnTop() {
         bind.playerNestedScrollView.fullScroll(ScrollView.FOCUS_UP);
+    }
+
+    public void scrollPager(Song song, int page, boolean smoothScroll) {
+        bind.playerBodyLayout.playerSongCoverViewPager.setCurrentItem(page, smoothScroll);
+        setSongInfo(song);
     }
 }

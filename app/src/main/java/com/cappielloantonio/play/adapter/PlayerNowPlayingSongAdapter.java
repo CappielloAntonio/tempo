@@ -69,6 +69,14 @@ public class PlayerNowPlayingSongAdapter extends RecyclerView.Adapter<PlayerNowP
         }
     }
 
+    public Song getItem(int position) {
+        try {
+            return songs.get(position);
+        } catch ( IndexOutOfBoundsException e ) {
+            return null;
+        }
+    }
+
     public void setItems(List<Song> songs) {
         this.songs = songs;
         notifyDataSetChanged();

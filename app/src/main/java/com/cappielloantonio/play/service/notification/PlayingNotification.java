@@ -9,19 +9,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
-import androidx.palette.graphics.Palette;
 
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.glide.palette.BitmapPaletteWrapper;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.service.MusicService;
 import com.cappielloantonio.play.ui.activities.MainActivity;
@@ -71,64 +64,39 @@ public class PlayingNotification {
         intent.setComponent(serviceName);
         final PendingIntent deleteIntent = PendingIntent.getService(service, 0, intent, 0);
 
-        final int bigNotificationImageSize = service.getResources().getDimensionPixelSize(R.dimen.notification_big_image_size);
-        service.runOnUiThread(() -> CustomGlideRequest.Builder
-                .from(service, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY)
-                .build()
-                .into(new CustomTarget<BitmapPaletteWrapper>(bigNotificationImageSize, bigNotificationImageSize) {
-                    @Override
-                    public void onResourceReady(@NonNull BitmapPaletteWrapper resource, Transition<? super BitmapPaletteWrapper> glideAnimation) {
-                        Palette palette = resource.getPalette();
-                        update(resource.getBitmap(), palette.getVibrantColor(palette.getMutedColor(Color.TRANSPARENT)));
-                    }
+        Bitmap bitmap = BitmapFactory.decodeResource(service.getResources(), R.drawable.default_album_art);
+        NotificationCompat.Action playPauseAction = new NotificationCompat.Action(playButtonResId,
+                service.getString(R.string.action_play_pause),
+                retrievePlaybackAction(ACTION_TOGGLE));
+        NotificationCompat.Action previousAction = new NotificationCompat.Action(R.drawable.ic_skip_previous_white_24dp,
+                service.getString(R.string.action_previous),
+                retrievePlaybackAction(ACTION_REWIND));
+        NotificationCompat.Action nextAction = new NotificationCompat.Action(R.drawable.ic_skip_next_white_24dp,
+                service.getString(R.string.action_next),
+                retrievePlaybackAction(ACTION_SKIP));
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(service, NOTIFICATION_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setSubText(song.getAlbumName())
+                .setLargeIcon(bitmap)
+                .setContentIntent(clickIntent)
+                .setDeleteIntent(deleteIntent)
+                .setContentTitle(song.getTitle())
+                .setContentText(song.getArtistName())
+                .setOngoing(isPlaying)
+                .setShowWhen(false)
+                .addAction(previousAction)
+                .addAction(playPauseAction)
+                .addAction(nextAction);
 
-                    @Override
-                    public void onLoadFailed(Drawable drawable) {
-                        update(null, Color.TRANSPARENT);
-                    }
+        builder.setStyle(new androidx.media.app.NotificationCompat.MediaStyle().setMediaSession(service.getMediaSession().getSessionToken())
+                .setShowActionsInCompactView(0, 1, 2))
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setColor(Color.TRANSPARENT);
 
-                    @Override
-                    public void onLoadCleared(Drawable drawable) {
-                        update(null, Color.TRANSPARENT);
-                    }
+        // notification has been stopped before loading was finished
+        if (stopped) return;
 
-                    void update(Bitmap bitmap, int color) {
-                        if (bitmap == null)
-                            bitmap = BitmapFactory.decodeResource(service.getResources(), R.drawable.default_album_art);
-                        NotificationCompat.Action playPauseAction = new NotificationCompat.Action(playButtonResId,
-                                service.getString(R.string.action_play_pause),
-                                retrievePlaybackAction(ACTION_TOGGLE));
-                        NotificationCompat.Action previousAction = new NotificationCompat.Action(R.drawable.ic_skip_previous_white_24dp,
-                                service.getString(R.string.action_previous),
-                                retrievePlaybackAction(ACTION_REWIND));
-                        NotificationCompat.Action nextAction = new NotificationCompat.Action(R.drawable.ic_skip_next_white_24dp,
-                                service.getString(R.string.action_next),
-                                retrievePlaybackAction(ACTION_SKIP));
-                        NotificationCompat.Builder builder = new NotificationCompat.Builder(service, NOTIFICATION_CHANNEL_ID)
-                                .setSmallIcon(R.drawable.ic_notification)
-                                .setSubText(song.getAlbumName())
-                                .setLargeIcon(bitmap)
-                                .setContentIntent(clickIntent)
-                                .setDeleteIntent(deleteIntent)
-                                .setContentTitle(song.getTitle())
-                                .setContentText(song.getArtistName())
-                                .setOngoing(isPlaying)
-                                .setShowWhen(false)
-                                .addAction(previousAction)
-                                .addAction(playPauseAction)
-                                .addAction(nextAction);
-
-                        builder.setStyle(new androidx.media.app.NotificationCompat.MediaStyle().setMediaSession(service.getMediaSession().getSessionToken())
-                                .setShowActionsInCompactView(0, 1, 2))
-                                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                                .setColor(color);
-
-                        // notification has been stopped before loading was finished
-                        if (stopped) return;
-
-                        updateNotifyModeAndPostNotification(builder.build());
-                    }
-                }));
+        updateNotifyModeAndPostNotification(builder.build());
     }
 
     public synchronized void stop() {

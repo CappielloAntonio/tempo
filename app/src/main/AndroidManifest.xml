@@ -23,7 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".service.AudioDownloadService"/>
-        <service android:name=".service.AudioPlayerService"/>
+        <service android:name=".service.MusicService" android:enabled="true"/>
     </application>
 </manifest>

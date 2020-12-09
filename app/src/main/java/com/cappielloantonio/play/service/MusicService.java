@@ -30,6 +30,7 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.notification.PlayingNotification;
 import com.cappielloantonio.play.service.playback.Playback;
 import com.cappielloantonio.play.util.PreferenceUtil;
@@ -63,14 +64,12 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     public static final String ACTION_PENDING_QUIT = PACKAGE_NAME + ".quit.pending";
 
     public static final String INTENT_EXTRA_PLAYLIST = PACKAGE_NAME + ".extra.playlist";
-    public static final String INTENT_EXTRA_SHUFFLE = PACKAGE_NAME + ".extra.shuffle";
 
     public static final String STATE_CHANGED = PACKAGE_NAME + ".state.changed";
     public static final String META_CHANGED = PACKAGE_NAME + ".meta.changed";
     public static final String QUEUE_CHANGED = PACKAGE_NAME + ".queue.changed";
 
     public static final String REPEAT_MODE_CHANGED = PACKAGE_NAME + ".repeat.changed";
-    public static final String SHUFFLE_MODE_CHANGED = PACKAGE_NAME + ".shuffle.changed";
 
     public static final int TRACK_STARTED = 9;
     public static final int TRACK_CHANGED = 1;
@@ -83,9 +82,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     public static final int FOCUS_CHANGE = 6;
     public static final int DUCK = 7;
     public static final int UNDUCK = 8;
-
-    public static final int SHUFFLE_MODE_NONE = 0;
-    public static final int SHUFFLE_MODE_SHUFFLE = 1;
 
     public static final int REPEAT_MODE_NONE = 0;
     public static final int REPEAT_MODE_ALL = 1;
@@ -101,7 +97,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     private Playback playback;
 
     private List<Song> playingQueue = new ArrayList<>();
-    private List<Song> originalPlayingQueue = new ArrayList<>();
 
     private int position = -1;
     private int nextPosition = -1;
@@ -336,12 +331,8 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     }
 
     private void saveQueue() {
-        App.getDatabase().songDao().deleteSongs();
-        App.getDatabase().songDao().insertSongs(playingQueue);
-
-        App.getDatabase().queueSongDao().deleteQueueSongs();
-        App.getDatabase().queueSongDao().setQueue(playingQueue, 0);
-        App.getDatabase().queueSongDao().setQueue(originalPlayingQueue, 1);
+        QueueRepository queueRepository = new QueueRepository(App.getInstance());
+        queueRepository.insertAllAndStartNew(playingQueue);
     }
 
     private void savePosition() {
@@ -371,14 +362,14 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
 
     private synchronized void restoreQueuesAndPositionIfNecessary() {
         if (!queuesRestored && playingQueue.isEmpty()) {
-            List<Song> restoredQueue = App.getDatabase().queueSongDao().getQueue(0);
-            List<Song> restoredOriginalQueue = App.getDatabase().queueSongDao().getQueue(1);
+            QueueRepository queueRepository = new QueueRepository(App.getInstance());
+
+            List<Song> restoredQueue = queueRepository.getSongs();
 
             int restoredPosition = PreferenceManager.getDefaultSharedPreferences(this).getInt(PreferenceUtil.POSITION, -1);
             int restoredPositionInTrack = PreferenceManager.getDefaultSharedPreferences(this).getInt(PreferenceUtil.PROGRESS, -1);
 
-            if (restoredQueue.size() > 0 && restoredQueue.size() == restoredOriginalQueue.size() && restoredPosition != -1) {
-                this.originalPlayingQueue = restoredOriginalQueue;
+            if (restoredQueue.size() > 0 && restoredPosition != -1) {
                 this.playingQueue = restoredQueue;
 
                 position = restoredPosition;
@@ -517,7 +508,11 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     }
 
     public Song getSongAt(int position) {
-        return getPlayingQueue().get(position);
+        if (position >= 0 && position < getPlayingQueue().size()) {
+            return getPlayingQueue().get(position);
+        } else {
+            return new Song();
+        }
     }
 
     public int getNextPosition(boolean force) {
@@ -577,10 +572,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
 
     public void openQueue(@Nullable final List<Song> playingQueue, final int startPosition, final boolean startPlaying) {
         if (playingQueue != null && !playingQueue.isEmpty() && startPosition >= 0 && startPosition < playingQueue.size()) {
-            // it is important to copy the playing queue here first as we might add or remove songs later
-            originalPlayingQueue = new ArrayList<>(playingQueue);
-            this.playingQueue = new ArrayList<>(originalPlayingQueue);
-
             if (startPlaying) {
                 playSongAt(startPosition);
             } else {
@@ -593,30 +584,26 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
 
     public void addSong(int position, Song song) {
         playingQueue.add(position, song);
-        originalPlayingQueue.add(position, song);
         notifyChange(QUEUE_CHANGED);
     }
 
     public void addSong(Song song) {
         playingQueue.add(song);
-        originalPlayingQueue.add(song);
         notifyChange(QUEUE_CHANGED);
     }
 
     public void addSongs(int position, List<Song> songs) {
         playingQueue.addAll(position, songs);
-        originalPlayingQueue.addAll(position, songs);
         notifyChange(QUEUE_CHANGED);
     }
 
     public void addSongs(List<Song> songs) {
         playingQueue.addAll(songs);
-        originalPlayingQueue.addAll(songs);
         notifyChange(QUEUE_CHANGED);
     }
 
     public void removeSong(int position) {
-        originalPlayingQueue.remove(playingQueue.remove(position));
+        playingQueue.remove(position);
         reposition(position);
         notifyChange(QUEUE_CHANGED);
     }
@@ -653,7 +640,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
 
     public void clearQueue() {
         playingQueue.clear();
-        originalPlayingQueue.clear();
 
         setPosition(-1);
         notifyChange(QUEUE_CHANGED);
@@ -1059,8 +1045,8 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
             startInfo.setCanSeek(true);
             startInfo.setIsPaused(false);
 
-            App.getInstance().getApiClientInstance(App.getInstance()).ensureWebSocket();
-            App.getInstance().getApiClientInstance(App.getInstance()).ReportPlaybackStartAsync(startInfo, new EmptyResponse());
+            App.getApiClientInstance(App.getInstance()).ensureWebSocket();
+            App.getApiClientInstance(App.getInstance()).ReportPlaybackStartAsync(startInfo, new EmptyResponse());
         }
 
         public void onProgress() {
@@ -1071,10 +1057,10 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
             double duration = mService.get().getSongDurationMillis();
             if (progress / duration > 0.9) {
                 Song current = mService.get().getCurrentSong();
-                String user = App.getInstance().getApiClientInstance(App.getInstance()).getCurrentUserId();
+                String user = App.getApiClientInstance(App.getInstance()).getCurrentUserId();
                 Date time = new Date(System.currentTimeMillis());
 
-                App.getInstance().getApiClientInstance(App.getInstance()).MarkPlayedAsync(current.getId(), user, time, new Response<>());
+                App.getApiClientInstance(App.getInstance()).MarkPlayedAsync(current.getId(), user, time, new Response<>());
             }
 
             progressInfo.setItemId(mService.get().getCurrentSong().getId());
@@ -1083,7 +1069,7 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
             progressInfo.setIsPaused(!mService.get().playback.isPlaying());
             progressInfo.setCanSeek(true);
 
-            App.getInstance().getApiClientInstance(App.getInstance()).ReportPlaybackProgressAsync(progressInfo, new EmptyResponse());
+            App.getApiClientInstance(App.getInstance()).ReportPlaybackProgressAsync(progressInfo, new EmptyResponse());
         }
 
         public void onStop() {

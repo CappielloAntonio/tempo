@@ -35,6 +35,8 @@
     <string name="unplayable_file">Couldn\'t play this song.</string>
     <string name="playlist_is_empty">Playlist is empty</string>
     <string name="audio_focus_denied">Audio focus denied.</string>
+    <string name="added_title_to_queue">"Added 1 title to the queue."</string>
+    <string name="added_x_titles_to_queue">Added %1$d titles to the queue.</string>
 
     <string name="action_play_next">Play next</string>
     <string name="action_play">Play</string>

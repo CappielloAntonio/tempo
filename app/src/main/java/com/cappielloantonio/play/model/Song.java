@@ -145,6 +145,11 @@ public class Song implements Parcelable {
     }
 
     @Ignore
+    public Song() {
+        this.id = UUID.randomUUID().toString();
+    }
+
+    @Ignore
     public Song(BaseItemDto itemDto) {
         this.id = itemDto.getId();
         this.title = itemDto.getName();

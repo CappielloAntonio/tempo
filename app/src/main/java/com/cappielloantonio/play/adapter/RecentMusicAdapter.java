@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.helper.MusicPlayerRemote;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
@@ -98,6 +99,8 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
 
             PlayerBottomSheetViewModel playerBottomSheetViewModel = new ViewModelProvider(mainActivity).get(PlayerBottomSheetViewModel.class);
             playerBottomSheetViewModel.setNowPlayingSong(songs.get(getAdapterPosition()));
+
+            MusicPlayerRemote.openQueue(songs.subList(getAdapterPosition(), songs.size()), getAdapterPosition(), true);
         }
 
         @Override

@@ -57,7 +57,7 @@ public class PlayerNowPlayingSongAdapter extends RecyclerView.Adapter<PlayerNowP
         ViewHolder(View itemView) {
             super(itemView);
 
-            cover = itemView.findViewById(R.id.discover_song_cover_image_view);
+            cover = itemView.findViewById(R.id.now_playing_song_cover_image_view);
 
             itemView.setOnClickListener(this);
         }

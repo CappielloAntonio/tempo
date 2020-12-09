@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
+import android.widget.SeekBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,11 +19,14 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.PlayerNowPlayingSongAdapter;
 import com.cappielloantonio.play.adapter.PlayerSongQueueAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlayerBottomSheetBinding;
+import com.cappielloantonio.play.helper.MusicPlayerRemote;
+import com.cappielloantonio.play.helper.MusicProgressViewUpdateHelper;
+import com.cappielloantonio.play.interfaces.MusicServiceEventListener;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 
-public class PlayerBottomSheetFragment extends Fragment {
+public class PlayerBottomSheetFragment extends Fragment implements MusicServiceEventListener, MusicProgressViewUpdateHelper.Callback {
     private static final String TAG = "PlayerBottomSheetFragment";
 
     private FragmentPlayerBottomSheetBinding bind;
@@ -31,7 +36,14 @@ public class PlayerBottomSheetFragment extends Fragment {
     private PlayerNowPlayingSongAdapter playerNowPlayingSongAdapter;
     private PlayerSongQueueAdapter playerSongQueueAdapter;
 
-    private boolean isNowPlaying = false;
+    private MusicProgressViewUpdateHelper progressViewUpdateHelper;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        progressViewUpdateHelper = new MusicProgressViewUpdateHelper(this);
+    }
 
     @Nullable
     @Override
@@ -47,6 +59,35 @@ public class PlayerBottomSheetFragment extends Fragment {
         initFavoriteButtonClick();
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        activity.addMusicServiceEventListener(this);
+        setUpMusicControllers();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        progressViewUpdateHelper.start();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        progressViewUpdateHelper.stop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        activity.removeMusicServiceEventListener(this);
     }
 
     private void initQueueSlideView() {
@@ -81,6 +122,28 @@ public class PlayerBottomSheetFragment extends Fragment {
         bind.playerBodyLayout.buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite());
     }
 
+    private void initSeekBar() {
+        bind.playerBodyLayout.playerBigSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    MusicPlayerRemote.seekTo(progress);
+                    onUpdateProgressViews(MusicPlayerRemote.getSongProgressMillis(), MusicPlayerRemote.getSongDurationMillis());
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
     private void setSongInfo(Song song) {
         playerBottomSheetViewModel.setNowPlayingSong(song);
 
@@ -93,6 +156,26 @@ public class PlayerBottomSheetFragment extends Fragment {
         bind.playerBodyLayout.buttonFavorite.setChecked(song.isFavorite());
 
         playSong(song);
+    }
+
+    private void setUpMusicControllers() {
+        setUpPlayPauseButton();
+//        setUpPrevNext();
+//        setUpRepeatButton();
+//        setUpShuffleButton();
+        initSeekBar();
+    }
+
+    private void setUpPlayPauseButton() {
+        bind.playerBodyLayout.playPauseButton.setOnClickListener(v -> {
+            if (MusicPlayerRemote.isPlaying()) {
+                MusicPlayerRemote.pauseSong();
+                Toast.makeText(requireContext(), "PAUSING", Toast.LENGTH_SHORT).show();
+            } else {
+                MusicPlayerRemote.resumePlaying();
+                Toast.makeText(requireContext(), "PLAYING", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void playSong(Song song) {
@@ -110,5 +193,41 @@ public class PlayerBottomSheetFragment extends Fragment {
     public void scrollPager(Song song, int page, boolean smoothScroll) {
         bind.playerBodyLayout.playerSongCoverViewPager.setCurrentItem(page, smoothScroll);
         setSongInfo(song);
+    }
+
+    @Override
+    public void onServiceConnected() {
+
+    }
+
+    @Override
+    public void onServiceDisconnected() {
+
+    }
+
+    @Override
+    public void onQueueChanged() {
+
+    }
+
+    @Override
+    public void onPlayMetadataChanged() {
+
+    }
+
+    @Override
+    public void onPlayStateChanged() {
+
+    }
+
+    @Override
+    public void onRepeatModeChanged() {
+
+    }
+
+    @Override
+    public void onUpdateProgressViews(int progress, int total) {
+        bind.playerBodyLayout.playerBigSeekBar.setMax(total);
+        bind.playerBodyLayout.playerBigSeekBar.setProgress(progress);
     }
 }

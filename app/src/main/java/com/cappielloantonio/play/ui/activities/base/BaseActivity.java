@@ -151,7 +151,6 @@ public class BaseActivity extends AppCompatActivity implements EasyPermissions.P
 
             final IntentFilter filter = new IntentFilter();
             filter.addAction(MusicService.STATE_CHANGED);
-            filter.addAction(MusicService.REPEAT_MODE_CHANGED);
             filter.addAction(MusicService.META_CHANGED);
             filter.addAction(MusicService.QUEUE_CHANGED);
 
@@ -239,9 +238,6 @@ public class BaseActivity extends AppCompatActivity implements EasyPermissions.P
                         break;
                     case MusicService.STATE_CHANGED:
                         activity.onPlayStateChanged();
-                        break;
-                    case MusicService.REPEAT_MODE_CHANGED:
-                        activity.onRepeatModeChanged();
                         break;
                 }
             }

@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -154,32 +153,13 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         bind.playerHeaderLayout.playerHeaderSongArtistLabel.setText(song.getArtistName());
 
         bind.playerBodyLayout.buttonFavorite.setChecked(song.isFavorite());
-
-        playSong(song);
     }
 
     private void setUpMusicControllers() {
-        setUpPlayPauseButton();
 //        setUpPrevNext();
 //        setUpRepeatButton();
 //        setUpShuffleButton();
         initSeekBar();
-    }
-
-    private void setUpPlayPauseButton() {
-        bind.playerBodyLayout.playPauseButton.setOnClickListener(v -> {
-            if (MusicPlayerRemote.isPlaying()) {
-                MusicPlayerRemote.pauseSong();
-                Toast.makeText(requireContext(), "PAUSING", Toast.LENGTH_SHORT).show();
-            } else {
-                MusicPlayerRemote.resumePlaying();
-                Toast.makeText(requireContext(), "PLAYING", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void playSong(Song song) {
-        // Toast.makeText(activity, MusicUtil.getSongFileUri(song), Toast.LENGTH_SHORT).show();
     }
 
     public View getPlayerHeader() {

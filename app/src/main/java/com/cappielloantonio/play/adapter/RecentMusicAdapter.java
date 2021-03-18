@@ -100,7 +100,7 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
             PlayerBottomSheetViewModel playerBottomSheetViewModel = new ViewModelProvider(mainActivity).get(PlayerBottomSheetViewModel.class);
             playerBottomSheetViewModel.setNowPlayingSong(songs.get(getAdapterPosition()));
 
-            MusicPlayerRemote.openQueue(songs.subList(getAdapterPosition(), songs.size()), getAdapterPosition(), true);
+            MusicPlayerRemote.openQueue(songs.subList(getAdapterPosition(), songs.size()), 0, true);
         }
 
         @Override

@@ -7,6 +7,7 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,10 +19,11 @@ import com.cappielloantonio.play.service.MusicService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.WeakHashMap;
 
 public class MusicPlayerRemote {
+    private static final String TAG = "MusicPlayerRemote";
+
     public static MusicService musicService;
 
     private static final WeakHashMap<Context, ServiceBinder> mConnectionMap = new WeakHashMap<>();
@@ -143,19 +145,10 @@ public class MusicPlayerRemote {
     }
 
     public static void openQueue(final List<Song> queue, final int startPosition, final boolean startPlaying) {
+        Log.d(TAG, "MusicPlayerRemote - openQueue:      S " + queue.size() + "      P " + startPosition + "      SP " + startPlaying);
+
         if (!tryToHandleOpenPlayingQueue(queue, startPosition, startPlaying) && musicService != null) {
             musicService.openQueue(queue, startPosition, startPlaying);
-        }
-    }
-
-    public static void openAndShuffleQueue(final List<Song> queue, boolean startPlaying) {
-        int startPosition = 0;
-        if (!queue.isEmpty()) {
-            startPosition = new Random().nextInt(queue.size());
-        }
-
-        if (!tryToHandleOpenPlayingQueue(queue, startPosition, startPlaying) && musicService != null) {
-            openQueue(queue, startPosition, startPlaying);
         }
     }
 
@@ -171,10 +164,6 @@ public class MusicPlayerRemote {
         }
 
         return false;
-    }
-
-    public static Song getCurrentSong() {
-        return musicService.getCurrentSong();
     }
 
     public static int getPosition() {
@@ -209,37 +198,12 @@ public class MusicPlayerRemote {
         return -1;
     }
 
-    public static long getQueueDurationMillis(int position) {
-        if (musicService != null) {
-            return musicService.getQueueDurationMillis(position);
-        }
-
-        return -1;
-    }
-
     public static int seekTo(int millis) {
         if (musicService != null) {
             return musicService.seek(millis);
         }
 
         return -1;
-    }
-
-    public static int getRepeatMode() {
-        if (musicService != null) {
-            return musicService.getRepeatMode();
-        }
-
-        return MusicService.REPEAT_MODE_NONE;
-    }
-
-    public static boolean cycleRepeatMode() {
-        if (musicService != null) {
-            musicService.cycleRepeatMode();
-            return true;
-        }
-
-        return false;
     }
 
     public static boolean playNext(Song song) {

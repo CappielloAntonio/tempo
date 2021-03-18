@@ -22,21 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ToggleButton
-        android:id="@+id/play_pause_button"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        android:background="@drawable/button_play_pause_selector"
-        android:checked="true"
-        android:gravity="center_vertical"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="24dp"
-        android:text=""
-        android:textOff=""
-        android:textOn=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/player_song_cover_view_pager"
         android:layout_width="0dp"

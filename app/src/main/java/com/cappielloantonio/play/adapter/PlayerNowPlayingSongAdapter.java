@@ -5,12 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.helper.MusicPlayerRemote;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.SongRepository;
 
@@ -66,6 +68,14 @@ public class PlayerNowPlayingSongAdapter extends RecyclerView.Adapter<PlayerNowP
         public void onClick(View view) {
             SongRepository songRepository = new SongRepository(App.getInstance());
             songRepository.increasePlayCount(songs.get(getAdapterPosition()));
+
+            if (MusicPlayerRemote.isPlaying()) {
+                MusicPlayerRemote.pauseSong();
+                Toast.makeText(context, "PAUSING", Toast.LENGTH_SHORT).show();
+            } else {
+                MusicPlayerRemote.resumePlaying();
+                Toast.makeText(context, "PLAYING", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

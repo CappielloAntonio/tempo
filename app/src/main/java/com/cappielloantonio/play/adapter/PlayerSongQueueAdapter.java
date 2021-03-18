@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.helper.MusicPlayerRemote;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.ui.fragment.PlayerBottomSheetFragment;
@@ -82,6 +83,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
             songRepository.increasePlayCount(songs.get(getAdapterPosition()));
 
             playerBottomSheetFragment.scrollPager(songs.get(getAdapterPosition()), getAdapterPosition(), true);
+            MusicPlayerRemote.openQueue(songs, getAdapterPosition(), true);
         }
     }
 

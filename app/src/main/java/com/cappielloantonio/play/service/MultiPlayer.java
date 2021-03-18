@@ -68,8 +68,8 @@ public class MultiPlayer implements Playback {
         }
 
         @Override
-        public void onLoadingChanged(boolean isLoading) {
-            Log.i(TAG, "onLoadingChanged: " + isLoading);
+        public void onIsLoadingChanged(boolean isLoadingChanged) {
+            Log.i(TAG, "onIsLoadingChanged: " + isLoadingChanged);
         }
 
         @Override
@@ -91,6 +91,11 @@ public class MultiPlayer implements Playback {
                 exoPlayer.setPlayWhenReady(true);
                 callbacks.onTrackStarted();
             }
+        }
+
+        @Override
+        public void onPlaybackStateChanged(int state) {
+            
         }
 
         @Override

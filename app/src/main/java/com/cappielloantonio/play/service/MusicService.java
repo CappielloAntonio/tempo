@@ -69,8 +69,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     public static final String META_CHANGED = PACKAGE_NAME + ".meta.changed";
     public static final String QUEUE_CHANGED = PACKAGE_NAME + ".queue.changed";
 
-    public static final String REPEAT_MODE_CHANGED = PACKAGE_NAME + ".repeat.changed";
-
     public static final int TRACK_STARTED = 9;
     public static final int TRACK_CHANGED = 1;
     public static final int TRACK_ENDED = 2;
@@ -83,11 +81,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     public static final int DUCK = 7;
     public static final int UNDUCK = 8;
 
-    public static final int REPEAT_MODE_NONE = 0;
-    public static final int REPEAT_MODE_ALL = 1;
-    public static final int REPEAT_MODE_THIS = 2;
-
-    public static final int SAVE_QUEUE = 0;
     public static final int LOAD_QUEUE = 9;
 
     private final IBinder musicBinder = new MusicBinder();
@@ -101,8 +94,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     private int position = -1;
     private int nextPosition = -1;
 
-    private int repeatMode;
-
     private boolean notHandledMetaChangedForCurrentTrack;
     private boolean queuesRestored;
     private boolean pausedByTransientLossOfFocus;
@@ -113,7 +104,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     private PowerManager.WakeLock wakeLock;
 
     private PlaybackHandler playerHandler;
-    private Handler uiThreadHandler;
     private ThrottledSeekHandler throttledSeekHandler;
     private QueueHandler queueHandler;
     private ProgressHandler progressHandler;
@@ -170,7 +160,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         queueHandler = new QueueHandler(this, queueHandlerThread.getLooper());
 
         throttledSeekHandler = new ThrottledSeekHandler(playerHandler);
-        uiThreadHandler = new Handler();
 
         registerReceiver(becomingNoisyReceiver, new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY));
 
@@ -323,16 +312,13 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
                 case LOAD_QUEUE:
                     service.restoreQueuesAndPositionIfNecessary();
                     break;
-                case SAVE_QUEUE:
-                    service.saveQueue();
-                    break;
             }
         }
     }
 
-    private void saveQueue() {
-        QueueRepository queueRepository = new QueueRepository(App.getInstance());
-        queueRepository.insertAllAndStartNew(playingQueue);
+    public void saveState() {
+        savePosition();
+        saveProgress();
     }
 
     private void savePosition() {
@@ -343,19 +329,7 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         PreferenceManager.getDefaultSharedPreferences(this).edit().putInt(PreferenceUtil.PROGRESS, getSongProgressMillis()).apply();
     }
 
-    public void saveState() {
-        queueHandler.removeMessages(SAVE_QUEUE);
-        queueHandler.sendEmptyMessage(SAVE_QUEUE);
-
-        savePosition();
-        saveProgress();
-    }
-
     private void restoreState() {
-        repeatMode = PreferenceManager.getDefaultSharedPreferences(this).getInt(PreferenceUtil.REPEAT, 0);
-
-        notifyChange(REPEAT_MODE_CHANGED);
-
         queueHandler.removeMessages(LOAD_QUEUE);
         queueHandler.sendEmptyMessage(LOAD_QUEUE);
     }
@@ -464,7 +438,7 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     }
 
     public void updateNotification() {
-        if (playingNotification != null && getCurrentSong().getId() != null) {
+        if (playingNotification != null && getCurrentSong() != null) {
             playingNotification.update();
         }
     }
@@ -481,7 +455,7 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     private void updateMediaSessionMetadata() {
         final Song song = getCurrentSong();
 
-        if (song.getId() == null) {
+        if (song == null) {
             mediaSession.setMetadata(null);
             return;
         }
@@ -499,10 +473,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         metaData.putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, getPlayingQueue().size());
     }
 
-    public void runOnUiThread(Runnable runnable) {
-        uiThreadHandler.post(runnable);
-    }
-
     public Song getCurrentSong() {
         return getSongAt(getPosition());
     }
@@ -516,31 +486,7 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     }
 
     public int getNextPosition(boolean force) {
-        int position = getPosition() + 1;
-        switch (getRepeatMode()) {
-            case REPEAT_MODE_ALL:
-                if (isLastTrack()) {
-                    position = 0;
-                }
-                break;
-            case REPEAT_MODE_THIS:
-                if (force) {
-                    if (isLastTrack()) {
-                        position = 0;
-                    }
-                } else {
-                    position -= 1;
-                }
-                break;
-            default:
-            case REPEAT_MODE_NONE:
-                if (isLastTrack()) {
-                    position -= 1;
-                }
-                break;
-        }
-
-        return position;
+        return getPosition() + 1;
     }
 
     private boolean isLastTrack() {
@@ -551,31 +497,15 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         return playingQueue;
     }
 
-    public int getRepeatMode() {
-        return repeatMode;
-    }
-
-    public void setRepeatMode(final int repeatMode) {
-        switch (repeatMode) {
-            case REPEAT_MODE_NONE:
-            case REPEAT_MODE_ALL:
-            case REPEAT_MODE_THIS:
-                this.repeatMode = repeatMode;
-                PreferenceManager.getDefaultSharedPreferences(this).edit()
-                        .putInt(PreferenceUtil.REPEAT, repeatMode)
-                        .apply();
-                prepareNext();
-                notifyChange(REPEAT_MODE_CHANGED);
-                break;
-        }
-    }
-
     public void openQueue(@Nullable final List<Song> playingQueue, final int startPosition, final boolean startPlaying) {
         if (playingQueue != null && !playingQueue.isEmpty() && startPosition >= 0 && startPosition < playingQueue.size()) {
+            this.playingQueue = playingQueue;
+            this.position = startPosition;
+
             if (startPlaying) {
-                playSongAt(startPosition);
+                playSongAt(position);
             } else {
-                setPosition(startPosition);
+                setPosition(position);
             }
 
             notifyChange(QUEUE_CHANGED);
@@ -709,31 +639,7 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     }
 
     public int getPreviousPosition(boolean force) {
-        int newPosition = getPosition() - 1;
-        switch (repeatMode) {
-            case REPEAT_MODE_ALL:
-                if (newPosition < 0) {
-                    newPosition = getPlayingQueue().size() - 1;
-                }
-                break;
-            case REPEAT_MODE_THIS:
-                if (force) {
-                    if (newPosition < 0) {
-                        newPosition = getPlayingQueue().size() - 1;
-                    }
-                } else {
-                    newPosition = getPosition();
-                }
-                break;
-            default:
-            case REPEAT_MODE_NONE:
-                if (newPosition < 0) {
-                    newPosition = 0;
-                }
-                break;
-        }
-
-        return newPosition;
+        return getPosition() - 1;
     }
 
     public int getSongProgressMillis() {
@@ -758,20 +664,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
             playback.setProgress(millis);
             throttledSeekHandler.notifySeek();
             return millis;
-        }
-    }
-
-    public void cycleRepeatMode() {
-        switch (getRepeatMode()) {
-            case REPEAT_MODE_NONE:
-                setRepeatMode(REPEAT_MODE_ALL);
-                break;
-            case REPEAT_MODE_ALL:
-                setRepeatMode(REPEAT_MODE_THIS);
-                break;
-            default:
-                setRepeatMode(REPEAT_MODE_NONE);
-                break;
         }
     }
 
@@ -821,10 +713,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         }
     }
 
-    public void acquireWakeLock(long milli) {
-        wakeLock.acquire(milli);
-    }
-
     @Override
     public void onTrackStarted() {
         progressHandler.sendEmptyMessage(TRACK_STARTED);
@@ -837,8 +725,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     public void onTrackWentToNext() {
         playerHandler.sendEmptyMessage(TRACK_CHANGED);
         progressHandler.sendEmptyMessage(TRACK_CHANGED);
-
-        acquireWakeLock(30000);
     }
 
     @Override
@@ -895,20 +781,14 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
                     break;
 
                 case TRACK_CHANGED:
-                    if (service.getRepeatMode() == REPEAT_MODE_NONE && service.isLastTrack()) {
-                        service.pause();
-                        service.seek(0);
-                        service.notifyChange(STATE_CHANGED);
-                    } else {
-                        service.position = service.nextPosition;
-                        service.prepareNextImpl();
-                        service.notifyChange(META_CHANGED);
-                    }
+                    service.position = service.nextPosition;
+                    service.prepareNextImpl();
+                    service.notifyChange(META_CHANGED);
                     break;
 
                 case TRACK_ENDED:
                     // if there is a timer finished, don't continue
-                    if (service.pendingQuit || service.getRepeatMode() == REPEAT_MODE_NONE && service.isLastTrack()) {
+                    if (service.pendingQuit && service.isLastTrack()) {
                         service.notifyChange(STATE_CHANGED);
                         service.seek(0);
                         if (service.pendingQuit) {

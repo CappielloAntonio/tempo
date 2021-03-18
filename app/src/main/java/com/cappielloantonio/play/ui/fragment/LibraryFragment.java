@@ -112,7 +112,6 @@ public class LibraryFragment extends Fragment {
         bind.playlistRecyclerView.setHasFixedSize(true);
 
         playlistAdapter = new PlaylistAdapter(requireContext());
-        playlistAdapter.setClickListener((view, position) -> Toast.makeText(requireContext(), "Playlist: " + position, Toast.LENGTH_SHORT).show());
         bind.playlistRecyclerView.setAdapter(playlistAdapter);
         libraryViewModel.getPlaylistList().observe(requireActivity(), playlists -> playlistAdapter.setItems(playlists));
     }

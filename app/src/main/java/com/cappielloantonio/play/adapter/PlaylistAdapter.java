@@ -1,14 +1,17 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Playlist;
 
 import java.util.ArrayList;
@@ -20,7 +23,6 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     private List<Playlist> playlists;
     private LayoutInflater mInflater;
     private Context context;
-    private ItemClickListener itemClickListener;
 
     public PlaylistAdapter(Context context) {
         this.context = context;
@@ -59,21 +61,19 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
         @Override
         public void onClick(View view) {
-            if (itemClickListener != null)
-                itemClickListener.onItemClick(view, getAdapterPosition());
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("playlist_object", playlists.get(getAdapterPosition()));
+            Navigation.findNavController(view).navigate(R.id.action_libraryFragment_to_playlistPageFragment, bundle);
+
         }
+    }
+
+    public Playlist getItem(int position) {
+        return playlists.get(position);
     }
 
     public void setItems(List<Playlist> playlists) {
         this.playlists = playlists;
         notifyDataSetChanged();
-    }
-
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
-    }
-
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
     }
 }

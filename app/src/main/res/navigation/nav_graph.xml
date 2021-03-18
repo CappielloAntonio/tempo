@@ -98,6 +98,9 @@
             app:destination="@id/syncFragment"
             app:popUpTo="@id/libraryFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_libraryFragment_to_playlistPageFragment"
+            app:destination="@id/playlistPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -178,6 +181,11 @@
         android:name="com.cappielloantonio.play.ui.fragment.SongListPageFragment"
         android:label="SongListPageFragment"
         tools:layout="@layout/fragment_song_list_page"/>
+    <fragment
+        android:id="@+id/playlistPageFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.PlaylistPageFragment"
+        android:label="PlaylistPageFragment"
+        tools:layout="@layout/fragment_playlist_page"/>
     <dialog
         android:id="@+id/songBottomSheetDialog"
         android:name="com.cappielloantonio.play.ui.fragment.bottomsheetdialog.SongBottomSheetDialog"

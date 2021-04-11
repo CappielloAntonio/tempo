@@ -64,7 +64,7 @@ public class PlayingNotification {
         intent.setComponent(serviceName);
         final PendingIntent deleteIntent = PendingIntent.getService(service, 0, intent, 0);
 
-        Bitmap bitmap = BitmapFactory.decodeResource(service.getResources(), R.drawable.default_album_art);
+        // Bitmap bitmap = BitmapFactory.decodeResource(service.getResources(), R.drawable.default_album_art);
         NotificationCompat.Action playPauseAction = new NotificationCompat.Action(playButtonResId,
                 service.getString(R.string.action_play_pause),
                 retrievePlaybackAction(ACTION_TOGGLE));
@@ -77,7 +77,7 @@ public class PlayingNotification {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(service, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setSubText(song.getAlbumName())
-                .setLargeIcon(bitmap)
+                // .setLargeIcon(bitmap)
                 .setContentIntent(clickIntent)
                 .setDeleteIntent(deleteIntent)
                 .setContentTitle(song.getTitle())

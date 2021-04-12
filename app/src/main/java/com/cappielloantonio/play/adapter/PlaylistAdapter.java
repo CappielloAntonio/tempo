@@ -62,7 +62,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         @Override
         public void onClick(View view) {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("playlist_object", playlists.get(getAdapterPosition()));
+            bundle.putParcelable("playlist_object", playlists.get(getBindingAdapterPosition()));
             Navigation.findNavController(view).navigate(R.id.action_libraryFragment_to_playlistPageFragment, bundle);
 
         }

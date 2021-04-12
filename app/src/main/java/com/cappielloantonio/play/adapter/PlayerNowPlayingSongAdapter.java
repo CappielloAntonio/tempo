@@ -67,7 +67,7 @@ public class PlayerNowPlayingSongAdapter extends RecyclerView.Adapter<PlayerNowP
         @Override
         public void onClick(View view) {
             SongRepository songRepository = new SongRepository(App.getInstance());
-            songRepository.increasePlayCount(songs.get(getAdapterPosition()));
+            songRepository.increasePlayCount(songs.get(getBindingAdapterPosition()));
 
             if (MusicPlayerRemote.isPlaying()) {
                 MusicPlayerRemote.pauseSong();

@@ -56,7 +56,7 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {
 
         @Override
         public void onClick(View view) {
-            if (itemClickListener != null) itemClickListener.onItemClick(view, getAdapterPosition());
+            if (itemClickListener != null) itemClickListener.onItemClick(view, getBindingAdapterPosition());
         }
     }
 

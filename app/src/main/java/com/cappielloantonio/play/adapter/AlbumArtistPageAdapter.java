@@ -71,14 +71,14 @@ public class AlbumArtistPageAdapter extends RecyclerView.Adapter<AlbumArtistPage
         @Override
         public void onClick(View view) {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("album_object", albums.get(getAdapterPosition()));
+            bundle.putParcelable("album_object", albums.get(getBindingAdapterPosition()));
             Navigation.findNavController(view).navigate(R.id.action_artistPageFragment_to_albumPageFragment, bundle);
         }
 
         @Override
         public boolean onLongClick(View v) {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("album_object", albums.get(getAdapterPosition()));
+            bundle.putParcelable("album_object", albums.get(getBindingAdapterPosition()));
             Navigation.findNavController(v).navigate(R.id.albumBottomSheetDialog, bundle);
             return true;
         }

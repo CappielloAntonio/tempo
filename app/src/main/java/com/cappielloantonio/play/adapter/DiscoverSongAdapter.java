@@ -72,7 +72,7 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
         @Override
         public void onClick(View view) {
             SongRepository songRepository = new SongRepository(App.getInstance());
-            songRepository.increasePlayCount(songs.get(getAdapterPosition()));
+            songRepository.increasePlayCount(songs.get(getBindingAdapterPosition()));
         }
     }
 

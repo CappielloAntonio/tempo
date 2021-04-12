@@ -76,7 +76,7 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
         @Override
         public void onClick(View view) {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("album_object", albums.get(getAdapterPosition()));
+            bundle.putParcelable("album_object", albums.get(getBindingAdapterPosition()));
 
             if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.searchFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_searchFragment_to_albumPageFragment, bundle);
@@ -92,7 +92,7 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
         @Override
         public boolean onLongClick(View v) {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("album_object", albums.get(getAdapterPosition()));
+            bundle.putParcelable("album_object", albums.get(getBindingAdapterPosition()));
             Navigation.findNavController(v).navigate(R.id.albumBottomSheetDialog, bundle);
             return true;
         }

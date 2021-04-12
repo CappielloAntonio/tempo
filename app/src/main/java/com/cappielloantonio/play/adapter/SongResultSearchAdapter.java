@@ -95,22 +95,22 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
             SongRepository songRepository = new SongRepository(App.getInstance());
             QueueRepository queueRepository = new QueueRepository(App.getInstance());
 
-            songRepository.increasePlayCount(songs.get(getAdapterPosition()));
-            queueRepository.insertAllAndStartNew(songs.subList(getAdapterPosition(), songs.size()));
+            songRepository.increasePlayCount(songs.get(getBindingAdapterPosition()));
+            queueRepository.insertAllAndStartNew(songs.subList(getBindingAdapterPosition(), songs.size()));
 
             mainActivity.isBottomSheetInPeek(true);
-            mainActivity.setBottomSheetMusicInfo(songs.get(getAdapterPosition()));
+            mainActivity.setBottomSheetMusicInfo(songs.get(getBindingAdapterPosition()));
 
             PlayerBottomSheetViewModel playerBottomSheetViewModel = new ViewModelProvider(mainActivity).get(PlayerBottomSheetViewModel.class);
-            playerBottomSheetViewModel.setNowPlayingSong(songs.get(getAdapterPosition()));
+            playerBottomSheetViewModel.setNowPlayingSong(songs.get(getBindingAdapterPosition()));
 
-            MusicPlayerRemote.openQueue(songs.subList(getAdapterPosition(), songs.size()), 0, true);
+            MusicPlayerRemote.openQueue(songs.subList(getBindingAdapterPosition(), songs.size()), 0, true);
         }
 
         @Override
         public boolean onLongClick(View v) {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("song_object", songs.get(getAdapterPosition()));
+            bundle.putParcelable("song_object", songs.get(getBindingAdapterPosition()));
             Navigation.findNavController(v).navigate(R.id.songBottomSheetDialog, bundle);
             return true;
         }

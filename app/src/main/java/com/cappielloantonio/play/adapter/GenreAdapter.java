@@ -60,7 +60,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
         @Override
         public void onClick(View view) {
             if (itemClickListener != null)
-                itemClickListener.onItemClick(view, getAdapterPosition());
+                itemClickListener.onItemClick(view, getBindingAdapterPosition());
         }
     }
 

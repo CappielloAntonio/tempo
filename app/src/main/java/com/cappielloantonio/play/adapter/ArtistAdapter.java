@@ -71,14 +71,14 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
         @Override
         public void onClick(View view) {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("artist_object", artists.get(getAdapterPosition()));
+            bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
             Navigation.findNavController(view).navigate(R.id.action_libraryFragment_to_artistPageFragment, bundle);
         }
 
         @Override
         public boolean onLongClick(View v) {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("artist_object", artists.get(getAdapterPosition()));
+            bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
             Navigation.findNavController(v).navigate(R.id.artistBottomSheetDialog, bundle);
             return true;
         }

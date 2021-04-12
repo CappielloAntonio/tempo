@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
+        android:layout_marginBottom="-4dp"
         android:paddingStart="24dp"
         android:paddingTop="20dp"
         android:text="Now playing"
@@ -26,11 +27,10 @@
         android:id="@+id/player_song_cover_view_pager"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/collapse_bottom_sheet_button" />
+        app:layout_constraintTop_toBottomOf="@+id/collapse_bottom_sheet_button"/>
 
     <LinearLayout
         android:id="@+id/player_big_timer"
@@ -92,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="12dp"
             android:paddingStart="24dp"
             android:text="@string/label_placeholder"
             android:textColor="@color/titleTextColor"
@@ -106,7 +106,7 @@
             android:background="@drawable/button_favorite_selector"
             android:checked="false"
             android:gravity="center_vertical"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="24dp"
             android:text=""
             android:textOff=""
@@ -121,6 +121,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
+        android:paddingBottom="18dp"
         android:text="@string/label_placeholder"
         android:textColor="@color/subtitleTextColor"
         android:textSize="14sp"
@@ -129,7 +130,6 @@
 
     <View style="@style/Divider"
         android:id="@+id/player_divider"
-        android:layout_marginTop="24dp"
         android:layout_marginStart="18dp"
         android:layout_marginEnd="18dp"
         app:layout_constraintStart_toStartOf="parent"

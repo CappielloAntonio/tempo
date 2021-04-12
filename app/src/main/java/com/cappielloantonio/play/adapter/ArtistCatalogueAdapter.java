@@ -72,7 +72,7 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
         @Override
         public void onClick(View view) {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("artist_object", artists.get(getAdapterPosition()));
+            bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
 
             if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.searchFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_searchFragment_to_artistPageFragment, bundle);
@@ -88,7 +88,7 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
         @Override
         public boolean onLongClick(View v) {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("artist_object", artists.get(getAdapterPosition()));
+            bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
             Navigation.findNavController(v).navigate(R.id.artistBottomSheetDialog, bundle);
             return true;
         }

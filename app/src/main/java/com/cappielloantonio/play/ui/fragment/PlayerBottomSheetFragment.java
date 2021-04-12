@@ -23,6 +23,7 @@ import com.cappielloantonio.play.helper.MusicProgressViewUpdateHelper;
 import com.cappielloantonio.play.interfaces.MusicServiceEventListener;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 
 public class PlayerBottomSheetFragment extends Fragment implements MusicServiceEventListener, MusicProgressViewUpdateHelper.Callback {
@@ -56,6 +57,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         initQueueSlideView();
         initQueueRecyclerView();
         initFavoriteButtonClick();
+        initToggleButtonSongState();
 
         return view;
     }
@@ -121,6 +123,16 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         bind.playerBodyLayout.buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite());
     }
 
+    private void initToggleButtonSongState() {
+        bind.playerHeaderLayout.playerHeaderButton.setOnClickListener(v -> {
+            if (MusicPlayerRemote.isPlaying()) {
+                MusicPlayerRemote.pauseSong();
+            } else {
+                MusicPlayerRemote.resumePlaying();
+            }
+        });
+    }
+
     private void initSeekBar() {
         bind.playerBodyLayout.playerBigSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -155,6 +167,14 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         bind.playerBodyLayout.buttonFavorite.setChecked(song.isFavorite());
     }
 
+    protected void updatePlayPauseState() {
+        if (MusicPlayerRemote.isPlaying()) {
+            bind.playerHeaderLayout.playerHeaderButton.setChecked(false);
+        } else {
+            bind.playerHeaderLayout.playerHeaderButton.setChecked(true);
+        }
+    }
+
     private void setUpMusicControllers() {
 //        setUpPrevNext();
 //        setUpRepeatButton();
@@ -177,7 +197,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
     @Override
     public void onServiceConnected() {
-
+        updatePlayPauseState();
     }
 
     @Override
@@ -197,7 +217,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
     @Override
     public void onPlayStateChanged() {
-
+        updatePlayPauseState();
     }
 
     @Override
@@ -209,5 +229,8 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     public void onUpdateProgressViews(int progress, int total) {
         bind.playerBodyLayout.playerBigSeekBar.setMax(total);
         bind.playerBodyLayout.playerBigSeekBar.setProgress(progress);
+
+        bind.playerBodyLayout.playerBigSongTimeIn.setText(MusicUtil.getReadableDurationString(progress));
+        bind.playerBodyLayout.playerBigSongDuration.setText(MusicUtil.getReadableDurationString(total));
     }
 }

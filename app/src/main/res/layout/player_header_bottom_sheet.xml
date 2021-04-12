@@ -7,12 +7,16 @@
     android:elevation="2dp"
     android:background="@color/almostCardColor">
 
-    <ImageView
+    <ToggleButton
         android:id="@+id/player_header_button"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
         android:layout_marginStart="20dp"
-        android:src="@drawable/ic_play"
+        android:background="@drawable/button_play_pause_selector"
+        android:checked="true"
+        android:text=""
+        android:textOff=""
+        android:textOn=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -32,24 +32,58 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/collapse_bottom_sheet_button" />
 
-    <SeekBar
-        android:id="@+id/player_big_seek_bar"
+    <LinearLayout
+        android:id="@+id/player_big_timer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="28dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player_song_cover_view_pager" />
+        app:layout_constraintTop_toBottomOf="@+id/player_song_cover_view_pager">
+
+        <TextView
+            android:id="@+id/player_big_song_time_in"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/label_placeholder"
+            android:textColor="@color/titleTextColor"
+            android:textSize="12sp" />
+
+        <SeekBar
+            android:id="@+id/player_big_seek_bar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:paddingRight="12dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="12dp"/>
+
+        <TextView
+            android:id="@+id/player_big_song_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="24dp"
+            android:text="@string/label_placeholder"
+            android:textColor="@color/titleTextColor"
+            android:textSize="12sp" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/head_title_favorite_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player_big_seek_bar"
+        app:layout_constraintTop_toBottomOf="@+id/player_big_timer"
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="horizontal">
 

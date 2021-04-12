@@ -138,6 +138,10 @@ public class MusicPlayerRemote {
         return musicService != null && musicService.isPlaying();
     }
 
+    public static boolean isLoading() {
+        return musicService != null && musicService.isLoading();
+    }
+
     public static void resumePlaying() {
         if (musicService != null) {
             musicService.play();

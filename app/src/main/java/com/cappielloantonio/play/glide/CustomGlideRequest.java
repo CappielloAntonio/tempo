@@ -55,8 +55,24 @@ public class CustomGlideRequest {
             return new Builder(context, item, placeholder, itemType, quality);
         }
 
+        public BitmapBuilder bitmap() {
+            return new BitmapBuilder(this);
+        }
+
         public RequestBuilder<Drawable> build() {
             return requestManager.load(item);
+        }
+    }
+
+    public static class BitmapBuilder {
+        private final Builder builder;
+
+        public BitmapBuilder(Builder builder) {
+            this.builder = builder;
+        }
+
+        public RequestBuilder<Bitmap> build() {
+            return builder.requestManager.asBitmap().load(builder.item);
         }
     }
 

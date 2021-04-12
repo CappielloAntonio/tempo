@@ -50,8 +50,12 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static com.google.android.exoplayer2.Player.MEDIA_ITEM_TRANSITION_REASON_AUTO;
+import static com.google.android.exoplayer2.Player.MEDIA_ITEM_TRANSITION_REASON_PLAYLIST_CHANGED;
+import static com.google.android.exoplayer2.Player.PLAY_WHEN_READY_CHANGE_REASON_END_OF_MEDIA_ITEM;
+
 public class MusicService extends Service implements Playback.PlaybackCallbacks {
-    public static final String PACKAGE_NAME = "com.dkanada.gramophone";
+    public static final String PACKAGE_NAME = "com.antoniocappiello.play";
 
     public static final String ACTION_TOGGLE = PACKAGE_NAME + ".toggle";
     public static final String ACTION_PLAY = PACKAGE_NAME + ".play";
@@ -104,6 +108,7 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     private PowerManager.WakeLock wakeLock;
 
     private PlaybackHandler playerHandler;
+    private Handler uiThreadHandler;
     private ThrottledSeekHandler throttledSeekHandler;
     private QueueHandler queueHandler;
     private ProgressHandler progressHandler;
@@ -160,6 +165,7 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         queueHandler = new QueueHandler(this, queueHandlerThread.getLooper());
 
         throttledSeekHandler = new ThrottledSeekHandler(playerHandler);
+        uiThreadHandler = new Handler();
 
         registerReceiver(becomingNoisyReceiver, new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY));
 
@@ -352,8 +358,8 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
                 if (restoredPositionInTrack > 0) seek(restoredPositionInTrack);
 
                 notHandledMetaChangedForCurrentTrack = true;
-                sendChangeInternal(META_CHANGED);
-                sendChangeInternal(QUEUE_CHANGED);
+                handleChangeInternal(META_CHANGED);
+                handleChangeInternal(QUEUE_CHANGED);
             }
         }
 
@@ -384,6 +390,10 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
 
     public boolean isPlaying() {
         return playback != null && playback.isPlaying();
+    }
+
+    public boolean isLoading() {
+        return playback != null && playback.isLoading();
     }
 
     public int getPosition() {
@@ -433,7 +443,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
 
     public void initNotification() {
         playingNotification = new PlayingNotification();
-
         playingNotification.init(this);
     }
 
@@ -471,6 +480,12 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
                 .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, null);
 
         metaData.putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, getPlayingQueue().size());
+
+        mediaSession.setMetadata(metaData.build());
+    }
+
+    public void runOnUiThread(Runnable runnable) {
+        uiThreadHandler.post(runnable);
     }
 
     public Song getCurrentSong() {
@@ -714,23 +729,31 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     }
 
     @Override
-    public void onTrackStarted() {
-        progressHandler.sendEmptyMessage(TRACK_STARTED);
-
+    public void onStateChanged(int state) {
         notifyChange(STATE_CHANGED);
-        prepareNext();
     }
 
     @Override
-    public void onTrackWentToNext() {
-        playerHandler.sendEmptyMessage(TRACK_CHANGED);
-        progressHandler.sendEmptyMessage(TRACK_CHANGED);
+    public void onReadyChanged(boolean ready, int reason) {
+        notifyChange(STATE_CHANGED);
+
+        if (ready) {
+            progressHandler.sendEmptyMessage(TRACK_STARTED);
+            prepareNext();
+        } else if (reason == PLAY_WHEN_READY_CHANGE_REASON_END_OF_MEDIA_ITEM) {
+            progressHandler.sendEmptyMessage(TRACK_ENDED);
+        }
     }
 
     @Override
-    public void onTrackEnded() {
-        playerHandler.sendEmptyMessage(TRACK_ENDED);
-        progressHandler.sendEmptyMessage(TRACK_ENDED);
+    public void onTrackChanged(int reason) {
+        if (reason == MEDIA_ITEM_TRANSITION_REASON_AUTO) {
+            playerHandler.sendEmptyMessage(TRACK_CHANGED);
+            progressHandler.sendEmptyMessage(TRACK_CHANGED);
+        } else if (reason == MEDIA_ITEM_TRANSITION_REASON_PLAYLIST_CHANGED) {
+            progressHandler.sendEmptyMessage(TRACK_CHANGED);
+            prepareNext();
+        }
     }
 
     private static final class PlaybackHandler extends Handler {
@@ -959,8 +982,8 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
             info.setItemId(mService.get().getCurrentSong().getId());
             info.setPositionTicks(progress * 10000);
 
-            task.cancel(true);
-            executorService.shutdownNow();
+            if (task != null) task.cancel(true);
+            if (executorService != null) executorService.shutdownNow();
         }
     }
 }

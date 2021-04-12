@@ -71,10 +71,10 @@ public class PlayerNowPlayingSongAdapter extends RecyclerView.Adapter<PlayerNowP
 
             if (MusicPlayerRemote.isPlaying()) {
                 MusicPlayerRemote.pauseSong();
-                Toast.makeText(context, "PAUSING", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(context, "PAUSING", Toast.LENGTH_SHORT).show();
             } else {
                 MusicPlayerRemote.resumePlaying();
-                Toast.makeText(context, "PLAYING", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(context, "PLAYING", Toast.LENGTH_SHORT).show();
             }
         }
     }

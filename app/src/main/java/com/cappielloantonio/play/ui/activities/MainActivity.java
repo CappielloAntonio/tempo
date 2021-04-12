@@ -16,6 +16,7 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.broadcast.receiver.ConnectivityStatusBroadcastReceiver;
 import com.cappielloantonio.play.databinding.ActivityMainBinding;
+import com.cappielloantonio.play.helper.MusicPlayerRemote;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.base.BaseActivity;
 import com.cappielloantonio.play.ui.fragment.PlayerBottomSheetFragment;
@@ -175,6 +176,7 @@ public class MainActivity extends BaseActivity {
                             playerBottomSheetFragment.scrollOnTop();
                             break;
                         case BottomSheetBehavior.STATE_HIDDEN:
+                            MusicPlayerRemote.pauseSong();
                             mainViewModel.deleteQueue();
                             break;
                     }

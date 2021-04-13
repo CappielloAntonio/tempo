@@ -82,7 +82,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
             SongRepository songRepository = new SongRepository(App.getInstance());
             songRepository.increasePlayCount(songs.get(getBindingAdapterPosition()));
 
-            playerBottomSheetFragment.scrollPager(songs.get(getBindingAdapterPosition()), getAdapterPosition(), true);
+            playerBottomSheetFragment.scrollPager(songs.get(getBindingAdapterPosition()), getBindingAdapterPosition(), false);
             MusicPlayerRemote.openQueue(songs, getBindingAdapterPosition(), true);
         }
     }

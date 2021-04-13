@@ -118,7 +118,7 @@ public class MusicPlayerRemote {
 
     public static void playNextSong() {
         if (musicService != null) {
-            musicService.playNextSong(true);
+            musicService.playNextSong();
         }
     }
 
@@ -168,6 +168,14 @@ public class MusicPlayerRemote {
         }
 
         return false;
+    }
+
+    public static Song getCurrentSong() {
+        if (musicService != null) {
+            return musicService.getCurrentSong();
+        }
+
+        return null;
     }
 
     public static int getPosition() {

@@ -1,6 +1,9 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +21,14 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.PlayerNowPlayingSongAdapter;
 import com.cappielloantonio.play.adapter.PlayerSongQueueAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlayerBottomSheetBinding;
+import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.helper.MusicPlayerRemote;
 import com.cappielloantonio.play.helper.MusicProgressViewUpdateHelper;
 import com.cappielloantonio.play.interfaces.MusicServiceEventListener;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
+import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 
 public class PlayerBottomSheetFragment extends Fragment implements MusicServiceEventListener, MusicProgressViewUpdateHelper.Callback {
@@ -105,9 +110,19 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
                 super.onPageSelected(position);
 
                 Song song = playerNowPlayingSongAdapter.getItem(position);
-                if (song != null && song != playerBottomSheetViewModel.getSong()) setSongInfo(song);
+                if (song != null && song != playerBottomSheetViewModel.getSong()) {
+
+                    if (MusicPlayerRemote.isPlaying()) {
+                        MusicPlayerRemote.playSongAt(position);
+                    } else {
+                        MusicPlayerRemote.setPosition(position);
+                        MusicPlayerRemote.pauseSong();
+                    }
+                }
             }
         });
+
+        setViewPageDelayed(PreferenceManager.getDefaultSharedPreferences(requireContext()).getInt(PreferenceUtil.POSITION, -1));
     }
 
     private void initQueueRecyclerView() {
@@ -155,6 +170,19 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         });
     }
 
+    private void setViewPageDelayed(int position) {
+        /*bind.playerBodyLayout.playerSongCoverViewPager.post(() -> {
+            int restoredPosition = PreferenceManager.getDefaultSharedPreferences(requireContext()).getInt(PreferenceUtil.POSITION, -1);
+            bind.playerBodyLayout.playerSongCoverViewPager.setCurrentItem(restoredPosition, true);
+        });*/
+
+        final Handler handler = new Handler();
+        final Runnable r = () -> {
+            bind.playerBodyLayout.playerSongCoverViewPager.setCurrentItem(position, false);
+        };
+        handler.postDelayed(r, 100);
+    }
+
     private void setSongInfo(Song song) {
         playerBottomSheetViewModel.setNowPlayingSong(song);
 
@@ -163,6 +191,11 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
         bind.playerHeaderLayout.playerHeaderSongTitleLabel.setText(song.getTitle());
         bind.playerHeaderLayout.playerHeaderSongArtistLabel.setText(song.getArtistName());
+
+        CustomGlideRequest.Builder
+                .from(requireContext(), song.getPrimary(), song.getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY)
+                .build()
+                .into(bind.playerHeaderLayout.playerHeaderSongCoverImage);
 
         bind.playerBodyLayout.buttonFavorite.setChecked(song.isFavorite());
     }
@@ -176,9 +209,6 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     private void setUpMusicControllers() {
-//        setUpPrevNext();
-//        setUpRepeatButton();
-//        setUpShuffleButton();
         initSeekBar();
     }
 
@@ -197,6 +227,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
     @Override
     public void onServiceConnected() {
+        setSongInfo(MusicPlayerRemote.getCurrentSong());
         updatePlayPauseState();
     }
 
@@ -212,7 +243,8 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
     @Override
     public void onPlayMetadataChanged() {
-
+        setViewPageDelayed(MusicPlayerRemote.getPosition());
+        setSongInfo(MusicPlayerRemote.getCurrentSong());
     }
 
     @Override

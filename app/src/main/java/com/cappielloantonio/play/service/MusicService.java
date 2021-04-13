@@ -21,6 +21,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -56,6 +57,7 @@ import static com.google.android.exoplayer2.Player.PLAY_WHEN_READY_CHANGE_REASON
 
 public class MusicService extends Service implements Playback.PlaybackCallbacks {
     public static final String PACKAGE_NAME = "com.antoniocappiello.play";
+    private static final String TAG = "MusicService";
 
     public static final String ACTION_TOGGLE = PACKAGE_NAME + ".toggle";
     public static final String ACTION_PLAY = PACKAGE_NAME + ".play";
@@ -206,7 +208,7 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
 
             @Override
             public void onSkipToNext() {
-                playNextSong(true);
+                playNextSong();
             }
 
             @Override
@@ -269,7 +271,7 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
                         back(true);
                         break;
                     case ACTION_SKIP:
-                        playNextSong(true);
+                        playNextSong();
                         break;
                     case ACTION_STOP:
                     case ACTION_QUIT:
@@ -343,7 +345,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     private synchronized void restoreQueuesAndPositionIfNecessary() {
         if (!queuesRestored && playingQueue.isEmpty()) {
             QueueRepository queueRepository = new QueueRepository(App.getInstance());
-
             List<Song> restoredQueue = queueRepository.getSongs();
 
             int restoredPosition = PreferenceManager.getDefaultSharedPreferences(this).getInt(PreferenceUtil.POSITION, -1);
@@ -400,8 +401,8 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         return position;
     }
 
-    public void playNextSong(boolean force) {
-        playSongAt(getNextPosition(force));
+    public void playNextSong() {
+        playSongAt(getNextPosition());
     }
 
     private void openTrackAndPrepareNextAt(int position) {
@@ -432,7 +433,7 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
 
     private void prepareNextImpl() {
         synchronized (this) {
-            nextPosition = getNextPosition(false);
+            nextPosition = getNextPosition();
             playback.queueDataSource(getSongAt(nextPosition));
         }
     }
@@ -500,8 +501,14 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         }
     }
 
-    public int getNextPosition(boolean force) {
-        return getPosition() + 1;
+    public int getNextPosition() {
+        int position = getPosition() + 1;
+
+        if (isLastTrack()) {
+            position -= 1;
+        }
+
+        return position;
     }
 
     private boolean isLastTrack() {
@@ -804,9 +811,16 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
                     break;
 
                 case TRACK_CHANGED:
-                    service.position = service.nextPosition;
-                    service.prepareNextImpl();
-                    service.notifyChange(META_CHANGED);
+                    if (service.isLastTrack()) {
+                        service.pause();
+                        service.seek(0);
+                        service.notifyChange(STATE_CHANGED);
+                    } else {
+                        service.position = service.nextPosition;
+                        service.prepareNextImpl();
+                        service.notifyChange(META_CHANGED);
+                        service.notifyChange(QUEUE_CHANGED);
+                    }
                     break;
 
                 case TRACK_ENDED:
@@ -814,13 +828,14 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
                     if (service.pendingQuit && service.isLastTrack()) {
                         service.notifyChange(STATE_CHANGED);
                         service.seek(0);
+
                         if (service.pendingQuit) {
                             service.pendingQuit = false;
                             service.quit();
                             break;
                         }
                     } else {
-                        service.playNextSong(false);
+                        service.playNextSong();
                     }
 
                     sendEmptyMessage(RELEASE_WAKELOCK);

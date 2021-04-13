@@ -7,33 +7,41 @@
     android:elevation="2dp"
     android:background="@color/almostCardColor">
 
-    <ToggleButton
-        android:id="@+id/player_header_button"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="20dp"
-        android:background="@drawable/button_play_pause_selector"
-        android:checked="true"
-        android:text=""
-        android:textOff=""
-        android:textOn=""
+    <androidx.cardview.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/player_header_song_cover_card_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/cardColor"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="2dp"
+        card_view:cardPreventCornerOverlap="false"
+        card_view:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/player_header_song_cover_image"
+            android:layout_width="42dp"
+            android:layout_height="42dp" />
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/player_header_song_title_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:layout_marginTop="10dp"
-        android:paddingStart="12dp"
-        android:paddingEnd="24dp"
-        android:text="@string/label_placeholder"
+        android:paddingStart="8dp"
         android:textColor="@color/titleTextColor"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/player_header_button"
+        app:layout_constraintEnd_toStartOf="@+id/player_header_button"
+        app:layout_constraintStart_toEndOf="@+id/player_header_song_cover_card_view"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -41,13 +49,26 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/open_sans_font_family"
-        android:paddingStart="12dp"
-        android:paddingEnd="24dp"
-        android:text="@string/label_placeholder"
+        android:paddingStart="8dp"
         android:textColor="@color/subtitleTextColor"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/player_header_button"
+        app:layout_constraintEnd_toStartOf="@+id/player_header_button"
+        app:layout_constraintStart_toEndOf="@+id/player_header_song_cover_card_view"
         app:layout_constraintTop_toBottomOf="@+id/player_header_song_title_label" />
+
+    <ToggleButton
+        android:id="@+id/player_header_button"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/button_play_pause_selector"
+        android:checked="true"
+        android:text=""
+        android:textOff=""
+        android:textOn=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

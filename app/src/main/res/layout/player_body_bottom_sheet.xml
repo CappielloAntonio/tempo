@@ -62,7 +62,8 @@
             android:paddingRight="12dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:paddingLeft="12dp"/>
+            android:paddingLeft="12dp"
+            android:progressBackgroundTint="@color/colorAccentLight"/>
 
         <TextView
             android:id="@+id/player_big_song_duration"

@@ -54,6 +54,11 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/syncFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_syncFragment_to_libraryFragment"
+            app:destination="@id/libraryFragment"
+            app:popUpTo="@id/syncFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment

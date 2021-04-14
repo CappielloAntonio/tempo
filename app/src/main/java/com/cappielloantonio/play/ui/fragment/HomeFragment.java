@@ -99,20 +99,17 @@ public class HomeFragment extends Fragment {
             activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
         });
 
-        bind.syncMusicButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                builder.setMessage("Force reload your entire music library")
-                        .setTitle("Force sync")
-                        .setNegativeButton(R.string.ignore, null)
-                        .setPositiveButton("Sync", (dialog, id) -> {
-                            PreferenceUtil.getInstance(requireContext()).setSync(false);
-                            PreferenceUtil.getInstance(requireContext()).setSongGenreSync(false);
-                            activity.goToSync();
-                        })
-                        .show();
-            }
+        bind.syncMusicButton.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setMessage("Force reload your entire music library")
+                    .setTitle("Force sync")
+                    .setNegativeButton(R.string.ignore, null)
+                    .setPositiveButton("Sync", (dialog, id) -> {
+                        PreferenceUtil.getInstance(requireContext()).setSync(false);
+                        PreferenceUtil.getInstance(requireContext()).setSongGenreSync(false);
+                        activity.goToSync();
+                    })
+                    .show();
         });
     }
 

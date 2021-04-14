@@ -47,7 +47,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
     private void init(View view) {
         coverArtist = view.findViewById(R.id.artist_cover_image_view);
         CustomGlideRequest.Builder
-                .from(requireContext(), artistBottomSheetViewModel.getArtist().getPrimary(), artistBottomSheetViewModel.getArtist().getPrimaryBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY)
+                .from(requireContext(), artistBottomSheetViewModel.getArtist().getPrimary(), artistBottomSheetViewModel.getArtist().getPrimaryBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY, CustomGlideRequest.ARTIST_PIC)
                 .build()
                 .into(coverArtist);
 

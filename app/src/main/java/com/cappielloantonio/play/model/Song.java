@@ -2,6 +2,7 @@ package com.cappielloantonio.play.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -19,6 +20,8 @@ import java.util.UUID;
 
 @Entity(tableName = "song")
 public class Song implements Parcelable {
+    private static final String TAG = "SongClass";
+
     @Ignore
     public static final String RECENTLY_PLAYED = "RECENTLY_PLAYED";
 
@@ -400,9 +403,24 @@ public class Song implements Parcelable {
         this.playCount = playCount;
     }
 
-    public void nowPlaying() {
-        this.playCount++;
-        this.lastPlay = Instant.now().toEpochMilli();
+    /*
+        Log.i(TAG, "increasePlayCount: " + isIncreased);
+     * Incremento il numero di ascolti solo se ho ascoltato la canzone da più tempo di:
+     * tempo dell'ultimo ascolto - (durata_canzone / 2)
+     * Ritorno un booleano
+     * Se vero, allora SongRepository scriverà nd DB l'incremento dell'ascolto
+     * Se falso, SongRepository non scriverà nulla nel db
+     */
+    public boolean nowPlaying() {
+        long startPlayTime = Instant.now().toEpochMilli();
+
+        if(startPlayTime - (getDuration()/2) > getLastPlay()) {
+            this.playCount++;
+            this.lastPlay = startPlayTime;
+            return true;
+        }
+
+        return false;
     }
 
     @Override

@@ -154,6 +154,6 @@ public class SearchFragment extends Fragment {
         searchViewModel.searchAlbum(query).observe(requireActivity(), albums -> albumResultSearchAdapter.setItems(albums));
         searchViewModel.searchArtist(query).observe(requireActivity(), artists -> artistResultSearchAdapter.setItems(artists));
 
-        bind.searchResultNestedScrollView.setVisibility(View.VISIBLE);
+        bind.searchResultLayout.setVisibility(View.VISIBLE);
     }
 }

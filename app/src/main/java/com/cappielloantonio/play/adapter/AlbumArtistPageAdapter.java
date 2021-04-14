@@ -44,7 +44,7 @@ public class AlbumArtistPageAdapter extends RecyclerView.Adapter<AlbumArtistPage
         holder.textAlbumName.setText(album.getTitle());
 
         CustomGlideRequest.Builder
-                .from(context, album.getPrimary(), album.getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.LOW_QUALITY)
+                .from(context, album.getPrimary(), album.getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.LOW_QUALITY, CustomGlideRequest.ALBUM_PIC)
                 .build()
                 .into(holder.cover);
     }

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,7 +45,7 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
         holder.textAlbum.setText(song.getAlbumName());
 
         CustomGlideRequest.Builder
-                .from(context, song.getPrimary(), song.getPrimary(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY)
+                .from(context, song.getPrimary(), song.getPrimary(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY, CustomGlideRequest.SONG_PIC)
                 .build()
                 .into(holder.cover);
     }
@@ -71,8 +72,7 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
 
         @Override
         public void onClick(View view) {
-            SongRepository songRepository = new SongRepository(App.getInstance());
-            songRepository.increasePlayCount(songs.get(getBindingAdapterPosition()));
+            Toast.makeText(context, "Ongoing development", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -3,6 +3,8 @@ package com.cappielloantonio.play.util;
 import android.util.Log;
 
 import com.cappielloantonio.play.App;
+import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.DirectPlayCodec;
 import com.cappielloantonio.play.model.Song;
 
@@ -64,6 +66,24 @@ public class MusicUtil {
             long hours = minutes / 60;
             minutes = minutes % 60;
             return String.format(Locale.getDefault(), "%d:%02d:%02d", hours, minutes, seconds);
+        }
+    }
+
+    public static int getDefaultPicPerCategory(String category) {
+        if(category.equals(CustomGlideRequest.SONG_PIC)) {
+            return R.drawable.default_album_art;
+        }
+        else if(category.equals(CustomGlideRequest.ALBUM_PIC)) {
+            return R.drawable.default_album_art;
+        }
+        else if(category.equals(CustomGlideRequest.ARTIST_PIC)) {
+            return R.drawable.default_album_art;
+        }
+        else if(category.equals(CustomGlideRequest.PLAYLIST_PIC)) {
+            return R.drawable.default_album_art;
+        }
+        else {
+            return R.drawable.default_album_art;
         }
     }
 }

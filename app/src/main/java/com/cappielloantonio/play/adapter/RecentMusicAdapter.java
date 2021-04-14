@@ -60,7 +60,7 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
         holder.textAlbum.setText(song.getAlbumName());
 
         CustomGlideRequest.Builder
-                .from(context, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY)
+                .from(context, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY, CustomGlideRequest.SONG_PIC)
                 .build()
                 .into(holder.cover);
     }
@@ -88,10 +88,7 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
 
         @Override
         public void onClick(View view) {
-            SongRepository songRepository = new SongRepository(App.getInstance());
             QueueRepository queueRepository = new QueueRepository(App.getInstance());
-
-            songRepository.increasePlayCount(songs.get(getBindingAdapterPosition()));
             queueRepository.insertAllAndStartNew(songs.subList(getBindingAdapterPosition(), songs.size()));
 
             mainActivity.isBottomSheetInPeek(true);

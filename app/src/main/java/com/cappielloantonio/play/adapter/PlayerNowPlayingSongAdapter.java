@@ -45,7 +45,7 @@ public class PlayerNowPlayingSongAdapter extends RecyclerView.Adapter<PlayerNowP
         Song song = songs.get(position);
 
         CustomGlideRequest.Builder
-                .from(context, song.getPrimary(), song.getPrimary(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY)
+                .from(context, song.getPrimary(), song.getPrimary(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY, CustomGlideRequest.SONG_PIC)
                 .build()
                 .into(holder.cover);
     }
@@ -68,15 +68,10 @@ public class PlayerNowPlayingSongAdapter extends RecyclerView.Adapter<PlayerNowP
 
         @Override
         public void onClick(View view) {
-            SongRepository songRepository = new SongRepository(App.getInstance());
-            songRepository.increasePlayCount(songs.get(getBindingAdapterPosition()));
-
             if (MusicPlayerRemote.isPlaying()) {
                 MusicPlayerRemote.pauseSong();
-                // Toast.makeText(context, "PAUSING", Toast.LENGTH_SHORT).show();
             } else {
                 MusicPlayerRemote.resumePlaying();
-                // Toast.makeText(context, "PLAYING", Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -52,7 +52,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
         holder.songArtist.setText(song.getArtistName());
 
         CustomGlideRequest.Builder
-                .from(context, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY)
+                .from(context, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY, CustomGlideRequest.SONG_PIC)
                 .build()
                 .into(holder.cover);
     }
@@ -79,9 +79,6 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
 
         @Override
         public void onClick(View view) {
-            SongRepository songRepository = new SongRepository(App.getInstance());
-            songRepository.increasePlayCount(songs.get(getBindingAdapterPosition()));
-
             playerBottomSheetFragment.scrollPager(songs.get(getBindingAdapterPosition()), getBindingAdapterPosition(), false);
             MusicPlayerRemote.openQueue(songs, getBindingAdapterPosition(), true);
         }

@@ -105,19 +105,26 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
         bind.playerBodyLayout.playerSongCoverViewPager.setOffscreenPageLimit(3);
         bind.playerBodyLayout.playerSongCoverViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            // 0 = IDLE
+            // 1 = DRAGGING
+            // 2 = SETTLING
+            // -1 = NEW
+            int pageState = -1;
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+                pageState = state;
+
+            }
+
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
 
-                Song song = playerNowPlayingSongAdapter.getItem(position);
-                if (song != null && song != playerBottomSheetViewModel.getSong()) {
-
-                    if (MusicPlayerRemote.isPlaying()) {
-                        MusicPlayerRemote.playSongAt(position);
-                    } else {
-                        MusicPlayerRemote.setPosition(position);
-                        MusicPlayerRemote.pauseSong();
-                    }
+                if (pageState != -1) {
+                    MusicPlayerRemote.playSongAt(position);
+                    pageState = -1;
                 }
             }
         });

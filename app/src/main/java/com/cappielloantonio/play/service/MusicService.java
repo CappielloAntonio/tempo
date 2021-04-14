@@ -32,6 +32,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.service.notification.PlayingNotification;
 import com.cappielloantonio.play.service.playback.Playback;
 import com.cappielloantonio.play.util.PreferenceUtil;
@@ -436,6 +437,8 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
             nextPosition = getNextPosition();
             playback.queueDataSource(getSongAt(nextPosition));
         }
+
+        increaseSongCount();
     }
 
     private boolean requestFocus() {
@@ -733,6 +736,11 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         if (wakeLock.isHeld()) {
             wakeLock.release();
         }
+    }
+
+    private void increaseSongCount() {
+        SongRepository songRepository = new SongRepository(App.getInstance());
+        songRepository.increasePlayCount(getCurrentSong());
     }
 
     @Override

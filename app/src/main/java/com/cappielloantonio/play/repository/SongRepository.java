@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.repository;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SongRepository {
+    private static final String TAG = "SongRepository";
+
     private SongDao songDao;
     private SongGenreCrossDao songGenreCrossDao;
     private LiveData<List<Song>> searchListLiveSongs;
@@ -192,11 +195,13 @@ public class SongRepository {
     }
 
     public void increasePlayCount(Song song) {
-        song.nowPlaying();
+        boolean isIncreased = song.nowPlaying();
 
-        UpdateThreadSafe update = new UpdateThreadSafe(songDao, song);
-        Thread thread = new Thread(update);
-        thread.start();
+        if(isIncreased) {
+            UpdateThreadSafe update = new UpdateThreadSafe(songDao, song);
+            Thread thread = new Thread(update);
+            thread.start();
+        }
     }
 
     public void setFavoriteStatus(Song song) {

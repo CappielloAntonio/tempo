@@ -47,6 +47,8 @@
     <string name="action_remove_from_queue">Remove from queue</string>
     <string name="action_add_to_playlist">Add to playlist</string>
 
+    <string name="action_sync_music">Sync music</string>
+
     <string name="playing_notification_description">The playing notification provides actions for play/pause etc.</string>
     <string name="playing_notification_name">Playing Notification</string>
 </resources>

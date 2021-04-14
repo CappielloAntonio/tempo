@@ -51,7 +51,6 @@ public class HomeFragment extends Fragment {
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
         init();
-        initSwipeToRefresh();
         initDiscoverSongSlideView();
         initRecentAddedSongView();
         initFavoritesSongView();
@@ -99,22 +98,21 @@ public class HomeFragment extends Fragment {
             bundle.putString(Song.IS_FAVORITE, Song.IS_FAVORITE);
             activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
         });
-    }
 
-    private void initSwipeToRefresh() {
-        bind.pullToRefreshLayout.setOnRefreshListener(() -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            builder.setMessage("Force reload your entire music library")
-                    .setTitle("Force sync")
-                    .setNegativeButton(R.string.ignore, null)
-                    .setPositiveButton("Sync", (dialog, id) -> {
-                        PreferenceUtil.getInstance(requireContext()).setSync(false);
-                        PreferenceUtil.getInstance(requireContext()).setSongGenreSync(false);
-                        activity.goToSync();
-                    })
-                    .show();
-
-            bind.pullToRefreshLayout.setRefreshing(false);
+        bind.syncMusicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                builder.setMessage("Force reload your entire music library")
+                        .setTitle("Force sync")
+                        .setNegativeButton(R.string.ignore, null)
+                        .setPositiveButton("Sync", (dialog, id) -> {
+                            PreferenceUtil.getInstance(requireContext()).setSync(false);
+                            PreferenceUtil.getInstance(requireContext()).setSongGenreSync(false);
+                            activity.goToSync();
+                        })
+                        .show();
+            }
         });
     }
 

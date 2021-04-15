@@ -266,6 +266,9 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
     @Override
     public void onUpdateProgressViews(int progress, int total) {
+        bind.playerHeaderLayout.playerHeaderSeekBar.setMax(total);
+        bind.playerHeaderLayout.playerHeaderSeekBar.setProgress(progress);
+
         bind.playerBodyLayout.playerBigSeekBar.setMax(total);
         bind.playerBodyLayout.playerBigSeekBar.setProgress(progress);
 

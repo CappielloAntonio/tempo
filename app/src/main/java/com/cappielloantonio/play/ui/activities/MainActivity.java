@@ -177,6 +177,7 @@ public class MainActivity extends BaseActivity {
                             break;
                         case BottomSheetBehavior.STATE_HIDDEN:
                             MusicPlayerRemote.pauseSong();
+                            MusicPlayerRemote.quitPlaying();
                             mainViewModel.deleteQueue();
                             break;
                     }

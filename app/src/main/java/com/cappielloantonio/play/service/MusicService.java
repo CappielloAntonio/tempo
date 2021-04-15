@@ -398,6 +398,10 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         return playback != null && playback.isLoading();
     }
 
+    public void quitPlaying() {
+        quit();
+    }
+
     public int getPosition() {
         return position;
     }

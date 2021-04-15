@@ -142,6 +142,12 @@ public class MusicPlayerRemote {
         return musicService != null && musicService.isLoading();
     }
 
+    public static void quitPlaying() {
+        if (musicService != null) {
+            musicService.quitPlaying();
+        }
+    }
+
     public static void resumePlaying() {
         if (musicService != null) {
             musicService.play();

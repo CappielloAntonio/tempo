@@ -1,9 +1,12 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,9 +28,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private MainActivity activity;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = (MainActivity) getActivity();
-        return super.onCreateView(inflater, container, savedInstanceState);
+
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        if(view != null) {
+            getListView().setPadding(0, 0, 0, (int) getResources().getDimension(R.dimen.global_padding_bottom));
+        }
+
+        return view;
     }
 
     @Override

@@ -43,9 +43,13 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:ellipsize="end"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit ="marquee_forever"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:scrollHorizontally="true"
             android:fontFamily="@font/open_sans_font_family"
-            android:maxLines="1"
             android:paddingStart="12dp"
             android:paddingTop="10dp"
             android:paddingEnd="12dp"
@@ -76,8 +80,5 @@
         android:gravity="center_vertical"
         android:text="@string/label_placeholder"
         android:textColor="@color/subtitleTextColor"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="12sp" />
 </LinearLayout>

@@ -75,6 +75,8 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
             cover = itemView.findViewById(R.id.queue_song_cover_image_view);
 
             itemView.setOnClickListener(this);
+
+            songTitle.setSelected(true);
         }
 
         @Override

@@ -87,6 +87,8 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
+
+            songTitle.setSelected(true);
         }
 
         @Override

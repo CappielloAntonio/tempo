@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/bottom_sheet_peek_height"
     android:elevation="2dp"
-    android:background="@color/almostCardColor">
+    android:background="@color/almostCardColor"
+    android:clipChildren="false">
 
     <androidx.cardview.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -58,11 +59,12 @@
 
     <ToggleButton
         android:id="@+id/player_header_button"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:background="@drawable/button_play_pause_selector"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:checked="true"
         android:text=""
         android:textOff=""
@@ -70,5 +72,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <SeekBar
+        android:id="@+id/player_header_seek_bar"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:progressBackgroundTint="@color/colorAccentLight"
+        android:clickable="false"
+        android:thumb="@android:color/transparent"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

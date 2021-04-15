@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:paddingTop="12dp"
         android:paddingStart="20dp"
-        android:paddingEnd="20dp">
+        android:paddingEnd="20dp"
+        android:clipChildren="false">
 
         <!-- Header -->
         <androidx.cardview.widget.CardView
@@ -43,15 +44,13 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:background="@drawable/button_favorite_selector"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:checked="false"
             android:gravity="center_vertical"
-            android:paddingStart="8dp"
-            android:paddingTop="4dp"
-            android:paddingEnd="20dp"
             android:text=""
             android:textOff=""
             android:textOn=""
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,7 +61,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/open_sans_font_family"
             android:maxLines="1"
-            android:paddingTop="8dp"
+            android:layout_marginTop="8dp"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:text="@string/label_placeholder"

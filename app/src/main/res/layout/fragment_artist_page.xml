@@ -51,7 +51,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
-        android:paddingBottom="@dimen/global_padding_bottom"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -59,7 +58,8 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:paddingTop="18dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/global_padding_bottom">
 
             <!--  Label and button  -->
             <LinearLayout

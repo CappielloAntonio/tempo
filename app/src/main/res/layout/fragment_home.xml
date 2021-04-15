@@ -293,21 +293,6 @@
                 android:paddingEnd="8dp"
                 android:paddingBottom="8dp" />
         </LinearLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/sync_music_button"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="8dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="8dp"
-            android:layout_gravity="center"
-            android:textColor="@color/titleTextColor"
-            android:textAllCaps="false"
-            app:iconTint="@color/titleTextColor"
-            android:text="@string/action_sync_music"
-            app:icon="@drawable/ic_downloading" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
 

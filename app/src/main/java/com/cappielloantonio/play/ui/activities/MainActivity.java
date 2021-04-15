@@ -226,6 +226,13 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    public void goFromSettingsToSync(Bundle bundle) {
+        setBottomNavigationBarVisibility(false);
+        setBottomSheetVisibility(false);
+
+        navController.navigate(R.id.action_settingsFragment_to_syncFragment, bundle);
+    }
+
     public void goToHome() {
         bottomNavigationView.setVisibility(View.VISIBLE);
 

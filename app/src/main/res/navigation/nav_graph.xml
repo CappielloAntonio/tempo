@@ -111,7 +111,13 @@
         android:id="@+id/settingsFragment"
         android:name="com.cappielloantonio.play.ui.fragment.SettingsFragment"
         android:label="SettingsFragment"
-        tools:layout="@layout/fragment_settings"/>
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_syncFragment"
+            app:destination="@id/syncFragment"
+            app:popUpTo="@id/settingsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.cappielloantonio.play.ui.fragment.SearchFragment"

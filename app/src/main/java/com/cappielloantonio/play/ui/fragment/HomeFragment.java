@@ -98,19 +98,6 @@ public class HomeFragment extends Fragment {
             bundle.putString(Song.IS_FAVORITE, Song.IS_FAVORITE);
             activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
         });
-
-        bind.syncMusicButton.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            builder.setMessage("Force reload your entire music library")
-                    .setTitle("Force sync")
-                    .setNegativeButton(R.string.ignore, null)
-                    .setPositiveButton("Sync", (dialog, id) -> {
-                        PreferenceUtil.getInstance(requireContext()).setSync(false);
-                        PreferenceUtil.getInstance(requireContext()).setSongGenreSync(false);
-                        activity.goToSync();
-                    })
-                    .show();
-        });
     }
 
     private void initDiscoverSongSlideView() {

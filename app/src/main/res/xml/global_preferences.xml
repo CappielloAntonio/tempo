@@ -1,4 +1,5 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory app:title="@string/general_header">
         <ListPreference
             app:defaultValue="400000000"
@@ -26,5 +27,38 @@
             app:key="filtersPref"
             app:title="@string/save_filters"
             app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/sync_header">
+        <Preference
+            android:title="@string/music_sync"
+            android:key="@string/music_sync"
+            android:summary="@string/music_sync_caption" />
+
+        <Preference
+            android:title="@string/genres_music_cross_sync"
+            android:key="@string/genres_music_cross_sync"
+            android:summary="@string/genres_music_cross_sync_caption" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/about_header">
+        <Preference
+            app:selectable="false"
+            app:summary="@string/summary_about" />
+
+        <Preference
+            app:title="@string/title_version"
+            app:summary="@string/app_version" />
+
+        <!-- preference opens url in browser -->
+        <Preference
+            app:title="@string/github_page"
+            app:summary="@string/development">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/github_url" />
+        </Preference>
+
     </PreferenceCategory>
 </PreferenceScreen>

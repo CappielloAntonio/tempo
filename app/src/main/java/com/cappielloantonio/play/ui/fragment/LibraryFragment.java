@@ -122,12 +122,8 @@ public class LibraryFragment extends Fragment {
             builder.setMessage("Sync song's genres otherwise nothing will be shown in each genre category")
                     .setTitle("Song's genres not synchronized")
                     .setNegativeButton(R.string.ignore, null)
-                    .setPositiveButton("Sync", (dialog, id) -> syncSongsPerGenre())
+                    .setPositiveButton("Sync", (dialog, id) -> activity.goToSync())
                     .show();
         }
-    }
-
-    private void syncSongsPerGenre() {
-        activity.goToSync();
     }
 }

@@ -24,6 +24,19 @@
     <string name="label_placeholder">--</string>
     <string name="save_filters">Save filters between sessions</string>
 
+    <string name="sync_header">Synchronization</string>
+    <string name="music_sync">Music sync</string>
+    <string name="music_sync_caption">Sync tracks, albums, artists, genres and playlists</string>
+    <string name="genres_music_cross_sync">Genres-music cross sync</string>
+    <string name="genres_music_cross_sync_caption">Cross sync genres for each track</string>
+    <string name="about_header">About</string>
+    <string name="summary_about">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="app_version">1.1</string>
+    <string name="title_version">Version</string>
+    <string name="github_page">Github</string>
+    <string name="development">Follow the development</string>
+    <string name="github_url">https://github.com/CappielloAntonio/Play</string>
+
     <string name="battery_optimizations_title">Battery Optimizations</string>
     <string name="battery_optimizations_message">Please disable battery optimizations for media playback while the screen is off.</string>
 

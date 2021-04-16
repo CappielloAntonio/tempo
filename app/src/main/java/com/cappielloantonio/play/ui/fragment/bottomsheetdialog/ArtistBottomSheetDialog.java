@@ -53,6 +53,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
 
         nameArtist = view.findViewById(R.id.song_title_text_view);
         nameArtist.setText(artistBottomSheetViewModel.getArtist().getName());
+        nameArtist.setSelected(true);
 
         playRadio = view.findViewById(R.id.play_radio_text_view);
         playRadio.setOnClickListener(v -> {

@@ -1,40 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:paddingEnd="8dp">
 
-    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/artist_page_album_cover_image_view"
+        android:layout_width="256dp"
+        android:layout_height="256dp"
         android:layout_gravity="center"
-        android:backgroundTint="@color/cardColor"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="2dp"
-        card_view:cardPreventCornerOverlap="false"
-        card_view:cardUseCompatPadding="true"
-        android:foreground="?attr/selectableItemBackground">
-
-        <ImageView
-            android:id="@+id/artist_page_album_cover_image_view"
-            android:layout_width="256dp"
-            android:layout_height="256dp" />
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/album_name_label"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:fontFamily="@font/open_sans_font_family"
         android:maxWidth="256dp"
         android:maxLines="2"
-        android:paddingStart="2dp"
         android:paddingTop="8dp"
         android:singleLine="false"
         android:textColor="@color/titleTextColor"
         android:textSize="16sp"
-        android:textStyle="bold" />
-</LinearLayout>
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/artist_page_album_cover_image_view"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

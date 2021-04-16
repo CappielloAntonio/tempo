@@ -2,7 +2,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -16,35 +15,27 @@
         android:paddingEnd="20dp">
 
         <!-- Header -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/album_cover_image_view"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
             android:layout_margin="2dp"
-            android:backgroundTint="@color/cardColor"
             android:paddingTop="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/subtitleTextColor"
-            card_view:cardCornerRadius="4dp"
-            card_view:cardElevation="0dp"
-            card_view:cardPreventCornerOverlap="false"
-            card_view:cardUseCompatPadding="false">
-
-            <ImageView
-                android:id="@+id/album_cover_image_view"
-                android:layout_width="54dp"
-                android:layout_height="54dp" />
-        </androidx.cardview.widget.CardView>
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/album_title_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
             android:fontFamily="@font/open_sans_font_family"
-            android:maxLines="1"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit ="marquee_forever"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:scrollHorizontally="true"
             android:paddingTop="8dp"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
@@ -52,19 +43,21 @@
             android:textColor="@color/titleTextColor"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/album_cover_image_view"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/album_artist_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/open_sans_font_family"
             android:paddingStart="12dp"
             android:text="@string/label_placeholder"
             android:textColor="@color/subtitleTextColor"
             android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/album_cover_image_view"
             app:layout_constraintTop_toBottomOf="@+id/album_title_text_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

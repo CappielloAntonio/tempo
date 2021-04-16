@@ -91,6 +91,10 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
         notifyDataSetChanged();
     }
 
+    public List<Song> getItems() {
+        return this.songs;
+    }
+
     public Song getItem(int id) {
         return songs.get(id);
     }

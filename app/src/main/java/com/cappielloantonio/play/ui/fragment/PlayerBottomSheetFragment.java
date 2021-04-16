@@ -14,7 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.cappielloantonio.play.R;
@@ -30,6 +32,8 @@ import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
+
+import java.util.Collections;
 
 public class PlayerBottomSheetFragment extends Fragment implements MusicServiceEventListener, MusicProgressViewUpdateHelper.Callback {
     private static final String TAG = "PlayerBottomSheetFragment";
@@ -139,6 +143,34 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         playerSongQueueAdapter = new PlayerSongQueueAdapter(requireContext(), this);
         bind.playerBodyLayout.playerQueueRecyclerView.setAdapter(playerSongQueueAdapter);
         playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), songs -> playerSongQueueAdapter.setItems(songs));
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                int fromPosition = viewHolder.getBindingAdapterPosition();
+                int toPosition = target.getBindingAdapterPosition();
+
+                Collections.swap(playerSongQueueAdapter.getItems(), fromPosition, toPosition);
+
+                bind.playerBodyLayout.playerQueueRecyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
+                // bind.playerBodyLayout.playerSongCoverViewPager.getAdapter().notifyItemMoved(fromPosition, toPosition);
+
+                // bind.playerBodyLayout.playerQueueRecyclerView.getAdapter().notifyDataSetChanged();
+                // bind.playerBodyLayout.playerSongCoverViewPager.getAdapter().notifyDataSetChanged();
+
+                // MusicPlayerRemote.moveSong(fromPosition, toPosition);
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                Log.i(TAG, "onSwiped: " + viewHolder.getBindingAdapterPosition());
+                Log.i(TAG, "onSwiped: " + MusicPlayerRemote.getPlayingQueue().get(viewHolder.getBindingAdapterPosition()).getTitle());
+
+                playerBottomSheetViewModel.removeSong(viewHolder.getBindingAdapterPosition());
+            }
+        }
+        ).attachToRecyclerView(bind.playerBodyLayout.playerQueueRecyclerView);
     }
 
     private void initFavoriteButtonClick() {

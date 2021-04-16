@@ -64,6 +64,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
         titleSong = view.findViewById(R.id.song_title_text_view);
         titleSong.setText(songBottomSheetViewModel.getSong().getTitle());
+        titleSong.setSelected(true);
 
         artistSong = view.findViewById(R.id.song_artist_text_view);
         artistSong.setText(songBottomSheetViewModel.getSong().getArtistName());

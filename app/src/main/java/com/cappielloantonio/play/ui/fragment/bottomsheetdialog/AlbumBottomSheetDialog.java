@@ -61,6 +61,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
         titleAlbum = view.findViewById(R.id.album_title_text_view);
         titleAlbum.setText(albumBottomSheetViewModel.getAlbum().getTitle());
+        titleAlbum.setSelected(true);
 
         artistAlbum = view.findViewById(R.id.album_artist_text_view);
         artistAlbum.setText(albumBottomSheetViewModel.getAlbum().getArtistName());

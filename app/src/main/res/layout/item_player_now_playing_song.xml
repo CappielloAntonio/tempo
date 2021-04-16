@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ImageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/now_playing_song_cover_image_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="24dp"
-    android:backgroundTint="@color/cardColor"
-    app:cardCornerRadius="4dp"
-    android:foreground="?android:attr/selectableItemBackground">
-
-    <ImageView
-        android:id="@+id/now_playing_song_cover_image_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-</androidx.cardview.widget.CardView>
+    android:foreground="?android:attr/selectableItemBackground"/>

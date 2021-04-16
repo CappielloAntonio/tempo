@@ -108,6 +108,12 @@ public class QueueRepository {
         thread.start();
     }
 
+    public void deleteByPosition(int position) {
+        DeleteByPositionThreadSafe delete = new DeleteByPositionThreadSafe(queueDao, position);
+        Thread thread = new Thread(delete);
+        thread.start();
+    }
+
     public void deleteAll() {
         DeleteAllThreadSafe delete = new DeleteAllThreadSafe(queueDao);
         Thread thread = new Thread(delete);
@@ -186,6 +192,21 @@ public class QueueRepository {
         @Override
         public void run() {
             queueDao.deleteAll();
+        }
+    }
+
+    private static class DeleteByPositionThreadSafe implements Runnable {
+        private QueueDao queueDao;
+        private int position;
+
+        public DeleteByPositionThreadSafe(QueueDao queueDao,int position) {
+            this.queueDao = queueDao;
+            this.position = position;
+        }
+
+        @Override
+        public void run() {
+            queueDao.deleteByPosition(position);
         }
     }
 

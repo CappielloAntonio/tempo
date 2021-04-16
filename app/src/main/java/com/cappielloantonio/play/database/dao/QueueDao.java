@@ -41,6 +41,9 @@ public interface QueueDao {
     @Delete
     void delete(Queue songQueueObject);
 
+    @Query("DELETE FROM queue WHERE queue.rowid = :position")
+    void deleteByPosition(int position);
+
     @Query("DELETE FROM queue")
     void deleteAll();
 

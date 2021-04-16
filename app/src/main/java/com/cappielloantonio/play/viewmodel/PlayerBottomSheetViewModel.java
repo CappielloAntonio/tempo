@@ -49,4 +49,8 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     public void setSong(Song song) {
         this.song = song;
     }
+
+    public void removeSong(int position) {
+        queueRepository.deleteByPosition(position);
+    }
 }

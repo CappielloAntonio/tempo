@@ -1,14 +1,5 @@
 <resources>
     <!-- Reply Preference -->
-    <string-array name="reply_entries">
-        <item>Reply</item>
-        <item>Reply to all</item>
-    </string-array>
-
-    <string-array name="reply_values">
-        <item>reply</item>
-        <item>reply_all</item>
-    </string-array>
 
     <string-array name="themeListArray">
         <item>Light</item>
@@ -20,52 +11,6 @@
         <item>light</item>
         <item>dark</item>
         <item>default</item>
-    </string-array>
-
-    <string-array name="searchByListArray">
-        <item>Title</item>
-        <item>Author(s)</item>
-        <item>Series</item>
-        <item>Publisher</item>
-        <item>Year</item>
-        <item>ISBN</item>
-        <item>Language</item>
-        <item>Tags</item>
-        <item>Extension</item>
-        <item>All</item>
-    </string-array>
-
-    <string-array name="searchByEntryArray">
-        <item>title</item>
-        <item>author</item>
-        <item>series</item>
-        <item>publisher</item>
-        <item>year</item>
-        <item>isbn</item>
-        <item>language</item>
-        <item>tags</item>
-        <item>extension</item>
-        <item>all</item>
-    </string-array>
-
-    <string-array name="searchMaskListArray">
-        <item>Yes</item>
-        <item>No</item>
-    </string-array>
-
-    <string-array name="searchMaskEntryArray">
-        <item>yes</item>
-        <item>no</item>
-    </string-array>
-
-    <string-array name="resultNumberListArray">
-        <item>25</item>
-        <item>50</item>
-    </string-array>
-
-    <string-array name="resultNumberEntryArray">
-        <item>25</item>
-        <item>50</item>
     </string-array>
 
     <string-array name="pref_cache_size_titles">
@@ -82,44 +27,6 @@
         <item>1000000000</item>
         <item>400000000</item>
         <item>200000000</item>
-    </string-array>
-
-    <string-array name="sortModeListArray">
-        <item>Ascending</item>
-        <item>Descending</item>
-        <item>Default</item>
-    </string-array>
-
-    <string-array name="sortModeEntryArray">
-        <item>ASC</item>
-        <item>DESC</item>
-        <item>def</item>
-    </string-array>
-
-    <string-array name="orderByListArray">
-        <item>ID</item>
-        <item>Author(s)</item>
-        <item>Author(s)</item>
-        <item>Publisher</item>
-        <item>Year</item>
-        <item>Pages</item>
-        <item>Language</item>
-        <item>Size</item>
-        <item>Extension</item>
-        <item>None</item>
-    </string-array>
-
-    <string-array name="orderByEntryArray">
-        <item>id</item>
-        <item>author</item>
-        <item>title</item>
-        <item>publisher</item>
-        <item>year</item>
-        <item>pages</item>
-        <item>language</item>
-        <item>filesize</item>
-        <item>extension</item>
-        <item>none</item>
     </string-array>
 
     <string-array name="saveFilterListArray">

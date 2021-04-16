@@ -6,31 +6,19 @@
     <color name="colorAccentLight">#aa6aff</color>
 
     <!--    Ui color -->
-    <color name="statusBarColor">#121212</color>
-    <color name="navigationBarColor">#121212</color>
-    <color name="navigationDrawerColor">#121211</color>
 
     <color name="cardColor">#1D1D1D</color>
     <color name="almostCardColor">#1D1D1C</color>
 
     <color name="titleTextColor">#DADADA</color>
     <color name="subtitleTextColor">#9B9B9B</color>
-    <color name="normalTextColor">#808080</color>
-    <color name="normalIconColor">#808080</color>
 
     <color name="suggestionTextColor">#DADADA</color>
     <color name="suggestionIconColor">#DADADA</color>
-    <color name="darkTextColor">#CFCFCF</color>
     <color name="darkIconColor">#CFCFCF</color>
     <color name="suggestionSelectedTextColor">#CCCCCC</color>
     <color name="dividerColor">#707070</color>
     <color name="hintTextColor">#CFCFCF</color>
-    <color name="iconSearchBarColor">#CFCFCF</color>
-    <color name="contentContainerColor">#121212</color>
-    <color name="searchBackgroundColor">#101010</color>
-
-    <color name="navigationDrawerTextColor">#F3F3F3</color>
-    <color name="navigationDrawerIconColor">#A0A0A0</color>
 
     <color name="bottomNavIconPressedColor">#FFFFFF</color>
     <color name="bottomNavIconSelectedColor">#EEEEEE</color>

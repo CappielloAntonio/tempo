@@ -9,31 +9,19 @@
     <color name="gradientSubtitleColor">#BFBFBF</color>
 
     <!--    Ui color -->
-    <color name="statusBarColor">#FFFFFF</color>
-    <color name="navigationBarColor">#FFFFFF</color>
-    <color name="navigationDrawerColor">#FFFFFF</color>
 
     <color name="cardColor">#FFFFFF</color>
     <color name="almostCardColor">#FFFFFE</color>
 
     <color name="titleTextColor">#252525</color>
     <color name="subtitleTextColor">#646464</color>
-    <color name="normalTextColor">#7f7f7f</color>
-    <color name="normalIconColor">#7f7f7f</color>
 
     <color name="suggestionTextColor">#252525</color>
     <color name="suggestionIconColor">#252525</color>
-    <color name="darkTextColor">#303030</color>
     <color name="darkIconColor">#303030</color>
     <color name="suggestionSelectedTextColor">#333333</color>
     <color name="dividerColor">#AFAFAF</color>
     <color name="hintTextColor">#303030</color>
-    <color name="iconSearchBarColor">#303030</color>
-    <color name="contentContainerColor">#EEEEEE</color>
-    <color name="searchBackgroundColor">#EFEFEF</color>
-
-    <color name="navigationDrawerTextColor">#383838</color>
-    <color name="navigationDrawerIconColor">#757575</color>
 
     <color name="bottomNavIconPressedColor">#252525</color>
     <color name="bottomNavIconSelectedColor">#303030</color>

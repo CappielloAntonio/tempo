@@ -41,7 +41,7 @@
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/queue_song_cover_image_view"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/queue_song_dragger_image"/>
+        app:layout_constraintEnd_toStartOf="@+id/queue_song_holder_image"/>
 
     <TextView
         android:id="@+id/queue_song_artist_text_view"
@@ -54,10 +54,10 @@
         android:textSize="12sp"
         app:layout_constraintTop_toBottomOf="@+id/queue_song_title_text_view"
         app:layout_constraintStart_toEndOf="@+id/queue_song_cover_image_view"
-        app:layout_constraintEnd_toStartOf="@+id/queue_song_dragger_image"/>
+        app:layout_constraintEnd_toStartOf="@+id/queue_song_holder_image"/>
 
     <ImageView
-        android:id="@+id/queue_song_dragger_image"
+        android:id="@+id/queue_song_holder_image"
         android:layout_width="36dp"
         android:layout_height="match_parent"
         android:paddingStart="8dp"

@@ -19,7 +19,6 @@ public class QueueRepository {
 
     private QueueDao queueDao;
     private LiveData<List<Song>> listLiveQueue;
-    private LiveData<Song> liveLastPlayedSong;
 
     public QueueRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
@@ -29,34 +28,6 @@ public class QueueRepository {
     public LiveData<List<Song>> getLiveQueue() {
         listLiveQueue = queueDao.getAll();
         return listLiveQueue;
-    }
-
-    public Song getSongByPosition(int position) {
-        Song song = null;
-
-        GetSongByPositionThreadSafe getSong = new GetSongByPositionThreadSafe(queueDao, position);
-        Thread thread = new Thread(getSong);
-        thread.start();
-
-        try {
-            thread.join();
-            song = getSong.getSong();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return song;
-    }
-
-    public LiveData<Song> getLiveLastPlayedSong() {
-        liveLastPlayedSong = queueDao.getLastPlayedSong();
-        return liveLastPlayedSong;
-    }
-
-    public void setLiveLastPlayedSong(Song song, int position) {
-        SetLastPlayedSongThreadSafe update = new SetLastPlayedSongThreadSafe(queueDao, song, position);
-        Thread thread = new Thread(update);
-        thread.start();
     }
 
     public List<Song> getSongs() {
@@ -243,46 +214,6 @@ public class QueueRepository {
 
         public List<Song> getSongs() {
             return songs;
-        }
-    }
-
-    private static class SetLastPlayedSongThreadSafe implements Runnable {
-        private QueueDao queueDao;
-        private Song song;
-        private int position;
-
-        public SetLastPlayedSongThreadSafe(QueueDao queueDao, Song song, int position) {
-            this.queueDao = queueDao;
-            this.song = song;
-            this.position = position;
-        }
-
-        @Override
-        public void run() {
-            if(song != null)
-                queueDao.setLastPlayedSong(song.getId(), Instant.now().toEpochMilli());
-            else
-                queueDao.setLastPlayedSong(position, Instant.now().toEpochMilli());
-        }
-    }
-
-    private static class GetSongByPositionThreadSafe implements Runnable {
-        private QueueDao queueDao;
-        private int position;
-        private Song song;
-
-        public GetSongByPositionThreadSafe(QueueDao queueDao, int position) {
-            this.queueDao = queueDao;
-            this.position = position;
-        }
-
-        @Override
-        public void run() {
-            song = queueDao.getSongByIndex(position);
-        }
-
-        public Song getSong() {
-            return song;
         }
     }
 }

@@ -3,7 +3,6 @@ package com.cappielloantonio.play.ui.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -145,29 +144,62 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), songs -> playerSongQueueAdapter.setItems(songs));
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
+            int originalPosition = -1;
+            int fromPosition = -1;
+            int toPosition = -1;
+
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                int fromPosition = viewHolder.getBindingAdapterPosition();
-                int toPosition = target.getBindingAdapterPosition();
+                if(originalPosition == -1) originalPosition = viewHolder.getBindingAdapterPosition();
+
+                fromPosition = viewHolder.getBindingAdapterPosition();
+                toPosition = target.getBindingAdapterPosition();
+
+                /*
+                 * Per spostare un elemento nella coda devo:
+                 *    - Spostare graficamente la traccia da una posizione all'altra con Collections.swap()
+                 *    - Spostare nel db la traccia, tramite QueueRepository
+                 *    - Notificare il Service dell'avvenuto spostamento con MusicPlayerRemote.moveSong()
+                 *
+                 * In onMove prendo la posizione di inizio e fine, ma solo al rilascio dell'elemento procedo allo spostamento
+                 * In questo modo evito che ad ogni cambio di posizione vada a riscrivere nel db
+                 * Al rilascio dell'elemento chiamo il metodo clearView()
+                 */
 
                 Collections.swap(playerSongQueueAdapter.getItems(), fromPosition, toPosition);
+                recyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
 
-                bind.playerBodyLayout.playerQueueRecyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
-                // bind.playerBodyLayout.playerSongCoverViewPager.getAdapter().notifyItemMoved(fromPosition, toPosition);
-
-                // bind.playerBodyLayout.playerQueueRecyclerView.getAdapter().notifyDataSetChanged();
-                // bind.playerBodyLayout.playerSongCoverViewPager.getAdapter().notifyDataSetChanged();
-
-                // MusicPlayerRemote.moveSong(fromPosition, toPosition);
                 return false;
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                Log.i(TAG, "onSwiped: " + viewHolder.getBindingAdapterPosition());
-                Log.i(TAG, "onSwiped: " + MusicPlayerRemote.getPlayingQueue().get(viewHolder.getBindingAdapterPosition()).getTitle());
+            public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                super.clearView(recyclerView, viewHolder);
 
-                playerBottomSheetViewModel.removeSong(viewHolder.getBindingAdapterPosition());
+                /*
+                 * Qui vado a riscivere tutta la table Queue, quando teoricamente potrei solo swappare l'ordine degli elementi interessati
+                 * Nel caso la coda contenesse parecchi brani, potrebbero verificarsi rallentamenti pesanti
+                 */
+                playerBottomSheetViewModel.orderSongAfterSwap(playerSongQueueAdapter.getItems());
+                MusicPlayerRemote.moveSong(originalPosition, toPosition);
+                bind.playerBodyLayout.playerSongCoverViewPager.setCurrentItem(MusicPlayerRemote.getPosition(), true);
+
+                originalPosition = -1;
+                fromPosition = -1;
+                toPosition = -1;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                if(!(viewHolder.getBindingAdapterPosition() == MusicPlayerRemote.getPosition()) && !(MusicPlayerRemote.getPlayingQueue().size() <= 1)) {
+                    MusicPlayerRemote.removeFromQueue(viewHolder.getBindingAdapterPosition());
+                    playerBottomSheetViewModel.removeSong(viewHolder.getBindingAdapterPosition());
+                    bind.playerBodyLayout.playerQueueRecyclerView.getAdapter().notifyItemRemoved(viewHolder.getBindingAdapterPosition());
+                    bind.playerBodyLayout.playerSongCoverViewPager.setCurrentItem(MusicPlayerRemote.getPosition(), true);
+                }
+                else {
+                    bind.playerBodyLayout.playerQueueRecyclerView.getAdapter().notifyDataSetChanged();
+                }
             }
         }
         ).attachToRecyclerView(bind.playerBodyLayout.playerQueueRecyclerView);
@@ -262,6 +294,10 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     public void scrollPager(Song song, int page, boolean smoothScroll) {
         bind.playerBodyLayout.playerSongCoverViewPager.setCurrentItem(page, smoothScroll);
         setSongInfo(song);
+    }
+
+    private void setCurrentItemInSlideView(boolean smoothScroll) {
+
     }
 
     @Override

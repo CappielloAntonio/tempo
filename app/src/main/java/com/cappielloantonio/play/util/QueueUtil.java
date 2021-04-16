@@ -12,10 +12,12 @@ public class QueueUtil {
     }
 
     public static List<Queue> getQueueElementsFromSongs(List<Song> songs) {
+        int counter = 0;
         List<Queue> queue = new ArrayList<>();
 
         for(Song song: songs) {
-            queue.add(new Queue(song.getId(), 0));
+            queue.add(new Queue(song.getId(), counter));
+            counter++;
         }
 
         return queue;

@@ -12,12 +12,12 @@ public class Queue {
     @ColumnInfo(name = "id")
     private String songID;
 
-    @ColumnInfo(name = "last_played")
-    private long lastPlayed;
+    @ColumnInfo(name = "track_order")
+    private int trackOrder;
 
-    public Queue(String songID, long lastPlayed) {
+    public Queue(String songID, int trackOrder) {
         this.songID = songID;
-        this.lastPlayed = lastPlayed;
+        this.trackOrder = trackOrder;
     }
 
     public String getSongID() {
@@ -28,11 +28,11 @@ public class Queue {
         this.songID = songID;
     }
 
-    public long getLastPlayed() {
-        return lastPlayed;
+    public int getTrackOrder() {
+        return trackOrder;
     }
 
-    public void setLastPlayed(long lastPlayed) {
-        this.lastPlayed = lastPlayed;
+    public void setTrackOrder(int trackOrder) {
+        this.trackOrder = trackOrder;
     }
 }

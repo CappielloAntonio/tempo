@@ -50,6 +50,10 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         this.song = song;
     }
 
+    public void orderSongAfterSwap(List<Song> songs) {
+        queueRepository.insertAllAndStartNew(songs);
+    }
+
     public void removeSong(int position) {
         queueRepository.deleteByPosition(position);
     }

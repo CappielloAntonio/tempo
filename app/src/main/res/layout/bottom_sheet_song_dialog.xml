@@ -10,9 +10,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="12dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="12dp"
         android:clipChildren="false">
 
         <!-- Header -->
@@ -29,6 +29,7 @@
             android:id="@+id/button_favorite"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/button_favorite_selector"
             android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:checked="false"

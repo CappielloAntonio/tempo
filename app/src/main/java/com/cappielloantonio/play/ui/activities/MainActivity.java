@@ -3,6 +3,7 @@ package com.cappielloantonio.play.ui.activities;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -169,7 +170,8 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onStateChanged(@NonNull View view, int state) {
                     switch (state) {
-                        case BottomSheetBehavior.STATE_SETTLING:
+                        case BottomSheetBehavior.STATE_SETTLING | BottomSheetBehavior.STATE_COLLAPSED:
+                            Log.i(TAG, "onStateChanged: IS_SETTLING | IS_COLLAPSING");
                             PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
                             if (playerBottomSheetFragment == null) break;
 
@@ -179,17 +181,22 @@ public class MainActivity extends BaseActivity {
                             MusicPlayerRemote.quitPlaying();
                             mainViewModel.deleteQueue();
                             break;
+
                     }
                 }
 
                 @Override
                 public void onSlide(@NonNull View view, float slideOffset) {
                     PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
-                    if (playerBottomSheetFragment == null) return;
+                    if (playerBottomSheetFragment == null) {
+                        return;
+                    }
+                    else {
 
-                    float condensedSlideOffset = Math.max(0.0f, Math.min(0.2f, slideOffset - 0.2f)) / 0.2f;
-                    playerBottomSheetFragment.getPlayerHeader().setAlpha(1 - condensedSlideOffset);
-                    playerBottomSheetFragment.getPlayerHeader().setVisibility(condensedSlideOffset > 0.99 ? View.GONE : View.VISIBLE);
+                        float condensedSlideOffset = Math.max(0.0f, Math.min(0.2f, slideOffset - 0.2f)) / 0.2f;
+                        playerBottomSheetFragment.getPlayerHeader().setAlpha(1 - condensedSlideOffset);
+                        playerBottomSheetFragment.getPlayerHeader().setVisibility(condensedSlideOffset > 0.99 ? View.GONE : View.VISIBLE);
+                    }
                 }
             };
 

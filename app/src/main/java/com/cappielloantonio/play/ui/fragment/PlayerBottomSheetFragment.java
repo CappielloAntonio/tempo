@@ -182,7 +182,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
                  */
                 playerBottomSheetViewModel.orderSongAfterSwap(playerSongQueueAdapter.getItems());
                 MusicPlayerRemote.moveSong(originalPosition, toPosition);
-                bind.playerBodyLayout.playerSongCoverViewPager.setCurrentItem(MusicPlayerRemote.getPosition(), true);
+                bind.playerBodyLayout.playerSongCoverViewPager.setCurrentItem(MusicPlayerRemote.getPosition(), false);
 
                 originalPosition = -1;
                 fromPosition = -1;
@@ -195,7 +195,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
                     MusicPlayerRemote.removeFromQueue(viewHolder.getBindingAdapterPosition());
                     playerBottomSheetViewModel.removeSong(viewHolder.getBindingAdapterPosition());
                     bind.playerBodyLayout.playerQueueRecyclerView.getAdapter().notifyItemRemoved(viewHolder.getBindingAdapterPosition());
-                    bind.playerBodyLayout.playerSongCoverViewPager.setCurrentItem(MusicPlayerRemote.getPosition(), true);
+                    bind.playerBodyLayout.playerSongCoverViewPager.setCurrentItem(MusicPlayerRemote.getPosition(), false);
                 }
                 else {
                     bind.playerBodyLayout.playerQueueRecyclerView.getAdapter().notifyDataSetChanged();
@@ -294,10 +294,6 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     public void scrollPager(Song song, int page, boolean smoothScroll) {
         bind.playerBodyLayout.playerSongCoverViewPager.setCurrentItem(page, smoothScroll);
         setSongInfo(song);
-    }
-
-    private void setCurrentItemInSlideView(boolean smoothScroll) {
-
     }
 
     @Override

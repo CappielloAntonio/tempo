@@ -13,8 +13,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MusicService;
 
 import java.util.ArrayList;
@@ -226,15 +228,17 @@ public class MusicPlayerRemote {
 
     public static boolean playNext(Song song) {
         if (musicService != null) {
+            QueueRepository queueRepository = new QueueRepository(App.getInstance());
+
             if (getPlayingQueue().size() > 0) {
                 musicService.addSong(getPosition() + 1, song);
+                queueRepository.insertAllAndStartNew(getPlayingQueue());
             } else {
-                List<Song> queue = new ArrayList<>();
-                queue.add(song);
-                openQueue(queue, 0, false);
+                List<Song> songToEnqueue = new ArrayList<>();
+                songToEnqueue.add(song);
+                queueRepository.insertAllAndStartNew(songToEnqueue);
+                openQueue(songToEnqueue, 0, true);
             }
-
-            Toast.makeText(musicService, musicService.getResources().getString(R.string.added_title_to_queue), Toast.LENGTH_SHORT).show();
             return true;
         }
 
@@ -243,14 +247,18 @@ public class MusicPlayerRemote {
 
     public static boolean playNext(@NonNull List<Song> songs) {
         if (musicService != null) {
+            QueueRepository queueRepository = new QueueRepository(App.getInstance());
+
             if (getPlayingQueue().size() > 0) {
                 musicService.addSongs(getPosition() + 1, songs);
+                queueRepository.insertAllAndStartNew(getPlayingQueue());
             } else {
-                openQueue(songs, 0, false);
+                List<Song> songToEnqueue = new ArrayList<>();
+                songToEnqueue.addAll(songs);
+                queueRepository.insertAllAndStartNew(songToEnqueue);
+                openQueue(songToEnqueue, 0, true);
             }
 
-            final String toast = songs.size() == 1 ? musicService.getResources().getString(R.string.added_title_to_queue) : musicService.getResources().getString(R.string.added_x_titles_to_queue, songs.size());
-            Toast.makeText(musicService, toast, Toast.LENGTH_SHORT).show();
             return true;
         }
 
@@ -259,15 +267,17 @@ public class MusicPlayerRemote {
 
     public static boolean enqueue(Song song) {
         if (musicService != null) {
+            QueueRepository queueRepository = new QueueRepository(App.getInstance());
+
             if (getPlayingQueue().size() > 0) {
                 musicService.addSong(song);
+                queueRepository.insertAllAndStartNew(getPlayingQueue());
             } else {
-                List<Song> queue = new ArrayList<>();
-                queue.add(song);
-                openQueue(queue, 0, false);
+                List<Song> songToEnqueue = new ArrayList<>();
+                songToEnqueue.add(song);
+                queueRepository.insertAllAndStartNew(songToEnqueue);
+                openQueue(songToEnqueue, 0, true);
             }
-
-            Toast.makeText(musicService, musicService.getResources().getString(R.string.added_title_to_queue), Toast.LENGTH_SHORT).show();
             return true;
         }
 
@@ -276,14 +286,18 @@ public class MusicPlayerRemote {
 
     public static boolean enqueue(@NonNull List<Song> songs) {
         if (musicService != null) {
+            QueueRepository queueRepository = new QueueRepository(App.getInstance());
+
             if (getPlayingQueue().size() > 0) {
                 musicService.addSongs(songs);
+                queueRepository.insertAllAndStartNew(getPlayingQueue());
             } else {
-                openQueue(songs, 0, false);
+                List<Song> songToEnqueue = new ArrayList<>();
+                songToEnqueue.addAll(songs);
+                queueRepository.insertAllAndStartNew(songToEnqueue);
+                openQueue(songToEnqueue, 0, true);
             }
 
-            final String toast = songs.size() == 1 ? musicService.getResources().getString(R.string.added_title_to_queue) : musicService.getResources().getString(R.string.added_x_titles_to_queue, songs.size());
-            Toast.makeText(musicService, toast, Toast.LENGTH_SHORT).show();
             return true;
         }
 

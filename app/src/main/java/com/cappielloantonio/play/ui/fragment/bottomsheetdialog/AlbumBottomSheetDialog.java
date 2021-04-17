@@ -12,17 +12,26 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.helper.MusicPlayerRemote;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.viewmodel.AlbumBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import java.util.List;
 
 public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
     private static final String TAG = "AlbumBottomSheetDialog";
 
     private AlbumBottomSheetViewModel albumBottomSheetViewModel;
+    private SongRepository songRepository;
     private Album album;
 
     private ImageView coverAlbum;
@@ -46,6 +55,8 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
         albumBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(AlbumBottomSheetViewModel.class);
         albumBottomSheetViewModel.setAlbum(album);
+
+        songRepository = new SongRepository(App.getInstance());
 
         init(view);
 
@@ -74,19 +85,26 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
         playRandom = view.findViewById(R.id.play_random_text_view);
         playRandom.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Play next", Toast.LENGTH_SHORT).show();
+            List<Song> songs = songRepository.getAlbumListSong(album.getId(), true);
+
+            QueueRepository queueRepository = new QueueRepository(App.getInstance());
+            queueRepository.insertAllAndStartNew(songs);
+
+            MusicPlayerRemote.openQueue(songs, 0, true);
+            ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
             dismissBottomSheet();
         });
 
         playNext = view.findViewById(R.id.play_next_text_view);
         playNext.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Play next", Toast.LENGTH_SHORT).show();
+            MusicPlayerRemote.playNext(songRepository.getAlbumListSong(album.getId(), false));
+            ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
             dismissBottomSheet();
         });
 
         addToQueue = view.findViewById(R.id.add_to_queue_text_view);
         addToQueue.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Add to queue", Toast.LENGTH_SHORT).show();
+            MusicPlayerRemote.enqueue(songRepository.getAlbumListSong(album.getId(), false));
             dismissBottomSheet();
         });
 

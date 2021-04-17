@@ -15,11 +15,16 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.helper.MusicPlayerRemote;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 import com.cappielloantonio.play.viewmodel.SongBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import java.util.Objects;
 
 public class SongBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
     private static final String TAG = "SongBottomSheetDialog";
@@ -84,13 +89,15 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
         playNext = view.findViewById(R.id.play_next_text_view);
         playNext.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Play next", Toast.LENGTH_SHORT).show();
+            MusicPlayerRemote.playNext(song);
+            ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
             dismissBottomSheet();
         });
 
         addToQueue = view.findViewById(R.id.add_to_queue_text_view);
         addToQueue.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Add to queue", Toast.LENGTH_SHORT).show();
+            MusicPlayerRemote.enqueue(song);
+            ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
             dismissBottomSheet();
         });
 

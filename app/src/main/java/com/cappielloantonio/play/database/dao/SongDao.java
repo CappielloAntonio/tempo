@@ -43,7 +43,10 @@ public interface SongDao {
     LiveData<List<Song>> getArtistTopSongs(String artistID);
 
     @Query("SELECT * FROM song WHERE albumId = :albumID ORDER BY trackNumber ASC")
-    LiveData<List<Song>> getAlbumSong(String albumID);
+    LiveData<List<Song>> getLiveAlbumSong(String albumID);
+
+    @Query("SELECT * FROM song WHERE albumId = :albumID ORDER BY trackNumber ASC")
+    List<Song> getAlbumSong(String albumID);
 
     @Query("SELECT * FROM song INNER Join song_genre_cross ON song.id = song_genre_cross.song_id AND song_genre_cross.genre_id = :genreID")
     LiveData<List<Song>> getSongByGenre(String genreID);

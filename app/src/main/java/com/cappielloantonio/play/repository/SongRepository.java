@@ -12,6 +12,7 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.model.SongGenreCross;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SongRepository {
@@ -80,8 +81,29 @@ public class SongRepository {
     }
 
     public LiveData<List<Song>> getAlbumListLiveSong(String albumID) {
-        listLiveAlbumSongs = songDao.getAlbumSong(albumID);
+        listLiveAlbumSongs = songDao.getLiveAlbumSong(albumID);
         return listLiveAlbumSongs;
+    }
+
+    public List<Song> getAlbumListSong(String albumID, boolean randomOrder) {
+        List<Song> songs = new ArrayList<>();
+
+        GetSongsByAlbumIDThreadSafe suggestionsThread = new GetSongsByAlbumIDThreadSafe(songDao, albumID);
+        Thread thread = new Thread(suggestionsThread);
+        thread.start();
+
+        try {
+            thread.join();
+            songs = suggestionsThread.getSongs();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if(randomOrder) {
+            Collections.shuffle(songs);
+        }
+
+        return songs;
     }
 
     public LiveData<List<Song>> getFilteredListLiveSong(ArrayList<String> filters) {
@@ -266,6 +288,26 @@ public class SongRepository {
         }
 
         return song;
+    }
+
+    private static class GetSongsByAlbumIDThreadSafe implements Runnable {
+        private SongDao songDao;
+        private String albumID;
+        private List<Song> songs = new ArrayList<>();
+
+        public GetSongsByAlbumIDThreadSafe(SongDao songDao, String albumID) {
+            this.songDao = songDao;
+            this.albumID = albumID;
+        }
+
+        @Override
+        public void run() {
+            songs = songDao.getAlbumSong(albumID);
+        }
+
+        public List<Song> getSongs() {
+            return songs;
+        }
     }
 
     private static class ExistThreadSafe implements Runnable {

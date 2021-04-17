@@ -9,22 +9,14 @@ import androidx.room.PrimaryKey;
 public class Queue {
     @NonNull
     @PrimaryKey
-    @ColumnInfo(name = "id")
-    private String songID;
-
     @ColumnInfo(name = "track_order")
     private int trackOrder;
 
-    public Queue(String songID, int trackOrder) {
-        this.songID = songID;
+    @ColumnInfo(name = "id")
+    private String songID;
+
+    public Queue(int trackOrder, String songID) {
         this.trackOrder = trackOrder;
-    }
-
-    public String getSongID() {
-        return songID;
-    }
-
-    public void setSongID(String songID) {
         this.songID = songID;
     }
 
@@ -34,5 +26,13 @@ public class Queue {
 
     public void setTrackOrder(int trackOrder) {
         this.trackOrder = trackOrder;
+    }
+
+    public String getSongID() {
+        return songID;
+    }
+
+    public void setSongID(String songID) {
+        this.songID = songID;
     }
 }

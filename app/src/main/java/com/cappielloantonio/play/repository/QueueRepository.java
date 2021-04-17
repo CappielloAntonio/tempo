@@ -47,8 +47,8 @@ public class QueueRepository {
         return songs;
     }
 
-    public void insert(Song song) {
-        InsertThreadSafe insert = new InsertThreadSafe(queueDao, song);
+    public void insert(Song song, int position) {
+        InsertThreadSafe insert = new InsertThreadSafe(queueDao, song, position);
         Thread thread = new Thread(insert);
         thread.start();
     }
@@ -111,15 +111,17 @@ public class QueueRepository {
     private static class InsertThreadSafe implements Runnable {
         private QueueDao queueDao;
         private Song song;
+        private int position;
 
-        public InsertThreadSafe(QueueDao queueDao, Song song) {
+        public InsertThreadSafe(QueueDao queueDao, Song song, int position) {
             this.queueDao = queueDao;
             this.song = song;
+            this.position = position;
         }
 
         @Override
         public void run() {
-            queueDao.insert(QueueUtil.getQueueElementFromSong(song));
+            queueDao.insert(QueueUtil.getQueueElementFromSong(song, position));
         }
     }
 

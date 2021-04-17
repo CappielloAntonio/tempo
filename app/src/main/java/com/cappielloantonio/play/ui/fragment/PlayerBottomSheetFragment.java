@@ -65,7 +65,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         initQueueSlideView();
         initQueueRecyclerView();
         initFavoriteButtonClick();
-        initToggleButtonSongState();
+        initMusicCommandButton();
 
         return view;
     }
@@ -209,12 +209,19 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         bind.playerBodyLayout.buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite());
     }
 
-    private void initToggleButtonSongState() {
+    private void initMusicCommandButton() {
         bind.playerHeaderLayout.playerHeaderButton.setOnClickListener(v -> {
             if (MusicPlayerRemote.isPlaying()) {
                 MusicPlayerRemote.pauseSong();
             } else {
                 MusicPlayerRemote.resumePlaying();
+            }
+        });
+
+        bind.playerHeaderLayout.playerHeaderNextSongButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MusicPlayerRemote.playNextSong();
             }
         });
     }

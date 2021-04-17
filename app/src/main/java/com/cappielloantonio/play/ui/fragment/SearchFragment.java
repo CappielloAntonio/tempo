@@ -138,14 +138,14 @@ public class SearchFragment extends Fragment {
     }
 
     public void search(String query) {
-        if (!query.trim().equals("") && query.trim().length() > 1) {
+        if (!query.trim().equals("") && query.trim().length() > 2) {
             searchViewModel.insertNewSearch(query);
             bind.persistentSearchView.collapse();
 
             bind.persistentSearchView.setInputQuery(query);
             performSearch(query.trim());
         } else {
-            Toast.makeText(requireContext(), "Enter at least two characters", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Enter at least three characters", Toast.LENGTH_SHORT).show();
         }
     }
 

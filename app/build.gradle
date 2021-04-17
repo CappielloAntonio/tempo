@@ -55,7 +55,6 @@ dependencies {
     implementation "androidx.room:room-runtime:2.2.6"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.paging:paging-runtime-ktx:2.1.2'
     implementation "androidx.lifecycle:lifecycle-common-java8:2.3.1"
 
     // Android Material

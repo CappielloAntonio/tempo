@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,10 +57,9 @@ public class ArtistCatalogueFragment extends Fragment {
 
         artistAdapter = new ArtistCatalogueAdapter(requireContext());
         bind.artistCatalogueRecyclerView.setAdapter(artistAdapter);
-        artistCatalogueViewModel.getArtistList().observe(requireActivity(), artists -> {
+        artistCatalogueViewModel.getArtistList().observe(requireActivity(), artistList -> {
             bind.loadingProgressBar.setVisibility(View.GONE);
-            bind.artistCatalogueContainer.setVisibility(View.VISIBLE);
-            artistAdapter.setItems(artists);
+            artistAdapter.setItems(artistList);
         });
     }
 }

@@ -58,7 +58,6 @@ public class AlbumCatalogueFragment extends Fragment {
         bind.albumCatalogueRecyclerView.setAdapter(albumAdapter);
         albumCatalogueViewModel.getAlbumList().observe(requireActivity(), albums -> {
             bind.loadingProgressBar.setVisibility(View.GONE);
-            bind.albumCatalogueContainer.setVisibility(View.VISIBLE);
             albumAdapter.setItems(albums);
         });
     }

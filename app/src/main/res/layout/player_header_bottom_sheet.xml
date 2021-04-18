@@ -14,7 +14,7 @@
         android:layout_height="42dp"
         android:layout_marginStart="12dp"
         android:layout_gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/player_header_seek_bar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -49,8 +49,8 @@
 
     <ToggleButton
         android:id="@+id/player_header_button"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:background="@drawable/button_play_pause_selector"
@@ -59,19 +59,19 @@
         android:text=""
         android:textOff=""
         android:textOn=""
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/player_header_seek_bar"
         app:layout_constraintEnd_toStartOf="@+id/player_header_next_song_button"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/player_header_next_song_button"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:background="@drawable/ic_skip_next"
         android:foreground="?android:attr/selectableItemBackgroundBorderless"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/player_header_seek_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 

@@ -6,24 +6,28 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.cappielloantonio.play.database.dao.AlbumArtistCrossDao;
 import com.cappielloantonio.play.database.dao.AlbumDao;
 import com.cappielloantonio.play.database.dao.ArtistDao;
 import com.cappielloantonio.play.database.dao.GenreDao;
 import com.cappielloantonio.play.database.dao.PlaylistDao;
 import com.cappielloantonio.play.database.dao.QueueDao;
 import com.cappielloantonio.play.database.dao.RecentSearchDao;
+import com.cappielloantonio.play.database.dao.SongArtistCrossDao;
 import com.cappielloantonio.play.database.dao.SongDao;
 import com.cappielloantonio.play.database.dao.SongGenreCrossDao;
 import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.AlbumArtistCross;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.RecentSearch;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.SongArtistCross;
 import com.cappielloantonio.play.model.SongGenreCross;
 
-@Database(entities = {Album.class, Artist.class, Genre.class, Playlist.class, Song.class, RecentSearch.class, SongGenreCross.class, Queue.class}, version = 8, exportSchema = false)
+@Database(entities = {Album.class, Artist.class, Genre.class, Playlist.class, Song.class, RecentSearch.class, SongGenreCross.class, Queue.class, AlbumArtistCross.class, SongArtistCross.class}, version = 10, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String TAG = "AppDatabase";
 
@@ -53,6 +57,10 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract RecentSearchDao recentSearchDao();
 
     public abstract SongGenreCrossDao songGenreCrossDao();
+
+    public abstract AlbumArtistCrossDao albumArtistCrossDao();
+
+    public abstract SongArtistCrossDao songArtistCrossDao();
 
     public abstract QueueDao queueDao();
 }

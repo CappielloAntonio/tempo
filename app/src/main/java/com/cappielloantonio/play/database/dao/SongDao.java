@@ -36,13 +36,16 @@ public interface SongDao {
     @Query("SELECT * FROM song WHERE play_count != 0 ORDER BY play_count DESC LIMIT :number")
     LiveData<List<Song>> getMostPlayedSample(int number);
 
-    @Query("SELECT * FROM song WHERE artistId = :artistID ORDER BY play_count DESC LIMIT :number")
+    // @Query("SELECT * FROM song WHERE artistId = :artistID ORDER BY play_count DESC LIMIT :number")
+    @Query("SELECT song.* FROM song INNER JOIN song_artist_cross ON song.id = song_artist_cross.song_id AND song_artist_cross.artist_id = :artistID ORDER BY play_count DESC LIMIT :number")
     LiveData<List<Song>> getArtistTopSongsSample(String artistID, int number);
 
-    @Query("SELECT * FROM song WHERE artistId = :artistID ORDER BY play_count DESC")
+    // @Query("SELECT * FROM song WHERE artistId = :artistID ORDER BY play_count DESC")
+    @Query("SELECT song.* FROM song INNER JOIN song_artist_cross ON song.id = song_artist_cross.song_id AND song_artist_cross.artist_id = :artistID ORDER BY play_count DESC")
     LiveData<List<Song>> getArtistTopSongs(String artistID);
 
-    @Query("SELECT * FROM song WHERE artistId = :artistID ORDER BY RANDOM() LIMIT :number")
+    // @Query("SELECT * FROM song WHERE artistId = :artistID ORDER BY RANDOM() LIMIT :number")
+    @Query("SELECT song.* FROM song INNER JOIN song_artist_cross ON song.id = song_artist_cross.song_id AND song_artist_cross.artist_id = :artistID ORDER BY RANDOM() LIMIT :number")
     List<Song> getArtistRandomSongs(String artistID, int number);
 
     @Query("SELECT * FROM song WHERE albumId = :albumID ORDER BY trackNumber ASC")

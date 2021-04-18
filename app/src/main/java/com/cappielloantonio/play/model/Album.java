@@ -21,6 +21,16 @@ public class Album implements Parcelable {
     @Ignore
     public List<Song> songs;
 
+    /*
+    * TODO: Da capire chi tra albumArtist e artistItems sono i compositori e suonatori dell'album, oppure le comparse
+    * In teoria AlbumArtist sono i creatori, mentre ArtistItems le comparse
+    */
+    @Ignore
+    public List<Artist> albumArtists;
+
+    @Ignore
+    public List<Artist> artistItems;
+
     @NonNull
     @PrimaryKey
     @ColumnInfo(name = "id")
@@ -60,12 +70,24 @@ public class Album implements Parcelable {
         this.title = itemDto.getName();
         this.year = itemDto.getProductionYear() != null ? itemDto.getProductionYear() : 0;
 
+        albumArtists = new ArrayList<>();
+        artistItems = new ArrayList<>();
+
         if (itemDto.getAlbumArtists().size() != 0) {
             this.artistId = itemDto.getAlbumArtists().get(0).getId();
             this.artistName = itemDto.getAlbumArtists().get(0).getName();
-        } else if (itemDto.getArtistItems().size() != 0) {
+
+            itemDto.getAlbumArtists().forEach(artist -> {
+                albumArtists.add(new Artist(artist.getId(), artist.getName()));
+            });
+        }
+        else if (itemDto.getArtistItems().size() != 0) {
             this.artistId = itemDto.getArtistItems().get(0).getId();
             this.artistName = itemDto.getArtistItems().get(0).getName();
+
+            itemDto.getArtistItems().forEach(artist -> {
+                artistItems.add(new Artist(artist.getId(), artist.getName()));
+            });
         }
 
         this.primary = itemDto.getImageTags().containsKey(ImageType.Primary) ? id : null;

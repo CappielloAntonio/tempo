@@ -16,6 +16,8 @@ import org.jellyfin.apiclient.model.entities.ImageType;
 import org.jellyfin.apiclient.model.entities.MediaStream;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity(tableName = "song")
@@ -45,6 +47,16 @@ public class Song implements Parcelable {
 
     @Ignore
     public static final String IS_FAVORITE = "IS_FAVORITE";
+
+    /*
+     * TODO: Da capire chi tra albumArtist e artistItems sono i compositori e suonatori dell'album, oppure le comparse
+     * In teoria AlbumArtist sono i creatori, mentre ArtistItems le comparse
+     */
+    @Ignore
+    public List<Artist> albumArtists;
+
+    @Ignore
+    public List<Artist> artistItems;
 
     @NonNull
     @PrimaryKey
@@ -164,12 +176,24 @@ public class Song implements Parcelable {
         this.albumId = itemDto.getAlbumId();
         this.albumName = itemDto.getAlbum();
 
+        albumArtists = new ArrayList<>();
+        artistItems = new ArrayList<>();
+
         if (itemDto.getAlbumArtists().size() != 0) {
             this.artistId = itemDto.getAlbumArtists().get(0).getId();
             this.artistName = itemDto.getAlbumArtists().get(0).getName();
-        } else if (itemDto.getArtistItems().size() != 0) {
+
+            itemDto.getAlbumArtists().forEach(artist -> {
+                albumArtists.add(new Artist(artist.getId(), artist.getName()));
+            });
+        }
+        else if (itemDto.getArtistItems().size() != 0) {
             this.artistId = itemDto.getArtistItems().get(0).getId();
             this.artistName = itemDto.getArtistItems().get(0).getName();
+
+            itemDto.getArtistItems().forEach(artist -> {
+                artistItems.add(new Artist(artist.getId(), artist.getName()));
+            });
         }
 
         this.primary = itemDto.getAlbumPrimaryImageTag() != null ? albumId : null;

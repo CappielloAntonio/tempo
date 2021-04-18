@@ -16,15 +16,19 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.databinding.FragmentSyncBinding;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.AlbumArtistCross;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.SongArtistCross;
 import com.cappielloantonio.play.model.SongGenreCross;
+import com.cappielloantonio.play.repository.AlbumArtistRepository;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.GenreRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
+import com.cappielloantonio.play.repository.SongArtistRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.util.PreferenceUtil;
@@ -43,6 +47,14 @@ public class SyncFragment extends Fragment {
     private FragmentSyncBinding bind;
     private SyncViewModel syncViewModel;
 
+    private SongRepository songRepository;
+    private AlbumRepository albumRepository;
+    private ArtistRepository artistRepository;
+    private PlaylistRepository playlistRepository;
+    private GenreRepository genreRepository;
+    private SongArtistRepository songArtistRepository;
+    private AlbumArtistRepository albumArtistRepository;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,6 +63,14 @@ public class SyncFragment extends Fragment {
         bind = FragmentSyncBinding.inflate(inflater, container, false);
         View view = bind.getRoot();
         syncViewModel = new ViewModelProvider(requireActivity()).get(SyncViewModel.class);
+
+        songRepository = new SongRepository(activity.getApplication());
+        albumRepository = new AlbumRepository(activity.getApplication());
+        artistRepository = new ArtistRepository(activity.getApplication());
+        playlistRepository = new PlaylistRepository(activity.getApplication());
+        genreRepository = new GenreRepository(activity.getApplication());
+        songArtistRepository = new SongArtistRepository(activity.getApplication());
+        albumArtistRepository = new AlbumArtistRepository(activity.getApplication());
 
         init();
         syncLibraries();
@@ -108,8 +128,8 @@ public class SyncFragment extends Fragment {
 
             @Override
             public void onLoadMedia(List<?> media) {
-                AlbumRepository repository = new AlbumRepository(activity.getApplication());
-                repository.insertAll((ArrayList<Album>) media);
+                albumRepository.insertAll((ArrayList<Album>) media);
+                syncAlbumArtistCross((ArrayList<Album>) media);
                 animateProgressBar(true);
             }
         });
@@ -125,8 +145,7 @@ public class SyncFragment extends Fragment {
 
             @Override
             public void onLoadMedia(List<?> media) {
-                ArtistRepository repository = new ArtistRepository(activity.getApplication());
-                repository.insertAll((ArrayList<Artist>) media);
+                artistRepository.insertAll((ArrayList<Artist>) media);
                 animateProgressBar(true);
             }
         });
@@ -142,8 +161,7 @@ public class SyncFragment extends Fragment {
 
             @Override
             public void onLoadMedia(List<?> media) {
-                GenreRepository repository = new GenreRepository(activity.getApplication());
-                repository.insertAll((ArrayList<Genre>) media);
+                genreRepository.insertAll((ArrayList<Genre>) media);
                 animateProgressBar(true);
 
                 if(syncViewModel.isCrossSyncSongGenre()) syncSongsPerGenre((ArrayList<Genre>) media);
@@ -162,8 +180,7 @@ public class SyncFragment extends Fragment {
 
             @Override
             public void onLoadMedia(List<?> media) {
-                PlaylistRepository repository = new PlaylistRepository(activity.getApplication());
-                repository.insertAll((ArrayList<Playlist>) media);
+                playlistRepository.insertAll((ArrayList<Playlist>) media);
                 animateProgressBar(true);
             }
         });
@@ -179,9 +196,9 @@ public class SyncFragment extends Fragment {
 
             @Override
             public void onLoadMedia(List<?> media) {
-                SongRepository repository = new SongRepository(activity.getApplication());
-                repository.deleteAllSongGenreCross();
-                repository.insertAll((ArrayList<Song>) media);
+                songRepository.deleteAllSongGenreCross();
+                songRepository.insertAll((ArrayList<Song>) media);
+                syncSongArtistCross((ArrayList<Song>) media);
                 animateProgressBar(true);
             }
         });
@@ -197,8 +214,7 @@ public class SyncFragment extends Fragment {
 
                 @Override
                 public void onLoadMedia(List<?> media) {
-                    SongRepository repository = new SongRepository(App.getInstance());
-                    repository.insertSongPerGenre((ArrayList<SongGenreCross>) media);
+                    songRepository.insertSongPerGenre((ArrayList<SongGenreCross>) media);
                 }
             }, genre.id);
         }
@@ -226,5 +242,64 @@ public class SyncFragment extends Fragment {
     private void terminate() {
         PreferenceUtil.getInstance(requireContext()).setSync(true);
         activity.goToHome();
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    /*
+     * Sincronizzazzione dell'album con gli artisti che lo hanno prodotto | isProduced = true
+     * Sincronizzazzione dell'album con gli artisti che hanno collaborato per la sua produzione | isProduced = false
+     */
+    private void syncAlbumArtistCross(ArrayList<Album> albums) {
+        albumArtistRepository.deleteAll();
+
+        List<AlbumArtistCross> crosses = new ArrayList<>();
+
+        for(Album album: albums) {
+            List<Artist> artists = new ArrayList<>();
+
+            if(album.albumArtists.size() > 0) {
+                for (Artist artist: album.albumArtists) {
+                    artists.add(artist);
+                    crosses.add(new AlbumArtistCross(album.getId(), artist.getId(), true));
+                }
+            }
+
+            if(album.artistItems.size() > 0) {
+                for (Artist artist: album.artistItems) {
+                    if(!artists.contains(artist)) {
+                        crosses.add(new AlbumArtistCross(album.getId(), artist.getId(), false));
+                    }
+                }
+            }
+        }
+
+        albumArtistRepository.insertAll(crosses);
+    }
+
+    private void syncSongArtistCross(ArrayList<Song> songs) {
+        songArtistRepository.deleteAll();
+
+        List<SongArtistCross> crosses = new ArrayList<>();
+
+        for(Song song: songs) {
+            List<Artist> artists = new ArrayList<>();
+
+            if(song.albumArtists.size() > 0) {
+                for (Artist artist: song.albumArtists) {
+                    artists.add(artist);
+                    crosses.add(new SongArtistCross(song.getId(), artist.getId()));
+                }
+            }
+
+            if(song.artistItems.size() > 0) {
+                for (Artist artist: song.artistItems) {
+                    if(!artists.contains(artist)) {
+                        crosses.add(new SongArtistCross(song.getId(), artist.getId()));
+                    }
+                }
+            }
+        }
+
+        songArtistRepository.insertAll(crosses);
     }
 }

@@ -87,6 +87,12 @@ public class Artist implements Parcelable {
         }
     }
 
+    @Ignore
+    public Artist(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     @NonNull
     public String getId() {
         return id;

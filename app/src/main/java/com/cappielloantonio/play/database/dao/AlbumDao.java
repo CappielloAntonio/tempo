@@ -16,7 +16,8 @@ public interface AlbumDao {
     @Query("SELECT * FROM album")
     LiveData<List<Album>> getAll();
 
-    @Query("SELECT * FROM album WHERE artistId = :artistId;")
+    // @Query("SELECT * FROM album WHERE artistId = :artistId;")
+    @Query("SELECT album.* FROM album INNER JOIN album_artist_cross ON album.id = album_artist_cross.album_id AND album_artist_cross.artist_id = :artistId")
     LiveData<List<Album>> getArtistAlbums(String artistId);
 
     @Query("SELECT * FROM album ORDER BY RANDOM() LIMIT :number;")

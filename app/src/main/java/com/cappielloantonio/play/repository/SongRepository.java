@@ -80,6 +80,23 @@ public class SongRepository {
         return listLiveSampleArtistTopSongs;
     }
 
+    public List<Song> getArtistListLiveRandomSong(String artistID) {
+        List<Song> songs = new ArrayList<>();
+
+        GetRandomSongsByArtistIDThreadSafe randomArtistSongThread = new GetRandomSongsByArtistIDThreadSafe(songDao, artistID, 100);
+        Thread thread = new Thread(randomArtistSongThread);
+        thread.start();
+
+        try {
+            thread.join();
+            songs = randomArtistSongThread.getSongs();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return songs;
+    }
+
     public LiveData<List<Song>> getAlbumListLiveSong(String albumID) {
         listLiveAlbumSongs = songDao.getLiveAlbumSong(albumID);
         return listLiveAlbumSongs;
@@ -303,6 +320,28 @@ public class SongRepository {
         @Override
         public void run() {
             songs = songDao.getAlbumSong(albumID);
+        }
+
+        public List<Song> getSongs() {
+            return songs;
+        }
+    }
+
+    private static class GetRandomSongsByArtistIDThreadSafe implements Runnable {
+        private SongDao songDao;
+        private String artistID;
+        private int limit;
+        private List<Song> songs = new ArrayList<>();
+
+        public GetRandomSongsByArtistIDThreadSafe(SongDao songDao, String artistID, int limit) {
+            this.songDao = songDao;
+            this.artistID = artistID;
+            this.limit = limit;
+        }
+
+        @Override
+        public void run() {
+            songs = songDao.getArtistRandomSongs(artistID, limit);
         }
 
         public List<Song> getSongs() {

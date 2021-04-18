@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.ui.fragment.bottomsheetdialog;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +12,25 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.helper.MusicPlayerRemote;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.viewmodel.ArtistBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import java.util.List;
 
 public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
     private static final String TAG = "AlbumBottomSheetDialog";
 
     private ArtistBottomSheetViewModel artistBottomSheetViewModel;
+    private SongRepository songRepository;
     private Artist artist;
 
     private ImageView coverArtist;
@@ -38,6 +48,8 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
 
         artistBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(ArtistBottomSheetViewModel.class);
         artistBottomSheetViewModel.setArtist(artist);
+
+        songRepository = new SongRepository(App.getInstance());
 
         init(view);
 
@@ -63,8 +75,17 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
 
         playRandom = view.findViewById(R.id.play_random_text_view);
         playRandom.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Play random", Toast.LENGTH_SHORT).show();
-            dismissBottomSheet();
+            List<Song> songs = songRepository.getArtistListLiveRandomSong(artist.getId());
+
+            if(songs.size() > 0) {
+                QueueRepository queueRepository = new QueueRepository(App.getInstance());
+                queueRepository.insertAllAndStartNew(songs);
+
+                MusicPlayerRemote.openQueue(songs, 0, true);
+                ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
+                dismissBottomSheet();
+            }
+            else Toast.makeText(requireContext(), "Error retrieving artist's songs", Toast.LENGTH_SHORT).show();
         });
     }
 

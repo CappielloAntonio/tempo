@@ -42,6 +42,9 @@ public interface SongDao {
     @Query("SELECT * FROM song WHERE artistId = :artistID ORDER BY play_count DESC")
     LiveData<List<Song>> getArtistTopSongs(String artistID);
 
+    @Query("SELECT * FROM song WHERE artistId = :artistID ORDER BY RANDOM() LIMIT :number")
+    List<Song> getArtistRandomSongs(String artistID, int number);
+
     @Query("SELECT * FROM song WHERE albumId = :albumID ORDER BY trackNumber ASC")
     LiveData<List<Song>> getLiveAlbumSong(String albumID);
 

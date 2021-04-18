@@ -79,6 +79,8 @@ public class MultiPlayer implements Playback {
 
         MediaSourceFactory mediaSourceFactory = new UnknownMediaSourceFactory(buildDataSourceFactory());
         exoPlayer = new SimpleExoPlayer.Builder(context).setMediaSourceFactory(mediaSourceFactory).build();
+        // TODO: “Player is accessed on the wrong thread” suppressed
+        exoPlayer.setThrowsWhenUsingWrongThread(false);
 
         exoPlayer.addListener(eventListener);
         exoPlayer.prepare();

@@ -2,6 +2,7 @@ package com.cappielloantonio.play.service
 
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.drm.DrmSessionManager
+import com.google.android.exoplayer2.drm.DrmSessionManagerProvider
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.MediaSourceFactory
@@ -19,7 +20,6 @@ class UnknownMediaSourceFactory(dataSourceFactory: DataSource.Factory) : MediaSo
     private val progressiveMediaSource : ProgressiveMediaSource.Factory
 
     private var loadErrorHandlingPolicy: LoadErrorHandlingPolicy
-
     override fun setDrmSessionManager(drmSessionManager: DrmSessionManager?): MediaSourceFactory {
         return this
     }
@@ -53,6 +53,10 @@ class UnknownMediaSourceFactory(dataSourceFactory: DataSource.Factory) : MediaSo
         }
 
         return sourceFactory.createMediaSource(mediaItem)
+    }
+
+    override fun setDrmSessionManagerProvider(drmSessionManagerProvider: DrmSessionManagerProvider?): MediaSourceFactory {
+        TODO("Not yet implemented")
     }
 
     private suspend fun httpGet(url: String?): String? {

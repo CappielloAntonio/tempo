@@ -55,6 +55,12 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
                 .from(context, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY, CustomGlideRequest.SONG_PIC)
                 .build()
                 .into(holder.cover);
+
+        if(position < MusicPlayerRemote.getPosition()) {
+            holder.songTitle.setTextColor(context.getResources().getColor(R.color.songToPlayTextColor, null));
+            holder.songArtist.setTextColor(context.getResources().getColor(R.color.songToPlayTextColor, null));
+            holder.songDuration.setTextColor(context.getResources().getColor(R.color.songToPlayTextColor, null));
+        }
     }
 
     @Override

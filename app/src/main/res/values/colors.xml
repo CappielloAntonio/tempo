@@ -16,6 +16,8 @@
     <color name="titleTextColor">#252525</color>
     <color name="subtitleTextColor">#646464</color>
 
+    <color name="songToPlayTextColor">#ABABAB</color>
+
     <color name="suggestionTextColor">#252525</color>
     <color name="suggestionIconColor">#252525</color>
     <color name="darkIconColor">#303030</color>

@@ -13,6 +13,8 @@
     <color name="titleTextColor">#DADADA</color>
     <color name="subtitleTextColor">#9B9B9B</color>
 
+    <color name="songToPlayTextColor">#949494</color>
+
     <color name="suggestionTextColor">#DADADA</color>
     <color name="suggestionIconColor">#DADADA</color>
     <color name="darkIconColor">#CFCFCF</color>

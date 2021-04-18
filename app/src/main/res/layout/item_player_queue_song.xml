@@ -43,18 +43,46 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/queue_song_holder_image"/>
 
-    <TextView
-        android:id="@+id/queue_song_artist_text_view"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/open_sans_font_family"
-        android:paddingStart="12dp"
-        android:text="@string/label_placeholder"
-        android:textColor="@color/subtitleTextColor"
-        android:textSize="12sp"
+        android:orientation="horizontal"
+        android:paddingEnd="12dp"
         app:layout_constraintTop_toBottomOf="@+id/queue_song_title_text_view"
         app:layout_constraintStart_toEndOf="@+id/queue_song_cover_image_view"
-        app:layout_constraintEnd_toStartOf="@+id/queue_song_holder_image"/>
+        app:layout_constraintEnd_toStartOf="@+id/queue_song_holder_image">
+
+        <TextView
+            android:id="@+id/queue_song_artist_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_font_family"
+            android:paddingStart="12dp"
+            android:paddingEnd="4dp"
+            android:text="@string/label_placeholder"
+            android:textColor="@color/subtitleTextColor"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/queue_separator_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_font_family"
+            android:text="@string/label_dot_separator"
+            android:textColor="@color/subtitleTextColor"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/queue_song_duration_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_font_family"
+            android:paddingStart="4dp"
+            android:paddingEnd="12dp"
+            android:text="@string/label_placeholder"
+            android:textColor="@color/subtitleTextColor"
+            android:textSize="12sp" />
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/queue_song_holder_image"

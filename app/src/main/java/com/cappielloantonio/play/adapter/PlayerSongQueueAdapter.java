@@ -14,6 +14,7 @@ import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.helper.MusicPlayerRemote;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.fragment.PlayerBottomSheetFragment;
+import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
 
         holder.songTitle.setText(song.getTitle());
         holder.songArtist.setText(song.getArtistName());
+        holder.songDuration.setText(MusicUtil.getReadableDurationString(song.getDuration()));
 
         CustomGlideRequest.Builder
                 .from(context, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY, CustomGlideRequest.SONG_PIC)
@@ -63,6 +65,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView songTitle;
         TextView songArtist;
+        TextView songDuration;
         ImageView cover;
 
         ViewHolder(View itemView) {
@@ -70,6 +73,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
 
             songTitle = itemView.findViewById(R.id.queue_song_title_text_view);
             songArtist = itemView.findViewById(R.id.queue_song_artist_text_view);
+            songDuration = itemView.findViewById(R.id.queue_song_duration_text_view);
             cover = itemView.findViewById(R.id.queue_song_cover_image_view);
 
             itemView.setOnClickListener(this);

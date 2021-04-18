@@ -11,6 +11,7 @@
     <string name="home_menu_label">Home</string>
     <string name="search_menu_label">Search</string>
     <string name="label_placeholder">--</string>
+    <string name="label_dot_separator">•</string>
     <string name="save_filters">Save filters between sessions</string>
 
     <string name="sync_header">Synchronization</string>

@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -14,6 +15,8 @@ import com.cappielloantonio.play.repository.SongRepository;
 import java.util.List;
 
 public class PlaylistPageViewModel extends AndroidViewModel {
+    private static final String TAG = "PlaylistPageViewModel";
+
     private SongRepository songRepository;
 
     private LiveData<List<Song>> songList;
@@ -28,7 +31,8 @@ public class PlaylistPageViewModel extends AndroidViewModel {
 
     public LiveData<List<Song>> getPlaylistSongList() {
         // Prendere le canzoni di ciascuna playlist
-        songList = songRepository.getAlbumListLiveSong(playlist.getId());
+        Log.i(TAG, "getPlaylistSongList: " + playlist.getId());
+        songList = songRepository.getPlaylistLiveSong(playlist.getId());
         return songList;
     }
 

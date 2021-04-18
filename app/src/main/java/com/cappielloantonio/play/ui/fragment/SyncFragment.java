@@ -20,6 +20,7 @@ import com.cappielloantonio.play.model.AlbumArtistCross;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.model.PlaylistSongCross;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.model.SongArtistCross;
 import com.cappielloantonio.play.model.SongGenreCross;
@@ -28,6 +29,7 @@ import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.GenreRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
+import com.cappielloantonio.play.repository.PlaylistSongRepository;
 import com.cappielloantonio.play.repository.SongArtistRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.ui.activities.MainActivity;
@@ -54,6 +56,7 @@ public class SyncFragment extends Fragment {
     private GenreRepository genreRepository;
     private SongArtistRepository songArtistRepository;
     private AlbumArtistRepository albumArtistRepository;
+    private PlaylistSongRepository playlistSongRepository;
 
     @Nullable
     @Override
@@ -71,6 +74,7 @@ public class SyncFragment extends Fragment {
         genreRepository = new GenreRepository(activity.getApplication());
         songArtistRepository = new SongArtistRepository(activity.getApplication());
         albumArtistRepository = new AlbumArtistRepository(activity.getApplication());
+        playlistSongRepository = new PlaylistSongRepository(activity.getApplication());
 
         init();
         syncLibraries();
@@ -181,6 +185,7 @@ public class SyncFragment extends Fragment {
             @Override
             public void onLoadMedia(List<?> media) {
                 playlistRepository.insertAll((ArrayList<Playlist>) media);
+                syncSongsPerPlaylist((ArrayList<Playlist>) media);
                 animateProgressBar(true);
             }
         });
@@ -221,6 +226,22 @@ public class SyncFragment extends Fragment {
 
         animateProgressBar(true);
         PreferenceUtil.getInstance(requireContext()).setSongGenreSync(true);
+    }
+
+    private void syncSongsPerPlaylist(List<Playlist> playlists) {
+        for (Playlist playlist : playlists) {
+            SyncUtil.getSongsPerPlaylist(requireContext(), new MediaCallback() {
+                @Override
+                public void onError(Exception exception) {
+                    Log.e(TAG, "onError: " + exception.getMessage());
+                }
+
+                @Override
+                public void onLoadMedia(List<?> media) {
+                    playlistSongRepository.insertAll((ArrayList<PlaylistSongCross>) media);
+                }
+            }, playlist.getId());
+        }
     }
 
 

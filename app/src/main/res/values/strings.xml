@@ -19,6 +19,8 @@
     <string name="music_sync_caption">Sync tracks, albums, artists, genres and playlists</string>
     <string name="genres_music_cross_sync">Genres-music cross sync</string>
     <string name="genres_music_cross_sync_caption">Cross sync genres for each track</string>
+    <string name="playlist_song_cross_sync">Playlist sync</string>
+    <string name="playlist_song_cross_sync_caption">Refresh playlists\' track list</string>
     <string name="about_header">About</string>
     <string name="summary_about">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="app_version">1.1</string>

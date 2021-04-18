@@ -27,6 +27,7 @@ public class SongRepository {
     private LiveData<List<Song>> listLiveSampleMostPlayedSongs;
     private LiveData<List<Song>> listLiveSampleArtistTopSongs;
     private LiveData<List<Song>> listLiveAlbumSongs;
+    private LiveData<List<Song>> listLivePlaylistSongs;
     private LiveData<List<Song>> listLiveSongByGenre;
     private LiveData<List<Song>> listLiveFilteredSongs;
     private LiveData<List<Song>> listLiveSongByYear;
@@ -100,6 +101,11 @@ public class SongRepository {
     public LiveData<List<Song>> getAlbumListLiveSong(String albumID) {
         listLiveAlbumSongs = songDao.getLiveAlbumSong(albumID);
         return listLiveAlbumSongs;
+    }
+
+    public LiveData<List<Song>> getPlaylistLiveSong(String playlistID) {
+        listLivePlaylistSongs = songDao.getLivePlaylistSong(playlistID);
+        return listLivePlaylistSongs;
     }
 
     public List<Song> getAlbumListSong(String albumID, boolean randomOrder) {

@@ -2,6 +2,7 @@ package com.cappielloantonio.play.util;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.MediaCallback;
@@ -9,6 +10,7 @@ import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.model.PlaylistSongCross;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.model.SongGenreCross;
 
@@ -19,6 +21,7 @@ import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemsByNameQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
+import org.jellyfin.apiclient.model.playlists.PlaylistItemQuery;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -195,6 +198,34 @@ public class SyncUtil {
 
                 for (BaseItemDto itemDto : result.getItems()) {
                     crosses.add(new SongGenreCross(itemDto.getId(), genreId));
+                }
+
+                callback.onLoadMedia(crosses);
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                callback.onError(exception);
+            }
+        });
+    }
+
+    public static void getSongsPerPlaylist(Context context, MediaCallback callback, String playlistId) {
+        PlaylistItemQuery query = new PlaylistItemQuery();
+
+        query.setId(playlistId);
+        query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
+        query.setFields(new ItemFields[]{ItemFields.MediaSources});
+        query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
+
+
+        App.getApiClientInstance(context).GetPlaylistItems(query, new Response<ItemsResult>() {
+            @Override
+            public void onResponse(ItemsResult result) {
+                ArrayList<PlaylistSongCross> crosses = new ArrayList<>();
+
+                for (BaseItemDto itemDto : result.getItems()) {
+                    crosses.add(new PlaylistSongCross(playlistId, itemDto.getId()));
                 }
 
                 callback.onLoadMedia(crosses);

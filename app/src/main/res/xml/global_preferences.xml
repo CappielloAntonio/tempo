@@ -40,6 +40,11 @@
             android:key="@string/genres_music_cross_sync"
             android:summary="@string/genres_music_cross_sync_caption" />
 
+        <Preference
+            android:title="@string/playlist_song_cross_sync"
+            android:key="@string/playlist_song_cross_sync"
+            android:summary="@string/playlist_song_cross_sync_caption" />
+
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/about_header">

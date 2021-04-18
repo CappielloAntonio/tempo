@@ -74,11 +74,25 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         Preference cross_sync_button = findPreference(getString(R.string.genres_music_cross_sync));
         cross_sync_button.setOnPreferenceClickListener(preference -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            builder.setMessage("Sync song's genres otherwise nothing will be shown in each genre category")
-                    .setTitle("Song's genres not synchronized")
+            builder.setMessage("Force sync song's genres to display updated and correct songs in each genre category")
+                    .setTitle("Force sync song's genres")
                     .setNegativeButton(R.string.ignore, null)
                     .setPositiveButton("Sync", (dialog, id) -> {
                         Bundle bundle = SyncUtil.getSyncBundle(false, false, true, false, false, true);
+                        activity.goFromSettingsToSync(bundle);
+                    })
+                    .show();
+            return true;
+        });
+
+        Preference playlist_sync_button = findPreference(getString(R.string.playlist_song_cross_sync));
+        playlist_sync_button.setOnPreferenceClickListener(preference -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setMessage("Sync playlists' songs")
+                    .setTitle("Force sync playlist")
+                    .setNegativeButton(R.string.ignore, null)
+                    .setPositiveButton("Sync", (dialog, id) -> {
+                        Bundle bundle = SyncUtil.getSyncBundle(false, false, false, true, false, false);
                         activity.goFromSettingsToSync(bundle);
                     })
                     .show();

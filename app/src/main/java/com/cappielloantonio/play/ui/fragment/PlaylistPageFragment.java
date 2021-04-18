@@ -45,6 +45,7 @@ public class PlaylistPageFragment extends Fragment {
         playlistPageViewModel = new ViewModelProvider(requireActivity()).get(PlaylistPageViewModel.class);
 
         init();
+        initBackCover();
         initSongsView();
 
         return view;
@@ -82,7 +83,13 @@ public class PlaylistPageFragment extends Fragment {
                 bind.animToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white, null), PorterDuff.Mode.SRC_ATOP);
             }
         });
+    }
 
+    private void initBackCover() {
+        CustomGlideRequest.Builder
+                .from(requireContext(), playlistPageViewModel.getPlaylist().getPrimary(), playlistPageViewModel.getPlaylist().getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY, CustomGlideRequest.ALBUM_PIC)
+                .build()
+                .into(bind.albumBackCoverImageView);
     }
 
     private void initSongsView() {
@@ -91,6 +98,8 @@ public class PlaylistPageFragment extends Fragment {
 
         songResultSearchAdapter = new SongResultSearchAdapter(activity, requireContext(), getChildFragmentManager());
         bind.songRecyclerView.setAdapter(songResultSearchAdapter);
-        playlistPageViewModel.getPlaylistSongList().observe(requireActivity(), songs -> songResultSearchAdapter.setItems(songs));
+        playlistPageViewModel.getPlaylistSongList().observe(requireActivity(), songs -> {
+            songResultSearchAdapter.setItems(songs);
+        });
     }
 }

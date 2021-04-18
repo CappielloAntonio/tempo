@@ -103,7 +103,7 @@ public class HomeFragment extends Fragment {
     private void initDiscoverSongSlideView() {
         bind.discoverSongViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
-        discoverSongAdapter = new DiscoverSongAdapter(requireContext(), homeViewModel.getDiscoverSongList());
+        discoverSongAdapter = new DiscoverSongAdapter(activity, requireContext(), homeViewModel.getDiscoverSongList());
         bind.discoverSongViewPager.setAdapter(discoverSongAdapter);
         bind.discoverSongViewPager.setOffscreenPageLimit(3);
         setDiscoverSongSlideViewOffset(20, 16);

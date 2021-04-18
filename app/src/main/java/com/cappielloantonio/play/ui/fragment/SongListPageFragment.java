@@ -87,6 +87,11 @@ public class SongListPageFragment extends Fragment {
             songListPageViewModel.title = Song.IS_FAVORITE;
             bind.pageTitleLabel.setText("Favourite song");
         }
+        else if(getArguments().getString(Song.RADIO) != null) {
+            songListPageViewModel.title = Song.IS_FAVORITE;
+            songListPageViewModel.year = getArguments().getInt("radio_object");
+            bind.pageTitleLabel.setText("Radio");
+        }
     }
 
     private void initSongListView() {

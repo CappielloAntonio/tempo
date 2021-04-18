@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,14 +9,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.helper.MusicPlayerRemote;
+import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.util.SyncUtil;
+import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapter.ViewHolder> {
@@ -24,8 +33,10 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
     private List<Song> songs;
     private LayoutInflater inflater;
     private Context context;
+    private MainActivity activity;
 
-    public DiscoverSongAdapter(Context context, List<Song> songs) {
+    public DiscoverSongAdapter(MainActivity activity, Context context, List<Song> songs) {
+        this.activity = activity;
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.songs = songs;
@@ -72,7 +83,27 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(context, "Ongoing development", Toast.LENGTH_SHORT).show();
+            SyncUtil.getInstantMix(context, new MediaCallback() {
+
+                @Override
+                public void onError(Exception exception) {
+                    Log.e(TAG, "onError: " + exception.getMessage());
+                }
+
+                @Override
+                public void onLoadMedia(List<?> media) {
+                    QueueRepository queueRepository = new QueueRepository(App.getInstance());
+                    queueRepository.insertAllAndStartNew((ArrayList<Song>) media);
+
+                    activity.isBottomSheetInPeek(true);
+                    activity.setBottomSheetMusicInfo(((ArrayList<Song>) media).get(0));
+
+                    PlayerBottomSheetViewModel playerBottomSheetViewModel = new ViewModelProvider(activity).get(PlayerBottomSheetViewModel.class);
+                    playerBottomSheetViewModel.setNowPlayingSong(((ArrayList<Song>) media).get(0));
+
+                    MusicPlayerRemote.openQueue((ArrayList<Song>) media, 0, true);
+                }
+            }, SyncUtil.SONG, songs.get(getBindingAdapterPosition()).getId(), 50);
         }
     }
 

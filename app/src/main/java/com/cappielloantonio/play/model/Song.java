@@ -48,6 +48,9 @@ public class Song implements Parcelable {
     @Ignore
     public static final String IS_FAVORITE = "IS_FAVORITE";
 
+    @Ignore
+    public static final String RADIO = "RADIO";
+
     /*
      * TODO: Da capire chi tra albumArtist e artistItems sono i compositori e suonatori dell'album, oppure le comparse
      * In teoria AlbumArtist sono i creatori, mentre ArtistItems le comparse

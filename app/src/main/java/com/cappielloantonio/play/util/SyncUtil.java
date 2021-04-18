@@ -2,7 +2,6 @@ package com.cappielloantonio.play.util;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.MediaCallback;
@@ -16,12 +15,14 @@ import com.cappielloantonio.play.model.SongGenreCross;
 
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
+import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemsByNameQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
 import org.jellyfin.apiclient.model.playlists.PlaylistItemQuery;
+import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +31,10 @@ import java.util.Map;
 
 public class SyncUtil {
     private static final String TAG = "SyncUtil";
+
+    public static final String SONG = "song";
+    public static final String ALBUM = "album";
+    public static final String ARTIST = "artist";
 
     public static void getLibraries(Context context, MediaCallback callback) {
         String id = App.getApiClientInstance(context).getCurrentUserId();
@@ -216,7 +221,6 @@ public class SyncUtil {
         query.setId(playlistId);
         query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
         query.setFields(new ItemFields[]{ItemFields.MediaSources});
-        query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
 
 
         App.getApiClientInstance(context).GetPlaylistItems(query, new Response<ItemsResult>() {
@@ -229,6 +233,41 @@ public class SyncUtil {
                 }
 
                 callback.onLoadMedia(crosses);
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                callback.onError(exception);
+            }
+        });
+    }
+
+    public static void getInstantMix(Context context, MediaCallback callback, String resultType, String itemID, int limit) {
+        SimilarItemsQuery query = new SimilarItemsQuery();
+
+        query.setId(itemID);
+        query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
+        query.setFields(new ItemFields[]{ItemFields.MediaSources});
+        query.setLimit(limit);
+
+        App.getApiClientInstance(context).GetInstantMixFromItem(query, new Response<ItemsResult>() {
+            @Override
+            public void onResponse(ItemsResult result) {
+                List<Object> items = new ArrayList<>();
+
+                for (BaseItemDto itemDto : result.getItems()) {
+                    if (resultType.equals(ARTIST) && itemDto.getBaseItemType() == BaseItemType.MusicArtist) {
+                        items.add(new Artist(itemDto));
+                    }
+                    else if (resultType.equals(ALBUM) && itemDto.getBaseItemType() == BaseItemType.MusicAlbum) {
+                        items.add(new Album(itemDto));
+                    }
+                    else if (resultType.equals(SONG) && itemDto.getBaseItemType() == BaseItemType.Audio) {
+                        items.add(new Song(itemDto));
+                    }
+                }
+
+                callback.onLoadMedia(items);
             }
 
             @Override

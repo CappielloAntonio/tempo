@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.ui.fragment.bottomsheetdialog;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +14,24 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.helper.MusicPlayerRemote;
+import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.PlaylistSongCross;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.util.SyncUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 import com.cappielloantonio.play.viewmodel.SongBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class SongBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
@@ -83,7 +91,29 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
         playRadio = view.findViewById(R.id.play_radio_text_view);
         playRadio.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Play radio", Toast.LENGTH_SHORT).show();
+            SyncUtil.getInstantMix(requireContext(), new MediaCallback() {
+                MainActivity activity = (MainActivity) requireActivity();
+
+                @Override
+                public void onError(Exception exception) {
+                    Log.e(TAG, "onError: " + exception.getMessage());
+                }
+
+                @Override
+                public void onLoadMedia(List<?> media) {
+                    QueueRepository queueRepository = new QueueRepository(App.getInstance());
+                    queueRepository.insertAllAndStartNew((ArrayList<Song>) media);
+
+                    activity.isBottomSheetInPeek(true);
+                    activity.setBottomSheetMusicInfo(((ArrayList<Song>) media).get(0));
+
+                    PlayerBottomSheetViewModel playerBottomSheetViewModel = new ViewModelProvider(activity).get(PlayerBottomSheetViewModel.class);
+                    playerBottomSheetViewModel.setNowPlayingSong(((ArrayList<Song>) media).get(0));
+
+                    MusicPlayerRemote.openQueue((ArrayList<Song>) media, 0, true);
+                }
+            }, SyncUtil.SONG, song.getId(), 50);
+
             dismissBottomSheet();
         });
 

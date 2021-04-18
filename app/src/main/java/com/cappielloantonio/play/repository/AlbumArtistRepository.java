@@ -11,6 +11,7 @@ import com.cappielloantonio.play.database.dao.SongArtistCrossDao;
 import com.cappielloantonio.play.model.AlbumArtistCross;
 import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.SongArtistCross;
 import com.cappielloantonio.play.util.QueueUtil;
 
 import java.util.ArrayList;
@@ -27,9 +28,17 @@ public class AlbumArtistRepository {
     }
 
     public void insertAll(List<AlbumArtistCross> crosses) {
-        InsertAllThreadSafe insertAll = new InsertAllThreadSafe(albumArtistCrossDao, crosses);
-        Thread thread = new Thread(insertAll);
-        thread.start();
+        try {
+            final Thread delete = new Thread(new DeleteAllAlbumArtistCrossThreadSafe(albumArtistCrossDao));
+            final Thread insertAll = new Thread(new InsertAllThreadSafe(albumArtistCrossDao, crosses));
+
+            delete.start();
+            delete.join();
+            insertAll.start();
+            insertAll.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private static class InsertAllThreadSafe implements Runnable {

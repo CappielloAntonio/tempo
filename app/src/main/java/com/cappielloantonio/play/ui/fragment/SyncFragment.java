@@ -271,8 +271,6 @@ public class SyncFragment extends Fragment {
      * Sincronizzazzione dell'album con gli artisti che hanno collaborato per la sua produzione | isProduced = false
      */
     private void syncAlbumArtistCross(ArrayList<Album> albums) {
-        albumArtistRepository.deleteAll();
-
         List<AlbumArtistCross> crosses = new ArrayList<>();
 
         for(Album album: albums) {
@@ -298,8 +296,6 @@ public class SyncFragment extends Fragment {
     }
 
     private void syncSongArtistCross(ArrayList<Song> songs) {
-        songArtistRepository.deleteAll();
-
         List<SongArtistCross> crosses = new ArrayList<>();
 
         for(Song song: songs) {

@@ -21,13 +21,7 @@ public interface QueueDao {
     List<Song> getAllSimple();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Queue songQueueObject);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<Queue> songQueueObject);
-
-    @Delete
-    void delete(Queue songQueueObject);
 
     @Query("DELETE FROM queue WHERE queue.track_order = :position")
     void deleteByPosition(int position);

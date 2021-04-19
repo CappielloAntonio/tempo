@@ -14,10 +14,10 @@ import java.util.List;
 
 @Dao
 public interface QueueDao {
-    @Query("SELECT * FROM song JOIN queue ON song.id = queue.id")
+    @Query("SELECT song.* FROM song JOIN queue ON song.id = queue.id")
     LiveData<List<Song>> getAll();
 
-    @Query("SELECT * FROM song JOIN queue ON song.id = queue.id")
+    @Query("SELECT song.* FROM song JOIN queue ON song.id = queue.id")
     List<Song> getAllSimple();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -123,8 +123,7 @@ public class HomeFragment extends Fragment {
         bind.mostPlayedTracksRecyclerView.setAdapter(mostPlayedMusicAdapter);
         homeViewModel.getMostPlayedSongList().observe(requireActivity(), songs -> {
             if(songs.size() < 10) reorder();
-
-            bind.homeMostPlayedTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+            if(bind != null) bind.homeMostPlayedTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
             mostPlayedMusicAdapter.setItems(songs);
         });
     }
@@ -136,7 +135,7 @@ public class HomeFragment extends Fragment {
         recentlyPlayedMusicAdapter = new RecentMusicAdapter(activity, requireContext(), getChildFragmentManager());
         bind.recentlyPlayedTracksRecyclerView.setAdapter(recentlyPlayedMusicAdapter);
         homeViewModel.getRecentlyPlayedSongList().observe(requireActivity(), songs -> {
-            bind.homeRecentlyPlayedTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+            if(bind != null) bind.homeRecentlyPlayedTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
             recentlyPlayedMusicAdapter.setItems(songs);
         });
     }
@@ -162,7 +161,7 @@ public class HomeFragment extends Fragment {
         favoriteSongAdapter = new SongResultSearchAdapter(activity, requireContext(), getChildFragmentManager());
         bind.favoritesTracksRecyclerView.setAdapter(favoriteSongAdapter);
         homeViewModel.getFavorites().observe(requireActivity(), songs -> {
-            bind.homeFavoriteTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+            if(bind != null) bind.homeFavoriteTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
             favoriteSongAdapter.setItems(songs);
         });
 
@@ -202,12 +201,14 @@ public class HomeFragment extends Fragment {
      * - Discovery - Recently_added - Year - Favorite - Most_played - Last_played
      */
     public void reorder() {
-        bind.homeLinearLayoutContainer.removeAllViews();
-        bind.homeLinearLayoutContainer.addView(bind.homeDiscoverSector);
-        bind.homeLinearLayoutContainer.addView(bind.homeRecentlyAddedTracksSector);
-        bind.homeLinearLayoutContainer.addView(bind.homeFlashbackSector);
-        bind.homeLinearLayoutContainer.addView(bind.homeFavoriteTracksSector);
-        bind.homeLinearLayoutContainer.addView(bind.homeMostPlayedTracksSector);
-        bind.homeLinearLayoutContainer.addView(bind.homeRecentlyPlayedTracksSector);
+        if(bind != null) {
+            bind.homeLinearLayoutContainer.removeAllViews();
+            bind.homeLinearLayoutContainer.addView(bind.homeDiscoverSector);
+            bind.homeLinearLayoutContainer.addView(bind.homeRecentlyAddedTracksSector);
+            bind.homeLinearLayoutContainer.addView(bind.homeFlashbackSector);
+            bind.homeLinearLayoutContainer.addView(bind.homeFavoriteTracksSector);
+            bind.homeLinearLayoutContainer.addView(bind.homeMostPlayedTracksSector);
+            bind.homeLinearLayoutContainer.addView(bind.homeRecentlyPlayedTracksSector);
+        }
     }
 }

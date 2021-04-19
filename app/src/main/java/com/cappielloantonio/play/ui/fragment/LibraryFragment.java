@@ -122,7 +122,7 @@ public class LibraryFragment extends Fragment {
         playlistAdapter = new PlaylistAdapter(requireContext());
         bind.playlistRecyclerView.setAdapter(playlistAdapter);
         libraryViewModel.getPlaylistList().observe(requireActivity(), playlists -> {
-            bind.libraryPlaylistSector.setVisibility(playlists.size() > 0 ? View.VISIBLE : View.GONE);
+            if(bind != null) bind.libraryPlaylistSector.setVisibility(playlists.size() > 0 ? View.VISIBLE : View.GONE);
             playlistAdapter.setItems(playlists);
         });
     }

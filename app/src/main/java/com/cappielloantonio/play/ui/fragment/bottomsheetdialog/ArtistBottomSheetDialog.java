@@ -90,9 +90,6 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
                     activity.isBottomSheetInPeek(true);
                     activity.setBottomSheetMusicInfo(mix.get(0));
 
-                    PlayerBottomSheetViewModel playerBottomSheetViewModel = new ViewModelProvider(activity).get(PlayerBottomSheetViewModel.class);
-                    playerBottomSheetViewModel.setNowPlayingSong(mix.get(0));
-
                     MusicPlayerRemote.openQueue(mix, 0, true);
                 }
             }, SyncUtil.SONG, artist.getId(), PreferenceUtil.getInstance(requireContext()).getInstantMixSongNumber());

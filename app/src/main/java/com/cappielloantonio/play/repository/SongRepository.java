@@ -235,7 +235,6 @@ public class SongRepository {
     }
 
     public void increasePlayCount(Song song) {
-        Log.i(TAG, "increasePlayCount: " + song.getId());
         boolean isIncreased = song.nowPlaying();
 
         if(isIncreased) {

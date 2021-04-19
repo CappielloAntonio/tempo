@@ -27,8 +27,6 @@ public class LibraryViewModel extends AndroidViewModel {
     private LiveData<List<Album>> sampleAlbum;
     private LiveData<List<Artist>> sampleArtist;
     private LiveData<List<Genre>> sampleGenres;
-
-    private LiveData<List<Genre>> allGenres;
     private LiveData<List<Playlist>> allPlaylist;
 
     public LibraryViewModel(@NonNull Application application) {
@@ -44,15 +42,11 @@ public class LibraryViewModel extends AndroidViewModel {
         sampleAlbum = albumRepository.getListLiveSampleAlbum();
         sampleArtist = artistRepository.getListLiveSampleArtist();
         sampleGenres = genreRepository.getListLiveSampleGenre();
+        allPlaylist = playlistRepository.getListLivePlaylists();
     }
 
     public LiveData<List<Playlist>> getPlaylistList() {
-        allPlaylist = playlistRepository.getListLivePlaylists();
         return allPlaylist;
-    }
-
-    public List<Genre> getGenreList() {
-        return genreRepository.getListGenre();
     }
 
     public LiveData<List<Album>> getAlbumSample() {

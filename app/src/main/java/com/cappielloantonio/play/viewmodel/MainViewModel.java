@@ -24,8 +24,4 @@ public class MainViewModel extends AndroidViewModel {
 
         return true;
     }
-
-    public void deleteQueue(){
-        queueRepository.deleteAll();
-    }
 }

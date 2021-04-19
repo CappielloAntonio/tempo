@@ -262,8 +262,6 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     private void setSongInfo(Song song) {
-        playerBottomSheetViewModel.setNowPlayingSong(song);
-
         bind.playerBodyLayout.playerSongTitleLabel.setText(song.getTitle());
         bind.playerBodyLayout.playerArtistNameLabel.setText(song.getArtistName());
 

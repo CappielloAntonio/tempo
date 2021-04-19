@@ -27,6 +27,15 @@
             app:key="filtersPref"
             app:title="@string/save_filters"
             app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="10"
+            app:dialogTitle="@string/instant_mix_song_number"
+            app:entries="@array/instant_mix_song_number_titles"
+            app:entryValues="@array/instant_mix_song_number_values"
+            app:key="instant_mix_song_number"
+            app:title="@string/instant_mix_song_number"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/sync_header">

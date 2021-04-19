@@ -21,6 +21,7 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.util.SyncUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 
@@ -103,7 +104,7 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
 
                     MusicPlayerRemote.openQueue(mix, 0, true);
                 }
-            }, SyncUtil.SONG, songs.get(getBindingAdapterPosition()).getId(), 50);
+            }, SyncUtil.SONG, songs.get(getBindingAdapterPosition()).getId(), PreferenceUtil.getInstance(context).getInstantMixSongNumber());
         }
     }
 

@@ -19,17 +19,15 @@ public class PreferenceUtil {
     public static final String TOKEN = "token";
     public static final String MUSIC_LIBRARY_ID = "music_library_id";
 
-    public static final String SHUFFLE = "shuffle";
-    public static final String REPEAT = "repeat";
     public static final String POSITION = "position";
     public static final String PROGRESS = "progress";
 
     public static final String SYNC = "sync";
     public static final String SONG_GENRE_SYNC = "song_genre_sync";
 
-    public static final String HOST_URL = "host";
     public static final String IMAGE_CACHE_SIZE = "image_cache_size";
     public static final String MEDIA_CACHE_SIZE = "media_cache_size";
+    public static final String INSTANT_MIX_SONG_NUMBER = "instant_mix_song_number";
 
     public static final String TRANSCODE_CODEC = "transcode_codec";
     public static final String DIRECT_PLAY_CODECS = "direct_play_codecs";
@@ -113,12 +111,12 @@ public class PreferenceUtil {
         editor.apply();
     }
 
-    public final String getHostUrl() {
-        return mPreferences.getString(HOST_URL, "undefined");
-    }
-
     public final int getImageCacheSize() {
         return Integer.parseInt(mPreferences.getString(IMAGE_CACHE_SIZE, "400000000"));
+    }
+
+    public final int getInstantMixSongNumber() {
+        return Integer.parseInt(mPreferences.getString(INSTANT_MIX_SONG_NUMBER, "10"));
     }
 
     public final String getTranscodeCodec() {
@@ -150,33 +148,11 @@ public class PreferenceUtil {
         return directPlayCodecs;
     }
 
-    public void setDirectPlayCodecs(List<DirectPlayCodec> directPlayCodecs) {
-        Set<String> codecNames = new HashSet<>();
-        for (DirectPlayCodec directPlayCodec : directPlayCodecs) {
-            if (directPlayCodec.selected) {
-                codecNames.add(directPlayCodec.codec.toString());
-            }
-        }
-
-        final SharedPreferences.Editor editor = mPreferences.edit();
-        editor.putStringSet(DIRECT_PLAY_CODECS, codecNames);
-        editor.apply();
-    }
-
     public final int getMediaCacheSize() {
         return Integer.parseInt(mPreferences.getString(MEDIA_CACHE_SIZE, "400000000"));
     }
 
     public final boolean getAudioDucking() {
         return mPreferences.getBoolean(AUDIO_DUCKING, true);
-    }
-
-
-    public void registerOnSharedPreferenceChangedListener(SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener) {
-        mPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-    }
-
-    public void unregisterOnSharedPreferenceChangedListener(SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener) {
-        mPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     }
 }

@@ -24,6 +24,7 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.util.SyncUtil;
 import com.cappielloantonio.play.viewmodel.AlbumBottomSheetViewModel;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
@@ -105,7 +106,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
                     MusicPlayerRemote.openQueue(mix, 0, true);
                 }
-            }, SyncUtil.SONG, album.getId(), 50);
+            }, SyncUtil.SONG, album.getId(), PreferenceUtil.getInstance(requireContext()).getInstantMixSongNumber());
 
             dismissBottomSheet();
         });

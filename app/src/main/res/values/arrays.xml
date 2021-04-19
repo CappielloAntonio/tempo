@@ -38,4 +38,16 @@
         <item>yes</item>
         <item>no</item>
     </string-array>
+
+    <string-array name="instant_mix_song_number_titles">
+        <item>10</item>
+        <item>25</item>
+        <item>50</item>
+    </string-array>
+
+    <string-array name="instant_mix_song_number_values">
+        <item>10</item>
+        <item>25</item>
+        <item>50</item>
+    </string-array>
 </resources>

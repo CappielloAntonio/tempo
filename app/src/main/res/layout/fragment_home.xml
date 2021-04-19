@@ -42,6 +42,7 @@
 
         <!--  Recently added tracks -->
         <LinearLayout
+            android:id="@+id/home_recently_added_tracks_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -98,6 +99,7 @@
 
         <!-- Fashback -->
         <LinearLayout
+            android:id="@+id/home_flashback_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -130,6 +132,7 @@
 
         <!-- Favorites -->
         <LinearLayout
+            android:id="@+id/home_favorite_tracks_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -184,6 +187,7 @@
 
         <!--  Most played tracks -->
         <LinearLayout
+            android:id="@+id/home_most_played_tracks_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -240,6 +244,7 @@
 
         <!--  Recently played tracks -->
         <LinearLayout
+            android:id="@+id/home_recently_played_tracks_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">

@@ -201,6 +201,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/library_playlist_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

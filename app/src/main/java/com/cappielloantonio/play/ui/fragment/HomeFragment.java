@@ -138,7 +138,10 @@ public class HomeFragment extends Fragment {
 
         favoriteSongAdapter = new SongResultSearchAdapter(activity, requireContext(), getChildFragmentManager());
         bind.favoritesTracksRecyclerView.setAdapter(favoriteSongAdapter);
-        homeViewModel.getFavorites().observe(requireActivity(), songs -> favoriteSongAdapter.setItems(songs));
+        homeViewModel.getFavorites().observe(requireActivity(), songs -> {
+            bind.homeFavoriteTracksSector.setVisibility(songs.size() > 0 ? View.VISIBLE : View.GONE);
+            favoriteSongAdapter.setItems(songs);
+        });
 
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         pagerSnapHelper.attachToRecyclerView(bind.favoritesTracksRecyclerView);
@@ -150,7 +153,10 @@ public class HomeFragment extends Fragment {
 
         mostPlayedMusicAdapter = new RecentMusicAdapter(activity, requireContext(), getChildFragmentManager());
         bind.mostPlayedTracksRecyclerView.setAdapter(mostPlayedMusicAdapter);
-        homeViewModel.getMostPlayedSongList().observe(requireActivity(), songs -> mostPlayedMusicAdapter.setItems(songs));
+        homeViewModel.getMostPlayedSongList().observe(requireActivity(), songs -> {
+            bind.homeMostPlayedTracksSector.setVisibility(songs.size() > 0 ? View.VISIBLE : View.GONE);
+            mostPlayedMusicAdapter.setItems(songs);
+        });
     }
 
     private void initRecentPlayedSongView() {
@@ -159,7 +165,10 @@ public class HomeFragment extends Fragment {
 
         recentlyPlayedMusicAdapter = new RecentMusicAdapter(activity, requireContext(), getChildFragmentManager());
         bind.recentlyPlayedTracksRecyclerView.setAdapter(recentlyPlayedMusicAdapter);
-        homeViewModel.getRecentlyPlayedSongList().observe(requireActivity(), songs -> recentlyPlayedMusicAdapter.setItems(songs));
+        homeViewModel.getRecentlyPlayedSongList().observe(requireActivity(), songs -> {
+            bind.homeRecentlyPlayedTracksSector.setVisibility(songs.size() > 0 ? View.VISIBLE : View.GONE);
+            recentlyPlayedMusicAdapter.setItems(songs);
+        });
     }
 
     private void setDiscoverSongSlideViewOffset(float pageOffset, float pageMargin) {

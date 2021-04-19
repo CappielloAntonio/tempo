@@ -30,8 +30,6 @@ public class PlaylistPageViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Song>> getPlaylistSongList() {
-        // Prendere le canzoni di ciascuna playlist
-        Log.i(TAG, "getPlaylistSongList: " + playlist.getId());
         songList = songRepository.getPlaylistLiveSong(playlist.getId());
         return songList;
     }

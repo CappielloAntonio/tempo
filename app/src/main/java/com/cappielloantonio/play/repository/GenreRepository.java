@@ -52,54 +52,6 @@ public class GenreRepository {
         return list;
     }
 
-    public boolean exist(Genre genre) {
-        boolean exist = false;
-
-        ExistThreadSafe existThread = new ExistThreadSafe(genreDao, genre);
-        Thread thread = new Thread(existThread);
-        thread.start();
-
-        try {
-            thread.join();
-            exist = existThread.exist();
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return exist;
-    }
-
-    public void insert(Genre genre) {
-        InsertThreadSafe insert = new InsertThreadSafe(genreDao, genre);
-        Thread thread = new Thread(insert);
-        thread.start();
-    }
-
-    public void insertAll(ArrayList<Genre> genres) {
-        InsertAllThreadSafe insertAll = new InsertAllThreadSafe(genreDao, genres);
-        Thread thread = new Thread(insertAll);
-        thread.start();
-    }
-
-    public void delete(Genre genre) {
-        DeleteThreadSafe delete = new DeleteThreadSafe(genreDao, genre);
-        Thread thread = new Thread(delete);
-        thread.start();
-    }
-
-    public void deleteAll() {
-        DeleteAllGenreThreadSafe delete = new DeleteAllGenreThreadSafe(genreDao);
-        Thread thread = new Thread(delete);
-        thread.start();
-    }
-
-    public void deleteAllSongGenreCross() {
-        DeleteAllSongGenreCrossThreadSafe delete = new DeleteAllSongGenreCrossThreadSafe(songGenreCrossDao);
-        Thread thread = new Thread(delete);
-        thread.start();
-    }
-
     private static class GetGenreListThreadSafe implements Runnable {
         private GenreDao genreDao;
         private List<Genre> list = null;
@@ -118,39 +70,10 @@ public class GenreRepository {
         }
     }
 
-    private static class ExistThreadSafe implements Runnable {
-        private GenreDao genreDao;
-        private Genre genre;
-        private boolean exist = false;
-
-        public ExistThreadSafe(GenreDao genreDao, Genre genre) {
-            this.genreDao = genreDao;
-            this.genre = genre;
-        }
-
-        @Override
-        public void run() {
-            exist = genreDao.exist(genre.getId());
-        }
-
-        public boolean exist() {
-            return exist;
-        }
-    }
-
-    private static class InsertThreadSafe implements Runnable {
-        private GenreDao genreDao;
-        private Genre genre;
-
-        public InsertThreadSafe(GenreDao genreDao, Genre genre) {
-            this.genreDao = genreDao;
-            this.genre = genre;
-        }
-
-        @Override
-        public void run() {
-            genreDao.insert(genre);
-        }
+    public void insertAll(ArrayList<Genre> genres) {
+        InsertAllThreadSafe insertAll = new InsertAllThreadSafe(genreDao, genres);
+        Thread thread = new Thread(insertAll);
+        thread.start();
     }
 
     private static class InsertAllThreadSafe implements Runnable {
@@ -169,19 +92,10 @@ public class GenreRepository {
         }
     }
 
-    private static class DeleteThreadSafe implements Runnable {
-        private GenreDao genreDao;
-        private Genre genre;
-
-        public DeleteThreadSafe(GenreDao genreDao, Genre genre) {
-            this.genreDao = genreDao;
-            this.genre = genre;
-        }
-
-        @Override
-        public void run() {
-            genreDao.delete(genre);
-        }
+    public void deleteAll() {
+        DeleteAllGenreThreadSafe delete = new DeleteAllGenreThreadSafe(genreDao);
+        Thread thread = new Thread(delete);
+        thread.start();
     }
 
     private static class DeleteAllGenreThreadSafe implements Runnable {
@@ -194,19 +108,6 @@ public class GenreRepository {
         @Override
         public void run() {
             genreDao.deleteAll();
-        }
-    }
-
-    private static class DeleteAllSongGenreCrossThreadSafe implements Runnable {
-        private SongGenreCrossDao songGenreCrossDao;
-
-        public DeleteAllSongGenreCrossThreadSafe(SongGenreCrossDao songGenreCrossDao) {
-            this.songGenreCrossDao = songGenreCrossDao;
-        }
-
-        @Override
-        public void run() {
-            songGenreCrossDao.deleteAll();
         }
     }
 }

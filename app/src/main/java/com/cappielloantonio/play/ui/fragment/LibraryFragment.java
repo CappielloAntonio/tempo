@@ -47,13 +47,19 @@ public class LibraryFragment extends Fragment {
         libraryViewModel = new ViewModelProvider(requireActivity()).get(LibraryViewModel.class);
 
         init();
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         initAlbumView();
         initArtistView();
         initGenreView();
         initPlaylistView();
         initCatalogueSyncCheck();
-
-        return view;
     }
 
     @Override
@@ -104,7 +110,9 @@ public class LibraryFragment extends Fragment {
             activity.navController.navigate(R.id.action_libraryFragment_to_songListPageFragment, bundle);
         });
         bind.genreRecyclerView.setAdapter(genreAdapter);
-        libraryViewModel.getGenreSample().observe(requireActivity(), genres -> genreAdapter.setItems(genres));
+        libraryViewModel.getGenreSample().observe(requireActivity(), genres -> {
+            genreAdapter.setItems(genres);
+        });
     }
 
     private void initPlaylistView() {

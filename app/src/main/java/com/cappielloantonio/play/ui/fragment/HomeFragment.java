@@ -51,14 +51,20 @@ public class HomeFragment extends Fragment {
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
         init();
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         initDiscoverSongSlideView();
         initMostPlayedSongView();
         initRecentPlayedSongView();
         initFavoritesSongView();
         initYearSongView();
         initRecentAddedSongView();
-
-        return view;
     }
 
     @Override
@@ -116,7 +122,7 @@ public class HomeFragment extends Fragment {
         mostPlayedMusicAdapter = new RecentMusicAdapter(activity, requireContext(), getChildFragmentManager());
         bind.mostPlayedTracksRecyclerView.setAdapter(mostPlayedMusicAdapter);
         homeViewModel.getMostPlayedSongList().observe(requireActivity(), songs -> {
-            if(songs.isEmpty()) reorder();
+            if(songs.size() < 10) reorder();
 
             bind.homeMostPlayedTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
             mostPlayedMusicAdapter.setItems(songs);

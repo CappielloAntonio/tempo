@@ -16,7 +16,6 @@ public interface AlbumDao {
     @Query("SELECT * FROM album")
     LiveData<List<Album>> getAll();
 
-    // @Query("SELECT * FROM album WHERE artistId = :artistId;")
     @Query("SELECT album.* FROM album INNER JOIN album_artist_cross ON album.id = album_artist_cross.album_id AND album_artist_cross.artist_id = :artistId")
     LiveData<List<Album>> getArtistAlbums(String artistId);
 
@@ -26,17 +25,11 @@ public interface AlbumDao {
     @Query("SELECT * FROM album WHERE title LIKE '%' || :name || '%'")
     LiveData<List<Album>> searchAlbum(String name);
 
-    @Query("SELECT EXISTS(SELECT * FROM album WHERE id = :id)")
-    boolean exist(String id);
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Album album);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<Album> albums);
-
-    @Delete
-    void delete(Album album);
 
     @Query("SELECT title FROM album WHERE title LIKE :query || '%' OR title like '% ' || :query || '%' GROUP BY title LIMIT :number")
     List<String> searchSuggestions(String query, int number);

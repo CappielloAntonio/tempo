@@ -78,7 +78,7 @@ dependencies {
     implementation "com.github.woltapp:blurhash:f41a23cc50"
 
     // Exoplayer
-    implementation 'com.google.android.exoplayer:exoplayer:2.13.3'
+    implementation 'com.google.android.exoplayer:exoplayer:2.12.2'
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     annotationProcessor "androidx.room:room-compiler:2.2.6"

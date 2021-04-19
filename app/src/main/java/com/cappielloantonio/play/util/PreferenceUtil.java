@@ -111,6 +111,26 @@ public class PreferenceUtil {
         editor.apply();
     }
 
+    public int getPosition() {
+        return mPreferences.getInt(POSITION, -1);
+    }
+
+    public void setPosition(int position) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putInt(POSITION, position);
+        editor.apply();
+    }
+
+    public int getProgress() {
+        return mPreferences.getInt(PROGRESS, -1);
+    }
+
+    public void setProgress(int progress) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putInt(PROGRESS, progress);
+        editor.apply();
+    }
+
     public final int getImageCacheSize() {
         return Integer.parseInt(mPreferences.getString(IMAGE_CACHE_SIZE, "400000000"));
     }

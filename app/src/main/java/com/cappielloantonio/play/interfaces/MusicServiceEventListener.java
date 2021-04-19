@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.interfaces;
 
 public interface MusicServiceEventListener {
+
     void onServiceConnected();
 
     void onServiceDisconnected();

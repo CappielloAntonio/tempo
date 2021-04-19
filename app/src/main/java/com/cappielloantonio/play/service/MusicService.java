@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.Preference;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
@@ -331,11 +332,11 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     }
 
     private void savePosition() {
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putInt(PreferenceUtil.POSITION, getPosition()).apply();
+        PreferenceUtil.getInstance(getApplicationContext()).setPosition(getPosition());
     }
 
     private void saveProgress() {
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putInt(PreferenceUtil.PROGRESS, getSongProgressMillis()).apply();
+        PreferenceUtil.getInstance(getApplicationContext()).setProgress(getSongProgressMillis());
     }
 
     private void restoreState() {
@@ -348,8 +349,8 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
             QueueRepository queueRepository = new QueueRepository(App.getInstance());
             List<Song> restoredQueue = queueRepository.getSongs();
 
-            int restoredPosition = PreferenceManager.getDefaultSharedPreferences(this).getInt(PreferenceUtil.POSITION, -1);
-            int restoredPositionInTrack = PreferenceManager.getDefaultSharedPreferences(this).getInt(PreferenceUtil.PROGRESS, -1);
+            int restoredPosition = PreferenceUtil.getInstance(getApplicationContext()).getPosition();
+            int restoredPositionInTrack = PreferenceUtil.getInstance(getApplicationContext()).getProgress();
 
             if (restoredQueue.size() > 0 && restoredPosition != -1) {
                 this.playingQueue = restoredQueue;

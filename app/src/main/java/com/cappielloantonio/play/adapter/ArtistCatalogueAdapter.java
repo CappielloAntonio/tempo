@@ -19,8 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ArtistCatalogueAdapter extends
-        RecyclerView.Adapter<ArtistCatalogueAdapter.ViewHolder> {
+public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogueAdapter.ViewHolder> {
     private static final String TAG = "ArtistCatalogueAdapter";
 
     private List<Artist> artists;

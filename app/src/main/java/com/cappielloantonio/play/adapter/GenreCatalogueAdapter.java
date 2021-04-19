@@ -28,7 +28,6 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
         this.genres = new ArrayList<>();
     }
 
-    // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.item_library_catalogue_genre, parent, false);

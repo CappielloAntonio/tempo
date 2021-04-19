@@ -30,12 +30,6 @@ public class RecentSearchRepository {
         thread.start();
     }
 
-    public void deleteAll() {
-        DeleteAllThreadSafe delete = new DeleteAllThreadSafe(recentSearchDao);
-        Thread thread = new Thread(delete);
-        thread.start();
-    }
-
     private static class InsertThreadSafe implements Runnable {
         private RecentSearchDao recentSearchDao;
         private RecentSearch recentSearch;
@@ -51,6 +45,11 @@ public class RecentSearchRepository {
         }
     }
 
+    public void deleteAll() {
+        DeleteAllThreadSafe delete = new DeleteAllThreadSafe(recentSearchDao);
+        Thread thread = new Thread(delete);
+        thread.start();
+    }
 
     private static class DeleteAllThreadSafe implements Runnable {
         private RecentSearchDao recentSearchDao;

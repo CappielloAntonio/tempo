@@ -89,7 +89,16 @@ public interface SongDao {
     void deleteAll();
 
     @Update
-    public void update(Song song);
+    void update(Song song);
+
+    @Query("UPDATE song SET play_count = :playCount AND last_play = :lastPlay WHERE id = :id")
+    void updatePlayCount(String id, int playCount, long lastPlay);
+
+    @Query("UPDATE song SET favorite = :isFavorite WHERE id = :id")
+    void updateFavorite(String id, boolean isFavorite);
+
+    @Query("SELECT * FROM song WHERE id IN (:ids)")
+    List<Song> getSongsByID(List<String> ids);
 
     @Query("SELECT * FROM song ORDER BY RANDOM() LIMIT :number")
     List<Song> random(int number);

@@ -230,13 +230,6 @@ public class Song implements Parcelable {
         this.lastPlay = 0;
     }
 
-    @Ignore
-    public Song(String title, String albumName) {
-        this.id = UUID.randomUUID().toString();
-        this.title = title;
-        this.albumName = albumName;
-    }
-
     @NonNull
     public String getId() {
         return id;

@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.QueueDao;
+import com.cappielloantonio.play.database.dao.SongDao;
 import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.util.QueueUtil;
@@ -17,11 +18,13 @@ import java.util.List;
 public class QueueRepository {
     private static final String TAG = "QueueRepository";
 
+    private SongDao songDao;
     private QueueDao queueDao;
     private LiveData<List<Song>> listLiveQueue;
 
     public QueueRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
+        songDao = database.songDao();
         queueDao = database.queueDao();
     }
 
@@ -57,6 +60,26 @@ public class QueueRepository {
         InsertAllThreadSafe insertAll = new InsertAllThreadSafe(queueDao, songs);
         Thread thread = new Thread(insertAll);
         thread.start();
+    }
+
+    public List<Song> insertMix(ArrayList<Song> media) {
+        List<String> IDs = QueueUtil.getIDsFromSongs(media);
+        List<Song> mix = new ArrayList<>();
+
+        GetSongsByIDThreadSafe getSongsByIDThreadSafe = new GetSongsByIDThreadSafe(songDao, IDs);
+        Thread thread = new Thread(getSongsByIDThreadSafe);
+        thread.start();
+
+        try {
+            thread.join();
+            mix = QueueUtil.orderSongByIdList(IDs, getSongsByIDThreadSafe.getSongs());
+
+            insertAllAndStartNew(mix);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return mix;
     }
 
     public void insertAllAndStartNew(List<Song> songs) {
@@ -212,6 +235,26 @@ public class QueueRepository {
         @Override
         public void run() {
             songs = queueDao.getAllSimple();
+        }
+
+        public List<Song> getSongs() {
+            return songs;
+        }
+    }
+
+    private static class GetSongsByIDThreadSafe implements Runnable {
+        private SongDao songDao;
+        private List<String> IDs;
+        private List<Song> songs;
+
+        public GetSongsByIDThreadSafe(SongDao songDao, List<String> IDs) {
+            this.songDao = songDao;
+            this.IDs = IDs;
+        }
+
+        @Override
+        public void run() {
+            songs = songDao.getSongsByID(IDs);
         }
 
         public List<Song> getSongs() {

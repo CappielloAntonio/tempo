@@ -84,15 +84,15 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
                 @Override
                 public void onLoadMedia(List<?> media) {
                     QueueRepository queueRepository = new QueueRepository(App.getInstance());
-                    queueRepository.insertAllAndStartNew((ArrayList<Song>) media);
+                    List<Song> mix = queueRepository.insertMix((ArrayList<Song>) media);
 
                     activity.isBottomSheetInPeek(true);
-                    activity.setBottomSheetMusicInfo(((ArrayList<Song>) media).get(0));
+                    activity.setBottomSheetMusicInfo(mix.get(0));
 
                     PlayerBottomSheetViewModel playerBottomSheetViewModel = new ViewModelProvider(activity).get(PlayerBottomSheetViewModel.class);
-                    playerBottomSheetViewModel.setNowPlayingSong(((ArrayList<Song>) media).get(0));
+                    playerBottomSheetViewModel.setNowPlayingSong(mix.get(0));
 
-                    MusicPlayerRemote.openQueue((ArrayList<Song>) media, 0, true);
+                    MusicPlayerRemote.openQueue(mix, 0, true);
                 }
             }, SyncUtil.SONG, artist.getId(), 50);
 

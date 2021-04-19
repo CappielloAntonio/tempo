@@ -46,11 +46,6 @@ public class SongRepository {
         return searchListLiveSongs;
     }
 
-    public LiveData<Song> getLiveDataSong(String id) {
-        liveDataSong = songDao.getOne(id);
-        return liveDataSong;
-    }
-
     public LiveData<List<Song>> getListLiveRecentlyAddedSampleSong(int number) {
         listLiveSampleRecentlyAddedSongs = songDao.getRecentlyAddedSample(number);
         return listLiveSampleRecentlyAddedSongs;
@@ -240,9 +235,11 @@ public class SongRepository {
     }
 
     public void increasePlayCount(Song song) {
+        Log.i(TAG, "increasePlayCount: " + song.getId());
         boolean isIncreased = song.nowPlaying();
 
         if(isIncreased) {
+            // UpdatePlayCountThreadSafe update = new UpdatePlayCountThreadSafe(songDao, song);
             UpdateThreadSafe update = new UpdateThreadSafe(songDao, song);
             Thread thread = new Thread(update);
             thread.start();
@@ -250,6 +247,7 @@ public class SongRepository {
     }
 
     public void setFavoriteStatus(Song song) {
+        // UpdateFavoriteThreadSafe update = new UpdateFavoriteThreadSafe(songDao, song);
         UpdateThreadSafe update = new UpdateThreadSafe(songDao, song);
         Thread thread = new Thread(update);
         thread.start();
@@ -294,23 +292,6 @@ public class SongRepository {
         }
 
         return sample;
-    }
-
-    public Song getSongByID(String id) {
-        Song song = null;
-
-        GetSongByIDThreadSafe songByID = new GetSongByIDThreadSafe(songDao, id);
-        Thread thread = new Thread(songByID);
-        thread.start();
-
-        try {
-            thread.join();
-            song = songByID.getSong();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return song;
     }
 
     private static class GetSongsByAlbumIDThreadSafe implements Runnable {
@@ -436,6 +417,36 @@ public class SongRepository {
         @Override
         public void run() {
             songDao.update(song);
+        }
+    }
+
+    private static class UpdatePlayCountThreadSafe implements Runnable {
+        private SongDao songDao;
+        private Song song;
+
+        public UpdatePlayCountThreadSafe(SongDao songDao, Song song) {
+            this.songDao = songDao;
+            this.song = song;
+        }
+
+        @Override
+        public void run() {
+            songDao.updatePlayCount(song.getId(), song.getPlayCount(), song.getLastPlay());
+        }
+    }
+
+    private static class UpdateFavoriteThreadSafe implements Runnable {
+        private SongDao songDao;
+        private Song song;
+
+        public UpdateFavoriteThreadSafe(SongDao songDao, Song song) {
+            this.songDao = songDao;
+            this.song = song;
+        }
+
+        @Override
+        public void run() {
+            songDao.updateFavorite(song.getId(), song.isFavorite());
         }
     }
 
@@ -566,26 +577,6 @@ public class SongRepository {
 
         public List<Integer> getDecadeList() {
             return decades;
-        }
-    }
-
-    private static class GetSongByIDThreadSafe implements Runnable {
-        private SongDao songDao;
-        private String id;
-        private Song song;
-
-        public GetSongByIDThreadSafe(SongDao songDao, String id) {
-            this.songDao = songDao;
-            this.id = id;
-        }
-
-        @Override
-        public void run() {
-            song = songDao.getSongByID(id);
-        }
-
-        public Song getSong() {
-            return song;
         }
     }
 }

@@ -55,131 +55,6 @@ public class ArtistRepository {
         return suggestions;
     }
 
-    public boolean exist(Artist artist) {
-        boolean exist = false;
-
-        ExistThreadSafe existThread = new ExistThreadSafe(artistDao, artist);
-        Thread thread = new Thread(existThread);
-        thread.start();
-
-        try {
-            thread.join();
-            exist = existThread.exist();
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return exist;
-    }
-
-    public void insert(Artist artist) {
-        InsertThreadSafe insert = new InsertThreadSafe(artistDao, artist);
-        Thread thread = new Thread(insert);
-        thread.start();
-    }
-
-    public void insertAll(ArrayList<Artist> artists) {
-        InsertAllThreadSafe insertAll = new InsertAllThreadSafe(artistDao, artists);
-        Thread thread = new Thread(insertAll);
-        thread.start();
-    }
-
-    public void delete(Artist artist) {
-        DeleteThreadSafe delete = new DeleteThreadSafe(artistDao, artist);
-        Thread thread = new Thread(delete);
-        thread.start();
-    }
-
-    public void deleteAll() {
-        DeleteAllThreadSafe delete = new DeleteAllThreadSafe(artistDao);
-        Thread thread = new Thread(delete);
-        thread.start();
-    }
-
-    public Artist getArtistByID(String id) {
-        Artist artist = null;
-
-        GetArtistByIDThreadSafe getArtist = new GetArtistByIDThreadSafe(artistDao, id);
-        Thread thread = new Thread(getArtist);
-        thread.start();
-
-        try {
-            thread.join();
-            artist = getArtist.getArtist();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return artist;
-    }
-
-    private static class ExistThreadSafe implements Runnable {
-        private ArtistDao artistDao;
-        private Artist artist;
-        private boolean exist = false;
-
-        public ExistThreadSafe(ArtistDao artistDao, Artist artist) {
-            this.artistDao = artistDao;
-            this.artist = artist;
-        }
-
-        @Override
-        public void run() {
-            exist = artistDao.exist(artist.getId());
-        }
-
-        public boolean exist() {
-            return exist;
-        }
-    }
-
-    private static class InsertThreadSafe implements Runnable {
-        private ArtistDao artistDao;
-        private Artist artist;
-
-        public InsertThreadSafe(ArtistDao artistDao, Artist artist) {
-            this.artistDao = artistDao;
-            this.artist = artist;
-        }
-
-        @Override
-        public void run() {
-            artistDao.insert(artist);
-        }
-    }
-
-    private static class InsertAllThreadSafe implements Runnable {
-        private ArtistDao artistDao;
-        private ArrayList<Artist> artists;
-
-        public InsertAllThreadSafe(ArtistDao artistDao, ArrayList<Artist> artists) {
-            this.artistDao = artistDao;
-            this.artists = artists;
-        }
-
-        @Override
-        public void run() {
-            artistDao.deleteAll();
-            artistDao.insertAll(artists);
-        }
-    }
-
-    private static class DeleteThreadSafe implements Runnable {
-        private ArtistDao artistDao;
-        private Artist artist;
-
-        public DeleteThreadSafe(ArtistDao artistDao, Artist artist) {
-            this.artistDao = artistDao;
-            this.artist = artist;
-        }
-
-        @Override
-        public void run() {
-            artistDao.delete(artist);
-        }
-    }
-
     private static class SearchSuggestionsThreadSafe implements Runnable {
         private ArtistDao artistDao;
         private String query;
@@ -202,6 +77,34 @@ public class ArtistRepository {
         }
     }
 
+    public void insertAll(ArrayList<Artist> artists) {
+        InsertAllThreadSafe insertAll = new InsertAllThreadSafe(artistDao, artists);
+        Thread thread = new Thread(insertAll);
+        thread.start();
+    }
+
+    private static class InsertAllThreadSafe implements Runnable {
+        private ArtistDao artistDao;
+        private ArrayList<Artist> artists;
+
+        public InsertAllThreadSafe(ArtistDao artistDao, ArrayList<Artist> artists) {
+            this.artistDao = artistDao;
+            this.artists = artists;
+        }
+
+        @Override
+        public void run() {
+            artistDao.deleteAll();
+            artistDao.insertAll(artists);
+        }
+    }
+
+    public void deleteAll() {
+        DeleteAllThreadSafe delete = new DeleteAllThreadSafe(artistDao);
+        Thread thread = new Thread(delete);
+        thread.start();
+    }
+
     private static class DeleteAllThreadSafe implements Runnable {
         private ArtistDao artistDao;
 
@@ -213,6 +116,23 @@ public class ArtistRepository {
         public void run() {
             artistDao.deleteAll();
         }
+    }
+
+    public Artist getArtistByID(String id) {
+        Artist artist = null;
+
+        GetArtistByIDThreadSafe getArtist = new GetArtistByIDThreadSafe(artistDao, id);
+        Thread thread = new Thread(getArtist);
+        thread.start();
+
+        try {
+            thread.join();
+            artist = getArtist.getArtist();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return artist;
     }
 
     private static class GetArtistByIDThreadSafe implements Runnable {

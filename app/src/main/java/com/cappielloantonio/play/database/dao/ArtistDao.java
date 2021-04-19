@@ -22,17 +22,8 @@ public interface ArtistDao {
     @Query("SELECT * FROM artist WHERE name LIKE '%' || :name || '%'")
     LiveData<List<Artist>> searchArtist(String name);
 
-    @Query("SELECT EXISTS(SELECT * FROM artist WHERE id = :id)")
-    boolean exist(String id);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Artist artist);
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<Artist> artists);
-
-    @Delete
-    void delete(Artist artist);
 
     @Query("SELECT name FROM artist WHERE name LIKE :query || '%' OR name like '% ' || :query || '%' GROUP BY name LIMIT :number")
     List<String> searchSuggestions(String query, int number);

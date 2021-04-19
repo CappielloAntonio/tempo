@@ -91,6 +91,25 @@ public class AlbumRepository {
         thread.start();
     }
 
+    public void deleteAll() {
+        DeleteAllThreadSafe delete = new DeleteAllThreadSafe(albumDao);
+        Thread thread = new Thread(delete);
+        thread.start();
+    }
+
+    private static class DeleteAllThreadSafe implements Runnable {
+        private AlbumDao albumDao;
+
+        public DeleteAllThreadSafe(AlbumDao albumDao) {
+            this.albumDao = albumDao;
+        }
+
+        @Override
+        public void run() {
+            albumDao.deleteAll();
+        }
+    }
+
     public Album getAlbumByID(String id) {
         Album album = null;
 

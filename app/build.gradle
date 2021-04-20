@@ -86,4 +86,7 @@ dependencies {
 
     // Database debugger via adb
     // debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+
+    // Square - Canary
+    // debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 }

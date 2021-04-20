@@ -24,6 +24,9 @@ public interface SongDao {
     @Query("SELECT * FROM song WHERE title LIKE '%' || :title || '%'")
     LiveData<List<Song>> searchSong(String title);
 
+    @Query("SELECT * FROM song WHERE key IN (:pseudoRandomNumber)")
+    LiveData<List<Song>> getDiscoverySample(List<Integer> pseudoRandomNumber);
+
     @Query("SELECT * FROM song ORDER BY added DESC LIMIT :number")
     LiveData<List<Song>> getRecentlyAddedSample(int number);
 

@@ -21,6 +21,7 @@ public class SongRepository {
     private SongDao songDao;
     private SongGenreCrossDao songGenreCrossDao;
     private LiveData<List<Song>> searchListLiveSongs;
+    private LiveData<List<Song>> listLiveSampleDiscoverSongs;
     private LiveData<List<Song>> listLiveSampleRecentlyAddedSongs;
     private LiveData<List<Song>> listLiveSampleRecentlyPlayedSongs;
     private LiveData<List<Song>> listLiveSampleMostPlayedSongs;
@@ -42,6 +43,11 @@ public class SongRepository {
     public LiveData<List<Song>> searchListLiveSong(String title) {
         searchListLiveSongs = songDao.searchSong(title);
         return searchListLiveSongs;
+    }
+
+    public LiveData<List<Song>> getListLiveDiscoverSampleSong(List<Integer> pseudoRandomNumber) {
+        listLiveSampleDiscoverSongs = songDao.getDiscoverySample(pseudoRandomNumber);
+        return listLiveSampleDiscoverSongs;
     }
 
     public LiveData<List<Song>> getListLiveRecentlyAddedSampleSong(int number) {

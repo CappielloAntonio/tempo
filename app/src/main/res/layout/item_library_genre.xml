@@ -32,7 +32,7 @@
                 android:id="@+id/genre_label"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:fontFamily="@font/open_sans_font_family"
                 android:paddingStart="8dp"
                 android:text="@string/label_placeholder"

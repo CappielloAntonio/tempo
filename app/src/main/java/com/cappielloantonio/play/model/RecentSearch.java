@@ -8,10 +8,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "recent_search")
 public class RecentSearch {
     @NonNull
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    private int id;
-
+    @PrimaryKey
     @ColumnInfo(name = "search")
     private String search;
 
@@ -20,14 +17,6 @@ public class RecentSearch {
     }
 
     @NonNull
-    public int getId() {
-        return id;
-    }
-
-    public void setId(@NonNull int id) {
-        this.id = id;
-    }
-
     public String getSearch() {
         return search;
     }

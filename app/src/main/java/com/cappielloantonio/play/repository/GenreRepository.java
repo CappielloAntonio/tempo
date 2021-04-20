@@ -5,8 +5,10 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.database.AppDatabase;
+import com.cappielloantonio.play.database.dao.ArtistDao;
 import com.cappielloantonio.play.database.dao.GenreDao;
 import com.cappielloantonio.play.database.dao.SongGenreCrossDao;
+import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Genre;
 
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ public class GenreRepository {
     private SongGenreCrossDao songGenreCrossDao;
     private LiveData<List<Genre>> listLiveGenres;
     private LiveData<List<Genre>> listLiveAlbumGenre;
+    private LiveData<List<Genre>> searchListLiveGenre;
 
     public GenreRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
@@ -108,6 +111,50 @@ public class GenreRepository {
         @Override
         public void run() {
             genreDao.deleteAll();
+        }
+    }
+
+    public LiveData<List<Genre>> searchListLiveGenre(String name) {
+        searchListLiveGenre = genreDao.searchGenre(name);
+        return searchListLiveGenre;
+    }
+
+    public List<String> getSearchSuggestion(String query) {
+        List<String> suggestions = new ArrayList<>();
+
+        SearchSuggestionsThreadSafe suggestionsThread = new SearchSuggestionsThreadSafe(genreDao, query, 5);
+        Thread thread = new Thread(suggestionsThread);
+        thread.start();
+
+        try {
+            thread.join();
+            suggestions = suggestionsThread.getSuggestions();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return suggestions;
+    }
+
+    private static class SearchSuggestionsThreadSafe implements Runnable {
+        private GenreDao genreDao;
+        private String query;
+        private int number;
+        private List<String> suggestions = new ArrayList<>();
+
+        public SearchSuggestionsThreadSafe(GenreDao genreDao, String query, int number) {
+            this.genreDao = genreDao;
+            this.query = query;
+            this.number = number;
+        }
+
+        @Override
+        public void run() {
+            suggestions = genreDao.searchSuggestions(query, number);
+        }
+
+        public List<String> getSuggestions() {
+            return suggestions;
         }
     }
 }

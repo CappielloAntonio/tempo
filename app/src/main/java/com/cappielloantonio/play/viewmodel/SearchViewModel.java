@@ -8,10 +8,12 @@ import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.RecentSearch;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
+import com.cappielloantonio.play.repository.GenreRepository;
 import com.cappielloantonio.play.repository.RecentSearchRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 
@@ -22,15 +24,18 @@ import java.util.List;
 public class SearchViewModel extends AndroidViewModel {
     private static final String TAG = "SearchViewModel";
 
+    private String query = "";
+
     private SongRepository songRepository;
     private AlbumRepository albumRepository;
     private ArtistRepository artistRepository;
+    private GenreRepository genreRepository;
     private RecentSearchRepository recentSearchRepository;
 
     private LiveData<List<Song>> searchSong;
     private LiveData<List<Album>> searchAlbum;
     private LiveData<List<Artist>> searchArtist;
-    private LiveData<List<RecentSearch>> recentSearches;
+    private LiveData<List<Genre>> searchGenre;
 
     public SearchViewModel(@NonNull Application application) {
         super(application);
@@ -38,7 +43,20 @@ public class SearchViewModel extends AndroidViewModel {
         songRepository = new SongRepository(application);
         albumRepository = new AlbumRepository(application);
         artistRepository = new ArtistRepository(application);
+        genreRepository = new GenreRepository(application);
         recentSearchRepository = new RecentSearchRepository(application);
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
+
+        if(!query.isEmpty()) {
+            insertNewSearch(query);
+        }
     }
 
     public LiveData<List<Song>> searchSong(String title) {
@@ -56,17 +74,17 @@ public class SearchViewModel extends AndroidViewModel {
         return searchArtist;
     }
 
-    public LiveData<List<RecentSearch>> getSearchList() {
-        recentSearches = recentSearchRepository.getListLiveRecentSearches();
-        return recentSearches;
+    public LiveData<List<Genre>> searchGenre(String name) {
+        searchGenre = genreRepository.searchListLiveGenre(name);
+        return searchGenre;
     }
 
     public void insertNewSearch(String search) {
         recentSearchRepository.insert(new RecentSearch(search));
     }
 
-    public void deleteAllRecentSearch() {
-        recentSearchRepository.deleteAll();
+    public void deleteRecentSearch(String search) {
+        recentSearchRepository.delete(new RecentSearch(search));
     }
 
     public List<String> getSearchSuggestion(String query) {
@@ -74,10 +92,18 @@ public class SearchViewModel extends AndroidViewModel {
         suggestions.addAll(songRepository.getSearchSuggestion(query));
         suggestions.addAll(albumRepository.getSearchSuggestion(query));
         suggestions.addAll(artistRepository.getSearchSuggestion(query));
+        suggestions.addAll(genreRepository.getSearchSuggestion(query));
 
         LinkedHashSet<String> hashSet = new LinkedHashSet<>(suggestions);
         ArrayList<String> suggestionsWithoutDuplicates = new ArrayList<>(hashSet);
 
         return suggestionsWithoutDuplicates;
+    }
+
+    public List<String> getRecentSearchSuggestion() {
+        ArrayList<String> suggestions = new ArrayList<>();
+        suggestions.addAll(recentSearchRepository.getRecentSearchSuggestion());
+
+        return suggestions;
     }
 }

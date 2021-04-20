@@ -129,6 +129,9 @@
         <action
             android:id="@+id/action_searchFragment_to_albumPageFragment"
             app:destination="@id/albumPageFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_songListPageFragment"
+            app:destination="@id/songListPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/filterFragment"

@@ -13,11 +13,14 @@ import java.util.List;
 
 @Dao
 public interface RecentSearchDao {
-    @Query("SELECT * FROM recent_search GROUP BY search ORDER BY id DESC LIMIT :limit")
-    LiveData<List<RecentSearch>> getLast(int limit);
+    @Query("SELECT * FROM recent_search GROUP BY search ORDER BY search DESC LIMIT :limit")
+    List<String> getRecent(int limit);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(RecentSearch search);
+
+    @Delete
+    void delete(RecentSearch search);
 
     @Query("DELETE FROM recent_search")
     void deleteAll();

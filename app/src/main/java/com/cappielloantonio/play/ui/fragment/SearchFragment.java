@@ -13,13 +13,18 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.adapter.AlbumAdapter;
 import com.cappielloantonio.play.adapter.AlbumCatalogueAdapter;
+import com.cappielloantonio.play.adapter.ArtistAdapter;
 import com.cappielloantonio.play.adapter.ArtistCatalogueAdapter;
+import com.cappielloantonio.play.adapter.GenreCatalogueAdapter;
 import com.cappielloantonio.play.adapter.RecentSearchAdapter;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentSearchBinding;
 import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
 import com.cappielloantonio.play.model.RecentSearch;
+import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.viewmodel.SearchViewModel;
 import com.paulrybitskyi.persistentsearchview.adapters.model.SuggestionItem;
@@ -35,10 +40,10 @@ public class SearchFragment extends Fragment {
     private MainActivity activity;
     private SearchViewModel searchViewModel;
 
-    private RecentSearchAdapter recentSearchAdapter;
     private SongResultSearchAdapter songResultSearchAdapter;
-    private AlbumCatalogueAdapter albumResultSearchAdapter;
-    private ArtistCatalogueAdapter artistResultSearchAdapter;
+    private AlbumAdapter albumAdapter;
+    private ArtistAdapter artistAdapter;
+    private GenreCatalogueAdapter genreCatalogueAdapter;
 
     @Nullable
     @Override
@@ -49,8 +54,6 @@ public class SearchFragment extends Fragment {
         View view = bind.getRoot();
         searchViewModel = new ViewModelProvider(requireActivity()).get(SearchViewModel.class);
 
-        init();
-        initRecentSearchView();
         initSearchResultView();
         initSearchView();
 
@@ -64,27 +67,15 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        inputFocus();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         bind = null;
-    }
-
-    private void init() {
-        bind.clearAllSearchTextViewClickable.setOnClickListener(v -> searchViewModel.deleteAllRecentSearch());
-    }
-
-    private void initRecentSearchView() {
-        bind.recentlySearchedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        bind.recentlySearchedTracksRecyclerView.setHasFixedSize(true);
-
-        recentSearchAdapter = new RecentSearchAdapter(requireContext());
-        recentSearchAdapter.setClickListener((view, position) -> {
-            RecentSearch search = recentSearchAdapter.getItem(position);
-            search(search.getSearch());
-        });
-        bind.recentlySearchedTracksRecyclerView.setAdapter(recentSearchAdapter);
-
-        searchViewModel.getSearchList().observe(requireActivity(), recentSearches -> recentSearchAdapter.setItems(recentSearches));
     }
 
     private void initSearchResultView() {
@@ -96,28 +87,47 @@ public class SearchFragment extends Fragment {
         bind.searchResultTracksRecyclerView.setAdapter(songResultSearchAdapter);
 
         // Albums
-        bind.searchResultAlbumRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-        bind.searchResultAlbumRecyclerView.addItemDecoration(new GridItemDecoration(2, 20, false));
+        bind.searchResultAlbumRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.searchResultAlbumRecyclerView.setHasFixedSize(true);
 
-        albumResultSearchAdapter = new AlbumCatalogueAdapter(requireContext());
-        bind.searchResultAlbumRecyclerView.setAdapter(albumResultSearchAdapter);
+        albumAdapter = new AlbumAdapter(requireContext());
+        bind.searchResultAlbumRecyclerView.setAdapter(albumAdapter);
 
-        // Artist
-        bind.searchResultArtistRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-        bind.searchResultArtistRecyclerView.addItemDecoration(new GridItemDecoration(2, 20, false));
+        // Artists
+        bind.searchResultArtistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.searchResultArtistRecyclerView.setHasFixedSize(true);
 
-        artistResultSearchAdapter = new ArtistCatalogueAdapter(requireContext());
-        bind.searchResultArtistRecyclerView.setAdapter(artistResultSearchAdapter);
+        artistAdapter = new ArtistAdapter(requireContext());
+        bind.searchResultArtistRecyclerView.setAdapter(artistAdapter);
+
+        // Genres
+        bind.searchResultGenreRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+        bind.searchResultGenreRecyclerView.addItemDecoration(new GridItemDecoration(2, 16, false));
+        bind.searchResultGenreRecyclerView.setHasFixedSize(true);
+
+        genreCatalogueAdapter = new GenreCatalogueAdapter(requireContext());
+        genreCatalogueAdapter.setClickListener((view, position) -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(Song.BY_GENRE, Song.BY_GENRE);
+            bundle.putParcelable("genre_object", genreCatalogueAdapter.getItem(position));
+            activity.navController.navigate(R.id.action_searchFragment_to_songListPageFragment, bundle);
+        });
+        bind.searchResultGenreRecyclerView.setAdapter(genreCatalogueAdapter);
     }
 
     private void initSearchView() {
+        if (isQueryValid(searchViewModel.getQuery())) {
+            search(searchViewModel.getQuery());
+        }
+
+        bind.persistentSearchView.setInputQuery(searchViewModel.getQuery());
+        setSuggestions();
+
         bind.persistentSearchView.setOnSearchQueryChangeListener((searchView, oldQuery, newQuery) -> {
             if (!newQuery.trim().equals("") && newQuery.trim().length() > 1) {
                 searchView.setSuggestions(SuggestionCreationUtil.asRegularSearchSuggestions(searchViewModel.getSearchSuggestion(newQuery)), false);
             } else {
-                searchView.setSuggestions(new ArrayList<>());
+                setSuggestions();
             }
         });
 
@@ -133,27 +143,69 @@ public class SearchFragment extends Fragment {
         });
 
         bind.persistentSearchView.setOnSearchConfirmedListener((searchView, query) -> {
-            search(query);
+            if (isQueryValid(query)) {
+                searchView.collapse();
+                search(query);
+            }
+            else {
+                Toast.makeText(requireContext(), "Enter at least three characters", Toast.LENGTH_SHORT).show();
+            }
         });
+
+        bind.persistentSearchView.setOnSuggestionChangeListener(new OnSuggestionChangeListener() {
+            @Override
+            public void onSuggestionPicked(SuggestionItem suggestion) {
+                search(suggestion.getItemModel().getText());
+            }
+
+            @Override
+            public void onSuggestionRemoved(SuggestionItem suggestion) {
+                searchViewModel.deleteRecentSearch(suggestion.getItemModel().getText());
+            }
+        });
+
+        bind.persistentSearchView.setOnClearInputBtnClickListener(v -> searchViewModel.setQuery(""));
+    }
+
+    private void setSuggestions() {
+        bind.persistentSearchView.setSuggestions(SuggestionCreationUtil.asRecentSearchSuggestions(searchViewModel.getRecentSearchSuggestion()), false);
     }
 
     public void search(String query) {
-        if (!query.trim().equals("") && query.trim().length() > 2) {
-            searchViewModel.insertNewSearch(query);
-            bind.persistentSearchView.collapse();
+        searchViewModel.setQuery(query);
 
-            bind.persistentSearchView.setInputQuery(query);
-            performSearch(query.trim());
-        } else {
-            Toast.makeText(requireContext(), "Enter at least three characters", Toast.LENGTH_SHORT).show();
-        }
+        bind.persistentSearchView.setInputQuery(query);
+        performSearch(query);
     }
 
     private void performSearch(String query) {
-        searchViewModel.searchSong(query).observe(requireActivity(), songs -> songResultSearchAdapter.setItems(songs));
-        searchViewModel.searchAlbum(query).observe(requireActivity(), albums -> albumResultSearchAdapter.setItems(albums));
-        searchViewModel.searchArtist(query).observe(requireActivity(), artists -> artistResultSearchAdapter.setItems(artists));
+        searchViewModel.searchSong(query).observe(requireActivity(), songs -> {
+            if(bind != null) bind.searchSongSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+            songResultSearchAdapter.setItems(songs);
+        });
+        searchViewModel.searchAlbum(query).observe(requireActivity(), albums -> {
+            if(bind != null) bind.searchAlbumSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+            albumAdapter.setItems(albums);
+        });
+        searchViewModel.searchArtist(query).observe(requireActivity(), artists -> {
+            if(bind != null) bind.searchArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+            artistAdapter.setItems(artists);
+        });
+        searchViewModel.searchGenre(query).observe(requireActivity(), genres -> {
+            if(bind != null) bind.searchGenreSector.setVisibility(!genres.isEmpty() ? View.VISIBLE : View.GONE);
+            genreCatalogueAdapter.setItems(genres);
+        });
 
         bind.searchResultLayout.setVisibility(View.VISIBLE);
+    }
+
+    private boolean isQueryValid(String query) {
+        return !query.equals("") && query.trim().length() > 2;
+    }
+
+    private void inputFocus() {
+        if(!isQueryValid(searchViewModel.getQuery())) {
+            bind.persistentSearchView.expand();
+        }
     }
 }

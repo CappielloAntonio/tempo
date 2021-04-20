@@ -8,26 +8,42 @@ import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.RecentSearchDao;
 import com.cappielloantonio.play.model.RecentSearch;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecentSearchRepository {
     private RecentSearchDao recentSearchDao;
-    private LiveData<List<RecentSearch>> listLiveRecentSearches;
 
     public RecentSearchRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
         recentSearchDao = database.recentSearchDao();
-        listLiveRecentSearches = recentSearchDao.getLast(3);
-    }
-
-    public LiveData<List<RecentSearch>> getListLiveRecentSearches() {
-        return listLiveRecentSearches;
     }
 
     public void insert(RecentSearch recentSearch) {
         InsertThreadSafe insert = new InsertThreadSafe(recentSearchDao, recentSearch);
         Thread thread = new Thread(insert);
         thread.start();
+    }
+
+    public void delete(RecentSearch recentSearch) {
+        DeleteThreadSafe delete = new DeleteThreadSafe(recentSearchDao, recentSearch);
+        Thread thread = new Thread(delete);
+        thread.start();
+    }
+
+    private static class DeleteThreadSafe implements Runnable {
+        private RecentSearchDao recentSearchDao;
+        private RecentSearch recentSearch;
+
+        public DeleteThreadSafe(RecentSearchDao recentSearchDao, RecentSearch recentSearch) {
+            this.recentSearchDao = recentSearchDao;
+            this.recentSearch = recentSearch;
+        }
+
+        @Override
+        public void run() {
+            recentSearchDao.delete(recentSearch);
+        }
     }
 
     private static class InsertThreadSafe implements Runnable {
@@ -61,6 +77,43 @@ public class RecentSearchRepository {
         @Override
         public void run() {
             recentSearchDao.deleteAll();
+        }
+    }
+
+    public List<String> getRecentSearchSuggestion() {
+        List<String> recent = new ArrayList<>();
+
+        RecentThreadSafe suggestionsThread = new RecentThreadSafe(recentSearchDao,10);
+        Thread thread = new Thread(suggestionsThread);
+        thread.start();
+
+        try {
+            thread.join();
+            recent = suggestionsThread.getRecent();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return recent;
+    }
+
+    private static class RecentThreadSafe implements Runnable {
+        private RecentSearchDao recentSearchDao;
+        private int limit;
+        private List<String> recent = new ArrayList<>();
+
+        public RecentThreadSafe(RecentSearchDao recentSearchDao, int limit) {
+            this.recentSearchDao = recentSearchDao;
+            this.limit = limit;
+        }
+
+        @Override
+        public void run() {
+            recent = recentSearchDao.getRecent(limit);
+        }
+
+        public List<String> getRecent() {
+            return recent;
         }
     }
 }

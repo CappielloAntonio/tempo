@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
@@ -78,6 +79,7 @@ public class MainActivity extends BaseActivity {
 
         if (PreferenceUtil.getInstance(this).getToken() != null) {
             checkPreviousSession();
+            goFromLogin();
         } else {
             goToLogin();
         }
@@ -95,13 +97,11 @@ public class MainActivity extends BaseActivity {
 
                 App.getApiClientInstance(getApplicationContext()).ensureWebSocket();
                 App.getApiClientInstance(getApplicationContext()).ReportCapabilities(clientCapabilities, new EmptyResponse());
-
-                goFromLogin();
             }
 
             @Override
             public void onError(Exception exception) {
-                goFromLogin();
+                Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

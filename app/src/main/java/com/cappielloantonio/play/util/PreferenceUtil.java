@@ -34,6 +34,8 @@ public class PreferenceUtil {
     public static final String MAXIMUM_BITRATE = "maximum_bitrate";
     public static final String AUDIO_DUCKING = "audio_ducking";
 
+    public static final String SONG_NUMBER = "SONG_NUMBER";
+
     private static PreferenceUtil sInstance;
     private final SharedPreferences mPreferences;
 
@@ -174,5 +176,15 @@ public class PreferenceUtil {
 
     public final boolean getAudioDucking() {
         return mPreferences.getBoolean(AUDIO_DUCKING, true);
+    }
+
+    public int getSongNumber() {
+        return mPreferences.getInt(SONG_NUMBER, 0);
+    }
+
+    public void setSongNumber(int number) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putInt(SONG_NUMBER, number);
+        editor.apply();
     }
 }

@@ -204,6 +204,7 @@ public class SyncFragment extends Fragment {
                 songRepository.deleteAllSongGenreCross();
                 songRepository.insertAll((ArrayList<Song>) media);
                 syncSongArtistCross((ArrayList<Song>) media);
+                PreferenceUtil.getInstance(requireContext()).setSongNumber(media.size());
                 animateProgressBar(true);
             }
         });

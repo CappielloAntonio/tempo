@@ -1,5 +1,6 @@
 package com.cappielloantonio.play.util;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.cappielloantonio.play.App;
@@ -10,7 +11,10 @@ import com.cappielloantonio.play.model.Song;
 
 import org.jellyfin.apiclient.interaction.ApiClient;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 public class MusicUtil {
     public static String getSongFileUri(Song song) {
@@ -85,5 +89,24 @@ public class MusicUtil {
         else {
             return R.drawable.default_album_art;
         }
+    }
+
+    public static List<Integer> getRandomSongNumber(Context context, int numberOfNumbers, int refreshAfterXHours) {
+        List<Integer> list = new ArrayList<>();
+
+        for (int i = 0; i < numberOfNumbers; i++)
+        {
+            list.add(getRandomNumber(0, PreferenceUtil.getInstance(context).getSongNumber(), getMidnightTimestamp(System.currentTimeMillis() / 1000, refreshAfterXHours) + i));
+        }
+
+        return list;
+    }
+
+    private static long getMidnightTimestamp(long timestamp, int hours) {
+        return timestamp - timestamp % (hours * 60 * 60); // 24 * 60 * 60 sec in one day
+    }
+
+    private static int getRandomNumber(int min, int max, long seed) {
+        return new Random(seed).nextInt((max - min) + 1) + min;
     }
 }

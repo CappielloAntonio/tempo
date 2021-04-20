@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.cappielloantonio.play.adapter.YearAdapter;
 import com.cappielloantonio.play.databinding.FragmentHomeBinding;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.HomeViewModel;
 
@@ -113,6 +115,8 @@ public class HomeFragment extends Fragment {
         bind.discoverSongViewPager.setAdapter(discoverSongAdapter);
         bind.discoverSongViewPager.setOffscreenPageLimit(3);
         setDiscoverSongSlideViewOffset(20, 16);
+
+        Log.i(TAG, "initDiscoverSongSlideView: " + MusicUtil.getRandomSongNumber(requireContext(), 10, 3));
     }
 
     private void initMostPlayedSongView() {

@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,19 +10,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumAdapter;
 import com.cappielloantonio.play.adapter.ArtistAdapter;
+import com.cappielloantonio.play.adapter.DiscoverSongAdapter;
 import com.cappielloantonio.play.adapter.GenreAdapter;
 import com.cappielloantonio.play.adapter.PlaylistAdapter;
 import com.cappielloantonio.play.databinding.FragmentLibraryBinding;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.LibraryViewModel;
 
@@ -58,7 +63,7 @@ public class LibraryFragment extends Fragment {
         initAlbumView();
         initArtistView();
         initGenreView();
-        initPlaylistView();
+        initPlaylistSlideView();
         initCatalogueSyncCheck();
     }
 
@@ -78,6 +83,7 @@ public class LibraryFragment extends Fragment {
         bind.albumCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_albumCatalogueFragment));
         bind.artistCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_artistCatalogueFragment));
         bind.genreCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_genreCatalogueFragment));
+        bind.playlistCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_playlistCatalogueFragment));
     }
 
     private void initAlbumView() {
@@ -115,16 +121,15 @@ public class LibraryFragment extends Fragment {
         });
     }
 
-    private void initPlaylistView() {
-        bind.playlistRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-        bind.playlistRecyclerView.setHasFixedSize(true);
+    private void initPlaylistSlideView() {
+        bind.playlistViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
-        playlistAdapter = new PlaylistAdapter(requireContext());
-        bind.playlistRecyclerView.setAdapter(playlistAdapter);
-        libraryViewModel.getPlaylistList().observe(requireActivity(), playlists -> {
-            if(bind != null) bind.libraryPlaylistSector.setVisibility(playlists.size() > 0 ? View.VISIBLE : View.GONE);
-            playlistAdapter.setItems(playlists);
-        });
+        playlistAdapter = new PlaylistAdapter(activity, requireContext(), libraryViewModel.getPlaylistSample());
+        bind.playlistViewPager.setAdapter(playlistAdapter);
+        bind.playlistViewPager.setOffscreenPageLimit(3);
+        setDiscoverSongSlideViewOffset(20, 16);
+
+        Log.i(TAG, "initDiscoverSongSlideView: " + MusicUtil.getRandomSongNumber(requireContext(), 10, 3));
     }
 
     private void initCatalogueSyncCheck() {
@@ -136,5 +141,20 @@ public class LibraryFragment extends Fragment {
                     .setPositiveButton("Sync", (dialog, id) -> activity.goToSync())
                     .show();
         }
+    }
+
+    private void setDiscoverSongSlideViewOffset(float pageOffset, float pageMargin) {
+        bind.playlistViewPager.setPageTransformer((page, position) -> {
+            float myOffset = position * -(2 * pageOffset + pageMargin);
+            if (bind.playlistViewPager.getOrientation() == ViewPager2.ORIENTATION_HORIZONTAL) {
+                if (ViewCompat.getLayoutDirection(bind.playlistViewPager) == ViewCompat.LAYOUT_DIRECTION_RTL) {
+                    page.setTranslationX(-myOffset);
+                } else {
+                    page.setTranslationX(myOffset);
+                }
+            } else {
+                page.setTranslationY(myOffset);
+            }
+        });
     }
 }

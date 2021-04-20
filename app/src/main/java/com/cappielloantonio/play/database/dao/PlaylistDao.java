@@ -8,6 +8,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.model.Song;
 
 import java.util.List;
 
@@ -21,4 +22,7 @@ public interface PlaylistDao {
 
     @Query("DELETE FROM playlist")
     void deleteAll();
+
+    @Query("SELECT * FROM playlist ORDER BY RANDOM() LIMIT :number")
+    List<Playlist> random(int number);
 }

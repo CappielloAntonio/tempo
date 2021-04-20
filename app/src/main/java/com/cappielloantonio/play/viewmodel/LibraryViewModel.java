@@ -10,6 +10,7 @@ import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.GenreRepository;
@@ -24,10 +25,10 @@ public class LibraryViewModel extends AndroidViewModel {
     private GenreRepository genreRepository;
     private PlaylistRepository playlistRepository;
 
+    private List<Playlist> playlistSample;
     private LiveData<List<Album>> sampleAlbum;
     private LiveData<List<Artist>> sampleArtist;
     private LiveData<List<Genre>> sampleGenres;
-    private LiveData<List<Playlist>> allPlaylist;
 
     public LibraryViewModel(@NonNull Application application) {
         super(application);
@@ -42,11 +43,15 @@ public class LibraryViewModel extends AndroidViewModel {
         sampleAlbum = albumRepository.getListLiveSampleAlbum();
         sampleArtist = artistRepository.getListLiveSampleArtist();
         sampleGenres = genreRepository.getListLiveSampleGenre();
-        allPlaylist = playlistRepository.getListLivePlaylists();
+        playlistSample = playlistRepository.getRandomSample(5);
     }
 
-    public LiveData<List<Playlist>> getPlaylistList() {
-        return allPlaylist;
+    public List<Playlist> getPlaylistSample() {
+        if(playlistSample.isEmpty()) {
+            playlistSample = playlistRepository.getRandomSample(5);
+        }
+
+        return playlistSample;
     }
 
     public LiveData<List<Album>> getAlbumSample() {

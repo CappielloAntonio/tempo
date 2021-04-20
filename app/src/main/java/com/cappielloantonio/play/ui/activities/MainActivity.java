@@ -244,7 +244,7 @@ public class MainActivity extends BaseActivity {
         if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.landingFragment) {
             navController.navigate(R.id.action_landingFragment_to_homeFragment);
         } else if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.syncFragment) {
-            navController.navigate(R.id.action_syncFragment_to_libraryFragment);
+            navController.navigate(R.id.action_syncFragment_to_homeFragment);
         } else if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.loginFragment) {
             navController.navigate(R.id.action_loginFragment_to_homeFragment);
         }

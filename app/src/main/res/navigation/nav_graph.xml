@@ -90,6 +90,9 @@
             android:id="@+id/action_libraryFragment_to_genreCatalogueFragment"
             app:destination="@id/genreCatalogueFragment" />
         <action
+            android:id="@+id/action_libraryFragment_to_playlistCatalogueFragment"
+            app:destination="@id/playlistCatalogueFragment" />
+        <action
             android:id="@+id/action_libraryFragment_to_artistPageFragment"
             app:destination="@id/artistPageFragment"/>
         <action
@@ -171,6 +174,15 @@
         <action
             android:id="@+id/action_genreCatalogueFragment_to_filterFragment"
             app:destination="@id/filterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/playlistCatalogueFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.PlaylistCatalogueFragment"
+        android:label="PlaylistCatalogueFragment"
+        tools:layout="@layout/fragment_playlist_catalogue">
+        <action
+            android:id="@+id/action_playlistCatalogueFragment_to_playlistPageFragment"
+            app:destination="@id/playlistPageFragment" />
     </fragment>
 
     <fragment

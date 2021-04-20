@@ -13,31 +13,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Playlist;
-import com.cappielloantonio.play.ui.activities.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
-    private static final String TAG = "PlaylistAdapter";
+public class PlaylistCatalogueAdapter extends RecyclerView.Adapter<PlaylistCatalogueAdapter.ViewHolder> {
 
     private List<Playlist> playlists;
     private LayoutInflater mInflater;
     private Context context;
-    private MainActivity activity;
 
-    public PlaylistAdapter(MainActivity activity, Context context, List<Playlist> playlists) {
-        this.activity = activity;
+    public PlaylistCatalogueAdapter(Context context) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
-        this.playlists = playlists;
+        this.playlists = new ArrayList<>();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_library_playlist, parent, false);
+        View view = mInflater.inflate(R.layout.item_library_catalogue_playlist, parent, false);
         return new ViewHolder(view);
     }
 
@@ -75,7 +71,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         public void onClick(View view) {
             Bundle bundle = new Bundle();
             bundle.putParcelable("playlist_object", playlists.get(getBindingAdapterPosition()));
-            Navigation.findNavController(view).navigate(R.id.action_libraryFragment_to_playlistPageFragment, bundle);
+            Navigation.findNavController(view).navigate(R.id.action_playlistCatalogueFragment_to_playlistPageFragment, bundle);
 
         }
     }

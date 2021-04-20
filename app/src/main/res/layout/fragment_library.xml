@@ -238,6 +238,7 @@
 
 
                     <TextView
+                        android:id="@+id/playlist_catalogue_text_view_clickable"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/open_sans_font_family"
@@ -250,16 +251,13 @@
 
                 </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/playlist_recycler_view"
+                <!--  slideview  -->
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/playlist_view_pager"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_height="212dp"
                     android:clipToPadding="false"
-                    android:paddingStart="16dp"
                     android:paddingTop="8dp"
-                    android:paddingEnd="10dp"
                     android:paddingBottom="8dp" />
             </LinearLayout>
         </LinearLayout>

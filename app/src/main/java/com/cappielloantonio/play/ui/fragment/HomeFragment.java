@@ -115,8 +115,6 @@ public class HomeFragment extends Fragment {
         bind.discoverSongViewPager.setAdapter(discoverSongAdapter);
         bind.discoverSongViewPager.setOffscreenPageLimit(3);
         setDiscoverSongSlideViewOffset(20, 16);
-
-        Log.i(TAG, "initDiscoverSongSlideView: " + MusicUtil.getRandomSongNumber(requireContext(), 10, 3));
     }
 
     private void initMostPlayedSongView() {

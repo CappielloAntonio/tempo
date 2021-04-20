@@ -128,8 +128,6 @@ public class LibraryFragment extends Fragment {
         bind.playlistViewPager.setAdapter(playlistAdapter);
         bind.playlistViewPager.setOffscreenPageLimit(3);
         setDiscoverSongSlideViewOffset(20, 16);
-
-        Log.i(TAG, "initDiscoverSongSlideView: " + MusicUtil.getRandomSongNumber(requireContext(), 10, 3));
     }
 
     private void initCatalogueSyncCheck() {

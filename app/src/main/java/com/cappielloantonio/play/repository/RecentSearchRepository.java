@@ -80,10 +80,10 @@ public class RecentSearchRepository {
         }
     }
 
-    public List<String> getRecentSearchSuggestion() {
+    public List<String> getRecentSearchSuggestion(int limit) {
         List<String> recent = new ArrayList<>();
 
-        RecentThreadSafe suggestionsThread = new RecentThreadSafe(recentSearchDao,10);
+        RecentThreadSafe suggestionsThread = new RecentThreadSafe(recentSearchDao,limit);
         Thread thread = new Thread(suggestionsThread);
         thread.start();
 

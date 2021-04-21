@@ -104,7 +104,7 @@ public class SearchViewModel extends AndroidViewModel {
 
     public List<String> getRecentSearchSuggestion() {
         ArrayList<String> suggestions = new ArrayList<>();
-        suggestions.addAll(recentSearchRepository.getRecentSearchSuggestion());
+        suggestions.addAll(recentSearchRepository.getRecentSearchSuggestion(5));
 
         return suggestions;
     }

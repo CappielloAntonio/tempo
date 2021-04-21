@@ -231,7 +231,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="My Playlists"
+                        android:text="Playlists"
                         android:textColor="@color/titleTextColor"
                         android:textSize="22sp"
                         android:textStyle="bold" />

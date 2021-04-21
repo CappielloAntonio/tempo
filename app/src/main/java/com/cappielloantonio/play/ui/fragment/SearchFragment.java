@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
 import com.cappielloantonio.play.model.RecentSearch;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.SearchViewModel;
 import com.paulrybitskyi.persistentsearchview.adapters.model.SuggestionItem;
 import com.paulrybitskyi.persistentsearchview.listeners.OnSuggestionChangeListener;
@@ -70,6 +72,8 @@ public class SearchFragment extends Fragment {
     public void onResume() {
         super.onResume();
         inputFocus();
+
+        Log.i(TAG, "onResume: " + PreferenceUtil.getInstance(requireContext()).getSongNumber());
     }
 
     @Override
@@ -179,19 +183,19 @@ public class SearchFragment extends Fragment {
     }
 
     private void performSearch(String query) {
-        searchViewModel.searchSong(query).observe(requireActivity(), songs -> {
+        searchViewModel.searchSong(query, requireContext()).observe(requireActivity(), songs -> {
             if(bind != null) bind.searchSongSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
             songResultSearchAdapter.setItems(songs);
         });
-        searchViewModel.searchAlbum(query).observe(requireActivity(), albums -> {
+        searchViewModel.searchAlbum(query, requireContext()).observe(requireActivity(), albums -> {
             if(bind != null) bind.searchAlbumSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
             albumAdapter.setItems(albums);
         });
-        searchViewModel.searchArtist(query).observe(requireActivity(), artists -> {
+        searchViewModel.searchArtist(query, requireContext()).observe(requireActivity(), artists -> {
             if(bind != null) bind.searchArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
             artistAdapter.setItems(artists);
         });
-        searchViewModel.searchGenre(query).observe(requireActivity(), genres -> {
+        searchViewModel.searchGenre(query, requireContext()).observe(requireActivity(), genres -> {
             if(bind != null) bind.searchGenreSector.setVisibility(!genres.isEmpty() ? View.VISIBLE : View.GONE);
             genreCatalogueAdapter.setItems(genres);
         });

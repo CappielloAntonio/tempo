@@ -36,6 +36,15 @@
             app:key="instant_mix_song_number"
             app:title="@string/instant_mix_song_number"
             app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="10"
+            app:dialogTitle="@string/search_element_per_category"
+            app:entries="@array/search_element_per_category_titles"
+            app:entryValues="@array/search_element_per_category_values"
+            app:key="search_element_per_category"
+            app:title="@string/search_element_per_category"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/sync_header">

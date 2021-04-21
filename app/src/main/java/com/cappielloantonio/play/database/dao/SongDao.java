@@ -21,8 +21,8 @@ public interface SongDao {
     @Query("SELECT * FROM song")
     List<Song> getAllList();
 
-    @Query("SELECT * FROM song WHERE title LIKE '%' || :title || '%'")
-    LiveData<List<Song>> searchSong(String title);
+    @Query("SELECT * FROM song WHERE title LIKE '%' || :title || '%' LIMIT :limit")
+    LiveData<List<Song>> searchSong(String title, int limit);
 
     // Da utilizzare in caso si decidesse di migliorare il viewpager nella home
     @Query("SELECT * FROM song WHERE id IN (:pseudoRandomNumber)")

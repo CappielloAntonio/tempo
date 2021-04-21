@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Set;
 
 public class PreferenceUtil {
+    private static final String TAG = "PreferenceUtil";
+
     public static final String SERVER = "server";
     public static final String USER = "user";
     public static final String TOKEN = "token";
@@ -24,6 +26,7 @@ public class PreferenceUtil {
 
     public static final String SYNC = "sync";
     public static final String SONG_GENRE_SYNC = "song_genre_sync";
+    public static final String SEARCH_ELEMENT_PER_CATEGORY = "search_element_per_category";
 
     public static final String IMAGE_CACHE_SIZE = "image_cache_size";
     public static final String MEDIA_CACHE_SIZE = "media_cache_size";
@@ -141,6 +144,10 @@ public class PreferenceUtil {
         return Integer.parseInt(mPreferences.getString(INSTANT_MIX_SONG_NUMBER, "10"));
     }
 
+    public final int getSearchElementPerCategory() {
+        return Integer.parseInt(mPreferences.getString(SEARCH_ELEMENT_PER_CATEGORY, "10"));
+    }
+
     public final String getTranscodeCodec() {
         return mPreferences.getString(TRANSCODE_CODEC, "aac");
     }
@@ -178,10 +185,16 @@ public class PreferenceUtil {
         return mPreferences.getBoolean(AUDIO_DUCKING, true);
     }
 
+    /*
+     * Numero di canzoni salvate nel db
+     */
     public int getSongNumber() {
         return mPreferences.getInt(SONG_NUMBER, 0);
     }
 
+    /*
+     * Numero di canzoni salvate nel db
+     */
     public void setSongNumber(int number) {
         final SharedPreferences.Editor editor = mPreferences.edit();
         editor.putInt(SONG_NUMBER, number);

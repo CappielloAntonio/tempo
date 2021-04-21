@@ -33,8 +33,8 @@ public class ArtistRepository {
         return listLiveSampleArtist;
     }
 
-    public LiveData<List<Artist>> searchListLiveArtist(String name) {
-        searchListLiveArtist = artistDao.searchArtist(name);
+    public LiveData<List<Artist>> searchListLiveArtist(String name, int limit) {
+        searchListLiveArtist = artistDao.searchArtist(name, limit);
         return searchListLiveArtist;
     }
 

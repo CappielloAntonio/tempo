@@ -19,8 +19,8 @@ public interface ArtistDao {
     @Query("SELECT * FROM artist ORDER BY RANDOM() LIMIT :number;")
     LiveData<List<Artist>> getSample(int number);
 
-    @Query("SELECT * FROM artist WHERE name LIKE '%' || :name || '%'")
-    LiveData<List<Artist>> searchArtist(String name);
+    @Query("SELECT * FROM artist WHERE name LIKE '%' || :name || '%' LIMIT :limit")
+    LiveData<List<Artist>> searchArtist(String name, int limit);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<Artist> artists);

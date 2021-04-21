@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -16,6 +17,7 @@ import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.GenreRepository;
 import com.cappielloantonio.play.repository.RecentSearchRepository;
 import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.util.PreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -59,23 +61,23 @@ public class SearchViewModel extends AndroidViewModel {
         }
     }
 
-    public LiveData<List<Song>> searchSong(String title) {
-        searchSong = songRepository.searchListLiveSong(title);
+    public LiveData<List<Song>> searchSong(String title, Context context) {
+        searchSong = songRepository.searchListLiveSong(title, PreferenceUtil.getInstance(context).getSearchElementPerCategory());
         return searchSong;
     }
 
-    public LiveData<List<Album>> searchAlbum(String name) {
-        searchAlbum = albumRepository.searchListLiveAlbum(name);
+    public LiveData<List<Album>> searchAlbum(String name, Context context) {
+        searchAlbum = albumRepository.searchListLiveAlbum(name, PreferenceUtil.getInstance(context).getSearchElementPerCategory());
         return searchAlbum;
     }
 
-    public LiveData<List<Artist>> searchArtist(String name) {
-        searchArtist = artistRepository.searchListLiveArtist(name);
+    public LiveData<List<Artist>> searchArtist(String name, Context context) {
+        searchArtist = artistRepository.searchListLiveArtist(name, PreferenceUtil.getInstance(context).getSearchElementPerCategory());
         return searchArtist;
     }
 
-    public LiveData<List<Genre>> searchGenre(String name) {
-        searchGenre = genreRepository.searchListLiveGenre(name);
+    public LiveData<List<Genre>> searchGenre(String name, Context context) {
+        searchGenre = genreRepository.searchListLiveGenre(name, PreferenceUtil.getInstance(context).getSearchElementPerCategory());
         return searchGenre;
     }
 

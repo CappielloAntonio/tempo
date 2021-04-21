@@ -40,8 +40,8 @@ public class SongRepository {
         songGenreCrossDao = database.songGenreCrossDao();
     }
 
-    public LiveData<List<Song>> searchListLiveSong(String title) {
-        searchListLiveSongs = songDao.searchSong(title);
+    public LiveData<List<Song>> searchListLiveSong(String title, int limit) {
+        searchListLiveSongs = songDao.searchSong(title, limit);
         return searchListLiveSongs;
     }
 

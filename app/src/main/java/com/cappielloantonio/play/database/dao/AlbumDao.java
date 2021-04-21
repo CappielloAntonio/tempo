@@ -22,8 +22,8 @@ public interface AlbumDao {
     @Query("SELECT * FROM album ORDER BY RANDOM() LIMIT :number;")
     LiveData<List<Album>> getSample(int number);
 
-    @Query("SELECT * FROM album WHERE title LIKE '%' || :name || '%'")
-    LiveData<List<Album>> searchAlbum(String name);
+    @Query("SELECT * FROM album WHERE title LIKE '%' || :name || '%' LIMIT :limit")
+    LiveData<List<Album>> searchAlbum(String name, int limit);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Album album);

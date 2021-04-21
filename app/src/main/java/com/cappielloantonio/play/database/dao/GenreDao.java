@@ -29,8 +29,8 @@ public interface GenreDao {
     @Query("DELETE FROM genre")
     void deleteAll();
 
-    @Query("SELECT * FROM genre WHERE name LIKE '%' || :name || '%'")
-    LiveData<List<Genre>> searchGenre(String name);
+    @Query("SELECT * FROM genre WHERE name LIKE '%' || :name || '%' LIMIT :limit")
+    LiveData<List<Genre>> searchGenre(String name, int limit);
 
     @Query("SELECT name FROM genre WHERE name LIKE :query || '%' OR name like '% ' || :query || '%' GROUP BY name LIMIT :number")
     List<String> searchSuggestions(String query, int number);

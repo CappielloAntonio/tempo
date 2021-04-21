@@ -114,8 +114,8 @@ public class GenreRepository {
         }
     }
 
-    public LiveData<List<Genre>> searchListLiveGenre(String name) {
-        searchListLiveGenre = genreDao.searchGenre(name);
+    public LiveData<List<Genre>> searchListLiveGenre(String name, int limit) {
+        searchListLiveGenre = genreDao.searchGenre(name, limit);
         return searchListLiveGenre;
     }
 

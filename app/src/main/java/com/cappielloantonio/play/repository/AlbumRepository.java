@@ -41,8 +41,8 @@ public class AlbumRepository {
         return listLiveSampleAlbum;
     }
 
-    public LiveData<List<Album>> searchListLiveAlbum(String name) {
-        searchListLiveAlbum = albumDao.searchAlbum(name);
+    public LiveData<List<Album>> searchListLiveAlbum(String name, int limit) {
+        searchListLiveAlbum = albumDao.searchAlbum(name, limit);
         return searchListLiveAlbum;
     }
 

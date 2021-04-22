@@ -22,8 +22,10 @@
     <color name="suggestionIconColor">#252525</color>
     <color name="darkIconColor">#303030</color>
     <color name="suggestionSelectedTextColor">#333333</color>
-    <color name="dividerColor">#AFAFAF</color>
+    <color name="dividerColor">#f0f0f0</color>
     <color name="hintTextColor">#303030</color>
+
+    <color name="buttonBackgroundColor">#f0f0f0</color>
 
     <color name="bottomNavIconPressedColor">#252525</color>
     <color name="bottomNavIconSelectedColor">#303030</color>

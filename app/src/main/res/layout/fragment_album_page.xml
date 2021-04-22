@@ -1,59 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/anim_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/appbar_header_height"
-        android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        android:layout_height="?attr/actionBarSize"
+        app:titleTextColor="@color/titleTextColor"
+        app:layout_collapseMode="pin"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:elevation="0dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/album_info_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                android:clipChildren="false">
+
+                <ImageView
+                    android:id="@+id/album_cover_image_view"
+                    android:layout_width="156dp"
+                    android:layout_height="156dp"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/album_name_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/open_sans_font_family"
+                    android:maxLines="2"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="16dp"
+                    android:singleLine="false"
+                    android:textColor="@color/titleTextColor"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/album_cover_image_view"
+                    app:layout_constraintTop_toTopOf="@+id/album_cover_image_view"/>
+
+                <TextView
+                    android:id="@+id/album_artist_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/open_sans_font_family"
+                    android:maxLines="1"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="16dp"
+                    android:textColor="@color/subtitleTextColor"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/album_cover_image_view"
+                    app:layout_constraintTop_toBottomOf="@+id/album_name_label"/>
+
+                <TextView
+                    android:id="@+id/album_release_year_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_font_family"
+                    android:paddingTop="4dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="16dp"
+                    android:textColor="@color/subtitleTextColor"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/album_cover_image_view"
+                    app:layout_constraintTop_toBottomOf="@+id/album_artist_label"/>
+
+                <ImageView
+                    android:id="@+id/download_icon_image_view"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="12dp"
+                    android:background="@drawable/ic_downloading"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                    app:layout_constraintStart_toEndOf="@+id/album_cover_image_view"
+                    app:layout_constraintBottom_toBottomOf="@+id/album_cover_image_view"/>
+
+                <ToggleButton
+                    android:id="@+id/favorite_icon_image_view"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/button_favorite_selector"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                    android:checked="false"
+                    android:gravity="center_vertical"
+                    android:layout_marginEnd="16dp"
+                    android:text=""
+                    android:textOff=""
+                    android:textOn=""
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/album_cover_image_view"/>
+
+                <View style="@style/Divider"
+                    android:id="@+id/upper_button_divider"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:layout_marginTop="18dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/album_cover_image_view"/>
+
+                <LinearLayout
+                    android:id="@+id/album_page_button_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/upper_button_divider">
+
+                    <Button
+                        android:id="@+id/album_page_play_button"
+                        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="4dp"
+                        android:padding="10dp"
+                        android:text="Play"
+                        android:textColor="@color/darkIconColor"
+                        android:textAllCaps="false"
+                        android:backgroundTint="@color/buttonBackgroundColor"
+                        app:iconGravity="textStart"
+                        app:iconPadding="18dp"
+                        app:icon="@drawable/ic_play"
+                        app:iconTint="@color/darkIconColor"
+                        app:elevation="0dp"/>
+
+                    <Button
+                        android:id="@+id/album_page_shuffle_button"
+                        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="16dp"
+                        android:padding="10dp"
+                        android:text="Shuffle"
+                        android:textColor="@color/darkIconColor"
+                        android:textAllCaps="false"
+                        android:backgroundTint="@color/buttonBackgroundColor"
+                        app:iconGravity="textStart"
+                        app:iconPadding="18dp"
+                        app:icon="@drawable/ic_shuffle"
+                        app:iconTint="@color/darkIconColor"/>
+
+                </LinearLayout>
+
+                <View style="@style/Divider"
+                    android:id="@+id/bottom_button_divider"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:layout_marginBottom="18dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/album_page_button_layout"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/song_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginStart="@dimen/activity_margin_content"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+            android:clipToPadding="false"
+            android:paddingTop="8dp"
+            android:paddingBottom="@dimen/global_padding_bottom"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-            <ImageView
-                android:id="@+id/album_back_cover_image_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/appbar_header_height"
-                android:layout_gravity="top"
-                android:fitsSystemWindows="true"
-                android:background="@drawable/gradient_backdrop_background_image"/>
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/anim_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:titleTextColor="@color/titleTextColor"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/song_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingTop="18dp"
-        android:paddingBottom="@dimen/global_padding_bottom"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

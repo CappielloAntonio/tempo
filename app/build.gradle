@@ -85,8 +85,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     // Database debugger via adb
-    // debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
     // Square - Canary
     // debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
+
+    // Red screen of death
+    debugImplementation 'com.melegy.redscreenofdeath:red-screen-of-death:0.1.2'
 }

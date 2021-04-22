@@ -17,7 +17,8 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingTop="8dp">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar_layout"
@@ -34,8 +35,8 @@
 
                 <ImageView
                     android:id="@+id/album_cover_image_view"
-                    android:layout_width="156dp"
-                    android:layout_height="156dp"
+                    android:layout_width="172dp"
+                    android:layout_height="172dp"
                     android:layout_marginStart="16dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"/>
@@ -86,30 +87,22 @@
                     app:layout_constraintStart_toEndOf="@+id/album_cover_image_view"
                     app:layout_constraintTop_toBottomOf="@+id/album_artist_label"/>
 
-                <ImageView
-                    android:id="@+id/download_icon_image_view"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/download_icon_button"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:background="@drawable/ic_downloading"
-                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="Download"
+                    android:textColor="@color/darkIconColor"
+                    android:textAllCaps="false"
+                    android:backgroundTint="@color/buttonBackgroundColor"
                     app:layout_constraintStart_toEndOf="@+id/album_cover_image_view"
-                    app:layout_constraintBottom_toBottomOf="@+id/album_cover_image_view"/>
-
-                <ToggleButton
-                    android:id="@+id/favorite_icon_image_view"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:background="@drawable/button_favorite_selector"
-                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                    android:checked="false"
-                    android:gravity="center_vertical"
-                    android:layout_marginEnd="16dp"
-                    android:text=""
-                    android:textOff=""
-                    android:textOn=""
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@+id/album_cover_image_view"/>
+                    app:layout_constraintBottom_toBottomOf="@+id/album_cover_image_view"
+                    app:cornerRadius="18dp"
+                    app:elevation="0dp"/>
 
                 <View style="@style/Divider"
                     android:id="@+id/upper_button_divider"
@@ -147,8 +140,7 @@
                         app:iconGravity="textStart"
                         app:iconPadding="18dp"
                         app:icon="@drawable/ic_play"
-                        app:iconTint="@color/darkIconColor"
-                        app:elevation="0dp"/>
+                        app:iconTint="@color/darkIconColor"/>
 
                     <Button
                         android:id="@+id/album_page_shuffle_button"

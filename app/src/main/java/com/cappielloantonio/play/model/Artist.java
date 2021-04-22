@@ -2,6 +2,7 @@ package com.cappielloantonio.play.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Entity(tableName = "artist")
 public class Artist implements Parcelable {
+    private static final String TAG = "Artist";
     @Ignore
     public List<Genre> genres;
     @Ignore

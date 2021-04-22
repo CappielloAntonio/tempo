@@ -8,6 +8,7 @@ import androidx.preference.PreferenceManager;
 
 import com.cappielloantonio.play.helper.ThemeHelper;
 import com.cappielloantonio.play.util.PreferenceUtil;
+import com.melegy.redscreenofdeath.RedScreenOfDeath;
 
 import org.jellyfin.apiclient.AppInfo;
 import org.jellyfin.apiclient.Jellyfin;
@@ -26,6 +27,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        RedScreenOfDeath.init(this);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String themePref = sharedPreferences.getString("themePref", ThemeHelper.DEFAULT_MODE);

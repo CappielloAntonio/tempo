@@ -132,7 +132,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
             }
         });
 
-        setViewPageDelayed(PreferenceManager.getDefaultSharedPreferences(requireContext()).getInt(PreferenceUtil.POSITION, -1));
+        setViewPageDelayed(PreferenceUtil.getInstance(requireContext()).getPosition());
     }
 
     private void initQueueRecyclerView() {
@@ -218,12 +218,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
             }
         });
 
-        bind.playerHeaderLayout.playerHeaderNextSongButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MusicPlayerRemote.playNextSong();
-            }
-        });
+        bind.playerHeaderLayout.playerHeaderNextSongButton.setOnClickListener(v -> MusicPlayerRemote.playNextSong());
     }
 
     private void initSeekBar() {

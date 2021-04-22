@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
@@ -12,14 +13,19 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumArtistPageAdapter;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.helper.MusicPlayerRemote;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.viewmodel.ArtistPageViewModel;
+
+import java.util.List;
 
 public class ArtistPageFragment extends Fragment {
 
@@ -92,6 +98,19 @@ public class ArtistPageFragment extends Fragment {
             } else {
                 bind.animToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white, null), PorterDuff.Mode.SRC_ATOP);
             }
+        });
+
+        bind.artistPageFabButton.setOnClickListener(v -> {
+            List<Song> songs = artistPageViewModel.getArtistRandomSongList();
+
+            if(songs.size() > 0) {
+                QueueRepository queueRepository = new QueueRepository(App.getInstance());
+                queueRepository.insertAllAndStartNew(songs);
+
+                MusicPlayerRemote.openQueue(songs, 0, true);
+                ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
+            }
+            else Toast.makeText(requireContext(), "Error retrieving artist's songs", Toast.LENGTH_SHORT).show();
         });
     }
 

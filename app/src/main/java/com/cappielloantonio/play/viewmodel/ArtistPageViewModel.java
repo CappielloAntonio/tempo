@@ -18,6 +18,7 @@ public class ArtistPageViewModel extends AndroidViewModel {
     private SongRepository songRepository;
     private AlbumRepository albumRepository;
 
+    private List<Song> randomList;
     private LiveData<List<Song>> songList;
     private LiveData<List<Album>> albumList;
 
@@ -33,6 +34,11 @@ public class ArtistPageViewModel extends AndroidViewModel {
     public LiveData<List<Album>> getAlbumList() {
         albumList = albumRepository.getArtistListLiveAlbums(artist.id);
         return albumList;
+    }
+
+    public List<Song> getArtistRandomSongList() {
+        randomList = songRepository.getArtistListLiveRandomSong(artist.id);
+        return randomList;
     }
 
     public LiveData<List<Song>> getArtistTopSongList() {

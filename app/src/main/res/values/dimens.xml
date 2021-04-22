@@ -1,7 +1,8 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
 
-    <dimen name="appbar_header_height">384dp</dimen>
+    <dimen name="appbar_header_height">296dp</dimen>
+
     <dimen name="activity_margin_content">24dp</dimen>
 
     <dimen name="bottom_sheet_peek_height">56dp</dimen>

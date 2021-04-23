@@ -1,5 +1,7 @@
 package com.cappielloantonio.play.ui.fragment;
 
+import android.graphics.BlendMode;
+import android.graphics.BlendModeColorFilter;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -94,10 +96,10 @@ public class ArtistPageFragment extends Fragment {
 
         bind.appbar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             if ((bind.collapsingToolbar.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.collapsingToolbar))) {
-                bind.animToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.titleTextColor, null), PorterDuff.Mode.SRC_ATOP);
+                bind.animToolbar.getNavigationIcon().setColorFilter(new BlendModeColorFilter(getResources().getColor(R.color.titleTextColor, null), BlendMode.SRC_ATOP));
                 bind.artistPageFabButton.setVisibility(View.GONE);
             } else {
-                bind.animToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white, null), PorterDuff.Mode.SRC_ATOP);
+                bind.animToolbar.getNavigationIcon().setColorFilter(new BlendModeColorFilter(getResources().getColor(R.color.white, null), BlendMode.SRC_ATOP));
                 bind.artistPageFabButton.setVisibility(View.VISIBLE);
             }
         });

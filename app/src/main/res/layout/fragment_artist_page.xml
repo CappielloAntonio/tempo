@@ -38,7 +38,7 @@
                 android:src="@drawable/ic_shuffle"
                 app:backgroundTint="@color/colorAccent"
                 app:tint="@android:color/white"
-                app:fabSize="normal"
+                app:fabSize="mini"
                 app:layout_anchor="@id/app_bar_layout"
                 app:layout_anchorGravity="bottom|end"
                 android:layout_margin="16dp"

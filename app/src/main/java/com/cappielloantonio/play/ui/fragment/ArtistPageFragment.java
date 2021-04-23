@@ -95,8 +95,10 @@ public class ArtistPageFragment extends Fragment {
         bind.appbar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             if ((bind.collapsingToolbar.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.collapsingToolbar))) {
                 bind.animToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.titleTextColor, null), PorterDuff.Mode.SRC_ATOP);
+                bind.artistPageFabButton.setVisibility(View.GONE);
             } else {
                 bind.animToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white, null), PorterDuff.Mode.SRC_ATOP);
+                bind.artistPageFabButton.setVisibility(View.VISIBLE);
             }
         });
 

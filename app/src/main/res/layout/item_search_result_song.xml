@@ -1,14 +1,13 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clipChildren="false"
     android:orientation="horizontal"
     android:paddingStart="16dp"
     android:paddingTop="3dp"
-    android:paddingEnd="12dp"
-    android:paddingBottom="3dp"
-    android:background="?attr/selectableItemBackground">
+    android:paddingBottom="3dp">
 
     <ImageView
         android:id="@+id/song_cover_image_view"
@@ -18,55 +17,73 @@
         android:layout_margin="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/search_result_song_title_text_view"
+        style="@style/ItemTitleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:singleLine="true"
         android:ellipsize="marquee"
-        android:marqueeRepeatLimit ="marquee_forever"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:scrollHorizontally="true"
-        android:fontFamily="@font/open_sans_font_family"
+        android:marqueeRepeatLimit="marquee_forever"
         android:paddingStart="12dp"
         android:paddingTop="10dp"
         android:paddingEnd="12dp"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
         android:text="@string/label_placeholder"
-        android:textColor="@color/titleTextColor"
-        android:textSize="14sp"
-        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/search_result_song_more_button"
         app:layout_constraintStart_toEndOf="@+id/song_cover_image_view"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/search_result_song_duration_text_view"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/search_result_song_artist_text_view"
+
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/open_sans_font_family"
-        android:paddingStart="12dp"
-        android:text="@string/label_placeholder"
-        android:textColor="@color/subtitleTextColor"
-        android:textSize="12sp"
-        app:layout_constraintTop_toBottomOf="@+id/search_result_song_title_text_view"
+        android:orientation="horizontal"
+        android:paddingEnd="12dp"
+        app:layout_constraintEnd_toStartOf="@+id/search_result_song_more_button"
         app:layout_constraintStart_toEndOf="@+id/song_cover_image_view"
-        app:layout_constraintEnd_toStartOf="@+id/search_result_song_duration_text_view"/>
+        app:layout_constraintTop_toBottomOf="@+id/search_result_song_title_text_view">
 
-    <TextView
-        android:id="@+id/search_result_song_duration_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:fontFamily="@font/open_sans_font_family"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
+        <TextView
+            android:id="@+id/search_result_song_artist_text_view"
+            style="@style/ItemSubtitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="12dp"
+            android:paddingEnd="4dp"
+            android:text="@string/label_placeholder" />
+
+        <TextView
+            android:id="@+id/queue_separator_text_view"
+            style="@style/ItemSubtitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_dot_separator" />
+
+        <TextView
+            android:id="@+id/search_result_song_duration_text_view"
+            style="@style/ItemSubtitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="4dp"
+            android:paddingEnd="12dp"
+            android:text="@string/label_placeholder" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/search_result_song_more_button"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/ic_more_vert"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:gravity="center_vertical"
-        android:text="@string/label_placeholder"
-        android:textColor="@color/subtitleTextColor"
-        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

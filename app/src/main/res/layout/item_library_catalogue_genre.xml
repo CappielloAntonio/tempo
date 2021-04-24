@@ -27,16 +27,13 @@
 
             <TextView
                 android:id="@+id/genre_label"
+                style="@style/ItemTitleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:fontFamily="@font/open_sans_font_family"
                 android:gravity="center"
                 android:paddingStart="8dp"
                 android:text="@string/label_placeholder"
-                android:textAlignment="gravity"
-                android:textColor="@color/titleTextColor"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textAlignment="gravity" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

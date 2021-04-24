@@ -27,9 +27,9 @@
         android:layout_marginTop="10dp"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
-        android:textColor="@color/titleTextColor"
-        android:textSize="14sp"
-        android:textStyle="bold"
+
+        style="@style/ItemTitleTextView"
+
         app:layout_constraintEnd_toStartOf="@+id/player_header_button"
         app:layout_constraintStart_toEndOf="@+id/player_header_song_cover_image"
         app:layout_constraintTop_toTopOf="parent" />
@@ -41,8 +41,9 @@
         android:fontFamily="@font/open_sans_font_family"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
-        android:textColor="@color/subtitleTextColor"
-        android:textSize="12sp"
+
+        style="@style/ItemSubtitleTextView"
+
         app:layout_constraintEnd_toStartOf="@+id/player_header_button"
         app:layout_constraintStart_toEndOf="@+id/player_header_song_cover_image"
         app:layout_constraintTop_toBottomOf="@+id/player_header_song_title_label" />

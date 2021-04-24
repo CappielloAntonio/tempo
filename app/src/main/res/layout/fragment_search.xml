@@ -62,14 +62,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans_font_family"
                     android:paddingStart="16dp"
                     android:paddingTop="20dp"
                     android:paddingEnd="16dp"
                     android:text="Songs"
-                    android:textColor="@color/titleTextColor"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+
+                    style="@style/HeadlineTextView"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/search_result_tracks_recycler_view"
@@ -94,14 +92,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans_font_family"
                     android:paddingStart="16dp"
                     android:paddingTop="20dp"
                     android:paddingEnd="16dp"
                     android:text="Albums"
-                    android:textColor="@color/titleTextColor"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+
+                    style="@style/HeadlineTextView"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/search_result_album_recycler_view"
@@ -128,14 +124,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans_font_family"
                     android:paddingStart="16dp"
                     android:paddingTop="20dp"
                     android:paddingEnd="16dp"
                     android:text="Artists"
-                    android:textColor="@color/titleTextColor"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+
+                    style="@style/HeadlineTextView"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/search_result_artist_recycler_view"
@@ -162,14 +156,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/open_sans_font_family"
                     android:paddingStart="16dp"
                     android:paddingTop="20dp"
                     android:paddingEnd="16dp"
                     android:text="Genres"
-                    android:textColor="@color/titleTextColor"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+
+                    style="@style/HeadlineTextView"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/search_result_genre_recycler_view"

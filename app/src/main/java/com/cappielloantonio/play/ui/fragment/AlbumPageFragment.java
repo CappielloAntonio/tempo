@@ -88,7 +88,7 @@ public class AlbumPageFragment extends Fragment {
 
         bind.albumNameLabel.setText(albumPageViewModel.getAlbum().getTitle());
         bind.albumArtistLabel.setText(albumPageViewModel.getAlbum().getArtistName());
-        bind.albumReleaseYearLabel.setText(String.valueOf(albumPageViewModel.getAlbum().getYear()));
+        bind.albumReleaseYearLabel.setText(albumPageViewModel.getAlbum().getYear() != 0 ? String.valueOf(albumPageViewModel.getAlbum().getYear()) : "");
 
         albumPageViewModel.getAlbumSongList().observe(requireActivity(), songs -> {
             if(bind != null) {

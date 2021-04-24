@@ -37,27 +37,24 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/open_sans_font_family"
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
                         android:text="Albums"
-                        android:textColor="@color/titleTextColor"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+
+                        style="@style/HeadlineTextView"/>
 
 
                     <TextView
                         android:id="@+id/album_catalogue_text_view_clickable"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/open_sans_font_family"
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
                         android:text="See all"
-                        android:textColor="@color/subtitleTextColor"
-                        android:textSize="14sp" />
+
+                        style="@style/SubheadTextView"/>
 
                 </LinearLayout>
 
@@ -100,27 +97,24 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/open_sans_font_family"
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
                         android:text="Artists"
-                        android:textColor="@color/titleTextColor"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+
+                        style="@style/HeadlineTextView"/>
 
 
                     <TextView
                         android:id="@+id/artist_catalogue_text_view_clickable"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/open_sans_font_family"
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
                         android:text="See all"
-                        android:textColor="@color/subtitleTextColor"
-                        android:textSize="14sp" />
+
+                        style="@style/SubheadTextView"/>
 
                 </LinearLayout>
 
@@ -164,27 +158,24 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/open_sans_font_family"
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
                         android:text="Genres"
-                        android:textColor="@color/titleTextColor"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+
+                        style="@style/HeadlineTextView"/>
 
 
                     <TextView
                         android:id="@+id/genre_catalogue_text_view_clickable"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/open_sans_font_family"
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
                         android:text="See all"
-                        android:textColor="@color/subtitleTextColor"
-                        android:textSize="14sp" />
+
+                        style="@style/SubheadTextView"/>
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -227,27 +218,24 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/open_sans_font_family"
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
                         android:text="Playlists"
-                        android:textColor="@color/titleTextColor"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+
+                        style="@style/HeadlineTextView"/>
 
 
                     <TextView
                         android:id="@+id/playlist_catalogue_text_view_clickable"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/open_sans_font_family"
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
                         android:text="See all"
-                        android:textColor="@color/subtitleTextColor"
-                        android:textSize="14sp" />
+
+                        style="@style/SubheadTextView"/>
 
                 </LinearLayout>
 

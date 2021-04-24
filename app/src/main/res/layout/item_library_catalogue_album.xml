@@ -18,13 +18,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:fontFamily="@font/open_sans_font_family"
         android:maxLines="2"
         android:paddingTop="8dp"
         android:singleLine="false"
-        android:textColor="@color/titleTextColor"
-        android:textSize="14sp"
-        android:textStyle="bold"
+
+        style="@style/ItemTitleTextView"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/album_catalogue_cover_image_view" />
@@ -34,11 +33,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:fontFamily="@font/open_sans_font_family"
         android:maxLines="1"
         android:paddingBottom="16dp"
-        android:textColor="@color/subtitleTextColor"
-        android:textSize="12sp"
+
+        style="@style/ItemSubtitleTextView"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/album_name_label" />

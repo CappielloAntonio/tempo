@@ -34,12 +34,11 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:fontFamily="@font/open_sans_font_family"
                 android:paddingStart="8dp"
                 android:text="@string/label_placeholder"
-                android:textColor="@color/titleTextColor"
-                android:textSize="14sp"
-                android:textStyle="bold"
+
+                style="@style/ItemTitleTextView"
+
                 android:textAlignment="gravity"/>
 
         </LinearLayout>

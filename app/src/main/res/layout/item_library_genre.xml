@@ -33,13 +33,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:fontFamily="@font/open_sans_font_family"
                 android:paddingStart="8dp"
                 android:text="@string/label_placeholder"
-                android:textColor="@color/titleTextColor"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textAlignment="gravity"/>
+                android:textAlignment="gravity"
+
+                style="@style/ItemTitleTextView" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

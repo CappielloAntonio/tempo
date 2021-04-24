@@ -20,14 +20,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:fontFamily="@font/open_sans_font_family"
         android:maxWidth="256dp"
         android:maxLines="2"
         android:paddingTop="8dp"
         android:singleLine="false"
-        android:textColor="@color/titleTextColor"
-        android:textSize="16sp"
-        android:textStyle="bold"
+
+        style="@style/ItemTitleTextView"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/artist_page_album_cover_image_view"/>

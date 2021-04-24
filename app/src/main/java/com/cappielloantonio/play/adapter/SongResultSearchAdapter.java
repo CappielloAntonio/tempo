@@ -75,6 +75,7 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
         TextView songTitle;
         TextView songArtist;
         TextView songDuration;
+        ImageView more;
         ImageView cover;
 
         ViewHolder(View itemView) {
@@ -83,10 +84,15 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
             songTitle = itemView.findViewById(R.id.search_result_song_title_text_view);
             songArtist = itemView.findViewById(R.id.search_result_song_artist_text_view);
             songDuration = itemView.findViewById(R.id.search_result_song_duration_text_view);
+            more = itemView.findViewById(R.id.search_result_song_more_button);
             cover = itemView.findViewById(R.id.song_cover_image_view);
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
+
+            more.setOnClickListener(v -> {
+                openMore(v);
+            });
 
             songTitle.setSelected(true);
         }
@@ -104,11 +110,16 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
 
         @Override
         public boolean onLongClick(View v) {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("song_object", songs.get(getBindingAdapterPosition()));
-            Navigation.findNavController(v).navigate(R.id.songBottomSheetDialog, bundle);
+            openMore(v);
             return true;
         }
+
+        private void openMore(View view) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("song_object", songs.get(getBindingAdapterPosition()));
+            Navigation.findNavController(view).navigate(R.id.songBottomSheetDialog, bundle);
+        }
+
     }
 
     public void setItems(List<Song> songs) {

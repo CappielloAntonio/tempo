@@ -4,25 +4,33 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Genre;
+import com.cappielloantonio.play.ui.activities.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAdapter.ViewHolder> {
+public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAdapter.ViewHolder> implements Filterable {
     private static final String TAG = "GenreCatalogueAdapter";
 
     private List<Genre> genres;
+    private List<Genre> genresFull;
     private LayoutInflater mInflater;
+    private MainActivity activity;
     private Context context;
     private ItemClickListener itemClickListener;
 
-    public GenreCatalogueAdapter(Context context) {
+    public GenreCatalogueAdapter(MainActivity activity, Context context) {
+        this.activity = activity;
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.genres = new ArrayList<>();
@@ -60,7 +68,12 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
 
         @Override
         public void onClick(View view) {
-            if (itemClickListener != null) itemClickListener.onItemClick(view, getBindingAdapterPosition());
+            if (itemClickListener != null) {
+                itemClickListener.onItemClick(view, getBindingAdapterPosition());
+
+                InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
         }
     }
 
@@ -70,6 +83,7 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
 
     public void setItems(List<Genre> genres) {
         this.genres = genres;
+        this.genresFull = new ArrayList<>(genres);
         notifyDataSetChanged();
     }
 
@@ -80,4 +94,40 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
     public interface ItemClickListener {
         void onItemClick(View view, int position);
     }
+
+    @Override
+    public Filter getFilter() {
+        return filtering;
+    }
+
+    private Filter filtering = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Genre> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(genresFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (Genre item : genresFull) {
+                    if (item.getName().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            genres.clear();
+            genres.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 }

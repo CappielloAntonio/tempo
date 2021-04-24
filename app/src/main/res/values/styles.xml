@@ -29,6 +29,17 @@
         <item name="android:background">@color/dividerColor</item>
     </style>
 
+    <style name="SearchViewStyle" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <!--This line changes the color of text in Toolbar-->
+        <item name="android:textColorPrimary">@color/titleTextColor</item>
+        <!--This line changes the color of icons in toolbar (back, overflow menu icons)-->
+        <item name="android:textColorSecondary">@color/subtitleTextColor</item>
+        <!-- Gets rid of the search icon -->
+        <item name="searchIcon">@drawable/ic_search</item>
+        <!-- Gets rid of the "underline" in the text -->
+        <item name="queryBackground">@color/white</item>
+    </style>
+
     <!-- FONT STYLE -->
 
     <style name="InterFontFamily">

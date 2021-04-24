@@ -15,6 +15,8 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
     private AlbumRepository albumRepository;
     public LiveData<List<Album>> albumList;
 
+    private String query = "";
+
     public AlbumCatalogueViewModel(@NonNull Application application) {
         super(application);
 
@@ -24,5 +26,13 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
     public LiveData<List<Album>> getAlbumList() {
         albumList = albumRepository.getListLiveAlbums();
         return albumList;
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
     }
 }

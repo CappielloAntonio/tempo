@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,6 +33,7 @@ public class SongListPageFragment extends Fragment {
         songListPageViewModel = new ViewModelProvider(requireActivity()).get(SongListPageViewModel.class);
 
         init();
+        initAppBar();
         initSongListView();
 
         return view;
@@ -92,6 +94,27 @@ public class SongListPageFragment extends Fragment {
             songListPageViewModel.year = getArguments().getInt("radio_object");
             bind.pageTitleLabel.setText("Radio");
         }
+    }
+
+    private void initAppBar() {
+        activity.setSupportActionBar(bind.toolbar);
+
+        if (activity.getSupportActionBar() != null) {
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        bind.toolbar.setNavigationOnClickListener(v -> {
+            activity.navController.navigateUp();
+        });
+
+        bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            if ((bind.albumInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.toolbar))) {
+                bind.toolbar.setTitle("Songs");
+            } else {
+                bind.toolbar.setTitle("");
+            }
+        });
     }
 
     private void initSongListView() {

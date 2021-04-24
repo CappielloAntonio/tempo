@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,20 +16,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.ui.activities.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogueAdapter.ViewHolder> {
+public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogueAdapter.ViewHolder> implements Filterable {
     private static final String TAG = "ArtistCatalogueAdapter";
 
     private List<Artist> artists;
+    private List<Artist> artistFull;
     private LayoutInflater inflater;
+    private MainActivity activity;
     private Context context;
 
-    public ArtistCatalogueAdapter(Context context) {
+    public ArtistCatalogueAdapter(MainActivity activity, Context context) {
+        this.activity = activity;
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.artists = new ArrayList<>();
@@ -83,6 +91,9 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
             else if(Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.artistCatalogueFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_artistCatalogueFragment_to_artistPageFragment, bundle);
             }
+
+            InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
 
         @Override
@@ -100,6 +111,43 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
 
     public void setItems(List<Artist> artists) {
         this.artists = artists;
+        this.artistFull = new ArrayList<>(artists);
         notifyDataSetChanged();
     }
+
+    @Override
+    public Filter getFilter() {
+        return filtering;
+    }
+
+    private Filter filtering = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Artist> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(artistFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (Artist item : artistFull) {
+                    if (item.getName().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            artists.clear();
+            artists.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 }

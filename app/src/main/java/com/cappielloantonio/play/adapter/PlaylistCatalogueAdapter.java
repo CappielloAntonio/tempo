@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,19 +16,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.ui.activities.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaylistCatalogueAdapter extends RecyclerView.Adapter<PlaylistCatalogueAdapter.ViewHolder> {
+public class PlaylistCatalogueAdapter extends RecyclerView.Adapter<PlaylistCatalogueAdapter.ViewHolder> implements Filterable {
 
     private List<Playlist> playlists;
+    private List<Playlist> playlistsFull;
     private LayoutInflater mInflater;
+    private MainActivity activity;
     private Context context;
 
-    public PlaylistCatalogueAdapter(Context context) {
+    public PlaylistCatalogueAdapter(MainActivity activity, Context context) {
+        this.activity = activity;
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.playlists = new ArrayList<>();
@@ -73,6 +81,8 @@ public class PlaylistCatalogueAdapter extends RecyclerView.Adapter<PlaylistCatal
             bundle.putParcelable("playlist_object", playlists.get(getBindingAdapterPosition()));
             Navigation.findNavController(view).navigate(R.id.action_playlistCatalogueFragment_to_playlistPageFragment, bundle);
 
+            InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 
@@ -82,6 +92,43 @@ public class PlaylistCatalogueAdapter extends RecyclerView.Adapter<PlaylistCatal
 
     public void setItems(List<Playlist> playlists) {
         this.playlists = playlists;
+        this.playlistsFull = new ArrayList<>(playlists);
         notifyDataSetChanged();
     }
+
+    @Override
+    public Filter getFilter() {
+        return filtering;
+    }
+
+    private Filter filtering = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Playlist> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(playlistsFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (Playlist item : playlistsFull) {
+                    if (item.getName().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            playlists.clear();
+            playlists.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 }

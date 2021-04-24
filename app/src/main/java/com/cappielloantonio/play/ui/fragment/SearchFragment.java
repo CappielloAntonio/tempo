@@ -103,7 +103,7 @@ public class SearchFragment extends Fragment {
         bind.searchResultGenreRecyclerView.addItemDecoration(new GridItemDecoration(2, 16, false));
         bind.searchResultGenreRecyclerView.setHasFixedSize(true);
 
-        genreCatalogueAdapter = new GenreCatalogueAdapter(requireContext());
+        genreCatalogueAdapter = new GenreCatalogueAdapter(activity, requireContext());
         genreCatalogueAdapter.setClickListener((view, position) -> {
             Bundle bundle = new Bundle();
             bundle.putString(Song.BY_GENRE, Song.BY_GENRE);

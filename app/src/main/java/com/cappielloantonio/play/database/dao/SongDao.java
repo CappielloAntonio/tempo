@@ -67,6 +67,12 @@ public interface SongDao {
     @Query("SELECT * FROM song WHERE favorite = 1")
     LiveData<List<Song>> getFavoriteSong();
 
+    @Query("SELECT * FROM song WHERE offline = 1 ORDER BY RANDOM() LIMIT :number")
+    LiveData<List<Song>> getDownloadedSongSample(int number);
+
+    @Query("SELECT * FROM song WHERE offline = 1")
+    LiveData<List<Song>> getDownloadedSong();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<Song> songs);
 

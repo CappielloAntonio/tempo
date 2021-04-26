@@ -59,6 +59,9 @@ public class SongListPageViewModel extends AndroidViewModel {
             case Song.IS_FAVORITE:
                 songList = songRepository.getListLiveFavoritesSong();
                 break;
+            case Song.DOWNLOADED:
+                songList = songRepository.getListLiveDownloadedSong();
+                break;
         }
 
         return songList;

@@ -1,7 +1,6 @@
 package com.cappielloantonio.play.repository;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -33,6 +32,8 @@ public class SongRepository {
     private LiveData<List<Song>> listLiveSongByYear;
     private LiveData<List<Song>> listLiveSampleFavoritesSong;
     private LiveData<List<Song>> listLiveFavoritesSong;
+    private LiveData<List<Song>> listLiveSampleDownloadedSong;
+    private LiveData<List<Song>> listLiveDownloadedSong;
 
     public SongRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
@@ -312,6 +313,16 @@ public class SongRepository {
     public LiveData<List<Song>> getListLiveFavoritesSong() {
         listLiveFavoritesSong = songDao.getFavoriteSong();
         return listLiveFavoritesSong;
+    }
+
+    public LiveData<List<Song>> getListLiveDownloadedSampleSong(int number) {
+        listLiveSampleDownloadedSong = songDao.getDownloadedSongSample(number);
+        return listLiveSampleDownloadedSong;
+    }
+
+    public LiveData<List<Song>> getListLiveDownloadedSong() {
+        listLiveDownloadedSong = songDao.getDownloadedSong();
+        return listLiveDownloadedSong;
     }
 
     public void insertAll(ArrayList<Song> songs) {

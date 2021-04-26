@@ -49,6 +49,9 @@ public class Song implements Parcelable {
     public static final String IS_FAVORITE = "IS_FAVORITE";
 
     @Ignore
+    public static final String DOWNLOADED = "DOWNLOADED";
+
+    @Ignore
     public static final String RADIO = "RADIO";
 
     /*

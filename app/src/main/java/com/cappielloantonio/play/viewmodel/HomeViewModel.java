@@ -20,6 +20,7 @@ public class HomeViewModel extends AndroidViewModel {
     private LiveData<List<Song>> recentlyAddedSongSample;
     private LiveData<List<Song>> mostPlayedSongSample;
     private LiveData<List<Song>> favoritesSongSample;
+    private LiveData<List<Song>> downloadedSongSample;
     private List<Integer> years;
 
     public HomeViewModel(@NonNull Application application) {
@@ -32,6 +33,7 @@ public class HomeViewModel extends AndroidViewModel {
         recentlyAddedSongSample = songRepository.getListLiveRecentlyAddedSampleSong(20);
         mostPlayedSongSample = songRepository.getListLiveMostPlayedSampleSong(20);
         favoritesSongSample = songRepository.getListLiveFavoritesSampleSong(20);
+        downloadedSongSample = songRepository.getListLiveDownloadedSampleSong(20);
         years = songRepository.getYearList();
     }
 
@@ -62,5 +64,9 @@ public class HomeViewModel extends AndroidViewModel {
 
     public LiveData<List<Song>> getFavorites() {
         return favoritesSongSample;
+    }
+
+    public LiveData<List<Song>> getDownloaded() {
+        return downloadedSongSample;
     }
 }

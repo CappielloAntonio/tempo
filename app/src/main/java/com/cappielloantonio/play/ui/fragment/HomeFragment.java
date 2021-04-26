@@ -42,6 +42,7 @@ public class HomeFragment extends Fragment {
     private SongResultSearchAdapter favoriteSongAdapter;
     private RecentMusicAdapter recentlyPlayedMusicAdapter;
     private RecentMusicAdapter mostPlayedMusicAdapter;
+    private RecentMusicAdapter dowanloadedMusicAdapter;
 
     @Nullable
     @Override
@@ -67,6 +68,7 @@ public class HomeFragment extends Fragment {
         initFavoritesSongView();
         initYearSongView();
         initRecentAddedSongView();
+        initDownloadedSongView();
     }
 
     @Override
@@ -104,6 +106,12 @@ public class HomeFragment extends Fragment {
         bind.favoritesTracksTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putString(Song.IS_FAVORITE, Song.IS_FAVORITE);
+            activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
+        });
+
+        bind.downloadedTracksTextViewClickable.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(Song.DOWNLOADED, Song.DOWNLOADED);
             activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
         });
     }
@@ -180,6 +188,18 @@ public class HomeFragment extends Fragment {
         homeViewModel.getRecentlyAddedSongList().observe(requireActivity(), songs -> recentlyAddedMusicAdapter.setItems(songs));
     }
 
+    private void initDownloadedSongView() {
+        bind.downloadedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        bind.downloadedTracksRecyclerView.setHasFixedSize(true);
+
+        dowanloadedMusicAdapter = new RecentMusicAdapter(activity, requireContext(), getChildFragmentManager());
+        bind.downloadedTracksRecyclerView.setAdapter(dowanloadedMusicAdapter);
+        homeViewModel.getDownloaded().observe(requireActivity(), songs -> {
+            if(bind != null) bind.homeDownloadedTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+            dowanloadedMusicAdapter.setItems(songs);
+        });
+    }
+
     private void setDiscoverSongSlideViewOffset(float pageOffset, float pageMargin) {
         bind.discoverSongViewPager.setPageTransformer((page, position) -> {
             float myOffset = position * -(2 * pageOffset + pageMargin);
@@ -197,10 +217,10 @@ public class HomeFragment extends Fragment {
 
     /*
      * Il layout di default prevede questa sequenza:
-     * - Discovery - Most_played - Last_played - Year - Favorite - Recently_added
+     * - Discovery - Most_played - Last_played - Year - Favorite - Downloaded - Recently_added
      *
      * Se però non ho ancora ascoltato nessuna canzone e quindi Most_played e Last_played sono vuoti, modifico come segue
-     * - Discovery - Recently_added - Year - Favorite - Most_played - Last_played
+     * - Discovery - Recently_added - Year - Favorite - Downloaded - Most_played - Last_played
      */
     public void reorder() {
         if(bind != null) {
@@ -209,6 +229,7 @@ public class HomeFragment extends Fragment {
             bind.homeLinearLayoutContainer.addView(bind.homeRecentlyAddedTracksSector);
             bind.homeLinearLayoutContainer.addView(bind.homeFlashbackSector);
             bind.homeLinearLayoutContainer.addView(bind.homeFavoriteTracksSector);
+            bind.homeLinearLayoutContainer.addView(bind.homeDownloadedTracksSector);
             bind.homeLinearLayoutContainer.addView(bind.homeMostPlayedTracksSector);
             bind.homeLinearLayoutContainer.addView(bind.homeRecentlyPlayedTracksSector);
         }

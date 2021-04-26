@@ -1,18 +1,10 @@
 package com.cappielloantonio.play.ui.fragment;
 
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
@@ -20,13 +12,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.App;
-import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.helper.MusicPlayerRemote;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.viewmodel.AlbumPageViewModel;
 
 import java.util.Collections;
@@ -56,6 +48,7 @@ public class AlbumPageFragment extends Fragment {
         albumPageViewModel = new ViewModelProvider(requireActivity()).get(AlbumPageViewModel.class);
 
         init();
+        initDownloadButton();
         initBackCover();
         initSongsView();
 
@@ -78,6 +71,10 @@ public class AlbumPageFragment extends Fragment {
         albumPageViewModel.setAlbum(getArguments().getParcelable("album_object"));
     }
 
+    private void initDownloadButton() {
+        bind.downloadIconButton.setOnClickListener(v -> DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(albumPageViewModel.getAlbumSongList()));
+    }
+
     private void initAppBar() {
         activity.setSupportActionBar(bind.animToolbar);
 
@@ -90,7 +87,7 @@ public class AlbumPageFragment extends Fragment {
         bind.albumArtistLabel.setText(albumPageViewModel.getAlbum().getArtistName());
         bind.albumReleaseYearLabel.setText(albumPageViewModel.getAlbum().getYear() != 0 ? String.valueOf(albumPageViewModel.getAlbum().getYear()) : "");
 
-        albumPageViewModel.getAlbumSongList().observe(requireActivity(), songs -> {
+        albumPageViewModel.getAlbumSongLiveList().observe(requireActivity(), songs -> {
             if(bind != null) {
                 bind.albumPagePlayButton.setOnClickListener(v -> {
                     QueueRepository queueRepository = new QueueRepository(App.getInstance());
@@ -141,7 +138,7 @@ public class AlbumPageFragment extends Fragment {
         songResultSearchAdapter = new SongResultSearchAdapter(activity, requireContext(), getChildFragmentManager());
         bind.songRecyclerView.setAdapter(songResultSearchAdapter);
 
-        albumPageViewModel.getAlbumSongList().observe(requireActivity(), songs -> {
+        albumPageViewModel.getAlbumSongLiveList().observe(requireActivity(), songs -> {
             songResultSearchAdapter.setItems(songs);
         });
     }

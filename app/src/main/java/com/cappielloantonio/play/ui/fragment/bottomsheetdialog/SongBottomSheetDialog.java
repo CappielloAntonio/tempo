@@ -21,19 +21,18 @@ import com.cappielloantonio.play.helper.MusicPlayerRemote;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.PlaylistSongCross;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.util.SyncUtil;
-import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 import com.cappielloantonio.play.viewmodel.SongBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class SongBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
     private static final String TAG = "SongBottomSheetDialog";
@@ -44,12 +43,13 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
     private ImageView coverSong;
     private TextView titleSong;
     private TextView artistSong;
-    private ToggleButton thumbToggle;
+    private ToggleButton favoriteToggle;
+    private ImageView downloadIndicator;
 
     private TextView playRadio;
     private TextView playNext;
     private TextView addToQueue;
-    private TextView Download;
+    private TextView download;
     private TextView addToPlaylist;
     private TextView goToAlbum;
     private TextView goToArtist;
@@ -65,6 +65,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         songBottomSheetViewModel.setSong(song);
 
         init(view);
+        initDownloadedUI();
 
         return view;
     }
@@ -83,12 +84,14 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         artistSong = view.findViewById(R.id.song_artist_text_view);
         artistSong.setText(songBottomSheetViewModel.getSong().getArtistName());
 
-        thumbToggle = view.findViewById(R.id.button_favorite);
-        thumbToggle.setChecked(songBottomSheetViewModel.getSong().isFavorite());
-        thumbToggle.setOnClickListener(v -> {
+        favoriteToggle = view.findViewById(R.id.button_favorite);
+        favoriteToggle.setChecked(songBottomSheetViewModel.getSong().isFavorite());
+        favoriteToggle.setOnClickListener(v -> {
             songBottomSheetViewModel.setFavorite();
             dismissBottomSheet();
         });
+
+        downloadIndicator = view.findViewById(R.id.bottom_sheet_song_dowanload_indicator_image_view);
 
         playRadio = view.findViewById(R.id.play_radio_text_view);
         playRadio.setOnClickListener(v -> {
@@ -129,9 +132,9 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
             dismissBottomSheet();
         });
 
-        Download = view.findViewById(R.id.download_text_view);
-        Download.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Download", Toast.LENGTH_SHORT).show();
+        download = view.findViewById(R.id.download_text_view);
+        download.setOnClickListener(v -> {
+            DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(Arrays.asList(song));
             dismissBottomSheet();
         });
 
@@ -176,5 +179,15 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
     private void dismissBottomSheet() {
         dismiss();
+    }
+
+    private void initDownloadedUI() {
+        if (song.isOffline()) {
+            downloadIndicator.setVisibility(View.VISIBLE);
+            download.setText("Remove");
+        } else {
+            downloadIndicator.setVisibility(View.GONE);
+            download.setText("Download");
+        }
     }
 }

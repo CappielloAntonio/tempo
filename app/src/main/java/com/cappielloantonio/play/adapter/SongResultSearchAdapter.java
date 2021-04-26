@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +20,6 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.ui.activities.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
-import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +58,12 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
         holder.songArtist.setText(song.getArtistName());
         holder.songDuration.setText(MusicUtil.getReadableDurationString(song.getDuration()));
 
+        if (song.isOffline()) {
+            holder.downloadIndicator.setVisibility(View.VISIBLE);
+        } else {
+            holder.downloadIndicator.setVisibility(View.GONE);
+        }
+
         CustomGlideRequest.Builder
                 .from(context, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY, CustomGlideRequest.SONG_PIC)
                 .build()
@@ -75,6 +79,7 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
         TextView songTitle;
         TextView songArtist;
         TextView songDuration;
+        View downloadIndicator;
         ImageView more;
         ImageView cover;
 
@@ -84,6 +89,7 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
             songTitle = itemView.findViewById(R.id.search_result_song_title_text_view);
             songArtist = itemView.findViewById(R.id.search_result_song_artist_text_view);
             songDuration = itemView.findViewById(R.id.search_result_song_duration_text_view);
+            downloadIndicator = itemView.findViewById(R.id.search_result_dowanload_indicator_image_view);
             more = itemView.findViewById(R.id.search_result_song_more_button);
             cover = itemView.findViewById(R.id.song_cover_image_view);
 

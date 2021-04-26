@@ -135,7 +135,10 @@ public class Song implements Parcelable {
     @ColumnInfo(name = "last_play")
     private long lastPlay;
 
-    public Song(@NonNull String id, String title, int trackNumber, int discNumber, int year, long duration, String albumId, String albumName, String artistId, String artistName, String primary, String blurHash, boolean favorite, String path, long size, String container, String codec, int sampleRate, int bitRate, int bitDepth, int channels, long added, int playCount, long lastPlay) {
+    @ColumnInfo(name = "offline")
+    private boolean offline;
+
+    public Song(@NonNull String id, String title, int trackNumber, int discNumber, int year, long duration, String albumId, String albumName, String artistId, String artistName, String primary, String blurHash, boolean favorite, String path, long size, String container, String codec, int sampleRate, int bitRate, int bitDepth, int channels, long added, int playCount, long lastPlay, boolean offline) {
         this.id = id;
         this.title = title;
         this.trackNumber = trackNumber;
@@ -160,6 +163,7 @@ public class Song implements Parcelable {
         this.added = added;
         this.playCount = playCount;
         this.lastPlay = lastPlay;
+        this.offline = offline;
     }
 
     @Ignore
@@ -228,6 +232,7 @@ public class Song implements Parcelable {
         this.added = Instant.now().toEpochMilli();
         this.playCount = 0;
         this.lastPlay = 0;
+        this.offline = false;
     }
 
     @NonNull
@@ -327,6 +332,10 @@ public class Song implements Parcelable {
         return lastPlay;
     }
 
+    public boolean isOffline() {
+        return offline;
+    }
+
     public void setId(@NonNull String id) {
         this.id = id;
     }
@@ -423,6 +432,8 @@ public class Song implements Parcelable {
         this.playCount = playCount;
     }
 
+    public void setOffline(boolean offline) { this.offline = offline; }
+
     /*
         Log.i(TAG, "increasePlayCount: " + isIncreased);
      * Incremento il numero di ascolti solo se ho ascoltato la canzone da più tempo di:
@@ -493,6 +504,7 @@ public class Song implements Parcelable {
         dest.writeLong(this.added);
         dest.writeInt(this.playCount);
         dest.writeLong(this.lastPlay);
+        dest.writeBoolean(this.offline);
     }
 
     protected Song(Parcel in) {
@@ -520,6 +532,7 @@ public class Song implements Parcelable {
         this.added = in.readLong();
         this.playCount = in.readInt();
         this.lastPlay = in.readLong();
+        this.offline = in.readBoolean();
     }
 
     public static final Creator<Song> CREATOR = new Creator<Song>() {

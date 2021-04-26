@@ -353,6 +353,12 @@ public class SongRepository {
         thread.start();
     }
 
+    public void setOfflineStatus(Song song) {
+        UpdateThreadSafe update = new UpdateThreadSafe(songDao, song);
+        Thread thread = new Thread(update);
+        thread.start();
+    }
+
     private static class UpdateThreadSafe implements Runnable {
         private SongDao songDao;
         private Song song;
@@ -365,6 +371,25 @@ public class SongRepository {
         @Override
         public void run() {
             songDao.update(song);
+        }
+    }
+
+    public void setAllOffline() {
+        SetAllOfflineThreadSafe update = new SetAllOfflineThreadSafe(songDao);
+        Thread thread = new Thread(update);
+        thread.start();
+    }
+
+    private static class SetAllOfflineThreadSafe implements Runnable {
+        private SongDao songDao;
+
+        public SetAllOfflineThreadSafe(SongDao songDao) {
+            this.songDao = songDao;
+        }
+
+        @Override
+        public void run() {
+            songDao.updateAllOffline();
         }
     }
 

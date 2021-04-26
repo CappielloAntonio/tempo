@@ -296,6 +296,7 @@ public class SyncUtil {
             newSong.setAdded(oldSong.getAdded());
             newSong.setLastPlay(oldSong.getLastPlay());
             newSong.setPlayCount(oldSong.getPlayCount());
+            newSong.setOffline(oldSong.isOffline());
         }
 
         return newSong;

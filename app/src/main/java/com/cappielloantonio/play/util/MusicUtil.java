@@ -8,6 +8,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.DirectPlayCodec;
 import com.cappielloantonio.play.model.Song;
+import com.google.android.exoplayer2.MediaItem;
 
 import org.jellyfin.apiclient.interaction.ApiClient;
 
@@ -89,6 +90,22 @@ public class MusicUtil {
         else {
             return R.drawable.default_album_art;
         }
+    }
+
+    public static List<MediaItem> getMediaItemsFromSongs(List<Song> songs) {
+        List<MediaItem> mediaItems = new ArrayList<>();
+
+        for(Song song: songs) {
+            mediaItems.add(getMediaItemFromSong(song));
+        }
+
+        return mediaItems;
+    }
+
+    public static MediaItem getMediaItemFromSong(Song song) {
+        String uri = MusicUtil.getSongFileUri(song);
+        MediaItem mediaItem = MediaItem.fromUri(uri);
+        return mediaItem;
     }
 
     public static List<Integer> getRandomSongNumber(Context context, int numberOfNumbers, int refreshAfterXHours) {

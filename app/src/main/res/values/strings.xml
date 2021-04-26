@@ -49,4 +49,6 @@
 
     <string name="playing_notification_description">The playing notification provides actions for play/pause etc.</string>
     <string name="playing_notification_name">Playing Notification</string>
+
+    <string name="exo_download_notification_channel_name">Downloads</string>
 </resources>

@@ -24,6 +24,8 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.util.DownloadUtil;
+import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.util.SyncUtil;
 import com.cappielloantonio.play.viewmodel.AlbumBottomSheetViewModel;
@@ -135,7 +137,8 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
         Download = view.findViewById(R.id.download_text_view);
         Download.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Download", Toast.LENGTH_SHORT).show();
+            List<Song> songs = songRepository.getAlbumListSong(album.getId(), false);
+            DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(songs);
             dismissBottomSheet();
         });
 

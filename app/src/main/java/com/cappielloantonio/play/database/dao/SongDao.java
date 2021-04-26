@@ -76,6 +76,9 @@ public interface SongDao {
     @Update
     void update(Song song);
 
+    @Query("UPDATE song SET offline = 0 WHERE offline == 1")
+    void updateAllOffline();
+
     @Query("SELECT * FROM song WHERE id IN (:ids)")
     List<Song> getSongsByID(List<String> ids);
 

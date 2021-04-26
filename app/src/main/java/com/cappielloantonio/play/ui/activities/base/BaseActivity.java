@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -20,7 +21,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.helper.MusicPlayerRemote;
 import com.cappielloantonio.play.interfaces.MusicServiceEventListener;
+import com.cappielloantonio.play.service.DownloadTracker;
 import com.cappielloantonio.play.service.MusicService;
+import com.cappielloantonio.play.service.PlayDownloadService;
+import com.cappielloantonio.play.util.DownloadUtil;
+import com.google.android.exoplayer2.offline.DownloadService;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -29,7 +34,7 @@ import java.util.List;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class BaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks, MusicServiceEventListener {
+public class BaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks, MusicServiceEventListener, DownloadTracker.Listener {
     private static final String TAG = "BaseActivity";
     public static final int REQUEST_PERM_ACCESS = 1;
 
@@ -37,6 +42,8 @@ public class BaseActivity extends AppCompatActivity implements EasyPermissions.P
 
     private MusicPlayerRemote.ServiceToken serviceToken;
     private MusicStateReceiver musicStateReceiver;
+
+    private DownloadTracker downloadTracker;
 
     private boolean receiverRegistered;
 
@@ -58,6 +65,23 @@ public class BaseActivity extends AppCompatActivity implements EasyPermissions.P
                 BaseActivity.this.onServiceDisconnected();
             }
         });
+
+        downloadTracker = DownloadUtil.getDownloadTracker(this);
+        // Start the download service if it should be running but it's not currently.
+        // Starting the service in the foreground causes notification flicker if there is no scheduled
+        // action. Starting it in the background throws an exception if the app is in the background too
+        // (e.g. if device screen is locked).
+        try {
+            DownloadService.start(this, PlayDownloadService.class);
+        } catch (IllegalStateException e) {
+            DownloadService.startForeground(this, PlayDownloadService.class);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        downloadTracker.addListener(this);
     }
 
     @Override
@@ -65,6 +89,12 @@ public class BaseActivity extends AppCompatActivity implements EasyPermissions.P
         super.onResume();
         checkPermissions();
         checkBatteryOptimization();
+    }
+
+    @Override
+    public void onStop() {
+        downloadTracker.removeListener(this);
+        super.onStop();
     }
 
     @Override
@@ -214,6 +244,13 @@ public class BaseActivity extends AppCompatActivity implements EasyPermissions.P
                 listener.onRepeatModeChanged();
             }
         }
+    }
+
+    @Override
+    public void onDownloadsChanged() {
+        // TODO Notificare all'item scaricato che lo stato di download è cambiato
+        // sampleAdapter.notifyDataSetChanged();
+        Toast.makeText(this, "Download changed", Toast.LENGTH_SHORT).show();
     }
 
     private static final class MusicStateReceiver extends BroadcastReceiver {

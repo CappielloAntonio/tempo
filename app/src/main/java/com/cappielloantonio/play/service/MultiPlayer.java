@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.service.playback.Playback;
+import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -16,6 +17,7 @@ import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.database.ExoDatabaseProvider;
+import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
 import com.google.android.exoplayer2.source.MediaSourceFactory;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
@@ -77,8 +79,17 @@ public class MultiPlayer implements Playback {
     public MultiPlayer(Context context) {
         this.context = context;
 
-        MediaSourceFactory mediaSourceFactory = new UnknownMediaSourceFactory(buildDataSourceFactory());
-        exoPlayer = new SimpleExoPlayer.Builder(context).setMediaSourceFactory(mediaSourceFactory).build();
+        // Create a read-only cache data source factory using the download cache.
+        DataSource.Factory cacheDataSourceFactory =
+                new CacheDataSource.Factory()
+                        .setCache(DownloadUtil.getDownloadCache(context))
+                        .setUpstreamDataSourceFactory(DownloadUtil.getHttpDataSourceFactory(context))
+                        .setCacheWriteDataSinkFactory(null); // Disable writing.
+
+        exoPlayer = new SimpleExoPlayer.Builder(context)
+                .setMediaSourceFactory(new DefaultMediaSourceFactory(cacheDataSourceFactory))
+                .build();
+
         // TODO: “Player is accessed on the wrong thread” suppressed
         // exoPlayer.setThrowsWhenUsingWrongThread(false);
 

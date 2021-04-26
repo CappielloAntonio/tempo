@@ -21,6 +21,7 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 
 import java.util.ArrayList;

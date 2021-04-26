@@ -70,7 +70,7 @@ public interface SongDao {
     @Query("SELECT * FROM song WHERE offline = 1 ORDER BY RANDOM() LIMIT :number")
     LiveData<List<Song>> getDownloadedSongSample(int number);
 
-    @Query("SELECT * FROM song WHERE offline = 1")
+    @Query("SELECT * FROM song WHERE offline = 1 ORDER BY path, albumName, trackNumber")
     LiveData<List<Song>> getDownloadedSong();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -1,5 +1,5 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory app:title="@string/general_header">
         <ListPreference
             app:defaultValue="400000000"
@@ -49,19 +49,19 @@
 
     <PreferenceCategory app:title="@string/sync_header">
         <Preference
-            android:title="@string/music_sync"
             android:key="@string/music_sync"
-            android:summary="@string/music_sync_caption" />
+            android:summary="@string/music_sync_caption"
+            android:title="@string/music_sync" />
 
         <Preference
-            android:title="@string/genres_music_cross_sync"
             android:key="@string/genres_music_cross_sync"
-            android:summary="@string/genres_music_cross_sync_caption" />
+            android:summary="@string/genres_music_cross_sync_caption"
+            android:title="@string/genres_music_cross_sync" />
 
         <Preference
-            android:title="@string/playlist_song_cross_sync"
             android:key="@string/playlist_song_cross_sync"
-            android:summary="@string/playlist_song_cross_sync_caption" />
+            android:summary="@string/playlist_song_cross_sync_caption"
+            android:title="@string/playlist_song_cross_sync" />
 
     </PreferenceCategory>
 
@@ -71,13 +71,13 @@
             app:summary="@string/summary_about" />
 
         <Preference
-            app:title="@string/title_version"
-            app:summary="@string/app_version" />
+            app:summary="@string/app_version"
+            app:title="@string/title_version" />
 
         <!-- preference opens url in browser -->
         <Preference
-            app:title="@string/github_page"
-            app:summary="@string/development">
+            app:summary="@string/development"
+            app:title="@string/github_page">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/github_url" />

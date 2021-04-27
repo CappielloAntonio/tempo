@@ -9,7 +9,7 @@
         android:id="@+id/landingFragment"
         android:name="com.cappielloantonio.play.ui.fragment.LandingFragment"
         android:label="fragment_landing"
-        tools:layout="@layout/fragment_landing" >
+        tools:layout="@layout/fragment_landing">
         <action
             android:id="@+id/action_landingFragment_to_loginFragment"
             app:destination="@id/loginFragment"
@@ -58,7 +58,7 @@
             android:id="@+id/action_syncFragment_to_libraryFragment"
             app:destination="@id/libraryFragment"
             app:popUpTo="@id/syncFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -94,7 +94,7 @@
             app:destination="@id/playlistCatalogueFragment" />
         <action
             android:id="@+id/action_libraryFragment_to_artistPageFragment"
-            app:destination="@id/artistPageFragment"/>
+            app:destination="@id/artistPageFragment" />
         <action
             android:id="@+id/action_libraryFragment_to_albumPageFragment"
             app:destination="@id/albumPageFragment" />
@@ -128,7 +128,7 @@
         tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_artistPageFragment"
-            app:destination="@id/artistPageFragment"/>
+            app:destination="@id/artistPageFragment" />
         <action
             android:id="@+id/action_searchFragment_to_albumPageFragment"
             app:destination="@id/albumPageFragment" />
@@ -140,7 +140,7 @@
         android:id="@+id/filterFragment"
         android:name="com.cappielloantonio.play.ui.fragment.FilterFragment"
         android:label="FilterFragment"
-        tools:layout="@layout/fragment_filter" >
+        tools:layout="@layout/fragment_filter">
         <action
             android:id="@+id/action_filterFragment_to_songListPageFragment"
             app:destination="@id/songListPageFragment" />
@@ -152,7 +152,7 @@
         tools:layout="@layout/fragment_artist_catalogue">
         <action
             android:id="@+id/action_artistCatalogueFragment_to_artistPageFragment"
-            app:destination="@id/artistPageFragment"/>
+            app:destination="@id/artistPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/albumCatalogueFragment"
@@ -201,33 +201,30 @@
         android:id="@+id/albumPageFragment"
         android:name="com.cappielloantonio.play.ui.fragment.AlbumPageFragment"
         android:label="AlbumPageFragment"
-        tools:layout="@layout/fragment_album_page"/>
+        tools:layout="@layout/fragment_album_page" />
     <fragment
         android:id="@+id/songListPageFragment"
         android:name="com.cappielloantonio.play.ui.fragment.SongListPageFragment"
         android:label="SongListPageFragment"
-        tools:layout="@layout/fragment_song_list_page"/>
+        tools:layout="@layout/fragment_song_list_page" />
     <fragment
         android:id="@+id/playlistPageFragment"
         android:name="com.cappielloantonio.play.ui.fragment.PlaylistPageFragment"
         android:label="PlaylistPageFragment"
-        tools:layout="@layout/fragment_playlist_page"/>
+        tools:layout="@layout/fragment_playlist_page" />
     <dialog
         android:id="@+id/songBottomSheetDialog"
         android:name="com.cappielloantonio.play.ui.fragment.bottomsheetdialog.SongBottomSheetDialog"
         android:label="SongBottomSheetDialog"
-        tools:layout="@layout/bottom_sheet_song_dialog">
-    </dialog>
+        tools:layout="@layout/bottom_sheet_song_dialog" />
     <dialog
         android:id="@+id/artistBottomSheetDialog"
         android:name="com.cappielloantonio.play.ui.fragment.bottomsheetdialog.ArtistBottomSheetDialog"
         android:label="ArtistBottomSheetDialog"
-        tools:layout="@layout/bottom_sheet_artist_dialog">
-    </dialog>
+        tools:layout="@layout/bottom_sheet_artist_dialog" />
     <dialog
         android:id="@+id/albumBottomSheetDialog"
         android:name="com.cappielloantonio.play.ui.fragment.bottomsheetdialog.AlbumBottomSheetDialog"
         android:label="AlbumBottomSheetDialog"
-        tools:layout="@layout/bottom_sheet_album_dialog">
-    </dialog>
+        tools:layout="@layout/bottom_sheet_album_dialog" />
 </navigation>

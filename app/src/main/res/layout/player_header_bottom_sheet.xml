@@ -36,7 +36,7 @@
         style="@style/ItemSubtitleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/open_sans_font_family"
+        android:fontFamily="@font/opensans"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         app:layout_constraintEnd_toStartOf="@+id/player_header_button"

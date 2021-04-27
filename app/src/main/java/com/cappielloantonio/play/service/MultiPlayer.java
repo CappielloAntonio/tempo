@@ -6,15 +6,15 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.interfaces.Playback;
+import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.database.ExoDatabaseProvider;
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
@@ -186,22 +186,22 @@ public class MultiPlayer implements Playback {
     }
 
     @Override
-    public int getDuration() {
-        return (int) exoPlayer.getDuration();
-    }
-
-    @Override
     public void setProgress(int progress) {
         exoPlayer.seekTo(progress);
     }
 
     @Override
-    public void setVolume(int volume) {
-        exoPlayer.setVolume(volume / 100f);
+    public int getDuration() {
+        return (int) exoPlayer.getDuration();
     }
 
     @Override
     public int getVolume() {
         return (int) (exoPlayer.getVolume() * 100);
+    }
+
+    @Override
+    public void setVolume(int volume) {
+        exoPlayer.setVolume(volume / 100f);
     }
 }

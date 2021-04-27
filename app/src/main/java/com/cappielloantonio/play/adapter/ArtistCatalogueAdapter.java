@@ -31,6 +31,36 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
     private LayoutInflater inflater;
     private MainActivity activity;
     private Context context;
+    private Filter filtering = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Artist> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(artistFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (Artist item : artistFull) {
+                    if (item.getName().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            artists.clear();
+            artists.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public ArtistCatalogueAdapter(MainActivity activity, Context context) {
         this.activity = activity;
@@ -62,6 +92,21 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
         return artists.size();
     }
 
+    public Artist getItem(int position) {
+        return artists.get(position);
+    }
+
+    public void setItems(List<Artist> artists) {
+        this.artists = artists;
+        this.artistFull = new ArrayList<>(artists);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return filtering;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView textArtistName;
         ImageView cover;
@@ -83,15 +128,13 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
 
             if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.searchFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_searchFragment_to_artistPageFragment, bundle);
-            }
-            else if(Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.libraryFragment) {
+            } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.libraryFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_libraryFragment_to_artistPageFragment, bundle);
-            }
-            else if(Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.artistCatalogueFragment) {
+            } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.artistCatalogueFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_artistCatalogueFragment_to_artistPageFragment, bundle);
             }
 
-            InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
 
@@ -103,50 +146,4 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
             return true;
         }
     }
-
-    public Artist getItem(int position) {
-        return artists.get(position);
-    }
-
-    public void setItems(List<Artist> artists) {
-        this.artists = artists;
-        this.artistFull = new ArrayList<>(artists);
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public Filter getFilter() {
-        return filtering;
-    }
-
-    private Filter filtering = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            List<Artist> filteredList = new ArrayList<>();
-
-            if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(artistFull);
-            } else {
-                String filterPattern = constraint.toString().toLowerCase().trim();
-
-                for (Artist item : artistFull) {
-                    if (item.getName().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(item);
-                    }
-                }
-            }
-
-            FilterResults results = new FilterResults();
-            results.values = filteredList;
-
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            artists.clear();
-            artists.addAll((List) results.values);
-            notifyDataSetChanged();
-        }
-    };
 }

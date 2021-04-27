@@ -16,16 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SongListPageViewModel extends AndroidViewModel {
-    private SongRepository songRepository;
-
-    private LiveData<List<Song>> songList;
-
     public String title;
     public Genre genre;
     public Artist artist;
     public ArrayList<String> filters = new ArrayList<>();
     public ArrayList<String> filterNames = new ArrayList<>();
     public int year = 0;
+    private SongRepository songRepository;
+    private LiveData<List<Song>> songList;
 
     public SongListPageViewModel(@NonNull Application application) {
         super(application);

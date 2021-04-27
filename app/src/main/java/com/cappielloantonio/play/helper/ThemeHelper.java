@@ -1,17 +1,15 @@
 package com.cappielloantonio.play.helper;
 
 import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 
 public class ThemeHelper {
-    private static final String TAG = "ThemeHelper";
-
     public static final String LIGHT_MODE = "light";
     public static final String DARK_MODE = "dark";
     public static final String DEFAULT_MODE = "default";
+    private static final String TAG = "ThemeHelper";
 
     public static void applyTheme(@NonNull String themePref) {
         switch (themePref) {

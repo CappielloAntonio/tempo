@@ -54,6 +54,15 @@ public class AlbumArtistPageAdapter extends RecyclerView.Adapter<AlbumArtistPage
         return albums.size();
     }
 
+    public Album getItem(int position) {
+        return albums.get(position);
+    }
+
+    public void setItems(List<Album> albums) {
+        this.albums = albums;
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView textAlbumName;
         ImageView cover;
@@ -82,14 +91,5 @@ public class AlbumArtistPageAdapter extends RecyclerView.Adapter<AlbumArtistPage
             Navigation.findNavController(v).navigate(R.id.albumBottomSheetDialog, bundle);
             return true;
         }
-    }
-
-    public Album getItem(int position) {
-        return albums.get(position);
-    }
-
-    public void setItems(List<Album> albums) {
-        this.albums = albums;
-        notifyDataSetChanged();
     }
 }

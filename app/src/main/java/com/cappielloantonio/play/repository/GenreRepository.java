@@ -5,10 +5,8 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.database.AppDatabase;
-import com.cappielloantonio.play.database.dao.ArtistDao;
 import com.cappielloantonio.play.database.dao.GenreDao;
 import com.cappielloantonio.play.database.dao.SongGenreCrossDao;
-import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Genre;
 
 import java.util.ArrayList;
@@ -47,30 +45,11 @@ public class GenreRepository {
         try {
             thread.join();
             list = getGenreListThread.getList();
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         return list;
-    }
-
-    private static class GetGenreListThreadSafe implements Runnable {
-        private GenreDao genreDao;
-        private List<Genre> list = null;
-
-        public GetGenreListThreadSafe(GenreDao genreDao) {
-            this.genreDao = genreDao;
-        }
-
-        @Override
-        public void run() {
-            list = genreDao.getGenreList();
-        }
-
-        public List<Genre> getList() {
-            return list;
-        }
     }
 
     public void insertAll(ArrayList<Genre> genres) {
@@ -79,39 +58,10 @@ public class GenreRepository {
         thread.start();
     }
 
-    private static class InsertAllThreadSafe implements Runnable {
-        private GenreDao genreDao;
-        private ArrayList<Genre> genres;
-
-        public InsertAllThreadSafe(GenreDao genreDao, ArrayList<Genre> genres) {
-            this.genreDao = genreDao;
-            this.genres = genres;
-        }
-
-        @Override
-        public void run() {
-            genreDao.deleteAll();
-            genreDao.insertAll(genres);
-        }
-    }
-
     public void deleteAll() {
         DeleteAllGenreThreadSafe delete = new DeleteAllGenreThreadSafe(genreDao);
         Thread thread = new Thread(delete);
         thread.start();
-    }
-
-    private static class DeleteAllGenreThreadSafe implements Runnable {
-        private GenreDao genreDao;
-
-        public DeleteAllGenreThreadSafe(GenreDao genreDao) {
-            this.genreDao = genreDao;
-        }
-
-        @Override
-        public void run() {
-            genreDao.deleteAll();
-        }
     }
 
     public LiveData<List<Genre>> searchListLiveGenre(String name, int limit) {
@@ -134,6 +84,53 @@ public class GenreRepository {
         }
 
         return suggestions;
+    }
+
+    private static class GetGenreListThreadSafe implements Runnable {
+        private GenreDao genreDao;
+        private List<Genre> list = null;
+
+        public GetGenreListThreadSafe(GenreDao genreDao) {
+            this.genreDao = genreDao;
+        }
+
+        @Override
+        public void run() {
+            list = genreDao.getGenreList();
+        }
+
+        public List<Genre> getList() {
+            return list;
+        }
+    }
+
+    private static class InsertAllThreadSafe implements Runnable {
+        private GenreDao genreDao;
+        private ArrayList<Genre> genres;
+
+        public InsertAllThreadSafe(GenreDao genreDao, ArrayList<Genre> genres) {
+            this.genreDao = genreDao;
+            this.genres = genres;
+        }
+
+        @Override
+        public void run() {
+            genreDao.deleteAll();
+            genreDao.insertAll(genres);
+        }
+    }
+
+    private static class DeleteAllGenreThreadSafe implements Runnable {
+        private GenreDao genreDao;
+
+        public DeleteAllGenreThreadSafe(GenreDao genreDao) {
+            this.genreDao = genreDao;
+        }
+
+        @Override
+        public void run() {
+            genreDao.deleteAll();
+        }
     }
 
     private static class SearchSuggestionsThreadSafe implements Runnable {

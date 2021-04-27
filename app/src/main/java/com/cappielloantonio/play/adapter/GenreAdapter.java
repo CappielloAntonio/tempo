@@ -46,6 +46,23 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
         return genres.size();
     }
 
+    public Genre getItem(int position) {
+        return genres.get(position);
+    }
+
+    public void setItems(List<Genre> genres) {
+        this.genres = genres;
+        notifyDataSetChanged();
+    }
+
+    public void setClickListener(ItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
+
+    public interface ItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textGenre;
 
@@ -62,22 +79,5 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
             if (itemClickListener != null)
                 itemClickListener.onItemClick(view, getBindingAdapterPosition());
         }
-    }
-
-    public Genre getItem(int position) {
-        return genres.get(position);
-    }
-
-    public void setItems(List<Genre> genres) {
-        this.genres = genres;
-        notifyDataSetChanged();
-    }
-
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
-    }
-
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
     }
 }

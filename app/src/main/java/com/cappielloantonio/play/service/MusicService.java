@@ -28,12 +28,12 @@ import androidx.annotation.Nullable;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.broadcast.receiver.MediaButtonIntentReceiver;
+import com.cappielloantonio.play.interfaces.Playback;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.ui.notification.PlayingNotification;
-import com.cappielloantonio.play.interfaces.Playback;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
 import org.jellyfin.apiclient.interaction.EmptyResponse;
@@ -57,8 +57,6 @@ import static com.google.android.exoplayer2.Player.PLAY_WHEN_READY_CHANGE_REASON
 
 public class MusicService extends Service implements Playback.PlaybackCallbacks {
     public static final String PACKAGE_NAME = "com.antoniocappiello.play";
-    private static final String TAG = "MusicService";
-
     public static final String ACTION_TOGGLE = PACKAGE_NAME + ".toggle";
     public static final String ACTION_PLAY = PACKAGE_NAME + ".play";
     public static final String ACTION_PLAY_PLAYLIST = PACKAGE_NAME + ".play.playlist";
@@ -68,17 +66,13 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     public static final String ACTION_REWIND = PACKAGE_NAME + ".rewind";
     public static final String ACTION_QUIT = PACKAGE_NAME + ".quit";
     public static final String ACTION_PENDING_QUIT = PACKAGE_NAME + ".quit.pending";
-
     public static final String INTENT_EXTRA_PLAYLIST = PACKAGE_NAME + ".extra.playlist";
-
     public static final String STATE_CHANGED = PACKAGE_NAME + ".state.changed";
     public static final String META_CHANGED = PACKAGE_NAME + ".meta.changed";
     public static final String QUEUE_CHANGED = PACKAGE_NAME + ".queue.changed";
-
     public static final int TRACK_STARTED = 9;
     public static final int TRACK_CHANGED = 1;
     public static final int TRACK_ENDED = 2;
-
     public static final int RELEASE_WAKELOCK = 0;
     public static final int PLAY_SONG = 3;
     public static final int PREPARE_NEXT = 4;
@@ -86,39 +80,25 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     public static final int FOCUS_CHANGE = 6;
     public static final int DUCK = 7;
     public static final int UNDUCK = 8;
-
     public static final int LOAD_QUEUE = 9;
-
+    private static final String TAG = "MusicService";
+    private static final long MEDIA_SESSION_ACTIONS = PlaybackStateCompat.ACTION_PLAY
+            | PlaybackStateCompat.ACTION_PAUSE
+            | PlaybackStateCompat.ACTION_PLAY_PAUSE
+            | PlaybackStateCompat.ACTION_SKIP_TO_NEXT
+            | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
+            | PlaybackStateCompat.ACTION_STOP
+            | PlaybackStateCompat.ACTION_SEEK_TO;
     private final IBinder musicBinder = new MusicBinder();
-
     public boolean pendingQuit = false;
-
     private Playback playback;
-
     private List<Song> playingQueue = new ArrayList<>();
-
     private int position = -1;
     private int nextPosition = -1;
-
     private boolean notHandledMetaChangedForCurrentTrack;
     private boolean queuesRestored;
     private boolean pausedByTransientLossOfFocus;
-
     private PlayingNotification playingNotification;
-    private AudioManager audioManager;
-    private MediaSessionCompat mediaSession;
-    private PowerManager.WakeLock wakeLock;
-
-    private PlaybackHandler playerHandler;
-    private Handler uiThreadHandler;
-    private ThrottledSeekHandler throttledSeekHandler;
-    private QueueHandler queueHandler;
-    private ProgressHandler progressHandler;
-
-    private HandlerThread playerHandlerThread;
-    private HandlerThread progressHandlerThread;
-    private HandlerThread queueHandlerThread;
-
     private final BroadcastReceiver becomingNoisyReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, @NonNull Intent intent) {
@@ -127,21 +107,23 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
             }
         }
     };
-
+    private AudioManager audioManager;
+    private MediaSessionCompat mediaSession;
+    private PowerManager.WakeLock wakeLock;
+    private PlaybackHandler playerHandler;
     private final AudioManager.OnAudioFocusChangeListener audioFocusListener = new AudioManager.OnAudioFocusChangeListener() {
         @Override
         public void onAudioFocusChange(final int focusChange) {
             playerHandler.obtainMessage(FOCUS_CHANGE, focusChange, 0).sendToTarget();
         }
     };
-
-    private static final long MEDIA_SESSION_ACTIONS = PlaybackStateCompat.ACTION_PLAY
-            | PlaybackStateCompat.ACTION_PAUSE
-            | PlaybackStateCompat.ACTION_PLAY_PAUSE
-            | PlaybackStateCompat.ACTION_SKIP_TO_NEXT
-            | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
-            | PlaybackStateCompat.ACTION_STOP
-            | PlaybackStateCompat.ACTION_SEEK_TO;
+    private Handler uiThreadHandler;
+    private ThrottledSeekHandler throttledSeekHandler;
+    private QueueHandler queueHandler;
+    private ProgressHandler progressHandler;
+    private HandlerThread playerHandlerThread;
+    private HandlerThread progressHandlerThread;
+    private HandlerThread queueHandlerThread;
 
     @Override
     public void onCreate() {
@@ -304,26 +286,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         return musicBinder;
     }
 
-    private static final class QueueHandler extends Handler {
-        @NonNull
-        private final WeakReference<MusicService> mService;
-
-        public QueueHandler(final MusicService service, @NonNull final Looper looper) {
-            super(looper);
-            mService = new WeakReference<>(service);
-        }
-
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            final MusicService service = mService.get();
-            switch (msg.what) {
-                case LOAD_QUEUE:
-                    service.restoreQueuesAndPositionIfNecessary();
-                    break;
-            }
-        }
-    }
-
     public void saveState() {
         savePosition();
         saveProgress();
@@ -403,6 +365,12 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
 
     public int getPosition() {
         return position;
+    }
+
+    public void setPosition(final int position) {
+        // handle this on the handlers thread to avoid blocking the ui thread
+        playerHandler.removeMessages(SET_POSITION);
+        playerHandler.obtainMessage(SET_POSITION, position, 0).sendToTarget();
     }
 
     public void playNextSong() {
@@ -609,12 +577,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         playerHandler.obtainMessage(PLAY_SONG, position, 0).sendToTarget();
     }
 
-    public void setPosition(final int position) {
-        // handle this on the handlers thread to avoid blocking the ui thread
-        playerHandler.removeMessages(SET_POSITION);
-        playerHandler.obtainMessage(SET_POSITION, position, 0).sendToTarget();
-    }
-
     private void playSongAtImpl(int position) {
         openTrackAndPrepareNextAt(position);
     }
@@ -774,6 +736,26 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         }
     }
 
+    private static final class QueueHandler extends Handler {
+        @NonNull
+        private final WeakReference<MusicService> mService;
+
+        public QueueHandler(final MusicService service, @NonNull final Looper looper) {
+            super(looper);
+            mService = new WeakReference<>(service);
+        }
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            final MusicService service = mService.get();
+            switch (msg.what) {
+                case LOAD_QUEUE:
+                    service.restoreQueuesAndPositionIfNecessary();
+                    break;
+            }
+        }
+    }
+
     private static final class PlaybackHandler extends Handler {
         private final WeakReference<MusicService> mService;
         private int currentDuckVolume = 100;
@@ -907,33 +889,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         }
     }
 
-    public class MusicBinder extends Binder {
-        @NonNull
-        public MusicService getService() {
-            return MusicService.this;
-        }
-    }
-
-    private class ThrottledSeekHandler implements Runnable {
-        // milliseconds to throttle before calling run to aggregate events
-        private static final long THROTTLE = 500;
-        private final Handler mHandler;
-
-        public ThrottledSeekHandler(Handler handler) {
-            mHandler = handler;
-        }
-
-        public void notifySeek() {
-            mHandler.removeCallbacks(this);
-            mHandler.postDelayed(this, THROTTLE);
-        }
-
-        @Override
-        public void run() {
-            notifyChange(STATE_CHANGED);
-        }
-    }
-
     private static final class ProgressHandler extends Handler {
         private final WeakReference<MusicService> mService;
 
@@ -1010,6 +965,33 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
 
             if (task != null) task.cancel(true);
             if (executorService != null) executorService.shutdownNow();
+        }
+    }
+
+    public class MusicBinder extends Binder {
+        @NonNull
+        public MusicService getService() {
+            return MusicService.this;
+        }
+    }
+
+    private class ThrottledSeekHandler implements Runnable {
+        // milliseconds to throttle before calling run to aggregate events
+        private static final long THROTTLE = 500;
+        private final Handler mHandler;
+
+        public ThrottledSeekHandler(Handler handler) {
+            mHandler = handler;
+        }
+
+        public void notifySeek() {
+            mHandler.removeCallbacks(this);
+            mHandler.postDelayed(this, THROTTLE);
+        }
+
+        @Override
+        public void run() {
+            notifyChange(STATE_CHANGED);
         }
     }
 }

@@ -56,6 +56,15 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         return albums.size();
     }
 
+    public Album getItem(int position) {
+        return albums.get(position);
+    }
+
+    public void setItems(List<Album> albums) {
+        this.albums = albums;
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView textAlbumName;
         TextView textArtistName;
@@ -79,11 +88,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
             if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.searchFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_searchFragment_to_albumPageFragment, bundle);
-            }
-            else if(Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.libraryFragment) {
+            } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.libraryFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_libraryFragment_to_albumPageFragment, bundle);
-            }
-            else if(Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.albumCatalogueFragment) {
+            } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.albumCatalogueFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_albumCatalogueFragment_to_albumPageFragment, bundle);
             }
         }
@@ -95,14 +102,5 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
             Navigation.findNavController(v).navigate(R.id.albumBottomSheetDialog, bundle);
             return true;
         }
-    }
-
-    public Album getItem(int position) {
-        return albums.get(position);
-    }
-
-    public void setItems(List<Album> albums) {
-        this.albums = albums;
-        notifyDataSetChanged();
     }
 }

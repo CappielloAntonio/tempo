@@ -8,7 +8,6 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.cappielloantonio.play.model.AlbumArtistCross;
 import com.cappielloantonio.play.model.SongArtistCross;
 
 import java.util.List;

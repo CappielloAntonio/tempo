@@ -56,6 +56,15 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         return playlists.size();
     }
 
+    public Playlist getItem(int position) {
+        return playlists.get(position);
+    }
+
+    public void setItems(List<Playlist> playlists) {
+        this.playlists = playlists;
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textPlaylistName;
         ImageView cover;
@@ -76,14 +85,5 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             Navigation.findNavController(view).navigate(R.id.action_libraryFragment_to_playlistPageFragment, bundle);
 
         }
-    }
-
-    public Playlist getItem(int position) {
-        return playlists.get(position);
-    }
-
-    public void setItems(List<Playlist> playlists) {
-        this.playlists = playlists;
-        notifyDataSetChanged();
     }
 }

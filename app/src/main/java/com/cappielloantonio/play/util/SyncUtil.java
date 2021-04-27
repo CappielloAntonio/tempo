@@ -16,12 +16,12 @@ import com.cappielloantonio.play.model.SongGenreCross;
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.BaseItemType;
+import org.jellyfin.apiclient.model.playlists.PlaylistItemQuery;
 import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
 import org.jellyfin.apiclient.model.querying.ItemQuery;
 import org.jellyfin.apiclient.model.querying.ItemsByNameQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
-import org.jellyfin.apiclient.model.playlists.PlaylistItemQuery;
 import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 
 import java.util.ArrayList;
@@ -30,11 +30,10 @@ import java.util.List;
 import java.util.Map;
 
 public class SyncUtil {
-    private static final String TAG = "SyncUtil";
-
     public static final String SONG = "song";
     public static final String ALBUM = "album";
     public static final String ARTIST = "artist";
+    private static final String TAG = "SyncUtil";
 
     public static void getLibraries(Context context, MediaCallback callback) {
         String id = App.getApiClientInstance(context).getCurrentUserId();
@@ -258,11 +257,9 @@ public class SyncUtil {
                 for (BaseItemDto itemDto : result.getItems()) {
                     if (resultType.equals(ARTIST) && itemDto.getBaseItemType() == BaseItemType.MusicArtist) {
                         items.add(new Artist(itemDto));
-                    }
-                    else if (resultType.equals(ALBUM) && itemDto.getBaseItemType() == BaseItemType.MusicAlbum) {
+                    } else if (resultType.equals(ALBUM) && itemDto.getBaseItemType() == BaseItemType.MusicAlbum) {
                         items.add(new Album(itemDto));
-                    }
-                    else if (resultType.equals(SONG) && itemDto.getBaseItemType() == BaseItemType.Audio) {
+                    } else if (resultType.equals(SONG) && itemDto.getBaseItemType() == BaseItemType.Audio) {
                         items.add(new Song(itemDto));
                     }
                 }
@@ -290,7 +287,7 @@ public class SyncUtil {
     }
 
     private static Song updateSongData(Map<Integer, Song> library, Song newSong) {
-        if(library.containsKey(newSong.hashCode())) {
+        if (library.containsKey(newSong.hashCode())) {
             Song oldSong = library.get(newSong.hashCode());
             newSong.setFavorite(oldSong.isFavorite());
             newSong.setAdded(oldSong.getAdded());

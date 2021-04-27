@@ -56,7 +56,7 @@ public class SearchViewModel extends AndroidViewModel {
     public void setQuery(String query) {
         this.query = query;
 
-        if(!query.isEmpty()) {
+        if (!query.isEmpty()) {
             insertNewSearch(query);
         }
     }

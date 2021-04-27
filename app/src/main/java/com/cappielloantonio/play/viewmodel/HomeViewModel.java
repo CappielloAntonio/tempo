@@ -39,7 +39,7 @@ public class HomeViewModel extends AndroidViewModel {
 
 
     public List<Song> getDiscoverSongList() {
-        if(dicoverSongSample.isEmpty()) {
+        if (dicoverSongSample.isEmpty()) {
             dicoverSongSample = songRepository.getRandomSample(10);
         }
 

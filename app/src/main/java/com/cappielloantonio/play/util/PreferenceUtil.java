@@ -14,31 +14,24 @@ import java.util.List;
 import java.util.Set;
 
 public class PreferenceUtil {
-    private static final String TAG = "PreferenceUtil";
-
     public static final String SERVER = "server";
     public static final String USER = "user";
     public static final String TOKEN = "token";
     public static final String MUSIC_LIBRARY_ID = "music_library_id";
-
     public static final String POSITION = "position";
     public static final String PROGRESS = "progress";
-
     public static final String SYNC = "sync";
     public static final String SONG_GENRE_SYNC = "song_genre_sync";
     public static final String SEARCH_ELEMENT_PER_CATEGORY = "search_element_per_category";
-
     public static final String IMAGE_CACHE_SIZE = "image_cache_size";
     public static final String MEDIA_CACHE_SIZE = "media_cache_size";
     public static final String INSTANT_MIX_SONG_NUMBER = "instant_mix_song_number";
-
     public static final String TRANSCODE_CODEC = "transcode_codec";
     public static final String DIRECT_PLAY_CODECS = "direct_play_codecs";
     public static final String MAXIMUM_BITRATE = "maximum_bitrate";
     public static final String AUDIO_DUCKING = "audio_ducking";
-
     public static final String SONG_NUMBER = "SONG_NUMBER";
-
+    private static final String TAG = "PreferenceUtil";
     private static PreferenceUtil sInstance;
     private final SharedPreferences mPreferences;
 
@@ -54,7 +47,9 @@ public class PreferenceUtil {
         return sInstance;
     }
 
-    public String getTheme() { return mPreferences.getString("themePref", ThemeHelper.DEFAULT_MODE ); }
+    public String getTheme() {
+        return mPreferences.getString("themePref", ThemeHelper.DEFAULT_MODE);
+    }
 
     public String getServer() {
         return mPreferences.getString(SERVER, "https://jellyfin.org");

@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.service.MusicPlayerRemote;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +50,19 @@ public class PlayerNowPlayingSongAdapter extends RecyclerView.Adapter<PlayerNowP
         return songs.size();
     }
 
+    public Song getItem(int position) {
+        try {
+            return songs.get(position);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+
+    public void setItems(List<Song> songs) {
+        this.songs = songs;
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView cover;
 
@@ -69,18 +82,5 @@ public class PlayerNowPlayingSongAdapter extends RecyclerView.Adapter<PlayerNowP
                 MusicPlayerRemote.resumePlaying();
             }
         }
-    }
-
-    public Song getItem(int position) {
-        try {
-            return songs.get(position);
-        } catch ( IndexOutOfBoundsException e ) {
-            return null;
-        }
-    }
-
-    public void setItems(List<Song> songs) {
-        this.songs = songs;
-        notifyDataSetChanged();
     }
 }

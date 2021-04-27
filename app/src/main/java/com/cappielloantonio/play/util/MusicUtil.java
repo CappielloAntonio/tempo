@@ -75,19 +75,15 @@ public class MusicUtil {
     }
 
     public static int getDefaultPicPerCategory(String category) {
-        if(category.equals(CustomGlideRequest.SONG_PIC)) {
+        if (category.equals(CustomGlideRequest.SONG_PIC)) {
             return R.drawable.default_album_art;
-        }
-        else if(category.equals(CustomGlideRequest.ALBUM_PIC)) {
+        } else if (category.equals(CustomGlideRequest.ALBUM_PIC)) {
             return R.drawable.default_album_art;
-        }
-        else if(category.equals(CustomGlideRequest.ARTIST_PIC)) {
+        } else if (category.equals(CustomGlideRequest.ARTIST_PIC)) {
             return R.drawable.default_album_art;
-        }
-        else if(category.equals(CustomGlideRequest.PLAYLIST_PIC)) {
+        } else if (category.equals(CustomGlideRequest.PLAYLIST_PIC)) {
             return R.drawable.default_album_art;
-        }
-        else {
+        } else {
             return R.drawable.default_album_art;
         }
     }
@@ -95,7 +91,7 @@ public class MusicUtil {
     public static List<MediaItem> getMediaItemsFromSongs(List<Song> songs) {
         List<MediaItem> mediaItems = new ArrayList<>();
 
-        for(Song song: songs) {
+        for (Song song : songs) {
             mediaItems.add(getMediaItemFromSong(song));
         }
 
@@ -111,8 +107,7 @@ public class MusicUtil {
     public static List<Integer> getRandomSongNumber(Context context, int numberOfNumbers, int refreshAfterXHours) {
         List<Integer> list = new ArrayList<>();
 
-        for (int i = 0; i < numberOfNumbers; i++)
-        {
+        for (int i = 0; i < numberOfNumbers; i++) {
             list.add(getRandomNumber(0, PreferenceUtil.getInstance(context).getSongNumber(), getMidnightTimestamp(System.currentTimeMillis() / 1000, refreshAfterXHours) + i));
         }
 

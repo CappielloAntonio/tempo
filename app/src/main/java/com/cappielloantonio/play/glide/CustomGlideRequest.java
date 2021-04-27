@@ -37,51 +37,6 @@ public class CustomGlideRequest {
     public static final DiskCacheStrategy DEFAULT_DISK_CACHE_STRATEGY = DiskCacheStrategy.ALL;
     public static final int DEFAULT_IMAGE = R.drawable.default_album_art;
 
-    public static class Builder {
-        private final RequestManager requestManager;
-        private final Object item;
-        private final Context context;
-
-        private Builder(Context context, String item, String placeholder, String itemType, String quality, String category) {
-            this.requestManager = Glide.with(context);
-            this.item = item != null ? createUrl(item, itemType, quality) : MusicUtil.getDefaultPicPerCategory(category);
-            this.context = context;
-
-            if (placeholder != null) {
-                Bitmap bitmap = BlurHashDecoder.INSTANCE.decode(placeholder, 40, 40, 1, true);
-                BitmapDrawable drawable = new BitmapDrawable(context.getResources(), bitmap);
-                requestManager.applyDefaultRequestOptions(createRequestOptions(item, drawable));
-            } else {
-                Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), MusicUtil.getDefaultPicPerCategory(category), null);
-                requestManager.applyDefaultRequestOptions(createRequestOptions(item, drawable));
-            }
-        }
-
-        public static Builder from(Context context, String item, String placeholder, String itemType, String quality, String category) {
-            return new Builder(context, item, placeholder, itemType, quality, category);
-        }
-
-        public BitmapBuilder bitmap() {
-            return new BitmapBuilder(this);
-        }
-
-        public RequestBuilder<Drawable> build() {
-            return requestManager.load(item);
-        }
-    }
-
-    public static class BitmapBuilder {
-        private final Builder builder;
-
-        public BitmapBuilder(Builder builder) {
-            this.builder = builder;
-        }
-
-        public RequestBuilder<Bitmap> build() {
-            return builder.requestManager.asBitmap().load(builder.item);
-        }
-    }
-
     public static RequestOptions createRequestOptions(String item, Drawable placeholder) {
         RequestOptions options = new RequestOptions()
                 .placeholder(placeholder)
@@ -129,5 +84,50 @@ public class CustomGlideRequest {
         }
 
         return App.getApiClientInstance(App.getInstance()).GetImageUrl(item, options);
+    }
+
+    public static class Builder {
+        private final RequestManager requestManager;
+        private final Object item;
+        private final Context context;
+
+        private Builder(Context context, String item, String placeholder, String itemType, String quality, String category) {
+            this.requestManager = Glide.with(context);
+            this.item = item != null ? createUrl(item, itemType, quality) : MusicUtil.getDefaultPicPerCategory(category);
+            this.context = context;
+
+            if (placeholder != null) {
+                Bitmap bitmap = BlurHashDecoder.INSTANCE.decode(placeholder, 40, 40, 1, true);
+                BitmapDrawable drawable = new BitmapDrawable(context.getResources(), bitmap);
+                requestManager.applyDefaultRequestOptions(createRequestOptions(item, drawable));
+            } else {
+                Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), MusicUtil.getDefaultPicPerCategory(category), null);
+                requestManager.applyDefaultRequestOptions(createRequestOptions(item, drawable));
+            }
+        }
+
+        public static Builder from(Context context, String item, String placeholder, String itemType, String quality, String category) {
+            return new Builder(context, item, placeholder, itemType, quality, category);
+        }
+
+        public BitmapBuilder bitmap() {
+            return new BitmapBuilder(this);
+        }
+
+        public RequestBuilder<Drawable> build() {
+            return requestManager.load(item);
+        }
+    }
+
+    public static class BitmapBuilder {
+        private final Builder builder;
+
+        public BitmapBuilder(Builder builder) {
+            this.builder = builder;
+        }
+
+        public RequestBuilder<Bitmap> build() {
+            return builder.requestManager.asBitmap().load(builder.item);
+        }
     }
 }

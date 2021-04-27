@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import static com.google.android.exoplayer2.util.Assertions.checkNotNull;
-import static com.google.android.exoplayer2.util.Assertions.checkStateNotNull;
 
 public class DownloadTracker {
 
@@ -40,7 +39,7 @@ public class DownloadTracker {
     private final DownloadIndex downloadIndex;
     private final DefaultTrackSelector.Parameters trackSelectorParameters;
 
-    public DownloadTracker(Context context,HttpDataSource.Factory httpDataSourceFactory,DownloadManager downloadManager) {
+    public DownloadTracker(Context context, HttpDataSource.Factory httpDataSourceFactory, DownloadManager downloadManager) {
         this.context = context.getApplicationContext();
         this.httpDataSourceFactory = httpDataSourceFactory;
         listeners = new CopyOnWriteArraySet<>();
@@ -74,7 +73,7 @@ public class DownloadTracker {
     public void toggleDownload(List<Song> songs) {
         SongRepository songRepository = new SongRepository(App.getInstance());
 
-        for(Song song: songs) {
+        for (Song song : songs) {
             MediaItem mediaItem = MusicUtil.getMediaItemFromSong(song);
 
             @Nullable Download download = downloads.get(checkNotNull(mediaItem.playbackProperties).uri);
@@ -84,7 +83,7 @@ public class DownloadTracker {
                 DownloadService.sendRemoveDownload(context, DownloaderService.class, download.request.id, false);
             } else {
                 song.setOffline(true);
-                DownloadService.sendAddDownload(context, DownloaderService.class, getDownloadRequest(mediaItem.playbackProperties.uri),false);
+                DownloadService.sendAddDownload(context, DownloaderService.class, getDownloadRequest(mediaItem.playbackProperties.uri), false);
             }
 
             songRepository.setOfflineStatus(song);

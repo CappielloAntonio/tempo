@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.util.SyncUtil;
@@ -63,6 +63,11 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
         return songs.size();
     }
 
+    public void setItems(List<Song> songs) {
+        this.songs = songs;
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textTitle;
         TextView textAlbum;
@@ -99,10 +104,5 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
                 }
             }, SyncUtil.SONG, songs.get(getBindingAdapterPosition()).getId(), PreferenceUtil.getInstance(context).getInstantMixSongNumber());
         }
-    }
-
-    public void setItems(List<Song> songs) {
-        this.songs = songs;
-        notifyDataSetChanged();
     }
 }

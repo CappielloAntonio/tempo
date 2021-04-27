@@ -19,7 +19,7 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     public boolean isQueueLoaded() {
-        if(queueRepository.count() == 0)
+        if (queueRepository.count() == 0)
             return false;
 
         return true;

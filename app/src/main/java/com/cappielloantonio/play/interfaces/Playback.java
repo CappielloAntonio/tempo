@@ -23,13 +23,13 @@ public interface Playback {
 
     int getProgress();
 
-    int getDuration();
-
     void setProgress(int progress);
 
-    void setVolume(int volume);
+    int getDuration();
 
     int getVolume();
+
+    void setVolume(int volume);
 
     interface PlaybackCallbacks {
         void onStateChanged(int state);

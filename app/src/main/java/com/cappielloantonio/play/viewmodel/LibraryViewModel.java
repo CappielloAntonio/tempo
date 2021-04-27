@@ -10,13 +10,11 @@ import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Playlist;
-import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.GenreRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LibraryViewModel extends AndroidViewModel {
@@ -47,7 +45,7 @@ public class LibraryViewModel extends AndroidViewModel {
     }
 
     public List<Playlist> getPlaylistSample() {
-        if(playlistSample.isEmpty()) {
+        if (playlistSample.isEmpty()) {
             playlistSample = playlistRepository.getRandomSample(5);
         }
 

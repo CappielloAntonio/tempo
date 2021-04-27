@@ -49,12 +49,12 @@ public class SyncViewModel extends AndroidViewModel {
     }
 
     private void countStep() {
-        if(syncAlbum) step++;
-        if(syncArtist) step++;
-        if(syncGenres) step++;
-        if(syncPlaylist) step++;
-        if(syncSong) step++;
-        if(crossSyncSongGenre) step++;
+        if (syncAlbum) step++;
+        if (syncArtist) step++;
+        if (syncGenres) step++;
+        if (syncPlaylist) step++;
+        if (syncSong) step++;
+        if (crossSyncSongGenre) step++;
     }
 
     public boolean isSyncAlbum() {
@@ -90,7 +90,7 @@ public class SyncViewModel extends AndroidViewModel {
     }
 
     public void setProgress(Boolean step) {
-        if(step) progress++;
+        if (step) progress++;
     }
 
     public int getProgressBarInfo() {
@@ -100,7 +100,7 @@ public class SyncViewModel extends AndroidViewModel {
     public Map<Integer, Song> getCatalogue() {
         Map<Integer, Song> map = new HashMap<>();
 
-        for(Song song: songRepository.getCatalogue()){
+        for (Song song : songRepository.getCatalogue()) {
             map.put(song.hashCode(), song);
         }
 

@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.fragment.PlayerBottomSheetFragment;
 import com.cappielloantonio.play.util.MusicUtil;
 
@@ -56,7 +56,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
                 .build()
                 .into(holder.cover);
 
-        if(position < MusicPlayerRemote.getPosition()) {
+        if (position < MusicPlayerRemote.getPosition()) {
             holder.songTitle.setTextColor(context.getResources().getColor(R.color.songToPlayTextColor, null));
             holder.songArtist.setTextColor(context.getResources().getColor(R.color.songToPlayTextColor, null));
             holder.songDuration.setTextColor(context.getResources().getColor(R.color.songToPlayTextColor, null));
@@ -66,6 +66,19 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
     @Override
     public int getItemCount() {
         return songs.size();
+    }
+
+    public List<Song> getItems() {
+        return this.songs;
+    }
+
+    public void setItems(List<Song> songs) {
+        this.songs = songs;
+        notifyDataSetChanged();
+    }
+
+    public Song getItem(int id) {
+        return songs.get(id);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -92,18 +105,5 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
             playerBottomSheetFragment.scrollPager(songs.get(getBindingAdapterPosition()), getBindingAdapterPosition(), false);
             MusicPlayerRemote.openQueue(songs, getBindingAdapterPosition(), true);
         }
-    }
-
-    public void setItems(List<Song> songs) {
-        this.songs = songs;
-        notifyDataSetChanged();
-    }
-
-    public List<Song> getItems() {
-        return this.songs;
-    }
-
-    public Song getItem(int id) {
-        return songs.get(id);
     }
 }

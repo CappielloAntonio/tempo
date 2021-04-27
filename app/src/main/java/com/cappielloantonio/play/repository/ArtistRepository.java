@@ -55,6 +55,35 @@ public class ArtistRepository {
         return suggestions;
     }
 
+    public void insertAll(ArrayList<Artist> artists) {
+        InsertAllThreadSafe insertAll = new InsertAllThreadSafe(artistDao, artists);
+        Thread thread = new Thread(insertAll);
+        thread.start();
+    }
+
+    public void deleteAll() {
+        DeleteAllThreadSafe delete = new DeleteAllThreadSafe(artistDao);
+        Thread thread = new Thread(delete);
+        thread.start();
+    }
+
+    public Artist getArtistByID(String id) {
+        Artist artist = null;
+
+        GetArtistByIDThreadSafe getArtist = new GetArtistByIDThreadSafe(artistDao, id);
+        Thread thread = new Thread(getArtist);
+        thread.start();
+
+        try {
+            thread.join();
+            artist = getArtist.getArtist();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return artist;
+    }
+
     private static class SearchSuggestionsThreadSafe implements Runnable {
         private ArtistDao artistDao;
         private String query;
@@ -77,12 +106,6 @@ public class ArtistRepository {
         }
     }
 
-    public void insertAll(ArrayList<Artist> artists) {
-        InsertAllThreadSafe insertAll = new InsertAllThreadSafe(artistDao, artists);
-        Thread thread = new Thread(insertAll);
-        thread.start();
-    }
-
     private static class InsertAllThreadSafe implements Runnable {
         private ArtistDao artistDao;
         private ArrayList<Artist> artists;
@@ -99,12 +122,6 @@ public class ArtistRepository {
         }
     }
 
-    public void deleteAll() {
-        DeleteAllThreadSafe delete = new DeleteAllThreadSafe(artistDao);
-        Thread thread = new Thread(delete);
-        thread.start();
-    }
-
     private static class DeleteAllThreadSafe implements Runnable {
         private ArtistDao artistDao;
 
@@ -116,23 +133,6 @@ public class ArtistRepository {
         public void run() {
             artistDao.deleteAll();
         }
-    }
-
-    public Artist getArtistByID(String id) {
-        Artist artist = null;
-
-        GetArtistByIDThreadSafe getArtist = new GetArtistByIDThreadSafe(artistDao, id);
-        Thread thread = new Thread(getArtist);
-        thread.start();
-
-        try {
-            thread.join();
-            artist = getArtist.getArtist();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return artist;
     }
 
     private static class GetArtistByIDThreadSafe implements Runnable {

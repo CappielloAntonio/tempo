@@ -4,9 +4,7 @@ import android.app.Application;
 
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.PlaylistSongCrossDao;
-import com.cappielloantonio.play.database.dao.SongArtistCrossDao;
 import com.cappielloantonio.play.model.PlaylistSongCross;
-import com.cappielloantonio.play.model.SongArtistCross;
 
 import java.util.List;
 
@@ -26,6 +24,12 @@ public class PlaylistSongRepository {
         thread.start();
     }
 
+    public void deleteAll() {
+        DeleteAllPlaylistSongCrossThreadSafe delete = new DeleteAllPlaylistSongCrossThreadSafe(playlistSongCrossDao);
+        Thread thread = new Thread(delete);
+        thread.start();
+    }
+
     private static class InsertAllThreadSafe implements Runnable {
         private PlaylistSongCrossDao playlistSongCrossDao;
         private List<PlaylistSongCross> crosses;
@@ -39,12 +43,6 @@ public class PlaylistSongRepository {
         public void run() {
             playlistSongCrossDao.insertAll(crosses);
         }
-    }
-
-    public void deleteAll() {
-        DeleteAllPlaylistSongCrossThreadSafe delete = new DeleteAllPlaylistSongCrossThreadSafe(playlistSongCrossDao);
-        Thread thread = new Thread(delete);
-        thread.start();
     }
 
     private static class DeleteAllPlaylistSongCrossThreadSafe implements Runnable {

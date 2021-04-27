@@ -7,11 +7,9 @@ import androidx.lifecycle.LiveData;
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.QueueDao;
 import com.cappielloantonio.play.database.dao.SongDao;
-import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.util.QueueUtil;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,24 +48,6 @@ public class QueueRepository {
         return songs;
     }
 
-    private static class GetSongsThreadSafe implements Runnable {
-        private QueueDao queueDao;
-        private List<Song> songs;
-
-        public GetSongsThreadSafe(QueueDao queueDao) {
-            this.queueDao = queueDao;
-        }
-
-        @Override
-        public void run() {
-            songs = queueDao.getAllSimple();
-        }
-
-        public List<Song> getSongs() {
-            return songs;
-        }
-    }
-
     public void insertAll(List<Song> songs) {
         InsertAllThreadSafe insertAll = new InsertAllThreadSafe(queueDao, songs);
         Thread thread = new Thread(insertAll);
@@ -94,6 +74,67 @@ public class QueueRepository {
         return mix;
     }
 
+    public void insertAllAndStartNew(List<Song> songs) {
+        try {
+            final Thread delete = new Thread(new DeleteAllThreadSafe(queueDao));
+            final Thread insertAll = new Thread(new InsertAllThreadSafe(queueDao, songs));
+
+            delete.start();
+            delete.join();
+            insertAll.start();
+            insertAll.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteByPosition(int position) {
+        DeleteByPositionThreadSafe delete = new DeleteByPositionThreadSafe(queueDao, position);
+        Thread thread = new Thread(delete);
+        thread.start();
+    }
+
+    public void deleteAll() {
+        DeleteAllThreadSafe delete = new DeleteAllThreadSafe(queueDao);
+        Thread thread = new Thread(delete);
+        thread.start();
+    }
+
+    public int count() {
+        int count = 0;
+
+        CountThreadSafe countThread = new CountThreadSafe(queueDao);
+        Thread thread = new Thread(countThread);
+        thread.start();
+
+        try {
+            thread.join();
+            count = countThread.getCount();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+
+    private static class GetSongsThreadSafe implements Runnable {
+        private QueueDao queueDao;
+        private List<Song> songs;
+
+        public GetSongsThreadSafe(QueueDao queueDao) {
+            this.queueDao = queueDao;
+        }
+
+        @Override
+        public void run() {
+            songs = queueDao.getAllSimple();
+        }
+
+        public List<Song> getSongs() {
+            return songs;
+        }
+    }
+
     private static class GetSongsByIDThreadSafe implements Runnable {
         private SongDao songDao;
         private List<String> IDs;
@@ -114,20 +155,6 @@ public class QueueRepository {
         }
     }
 
-    public void insertAllAndStartNew(List<Song> songs) {
-        try {
-            final Thread delete = new Thread(new DeleteAllThreadSafe(queueDao));
-            final Thread insertAll = new Thread(new InsertAllThreadSafe(queueDao, songs));
-
-            delete.start();
-            delete.join();
-            insertAll.start();
-            insertAll.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     private static class InsertAllThreadSafe implements Runnable {
         private QueueDao queueDao;
         private List<Song> songs;
@@ -143,17 +170,11 @@ public class QueueRepository {
         }
     }
 
-    public void deleteByPosition(int position) {
-        DeleteByPositionThreadSafe delete = new DeleteByPositionThreadSafe(queueDao, position);
-        Thread thread = new Thread(delete);
-        thread.start();
-    }
-
     private static class DeleteByPositionThreadSafe implements Runnable {
         private QueueDao queueDao;
         private int position;
 
-        public DeleteByPositionThreadSafe(QueueDao queueDao,int position) {
+        public DeleteByPositionThreadSafe(QueueDao queueDao, int position) {
             this.queueDao = queueDao;
             this.position = position;
         }
@@ -162,12 +183,6 @@ public class QueueRepository {
         public void run() {
             queueDao.deleteByPosition(position);
         }
-    }
-
-    public void deleteAll() {
-        DeleteAllThreadSafe delete = new DeleteAllThreadSafe(queueDao);
-        Thread thread = new Thread(delete);
-        thread.start();
     }
 
     private static class DeleteAllThreadSafe implements Runnable {
@@ -181,23 +196,6 @@ public class QueueRepository {
         public void run() {
             queueDao.deleteAll();
         }
-    }
-
-    public int count() {
-        int count = 0;
-
-        CountThreadSafe countThread = new CountThreadSafe(queueDao);
-        Thread thread = new Thread(countThread);
-        thread.start();
-
-        try {
-            thread.join();
-            count = countThread.getCount();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return count;
     }
 
     private static class CountThreadSafe implements Runnable {

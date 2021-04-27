@@ -27,12 +27,12 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
         artistRepository = new ArtistRepository(application);
     }
 
-    public void setSong(Song song) {
-        this.song = song;
-    }
-
     public Song getSong() {
         return song;
+    }
+
+    public void setSong(Song song) {
+        this.song = song;
     }
 
     public void setFavorite() {

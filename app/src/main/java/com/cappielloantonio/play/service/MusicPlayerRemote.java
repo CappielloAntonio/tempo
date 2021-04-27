@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
-import com.cappielloantonio.play.service.MusicService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +22,8 @@ import java.util.WeakHashMap;
 
 public class MusicPlayerRemote {
     private static final String TAG = "MusicPlayerRemote";
-
-    public static MusicService musicService;
-
     private static final WeakHashMap<Context, ServiceBinder> mConnectionMap = new WeakHashMap<>();
+    public static MusicService musicService;
 
     public static ServiceToken bindToService(@NonNull final Context context, final ServiceConnection callback) {
         Activity realActivity = ((Activity) context).getParent();
@@ -64,49 +61,9 @@ public class MusicPlayerRemote {
         }
     }
 
-    public static final class ServiceBinder implements ServiceConnection {
-        private final ServiceConnection mCallback;
-
-        public ServiceBinder(final ServiceConnection callback) {
-            mCallback = callback;
-        }
-
-        @Override
-        public void onServiceConnected(final ComponentName className, final IBinder service) {
-            MusicService.MusicBinder binder = (MusicService.MusicBinder) service;
-            musicService = binder.getService();
-            if (mCallback != null) {
-                mCallback.onServiceConnected(className, service);
-            }
-        }
-
-        @Override
-        public void onServiceDisconnected(final ComponentName className) {
-            if (mCallback != null) {
-                mCallback.onServiceDisconnected(className);
-            }
-
-            musicService = null;
-        }
-    }
-
-    public static final class ServiceToken {
-        public ContextWrapper mWrappedContext;
-
-        public ServiceToken(final ContextWrapper context) {
-            mWrappedContext = context;
-        }
-    }
-
     public static void playSongAt(final int position) {
         if (musicService != null) {
             musicService.playSongAt(position);
-        }
-    }
-
-    public static void setPosition(final int position) {
-        if (musicService != null) {
-            musicService.setPosition(position);
         }
     }
 
@@ -190,6 +147,12 @@ public class MusicPlayerRemote {
         }
 
         return -1;
+    }
+
+    public static void setPosition(final int position) {
+        if (musicService != null) {
+            musicService.setPosition(position);
+        }
     }
 
     public static List<Song> getPlayingQueue() {
@@ -327,5 +290,39 @@ public class MusicPlayerRemote {
         }
 
         return false;
+    }
+
+    public static final class ServiceBinder implements ServiceConnection {
+        private final ServiceConnection mCallback;
+
+        public ServiceBinder(final ServiceConnection callback) {
+            mCallback = callback;
+        }
+
+        @Override
+        public void onServiceConnected(final ComponentName className, final IBinder service) {
+            MusicService.MusicBinder binder = (MusicService.MusicBinder) service;
+            musicService = binder.getService();
+            if (mCallback != null) {
+                mCallback.onServiceConnected(className, service);
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected(final ComponentName className) {
+            if (mCallback != null) {
+                mCallback.onServiceDisconnected(className);
+            }
+
+            musicService = null;
+        }
+    }
+
+    public static final class ServiceToken {
+        public ContextWrapper mWrappedContext;
+
+        public ServiceToken(final ContextWrapper context) {
+            mWrappedContext = context;
+        }
     }
 }

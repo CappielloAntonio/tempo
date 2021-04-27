@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 
 import java.util.ArrayList;
@@ -67,6 +67,11 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
         return songs.size();
     }
 
+    public void setItems(List<Song> songs) {
+        this.songs = songs;
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView textTitle;
         TextView textAlbum;
@@ -101,10 +106,5 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
             Navigation.findNavController(view).navigate(R.id.songBottomSheetDialog, bundle);
             return true;
         }
-    }
-
-    public void setItems(List<Song> songs) {
-        this.songs = songs;
-        notifyDataSetChanged();
     }
 }

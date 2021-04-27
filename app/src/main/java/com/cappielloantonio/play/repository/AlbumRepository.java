@@ -63,6 +63,35 @@ public class AlbumRepository {
         return suggestions;
     }
 
+    public void insertAll(ArrayList<Album> albums) {
+        InsertAllThreadSafe insertAll = new InsertAllThreadSafe(albumDao, albums);
+        Thread thread = new Thread(insertAll);
+        thread.start();
+    }
+
+    public void deleteAll() {
+        DeleteAllThreadSafe delete = new DeleteAllThreadSafe(albumDao);
+        Thread thread = new Thread(delete);
+        thread.start();
+    }
+
+    public Album getAlbumByID(String id) {
+        Album album = null;
+
+        GetAlbumByIDThreadSafe getAlbum = new GetAlbumByIDThreadSafe(albumDao, id);
+        Thread thread = new Thread(getAlbum);
+        thread.start();
+
+        try {
+            thread.join();
+            album = getAlbum.getAlbum();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return album;
+    }
+
     private static class SearchSuggestionsThreadSafe implements Runnable {
         private AlbumDao albumDao;
         private String query;
@@ -85,18 +114,6 @@ public class AlbumRepository {
         }
     }
 
-    public void insertAll(ArrayList<Album> albums) {
-        InsertAllThreadSafe insertAll = new InsertAllThreadSafe(albumDao, albums);
-        Thread thread = new Thread(insertAll);
-        thread.start();
-    }
-
-    public void deleteAll() {
-        DeleteAllThreadSafe delete = new DeleteAllThreadSafe(albumDao);
-        Thread thread = new Thread(delete);
-        thread.start();
-    }
-
     private static class DeleteAllThreadSafe implements Runnable {
         private AlbumDao albumDao;
 
@@ -108,23 +125,6 @@ public class AlbumRepository {
         public void run() {
             albumDao.deleteAll();
         }
-    }
-
-    public Album getAlbumByID(String id) {
-        Album album = null;
-
-        GetAlbumByIDThreadSafe getAlbum = new GetAlbumByIDThreadSafe(albumDao, id);
-        Thread thread = new Thread(getAlbum);
-        thread.start();
-
-        try {
-            thread.join();
-            album = getAlbum.getAlbum();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return album;
     }
 
     private static class GetAlbumByIDThreadSafe implements Runnable {

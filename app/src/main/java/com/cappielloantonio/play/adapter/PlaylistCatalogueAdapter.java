@@ -29,6 +29,36 @@ public class PlaylistCatalogueAdapter extends RecyclerView.Adapter<PlaylistCatal
     private LayoutInflater mInflater;
     private MainActivity activity;
     private Context context;
+    private Filter filtering = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Playlist> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(playlistsFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (Playlist item : playlistsFull) {
+                    if (item.getName().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            playlists.clear();
+            playlists.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public PlaylistCatalogueAdapter(MainActivity activity, Context context) {
         this.activity = activity;
@@ -60,6 +90,21 @@ public class PlaylistCatalogueAdapter extends RecyclerView.Adapter<PlaylistCatal
         return playlists.size();
     }
 
+    public Playlist getItem(int position) {
+        return playlists.get(position);
+    }
+
+    public void setItems(List<Playlist> playlists) {
+        this.playlists = playlists;
+        this.playlistsFull = new ArrayList<>(playlists);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return filtering;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textPlaylistName;
         ImageView cover;
@@ -79,54 +124,8 @@ public class PlaylistCatalogueAdapter extends RecyclerView.Adapter<PlaylistCatal
             bundle.putParcelable("playlist_object", playlists.get(getBindingAdapterPosition()));
             Navigation.findNavController(view).navigate(R.id.action_playlistCatalogueFragment_to_playlistPageFragment, bundle);
 
-            InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
-
-    public Playlist getItem(int position) {
-        return playlists.get(position);
-    }
-
-    public void setItems(List<Playlist> playlists) {
-        this.playlists = playlists;
-        this.playlistsFull = new ArrayList<>(playlists);
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public Filter getFilter() {
-        return filtering;
-    }
-
-    private Filter filtering = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            List<Playlist> filteredList = new ArrayList<>();
-
-            if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(playlistsFull);
-            } else {
-                String filterPattern = constraint.toString().toLowerCase().trim();
-
-                for (Playlist item : playlistsFull) {
-                    if (item.getName().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(item);
-                    }
-                }
-            }
-
-            FilterResults results = new FilterResults();
-            results.values = filteredList;
-
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            playlists.clear();
-            playlists.addAll((List) results.values);
-            notifyDataSetChanged();
-        }
-    };
 }

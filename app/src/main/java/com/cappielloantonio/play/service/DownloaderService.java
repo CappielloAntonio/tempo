@@ -44,7 +44,7 @@ public class DownloaderService extends DownloadService {
     @Override
     @NonNull
     protected Notification getForegroundNotification(@NonNull List<Download> downloads) {
-        return DownloadUtil.getDownloadNotificationHelper(this).buildProgressNotification(this, R.drawable.ic_downloading,null, null, downloads);
+        return DownloadUtil.getDownloadNotificationHelper(this).buildProgressNotification(this, R.drawable.ic_downloading, null, null, downloads);
     }
 
     private static final class TerminalStateNotificationHelper implements DownloadManager.Listener {
@@ -65,7 +65,7 @@ public class DownloaderService extends DownloadService {
             Notification notification;
 
             if (download.state == Download.STATE_COMPLETED) {
-                notification = notificationHelper.buildDownloadCompletedNotification(context, R.drawable.ic_done,null, Util.fromUtf8Bytes(download.request.data));
+                notification = notificationHelper.buildDownloadCompletedNotification(context, R.drawable.ic_done, null, Util.fromUtf8Bytes(download.request.data));
             } else if (download.state == Download.STATE_FAILED) {
                 notification = notificationHelper.buildDownloadFailedNotification(context, R.drawable.ic_error, null, Util.fromUtf8Bytes(download.request.data));
             } else {

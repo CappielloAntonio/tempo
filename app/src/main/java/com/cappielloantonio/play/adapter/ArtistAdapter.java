@@ -55,6 +55,15 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
         return artists.size();
     }
 
+    public Artist getItem(int position) {
+        return artists.get(position);
+    }
+
+    public void setItems(List<Artist> artists) {
+        this.artists = artists;
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView textArtistName;
         ImageView cover;
@@ -76,11 +85,9 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
 
             if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.searchFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_searchFragment_to_artistPageFragment, bundle);
-            }
-            else if(Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.libraryFragment) {
+            } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.libraryFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_libraryFragment_to_artistPageFragment, bundle);
-            }
-            else if(Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.artistCatalogueFragment) {
+            } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.artistCatalogueFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_artistCatalogueFragment_to_artistPageFragment, bundle);
             }
         }
@@ -92,14 +99,5 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
             Navigation.findNavController(v).navigate(R.id.artistBottomSheetDialog, bundle);
             return true;
         }
-    }
-
-    public Artist getItem(int position) {
-        return artists.get(position);
-    }
-
-    public void setItems(List<Artist> artists) {
-        this.artists = artists;
-        notifyDataSetChanged();
     }
 }

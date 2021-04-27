@@ -18,18 +18,18 @@ public class MusicProgressViewUpdateHelper extends Handler {
     private int intervalPlaying;
     private int intervalPaused;
 
+    public MusicProgressViewUpdateHelper(Callback callback) {
+        this.callback = callback;
+        this.intervalPlaying = UPDATE_INTERVAL_PLAYING;
+        this.intervalPaused = UPDATE_INTERVAL_PAUSED;
+    }
+
     public void start() {
         queueNextRefresh(1);
     }
 
     public void stop() {
         removeMessages(CMD_REFRESH_PROGRESS_VIEWS);
-    }
-
-    public MusicProgressViewUpdateHelper(Callback callback) {
-        this.callback = callback;
-        this.intervalPlaying = UPDATE_INTERVAL_PLAYING;
-        this.intervalPaused = UPDATE_INTERVAL_PAUSED;
     }
 
     @Override

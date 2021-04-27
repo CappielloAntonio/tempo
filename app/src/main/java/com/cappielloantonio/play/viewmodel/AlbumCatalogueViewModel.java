@@ -12,9 +12,8 @@ import com.cappielloantonio.play.repository.AlbumRepository;
 import java.util.List;
 
 public class AlbumCatalogueViewModel extends AndroidViewModel {
-    private AlbumRepository albumRepository;
     public LiveData<List<Album>> albumList;
-
+    private AlbumRepository albumRepository;
     private String query = "";
 
     public AlbumCatalogueViewModel(@NonNull Application application) {

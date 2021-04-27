@@ -43,23 +43,6 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {
         return years.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView textYear;
-
-        ViewHolder(View itemView) {
-            super(itemView);
-
-            textYear = itemView.findViewById(R.id.year_label);
-
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            if (itemClickListener != null) itemClickListener.onItemClick(view, getBindingAdapterPosition());
-        }
-    }
-
     public Integer getItem(int position) {
         return years.get(position);
     }
@@ -75,5 +58,23 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {
 
     public interface ItemClickListener {
         void onItemClick(View view, int position);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView textYear;
+
+        ViewHolder(View itemView) {
+            super(itemView);
+
+            textYear = itemView.findViewById(R.id.year_label);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (itemClickListener != null)
+                itemClickListener.onItemClick(view, getBindingAdapterPosition());
+        }
     }
 }

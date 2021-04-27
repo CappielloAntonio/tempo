@@ -6,8 +6,7 @@
     android:paddingEnd="12dp"
     android:paddingBottom="8dp">
 
-    <androidx.cardview.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
         android:layout_width="172dp"
         android:layout_height="72dp"
@@ -26,20 +25,18 @@
             <View
                 android:layout_width="6dp"
                 android:layout_height="match_parent"
-                android:background="@color/colorAccent"/>
+                android:background="@color/colorAccent" />
 
             <TextView
                 android:id="@+id/year_label"
+                style="@style/ItemTitleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:paddingStart="8dp"
                 android:text="@string/label_placeholder"
-
-                style="@style/ItemTitleTextView"
-
-                android:textAlignment="gravity"/>
+                android:textAlignment="gravity" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

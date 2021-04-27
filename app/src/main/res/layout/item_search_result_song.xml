@@ -81,10 +81,10 @@
         android:layout_gravity="center"
         android:layout_margin="8dp"
         android:background="@drawable/ic_check_circle"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/search_result_song_more_button"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/search_result_song_more_button"

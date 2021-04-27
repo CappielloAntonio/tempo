@@ -29,18 +29,17 @@
         app:queryInputHintColor="@color/hintTextColor"
         app:queryInputTextColor="@color/hintTextColor"
         app:shouldDimBehind="true"
-
         app:suggestionIconColor="@color/suggestionIconColor"
         app:suggestionRecentSearchIconColor="@color/suggestionIconColor"
         app:suggestionSearchSuggestionIconColor="@color/suggestionIconColor"
-        app:suggestionTextColor="@color/suggestionTextColor"
-        app:suggestionSelectedTextColor="@color/suggestionSelectedTextColor" />
+        app:suggestionSelectedTextColor="@color/suggestionSelectedTextColor"
+        app:suggestionTextColor="@color/suggestionTextColor" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/search_result_nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/persistentSearchView" >
+        android:layout_below="@id/persistentSearchView">
 
         <!-- Search result -->
         <LinearLayout
@@ -60,14 +59,13 @@
                 android:visibility="gone">
 
                 <TextView
+                    style="@style/HeadlineTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="16dp"
                     android:paddingTop="20dp"
                     android:paddingEnd="16dp"
-                    android:text="Songs"
-
-                    style="@style/HeadlineTextView"/>
+                    android:text="Songs" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/search_result_tracks_recycler_view"
@@ -90,14 +88,13 @@
                 android:visibility="gone">
 
                 <TextView
+                    style="@style/HeadlineTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="16dp"
                     android:paddingTop="20dp"
                     android:paddingEnd="16dp"
-                    android:text="Albums"
-
-                    style="@style/HeadlineTextView"/>
+                    android:text="Albums" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/search_result_album_recycler_view"
@@ -122,14 +119,13 @@
                 android:visibility="gone">
 
                 <TextView
+                    style="@style/HeadlineTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="16dp"
                     android:paddingTop="20dp"
                     android:paddingEnd="16dp"
-                    android:text="Artists"
-
-                    style="@style/HeadlineTextView"/>
+                    android:text="Artists" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/search_result_artist_recycler_view"
@@ -154,14 +150,13 @@
                 android:visibility="gone">
 
                 <TextView
+                    style="@style/HeadlineTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="16dp"
                     android:paddingTop="20dp"
                     android:paddingEnd="16dp"
-                    android:text="Genres"
-
-                    style="@style/HeadlineTextView"/>
+                    android:text="Genres" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/search_result_genre_recycler_view"

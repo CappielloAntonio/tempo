@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/cardColor">
+    android:background="@color/cardColor"
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="12dp"
         android:paddingStart="20dp"
+        android:paddingTop="12dp"
         android:paddingEnd="20dp">
 
         <!-- Header -->
@@ -22,21 +21,21 @@
             android:layout_margin="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/song_title_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/open_sans_font_family"
-            android:singleLine="true"
             android:ellipsize="marquee"
-            android:marqueeRepeatLimit ="marquee_forever"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:scrollHorizontally="true"
+            android:fontFamily="@font/open_sans_font_family"
+            android:marqueeRepeatLimit="marquee_forever"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
             android:text="@string/label_placeholder"
             android:textColor="@color/titleTextColor"
             android:textSize="14sp"
@@ -53,41 +52,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         android:paddingTop="8dp"
-        android:paddingBottom="12dp">
+        android:paddingBottom="12dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
         <TextView
             android:id="@+id/play_radio_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Instant mix"
-            android:fontFamily="@font/open_sans_font_family"
-            android:textFontWeight="700"
-            android:textSize="14sp"
-            android:textColor="@color/titleTextColor"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
             android:background="?attr/selectableItemBackground"
-            android:clickable="true"/>
+            android:clickable="true"
+            android:fontFamily="@font/open_sans_font_family"
+            android:paddingStart="20dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="12dp"
+            android:text="Instant mix"
+            android:textColor="@color/titleTextColor"
+            android:textFontWeight="700"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/play_random_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:fontFamily="@font/open_sans_font_family"
+            android:paddingStart="20dp"
             android:paddingTop="12dp"
+            android:paddingEnd="20dp"
             android:paddingBottom="12dp"
             android:text="Riproduzione casuale"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:fontFamily="@font/open_sans_font_family"
-            android:textFontWeight="700"
-            android:textSize="14sp"
             android:textColor="@color/titleTextColor"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true" />
+            android:textFontWeight="700"
+            android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>

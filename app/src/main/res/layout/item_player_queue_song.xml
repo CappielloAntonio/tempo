@@ -1,15 +1,14 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/cardColor"
+    android:foreground="?attr/selectableItemBackground"
     android:orientation="horizontal"
     android:paddingStart="24dp"
     android:paddingTop="3dp"
     android:paddingEnd="24dp"
-    android:paddingBottom="3dp"
-    android:background="@color/cardColor"
-    android:foreground="?attr/selectableItemBackground">
+    android:paddingBottom="3dp">
 
     <ImageView
         android:id="@+id/queue_song_cover_image_view"
@@ -19,76 +18,71 @@
         android:layout_margin="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/queue_song_title_text_view"
+        style="@style/ItemTitleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:singleLine="true"
         android:ellipsize="marquee"
-        android:marqueeRepeatLimit ="marquee_forever"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:scrollHorizontally="true"
+        android:marqueeRepeatLimit="marquee_forever"
         android:paddingStart="12dp"
         android:paddingTop="10dp"
         android:paddingEnd="12dp"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
         android:text="@string/label_placeholder"
-
-        style="@style/ItemTitleTextView"
-
+        app:layout_constraintEnd_toStartOf="@+id/queue_song_holder_image"
         app:layout_constraintStart_toEndOf="@+id/queue_song_cover_image_view"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/queue_song_holder_image"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingEnd="12dp"
-        app:layout_constraintTop_toBottomOf="@+id/queue_song_title_text_view"
+        app:layout_constraintEnd_toStartOf="@+id/queue_song_holder_image"
         app:layout_constraintStart_toEndOf="@+id/queue_song_cover_image_view"
-        app:layout_constraintEnd_toStartOf="@+id/queue_song_holder_image">
+        app:layout_constraintTop_toBottomOf="@+id/queue_song_title_text_view">
 
         <TextView
             android:id="@+id/queue_song_artist_text_view"
+            style="@style/ItemSubtitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="12dp"
             android:paddingEnd="4dp"
-            android:text="@string/label_placeholder"
-
-            style="@style/ItemSubtitleTextView"/>
+            android:text="@string/label_placeholder" />
 
         <TextView
             android:id="@+id/queue_separator_text_view"
+            style="@style/ItemSubtitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_dot_separator"
-
-            style="@style/ItemSubtitleTextView"/>
+            android:text="@string/label_dot_separator" />
 
         <TextView
             android:id="@+id/queue_song_duration_text_view"
+            style="@style/ItemSubtitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="4dp"
             android:paddingEnd="12dp"
-            android:text="@string/label_placeholder"
-
-            style="@style/ItemSubtitleTextView"/>
+            android:text="@string/label_placeholder" />
     </LinearLayout>
 
     <ImageView
         android:id="@+id/queue_song_holder_image"
         android:layout_width="36dp"
         android:layout_height="match_parent"
+        android:gravity="center_vertical"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
-        android:gravity="center_vertical"
         android:src="@drawable/ic_drag_handle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@
     style="@style/Widget.MaterialComponents.Chip.Choice"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:checkable="true"
     android:fontFamily="@font/open_sans_font_family"
     android:gravity="center"
     android:paddingLeft="8dp"
@@ -12,5 +13,4 @@
     android:textColor="@color/titleTextColor"
     app:chipBackgroundColor="@color/color_chip_status"
     app:chipStrokeColor="@color/chipBorderColor"
-    app:chipStrokeWidth="1.5dp"
-    android:checkable="true"/>
+    app:chipStrokeWidth="1.5dp" />

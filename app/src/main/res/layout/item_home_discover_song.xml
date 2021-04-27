@@ -32,12 +32,11 @@
             android:layout_marginTop="18dp"
             android:layout_marginRight="16dp"
             android:ellipsize="end"
-            android:maxLines="2"
-
             android:fontFamily="@font/inter"
-            android:textSize="20sp"
+            android:maxLines="2"
+            android:textColor="@color/gradientTitleColor"
             android:textFontWeight="400"
-            android:textColor="@color/gradientTitleColor"/>
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/album_discover_song_label"
@@ -48,12 +47,11 @@
             android:layout_marginRight="16dp"
             android:drawablePadding="10dp"
             android:ellipsize="end"
-            android:maxLines="1"
-
             android:fontFamily="@font/inter"
-            android:textSize="14sp"
+            android:maxLines="1"
+            android:textColor="@color/gradientSubtitleColor"
             android:textFontWeight="400"
-            android:textColor="@color/gradientSubtitleColor"/>
+            android:textSize="14sp" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

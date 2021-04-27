@@ -1,49 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/bottom_sheet_peek_height"
-    android:elevation="2dp"
     android:background="@color/almostCardColor"
-    android:clipChildren="false">
+    android:clipChildren="false"
+    android:elevation="2dp">
 
     <ImageView
         android:id="@+id/player_header_song_cover_image"
         android:layout_width="42dp"
         android:layout_height="42dp"
-        android:layout_marginStart="12dp"
         android:layout_gravity="center"
+        android:layout_marginStart="12dp"
         app:layout_constraintBottom_toTopOf="@+id/player_header_seek_bar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/player_header_song_title_label"
+        style="@style/ItemTitleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:ellipsize="end"
         android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
-
-        style="@style/ItemTitleTextView"
-
         app:layout_constraintEnd_toStartOf="@+id/player_header_button"
         app:layout_constraintStart_toEndOf="@+id/player_header_song_cover_image"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/player_header_song_artist_label"
+        style="@style/ItemSubtitleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/open_sans_font_family"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
-
-        style="@style/ItemSubtitleTextView"
-
         app:layout_constraintEnd_toStartOf="@+id/player_header_button"
         app:layout_constraintStart_toEndOf="@+id/player_header_song_cover_image"
         app:layout_constraintTop_toBottomOf="@+id/player_header_song_title_label" />
@@ -55,8 +50,8 @@
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:background="@drawable/button_play_pause_selector"
-        android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:checked="true"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:text=""
         android:textOff=""
         android:textOn=""
@@ -74,19 +69,19 @@
         android:foreground="?android:attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toTopOf="@+id/player_header_seek_bar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <SeekBar
         android:id="@+id/player_header_seek_bar"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:progressBackgroundTint="@color/colorAccentLight"
         android:clickable="false"
-        android:thumb="@android:color/transparent"
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:progressBackgroundTint="@color/colorAccentLight"
+        android:thumb="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

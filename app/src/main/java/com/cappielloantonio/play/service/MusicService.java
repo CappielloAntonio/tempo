@@ -17,25 +17,23 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.Process;
-import android.preference.PreferenceManager;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.preference.Preference;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.broadcast.receiver.MediaButtonIntentReceiver;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
-import com.cappielloantonio.play.service.notification.PlayingNotification;
-import com.cappielloantonio.play.service.playback.Playback;
+import com.cappielloantonio.play.ui.notification.PlayingNotification;
+import com.cappielloantonio.play.interfaces.Playback;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
 import org.jellyfin.apiclient.interaction.EmptyResponse;

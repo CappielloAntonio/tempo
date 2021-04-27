@@ -16,7 +16,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.FragmentFilterBinding;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.FilterViewModel;
 import com.google.android.material.chip.Chip;
 

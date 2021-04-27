@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.databinding.FragmentLoginBinding;
-import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
 import org.jellyfin.apiclient.interaction.Response;

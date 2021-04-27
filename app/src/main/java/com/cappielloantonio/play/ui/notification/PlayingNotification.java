@@ -1,4 +1,4 @@
-package com.cappielloantonio.play.service.notification;
+package com.cappielloantonio.play.ui.notification;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -20,7 +20,7 @@ import androidx.media.app.NotificationCompat.MediaStyle;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.service.MusicService;
 
 import com.bumptech.glide.request.target.CustomTarget;

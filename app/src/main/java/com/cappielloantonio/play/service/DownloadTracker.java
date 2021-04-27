@@ -1,58 +1,26 @@
-/*
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.cappielloantonio.play.service;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.provider.MediaStore;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.fragment.app.FragmentManager;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.util.MusicUtil;
-import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.MediaItem;
-import com.google.android.exoplayer2.RenderersFactory;
-import com.google.android.exoplayer2.drm.DrmInitData;
-import com.google.android.exoplayer2.drm.DrmSession;
-import com.google.android.exoplayer2.drm.DrmSessionEventListener;
-import com.google.android.exoplayer2.drm.OfflineLicenseHelper;
 import com.google.android.exoplayer2.offline.Download;
 import com.google.android.exoplayer2.offline.DownloadCursor;
 import com.google.android.exoplayer2.offline.DownloadHelper;
-import com.google.android.exoplayer2.offline.DownloadHelper.LiveContentUnsupportedException;
 import com.google.android.exoplayer2.offline.DownloadIndex;
 import com.google.android.exoplayer2.offline.DownloadManager;
 import com.google.android.exoplayer2.offline.DownloadRequest;
 import com.google.android.exoplayer2.offline.DownloadService;
-import com.google.android.exoplayer2.source.TrackGroup;
-import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.MappingTrackSelector.MappedTrackInfo;
 import com.google.android.exoplayer2.upstream.HttpDataSource;
 import com.google.android.exoplayer2.util.Log;
-import com.google.android.exoplayer2.util.Util;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -62,9 +30,6 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import static com.google.android.exoplayer2.util.Assertions.checkNotNull;
 import static com.google.android.exoplayer2.util.Assertions.checkStateNotNull;
 
-/**
- * Tracks media that has been downloaded.
- */
 public class DownloadTracker {
 
     private static final String TAG = "DownloadTracker";
@@ -116,10 +81,10 @@ public class DownloadTracker {
 
             if (download != null && download.state != Download.STATE_FAILED) {
                 song.setOffline(false);
-                DownloadService.sendRemoveDownload(context, PlayDownloadService.class, download.request.id, false);
+                DownloadService.sendRemoveDownload(context, DownloaderService.class, download.request.id, false);
             } else {
                 song.setOffline(true);
-                DownloadService.sendAddDownload(context, PlayDownloadService.class, getDownloadRequest(mediaItem.playbackProperties.uri),false);
+                DownloadService.sendAddDownload(context, DownloaderService.class, getDownloadRequest(mediaItem.playbackProperties.uri),false);
             }
 
             songRepository.setOfflineStatus(song);
@@ -129,7 +94,7 @@ public class DownloadTracker {
     public void removeAllDownloads() {
         SongRepository songRepository = new SongRepository(App.getInstance());
         songRepository.setAllOffline();
-        DownloadService.sendRemoveAllDownloads(context, PlayDownloadService.class, false);
+        DownloadService.sendRemoveAllDownloads(context, DownloaderService.class, false);
     }
 
     private void loadDownloads() {

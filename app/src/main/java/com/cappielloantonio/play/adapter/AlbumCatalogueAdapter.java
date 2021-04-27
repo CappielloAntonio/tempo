@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.ui.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.cappielloantonio.play.helper;
+package com.cappielloantonio.play.service;
 
 import android.app.Activity;
 import android.content.ComponentName;

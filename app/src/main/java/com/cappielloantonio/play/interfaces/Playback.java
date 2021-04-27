@@ -1,4 +1,4 @@
-package com.cappielloantonio.play.service.playback;
+package com.cappielloantonio.play.interfaces;
 
 import com.cappielloantonio.play.model.Song;
 

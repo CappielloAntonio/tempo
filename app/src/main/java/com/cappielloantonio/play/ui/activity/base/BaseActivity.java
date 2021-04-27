@@ -1,4 +1,4 @@
-package com.cappielloantonio.play.ui.activities.base;
+package com.cappielloantonio.play.ui.activity.base;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -19,11 +19,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.helper.MusicPlayerRemote;
+import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.interfaces.MusicServiceEventListener;
 import com.cappielloantonio.play.service.DownloadTracker;
 import com.cappielloantonio.play.service.MusicService;
-import com.cappielloantonio.play.service.PlayDownloadService;
+import com.cappielloantonio.play.service.DownloaderService;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.google.android.exoplayer2.offline.DownloadService;
 
@@ -72,9 +72,9 @@ public class BaseActivity extends AppCompatActivity implements EasyPermissions.P
         // action. Starting it in the background throws an exception if the app is in the background too
         // (e.g. if device screen is locked).
         try {
-            DownloadService.start(this, PlayDownloadService.class);
+            DownloadService.start(this, DownloaderService.class);
         } catch (IllegalStateException e) {
-            DownloadService.startForeground(this, PlayDownloadService.class);
+            DownloadService.startForeground(this, DownloaderService.class);
         }
     }
 

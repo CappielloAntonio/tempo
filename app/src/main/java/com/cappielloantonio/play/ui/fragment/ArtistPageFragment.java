@@ -2,7 +2,6 @@ package com.cappielloantonio.play.ui.fragment;
 
 import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +20,10 @@ import com.cappielloantonio.play.adapter.AlbumArtistPageAdapter;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.helper.MusicPlayerRemote;
+import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
-import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.ArtistPageViewModel;
 
 import java.util.List;

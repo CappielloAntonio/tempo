@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.databinding.FragmentSyncBinding;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Album;
@@ -32,7 +31,7 @@ import com.cappielloantonio.play.repository.PlaylistRepository;
 import com.cappielloantonio.play.repository.PlaylistSongRepository;
 import com.cappielloantonio.play.repository.SongArtistRepository;
 import com.cappielloantonio.play.repository.SongRepository;
-import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.util.SyncUtil;
 import com.cappielloantonio.play.viewmodel.SyncViewModel;

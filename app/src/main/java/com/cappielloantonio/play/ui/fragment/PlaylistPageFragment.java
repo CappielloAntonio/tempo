@@ -14,11 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
-import com.cappielloantonio.play.databinding.FragmentAlbumPageBinding;
 import com.cappielloantonio.play.databinding.FragmentPlaylistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.ui.activities.MainActivity;
-import com.cappielloantonio.play.viewmodel.AlbumPageViewModel;
+import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.PlaylistPageViewModel;
 
 public class PlaylistPageFragment extends Fragment {

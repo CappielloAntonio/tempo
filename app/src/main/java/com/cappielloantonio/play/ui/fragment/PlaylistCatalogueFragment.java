@@ -18,22 +18,13 @@ import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.adapter.GenreCatalogueAdapter;
-import com.cappielloantonio.play.adapter.PlaylistAdapter;
 import com.cappielloantonio.play.adapter.PlaylistCatalogueAdapter;
-import com.cappielloantonio.play.databinding.FragmentGenreCatalogueBinding;
 import com.cappielloantonio.play.databinding.FragmentPlaylistCatalogueBinding;
-import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
-import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.ui.activities.MainActivity;
-import com.cappielloantonio.play.viewmodel.GenreCatalogueViewModel;
+import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.PlaylistCatalogueViewModel;
-
-import java.util.ArrayList;
 
 public class PlaylistCatalogueFragment extends Fragment {
     private static final String TAG = "GenreCatalogueFragment";;

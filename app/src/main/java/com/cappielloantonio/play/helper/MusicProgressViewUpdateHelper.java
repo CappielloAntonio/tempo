@@ -5,6 +5,8 @@ import android.os.Message;
 
 import androidx.annotation.NonNull;
 
+import com.cappielloantonio.play.service.MusicPlayerRemote;
+
 public class MusicProgressViewUpdateHelper extends Handler {
     private static final int CMD_REFRESH_PROGRESS_VIEWS = 1;
 

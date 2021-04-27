@@ -11,7 +11,7 @@
 
 // Modified for Phonograph by Karim Abou Zeid (kabouzeid).
 
-package com.cappielloantonio.play.service;
+package com.cappielloantonio.play.broadcast.receiver;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -27,6 +27,7 @@ import android.view.KeyEvent;
 import androidx.core.content.ContextCompat;
 
 import com.cappielloantonio.play.BuildConfig;
+import com.cappielloantonio.play.service.MusicService;
 
 /**
  * Used to control headset playback.

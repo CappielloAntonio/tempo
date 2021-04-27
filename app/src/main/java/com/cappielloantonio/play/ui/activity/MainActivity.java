@@ -1,4 +1,4 @@
-package com.cappielloantonio.play.ui.activities;
+package com.cappielloantonio.play.ui.activity;
 
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -18,9 +18,9 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.broadcast.receiver.ConnectivityStatusBroadcastReceiver;
 import com.cappielloantonio.play.databinding.ActivityMainBinding;
-import com.cappielloantonio.play.helper.MusicPlayerRemote;
+import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.ui.activities.base.BaseActivity;
+import com.cappielloantonio.play.ui.activity.base.BaseActivity;
 import com.cappielloantonio.play.ui.fragment.PlayerBottomSheetFragment;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.util.SyncUtil;

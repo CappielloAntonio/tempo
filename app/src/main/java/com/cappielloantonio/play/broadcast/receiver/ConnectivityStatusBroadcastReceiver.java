@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.view.View;
 
-import com.cappielloantonio.play.ui.activities.MainActivity;
+import com.cappielloantonio.play.ui.activity.MainActivity;
 
 public class ConnectivityStatusBroadcastReceiver extends BroadcastReceiver {
     private MainActivity activity;

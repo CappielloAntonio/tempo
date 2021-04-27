@@ -47,12 +47,6 @@ public class DownloaderService extends DownloadService {
         return DownloadUtil.getDownloadNotificationHelper(this).buildProgressNotification(this, R.drawable.ic_downloading,null, null, downloads);
     }
 
-    /**
-     * Creates and displays notifications for downloads when they complete or fail.
-     *
-     * <p>This helper will outlive the lifespan of a single instance of DemoDownloadService.
-     * It is static to avoid leaking the first DemoDownloadService instance.
-     */
     private static final class TerminalStateNotificationHelper implements DownloadManager.Listener {
 
         private final Context context;

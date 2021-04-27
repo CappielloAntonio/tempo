@@ -51,7 +51,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
-    implementation "androidx.room:room-runtime:2.2.6"
+    implementation "androidx.room:room-runtime:2.3.0"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "androidx.lifecycle:lifecycle-common-java8:2.3.1"
@@ -79,17 +79,17 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.12.2'
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
-    annotationProcessor "androidx.room:room-compiler:2.2.6"
+    annotationProcessor "androidx.room:room-compiler:2.3.0"
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     // Database debugger via adb
-    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+    // debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
     // Square - Canary
     // debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
     // Red screen of death
-    debugImplementation 'com.melegy.redscreenofdeath:red-screen-of-death:0.1.2'
+    // debugImplementation 'com.melegy.redscreenofdeath:red-screen-of-death:0.1.2'
 }

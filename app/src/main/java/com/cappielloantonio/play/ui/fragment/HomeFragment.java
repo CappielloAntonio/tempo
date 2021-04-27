@@ -23,6 +23,7 @@ import com.cappielloantonio.play.adapter.YearAdapter;
 import com.cappielloantonio.play.databinding.FragmentHomeBinding;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.Util;
 import com.cappielloantonio.play.viewmodel.HomeViewModel;
 
 public class HomeFragment extends Fragment {
@@ -50,6 +51,7 @@ public class HomeFragment extends Fragment {
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
         init();
+        initForYouBar();
 
         return view;
     }
@@ -110,6 +112,12 @@ public class HomeFragment extends Fragment {
             bundle.putString(Song.DOWNLOADED, Song.DOWNLOADED);
             activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
         });
+    }
+
+    private void initForYouBar() {
+        bind.homeDateLabel.setText(Util.getDate());
+
+        bind.homeSettingsImageView.setOnClickListener(v -> activity.navController.navigate(R.id.action_homeFragment_to_settingsFragment));
     }
 
     private void initDiscoverSongSlideView() {
@@ -221,6 +229,7 @@ public class HomeFragment extends Fragment {
     public void reorder() {
         if(bind != null) {
             bind.homeLinearLayoutContainer.removeAllViews();
+            bind.homeLinearLayoutContainer.addView(bind.forYouSector);
             bind.homeLinearLayoutContainer.addView(bind.homeDiscoverSector);
             bind.homeLinearLayoutContainer.addView(bind.homeRecentlyAddedTracksSector);
             bind.homeLinearLayoutContainer.addView(bind.homeFlashbackSector);

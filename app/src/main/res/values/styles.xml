@@ -46,6 +46,12 @@
         <item name="android:fontFamily">@font/inter</item>
     </style>
 
+    <style name="MainTitleTextView" parent="InterFontFamily">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textFontWeight">900</item>
+        <item name="android:textColor">@color/titleTextColor</item>
+    </style>
+
     <!-- Font di tutti i titoli grossi.
     Questi comprendono i titoli nelle schermate principali, nel bottom_sheet_player
     il titolo della canzone e la stringa in alto  -->

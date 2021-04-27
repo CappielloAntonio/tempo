@@ -48,6 +48,6 @@
         android:gravity="center"
         android:text="Offline mode"
         android:textColor="@android:color/white"
-        android:textSize="6dp"
+        android:textSize="6sp"
         android:visibility="gone" />
 </LinearLayout>

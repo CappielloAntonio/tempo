@@ -171,10 +171,8 @@ public class MainActivity extends BaseActivity {
                 public void onStateChanged(@NonNull View view, int state) {
                     switch (state) {
                         case BottomSheetBehavior.STATE_SETTLING | BottomSheetBehavior.STATE_COLLAPSED:
-                            Log.i(TAG, "onStateChanged: IS_SETTLING | IS_COLLAPSING");
                             PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
                             if (playerBottomSheetFragment == null) break;
-
                             playerBottomSheetFragment.scrollOnTop();
                             break;
                         case BottomSheetBehavior.STATE_HIDDEN:

@@ -49,11 +49,9 @@ public final class DownloadUtil {
         return httpDataSourceFactory;
     }
 
-    public static synchronized DownloadNotificationHelper getDownloadNotificationHelper(
-            Context context) {
+    public static synchronized DownloadNotificationHelper getDownloadNotificationHelper(Context context) {
         if (downloadNotificationHelper == null) {
-            downloadNotificationHelper =
-                    new DownloadNotificationHelper(context, DOWNLOAD_NOTIFICATION_CHANNEL_ID);
+            downloadNotificationHelper = new DownloadNotificationHelper(context, DOWNLOAD_NOTIFICATION_CHANNEL_ID);
         }
         return downloadNotificationHelper;
     }
@@ -70,11 +68,8 @@ public final class DownloadUtil {
 
     public static synchronized Cache getDownloadCache(Context context) {
         if (downloadCache == null) {
-            File downloadContentDirectory =
-                    new File(getDownloadDirectory(context), DOWNLOAD_CONTENT_DIRECTORY);
-            downloadCache =
-                    new SimpleCache(
-                            downloadContentDirectory, new NoOpCacheEvictor(), getDatabaseProvider(context));
+            File downloadContentDirectory = new File(getDownloadDirectory(context), DOWNLOAD_CONTENT_DIRECTORY);
+            downloadCache = new SimpleCache(downloadContentDirectory, new NoOpCacheEvictor(), getDatabaseProvider(context));
         }
         return downloadCache;
     }
@@ -82,37 +77,16 @@ public final class DownloadUtil {
     private static synchronized void ensureDownloadManagerInitialized(Context context) {
         if (downloadManager == null) {
             DefaultDownloadIndex downloadIndex = new DefaultDownloadIndex(getDatabaseProvider(context));
-            upgradeActionFile(
-                    context, DOWNLOAD_ACTION_FILE, downloadIndex, false);
-            upgradeActionFile(
-                    context,
-                    DOWNLOAD_TRACKER_ACTION_FILE,
-                    downloadIndex,
-                    true);
-            downloadManager =
-                    new DownloadManager(
-                            context,
-                            getDatabaseProvider(context),
-                            getDownloadCache(context),
-                            getHttpDataSourceFactory(context),
-                            Executors.newFixedThreadPool(6));
-            downloadTracker =
-                    new DownloadTracker(context, getHttpDataSourceFactory(context), downloadManager);
+            upgradeActionFile(context, DOWNLOAD_ACTION_FILE, downloadIndex, false);
+            upgradeActionFile(context, DOWNLOAD_TRACKER_ACTION_FILE, downloadIndex, true);
+            downloadManager = new DownloadManager(context, getDatabaseProvider(context), getDownloadCache(context), getHttpDataSourceFactory(context), Executors.newFixedThreadPool(6));
+            downloadTracker = new DownloadTracker(context, getHttpDataSourceFactory(context), downloadManager);
         }
     }
 
-    private static synchronized void upgradeActionFile(
-            Context context,
-            String fileName,
-            DefaultDownloadIndex downloadIndex,
-            boolean addNewDownloadsAsCompleted) {
+    private static synchronized void upgradeActionFile(Context context, String fileName, DefaultDownloadIndex downloadIndex, boolean addNewDownloadsAsCompleted) {
         try {
-            ActionFileUpgradeUtil.upgradeAndDelete(
-                    new File(getDownloadDirectory(context), fileName),
-                    null,
-                    downloadIndex,
-                    true,
-                    addNewDownloadsAsCompleted);
+            ActionFileUpgradeUtil.upgradeAndDelete(new File(getDownloadDirectory(context), fileName), null, downloadIndex, true, addNewDownloadsAsCompleted);
         } catch (IOException e) {
             Log.e(TAG, "Failed to upgrade action file: " + fileName, e);
         }

@@ -54,11 +54,6 @@
             android:title="@string/music_sync" />
 
         <Preference
-            android:key="@string/genres_music_cross_sync"
-            android:summary="@string/genres_music_cross_sync_caption"
-            android:title="@string/genres_music_cross_sync" />
-
-        <Preference
             android:key="@string/playlist_song_cross_sync"
             android:summary="@string/playlist_song_cross_sync_caption"
             android:title="@string/playlist_song_cross_sync" />

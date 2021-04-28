@@ -66,8 +66,8 @@ public class DownloadTracker {
     }
 
     @Nullable
-    public DownloadRequest getDownloadRequest(Uri uri) {
-        return new DownloadRequest.Builder(uri.toString(), uri).build();
+    public DownloadRequest getDownloadRequest(String id, Uri uri) {
+        return new DownloadRequest.Builder(id, uri).build();
     }
 
     public void toggleDownload(List<Song> songs) {
@@ -83,7 +83,7 @@ public class DownloadTracker {
                 DownloadService.sendRemoveDownload(context, DownloaderService.class, download.request.id, false);
             } else {
                 song.setOffline(true);
-                DownloadService.sendAddDownload(context, DownloaderService.class, getDownloadRequest(mediaItem.playbackProperties.uri), false);
+                DownloadService.sendAddDownload(context, DownloaderService.class, getDownloadRequest(song.getId(), mediaItem.playbackProperties.uri), false);
             }
 
             songRepository.setOfflineStatus(song);
@@ -113,22 +113,19 @@ public class DownloadTracker {
     }
 
     private class DownloadManagerListener implements DownloadManager.Listener {
-
         @Override
-        public void onDownloadChanged(
-                @NonNull DownloadManager downloadManager,
-                @NonNull Download download,
-                @Nullable Exception finalException) {
+        public void onDownloadChanged(@NonNull DownloadManager downloadManager, @NonNull Download download, @Nullable Exception finalException) {
             downloads.put(download.request.uri, download);
+
             for (Listener listener : listeners) {
                 listener.onDownloadsChanged();
             }
         }
 
         @Override
-        public void onDownloadRemoved(
-                @NonNull DownloadManager downloadManager, @NonNull Download download) {
+        public void onDownloadRemoved(@NonNull DownloadManager downloadManager, @NonNull Download download) {
             downloads.remove(download.request.uri);
+
             for (Listener listener : listeners) {
                 listener.onDownloadsChanged();
             }

@@ -51,7 +51,7 @@ public class HomeFragment extends Fragment {
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
         init();
-        initForYouBar();
+        initListenNowBar();
 
         return view;
     }
@@ -114,7 +114,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void initForYouBar() {
+    private void initListenNowBar() {
         bind.homeDateLabel.setText(Util.getDate());
 
         bind.homeSettingsImageView.setOnClickListener(v -> activity.navController.navigate(R.id.action_homeFragment_to_settingsFragment));
@@ -229,7 +229,7 @@ public class HomeFragment extends Fragment {
     public void reorder() {
         if(bind != null) {
             bind.homeLinearLayoutContainer.removeAllViews();
-            bind.homeLinearLayoutContainer.addView(bind.forYouSector);
+            bind.homeLinearLayoutContainer.addView(bind.listenNowSector);
             bind.homeLinearLayoutContainer.addView(bind.homeDiscoverSector);
             bind.homeLinearLayoutContainer.addView(bind.homeRecentlyAddedTracksSector);
             bind.homeLinearLayoutContainer.addView(bind.homeFlashbackSector);

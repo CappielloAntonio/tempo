@@ -44,7 +44,6 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
     private TextView titleSong;
     private TextView artistSong;
     private ToggleButton favoriteToggle;
-    private ImageView downloadIndicator;
 
     private TextView playRadio;
     private TextView playNext;
@@ -90,8 +89,6 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
             songBottomSheetViewModel.setFavorite();
             dismissBottomSheet();
         });
-
-        downloadIndicator = view.findViewById(R.id.bottom_sheet_song_dowanload_indicator_image_view);
 
         playRadio = view.findViewById(R.id.play_radio_text_view);
         playRadio.setOnClickListener(v -> {
@@ -183,10 +180,8 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
     private void initDownloadedUI() {
         if (song.isOffline()) {
-            downloadIndicator.setVisibility(View.VISIBLE);
             download.setText("Remove");
         } else {
-            downloadIndicator.setVisibility(View.GONE);
             download.setText("Download");
         }
     }

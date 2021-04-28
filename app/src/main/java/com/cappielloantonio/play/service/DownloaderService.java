@@ -48,7 +48,6 @@ public class DownloaderService extends DownloadService {
     }
 
     private static final class TerminalStateNotificationHelper implements DownloadManager.Listener {
-
         private final Context context;
         private final DownloadNotificationHelper notificationHelper;
 
@@ -65,7 +64,7 @@ public class DownloaderService extends DownloadService {
             Notification notification;
 
             if (download.state == Download.STATE_COMPLETED) {
-                notification = notificationHelper.buildDownloadCompletedNotification(context, R.drawable.ic_done, null, Util.fromUtf8Bytes(download.request.data));
+                notification = notificationHelper.buildDownloadCompletedNotification(context, R.drawable.ic_check_circle, null, Util.fromUtf8Bytes(download.request.data));
             } else if (download.state == Download.STATE_FAILED) {
                 notification = notificationHelper.buildDownloadFailedNotification(context, R.drawable.ic_error, null, Util.fromUtf8Bytes(download.request.data));
             } else {

@@ -80,7 +80,7 @@
         android:layout_height="18dp"
         android:layout_gravity="center"
         android:layout_margin="8dp"
-        android:background="@drawable/ic_check_circle"
+        android:background="@drawable/ic_download_for_offline"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/search_result_song_more_button"

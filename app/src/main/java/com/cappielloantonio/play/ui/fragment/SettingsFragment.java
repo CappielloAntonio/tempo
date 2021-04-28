@@ -35,6 +35,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        activity.setBottomNavigationBarVisibility(false);
+    }
+
+    @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.global_preferences, rootKey);
 
@@ -58,21 +64,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                         PreferenceUtil.getInstance(requireContext()).setSync(false);
                         PreferenceUtil.getInstance(requireContext()).setSongGenreSync(false);
 
-                        Bundle bundle = SyncUtil.getSyncBundle(true, true, true, true, true, false);
-                        activity.goFromSettingsToSync(bundle);
-                    })
-                    .show();
-            return true;
-        });
-
-        Preference cross_sync_button = findPreference(getString(R.string.genres_music_cross_sync));
-        cross_sync_button.setOnPreferenceClickListener(preference -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            builder.setMessage("Force sync song's genres to display updated and correct songs in each genre category")
-                    .setTitle("Force sync song's genres")
-                    .setNegativeButton(R.string.ignore, null)
-                    .setPositiveButton("Sync", (dialog, id) -> {
-                        Bundle bundle = SyncUtil.getSyncBundle(false, false, true, false, false, true);
+                        Bundle bundle = SyncUtil.getSyncBundle(true, true, true, true, true, true);
                         activity.goFromSettingsToSync(bundle);
                     })
                     .show();
@@ -93,5 +85,4 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             return true;
         });
     }
-
 }

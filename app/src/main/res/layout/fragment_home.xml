@@ -14,7 +14,7 @@
 
         <!--  For you -->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/for_you_sector"
+            android:id="@+id/listen_now_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipChildren="false">
@@ -24,48 +24,48 @@
                 style="@style/SubheadTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:includeFontPadding="false"
                 android:paddingStart="16dp"
                 android:paddingTop="20dp"
                 android:paddingEnd="16dp"
                 android:text="@string/label_placeholder"
-                android:includeFontPadding="false"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/home_for_you_label"
+                android:id="@+id/home_listen_now_label"
                 style="@style/MainTitleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:includeFontPadding="false"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="For You"
-                android:includeFontPadding="false"
+                android:text="Listen now"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/home_date_label"/>
+                app:layout_constraintTop_toBottomOf="@+id/home_date_label" />
 
             <ImageView
                 android:id="@+id/home_settings_image_view"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginBottom="4dp"
                 android:layout_marginEnd="16dp"
-                android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:layout_marginBottom="8dp"
                 android:background="@drawable/ic_settings"
                 android:backgroundTint="@color/bottomNavIconColor"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="@+id/home_for_you_label"/>
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                app:layout_constraintBottom_toBottomOf="@+id/home_listen_now_label"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <View
                 android:id="@+id/home_top_title_divider"
                 style="@style/Divider"
                 android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp"
                 android:layout_marginTop="12dp"
+                android:layout_marginEnd="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/home_for_you_label" />
+                app:layout_constraintTop_toBottomOf="@+id/home_listen_now_label" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!--  Discover music  -->
@@ -80,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
-                android:paddingTop="24dp"
+                android:paddingTop="16dp"
                 android:paddingEnd="16dp"
                 android:text="Music discovery" />
 

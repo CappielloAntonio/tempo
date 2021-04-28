@@ -58,7 +58,7 @@
             android:textColor="@color/titleTextColor"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/bottom_sheet_song_dowanload_indicator_image_view"
+            app:layout_constraintEnd_toStartOf="@id/button_favorite"
             app:layout_constraintStart_toEndOf="@+id/song_cover_image_view"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -72,21 +72,9 @@
             android:text="@string/label_placeholder"
             android:textColor="@color/subtitleTextColor"
             android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@id/bottom_sheet_song_dowanload_indicator_image_view"
+            app:layout_constraintEnd_toStartOf="@id/button_favorite"
             app:layout_constraintStart_toEndOf="@+id/song_cover_image_view"
             app:layout_constraintTop_toBottomOf="@+id/song_title_text_view" />
-
-        <ImageView
-            android:id="@+id/bottom_sheet_song_dowanload_indicator_image_view"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/ic_check_circle"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_favorite"
-            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

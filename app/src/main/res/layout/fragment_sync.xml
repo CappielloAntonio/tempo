@@ -1,20 +1,540 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ProgressBar
-        android:id="@+id/loading_progress_bar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminate="false"
-        android:minWidth="128dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/syncing_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false">
+
+            <TextView
+                android:id="@+id/syncing_date_label"
+                style="@style/SubheadTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:paddingStart="16dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="16dp"
+                android:text="@string/label_placeholder"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/syncing_syncing_label"
+                style="@style/MainTitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="Syncing"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/syncing_date_label" />
+
+            <ImageView
+                android:id="@+id/syncing_go_home_image_view"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"
+                android:background="@drawable/ic_home_filled"
+                android:backgroundTint="@color/bottomNavIconColor"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                app:layout_constraintBottom_toBottomOf="@+id/syncing_syncing_label"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View
+                android:id="@+id/home_top_title_divider"
+                style="@style/Divider"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/syncing_syncing_label" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Libraries -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sync_libraries_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingTop="18dp"
+            android:paddingEnd="16dp">
+
+            <TextView
+                android:id="@+id/sync_libraries_label"
+                style="@style/ItemTitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sync libraries"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/sync_libraries_detail_label"
+                style="@style/ItemSubtitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="@string/label_placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_libraries_label" />
+
+            <TextView
+                android:id="@+id/sync_libraries_status_label"
+                style="@style/ItemSubtitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="@string/label_placeholder"
+                app:layout_constraintEnd_toStartOf="@+id/sync_libraries_retry_image_view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_libraries_detail_label" />
+
+            <ImageView
+                android:id="@+id/sync_libraries_retry_image_view"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_refresh"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/sync_libraries_status_label"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View
+                style="@style/Divider"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_libraries_status_label" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Albums -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sync_albums_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="16dp">
+
+            <TextView
+                android:id="@+id/sync_albums_label"
+                style="@style/ItemTitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sync albums"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/sync_albums_detail_label"
+                style="@style/ItemSubtitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="@string/label_placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_albums_label" />
+
+            <TextView
+                android:id="@+id/sync_albums_status_label"
+                style="@style/ItemSubtitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="@string/label_placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_albums_detail_label" />
+
+            <ImageView
+                android:id="@+id/sync_albums_retry_image_view"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_refresh"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/sync_albums_status_label"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View
+                style="@style/Divider"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_albums_status_label" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Artists -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sync_artists_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="16dp">
+
+            <TextView
+                android:id="@+id/sync_artists_label"
+                style="@style/ItemTitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sync artists"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/sync_artists_detail_label"
+                style="@style/ItemSubtitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="@string/label_placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_artists_label" />
+
+            <TextView
+                android:id="@+id/sync_artists_status_label"
+                style="@style/ItemSubtitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="@string/label_placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_artists_detail_label" />
+
+            <ImageView
+                android:id="@+id/sync_artists_retry_image_view"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_refresh"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/sync_artists_status_label"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View
+                style="@style/Divider"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_artists_status_label" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Genres -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sync_genres_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="16dp">
+
+            <TextView
+                android:id="@+id/sync_genres_label"
+                style="@style/ItemTitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sync genres"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/sync_genres_detail_label"
+                style="@style/ItemSubtitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="@string/label_placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_genres_label" />
+
+            <TextView
+                android:id="@+id/sync_genres_status_label"
+                style="@style/ItemSubtitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="@string/label_placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_genres_detail_label" />
+
+            <ImageView
+                android:id="@+id/sync_genres_retry_image_view"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_refresh"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/sync_genres_status_label"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View
+                style="@style/Divider"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_genres_status_label" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Playlists -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sync_playlists_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="16dp">
+
+            <TextView
+                android:id="@+id/sync_playlists_label"
+                style="@style/ItemTitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sync playlists"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/sync_playlists_detail_label"
+                style="@style/ItemSubtitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="@string/label_placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_playlists_label" />
+
+            <TextView
+                android:id="@+id/sync_playlists_status_label"
+                style="@style/ItemSubtitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="@string/label_placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_playlists_detail_label" />
+
+            <ImageView
+                android:id="@+id/sync_playlists_retry_image_view"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_refresh"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/sync_playlists_status_label"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View
+                style="@style/Divider"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_playlists_status_label" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Songs -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sync_songs_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="16dp">
+
+            <TextView
+                android:id="@+id/sync_songs_label"
+                style="@style/ItemTitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sync songs"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/sync_songs_detail_label"
+                style="@style/ItemSubtitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="@string/label_placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_songs_label" />
+
+            <TextView
+                android:id="@+id/sync_songs_status_label"
+                style="@style/ItemSubtitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="@string/label_placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_songs_detail_label" />
+
+            <ImageView
+                android:id="@+id/sync_songs_retry_image_view"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_refresh"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/sync_songs_status_label"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View
+                style="@style/Divider"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_songs_status_label" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Song x Genre -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sync_song_x_genre_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="16dp">
+
+            <TextView
+                android:id="@+id/sync_song_x_genre_label"
+                style="@style/ItemTitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sync song x genre"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/sync_song_x_genre_detail_label"
+                style="@style/ItemSubtitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="@string/label_placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_song_x_genre_label" />
+
+            <TextView
+                android:id="@+id/sync_song_x_genre_status_label"
+                style="@style/ItemSubtitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="@string/label_placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_song_x_genre_detail_label" />
+
+            <ImageView
+                android:id="@+id/sync_song_x_genre_retry_image_view"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_refresh"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/sync_song_x_genre_status_label"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View
+                style="@style/Divider"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_song_x_genre_status_label" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Song x Playlist -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sync_song_x_playlist_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="16dp">
+
+            <TextView
+                android:id="@+id/sync_song_x_playlist_label"
+                style="@style/ItemTitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sync song x playlist"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/sync_song_x_playlist_detail_label"
+                style="@style/ItemSubtitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="@string/label_placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_song_x_playlist_label" />
+
+            <TextView
+                android:id="@+id/sync_song_x_playlist_status_label"
+                style="@style/ItemSubtitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="@string/label_placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_song_x_playlist_detail_label" />
+
+            <ImageView
+                android:id="@+id/sync_song_x_playlist_retry_image_view"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_refresh"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/sync_song_x_playlist_status_label"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View
+                style="@style/Divider"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sync_song_x_playlist_status_label" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

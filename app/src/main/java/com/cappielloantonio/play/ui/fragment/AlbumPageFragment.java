@@ -1,10 +1,15 @@
 package com.cappielloantonio.play.ui.fragment;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
@@ -12,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.App;
+import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
@@ -33,6 +39,18 @@ public class AlbumPageFragment extends Fragment {
     private SongResultSearchAdapter songResultSearchAdapter;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.album_page_menu, menu);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -48,7 +66,6 @@ public class AlbumPageFragment extends Fragment {
         albumPageViewModel = new ViewModelProvider(requireActivity()).get(AlbumPageViewModel.class);
 
         init();
-        initDownloadButton();
         initBackCover();
         initSongsView();
 
@@ -67,12 +84,21 @@ public class AlbumPageFragment extends Fragment {
         bind = null;
     }
 
-    private void init() {
-        albumPageViewModel.setAlbum(getArguments().getParcelable("album_object"));
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_download_album:
+                DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(albumPageViewModel.getAlbumSongList());
+                return true;
+            default:
+                break;
+        }
+
+        return false;
     }
 
-    private void initDownloadButton() {
-        bind.downloadIconButton.setOnClickListener(v -> DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(albumPageViewModel.getAlbumSongList()));
+    private void init() {
+        albumPageViewModel.setAlbum(getArguments().getParcelable("album_object"));
     }
 
     private void initAppBar() {

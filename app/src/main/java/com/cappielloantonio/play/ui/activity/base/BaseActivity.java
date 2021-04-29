@@ -250,7 +250,6 @@ public class BaseActivity extends AppCompatActivity implements EasyPermissions.P
     public void onDownloadsChanged() {
         // TODO Notificare all'item scaricato che lo stato di download è cambiato
         // sampleAdapter.notifyDataSetChanged();
-        Toast.makeText(this, "Download changed", Toast.LENGTH_SHORT).show();
     }
 
     private static final class MusicStateReceiver extends BroadcastReceiver {

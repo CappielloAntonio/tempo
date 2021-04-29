@@ -30,7 +30,7 @@
 
             <TextView
                 android:id="@+id/syncing_syncing_label"
-                style="@style/MainTitleTextView"
+                style="@style/TitleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"

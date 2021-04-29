@@ -51,7 +51,6 @@ public class HomeFragment extends Fragment {
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
         init();
-        initListenNowBar();
 
         return view;
     }
@@ -112,10 +111,6 @@ public class HomeFragment extends Fragment {
             bundle.putString(Song.DOWNLOADED, Song.DOWNLOADED);
             activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
         });
-    }
-
-    private void initListenNowBar() {
-        bind.homeDateLabel.setText(Util.getDate());
 
         bind.homeSettingsImageView.setOnClickListener(v -> activity.navController.navigate(R.id.action_homeFragment_to_settingsFragment));
     }
@@ -229,7 +224,6 @@ public class HomeFragment extends Fragment {
     public void reorder() {
         if(bind != null) {
             bind.homeLinearLayoutContainer.removeAllViews();
-            bind.homeLinearLayoutContainer.addView(bind.listenNowSector);
             bind.homeLinearLayoutContainer.addView(bind.homeDiscoverSector);
             bind.homeLinearLayoutContainer.addView(bind.homeRecentlyAddedTracksSector);
             bind.homeLinearLayoutContainer.addView(bind.homeFlashbackSector);

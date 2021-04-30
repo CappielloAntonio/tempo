@@ -28,7 +28,8 @@
                 android:id="@+id/album_info_sector"
                 android:layout_width="match_parent"
                 android:layout_height="172dp"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                android:clipChildren="false">
 
                 <TextView
                     android:id="@+id/page_title_label"

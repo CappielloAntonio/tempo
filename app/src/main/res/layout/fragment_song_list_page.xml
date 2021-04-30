@@ -33,7 +33,7 @@
                 <TextView
                     android:id="@+id/page_title_label"
                     style="@style/HeadlineTextView"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:paddingStart="16dp"
                     android:paddingTop="16dp"
@@ -41,8 +41,34 @@
                     android:paddingBottom="24dp"
                     android:text="@string/label_placeholder"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/song_list_shuffle_image_view"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/song_list_play_image_view"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/ic_play"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="parent" />
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <ImageView
+                    android:id="@+id/song_list_shuffle_image_view"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/ic_shuffle"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                    app:layout_constraintEnd_toStartOf="@+id/song_list_play_image_view"
+                    app:layout_constraintBottom_toBottomOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.AppBarLayout>
 

@@ -4,17 +4,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentSongListPageBinding;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.SongListPageViewModel;
+
+import java.util.Collections;
+import java.util.List;
 
 public class SongListPageFragment extends Fragment {
 
@@ -34,6 +41,7 @@ public class SongListPageFragment extends Fragment {
 
         init();
         initAppBar();
+        initButtons();
         initSongListView();
 
         return view;
@@ -117,6 +125,34 @@ public class SongListPageFragment extends Fragment {
                 bind.toolbar.setTitle("Songs");
             } else {
                 bind.toolbar.setTitle("");
+            }
+        });
+    }
+
+    private void initButtons() {
+        songListPageViewModel.getSongList().observe(requireActivity(), songs -> {
+            if(bind != null) {
+                bind.songListPlayImageView.setOnClickListener(v -> {
+                    QueueRepository queueRepository = new QueueRepository(App.getInstance());
+                    queueRepository.insertAllAndStartNew(songs);
+
+                    activity.isBottomSheetInPeek(true);
+                    activity.setBottomSheetMusicInfo(songs.get(0));
+
+                    MusicPlayerRemote.openQueue(songs, 0, true);
+                });
+
+                bind.songListShuffleImageView.setOnClickListener(v -> {
+                    Collections.shuffle(songs);
+
+                    QueueRepository queueRepository = new QueueRepository(App.getInstance());
+                    queueRepository.insertAllAndStartNew(songs);
+
+                    activity.isBottomSheetInPeek(true);
+                    activity.setBottomSheetMusicInfo(songs.get(0));
+
+                    MusicPlayerRemote.openQueue(songs, 0, true);
+                });
             }
         });
     }

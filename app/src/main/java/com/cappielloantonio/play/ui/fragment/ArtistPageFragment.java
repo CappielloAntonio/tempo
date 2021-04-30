@@ -3,6 +3,7 @@ package com.cappielloantonio.play.ui.fragment;
 import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,16 @@ import com.cappielloantonio.play.adapter.AlbumArtistPageAdapter;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.PreferenceUtil;
+import com.cappielloantonio.play.util.SyncUtil;
 import com.cappielloantonio.play.viewmodel.ArtistPageViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ArtistPageFragment extends Fragment {
@@ -54,6 +59,7 @@ public class ArtistPageFragment extends Fragment {
 
         init();
         initBackdrop();
+        initPlayButtons();
         initTopSongsView();
         initAlbumsView();
 
@@ -96,14 +102,21 @@ public class ArtistPageFragment extends Fragment {
         bind.appbar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             if ((bind.collapsingToolbar.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.collapsingToolbar))) {
                 bind.animToolbar.getNavigationIcon().setColorFilter(new BlendModeColorFilter(getResources().getColor(R.color.titleTextColor, null), BlendMode.SRC_ATOP));
-                bind.artistPageFabButton.setVisibility(View.GONE);
             } else {
                 bind.animToolbar.getNavigationIcon().setColorFilter(new BlendModeColorFilter(getResources().getColor(R.color.white, null), BlendMode.SRC_ATOP));
-                bind.artistPageFabButton.setVisibility(View.VISIBLE);
             }
         });
+    }
 
-        bind.artistPageFabButton.setOnClickListener(v -> {
+    private void initBackdrop() {
+        CustomGlideRequest.Builder
+                .from(requireContext(), artistPageViewModel.getArtist().getBackdrop(), artistPageViewModel.getArtist().getBackdropBlurHash(), CustomGlideRequest.BACKDROP, CustomGlideRequest.TOP_QUALITY, CustomGlideRequest.ARTIST_PIC)
+                .build()
+                .into(bind.artistBackdropImageView);
+    }
+
+    private void initPlayButtons() {
+        bind.artistPageShuffleButton.setOnClickListener(v -> {
             List<Song> songs = artistPageViewModel.getArtistRandomSongList();
 
             if(songs.size() > 0) {
@@ -115,13 +128,24 @@ public class ArtistPageFragment extends Fragment {
             }
             else Toast.makeText(requireContext(), "Error retrieving artist's songs", Toast.LENGTH_SHORT).show();
         });
-    }
 
-    private void initBackdrop() {
-        CustomGlideRequest.Builder
-                .from(requireContext(), artistPageViewModel.getArtist().getBackdrop(), artistPageViewModel.getArtist().getBackdropBlurHash(), CustomGlideRequest.BACKDROP, CustomGlideRequest.TOP_QUALITY, CustomGlideRequest.ARTIST_PIC)
-                .build()
-                .into(bind.artistBackdropImageView);
+        bind.artistPageRadioButton.setOnClickListener(v -> SyncUtil.getInstantMix(requireContext(), new MediaCallback() {
+            @Override
+            public void onError(Exception exception) {
+                Toast.makeText(requireContext(), "Error retrieving artist's radio", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLoadMedia(List<?> media) {
+                QueueRepository queueRepository = new QueueRepository(App.getInstance());
+                List<Song> mix = queueRepository.insertMix((ArrayList<Song>) media);
+
+                activity.isBottomSheetInPeek(true);
+                activity.setBottomSheetMusicInfo(mix.get(0));
+
+                MusicPlayerRemote.openQueue(mix, 0, true);
+            }
+        }, SyncUtil.SONG, artistPageViewModel.getArtist().getId(), PreferenceUtil.getInstance(requireContext()).getInstantMixSongNumber()));
     }
 
     private void initTopSongsView() {

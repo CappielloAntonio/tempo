@@ -35,23 +35,6 @@
                 android:layout_gravity="top"
                 android:background="@drawable/gradient_backdrop_background_image"/>
 
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/artist_page_fab_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="16dp"
-                android:layout_marginLeft="16dp"
-                android:contentDescription="Shuffle"
-                android:src="@drawable/ic_shuffle"
-                app:backgroundTint="@color/colorAccent"
-                app:fabSize="mini"
-                app:layout_anchor="@id/app_bar_layout"
-                app:layout_anchorGravity="bottom|end"
-                app:tint="@android:color/white" />
-
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/anim_toolbar"
                 android:layout_width="match_parent"
@@ -76,6 +59,62 @@
             android:orientation="vertical"
             android:paddingTop="18dp"
             android:paddingBottom="@dimen/global_padding_bottom">
+
+            <View
+                android:id="@+id/upper_button_divider"
+                style="@style/Divider"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"/>
+
+            <LinearLayout
+                android:id="@+id/album_page_button_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
+
+                <Button
+                    android:id="@+id/artist_page_shuffle_button"
+                    style="@style/MainButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/buttonBackgroundColor"
+                    android:padding="10dp"
+                    android:text="Shuffle"
+                    android:textAllCaps="false"
+                    app:icon="@drawable/ic_shuffle"
+                    app:iconGravity="textStart"
+                    app:iconPadding="18dp"
+                    app:iconTint="@color/darkIconColor" />
+
+                <Button
+                    android:id="@+id/artist_page_radio_button"
+                    style="@style/MainButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/buttonBackgroundColor"
+                    android:padding="10dp"
+                    android:text="Radio"
+                    android:textAllCaps="false"
+                    app:icon="@drawable/ic_feed"
+                    app:iconGravity="textStart"
+                    app:iconPadding="18dp"
+                    app:iconTint="@color/darkIconColor" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/bottom_button_divider"
+                style="@style/Divider"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="12dp"/>
 
             <!--  Label and button  -->
             <LinearLayout

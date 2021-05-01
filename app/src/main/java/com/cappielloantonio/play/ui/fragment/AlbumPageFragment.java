@@ -8,12 +8,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.App;
@@ -21,6 +24,8 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.ui.activity.MainActivity;
@@ -28,6 +33,7 @@ import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.viewmodel.AlbumPageViewModel;
 
 import java.util.Collections;
+import java.util.Objects;
 
 public class AlbumPageFragment extends Fragment {
     private static final String TAG = "AlbumPageFragment";
@@ -55,6 +61,7 @@ public class AlbumPageFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         initAppBar();
+        initAlbumInfoTextButton();
         initMusicButton();
     }
 
@@ -123,6 +130,25 @@ public class AlbumPageFragment extends Fragment {
         });
 
         bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
+    }
+
+    private void initAlbumInfoTextButton() {
+        bind.albumArtistLabel.setOnClickListener(v -> {
+            Artist artist = albumPageViewModel.getArtist();
+            if(artist != null) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("artist_object", artist);
+               activity.navController.navigate(R.id.artistPageFragment, bundle);
+            }
+            else Toast.makeText(requireContext(), "Error retrieving artist", Toast.LENGTH_SHORT).show();
+        });
+
+        bind.albumReleaseYearLabel.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(Song.BY_YEAR, Song.BY_YEAR);
+            bundle.putInt("year_object", albumPageViewModel.getAlbum().getYear());
+            activity.navController.navigate(R.id.songListPageFragment, bundle);
+        });
     }
 
     private void initMusicButton() {

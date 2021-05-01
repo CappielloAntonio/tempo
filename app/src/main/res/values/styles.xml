@@ -106,13 +106,13 @@
     <style name="ShowcaseSubtitleTextView" parent="InterFontFamily">
         <item name="android:textSize">14sp</item>
         <item name="android:textFontWeight">500</item>
-        <item name="android:textColor">@color/subtitleTextColor</item>
+        <item name="android:textColor">@color/titleTextColor</item>
     </style>
 
     <style name="ShowcaseExtraTextView" parent="InterFontFamily">
         <item name="android:textSize">12sp</item>
         <item name="android:textFontWeight">400</item>
-        <item name="android:textColor">@color/subtitleTextColor</item>
+        <item name="android:textColor">@color/titleTextColor</item>
     </style>
 
     <!-- Font dei pulsanti vari presenti nell'applicazione -->

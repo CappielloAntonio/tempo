@@ -46,13 +46,83 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/song_recycler_view"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingTop="18dp"
-        android:paddingBottom="@dimen/global_padding_bottom"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:paddingTop="18dp"
+            android:paddingBottom="@dimen/global_padding_bottom">
+
+            <View
+                android:id="@+id/upper_button_divider"
+                style="@style/Divider"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"/>
+
+            <LinearLayout
+                android:id="@+id/playlist_page_button_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
+
+                <Button
+                    android:id="@+id/playlist_page_play_button"
+                    style="@style/MainButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/buttonBackgroundColor"
+                    android:padding="10dp"
+                    android:text="Play"
+                    android:textAllCaps="false"
+                    app:icon="@drawable/ic_play"
+                    app:iconGravity="textStart"
+                    app:iconPadding="18dp"
+                    app:iconTint="@color/darkIconColor" />
+
+                <Button
+                    android:id="@+id/playlist_page_shuffle_button"
+                    style="@style/MainButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/buttonBackgroundColor"
+                    android:padding="10dp"
+                    android:text="Shuffle"
+                    android:textAllCaps="false"
+                    app:icon="@drawable/ic_shuffle"
+                    app:iconGravity="textStart"
+                    app:iconPadding="18dp"
+                    app:iconTint="@color/darkIconColor" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/bottom_button_divider"
+                style="@style/Divider"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="12dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/playlist_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:paddingBottom="@dimen/global_padding_bottom"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

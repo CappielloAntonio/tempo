@@ -55,6 +55,7 @@ public class AlbumPageFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         initAppBar();
+        initMusicButton();
     }
 
     @Override
@@ -113,6 +114,18 @@ public class AlbumPageFragment extends Fragment {
         bind.albumArtistLabel.setText(albumPageViewModel.getAlbum().getArtistName());
         bind.albumReleaseYearLabel.setText(albumPageViewModel.getAlbum().getYear() != 0 ? String.valueOf(albumPageViewModel.getAlbum().getYear()) : "");
 
+        bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            if ((bind.albumInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.animToolbar))) {
+                bind.animToolbar.setTitle(albumPageViewModel.getAlbum().getTitle());
+            } else {
+                bind.animToolbar.setTitle("Album");
+            }
+        });
+
+        bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
+    }
+
+    private void initMusicButton() {
         albumPageViewModel.getAlbumSongLiveList().observe(requireActivity(), songs -> {
             if(bind != null) {
                 bind.albumPagePlayButton.setOnClickListener(v -> {
@@ -138,16 +151,6 @@ public class AlbumPageFragment extends Fragment {
                 });
             }
         });
-
-        bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
-            if ((bind.albumInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.animToolbar))) {
-                bind.animToolbar.setTitle(albumPageViewModel.getAlbum().getTitle());
-            } else {
-                bind.animToolbar.setTitle("Album");
-            }
-        });
-
-        bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
     }
 
     private void initBackCover() {

@@ -28,8 +28,8 @@
                 android:id="@+id/album_info_sector"
                 android:layout_width="match_parent"
                 android:layout_height="172dp"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-                android:clipChildren="false">
+                android:clipChildren="false"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <TextView
                     android:id="@+id/page_title_label"
@@ -50,26 +50,28 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:layout_marginBottom="24dp"
                     android:background="@drawable/ic_play"
+                    android:backgroundTint="@color/bottomNavIconColor"
                     android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
                 <ImageView
                     android:id="@+id/song_list_shuffle_image_view"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:layout_marginBottom="24dp"
                     android:background="@drawable/ic_shuffle"
+                    android:backgroundTint="@color/bottomNavIconColor"
                     android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                    app:layout_constraintEnd_toStartOf="@+id/song_list_play_image_view"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/song_list_play_image_view" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.AppBarLayout>
 

@@ -12,12 +12,17 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlaylistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.PlaylistPageViewModel;
+
+import java.util.Collections;
 
 public class PlaylistPageFragment extends Fragment {
 
@@ -32,6 +37,7 @@ public class PlaylistPageFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         initAppBar();
+        initMusicButton();
     }
 
     @Override
@@ -83,6 +89,34 @@ public class PlaylistPageFragment extends Fragment {
         });
     }
 
+    private void initMusicButton() {
+        playlistPageViewModel.getPlaylistSongList().observe(requireActivity(), songs -> {
+            if(bind != null) {
+                bind.playlistPagePlayButton.setOnClickListener(v -> {
+                    QueueRepository queueRepository = new QueueRepository(App.getInstance());
+                    queueRepository.insertAllAndStartNew(songs);
+
+                    activity.isBottomSheetInPeek(true);
+                    activity.setBottomSheetMusicInfo(songs.get(0));
+
+                    MusicPlayerRemote.openQueue(songs, 0, true);
+                });
+
+                bind.playlistPageShuffleButton.setOnClickListener(v -> {
+                    Collections.shuffle(songs);
+
+                    QueueRepository queueRepository = new QueueRepository(App.getInstance());
+                    queueRepository.insertAllAndStartNew(songs);
+
+                    activity.isBottomSheetInPeek(true);
+                    activity.setBottomSheetMusicInfo(songs.get(0));
+
+                    MusicPlayerRemote.openQueue(songs, 0, true);
+                });
+            }
+        });
+    }
+
     private void initBackCover() {
         CustomGlideRequest.Builder
                 .from(requireContext(), playlistPageViewModel.getPlaylist().getPrimary(), playlistPageViewModel.getPlaylist().getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY, CustomGlideRequest.ALBUM_PIC)
@@ -91,11 +125,11 @@ public class PlaylistPageFragment extends Fragment {
     }
 
     private void initSongsView() {
-        bind.songRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        bind.songRecyclerView.setHasFixedSize(true);
+        bind.playlistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        bind.playlistRecyclerView.setHasFixedSize(true);
 
         songResultSearchAdapter = new SongResultSearchAdapter(activity, requireContext(), getChildFragmentManager());
-        bind.songRecyclerView.setAdapter(songResultSearchAdapter);
+        bind.playlistRecyclerView.setAdapter(songResultSearchAdapter);
         playlistPageViewModel.getPlaylistSongList().observe(requireActivity(), songs -> {
             songResultSearchAdapter.setItems(songs);
         });

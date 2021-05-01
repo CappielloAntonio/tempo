@@ -26,6 +26,7 @@ public class PreferenceUtil {
     public static final String IMAGE_CACHE_SIZE = "image_cache_size";
     public static final String MEDIA_CACHE_SIZE = "media_cache_size";
     public static final String INSTANT_MIX_SONG_NUMBER = "instant_mix_song_number";
+    public static final String SIMILAR_ITEMS_NUMBER = "similar_items_number";
     public static final String TRANSCODE_CODEC = "transcode_codec";
     public static final String DIRECT_PLAY_CODECS = "direct_play_codecs";
     public static final String MAXIMUM_BITRATE = "maximum_bitrate";
@@ -137,6 +138,10 @@ public class PreferenceUtil {
 
     public final int getInstantMixSongNumber() {
         return Integer.parseInt(mPreferences.getString(INSTANT_MIX_SONG_NUMBER, "10"));
+    }
+
+    public final int getSimilarItemsNumber() {
+        return Integer.parseInt(mPreferences.getString(SIMILAR_ITEMS_NUMBER, "10"));
     }
 
     public final int getSearchElementPerCategory() {

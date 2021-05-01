@@ -42,6 +42,7 @@ public class AlbumArtistPageAdapter extends RecyclerView.Adapter<AlbumArtistPage
         Album album = albums.get(position);
 
         holder.textAlbumName.setText(album.getTitle());
+        holder.textArtistName.setText(album.getArtistName());
 
         CustomGlideRequest.Builder
                 .from(context, album.getPrimary(), album.getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.LOW_QUALITY, CustomGlideRequest.ALBUM_PIC)
@@ -65,12 +66,14 @@ public class AlbumArtistPageAdapter extends RecyclerView.Adapter<AlbumArtistPage
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView textAlbumName;
+        TextView textArtistName;
         ImageView cover;
 
         ViewHolder(View itemView) {
             super(itemView);
 
             textAlbumName = itemView.findViewById(R.id.album_name_label);
+            textArtistName = itemView.findViewById(R.id.artist_name_label);
             cover = itemView.findViewById(R.id.artist_page_album_cover_image_view);
 
             itemView.setOnClickListener(this);
@@ -81,14 +84,14 @@ public class AlbumArtistPageAdapter extends RecyclerView.Adapter<AlbumArtistPage
         public void onClick(View view) {
             Bundle bundle = new Bundle();
             bundle.putParcelable("album_object", albums.get(getBindingAdapterPosition()));
-            Navigation.findNavController(view).navigate(R.id.action_artistPageFragment_to_albumPageFragment, bundle);
+            Navigation.findNavController(view).navigate(R.id.albumPageFragment, bundle);
         }
 
         @Override
-        public boolean onLongClick(View v) {
+        public boolean onLongClick(View view) {
             Bundle bundle = new Bundle();
             bundle.putParcelable("album_object", albums.get(getBindingAdapterPosition()));
-            Navigation.findNavController(v).navigate(R.id.albumBottomSheetDialog, bundle);
+            Navigation.findNavController(view).navigate(R.id.albumBottomSheetDialog, bundle);
             return true;
         }
     }

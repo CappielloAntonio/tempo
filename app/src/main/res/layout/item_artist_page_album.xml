@@ -23,10 +23,19 @@
         android:maxWidth="256dp"
         android:maxLines="2"
         android:paddingTop="8dp"
-
         android:singleLine="false"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/artist_page_album_cover_image_view" />
+
+    <TextView
+        android:id="@+id/artist_name_label"
+        style="@style/ItemSubtitleTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/album_name_label" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -39,6 +39,15 @@
 
         <ListPreference
             app:defaultValue="10"
+            app:dialogTitle="@string/similar_items_number"
+            app:entries="@array/similar_items_number_titles"
+            app:entryValues="@array/similar_items_number_values"
+            app:key="similar_items_number"
+            app:title="@string/similar_items_number"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="10"
             app:dialogTitle="@string/search_element_per_category"
             app:entries="@array/search_element_per_category_titles"
             app:entryValues="@array/search_element_per_category_values"

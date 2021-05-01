@@ -274,6 +274,39 @@ public class SyncUtil {
         });
     }
 
+    public static void getSimilarItems(Context context, MediaCallback callback, String resultType, String itemID, int limit) {
+        SimilarItemsQuery query = new SimilarItemsQuery();
+
+        query.setId(itemID);
+        query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
+        query.setFields(new ItemFields[]{ItemFields.MediaSources});
+        query.setLimit(limit);
+
+        App.getApiClientInstance(context).GetSimilarItems(query, new Response<ItemsResult>() {
+            @Override
+            public void onResponse(ItemsResult result) {
+                List<Object> items = new ArrayList<>();
+
+                for (BaseItemDto itemDto : result.getItems()) {
+                    if (resultType.equals(ARTIST) && itemDto.getBaseItemType() == BaseItemType.MusicArtist) {
+                        items.add(new Artist(itemDto));
+                    } else if (resultType.equals(ALBUM) && itemDto.getBaseItemType() == BaseItemType.MusicAlbum) {
+                        items.add(new Album(itemDto));
+                    } else if (resultType.equals(SONG) && itemDto.getBaseItemType() == BaseItemType.Audio) {
+                        items.add(new Song(itemDto));
+                    }
+                }
+
+                callback.onLoadMedia(items);
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                callback.onError(exception);
+            }
+        });
+    }
+
     public static Bundle getSyncBundle(Boolean syncAlbum, Boolean syncArtist, Boolean syncGenres, Boolean syncPlaylist, Boolean syncSong, Boolean crossSyncSongGenre) {
         Bundle bundle = new Bundle();
         bundle.putBoolean("sync_album", syncAlbum);

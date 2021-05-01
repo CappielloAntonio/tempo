@@ -21,18 +21,26 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.adapter.AlbumArtistPageAdapter;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.interfaces.MediaCallback;
+import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.DownloadUtil;
+import com.cappielloantonio.play.util.PreferenceUtil;
+import com.cappielloantonio.play.util.SyncUtil;
 import com.cappielloantonio.play.viewmodel.AlbumPageViewModel;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class AlbumPageFragment extends Fragment {
@@ -43,6 +51,7 @@ public class AlbumPageFragment extends Fragment {
     private AlbumPageViewModel albumPageViewModel;
 
     private SongResultSearchAdapter songResultSearchAdapter;
+    private AlbumArtistPageAdapter albumArtistPageAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,6 +72,7 @@ public class AlbumPageFragment extends Fragment {
         initAppBar();
         initAlbumInfoTextButton();
         initMusicButton();
+        initSimilarAlbumsView();
     }
 
     @Override
@@ -196,5 +206,25 @@ public class AlbumPageFragment extends Fragment {
         albumPageViewModel.getAlbumSongLiveList().observe(requireActivity(), songs -> {
             songResultSearchAdapter.setItems(songs);
         });
+    }
+
+    private void initSimilarAlbumsView() {
+        SyncUtil.getSimilarItems(requireContext(), new MediaCallback() {
+            @Override
+            public void onError(Exception exception) {
+                Toast.makeText(requireContext(), "Error retrieving similar items", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLoadMedia(List<?> media) {
+                bind.similarAlbumSector.setVisibility(View.VISIBLE);
+
+                bind.similarAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+
+                albumArtistPageAdapter = new AlbumArtistPageAdapter(requireContext());
+                bind.similarAlbumsRecyclerView.setAdapter(albumArtistPageAdapter);
+                albumArtistPageAdapter.setItems((ArrayList<Album>) media);
+            }
+        }, SyncUtil.ALBUM, albumPageViewModel.getAlbum().getId(), PreferenceUtil.getInstance(requireContext()).getSimilarItemsNumber());
     }
 }

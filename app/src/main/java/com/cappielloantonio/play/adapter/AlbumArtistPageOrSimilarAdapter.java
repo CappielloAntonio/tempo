@@ -18,14 +18,14 @@ import com.cappielloantonio.play.model.Album;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlbumArtistPageAdapter extends RecyclerView.Adapter<AlbumArtistPageAdapter.ViewHolder> {
+public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumArtistPageOrSimilarAdapter.ViewHolder> {
     private static final String TAG = "AlbumArtistPageAdapter";
 
     private List<Album> albums;
     private LayoutInflater inflater;
     private Context context;
 
-    public AlbumArtistPageAdapter(Context context) {
+    public AlbumArtistPageOrSimilarAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.albums = new ArrayList<>();
@@ -33,7 +33,7 @@ public class AlbumArtistPageAdapter extends RecyclerView.Adapter<AlbumArtistPage
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_artist_page_album, parent, false);
+        View view = inflater.inflate(R.layout.item_library_artist_page_or_similar_album, parent, false);
         return new ViewHolder(view);
     }
 

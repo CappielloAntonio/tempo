@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.ui.fragment;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,20 +14,17 @@ import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.adapter.AlbumArtistPageAdapter;
+import com.cappielloantonio.play.adapter.AlbumArtistPageOrSimilarAdapter;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.repository.QueueRepository;
@@ -41,7 +37,6 @@ import com.cappielloantonio.play.viewmodel.AlbumPageViewModel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public class AlbumPageFragment extends Fragment {
     private static final String TAG = "AlbumPageFragment";
@@ -51,7 +46,7 @@ public class AlbumPageFragment extends Fragment {
     private AlbumPageViewModel albumPageViewModel;
 
     private SongResultSearchAdapter songResultSearchAdapter;
-    private AlbumArtistPageAdapter albumArtistPageAdapter;
+    private AlbumArtistPageOrSimilarAdapter albumArtistPageOrSimilarAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -221,9 +216,9 @@ public class AlbumPageFragment extends Fragment {
 
                 bind.similarAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
 
-                albumArtistPageAdapter = new AlbumArtistPageAdapter(requireContext());
-                bind.similarAlbumsRecyclerView.setAdapter(albumArtistPageAdapter);
-                albumArtistPageAdapter.setItems((ArrayList<Album>) media);
+                albumArtistPageOrSimilarAdapter = new AlbumArtistPageOrSimilarAdapter(requireContext());
+                bind.similarAlbumsRecyclerView.setAdapter(albumArtistPageOrSimilarAdapter);
+                albumArtistPageOrSimilarAdapter.setItems((ArrayList<Album>) media);
             }
         }, SyncUtil.ALBUM, albumPageViewModel.getAlbum().getId(), PreferenceUtil.getInstance(requireContext()).getSimilarItemsNumber());
     }

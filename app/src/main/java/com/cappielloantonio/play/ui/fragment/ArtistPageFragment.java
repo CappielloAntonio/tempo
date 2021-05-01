@@ -3,7 +3,6 @@ package com.cappielloantonio.play.ui.fragment;
 import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.adapter.AlbumArtistPageAdapter;
+import com.cappielloantonio.play.adapter.AlbumArtistPageOrSimilarAdapter;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
@@ -40,7 +39,7 @@ public class ArtistPageFragment extends Fragment {
     private ArtistPageViewModel artistPageViewModel;
 
     private SongResultSearchAdapter songResultSearchAdapter;
-    private AlbumArtistPageAdapter albumArtistPageAdapter;
+    private AlbumArtistPageOrSimilarAdapter albumArtistPageOrSimilarAdapter;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -159,8 +158,8 @@ public class ArtistPageFragment extends Fragment {
     private void initAlbumsView() {
         bind.albumsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        albumArtistPageAdapter = new AlbumArtistPageAdapter(requireContext());
-        bind.albumsRecyclerView.setAdapter(albumArtistPageAdapter);
-        artistPageViewModel.getAlbumList().observe(requireActivity(), songs -> albumArtistPageAdapter.setItems(songs));
+        albumArtistPageOrSimilarAdapter = new AlbumArtistPageOrSimilarAdapter(requireContext());
+        bind.albumsRecyclerView.setAdapter(albumArtistPageOrSimilarAdapter);
+        artistPageViewModel.getAlbumList().observe(requireActivity(), songs -> albumArtistPageOrSimilarAdapter.setItems(songs));
     }
 }

@@ -143,7 +143,7 @@ public class PreferenceUtil {
     }
 
     public final int getSimilarItemsNumber() {
-        return Integer.parseInt(mPreferences.getString(SIMILAR_ITEMS_NUMBER, "10"));
+        return Integer.parseInt(mPreferences.getString(SIMILAR_ITEMS_NUMBER, "5"));
     }
 
     public final int getSearchElementPerCategory() {

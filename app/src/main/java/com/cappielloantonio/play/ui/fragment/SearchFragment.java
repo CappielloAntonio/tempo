@@ -66,8 +66,6 @@ public class SearchFragment extends Fragment {
     public void onResume() {
         super.onResume();
         inputFocus();
-
-        Log.i(TAG, "onResume: " + PreferenceUtil.getInstance(requireContext()).getSongNumber());
     }
 
     @Override

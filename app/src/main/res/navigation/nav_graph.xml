@@ -204,7 +204,14 @@
         android:id="@+id/albumPageFragment"
         android:name="com.cappielloantonio.play.ui.fragment.AlbumPageFragment"
         android:label="AlbumPageFragment"
-        tools:layout="@layout/fragment_album_page" />
+        tools:layout="@layout/fragment_album_page">
+        <action
+            android:id="@+id/action_albumPageFragment_to_artistPageFragment"
+            app:destination="@id/artistPageFragment" />
+        <action
+            android:id="@+id/action_albumPageFragment_to_songListPageFragment"
+            app:destination="@id/songListPageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/songListPageFragment"
         android:name="com.cappielloantonio.play.ui.fragment.SongListPageFragment"

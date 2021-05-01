@@ -138,7 +138,7 @@ public class AlbumPageFragment extends Fragment {
             if(artist != null) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("artist_object", artist);
-               activity.navController.navigate(R.id.artistPageFragment, bundle);
+               activity.navController.navigate(R.id.action_albumPageFragment_to_artistPageFragment, bundle);
             }
             else Toast.makeText(requireContext(), "Error retrieving artist", Toast.LENGTH_SHORT).show();
         });
@@ -147,7 +147,7 @@ public class AlbumPageFragment extends Fragment {
             Bundle bundle = new Bundle();
             bundle.putString(Song.BY_YEAR, Song.BY_YEAR);
             bundle.putInt("year_object", albumPageViewModel.getAlbum().getYear());
-            activity.navController.navigate(R.id.songListPageFragment, bundle);
+            activity.navController.navigate(R.id.action_albumPageFragment_to_songListPageFragment, bundle);
         });
     }
 

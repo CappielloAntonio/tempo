@@ -122,17 +122,11 @@ public class AlbumPageFragment extends Fragment {
             activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        bind.animToolbar.setTitle(albumPageViewModel.getAlbum().getTitle());
+
         bind.albumNameLabel.setText(albumPageViewModel.getAlbum().getTitle());
         bind.albumArtistLabel.setText(albumPageViewModel.getAlbum().getArtistName());
         bind.albumReleaseYearLabel.setText(albumPageViewModel.getAlbum().getYear() != 0 ? String.valueOf(albumPageViewModel.getAlbum().getYear()) : "");
-
-        bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
-            if ((bind.albumInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.animToolbar))) {
-                bind.animToolbar.setTitle(albumPageViewModel.getAlbum().getTitle());
-            } else {
-                bind.animToolbar.setTitle("Album");
-            }
-        });
 
         bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
     }

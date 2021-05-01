@@ -169,6 +169,35 @@
                 android:paddingTop="8dp"
                 android:paddingEnd="8dp"
                 android:paddingBottom="8dp" />
+
+            <LinearLayout
+                android:id="@+id/similar_artist_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/HeadlineTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="20dp"
+                    android:text="More like this" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/similar_artists_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:clipToPadding="false"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="8dp" />
+
+            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

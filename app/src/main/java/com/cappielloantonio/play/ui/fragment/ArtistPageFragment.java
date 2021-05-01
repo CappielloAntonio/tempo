@@ -17,10 +17,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumArtistPageOrSimilarAdapter;
+import com.cappielloantonio.play.adapter.ArtistSimilarAdapter;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.MediaCallback;
+import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
@@ -40,6 +43,7 @@ public class ArtistPageFragment extends Fragment {
 
     private SongResultSearchAdapter songResultSearchAdapter;
     private AlbumArtistPageOrSimilarAdapter albumArtistPageOrSimilarAdapter;
+    private ArtistSimilarAdapter artistSimilarAdapter;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -61,6 +65,7 @@ public class ArtistPageFragment extends Fragment {
         initPlayButtons();
         initTopSongsView();
         initAlbumsView();
+        initSimilarArtistsView();
 
         return view;
     }
@@ -161,5 +166,25 @@ public class ArtistPageFragment extends Fragment {
         albumArtistPageOrSimilarAdapter = new AlbumArtistPageOrSimilarAdapter(requireContext());
         bind.albumsRecyclerView.setAdapter(albumArtistPageOrSimilarAdapter);
         artistPageViewModel.getAlbumList().observe(requireActivity(), songs -> albumArtistPageOrSimilarAdapter.setItems(songs));
+    }
+
+    private void initSimilarArtistsView() {
+        SyncUtil.getSimilarItems(requireContext(), new MediaCallback() {
+            @Override
+            public void onError(Exception exception) {
+                Toast.makeText(requireContext(), "Error retrieving similar items", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLoadMedia(List<?> media) {
+                bind.similarArtistSector.setVisibility(View.VISIBLE);
+
+                bind.similarArtistsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+
+                artistSimilarAdapter = new ArtistSimilarAdapter(requireContext());
+                bind.similarArtistsRecyclerView.setAdapter(artistSimilarAdapter);
+                artistSimilarAdapter.setItems((ArrayList<Artist>) media);
+            }
+        }, SyncUtil.ARTIST, artistPageViewModel.getArtist().getId(), PreferenceUtil.getInstance(requireContext()).getSimilarItemsNumber());
     }
 }

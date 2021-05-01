@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Set;
 
 public class PreferenceUtil {
+    private static final String TAG = "PreferenceUtil";
+
     public static final String SERVER = "server";
     public static final String USER = "user";
     public static final String TOKEN = "token";
@@ -32,7 +34,7 @@ public class PreferenceUtil {
     public static final String MAXIMUM_BITRATE = "maximum_bitrate";
     public static final String AUDIO_DUCKING = "audio_ducking";
     public static final String SONG_NUMBER = "SONG_NUMBER";
-    private static final String TAG = "PreferenceUtil";
+
     private static PreferenceUtil sInstance;
     private final SharedPreferences mPreferences;
 

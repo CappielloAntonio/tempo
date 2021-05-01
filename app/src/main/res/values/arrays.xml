@@ -29,16 +29,6 @@
         <item>200000000</item>
     </string-array>
 
-    <string-array name="saveFilterListArray">
-        <item>Yes</item>
-        <item>No</item>
-    </string-array>
-
-    <string-array name="saveFilterEntryArray">
-        <item>yes</item>
-        <item>no</item>
-    </string-array>
-
     <string-array name="instant_mix_song_number_titles">
         <item>10</item>
         <item>25</item>
@@ -52,15 +42,15 @@
     </string-array>
 
     <string-array name="similar_items_number_titles">
+        <item>5</item>
         <item>10</item>
-        <item>25</item>
-        <item>50</item>
+        <item>20</item>
     </string-array>
 
     <string-array name="similar_items_number_values">
+        <item>5</item>
         <item>10</item>
-        <item>25</item>
-        <item>50</item>
+        <item>20</item>
     </string-array>
 
     <string-array name="search_element_per_category_titles">

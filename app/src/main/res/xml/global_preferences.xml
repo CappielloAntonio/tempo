@@ -20,15 +20,6 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:defaultValue="no"
-            app:dialogTitle="@string/save_filters"
-            app:entries="@array/saveFilterListArray"
-            app:entryValues="@array/saveFilterEntryArray"
-            app:key="filtersPref"
-            app:title="@string/save_filters"
-            app:useSimpleSummaryProvider="true" />
-
-        <ListPreference
             app:defaultValue="10"
             app:dialogTitle="@string/instant_mix_song_number"
             app:entries="@array/instant_mix_song_number_titles"

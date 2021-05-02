@@ -123,10 +123,4 @@
         <item name="android:textColor">@color/darkIconColor</item>
     </style>
 
-    <style name="SecondaryButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
-        <item name="android:fontFamily">@font/inter</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:textFontWeight">400</item>
-        <item name="android:textColor">@color/darkIconColor</item>
-    </style>
 </resources>

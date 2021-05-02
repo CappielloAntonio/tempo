@@ -30,10 +30,11 @@ import java.util.List;
 import java.util.Map;
 
 public class SyncUtil {
+    private static final String TAG = "SyncUtil";
+
     public static final String SONG = "song";
     public static final String ALBUM = "album";
     public static final String ARTIST = "artist";
-    private static final String TAG = "SyncUtil";
 
     public static void getLibraries(Context context, MediaCallback callback) {
         String id = App.getApiClientInstance(context).getCurrentUserId();

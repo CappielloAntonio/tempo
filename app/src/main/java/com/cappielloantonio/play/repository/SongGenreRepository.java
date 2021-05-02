@@ -21,17 +21,9 @@ public class SongGenreRepository {
     }
 
     public void insertAll(List<SongGenreCross> crosses) {
-        try {
-            final Thread delete = new Thread(new DeleteAllSongGenreCrossThreadSafe(songGenreCrossDao));
-            final Thread insertAll = new Thread(new InsertAllThreadSafe(songGenreCrossDao, crosses));
-
-            delete.start();
-            delete.join();
-            insertAll.start();
-            insertAll.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        InsertAllThreadSafe insert = new InsertAllThreadSafe(songGenreCrossDao, crosses);
+        Thread thread = new Thread(insert);
+        thread.start();
     }
 
     public void deleteAll() {

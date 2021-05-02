@@ -231,6 +231,7 @@ public class SyncFragment extends Fragment {
             @Override
             public void onLoadMedia(List<?> media) {
                 syncViewModel.setGenreList((ArrayList<Genre>) media);
+                songGenreRepository.deleteAll();
                 genreRepository.insertAll(syncViewModel.getGenreList());
                 loadSectorInfo(GENRES, "Found " + syncViewModel.getGenreList().size() + " elements", true);
             }
@@ -264,7 +265,6 @@ public class SyncFragment extends Fragment {
             @Override
             public void onLoadMedia(List<?> media) {
                 syncViewModel.setSongList((ArrayList<Song>) media);
-                songGenreRepository.deleteAll();
                 songRepository.insertAll(syncViewModel.getSongList());
                 syncSongArtistCross(syncViewModel.getSongList());
                 syncDownloadedSong();

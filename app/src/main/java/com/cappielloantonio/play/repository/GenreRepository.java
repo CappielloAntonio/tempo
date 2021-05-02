@@ -53,9 +53,17 @@ public class GenreRepository {
     }
 
     public void insertAll(ArrayList<Genre> genres) {
-        InsertAllThreadSafe insertAll = new InsertAllThreadSafe(genreDao, genres);
-        Thread thread = new Thread(insertAll);
-        thread.start();
+        try {
+            final Thread deleteAll = new Thread(new DeleteAllGenreThreadSafe(genreDao));
+            final Thread insertAll = new Thread(new InsertAllThreadSafe(genreDao, genres));
+
+            deleteAll.start();
+            deleteAll.join();
+            insertAll.start();
+            insertAll.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void deleteAll() {

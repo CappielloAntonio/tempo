@@ -45,7 +45,7 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
         holder.textArtistName.setText(artist.getName());
 
         CustomGlideRequest.Builder
-                .from(context, artist.getPrimary(), artist.getPrimaryBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.LOW_QUALITY, CustomGlideRequest.ALBUM_PIC)
+                .from(context, artist.getPrimary(), artist.getPrimaryBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY, CustomGlideRequest.ALBUM_PIC)
                 .build()
                 .into(holder.cover);
     }

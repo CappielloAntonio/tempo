@@ -68,7 +68,7 @@ public class LoginFragment extends Fragment {
         }
 
         if (TextUtils.isEmpty(server)) {
-            Toast.makeText(requireContext(), "Empty server", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Empty server url", Toast.LENGTH_SHORT).show();
             return false;
         }
 

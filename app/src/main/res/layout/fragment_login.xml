@@ -83,7 +83,7 @@
             android:id="@+id/server_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Server"
+            android:hint="Server URL"
             android:inputType="textNoSuggestions"
             android:text="http://192.168.1.81:8096" />
 

@@ -380,157 +380,191 @@ public class SyncFragment extends Fragment {
         switch (sector) {
             case LIBRARIES:
                 if (isSuccess) {
-                    bind.syncLibrariesStatusLabel.setText("Status: SUCCESS");
-                    bind.syncLibrariesDetailLabel.setVisibility(View.GONE);
-                    bind.syncLibrariesRetryImageView.setVisibility(View.GONE);
+                    if (bind != null) {
+                        bind.syncLibrariesStatusLabel.setText("Status: SUCCESS");
+                        bind.syncLibrariesDetailLabel.setVisibility(View.GONE);
+                        bind.syncLibrariesRetryImageView.setVisibility(View.GONE);
+                    }
                     syncNextSector(LIBRARIES);
                 } else {
-                    bind.syncLibrariesStatusLabel.setText("Status: ERROR");
-                    bind.syncLibrariesDetailLabel.setText(message);
-                    bind.syncLibrariesDetailLabel.setVisibility(View.VISIBLE);
-                    bind.syncLibrariesRetryImageView.setVisibility(View.VISIBLE);
+                    if (bind != null) {
+                        bind.syncLibrariesStatusLabel.setText("Status: ERROR");
+                        bind.syncLibrariesDetailLabel.setText(message);
+                        bind.syncLibrariesDetailLabel.setVisibility(View.VISIBLE);
+                        bind.syncLibrariesRetryImageView.setVisibility(View.VISIBLE);
+                    }
                 }
                 break;
             case ALBUMS:
                 if (isSuccess) {
-                    bind.syncAlbumsStatusLabel.setText("Status: SUCCESS");
-                    bind.syncAlbumsDetailLabel.setText(message);
-                    bind.syncAlbumsRetryImageView.setVisibility(View.GONE);
+                    if (bind != null) {
+                        bind.syncAlbumsStatusLabel.setText("Status: SUCCESS");
+                        bind.syncAlbumsDetailLabel.setText(message);
+                        bind.syncAlbumsRetryImageView.setVisibility(View.GONE);
+                    }
                     syncViewModel.increaseProggress();
                     checkStep();
                     syncNextSector(ALBUMS);
                 } else {
-                    bind.syncLibrariesStatusLabel.setText("Status: ERROR");
-                    bind.syncAlbumsDetailLabel.setText(message);
-                    bind.syncAlbumsRetryImageView.setVisibility(View.VISIBLE);
+                    if (bind != null) {
+                        bind.syncLibrariesStatusLabel.setText("Status: ERROR");
+                        bind.syncAlbumsDetailLabel.setText(message);
+                        bind.syncAlbumsRetryImageView.setVisibility(View.VISIBLE);
+                    }
                 }
                 break;
             case ARTISTS:
                 if (isSuccess) {
-                    bind.syncArtistsStatusLabel.setText("Status: SUCCESS");
-                    bind.syncArtistsDetailLabel.setText(message);
-                    bind.syncArtistsRetryImageView.setVisibility(View.GONE);
+                    if (bind != null) {
+                        bind.syncArtistsStatusLabel.setText("Status: SUCCESS");
+                        bind.syncArtistsDetailLabel.setText(message);
+                        bind.syncArtistsRetryImageView.setVisibility(View.GONE);
+                    }
                     syncViewModel.increaseProggress();
                     checkStep();
                     syncNextSector(ARTISTS);
                 } else {
-                    bind.syncArtistsStatusLabel.setText("Status: ERROR");
-                    bind.syncArtistsDetailLabel.setText(message);
-                    bind.syncArtistsRetryImageView.setVisibility(View.VISIBLE);
+                    if (bind != null) {
+                        bind.syncArtistsStatusLabel.setText("Status: ERROR");
+                        bind.syncArtistsDetailLabel.setText(message);
+                        bind.syncArtistsRetryImageView.setVisibility(View.VISIBLE);
+                    }
                 }
                 break;
             case GENRES:
                 if (isSuccess) {
-                    bind.syncGenresStatusLabel.setText("Status: SUCCESS");
-                    bind.syncGenresDetailLabel.setText(message);
-                    bind.syncGenresRetryImageView.setVisibility(View.GONE);
+                    if (bind != null) {
+                        bind.syncGenresStatusLabel.setText("Status: SUCCESS");
+                        bind.syncGenresDetailLabel.setText(message);
+                        bind.syncGenresRetryImageView.setVisibility(View.GONE);
+                    }
                     syncViewModel.increaseProggress();
                     checkStep();
                     syncNextSector(GENRES);
                 } else {
-                    bind.syncGenresStatusLabel.setText("Status: ERROR");
-                    bind.syncGenresDetailLabel.setText(message);
-                    bind.syncGenresRetryImageView.setVisibility(View.VISIBLE);
+                    if (bind != null) {
+                        bind.syncGenresStatusLabel.setText("Status: ERROR");
+                        bind.syncGenresDetailLabel.setText(message);
+                        bind.syncGenresRetryImageView.setVisibility(View.VISIBLE);
+                    }
                 }
                 break;
             case PLAYLISTS:
                 if (isSuccess) {
-                    bind.syncPlaylistsStatusLabel.setText("Status: SUCCESS");
-                    bind.syncPlaylistsDetailLabel.setText(message);
-                    bind.syncPlaylistsRetryImageView.setVisibility(View.GONE);
+                    if (bind != null) {
+                        bind.syncPlaylistsStatusLabel.setText("Status: SUCCESS");
+                        bind.syncPlaylistsDetailLabel.setText(message);
+                        bind.syncPlaylistsRetryImageView.setVisibility(View.GONE);
+                    }
                     syncViewModel.increaseProggress();
                     checkStep();
                     syncNextSector(PLAYLISTS);
                 } else {
-                    bind.syncPlaylistsStatusLabel.setText("Status: ERROR");
-                    bind.syncPlaylistsDetailLabel.setText(message);
-                    bind.syncPlaylistsRetryImageView.setVisibility(View.VISIBLE);
+                    if (bind != null) {
+                        bind.syncPlaylistsStatusLabel.setText("Status: ERROR");
+                        bind.syncPlaylistsDetailLabel.setText(message);
+                        bind.syncPlaylistsRetryImageView.setVisibility(View.VISIBLE);
+                    }
                 }
                 break;
             case SONGS:
                 if (isSuccess) {
-                    bind.syncSongsStatusLabel.setText("Status: SUCCESS");
-                    bind.syncSongsDetailLabel.setText(message);
-                    bind.syncSongsRetryImageView.setVisibility(View.GONE);
+                    if (bind != null) {
+                        bind.syncSongsStatusLabel.setText("Status: SUCCESS");
+                        bind.syncSongsDetailLabel.setText(message);
+                        bind.syncSongsRetryImageView.setVisibility(View.GONE);
+                    }
                     syncViewModel.increaseProggress();
                     checkStep();
                     syncNextSector(SONGS);
                 } else {
-                    bind.syncSongsStatusLabel.setText("Status: ERROR");
-                    bind.syncSongsDetailLabel.setText(message);
-                    bind.syncSongsRetryImageView.setVisibility(View.VISIBLE);
+                    if (bind != null) {
+                        bind.syncSongsStatusLabel.setText("Status: ERROR");
+                        bind.syncSongsDetailLabel.setText(message);
+                        bind.syncSongsRetryImageView.setVisibility(View.VISIBLE);
+                    }
                 }
                 break;
             case SONG_X_GENRE:
                 if (isSuccess) {
-                    bind.syncSongXGenreStatusLabel.setText("Status: SUCCESS");
-                    bind.syncSongXGenreDetailLabel.setText(message);
-                    bind.syncSongXGenreRetryImageView.setVisibility(View.GONE);
+                    if (bind != null) {
+                        bind.syncSongXGenreStatusLabel.setText("Status: SUCCESS");
+                        bind.syncSongXGenreDetailLabel.setText(message);
+                        bind.syncSongXGenreRetryImageView.setVisibility(View.GONE);
+                    }
                     checkStep();
                 } else {
-                    bind.syncSongXGenreStatusLabel.setText("Status: ERROR");
-                    bind.syncSongXGenreDetailLabel.setText(message);
-                    bind.syncSongXGenreRetryImageView.setVisibility(View.VISIBLE);
+                    if (bind != null) {
+                        bind.syncSongXGenreStatusLabel.setText("Status: ERROR");
+                        bind.syncSongXGenreDetailLabel.setText(message);
+                        bind.syncSongXGenreRetryImageView.setVisibility(View.VISIBLE);
+                    }
                 }
                 break;
             case SONG_X_PLAYLIST:
                 if (isSuccess) {
-                    bind.syncSongXPlaylistStatusLabel.setText("Status: SUCCESS");
-                    bind.syncSongXPlaylistDetailLabel.setText(message);
-                    bind.syncSongXPlaylistRetryImageView.setVisibility(View.GONE);
+                    if (bind != null) {
+                        bind.syncSongXPlaylistStatusLabel.setText("Status: SUCCESS");
+                        bind.syncSongXPlaylistDetailLabel.setText(message);
+                        bind.syncSongXPlaylistRetryImageView.setVisibility(View.GONE);
+                    }
                     checkStep();
                 } else {
-                    bind.syncSongXPlaylistStatusLabel.setText("Status: ERROR");
-                    bind.syncSongXPlaylistDetailLabel.setText(message);
-                    bind.syncSongXPlaylistRetryImageView.setVisibility(View.VISIBLE);
+                    if (bind != null) {
+                        bind.syncSongXPlaylistStatusLabel.setText("Status: ERROR");
+                        bind.syncSongXPlaylistDetailLabel.setText(message);
+                        bind.syncSongXPlaylistRetryImageView.setVisibility(View.VISIBLE);
+                    }
                 }
                 break;
         }
     }
 
     private void resetSectorInfo(int sector) {
-        switch (sector) {
-            case LIBRARIES:
-                bind.syncLibrariesStatusLabel.setText("Loading...");
-                bind.syncLibrariesDetailLabel.setText(R.string.label_placeholder);
-                bind.syncLibrariesDetailLabel.setVisibility(View.GONE);
-                bind.syncLibrariesRetryImageView.setVisibility(View.GONE);
-                break;
-            case ALBUMS:
-                bind.syncAlbumsStatusLabel.setText("Loading...");
-                bind.syncAlbumsDetailLabel.setText(R.string.label_placeholder);
-                bind.syncAlbumsRetryImageView.setVisibility(View.GONE);
-                break;
-            case ARTISTS:
-                bind.syncArtistsStatusLabel.setText("Loading...");
-                bind.syncArtistsDetailLabel.setText(R.string.label_placeholder);
-                bind.syncArtistsRetryImageView.setVisibility(View.GONE);
-                break;
-            case GENRES:
-                bind.syncGenresStatusLabel.setText("Loading...");
-                bind.syncGenresDetailLabel.setText(R.string.label_placeholder);
-                bind.syncGenresRetryImageView.setVisibility(View.GONE);
-                break;
-            case PLAYLISTS:
-                bind.syncPlaylistsStatusLabel.setText("Loading...");
-                bind.syncPlaylistsDetailLabel.setText(R.string.label_placeholder);
-                bind.syncPlaylistsRetryImageView.setVisibility(View.GONE);
-                break;
-            case SONGS:
-                bind.syncSongsStatusLabel.setText("Loading...");
-                bind.syncSongsDetailLabel.setText(R.string.label_placeholder);
-                bind.syncSongsRetryImageView.setVisibility(View.GONE);
-                break;
-            case SONG_X_GENRE:
-                bind.syncSongXGenreStatusLabel.setText("Loading...");
-                bind.syncSongXGenreDetailLabel.setText(R.string.label_placeholder);
-                bind.syncSongXGenreRetryImageView.setVisibility(View.GONE);
-                break;
-            case SONG_X_PLAYLIST:
-                bind.syncSongXPlaylistStatusLabel.setText("Loading...");
-                bind.syncSongXPlaylistDetailLabel.setText(R.string.label_placeholder);
-                bind.syncSongXPlaylistRetryImageView.setVisibility(View.GONE);
-                break;
+        if (bind != null) {
+            switch (sector) {
+                case LIBRARIES:
+                    bind.syncLibrariesStatusLabel.setText("Loading...");
+                    bind.syncLibrariesDetailLabel.setText(R.string.label_placeholder);
+                    bind.syncLibrariesDetailLabel.setVisibility(View.GONE);
+                    bind.syncLibrariesRetryImageView.setVisibility(View.GONE);
+                    break;
+                case ALBUMS:
+                    bind.syncAlbumsStatusLabel.setText("Loading...");
+                    bind.syncAlbumsDetailLabel.setText(R.string.label_placeholder);
+                    bind.syncAlbumsRetryImageView.setVisibility(View.GONE);
+                    break;
+                case ARTISTS:
+                    bind.syncArtistsStatusLabel.setText("Loading...");
+                    bind.syncArtistsDetailLabel.setText(R.string.label_placeholder);
+                    bind.syncArtistsRetryImageView.setVisibility(View.GONE);
+                    break;
+                case GENRES:
+                    bind.syncGenresStatusLabel.setText("Loading...");
+                    bind.syncGenresDetailLabel.setText(R.string.label_placeholder);
+                    bind.syncGenresRetryImageView.setVisibility(View.GONE);
+                    break;
+                case PLAYLISTS:
+                    bind.syncPlaylistsStatusLabel.setText("Loading...");
+                    bind.syncPlaylistsDetailLabel.setText(R.string.label_placeholder);
+                    bind.syncPlaylistsRetryImageView.setVisibility(View.GONE);
+                    break;
+                case SONGS:
+                    bind.syncSongsStatusLabel.setText("Loading...");
+                    bind.syncSongsDetailLabel.setText(R.string.label_placeholder);
+                    bind.syncSongsRetryImageView.setVisibility(View.GONE);
+                    break;
+                case SONG_X_GENRE:
+                    bind.syncSongXGenreStatusLabel.setText("Loading...");
+                    bind.syncSongXGenreDetailLabel.setText(R.string.label_placeholder);
+                    bind.syncSongXGenreRetryImageView.setVisibility(View.GONE);
+                    break;
+                case SONG_X_PLAYLIST:
+                    bind.syncSongXPlaylistStatusLabel.setText("Loading...");
+                    bind.syncSongXPlaylistDetailLabel.setText(R.string.label_placeholder);
+                    bind.syncSongXPlaylistRetryImageView.setVisibility(View.GONE);
+                    break;
+            }
         }
     }
 

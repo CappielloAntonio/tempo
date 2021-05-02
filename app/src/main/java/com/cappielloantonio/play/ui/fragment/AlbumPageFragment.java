@@ -201,7 +201,7 @@ public class AlbumPageFragment extends Fragment {
         SyncUtil.getSimilarItems(requireContext(), new MediaCallback() {
             @Override
             public void onError(Exception exception) {
-                Toast.makeText(requireContext(), "Error retrieving similar items", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(requireContext(), "Error retrieving similar items", Toast.LENGTH_SHORT).show();
             }
 
             @Override

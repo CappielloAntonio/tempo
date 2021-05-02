@@ -59,7 +59,7 @@ public class LoginFragment extends Fragment {
 
     private boolean validateInput() {
         username = bind.usernameTextView.getText().toString().trim();
-        password = bind.passwordTextView.getText().toString().trim();
+        password = bind.passwordTextView.getText().toString();
         server = bind.serverTextView.getText().toString().trim();
 
         if (TextUtils.isEmpty(username)) {

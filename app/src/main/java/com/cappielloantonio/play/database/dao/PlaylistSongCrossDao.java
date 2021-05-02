@@ -17,9 +17,6 @@ public interface PlaylistSongCrossDao {
     @Query("SELECT * FROM playlist_song_cross")
     LiveData<List<PlaylistSongCross>> getAll();
 
-    @Query("SELECT EXISTS(SELECT * FROM playlist_song_cross WHERE id = :id)")
-    boolean exist(String id);
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(PlaylistSongCross playlistSongCross);
 

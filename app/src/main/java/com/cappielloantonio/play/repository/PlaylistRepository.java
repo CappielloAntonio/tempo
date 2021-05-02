@@ -26,9 +26,17 @@ public class PlaylistRepository {
     }
 
     public void insertAll(ArrayList<Playlist> playlists) {
-        InsertAllThreadSafe insertAll = new InsertAllThreadSafe(playlistDao, playlists);
-        Thread thread = new Thread(insertAll);
-        thread.start();
+        try {
+            final Thread deleteAll = new Thread(new DeleteAllThreadSafe(playlistDao));
+            final Thread insertAll = new Thread(new InsertAllThreadSafe(playlistDao, playlists));
+
+            deleteAll.start();
+            deleteAll.join();
+            insertAll.start();
+            insertAll.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void deleteAll() {
@@ -65,7 +73,6 @@ public class PlaylistRepository {
 
         @Override
         public void run() {
-            playlistDao.deleteAll();
             playlistDao.insertAll(playlists);
         }
     }

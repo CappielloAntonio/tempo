@@ -64,9 +64,17 @@ public class AlbumRepository {
     }
 
     public void insertAll(ArrayList<Album> albums) {
-        InsertAllThreadSafe insertAll = new InsertAllThreadSafe(albumDao, albums);
-        Thread thread = new Thread(insertAll);
-        thread.start();
+        try {
+            final Thread deleteAll = new Thread(new DeleteAllThreadSafe(albumDao));
+            final Thread insertAll = new Thread(new InsertAllThreadSafe(albumDao, albums));
+
+            deleteAll.start();
+            deleteAll.join();
+            insertAll.start();
+            insertAll.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void deleteAll() {
@@ -158,7 +166,6 @@ public class AlbumRepository {
 
         @Override
         public void run() {
-            albumDao.deleteAll();
             albumDao.insertAll(albums);
         }
     }

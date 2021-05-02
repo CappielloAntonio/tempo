@@ -5,30 +5,19 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "playlist_song_cross")
+@Entity(tableName = "playlist_song_cross", primaryKeys = {"playlist_id","song_id"})
 public class PlaylistSongCross {
     @NonNull
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    private int id;
-
     @ColumnInfo(name = "playlist_id")
     private String playlistId;
 
+    @NonNull
     @ColumnInfo(name = "song_id")
     private String songId;
 
     public PlaylistSongCross(String playlistId, String songId) {
         this.playlistId = playlistId;
         this.songId = songId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getPlaylistId() {

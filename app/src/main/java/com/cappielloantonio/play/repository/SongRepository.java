@@ -215,6 +215,18 @@ public class SongRepository {
     }
 
     public void insertAll(ArrayList<Song> songs) {
+        try {
+            final Thread deleteAll = new Thread(new DeleteAllSongThreadSafe(songDao));
+            final Thread insertAll = new Thread(new InsertAllThreadSafe(songDao, songGenreCrossDao, songs));
+
+            deleteAll.start();
+            deleteAll.join();
+            insertAll.start();
+            insertAll.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         InsertAllThreadSafe insertAll = new InsertAllThreadSafe(songDao, songGenreCrossDao, songs);
         Thread thread = new Thread(insertAll);
         thread.start();
@@ -405,8 +417,6 @@ public class SongRepository {
 
         @Override
         public void run() {
-            songDao.deleteAll();
-            songGenreCrossDao.deleteAll();
             songDao.insertAll(songs);
         }
     }

@@ -37,7 +37,6 @@ public class PlaylistPageFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         initAppBar();
-        initMusicButton();
     }
 
     @Override
@@ -50,6 +49,7 @@ public class PlaylistPageFragment extends Fragment {
 
         init();
         initBackCover();
+        initMusicButton();
         initSongsView();
 
         return view;

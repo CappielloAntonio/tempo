@@ -20,11 +20,11 @@ public class SongArtistRepository {
 
     public void insertAll(List<SongArtistCross> crosses) {
         try {
-            final Thread delete = new Thread(new DeleteAllSongArtistCrossThreadSafe(songArtistCrossDao));
+            final Thread deleteAll = new Thread(new DeleteAllSongArtistCrossThreadSafe(songArtistCrossDao));
             final Thread insertAll = new Thread(new InsertAllThreadSafe(songArtistCrossDao, crosses));
 
-            delete.start();
-            delete.join();
+            deleteAll.start();
+            deleteAll.join();
             insertAll.start();
             insertAll.join();
         } catch (InterruptedException e) {

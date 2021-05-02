@@ -56,9 +56,17 @@ public class ArtistRepository {
     }
 
     public void insertAll(ArrayList<Artist> artists) {
-        InsertAllThreadSafe insertAll = new InsertAllThreadSafe(artistDao, artists);
-        Thread thread = new Thread(insertAll);
-        thread.start();
+        try {
+            final Thread deleteAll = new Thread(new DeleteAllThreadSafe(artistDao));
+            final Thread insertAll = new Thread(new InsertAllThreadSafe(artistDao, artists));
+
+            deleteAll.start();
+            deleteAll.join();
+            insertAll.start();
+            insertAll.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void deleteAll() {
@@ -117,7 +125,6 @@ public class ArtistRepository {
 
         @Override
         public void run() {
-            artistDao.deleteAll();
             artistDao.insertAll(artists);
         }
     }

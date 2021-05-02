@@ -30,6 +30,7 @@ import com.cappielloantonio.play.repository.GenreRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
 import com.cappielloantonio.play.repository.PlaylistSongRepository;
 import com.cappielloantonio.play.repository.SongArtistRepository;
+import com.cappielloantonio.play.repository.SongGenreRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.DownloadUtil;
@@ -55,6 +56,7 @@ public class SyncFragment extends Fragment {
     private ArtistRepository artistRepository;
     private PlaylistRepository playlistRepository;
     private GenreRepository genreRepository;
+    private SongGenreRepository songGenreRepository;
     private SongArtistRepository songArtistRepository;
     private AlbumArtistRepository albumArtistRepository;
     private PlaylistSongRepository playlistSongRepository;
@@ -82,6 +84,7 @@ public class SyncFragment extends Fragment {
         artistRepository = new ArtistRepository(activity.getApplication());
         playlistRepository = new PlaylistRepository(activity.getApplication());
         genreRepository = new GenreRepository(activity.getApplication());
+        songGenreRepository = new SongGenreRepository(activity.getApplication());
         songArtistRepository = new SongArtistRepository(activity.getApplication());
         albumArtistRepository = new AlbumArtistRepository(activity.getApplication());
         playlistSongRepository = new PlaylistSongRepository(activity.getApplication());
@@ -244,6 +247,7 @@ public class SyncFragment extends Fragment {
             @Override
             public void onLoadMedia(List<?> media) {
                 syncViewModel.setPlaylistList((ArrayList<Playlist>) media);
+                playlistSongRepository.deleteAll();
                 playlistRepository.insertAll(syncViewModel.getPlaylistList());
                 loadSectorInfo(PLAYLISTS, "Found " + syncViewModel.getPlaylistList().size() + " elements", true);
             }
@@ -260,15 +264,11 @@ public class SyncFragment extends Fragment {
             @Override
             public void onLoadMedia(List<?> media) {
                 syncViewModel.setSongList((ArrayList<Song>) media);
-
-                songRepository.deleteAllSongGenreCross();
+                songGenreRepository.deleteAll();
                 songRepository.insertAll(syncViewModel.getSongList());
-
                 syncSongArtistCross(syncViewModel.getSongList());
                 syncDownloadedSong();
-
                 loadSectorInfo(SONGS, "Found " + syncViewModel.getSongList().size() + " elements", true);
-
                 PreferenceUtil.getInstance(requireContext()).setSongNumber(syncViewModel.getSongList().size());
             }
         });
@@ -284,7 +284,7 @@ public class SyncFragment extends Fragment {
 
                 @Override
                 public void onLoadMedia(List<?> media) {
-                    songRepository.insertSongPerGenre((ArrayList<SongGenreCross>) media);
+                    songGenreRepository.insertAll((ArrayList<SongGenreCross>) media);
                     loadSectorInfo(SONG_X_GENRE, "Genre processed: " + genre.getName(), true);
                 }
             }, genre.id);

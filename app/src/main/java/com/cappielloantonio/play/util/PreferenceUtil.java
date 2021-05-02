@@ -34,6 +34,7 @@ public class PreferenceUtil {
     public static final String MAXIMUM_BITRATE = "maximum_bitrate";
     public static final String AUDIO_DUCKING = "audio_ducking";
     public static final String SONG_NUMBER = "SONG_NUMBER";
+    public static final String IMAGE_QUALITY = "image_quality";
 
     private static PreferenceUtil sInstance;
     private final SharedPreferences mPreferences;
@@ -181,6 +182,10 @@ public class PreferenceUtil {
 
     public final int getMediaCacheSize() {
         return Integer.parseInt(mPreferences.getString(MEDIA_CACHE_SIZE, "400000000"));
+    }
+
+    public final String getImageQuality() {
+        return mPreferences.getString(IMAGE_QUALITY, "Top");
     }
 
     public final boolean getAudioDucking() {

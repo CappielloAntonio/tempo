@@ -64,4 +64,16 @@
         <item>20</item>
         <item>30</item>
     </string-array>
+
+    <string-array name="image_quality_titles">
+        <item>Top</item>
+        <item>Medium</item>
+        <item>Low</item>
+    </string-array>
+
+    <string-array name="image_quality_values">
+        <item>Top</item>
+        <item>Medium</item>
+        <item>Low</item>
+    </string-array>
 </resources>

@@ -15,6 +15,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.PreferenceUtil;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         holder.textPlaylistName.setText(playlist.getName());
 
         CustomGlideRequest.Builder
-                .from(context, playlist.getPrimary(), playlist.getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY, CustomGlideRequest.PLAYLIST_PIC)
+                .from(context, playlist.getPrimary(), playlist.getBlurHash(), CustomGlideRequest.PRIMARY, PreferenceUtil.getInstance(context).getImageQuality(), CustomGlideRequest.PLAYLIST_PIC)
                 .build()
                 .into(holder.cover);
     }

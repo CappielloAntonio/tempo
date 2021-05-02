@@ -45,6 +45,15 @@
             app:key="search_element_per_category"
             app:title="@string/search_element_per_category"
             app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="Top"
+            app:dialogTitle="@string/image_quality"
+            app:entries="@array/image_quality_titles"
+            app:entryValues="@array/image_quality_values"
+            app:key="image_quality"
+            app:title="@string/image_quality"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/sync_header">

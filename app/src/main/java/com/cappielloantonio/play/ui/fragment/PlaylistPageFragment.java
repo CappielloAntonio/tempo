@@ -20,6 +20,7 @@ import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.PlaylistPageViewModel;
 
 import java.util.Collections;
@@ -119,7 +120,7 @@ public class PlaylistPageFragment extends Fragment {
 
     private void initBackCover() {
         CustomGlideRequest.Builder
-                .from(requireContext(), playlistPageViewModel.getPlaylist().getPrimary(), playlistPageViewModel.getPlaylist().getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY, CustomGlideRequest.ALBUM_PIC)
+                .from(requireContext(), playlistPageViewModel.getPlaylist().getPrimary(), playlistPageViewModel.getPlaylist().getBlurHash(), CustomGlideRequest.PRIMARY, PreferenceUtil.getInstance(requireContext()).getImageQuality(), CustomGlideRequest.ALBUM_PIC)
                 .build()
                 .into(bind.albumBackCoverImageView);
     }

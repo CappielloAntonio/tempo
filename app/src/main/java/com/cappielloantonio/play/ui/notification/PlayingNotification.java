@@ -3,9 +3,6 @@ package com.cappielloantonio.play.ui.notification;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-
-import androidx.annotation.RequiresApi;
-
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -14,17 +11,18 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.media.app.NotificationCompat.MediaStyle;
 
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.service.MusicService;
-
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
+import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.PreferenceUtil;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static com.cappielloantonio.play.service.MusicService.ACTION_REWIND;
@@ -44,6 +42,7 @@ public class PlayingNotification {
     private NotificationManager notificationManager;
     protected MusicService service;
     boolean stopped;
+    private PendingIntent clickIntent;
 
     public synchronized void init(MusicService service) {
         this.service = service;
@@ -69,7 +68,7 @@ public class PlayingNotification {
 
         final int bigNotificationImageSize = service.getResources().getDimensionPixelSize(R.dimen.notification_big_image_size);
         service.runOnUiThread(() -> CustomGlideRequest.Builder
-                .from(service, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY, CustomGlideRequest.SONG_PIC)
+                .from(service, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.PRIMARY, PreferenceUtil.getInstance(service.getApplicationContext()).getImageQuality(), CustomGlideRequest.SONG_PIC)
                 .bitmap()
                 .build()
                 .into(new CustomTarget<Bitmap>(bigNotificationImageSize, bigNotificationImageSize) {

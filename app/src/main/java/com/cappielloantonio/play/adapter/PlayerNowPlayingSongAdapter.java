@@ -12,6 +12,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
+import com.cappielloantonio.play.util.PreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ public class PlayerNowPlayingSongAdapter extends RecyclerView.Adapter<PlayerNowP
         Song song = songs.get(position);
 
         CustomGlideRequest.Builder
-                .from(context, song.getPrimary(), song.getPrimary(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY, CustomGlideRequest.SONG_PIC)
+                .from(context, song.getPrimary(), song.getPrimary(), CustomGlideRequest.PRIMARY, PreferenceUtil.getInstance(context).getImageQuality(), CustomGlideRequest.SONG_PIC)
                 .build()
                 .into(holder.cover);
     }

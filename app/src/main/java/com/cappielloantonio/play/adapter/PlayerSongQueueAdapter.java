@@ -15,6 +15,7 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.fragment.PlayerBottomSheetFragment;
 import com.cappielloantonio.play.util.MusicUtil;
+import com.cappielloantonio.play.util.PreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
         holder.songDuration.setText(MusicUtil.getReadableDurationString(song.getDuration()));
 
         CustomGlideRequest.Builder
-                .from(context, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY, CustomGlideRequest.SONG_PIC)
+                .from(context, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.PRIMARY, PreferenceUtil.getInstance(context).getImageQuality(), CustomGlideRequest.SONG_PIC)
                 .build()
                 .into(holder.cover);
 

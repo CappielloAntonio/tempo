@@ -180,7 +180,7 @@ public class AlbumPageFragment extends Fragment {
 
     private void initBackCover() {
         CustomGlideRequest.Builder
-                .from(requireContext(), albumPageViewModel.getAlbum().getPrimary(), albumPageViewModel.getAlbum().getBlurHash(), CustomGlideRequest.PRIMARY, CustomGlideRequest.TOP_QUALITY, CustomGlideRequest.ALBUM_PIC)
+                .from(requireContext(), albumPageViewModel.getAlbum().getPrimary(), albumPageViewModel.getAlbum().getBlurHash(), CustomGlideRequest.PRIMARY, PreferenceUtil.getInstance(requireContext()).getImageQuality(), CustomGlideRequest.ALBUM_PIC)
                 .build()
                 .into(bind.albumCoverImageView);
     }

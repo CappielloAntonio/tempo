@@ -293,6 +293,23 @@ public class SongRepository {
         return sample;
     }
 
+    public List<Song> getPlaylistSong(String playlistID) {
+        List<Song> songs = new ArrayList<>();
+
+        GetSongsByPlaylistIDThreadSafe playlistThread = new GetSongsByPlaylistIDThreadSafe(songDao, playlistID);
+        Thread thread = new Thread(playlistThread);
+        thread.start();
+
+        try {
+            thread.join();
+            songs = playlistThread.getSongs();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return songs;
+    }
+
     private static class GetRandomSongsByArtistIDThreadSafe implements Runnable {
         private SongDao songDao;
         private String artistID;
@@ -507,6 +524,26 @@ public class SongRepository {
 
         public List<Song> getSample() {
             return sample;
+        }
+    }
+
+    private static class GetSongsByPlaylistIDThreadSafe implements Runnable {
+        private SongDao songDao;
+        private String playlistID;
+        private List<Song> songs = new ArrayList<>();
+
+        public GetSongsByPlaylistIDThreadSafe(SongDao songDao, String playlistID) {
+            this.songDao = songDao;
+            this.playlistID = playlistID;
+        }
+
+        @Override
+        public void run() {
+            songs = songDao.getPlaylistSong(playlistID);
+        }
+
+        public List<Song> getSongs() {
+            return songs;
         }
     }
 }

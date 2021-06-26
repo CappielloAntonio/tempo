@@ -48,8 +48,11 @@ public interface SongDao {
     @Query("SELECT * FROM song WHERE albumId = :albumID ORDER BY trackNumber ASC")
     LiveData<List<Song>> getLiveAlbumSong(String albumID);
 
-    @Query("SELECT song.* FROM song INNER JOIN playlist_song_cross ON song.id = playlist_song_cross.song_id AND playlist_song_cross.playlist_id = :playlistID")
+    @Query("SELECT song.* FROM song INNER JOIN playlist_song_cross ON song.id = playlist_song_cross.song_id AND playlist_song_cross.playlist_id = :playlistID ORDER BY playlist_song_cross.item_number")
     LiveData<List<Song>> getLivePlaylistSong(String playlistID);
+
+    @Query("SELECT song.* FROM song INNER JOIN playlist_song_cross ON song.id = playlist_song_cross.song_id AND playlist_song_cross.playlist_id = :playlistID ORDER BY playlist_song_cross.item_number")
+    List<Song> getPlaylistSong(String playlistID);
 
     @Query("SELECT * FROM song WHERE albumId = :albumID ORDER BY trackNumber ASC")
     List<Song> getAlbumSong(String albumID);

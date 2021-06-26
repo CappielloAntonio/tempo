@@ -15,9 +15,13 @@ public class PlaylistSongCross {
     @ColumnInfo(name = "song_id")
     private String songId;
 
-    public PlaylistSongCross(String playlistId, String songId) {
+    @ColumnInfo(name = "item_number")
+    private int itemNumber;
+
+    public PlaylistSongCross(String playlistId, String songId, int itemNumber) {
         this.playlistId = playlistId;
         this.songId = songId;
+        this.itemNumber = itemNumber;
     }
 
     public String getPlaylistId() {
@@ -35,4 +39,8 @@ public class PlaylistSongCross {
     public void setSongId(String songId) {
         this.songId = songId;
     }
+
+    public int getItemNumber() { return itemNumber; }
+
+    public void setItemNumber(int itemNumber) { this.itemNumber = itemNumber; }
 }

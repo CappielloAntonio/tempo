@@ -17,7 +17,7 @@ public class PlaylistPageViewModel extends AndroidViewModel {
 
     private SongRepository songRepository;
 
-    private LiveData<List<Song>> songList;
+    private LiveData<List<Song>> songLiveList;
 
     private Playlist playlist;
 
@@ -27,9 +27,13 @@ public class PlaylistPageViewModel extends AndroidViewModel {
         songRepository = new SongRepository(application);
     }
 
-    public LiveData<List<Song>> getPlaylistSongList() {
-        songList = songRepository.getPlaylistLiveSong(playlist.getId());
-        return songList;
+    public LiveData<List<Song>> getPlaylistSongLiveList() {
+        songLiveList = songRepository.getPlaylistLiveSong(playlist.getId());
+        return songLiveList;
+    }
+
+    public List<Song> getPlaylistSongList() {
+        return songRepository.getPlaylistSong(playlist.getId());
     }
 
     public Playlist getPlaylist() {

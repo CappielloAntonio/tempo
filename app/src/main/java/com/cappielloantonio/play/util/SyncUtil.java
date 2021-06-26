@@ -2,6 +2,7 @@ package com.cappielloantonio.play.util;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.MediaCallback;
@@ -226,10 +227,11 @@ public class SyncUtil {
         App.getApiClientInstance(context).GetPlaylistItems(query, new Response<ItemsResult>() {
             @Override
             public void onResponse(ItemsResult result) {
+                int itemNumber = 0;
                 ArrayList<PlaylistSongCross> crosses = new ArrayList<>();
 
                 for (BaseItemDto itemDto : result.getItems()) {
-                    crosses.add(new PlaylistSongCross(playlistId, itemDto.getId()));
+                    crosses.add(new PlaylistSongCross(playlistId, itemDto.getId(), itemNumber++));
                 }
 
                 callback.onLoadMedia(crosses);

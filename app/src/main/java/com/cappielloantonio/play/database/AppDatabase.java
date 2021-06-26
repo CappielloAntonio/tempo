@@ -29,7 +29,7 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.model.SongArtistCross;
 import com.cappielloantonio.play.model.SongGenreCross;
 
-@Database(entities = {Album.class, Artist.class, Genre.class, Playlist.class, Song.class, RecentSearch.class, SongGenreCross.class, Queue.class, AlbumArtistCross.class, SongArtistCross.class, PlaylistSongCross.class}, version = 13, exportSchema = false)
+@Database(entities = {Album.class, Artist.class, Genre.class, Playlist.class, Song.class, RecentSearch.class, SongGenreCross.class, Queue.class, AlbumArtistCross.class, SongArtistCross.class, PlaylistSongCross.class}, version = 14, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String TAG = "AppDatabase";
     private final static String DB_NAME = "play_db";

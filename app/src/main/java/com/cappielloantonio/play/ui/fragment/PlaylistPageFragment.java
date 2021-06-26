@@ -3,9 +3,13 @@ package com.cappielloantonio.play.ui.fragment;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
@@ -20,6 +24,7 @@ import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.PlaylistPageViewModel;
 
@@ -32,6 +37,18 @@ public class PlaylistPageFragment extends Fragment {
     private PlaylistPageViewModel playlistPageViewModel;
 
     private SongResultSearchAdapter songResultSearchAdapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.playlist_page_menu, menu);
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -68,6 +85,19 @@ public class PlaylistPageFragment extends Fragment {
         bind = null;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_download_playlist:
+                DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(playlistPageViewModel.getPlaylistSongList());
+                return true;
+            default:
+                break;
+        }
+
+        return false;
+    }
+
     private void init() {
         playlistPageViewModel.setPlaylist(getArguments().getParcelable("playlist_object"));
     }
@@ -91,7 +121,7 @@ public class PlaylistPageFragment extends Fragment {
     }
 
     private void initMusicButton() {
-        playlistPageViewModel.getPlaylistSongList().observe(requireActivity(), songs -> {
+        playlistPageViewModel.getPlaylistSongLiveList().observe(requireActivity(), songs -> {
             if(bind != null) {
                 bind.playlistPagePlayButton.setOnClickListener(v -> {
                     QueueRepository queueRepository = new QueueRepository(App.getInstance());
@@ -131,7 +161,7 @@ public class PlaylistPageFragment extends Fragment {
 
         songResultSearchAdapter = new SongResultSearchAdapter(activity, requireContext(), getChildFragmentManager());
         bind.playlistRecyclerView.setAdapter(songResultSearchAdapter);
-        playlistPageViewModel.getPlaylistSongList().observe(requireActivity(), songs -> {
+        playlistPageViewModel.getPlaylistSongLiveList().observe(requireActivity(), songs -> {
             songResultSearchAdapter.setItems(songs);
         });
     }

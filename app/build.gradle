@@ -30,11 +30,6 @@ android {
     buildFeatures {
         viewBinding = true
     }
-
-    packagingOptions {
-        exclude 'META-INF/NOTICE.md'
-        exclude 'META-INF/LICENSE.md'
-    }
 }
 
 dependencies {
@@ -42,9 +37,6 @@ dependencies {
 
     // Jellyfin
     implementation 'com.github.jellyfin.jellyfin-apiclient-java:android:0.7.7'
-
-    // Subsonic
-    implementation 'net.beardbot:subsonic-client:0.2.0'
 
     // Kotlin
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.10'
@@ -98,5 +90,5 @@ dependencies {
     // debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
     // Red screen of death
-    debugImplementation 'com.melegy.redscreenofdeath:red-screen-of-death:0.1.2'
+    // debugImplementation 'com.melegy.redscreenofdeath:red-screen-of-death:0.1.2'
 }

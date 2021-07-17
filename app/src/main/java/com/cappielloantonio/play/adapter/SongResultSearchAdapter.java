@@ -25,9 +25,6 @@ import com.cappielloantonio.play.util.PreferenceUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Adapter per i brani ritrovati nella ricerca
- */
 public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSearchAdapter.ViewHolder> {
     private static final String TAG = "SongResultSearchAdapter";
 
@@ -135,6 +132,5 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
             bundle.putParcelable("song_object", songs.get(getBindingAdapterPosition()));
             Navigation.findNavController(view).navigate(R.id.songBottomSheetDialog, bundle);
         }
-
     }
 }

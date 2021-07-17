@@ -1,7 +1,7 @@
 <h1 align="center"> Play for Jellyfin </h1> 
 <br>
 <p align="center">
-  <img alt="Libra" title="Libra" src="https://github.com/CappielloAntonio/libra/blob/master/mockup/svg/undraw_contemplating.svg" width="250">
+  <img alt="Play" title="Play" src="https://github.com/CappielloAntonio/play/blob/main/mockup/svg/undraw_contemplating.svg" width="250">
 </p>
 
 <p align="center">

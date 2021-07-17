@@ -12,18 +12,15 @@ import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.google.android.exoplayer2.C;
-import com.google.android.exoplayer2.audio.AudioAttributes;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.audio.AudioAttributes;
 import com.google.android.exoplayer2.database.ExoDatabaseProvider;
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
 import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.upstream.FileDataSource;
-import com.google.android.exoplayer2.upstream.cache.CacheDataSink;
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource;
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor;
 import com.google.android.exoplayer2.upstream.cache.SimpleCache;
@@ -99,11 +96,10 @@ public class MultiPlayer implements Playback {
         this.context = context;
 
         // Create a read-only cache data source factory using the download cache.
-        DataSource.Factory cacheDataSourceFactory =
-                new CacheDataSource.Factory()
-                        .setCache(DownloadUtil.getDownloadCache(context))
-                        .setUpstreamDataSourceFactory(DownloadUtil.getHttpDataSourceFactory(context))
-                        .setCacheWriteDataSinkFactory(null); // Disable writing.
+        DataSource.Factory cacheDataSourceFactory = new CacheDataSource.Factory()
+                .setCache(DownloadUtil.getDownloadCache(context))
+                .setUpstreamDataSourceFactory(DownloadUtil.getHttpDataSourceFactory(context))
+                .setCacheWriteDataSinkFactory(null); // Disable writing.
 
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .setUsage(C.USAGE_MEDIA)
@@ -114,9 +110,6 @@ public class MultiPlayer implements Playback {
                 .setMediaSourceFactory(new DefaultMediaSourceFactory(cacheDataSourceFactory))
                 .setAudioAttributes(audioAttributes, true)
                 .build();
-
-        // TODO: “Player is accessed on the wrong thread” suppressed
-        // exoPlayer.setThrowsWhenUsingWrongThread(false);
 
         exoPlayer.addListener(eventListener);
         exoPlayer.prepare();
@@ -131,10 +124,9 @@ public class MultiPlayer implements Playback {
 
     @Override
     public void setDataSource(Song song) {
-        String uri = MusicUtil.getSongFileUri(song);
         MediaItem mediaItem = exoPlayer.getCurrentMediaItem();
 
-        if (mediaItem != null && mediaItem.playbackProperties.uri.toString().equals(uri)) {
+        if (mediaItem != null && mediaItem.mediaId.equals(song.getId())) {
             return;
         }
 
@@ -142,6 +134,7 @@ public class MultiPlayer implements Playback {
         appendDataSource(MusicUtil.getSongFileUri(song));
         exoPlayer.seekTo(0, 0);
     }
+
 
     @Override
     public void queueDataSource(Song song) {
@@ -157,17 +150,6 @@ public class MultiPlayer implements Playback {
         MediaItem mediaItem = MediaItem.fromUri(uri);
 
         exoPlayer.addMediaItem(mediaItem);
-    }
-
-    private DataSource.Factory buildDataSourceFactory() {
-        return () -> new CacheDataSource(
-                simpleCache,
-                new DefaultDataSourceFactory(context, context.getPackageName(), null).createDataSource(),
-                new FileDataSource(),
-                new CacheDataSink(simpleCache, 10 * 1024 * 1024),
-                CacheDataSource.FLAG_BLOCK_ON_CACHE,
-                null
-        );
     }
 
     @Override

@@ -42,7 +42,6 @@ public class PlayingNotification {
     private NotificationManager notificationManager;
     protected MusicService service;
     boolean stopped;
-    private PendingIntent clickIntent;
 
     public synchronized void init(MusicService service) {
         this.service = service;

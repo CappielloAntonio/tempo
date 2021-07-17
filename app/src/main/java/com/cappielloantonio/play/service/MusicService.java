@@ -56,6 +56,7 @@ import static com.google.android.exoplayer2.Player.MEDIA_ITEM_TRANSITION_REASON_
 import static com.google.android.exoplayer2.Player.PLAY_WHEN_READY_CHANGE_REASON_END_OF_MEDIA_ITEM;
 
 public class MusicService extends Service implements Playback.PlaybackCallbacks {
+    private static final String TAG = "MusicService";
     public static final String PACKAGE_NAME = "com.antoniocappiello.play";
     public static final String ACTION_TOGGLE = PACKAGE_NAME + ".toggle";
     public static final String ACTION_PLAY = PACKAGE_NAME + ".play";
@@ -77,11 +78,7 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     public static final int PLAY_SONG = 3;
     public static final int PREPARE_NEXT = 4;
     public static final int SET_POSITION = 5;
-    public static final int FOCUS_CHANGE = 6;
-    public static final int DUCK = 7;
-    public static final int UNDUCK = 8;
     public static final int LOAD_QUEUE = 9;
-    private static final String TAG = "MusicService";
     private static final long MEDIA_SESSION_ACTIONS = PlaybackStateCompat.ACTION_PLAY
             | PlaybackStateCompat.ACTION_PAUSE
             | PlaybackStateCompat.ACTION_PLAY_PAUSE
@@ -97,7 +94,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     private int nextPosition = -1;
     private boolean notHandledMetaChangedForCurrentTrack;
     private boolean queuesRestored;
-    private boolean pausedByTransientLossOfFocus;
     private PlayingNotification playingNotification;
     private final BroadcastReceiver becomingNoisyReceiver = new BroadcastReceiver() {
         @Override
@@ -107,16 +103,9 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
             }
         }
     };
-    private AudioManager audioManager;
     private MediaSessionCompat mediaSession;
     private PowerManager.WakeLock wakeLock;
     private PlaybackHandler playerHandler;
-    private final AudioManager.OnAudioFocusChangeListener audioFocusListener = new AudioManager.OnAudioFocusChangeListener() {
-        @Override
-        public void onAudioFocusChange(final int focusChange) {
-            playerHandler.obtainMessage(FOCUS_CHANGE, focusChange, 0).sendToTarget();
-        }
-    };
     private Handler uiThreadHandler;
     private ThrottledSeekHandler throttledSeekHandler;
     private QueueHandler queueHandler;
@@ -158,14 +147,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         restoreState();
 
         mediaSession.setActive(true);
-    }
-
-    private AudioManager getAudioManager() {
-        if (audioManager == null) {
-            audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        }
-
-        return audioManager;
     }
 
     private void initMediaSession() {
@@ -332,8 +313,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     private void quit() {
         pause();
         playingNotification.stop();
-
-        getAudioManager().abandonAudioFocus(audioFocusListener);
         stopSelf();
     }
 
@@ -410,10 +389,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         }
 
         increaseSongCount();
-    }
-
-    private boolean requestFocus() {
-        return getAudioManager().requestAudioFocus(audioFocusListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
     }
 
     public void initNotification() {
@@ -582,7 +557,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     }
 
     public void pause() {
-        pausedByTransientLossOfFocus = false;
         if (playback.isPlaying()) {
             playback.pause();
             notifyChange(STATE_CHANGED);
@@ -591,27 +565,17 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
 
     public void play() {
         synchronized (this) {
-            if (requestFocus()) {
-                if (!playback.isPlaying()) {
-                    if (!playback.isReady()) {
-                        playSongAt(getPosition());
-                    } else {
-                        playback.start();
-                        if (notHandledMetaChangedForCurrentTrack) {
-                            handleChangeInternal(META_CHANGED);
-                            notHandledMetaChangedForCurrentTrack = false;
-                        }
-
-                        notifyChange(STATE_CHANGED);
-
-                        // fixes a bug where the volume would stay ducked
-                        // happens when audio focus GAIN event not sent
-                        playerHandler.removeMessages(DUCK);
-                        playerHandler.sendEmptyMessage(UNDUCK);
+            if (!playback.isPlaying()) {
+                if (!playback.isReady()) {
+                    playSongAt(getPosition());
+                } else {
+                    playback.start();
+                    if (notHandledMetaChangedForCurrentTrack) {
+                        handleChangeInternal(META_CHANGED);
+                        notHandledMetaChangedForCurrentTrack = false;
                     }
+                    notifyChange(STATE_CHANGED);
                 }
-            } else {
-                Toast.makeText(this, getResources().getString(R.string.audio_focus_denied), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -758,7 +722,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
 
     private static final class PlaybackHandler extends Handler {
         private final WeakReference<MusicService> mService;
-        private int currentDuckVolume = 100;
 
         public PlaybackHandler(final MusicService service, @NonNull final Looper looper) {
             super(looper);
@@ -773,36 +736,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
             }
 
             switch (msg.what) {
-                case DUCK:
-                    if (PreferenceUtil.getInstance(service).getAudioDucking()) {
-                        currentDuckVolume -= 5;
-                        if (currentDuckVolume > 20) {
-                            sendEmptyMessageDelayed(DUCK, 10);
-                        } else {
-                            currentDuckVolume = 20;
-                        }
-                    } else {
-                        currentDuckVolume = 100;
-                    }
-
-                    service.playback.setVolume(currentDuckVolume);
-                    break;
-
-                case UNDUCK:
-                    if (PreferenceUtil.getInstance(service).getAudioDucking()) {
-                        currentDuckVolume += 3;
-                        if (currentDuckVolume < 100) {
-                            sendEmptyMessageDelayed(UNDUCK, 10);
-                        } else {
-                            currentDuckVolume = 100;
-                        }
-                    } else {
-                        currentDuckVolume = 100;
-                    }
-
-                    service.playback.setVolume(currentDuckVolume);
-                    break;
-
                 case TRACK_CHANGED:
                     if (service.isLastTrack()) {
                         service.pause();
@@ -850,40 +783,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
 
                 case PREPARE_NEXT:
                     service.prepareNextImpl();
-                    break;
-
-                case FOCUS_CHANGE:
-                    switch (msg.arg1) {
-                        case AudioManager.AUDIOFOCUS_GAIN:
-                            if (!service.isPlaying() && service.pausedByTransientLossOfFocus) {
-                                service.play();
-                                service.pausedByTransientLossOfFocus = false;
-                            }
-                            removeMessages(DUCK);
-                            sendEmptyMessage(UNDUCK);
-                            break;
-
-                        case AudioManager.AUDIOFOCUS_LOSS:
-                            // Lost focus for an unbounded amount of time: stop playback and release media playback
-                            service.pause();
-                            break;
-
-                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                            // Lost focus for a short time, but we have to stop
-                            // playback. We don't release the media playback because playback
-                            // is likely to resume
-                            boolean wasPlaying = service.isPlaying();
-                            service.pause();
-                            service.pausedByTransientLossOfFocus = wasPlaying;
-                            break;
-
-                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                            // Lost focus for a short time, but it's ok to keep playing
-                            // at an attenuated level
-                            removeMessages(UNDUCK);
-                            sendEmptyMessage(DUCK);
-                            break;
-                    }
                     break;
             }
         }

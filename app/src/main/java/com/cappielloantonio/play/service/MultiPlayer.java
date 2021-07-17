@@ -11,6 +11,8 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
+import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.audio.AudioAttributes;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
@@ -88,8 +90,14 @@ public class MultiPlayer implements Playback {
                         .setUpstreamDataSourceFactory(DownloadUtil.getHttpDataSourceFactory(context))
                         .setCacheWriteDataSinkFactory(null); // Disable writing.
 
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(C.USAGE_MEDIA)
+                .setContentType(C.CONTENT_TYPE_MUSIC)
+                .build();
+
         exoPlayer = new SimpleExoPlayer.Builder(context)
                 .setMediaSourceFactory(new DefaultMediaSourceFactory(cacheDataSourceFactory))
+                .setAudioAttributes(audioAttributes, true)
                 .build();
 
         // TODO: “Player is accessed on the wrong thread” suppressed

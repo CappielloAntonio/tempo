@@ -170,13 +170,13 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onStateChanged(@NonNull View view, int state) {
                     switch (state) {
-                        case BottomSheetBehavior.STATE_SETTLING | BottomSheetBehavior.STATE_COLLAPSED:
-                            PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
-                            if (playerBottomSheetFragment == null) break;
-                            playerBottomSheetFragment.scrollOnTop();
-                            break;
                         case BottomSheetBehavior.STATE_HIDDEN:
                             MusicPlayerRemote.quitPlaying();
+                            break;
+                        case BottomSheetBehavior.STATE_COLLAPSED:
+                        case BottomSheetBehavior.STATE_SETTLING:
+                            PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
+                            if (playerBottomSheetFragment != null) playerBottomSheetFragment.scrollOnTop();
                             break;
                     }
                 }
@@ -188,7 +188,6 @@ public class MainActivity extends BaseActivity {
                         return;
                     }
                     else {
-
                         float condensedSlideOffset = Math.max(0.0f, Math.min(0.2f, slideOffset - 0.2f)) / 0.2f;
                         playerBottomSheetFragment.getPlayerHeader().setAlpha(1 - condensedSlideOffset);
                         playerBottomSheetFragment.getPlayerHeader().setVisibility(condensedSlideOffset > 0.99 ? View.GONE : View.VISIBLE);

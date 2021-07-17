@@ -92,12 +92,13 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
         @Override
         public void onClick(View view) {
             QueueRepository queueRepository = new QueueRepository(App.getInstance());
-            queueRepository.insertAllAndStartNew(songs.subList(getBindingAdapterPosition(), songs.size()));
+            queueRepository.insertAllAndStartNew(songs);
 
             mainActivity.isBottomSheetInPeek(true);
             mainActivity.setBottomSheetMusicInfo(songs.get(getBindingAdapterPosition()));
 
-            MusicPlayerRemote.openQueue(songs.subList(getBindingAdapterPosition(), songs.size()), 0, true);
+            MusicPlayerRemote.openQueue(songs, getBindingAdapterPosition(), true);
+
         }
 
         @Override

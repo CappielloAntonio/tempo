@@ -121,7 +121,7 @@
         <action
             android:id="@+id/action_settingsFragment_to_syncFragment"
             app:destination="@id/syncFragment"
-            app:popUpTo="@id/settingsFragment"
+            app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment

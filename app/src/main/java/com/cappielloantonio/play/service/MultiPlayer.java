@@ -124,9 +124,10 @@ public class MultiPlayer implements Playback {
 
     @Override
     public void setDataSource(Song song) {
+        String uri = MusicUtil.getSongFileUri(song);
         MediaItem mediaItem = exoPlayer.getCurrentMediaItem();
 
-        if (mediaItem != null && mediaItem.mediaId.equals(song.getId())) {
+        if (mediaItem != null && mediaItem.playbackProperties.uri.toString().equals(uri)) {
             return;
         }
 

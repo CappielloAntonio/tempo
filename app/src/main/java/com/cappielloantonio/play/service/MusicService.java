@@ -20,6 +20,7 @@ import android.os.Process;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -277,6 +278,7 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     }
 
     private void saveProgress() {
+        Log.d(TAG, "saveProgress(): " + getSongProgressMillis());
         PreferenceUtil.getInstance(getApplicationContext()).setProgress(getSongProgressMillis());
     }
 

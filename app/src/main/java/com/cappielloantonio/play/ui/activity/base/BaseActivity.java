@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.ui.activity.base;
 
-import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -12,18 +11,17 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.interfaces.MusicServiceEventListener;
 import com.cappielloantonio.play.service.DownloadTracker;
-import com.cappielloantonio.play.service.MusicService;
 import com.cappielloantonio.play.service.DownloaderService;
+import com.cappielloantonio.play.service.MusicPlayerRemote;
+import com.cappielloantonio.play.service.MusicService;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.google.android.exoplayer2.offline.DownloadService;
 
@@ -31,12 +29,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import pub.devrel.easypermissions.AppSettingsDialog;
-import pub.devrel.easypermissions.EasyPermissions;
-
-public class BaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks, MusicServiceEventListener, DownloadTracker.Listener {
+public class BaseActivity extends AppCompatActivity implements MusicServiceEventListener, DownloadTracker.Listener {
     private static final String TAG = "BaseActivity";
-    public static final int REQUEST_PERM_ACCESS = 1;
 
     private final List<MusicServiceEventListener> mMusicServiceEventListeners = new ArrayList<>();
 
@@ -87,7 +81,7 @@ public class BaseActivity extends AppCompatActivity implements EasyPermissions.P
     @Override
     protected void onResume() {
         super.onResume();
-        checkPermissions();
+        // checkPermissions();
         checkBatteryOptimization();
     }
 
@@ -133,33 +127,6 @@ public class BaseActivity extends AppCompatActivity implements EasyPermissions.P
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
         startActivity(intent);
-    }
-
-    private void checkPermissions() {
-        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
-        if (!EasyPermissions.hasPermissions(this, permissions)) {
-            EasyPermissions.requestPermissions(this, getString(R.string.storage_permission_rationale), REQUEST_PERM_ACCESS, permissions);
-        }
-    }
-
-    @Override
-    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            new AppSettingsDialog.Builder(this).build().show();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     public void addMusicServiceEventListener(final MusicServiceEventListener listener) {

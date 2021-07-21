@@ -39,7 +39,7 @@ dependencies {
     implementation 'com.github.jellyfin.jellyfin-apiclient-java:android:0.7.7'
 
     // Kotlin
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.10'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.21'
 
     // AndroidX
     implementation 'androidx.core:core-ktx:1.6.0'

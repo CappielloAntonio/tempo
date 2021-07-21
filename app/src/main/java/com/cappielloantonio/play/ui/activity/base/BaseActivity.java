@@ -81,7 +81,6 @@ public class BaseActivity extends AppCompatActivity implements MusicServiceEvent
     @Override
     protected void onResume() {
         super.onResume();
-        // checkPermissions();
         checkBatteryOptimization();
     }
 

@@ -2,15 +2,13 @@ package com.cappielloantonio.play.subsonic;
 
 import com.cappielloantonio.play.subsonic.utils.StringUtil;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
 public class SubsonicPreferences {
     private String serverUrl;
     private String username;
     private String clientName = "SubsonicJavaClient";
-    private int streamBitRate = 192;
+    private int streamBitRate = 320;
     private String streamFormat = "mp3";
 
     private final SubsonicAuthentication authentication;

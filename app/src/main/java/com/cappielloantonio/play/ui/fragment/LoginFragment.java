@@ -14,11 +14,10 @@ import androidx.fragment.app.Fragment;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.databinding.FragmentLoginBinding;
+import com.cappielloantonio.play.subsonic.models.ResponseStatus;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.PreferenceUtil;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -85,26 +84,25 @@ public class LoginFragment extends Fragment {
     }
 
     private void authenticate() {
-        App.getSubsonicClientInstance(requireContext())
+        App.getSubsonicClientInstance(requireContext(), true)
                 .getSystemClient()
                 .ping()
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(Call<SubsonicResponse> call, retrofit2.Response<SubsonicResponse> response) {
-                        if (!response.isSuccessful()) {
-                            Log.d(TAG, "+++ onResponse() unsuccesful");
-                            Log.d(TAG, "+++ " + response.message());
-                            Toast.makeText(requireContext(), response.message(), Toast.LENGTH_LONG).show();
-                            return;
+                        if (response.body().getStatus() == ResponseStatus.FAILED) {
+                            int code = response.body().getError().getCode().value();
+                            String message = response.body().getError().getMessage();
+                            Toast.makeText(requireContext(), code + " - " + message, Toast.LENGTH_LONG).show();
+                        } else if (response.body().getStatus() == ResponseStatus.OK) {
+                            Toast.makeText(requireContext(), response.body().getStatus().value(), Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(requireContext(), "Empty response", Toast.LENGTH_LONG).show();
                         }
-
-                        Log.d(TAG, "+++ onResponse() succesful");
-                        Toast.makeText(requireContext(), "Login succesful", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onFailure(Call<SubsonicResponse> call, Throwable t) {
-                        Log.d(TAG, "+++ onFailure()");
                         Log.d(TAG, "+++ " + t.getMessage());
                         Toast.makeText(requireContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                     }

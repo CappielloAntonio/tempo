@@ -5,9 +5,6 @@ import android.util.Log;
 import com.cappielloantonio.play.subsonic.Subsonic;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 
-import java.util.List;
-import java.util.Map;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -33,9 +30,14 @@ public class SystemClient {
         this.systemService = retrofit.create(SystemService.class);
     }
 
-    public Call<SubsonicResponse> ping(){
-        Log.d(TAG, "Requesting ping");
+    public Call<SubsonicResponse> ping() {
+        Log.d(TAG, "ping()");
         return systemService.ping(subsonic.getParams());
+    }
+
+    public Call<SubsonicResponse> getLicense() {
+        Log.d(TAG, "getLicense()");
+        return systemService.getLicense(subsonic.getParams());
     }
 
     private OkHttpClient getOkHttpClient() {

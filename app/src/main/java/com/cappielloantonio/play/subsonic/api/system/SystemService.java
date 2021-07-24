@@ -11,4 +11,7 @@ import retrofit2.http.QueryMap;
 public interface SystemService {
     @GET("ping")
     Call<SubsonicResponse> ping(@QueryMap Map<String, String> params);
+
+    @GET("getLicense")
+    Call<SubsonicResponse> getLicense(@QueryMap Map<String, String> params);
 }

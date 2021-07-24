@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Play</string>
+    <string name="app_name">Play for Subsonic</string>
     <string name="storage_permission_rationale">We need permissions because this and that</string>
 
     <string name="general_header">General</string>

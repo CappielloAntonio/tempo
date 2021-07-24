@@ -10,6 +10,7 @@ import com.cappielloantonio.play.helper.ThemeHelper;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
 import org.jellyfin.apiclient.AppInfo;
+import org.jellyfin.apiclient.BuildConfig;
 import org.jellyfin.apiclient.Jellyfin;
 import org.jellyfin.apiclient.JellyfinAndroidKt;
 import org.jellyfin.apiclient.JellyfinOptions;

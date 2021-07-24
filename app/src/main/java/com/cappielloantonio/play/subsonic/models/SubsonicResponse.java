@@ -1,52 +1,67 @@
 package com.cappielloantonio.play.subsonic.models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class SubsonicResponse {
-    protected Error error;
-    protected ScanStatus scanStatus;
-    protected TopSongs topSongs;
-    protected SimilarSongs2 similarSongs2;
-    protected SimilarSongs similarSongs;
-    protected ArtistInfo2 artistInfo2;
-    protected ArtistInfo artistInfo;
-    protected AlbumInfo albumInfo;
-    protected Starred2 starred2;
-    protected Starred starred;
-    protected Shares shares;
-    protected PlayQueue playQueue;
-    protected Bookmarks bookmarks;
-    protected InternetRadioStations internetRadioStations;
-    protected NewestPodcasts newestPodcasts;
-    protected Podcasts podcasts;
-    protected Lyrics lyrics;
-    protected Songs songsByGenre;
-    protected Songs randomSongs;
-    protected AlbumList2 albumList2;
-    protected AlbumList albumList;
-    protected ChatMessages chatMessages;
-    protected User user;
-    protected Users users;
-    protected License license;
-    protected JukeboxPlaylist jukeboxPlaylist;
-    protected JukeboxStatus jukeboxStatus;
-    protected PlaylistWithSongs playlist;
-    protected Playlists playlists;
-    protected SearchResult3 searchResult3;
-    protected SearchResult2 searchResult2;
-    protected SearchResult searchResult;
-    protected NowPlaying nowPlaying;
-    protected VideoInfo videoInfo;
-    protected Videos videos;
-    protected Child song;
-    protected AlbumWithSongsID3 album;
-    protected ArtistWithAlbumsID3 artist;
-    protected ArtistsID3 artists;
-    protected Genres genres;
-    protected Directory directory;
-    protected Indexes indexes;
-    protected MusicFolders musicFolders;
-    protected ResponseStatus status;
-    protected String version;
+    @SerializedName("error")
+    @Expose
+    public Error error;
+
+    public ScanStatus scanStatus;
+    public TopSongs topSongs;
+    public SimilarSongs2 similarSongs2;
+    public SimilarSongs similarSongs;
+    public ArtistInfo2 artistInfo2;
+    public ArtistInfo artistInfo;
+    public AlbumInfo albumInfo;
+    public Starred2 starred2;
+    public Starred starred;
+    public Shares shares;
+    public PlayQueue playQueue;
+    public Bookmarks bookmarks;
+    public InternetRadioStations internetRadioStations;
+    public NewestPodcasts newestPodcasts;
+    public Podcasts podcasts;
+    public Lyrics lyrics;
+    public Songs songsByGenre;
+    public Songs randomSongs;
+    public AlbumList2 albumList2;
+    public AlbumList albumList;
+    public ChatMessages chatMessages;
+    public User user;
+    public Users users;
+    public License license;
+    public JukeboxPlaylist jukeboxPlaylist;
+    public JukeboxStatus jukeboxStatus;
+    public PlaylistWithSongs playlist;
+    public Playlists playlists;
+    public SearchResult3 searchResult3;
+    public SearchResult2 searchResult2;
+    public SearchResult searchResult;
+    public NowPlaying nowPlaying;
+    public VideoInfo videoInfo;
+    public Videos videos;
+    public Child song;
+    public AlbumWithSongsID3 album;
+    public ArtistWithAlbumsID3 artist;
+    public ArtistsID3 artists;
+    public Genres genres;
+    public Directory directory;
+    public Indexes indexes;
+    public MusicFolders musicFolders;
+
+    @SerializedName("status")
+    @Expose
+    public ResponseStatus status;
+
+    @SerializedName("version")
+    @Expose
+    public String version;
+
+    @SerializedName("type")
+    @Expose
+    public String type;
 
     /**
      * Gets the value of the error property.
@@ -947,4 +962,25 @@ public class SubsonicResponse {
     public void setVersion(String value) {
         this.version = value;
     }
+
+    /**
+     * Gets the value of the type property.
+     *
+     * @return possible object is
+     * {@link String }
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * Sets the value of the type property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setType(String value) {
+        this.type = value;
+    }
+
 }

@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
 
 import com.cappielloantonio.play.helper.ThemeHelper;
+import com.cappielloantonio.play.subsonic.Subsonic;
+import com.cappielloantonio.play.subsonic.SubsonicPreferences;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
 import org.jellyfin.apiclient.AppInfo;
@@ -23,6 +25,7 @@ public class App extends Application {
     private static final String TAG = "App";
     private static App instance;
     private static ApiClient apiClient;
+    private static Subsonic subsonic;
 
     @Override
     public void onCreate() {
@@ -59,5 +62,22 @@ public class App extends Application {
         Jellyfin jellyfin = new Jellyfin(options.build());
 
         return jellyfin.createApi(server, null, AndroidDevice.fromContext(context), new ApiEventListener());
+    }
+
+    public static Subsonic getSubsonicClientInstance(Context context) {
+        if (subsonic == null) {
+            subsonic = getSubsonicClient(context);
+        }
+        return subsonic;
+    }
+
+    private static Subsonic getSubsonicClient(Context context) {
+        String server = PreferenceUtil.getInstance(context).getServer();
+        String username = PreferenceUtil.getInstance(context).getUser();
+        String password = PreferenceUtil.getInstance(context).getPassword();
+
+        SubsonicPreferences preferences = new SubsonicPreferences(server, username, password);
+
+        return new Subsonic(preferences);
     }
 }

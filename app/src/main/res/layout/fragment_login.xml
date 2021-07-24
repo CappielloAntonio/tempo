@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:hint="Username"
             android:inputType="textShortMessage"
-            android:text="Antonio" />
+            android:text="antonio" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:hint="Password"
             android:inputType="textPassword"
-            android:text="D5S%TXefMwHg4!i%ucNHJ#57" />
+            android:text="hYP3%yD!rx@GBf95B2wbRUk8" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:hint="Server URL"
             android:inputType="textNoSuggestions"
-            android:text="http://192.168.1.81:8096" />
+            android:text="http://192.168.1.81:4747" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

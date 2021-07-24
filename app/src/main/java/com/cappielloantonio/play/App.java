@@ -64,8 +64,8 @@ public class App extends Application {
         return jellyfin.createApi(server, null, AndroidDevice.fromContext(context), new ApiEventListener());
     }
 
-    public static Subsonic getSubsonicClientInstance(Context context) {
-        if (subsonic == null) {
+    public static Subsonic getSubsonicClientInstance(Context context, boolean override) {
+        if (subsonic == null || override) {
             subsonic = getSubsonicClient(context);
         }
         return subsonic;

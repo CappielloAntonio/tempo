@@ -18,6 +18,7 @@ public class PreferenceUtil {
 
     public static final String SERVER = "server";
     public static final String USER = "user";
+    public static final String PASSWORD = "password";
     public static final String TOKEN = "token";
     public static final String MUSIC_LIBRARY_ID = "music_library_id";
     public static final String POSITION = "position";
@@ -66,12 +67,22 @@ public class PreferenceUtil {
     }
 
     public String getUser() {
-        return mPreferences.getString(USER, "");
+        return mPreferences.getString(USER, null);
     }
 
     public void setUser(String user) {
         final SharedPreferences.Editor editor = mPreferences.edit();
         editor.putString(USER, user);
+        editor.apply();
+    }
+
+    public String getPassword() {
+        return mPreferences.getString(PASSWORD, null);
+    }
+
+    public void setPassword(String password) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putString(PASSWORD, password);
         editor.apply();
     }
 

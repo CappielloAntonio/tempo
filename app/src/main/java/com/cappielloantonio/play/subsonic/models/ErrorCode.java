@@ -1,31 +1,23 @@
 package com.cappielloantonio.play.subsonic.models;
 
-public enum ErrorCode {
-    GENERIC_ERROR(0),
-    REQUIRED_PARAMETER_MISSING(10),
-    INCOMPATIBLE_VERSION_CLIENT(20),
-    INCOMPATIBLE_VERSION_SERVER(30),
-    WRONG_USERNAME_OR_PASSWORD(40),
-    TOKEN_AUTHENTICATION_NOT_SUPPORTED(41),
-    USER_NOT_AUTHORIZED(50),
-    TRIAL_PERIOD_OVER(60),
-    DATA_NOT_FOUND(70);
-    private final int value;
+public class ErrorCode {
+    public static int GENERIC_ERROR = 0;
+    public static int REQUIRED_PARAMETER_MISSING = 10;
+    public static int INCOMPATIBLE_VERSION_CLIENT = 20;
+    public static int INCOMPATIBLE_VERSION_SERVER = 30;
+    public static int WRONG_USERNAME_OR_PASSWORD = 40;
+    public static int TOKEN_AUTHENTICATION_NOT_SUPPORTED = 41;
+    public static int USER_NOT_AUTHORIZED = 50;
+    public static int TRIAL_PERIOD_OVER = 60;
+    public static int DATA_NOT_FOUND = 70;
 
-    ErrorCode(int v) {
-        value = v;
+    private int value;
+
+    public ErrorCode(int value) {
+        this.value = value;
     }
 
-    public int value() {
+    public int getValue() {
         return value;
-    }
-
-    public static ErrorCode fromValue(int v) {
-        for (ErrorCode c : ErrorCode.values()) {
-            if (c.value == v) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException(String.valueOf(v));
     }
 }

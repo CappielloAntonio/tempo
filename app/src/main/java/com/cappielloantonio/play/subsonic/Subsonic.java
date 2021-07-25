@@ -45,7 +45,7 @@ public class Subsonic {
         params.put("t", preferences.getAuthentication().getToken());
         params.put("v", getApiVersion().getVersionString());
         params.put("c", preferences.getClientName());
-        params.put("f", "json");
+        params.put("f", "xml");
 
         return params;
     }

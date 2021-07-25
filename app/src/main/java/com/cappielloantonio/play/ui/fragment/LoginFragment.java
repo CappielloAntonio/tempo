@@ -90,12 +90,12 @@ public class LoginFragment extends Fragment {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(Call<SubsonicResponse> call, retrofit2.Response<SubsonicResponse> response) {
-                        if (response.body().getStatus() == ResponseStatus.FAILED) {
-                            int code = response.body().getError().getCode().value();
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.FAILED)) {
+                            int code = response.body().getError().getCode().getValue();
                             String message = response.body().getError().getMessage();
                             Toast.makeText(requireContext(), code + " - " + message, Toast.LENGTH_LONG).show();
-                        } else if (response.body().getStatus() == ResponseStatus.OK) {
-                            Toast.makeText(requireContext(), response.body().getStatus().value(), Toast.LENGTH_LONG).show();
+                        } else if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            Toast.makeText(requireContext(), response.body().getStatus().getValue(), Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(requireContext(), "Empty response", Toast.LENGTH_LONG).show();
                         }

@@ -3,14 +3,13 @@ package com.cappielloantonio.play.subsonic.api.mediaretrieval;
 import android.util.Log;
 
 import com.cappielloantonio.play.subsonic.Subsonic;
-import com.cappielloantonio.play.subsonic.api.playlist.PlaylistService;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
+import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MediaRetrievalClient {
     private static final String TAG = "BrowsingClient";
@@ -24,7 +23,7 @@ public class MediaRetrievalClient {
 
         this.retrofit = new Retrofit.Builder()
                 .baseUrl(subsonic.getUrl())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(TikXmlConverterFactory.create())
                 .client(getOkHttpClient())
                 .build();
 

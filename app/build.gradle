@@ -78,10 +78,14 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // Retrofit
-    implementation 'com.google.code.gson:gson:2.8.7'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
+    implementation 'com.tickaroo.tikxml:retrofit-converter:0.8.15'
+
+    // XMLParser
+    implementation 'com.tickaroo.tikxml:annotation:0.9.0_11-SNAPSHOT'
+    implementation 'com.tickaroo.tikxml:core:0.9.0_11-SNAPSHOT'
+    annotationProcessor 'com.tickaroo.tikxml:processor:0.9.0_11-SNAPSHOT'
 
     // implementation 'net.beardbot:subsonic-client:0.2.0'
 

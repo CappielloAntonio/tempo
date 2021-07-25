@@ -1,25 +1,20 @@
 package com.cappielloantonio.play.subsonic.models;
 
-public enum ResponseStatus {
-    OK("ok"),
-    FAILED("failed");
+import com.tickaroo.tikxml.annotation.Attribute;
+import com.tickaroo.tikxml.annotation.Xml;
 
-    private final String value;
+@Xml
+public class ResponseStatus {
+    public static String OK = "ok";
+    public static String FAILED = "failed";
 
-    ResponseStatus(String v) {
-        value = v;
+    private String value;
+
+    public ResponseStatus(@Attribute String value) {
+        this.value = value;
     }
 
-    public String value() {
+    public String getValue() {
         return value;
-    }
-
-    public static ResponseStatus fromValue(String v) {
-        for (ResponseStatus c : ResponseStatus.values()) {
-            if (c.value.equals(v)) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException(v);
     }
 }

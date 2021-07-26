@@ -1,39 +1,27 @@
 package com.cappielloantonio.play.subsonic.models;
 
-public class MusicFolder {
-    protected int id;
-    protected String name;
+import com.tickaroo.tikxml.annotation.Attribute;
+import com.tickaroo.tikxml.annotation.Xml;
 
-    /**
-     * Gets the value of the id property.
-     */
+@Xml
+public class MusicFolder {
+    @Attribute
+    protected int id;
+    @Attribute
+    protected String name;
+    
     public int getId() {
         return id;
     }
 
-    /**
-     * Sets the value of the id property.
-     */
     public void setId(int value) {
         this.id = value;
     }
-
-    /**
-     * Gets the value of the name property.
-     *
-     * @return possible object is
-     * {@link String }
-     */
+    
     public String getName() {
         return name;
     }
-
-    /**
-     * Sets the value of the name property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
+    
     public void setName(String value) {
         this.name = value;
     }

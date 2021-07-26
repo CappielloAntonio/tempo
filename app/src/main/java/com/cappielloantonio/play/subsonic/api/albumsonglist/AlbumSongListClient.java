@@ -30,14 +30,14 @@ public class AlbumSongListClient {
         this.albumSongListService = retrofit.create(AlbumSongListService.class);
     }
 
-    public Call<SubsonicResponse> getAlbumList() {
+    public Call<SubsonicResponse> getAlbumList(String type, int size, int offset) {
         Log.d(TAG, "getAlbumList()");
-        return albumSongListService.getAlbumList(subsonic.getParams());
+        return albumSongListService.getAlbumList(subsonic.getParams(), type, size, offset);
     }
 
-    public Call<SubsonicResponse> getAlbumList2() {
+    public Call<SubsonicResponse> getAlbumList2(String type, int size, int offset) {
         Log.d(TAG, "getAlbumList2()");
-        return albumSongListService.getAlbumList2(subsonic.getParams());
+        return albumSongListService.getAlbumList2(subsonic.getParams(), type, size, offset);
     }
 
     public Call<SubsonicResponse> getRandomSongs(int size) {
@@ -45,9 +45,9 @@ public class AlbumSongListClient {
         return albumSongListService.getRandomSongs(subsonic.getParams(), size);
     }
 
-    public Call<SubsonicResponse> getSongsByGenre(String genre, int count) {
+    public Call<SubsonicResponse> getSongsByGenre(String genre, int count, int offset) {
         Log.d(TAG, "getSongsByGenre()");
-        return albumSongListService.getSongsByGenre(subsonic.getParams(), genre, count);
+        return albumSongListService.getSongsByGenre(subsonic.getParams(), genre, count, offset);
     }
 
     public Call<SubsonicResponse> getNowPlaying() {

@@ -2,33 +2,31 @@ package com.cappielloantonio.play.util;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.MediaCallback;
-import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Genre;
-import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.PlaylistSongCross;
 import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.model.SongGenreCross;
+import com.cappielloantonio.play.subsonic.models.AlbumID3;
+import com.cappielloantonio.play.subsonic.models.ArtistID3;
+import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.subsonic.models.IndexID3;
+import com.cappielloantonio.play.subsonic.models.MusicFolder;
+import com.cappielloantonio.play.subsonic.models.ResponseStatus;
+import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 
 import org.jellyfin.apiclient.interaction.Response;
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.BaseItemType;
 import org.jellyfin.apiclient.model.playlists.PlaylistItemQuery;
-import org.jellyfin.apiclient.model.querying.ArtistsQuery;
 import org.jellyfin.apiclient.model.querying.ItemFields;
-import org.jellyfin.apiclient.model.querying.ItemQuery;
-import org.jellyfin.apiclient.model.querying.ItemsByNameQuery;
 import org.jellyfin.apiclient.model.querying.ItemsResult;
-import org.jellyfin.apiclient.model.querying.SimilarItemsQuery;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class SyncUtil {
     private static final String TAG = "SyncUtil";
@@ -38,182 +36,170 @@ public class SyncUtil {
     public static final String ARTIST = "artist";
 
     public static void getLibraries(Context context, MediaCallback callback) {
-        String id = App.getApiClientInstance(context).getCurrentUserId();
+        App.getSubsonicClientInstance(context, false)
+                .getBrowsingClient()
+                .getMusicFolders()
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, retrofit2.Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.FAILED)) {
+                            String errorMessage = response.body().getError().getCode().getValue() + " - " + response.body().getError().getMessage();
+                            callback.onError(new Exception(errorMessage));
+                        } else if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            boolean musicFolderFound = false;
 
-        App.getApiClientInstance(context).GetUserViews(id, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult result) {
-                List<BaseItemDto> libraries = new ArrayList<>();
-                libraries.addAll(Arrays.asList(result.getItems()));
+                            for (MusicFolder folder : response.body().getMusicFolders().getMusicFolders()) {
+                                if (folder.getName().equals("music")) {
+                                    PreferenceUtil.getInstance(context).setMusicLibraryID(String.valueOf(folder.getId()));
+                                    musicFolderFound = true;
+                                }
+                            }
 
-                callback.onLoadMedia(libraries);
-            }
+                            if (musicFolderFound) callback.onLoadMedia(null);
+                        } else {
+                            callback.onError(new Exception("Empty response"));
+                        }
+                    }
 
-            @Override
-            public void onError(Exception exception) {
-                exception.printStackTrace();
-            }
-        });
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+                        callback.onError(new Exception(t.getMessage()));
+                    }
+                });
     }
 
-    public static void getSongs(Context context, Map<Integer, Song> currentCatalogue, MediaCallback callback) {
-        ItemQuery query = new ItemQuery();
+    public static void getSongs(Context context, MediaCallback callback, AlbumID3 album) {
+        App.getSubsonicClientInstance(context, false)
+                .getBrowsingClient()
+                .getAlbum(album.getId())
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, retrofit2.Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.FAILED)) {
+                            String errorMessage = response.body().getError().getCode().getValue() + " - " + response.body().getError().getMessage();
+                            callback.onError(new Exception(errorMessage));
+                        } else if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            List<Child> childList = new ArrayList<>();
+                            childList.addAll(response.body().getAlbum().getSongs());
+                            callback.onLoadMedia(childList);
+                        } else {
+                            callback.onError(new Exception("Empty response"));
+                        }
+                    }
 
-        query.setIncludeItemTypes(new String[]{"Audio"});
-        query.setFields(new ItemFields[]{ItemFields.MediaSources});
-        query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
-        query.setRecursive(true);
-        query.setParentId(PreferenceUtil.getInstance(context).getMusicLibraryID());
-
-        App.getApiClientInstance(context).GetItemsAsync(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult result) {
-                ArrayList<Song> songs = new ArrayList<>();
-
-                for (BaseItemDto itemDto : result.getItems()) {
-                    songs.add(updateSongData(currentCatalogue, new Song(itemDto)));
-                }
-
-                callback.onLoadMedia(songs);
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                callback.onError(exception);
-            }
-        });
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+                        callback.onError(new Exception(t.getMessage()));
+                    }
+                });
     }
 
-    public static void getAlbums(Context context, MediaCallback callback) {
-        ItemQuery query = new ItemQuery();
+    public static void getAlbums(Context context, MediaCallback callback, int size, int offset) {
+        App.getSubsonicClientInstance(context, false)
+                .getAlbumSongListClient()
+                .getAlbumList2("alphabeticalByName", size, offset)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, retrofit2.Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.FAILED)) {
+                            String errorMessage = response.body().getError().getCode().getValue() + " - " + response.body().getError().getMessage();
+                            callback.onError(new Exception(errorMessage));
+                        } else if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            List<AlbumID3> albumList = new ArrayList<>();
+                            albumList.addAll(response.body().getAlbumList2().getAlbums());
+                            callback.onLoadMedia(albumList);
+                        } else {
+                            callback.onError(new Exception("Empty response"));
+                        }
+                    }
 
-        query.setIncludeItemTypes(new String[]{"MusicAlbum"});
-        query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
-        query.setRecursive(true);
-        query.setParentId(PreferenceUtil.getInstance(context).getMusicLibraryID());
-
-        App.getApiClientInstance(context).GetItemsAsync(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult result) {
-                List<Album> albums = new ArrayList<>();
-                for (BaseItemDto itemDto : result.getItems()) {
-                    albums.add(new Album(itemDto));
-                }
-
-                callback.onLoadMedia(albums);
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                exception.printStackTrace();
-            }
-        });
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+                        callback.onError(new Exception(t.getMessage()));
+                    }
+                });
     }
 
     public static void getArtists(Context context, MediaCallback callback) {
-        ArtistsQuery query = new ArtistsQuery();
+        App.getSubsonicClientInstance(context, false)
+                .getBrowsingClient()
+                .getArtists()
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, retrofit2.Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.FAILED)) {
+                            String errorMessage = response.body().getError().getCode().getValue() + " - " + response.body().getError().getMessage();
+                            callback.onError(new Exception(errorMessage));
+                        } else if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            List<ArtistID3> artistList = new ArrayList<>();
 
-        query.setFields(new ItemFields[]{ItemFields.Genres});
-        query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
-        query.setRecursive(true);
-        query.setParentId(PreferenceUtil.getInstance(context).getMusicLibraryID());
+                            for (IndexID3 index : response.body().getArtists().getIndices()) {
+                                artistList.addAll(index.getArtists());
+                            }
 
-        App.getApiClientInstance(context).GetAlbumArtistsAsync(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult result) {
-                List<Artist> artists = new ArrayList<>();
-                for (BaseItemDto itemDto : result.getItems()) {
-                    artists.add(new Artist(itemDto));
-                }
+                            callback.onLoadMedia(artistList);
+                        } else {
+                            callback.onError(new Exception("Empty response"));
+                        }
+                    }
 
-                callback.onLoadMedia(artists);
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                exception.printStackTrace();
-            }
-        });
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+                        callback.onError(new Exception(t.getMessage()));
+                    }
+                });
     }
 
     public static void getPlaylists(Context context, MediaCallback callback) {
-        ItemQuery query = new ItemQuery();
+        App.getSubsonicClientInstance(context, false)
+                .getPlaylistClient()
+                .getPlaylists()
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, retrofit2.Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.FAILED)) {
+                            String errorMessage = response.body().getError().getCode().getValue() + " - " + response.body().getError().getMessage();
+                            callback.onError(new Exception(errorMessage));
+                        } else if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            List<com.cappielloantonio.play.subsonic.models.Playlist> playlistList = new ArrayList<>();
+                            playlistList.addAll(response.body().getPlaylists().getPlaylists());
+                            callback.onLoadMedia(playlistList);
+                        } else {
+                            callback.onError(new Exception("Empty response"));
+                        }
+                    }
 
-        query.setIncludeItemTypes(new String[]{"Playlist"});
-        query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
-        query.setRecursive(true);
-        query.setParentId(PreferenceUtil.getInstance(context).getMusicLibraryID());
-
-        App.getApiClientInstance(context).GetItemsAsync(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult result) {
-                List<Playlist> playlists = new ArrayList<>();
-                for (BaseItemDto itemDto : result.getItems()) {
-                    playlists.add(new Playlist(itemDto));
-                }
-
-                callback.onLoadMedia(playlists);
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                exception.printStackTrace();
-            }
-        });
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+                        callback.onError(new Exception(t.getMessage()));
+                    }
+                });
     }
 
     public static void getGenres(Context context, MediaCallback callback) {
-        ItemsByNameQuery query = new ItemsByNameQuery();
+        App.getSubsonicClientInstance(context, false)
+                .getBrowsingClient()
+                .getGenres()
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, retrofit2.Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.FAILED)) {
+                            String errorMessage = response.body().getError().getCode().getValue() + " - " + response.body().getError().getMessage();
+                            callback.onError(new Exception(errorMessage));
+                        } else if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            List<com.cappielloantonio.play.subsonic.models.Genre> genreList = new ArrayList<>();
+                            genreList.addAll(response.body().getGenres().getGenres());
+                            callback.onLoadMedia(genreList);
+                        } else {
+                            callback.onError(new Exception("Empty response"));
+                        }
+                    }
 
-        query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
-        query.setRecursive(true);
-        query.setParentId(PreferenceUtil.getInstance(context).getMusicLibraryID());
-
-        App.getApiClientInstance(context).GetGenresAsync(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult result) {
-                List<Genre> genres = new ArrayList<>();
-                for (BaseItemDto itemDto : result.getItems()) {
-                    genres.add(new Genre(itemDto));
-                }
-
-                callback.onLoadMedia(genres);
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                exception.printStackTrace();
-            }
-        });
-    }
-
-    public static void getSongsPerGenre(Context context, MediaCallback callback, String genreId) {
-        ItemQuery query = new ItemQuery();
-
-        query.setIncludeItemTypes(new String[]{"Audio"});
-        query.setFields(new ItemFields[]{ItemFields.MediaSources});
-        query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
-        query.setRecursive(true);
-        query.setParentId(PreferenceUtil.getInstance(context).getMusicLibraryID());
-        query.setGenreIds(new String[]{genreId});
-
-        App.getApiClientInstance(context).GetItemsAsync(query, new Response<ItemsResult>() {
-            @Override
-            public void onResponse(ItemsResult result) {
-                ArrayList<SongGenreCross> crosses = new ArrayList<>();
-
-                for (BaseItemDto itemDto : result.getItems()) {
-                    crosses.add(new SongGenreCross(itemDto.getId(), genreId));
-                }
-
-                callback.onLoadMedia(crosses);
-            }
-
-            @Override
-            public void onError(Exception exception) {
-                callback.onError(exception);
-            }
-        });
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+                        callback.onError(new Exception(t.getMessage()));
+                    }
+                });
     }
 
     public static void getSongsPerPlaylist(Context context, MediaCallback callback, String playlistId) {
@@ -245,7 +231,7 @@ public class SyncUtil {
     }
 
     public static void getInstantMix(Context context, MediaCallback callback, String resultType, String itemID, int limit) {
-        SimilarItemsQuery query = new SimilarItemsQuery();
+        /*SimilarItemsQuery query = new SimilarItemsQuery();
 
         query.setId(itemID);
         query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
@@ -274,11 +260,11 @@ public class SyncUtil {
             public void onError(Exception exception) {
                 callback.onError(exception);
             }
-        });
+        });*/
     }
 
     public static void getSimilarItems(Context context, MediaCallback callback, String resultType, String itemID, int limit) {
-        SimilarItemsQuery query = new SimilarItemsQuery();
+        /*SimilarItemsQuery query = new SimilarItemsQuery();
 
         query.setId(itemID);
         query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
@@ -307,17 +293,16 @@ public class SyncUtil {
             public void onError(Exception exception) {
                 callback.onError(exception);
             }
-        });
+        });*/
     }
 
-    public static Bundle getSyncBundle(Boolean syncAlbum, Boolean syncArtist, Boolean syncGenres, Boolean syncPlaylist, Boolean syncSong, Boolean crossSyncSongGenre) {
+    public static Bundle getSyncBundle(Boolean syncAlbum, Boolean syncArtist, Boolean syncGenres, Boolean syncPlaylist, Boolean syncSong) {
         Bundle bundle = new Bundle();
         bundle.putBoolean("sync_album", syncAlbum);
         bundle.putBoolean("sync_artist", syncArtist);
         bundle.putBoolean("sync_genres", syncGenres);
         bundle.putBoolean("sync_playlist", syncPlaylist);
         bundle.putBoolean("sync_song", syncSong);
-        bundle.putBoolean("cross_sync_song_genre", crossSyncSongGenre);
 
         return bundle;
     }

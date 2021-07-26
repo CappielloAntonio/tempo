@@ -17,12 +17,10 @@ import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.AlbumArtistCross;
 import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.PlaylistSongCross;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.model.SongArtistCross;
-import com.cappielloantonio.play.model.SongGenreCross;
 import com.cappielloantonio.play.repository.AlbumArtistRepository;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
@@ -32,14 +30,16 @@ import com.cappielloantonio.play.repository.PlaylistSongRepository;
 import com.cappielloantonio.play.repository.SongArtistRepository;
 import com.cappielloantonio.play.repository.SongGenreRepository;
 import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.subsonic.models.AlbumID3;
+import com.cappielloantonio.play.subsonic.models.ArtistID3;
+import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.subsonic.models.Genre;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.util.SyncUtil;
 import com.cappielloantonio.play.util.Util;
 import com.cappielloantonio.play.viewmodel.SyncViewModel;
-
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,9 +56,6 @@ public class SyncFragment extends Fragment {
     private ArtistRepository artistRepository;
     private PlaylistRepository playlistRepository;
     private GenreRepository genreRepository;
-    private SongGenreRepository songGenreRepository;
-    private SongArtistRepository songArtistRepository;
-    private AlbumArtistRepository albumArtistRepository;
     private PlaylistSongRepository playlistSongRepository;
 
     private final int LIBRARIES = 0;
@@ -67,8 +64,7 @@ public class SyncFragment extends Fragment {
     private final int GENRES = 3;
     private final int PLAYLISTS = 4;
     private final int SONGS = 5;
-    private final int SONG_X_GENRE = 6;
-    private final int SONG_X_PLAYLIST = 7;
+    private final int SONG_X_PLAYLIST = 6;
 
     @Nullable
     @Override
@@ -84,9 +80,6 @@ public class SyncFragment extends Fragment {
         artistRepository = new ArtistRepository(activity.getApplication());
         playlistRepository = new PlaylistRepository(activity.getApplication());
         genreRepository = new GenreRepository(activity.getApplication());
-        songGenreRepository = new SongGenreRepository(activity.getApplication());
-        songArtistRepository = new SongArtistRepository(activity.getApplication());
-        albumArtistRepository = new AlbumArtistRepository(activity.getApplication());
         playlistSongRepository = new PlaylistSongRepository(activity.getApplication());
 
         init();
@@ -105,7 +98,6 @@ public class SyncFragment extends Fragment {
 
     private void init() {
         syncViewModel.setArguemnts(getArguments());
-
         bind.syncingDateLabel.setText(Util.getDate());
     }
 
@@ -116,8 +108,6 @@ public class SyncFragment extends Fragment {
         if (!syncViewModel.isSyncPlaylist()) bind.syncPlaylistsSector.setVisibility(View.GONE);
         if (!syncViewModel.isSyncPlaylist()) bind.syncSongXPlaylistSector.setVisibility(View.GONE);
         if (!syncViewModel.isSyncSong()) bind.syncSongsSector.setVisibility(View.GONE);
-        if (!syncViewModel.isCrossSyncSongGenre())
-            bind.syncSongXGenreSector.setVisibility(View.GONE);
     }
 
     private void initButtonListeners() {
@@ -127,7 +117,7 @@ public class SyncFragment extends Fragment {
         });
         bind.syncAlbumsRetryImageView.setOnClickListener(v -> {
             resetSectorInfo(ALBUMS);
-            syncAlbums();
+            syncAlbums(500, 0, 0);
         });
         bind.syncArtistsRetryImageView.setOnClickListener(v -> {
             resetSectorInfo(ARTISTS);
@@ -141,17 +131,13 @@ public class SyncFragment extends Fragment {
             resetSectorInfo(PLAYLISTS);
             syncPlaylist();
         });
-        bind.syncSongsRetryImageView.setOnClickListener(v -> {
-            resetSectorInfo(SONGS);
-            syncSongs();
-        });
-        bind.syncSongXGenreRetryImageView.setOnClickListener(v -> {
-            resetSectorInfo(SONG_X_GENRE);
-            syncSongsPerGenre(syncViewModel.getGenreList());
-        });
         bind.syncSongXPlaylistRetryImageView.setOnClickListener(v -> {
             resetSectorInfo(SONG_X_PLAYLIST);
             syncSongsPerPlaylist(syncViewModel.getPlaylistList());
+        });
+        bind.syncSongsRetryImageView.setOnClickListener(v -> {
+            resetSectorInfo(SONGS);
+            syncSongs();
         });
         bind.syncingGoHomeImageView.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
@@ -175,20 +161,12 @@ public class SyncFragment extends Fragment {
 
             @Override
             public void onLoadMedia(List<?> media) {
-                List<BaseItemDto> libraries = (List<BaseItemDto>) media;
-
-                for (BaseItemDto itemDto : libraries) {
-                    if (itemDto.getCollectionType().equals("music")) {
-                        PreferenceUtil.getInstance(requireContext()).setMusicLibraryID(itemDto.getId());
-                    }
-                }
-
                 loadSectorInfo(LIBRARIES, "", true);
             }
         });
     }
 
-    private void syncAlbums() {
+    private void syncAlbums(int size, int offset, int page) {
         SyncUtil.getAlbums(requireContext(), new MediaCallback() {
             @Override
             public void onError(Exception exception) {
@@ -197,12 +175,15 @@ public class SyncFragment extends Fragment {
 
             @Override
             public void onLoadMedia(List<?> media) {
-                syncViewModel.setAlbumList((ArrayList<Album>) media);
-                albumRepository.insertAll(syncViewModel.getAlbumList());
-                syncAlbumArtistCross(syncViewModel.getAlbumList());
-                loadSectorInfo(ALBUMS, "Found " + syncViewModel.getAlbumList().size() + " elements", true);
+                syncViewModel.addToAlbumList((List<AlbumID3>) media);
+
+                if (media.size() == size) {
+                    syncAlbums(size, size * (page + 1), page + 1);
+                } else {
+                    loadSectorInfo(ALBUMS, "Found " + syncViewModel.getAlbumList().size() + " elements", true);
+                }
             }
-        });
+        }, size, offset);
     }
 
     private void syncArtists() {
@@ -214,8 +195,7 @@ public class SyncFragment extends Fragment {
 
             @Override
             public void onLoadMedia(List<?> media) {
-                syncViewModel.setArtistList((ArrayList<Artist>) media);
-                artistRepository.insertAll(syncViewModel.getArtistList());
+                syncViewModel.setArtistList((ArrayList<ArtistID3>) media);
                 loadSectorInfo(ARTISTS, "Found " + syncViewModel.getArtistList().size() + " elements", true);
             }
         });
@@ -231,8 +211,6 @@ public class SyncFragment extends Fragment {
             @Override
             public void onLoadMedia(List<?> media) {
                 syncViewModel.setGenreList((ArrayList<Genre>) media);
-                songGenreRepository.deleteAll();
-                genreRepository.insertAll(syncViewModel.getGenreList());
                 loadSectorInfo(GENRES, "Found " + syncViewModel.getGenreList().size() + " elements", true);
             }
         });
@@ -248,53 +226,13 @@ public class SyncFragment extends Fragment {
             @Override
             public void onLoadMedia(List<?> media) {
                 syncViewModel.setPlaylistList((ArrayList<Playlist>) media);
-                playlistSongRepository.deleteAll();
-                playlistRepository.insertAll(syncViewModel.getPlaylistList());
                 loadSectorInfo(PLAYLISTS, "Found " + syncViewModel.getPlaylistList().size() + " elements", true);
             }
         });
     }
 
-    private void syncSongs() {
-        SyncUtil.getSongs(requireContext(), syncViewModel.getCatalogue(), new MediaCallback() {
-            @Override
-            public void onError(Exception exception) {
-                loadSectorInfo(SONGS, exception.getMessage(), false);
-            }
-
-            @Override
-            public void onLoadMedia(List<?> media) {
-                syncViewModel.setSongList((ArrayList<Song>) media);
-                songRepository.insertAll(syncViewModel.getSongList());
-                syncSongArtistCross(syncViewModel.getSongList());
-                syncDownloadedSong();
-                loadSectorInfo(SONGS, "Found " + syncViewModel.getSongList().size() + " elements", true);
-                PreferenceUtil.getInstance(requireContext()).setSongNumber(syncViewModel.getSongList().size());
-            }
-        });
-    }
-
-    private void syncSongsPerGenre(List<Genre> genres) {
-        for (Genre genre : genres) {
-            SyncUtil.getSongsPerGenre(requireContext(), new MediaCallback() {
-                @Override
-                public void onError(Exception exception) {
-                    loadSectorInfo(SONG_X_GENRE, exception.getMessage(), false);
-                }
-
-                @Override
-                public void onLoadMedia(List<?> media) {
-                    songGenreRepository.insertAll((ArrayList<SongGenreCross>) media);
-                    loadSectorInfo(SONG_X_GENRE, "Genre processed: " + genre.getName(), true);
-                }
-            }, genre.id);
-        }
-
-        PreferenceUtil.getInstance(requireContext()).setSongGenreSync(true);
-    }
-
     private void syncSongsPerPlaylist(List<Playlist> playlists) {
-        for (Playlist playlist : playlists) {
+        /* for (Playlist playlist : playlists) {
             SyncUtil.getSongsPerPlaylist(requireContext(), new MediaCallback() {
                 @Override
                 public void onError(Exception exception) {
@@ -307,62 +245,30 @@ public class SyncFragment extends Fragment {
                     loadSectorInfo(SONG_X_PLAYLIST, "Playlist processed: " + playlist.getName(), true);
                 }
             }, playlist.getId());
-        }
+        } */
+
+        loadSectorInfo(SONG_X_PLAYLIST, "Playlist processed: SEI BRAVO", true);
+        enableHomeButton(SONG_X_PLAYLIST);
     }
 
-    // ---------------------------------------------------------------------------------------------
-    /*
-     * Sincronizzazzione dell'album con gli artisti che lo hanno prodotto | isProduced = true
-     * Sincronizzazzione dell'album con gli artisti che hanno collaborato per la sua produzione | isProduced = false
-     */
-    private void syncAlbumArtistCross(ArrayList<Album> albums) {
-        List<AlbumArtistCross> crosses = new ArrayList<>();
+    private void syncSongs() {
+        enableHomeButton(SONGS);
 
-        for (Album album : albums) {
-            List<Artist> artists = new ArrayList<>();
-
-            if (album.albumArtists.size() > 0) {
-                for (Artist artist : album.albumArtists) {
-                    artists.add(artist);
-                    crosses.add(new AlbumArtistCross(album.getId(), artist.getId(), true));
+        for (AlbumID3 album : syncViewModel.getAlbumList()) {
+            SyncUtil.getSongs(requireContext(), new MediaCallback() {
+                @Override
+                public void onError(Exception exception) {
+                    loadSectorInfo(SONGS, exception.getMessage(), false);
                 }
-            }
 
-            if (album.artistItems.size() > 0) {
-                for (Artist artist : album.artistItems) {
-                    if (!artists.contains(artist)) {
-                        crosses.add(new AlbumArtistCross(album.getId(), artist.getId(), false));
-                    }
+                @Override
+                public void onLoadMedia(List<?> media) {
+                    syncViewModel.addToChildList((ArrayList<Child>) media);
+
+                    loadSectorInfo(SONGS, "Found " + syncViewModel.getChildList().size() + " elements", true);
                 }
-            }
+            }, album);
         }
-
-        albumArtistRepository.insertAll(crosses);
-    }
-
-    private void syncSongArtistCross(ArrayList<Song> songs) {
-        List<SongArtistCross> crosses = new ArrayList<>();
-
-        for (Song song : songs) {
-            List<Artist> artists = new ArrayList<>();
-
-            if (song.albumArtists.size() > 0) {
-                for (Artist artist : song.albumArtists) {
-                    artists.add(artist);
-                    crosses.add(new SongArtistCross(song.getId(), artist.getId()));
-                }
-            }
-
-            if (song.artistItems.size() > 0) {
-                for (Artist artist : song.artistItems) {
-                    if (!artists.contains(artist)) {
-                        crosses.add(new SongArtistCross(song.getId(), artist.getId()));
-                    }
-                }
-            }
-        }
-
-        songArtistRepository.insertAll(crosses);
     }
 
     private void syncDownloadedSong() {
@@ -402,8 +308,6 @@ public class SyncFragment extends Fragment {
                         bind.syncAlbumsDetailLabel.setText(message);
                         bind.syncAlbumsRetryImageView.setVisibility(View.GONE);
                     }
-                    syncViewModel.increaseProggress();
-                    checkStep();
                     syncNextSector(ALBUMS);
                 } else {
                     if (bind != null) {
@@ -420,8 +324,6 @@ public class SyncFragment extends Fragment {
                         bind.syncArtistsDetailLabel.setText(message);
                         bind.syncArtistsRetryImageView.setVisibility(View.GONE);
                     }
-                    syncViewModel.increaseProggress();
-                    checkStep();
                     syncNextSector(ARTISTS);
                 } else {
                     if (bind != null) {
@@ -438,8 +340,6 @@ public class SyncFragment extends Fragment {
                         bind.syncGenresDetailLabel.setText(message);
                         bind.syncGenresRetryImageView.setVisibility(View.GONE);
                     }
-                    syncViewModel.increaseProggress();
-                    checkStep();
                     syncNextSector(GENRES);
                 } else {
                     if (bind != null) {
@@ -456,48 +356,12 @@ public class SyncFragment extends Fragment {
                         bind.syncPlaylistsDetailLabel.setText(message);
                         bind.syncPlaylistsRetryImageView.setVisibility(View.GONE);
                     }
-                    syncViewModel.increaseProggress();
-                    checkStep();
                     syncNextSector(PLAYLISTS);
                 } else {
                     if (bind != null) {
                         bind.syncPlaylistsStatusLabel.setText("Status: ERROR");
                         bind.syncPlaylistsDetailLabel.setText(message);
                         bind.syncPlaylistsRetryImageView.setVisibility(View.VISIBLE);
-                    }
-                }
-                break;
-            case SONGS:
-                if (isSuccess) {
-                    if (bind != null) {
-                        bind.syncSongsStatusLabel.setText("Status: SUCCESS");
-                        bind.syncSongsDetailLabel.setText(message);
-                        bind.syncSongsRetryImageView.setVisibility(View.GONE);
-                    }
-                    syncViewModel.increaseProggress();
-                    checkStep();
-                    syncNextSector(SONGS);
-                } else {
-                    if (bind != null) {
-                        bind.syncSongsStatusLabel.setText("Status: ERROR");
-                        bind.syncSongsDetailLabel.setText(message);
-                        bind.syncSongsRetryImageView.setVisibility(View.VISIBLE);
-                    }
-                }
-                break;
-            case SONG_X_GENRE:
-                if (isSuccess) {
-                    if (bind != null) {
-                        bind.syncSongXGenreStatusLabel.setText("Status: SUCCESS");
-                        bind.syncSongXGenreDetailLabel.setText(message);
-                        bind.syncSongXGenreRetryImageView.setVisibility(View.GONE);
-                    }
-                    checkStep();
-                } else {
-                    if (bind != null) {
-                        bind.syncSongXGenreStatusLabel.setText("Status: ERROR");
-                        bind.syncSongXGenreDetailLabel.setText(message);
-                        bind.syncSongXGenreRetryImageView.setVisibility(View.VISIBLE);
                     }
                 }
                 break;
@@ -508,12 +372,27 @@ public class SyncFragment extends Fragment {
                         bind.syncSongXPlaylistDetailLabel.setText(message);
                         bind.syncSongXPlaylistRetryImageView.setVisibility(View.GONE);
                     }
-                    checkStep();
+                    syncNextSector(SONG_X_PLAYLIST);
                 } else {
                     if (bind != null) {
                         bind.syncSongXPlaylistStatusLabel.setText("Status: ERROR");
                         bind.syncSongXPlaylistDetailLabel.setText(message);
                         bind.syncSongXPlaylistRetryImageView.setVisibility(View.VISIBLE);
+                    }
+                }
+                break;
+            case SONGS:
+                if (isSuccess) {
+                    if (bind != null) {
+                        bind.syncSongsStatusLabel.setText("Status: SUCCESS");
+                        bind.syncSongsDetailLabel.setText(message);
+                        bind.syncSongsRetryImageView.setVisibility(View.GONE);
+                    }
+                } else {
+                    if (bind != null) {
+                        bind.syncSongsStatusLabel.setText("Status: ERROR");
+                        bind.syncSongsDetailLabel.setText(message);
+                        bind.syncSongsRetryImageView.setVisibility(View.VISIBLE);
                     }
                 }
                 break;
@@ -549,20 +428,15 @@ public class SyncFragment extends Fragment {
                     bind.syncPlaylistsDetailLabel.setText(R.string.label_placeholder);
                     bind.syncPlaylistsRetryImageView.setVisibility(View.GONE);
                     break;
-                case SONGS:
-                    bind.syncSongsStatusLabel.setText("Loading...");
-                    bind.syncSongsDetailLabel.setText(R.string.label_placeholder);
-                    bind.syncSongsRetryImageView.setVisibility(View.GONE);
-                    break;
-                case SONG_X_GENRE:
-                    bind.syncSongXGenreStatusLabel.setText("Loading...");
-                    bind.syncSongXGenreDetailLabel.setText(R.string.label_placeholder);
-                    bind.syncSongXGenreRetryImageView.setVisibility(View.GONE);
-                    break;
                 case SONG_X_PLAYLIST:
                     bind.syncSongXPlaylistStatusLabel.setText("Loading...");
                     bind.syncSongXPlaylistDetailLabel.setText(R.string.label_placeholder);
                     bind.syncSongXPlaylistRetryImageView.setVisibility(View.GONE);
+                    break;
+                case SONGS:
+                    bind.syncSongsStatusLabel.setText("Loading...");
+                    bind.syncSongsDetailLabel.setText(R.string.label_placeholder);
+                    bind.syncSongsRetryImageView.setVisibility(View.GONE);
                     break;
             }
         }
@@ -571,7 +445,7 @@ public class SyncFragment extends Fragment {
     private void syncNextSector(int sector) {
         switch (sector) {
             case LIBRARIES:
-                if (syncViewModel.isSyncAlbum()) syncAlbums();
+                if (syncViewModel.isSyncAlbum()) syncAlbums(500, 0, 0);
                 else syncPlaylist();
                 break;
             case ALBUMS:
@@ -584,21 +458,24 @@ public class SyncFragment extends Fragment {
                 syncPlaylist();
                 break;
             case PLAYLISTS:
-                if (syncViewModel.isSyncSong()) syncSongs();
-                else syncSongsPerPlaylist(syncViewModel.getPlaylistList());
-                break;
-            case SONGS:
-                syncSongsPerGenre(syncViewModel.getGenreList());
                 syncSongsPerPlaylist(syncViewModel.getPlaylistList());
                 break;
-            case SONG_X_GENRE | SONG_X_PLAYLIST:
+            case SONG_X_PLAYLIST:
+                if (syncViewModel.isSyncSong()) syncSongs();
+                break;
+            case SONGS:
                 break;
         }
     }
 
-    private void checkStep() {
-        if (syncViewModel.getStep() == syncViewModel.getProgress()) {
-            bind.syncingGoHomeImageView.setVisibility(View.VISIBLE);
+    private void enableHomeButton(int sector) {
+        switch (sector) {
+            case SONG_X_PLAYLIST:
+                if (!syncViewModel.isSyncSong()) bind.syncingGoHomeImageView.setVisibility(View.VISIBLE);
+                break;
+            case SONGS:
+                bind.syncingGoHomeImageView.setVisibility(View.VISIBLE);
+                break;
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.cappielloantonio.play.model;
 
+import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -10,6 +11,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.cappielloantonio.play.subsonic.models.Child;
+
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
 import org.jellyfin.apiclient.model.entities.ImageType;
@@ -17,6 +20,7 @@ import org.jellyfin.apiclient.model.entities.MediaStream;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,16 +58,6 @@ public class Song implements Parcelable {
     @Ignore
     public static final String RADIO = "RADIO";
 
-    /*
-     * TODO: Da capire chi tra albumArtist e artistItems sono i compositori e suonatori dell'album, oppure le comparse
-     * In teoria AlbumArtist sono i creatori, mentre ArtistItems le comparse
-     */
-    @Ignore
-    public List<Artist> albumArtists;
-
-    @Ignore
-    public List<Artist> artistItems;
-
     @NonNull
     @PrimaryKey
     @ColumnInfo(name = "id")
@@ -99,9 +93,6 @@ public class Song implements Parcelable {
     @ColumnInfo(name = "primary")
     private String primary;
 
-    @ColumnInfo(name = "blurHash")
-    private String blurHash;
-
     @ColumnInfo(name = "favorite")
     private boolean favorite;
 
@@ -114,20 +105,8 @@ public class Song implements Parcelable {
     @ColumnInfo(name = "container")
     private String container;
 
-    @ColumnInfo(name = "codec")
-    private String codec;
-
-    @ColumnInfo(name = "sampleRate")
-    private int sampleRate;
-
     @ColumnInfo(name = "bitRate")
     private int bitRate;
-
-    @ColumnInfo(name = "bitDepth")
-    private int bitDepth;
-
-    @ColumnInfo(name = "channels")
-    private int channels;
 
     @ColumnInfo(name = "added")
     private long added;
@@ -141,7 +120,7 @@ public class Song implements Parcelable {
     @ColumnInfo(name = "offline")
     private boolean offline;
 
-    public Song(@NonNull String id, String title, int trackNumber, int discNumber, int year, long duration, String albumId, String albumName, String artistId, String artistName, String primary, String blurHash, boolean favorite, String path, long size, String container, String codec, int sampleRate, int bitRate, int bitDepth, int channels, long added, int playCount, long lastPlay, boolean offline) {
+    public Song(@NonNull String id, String title, int trackNumber, int discNumber, int year, long duration, String albumId, String albumName, String artistId, String artistName, String primary, boolean favorite, String path, long size, String container, int bitRate, long added, int playCount, long lastPlay, boolean offline) {
         this.id = id;
         this.title = title;
         this.trackNumber = trackNumber;
@@ -153,16 +132,11 @@ public class Song implements Parcelable {
         this.artistId = artistId;
         this.artistName = artistName;
         this.primary = primary;
-        this.blurHash = blurHash;
         this.favorite = favorite;
         this.path = path;
         this.size = size;
         this.container = container;
-        this.codec = codec;
-        this.sampleRate = sampleRate;
         this.bitRate = bitRate;
-        this.bitDepth = bitDepth;
-        this.channels = channels;
         this.added = added;
         this.playCount = playCount;
         this.lastPlay = lastPlay;
@@ -175,64 +149,24 @@ public class Song implements Parcelable {
     }
 
     @Ignore
-    public Song(BaseItemDto itemDto) {
-        this.id = itemDto.getId();
-        this.title = itemDto.getName();
-        this.trackNumber = itemDto.getIndexNumber() != null ? itemDto.getIndexNumber() : 0;
-        this.discNumber = itemDto.getParentIndexNumber() != null ? itemDto.getParentIndexNumber() : 0;
-        this.year = itemDto.getProductionYear() != null ? itemDto.getProductionYear() : 0;
-        this.duration = itemDto.getRunTimeTicks() != null ? itemDto.getRunTimeTicks() / 10000 : 0;
-
-        this.albumId = itemDto.getAlbumId();
-        this.albumName = itemDto.getAlbum();
-
-        albumArtists = new ArrayList<>();
-        artistItems = new ArrayList<>();
-
-        if (itemDto.getAlbumArtists().size() != 0) {
-            this.artistId = itemDto.getAlbumArtists().get(0).getId();
-            this.artistName = itemDto.getAlbumArtists().get(0).getName();
-
-            itemDto.getAlbumArtists().forEach(artist -> {
-                albumArtists.add(new Artist(artist.getId(), artist.getName()));
-            });
-        }
-        else if (itemDto.getArtistItems().size() != 0) {
-            this.artistId = itemDto.getArtistItems().get(0).getId();
-            this.artistName = itemDto.getArtistItems().get(0).getName();
-
-            itemDto.getArtistItems().forEach(artist -> {
-                artistItems.add(new Artist(artist.getId(), artist.getName()));
-            });
-        }
-
-        this.primary = itemDto.getAlbumPrimaryImageTag() != null ? albumId : null;
-        if (itemDto.getImageBlurHashes() != null && itemDto.getImageBlurHashes().get(ImageType.Primary) != null) {
-            this.blurHash = (String) itemDto.getImageBlurHashes().get(ImageType.Primary).values().toArray()[0];
-        }
-
-        this.favorite = itemDto.getUserData() != null && itemDto.getUserData().getIsFavorite();
-
-        if (itemDto.getMediaSources() != null && itemDto.getMediaSources().get(0) != null) {
-            MediaSourceInfo source = itemDto.getMediaSources().get(0);
-
-            this.path = source.getPath();
-            this.size = source.getSize() != null ? source.getSize() : 0;
-
-            this.container = source.getContainer();
-            this.bitRate = source.getBitrate() != null ? source.getBitrate() : 0;
-
-            if (source.getMediaStreams() != null && source.getMediaStreams().size() != 0) {
-                MediaStream stream = source.getMediaStreams().get(0);
-
-                this.codec = stream.getCodec();
-                this.sampleRate = stream.getSampleRate() != null ? stream.getSampleRate() : 0;
-                this.bitDepth = stream.getBitDepth() != null ? stream.getBitDepth() : 0;
-                this.channels = stream.getChannels() != null ? stream.getChannels() : 0;
-            }
-        }
-
-        this.added = Instant.now().toEpochMilli();
+    public Song(Child child) {
+        this.id = child.getId();
+        this.title = child.getTitle();
+        this.trackNumber = child.getTrack();
+        this.discNumber = child.getDiscNumber();
+        this.year = child.getYear();
+        this.duration = child.getDuration();
+        this.albumId = child.getAlbumId();
+        this.albumName = child.getAlbum();
+        this.artistId = child.getArtistId();
+        this.artistName = child.getArtist();
+        this.primary = child.getCoverArtId();
+        this.favorite = child.getStarred() != null;
+        this.path = child.getPath();
+        this.size = child.getSize();
+        this.container = child.getContentType();
+        this.bitRate = child.getBitRate();
+        this.added = child.getCreated().getTime();
         this.playCount = 0;
         this.lastPlay = 0;
         this.offline = false;
@@ -283,10 +217,6 @@ public class Song implements Parcelable {
         return primary;
     }
 
-    public String getBlurHash() {
-        return blurHash;
-    }
-
     public boolean isFavorite() {
         return favorite;
     }
@@ -303,24 +233,8 @@ public class Song implements Parcelable {
         return container;
     }
 
-    public String getCodec() {
-        return codec;
-    }
-
-    public int getSampleRate() {
-        return sampleRate;
-    }
-
     public int getBitRate() {
         return bitRate;
-    }
-
-    public int getBitDepth() {
-        return bitDepth;
-    }
-
-    public int getChannels() {
-        return channels;
     }
 
     public long getAdded() {
@@ -383,10 +297,6 @@ public class Song implements Parcelable {
         this.primary = primary;
     }
 
-    public void setBlurHash(String blurHash) {
-        this.blurHash = blurHash;
-    }
-
     public void setFavorite(boolean favorite) {
         this.favorite = favorite;
     }
@@ -403,24 +313,8 @@ public class Song implements Parcelable {
         this.container = container;
     }
 
-    public void setCodec(String codec) {
-        this.codec = codec;
-    }
-
-    public void setSampleRate(int sampleRate) {
-        this.sampleRate = sampleRate;
-    }
-
     public void setBitRate(int bitRate) {
         this.bitRate = bitRate;
-    }
-
-    public void setBitDepth(int bitDepth) {
-        this.bitDepth = bitDepth;
-    }
-
-    public void setChannels(int channels) {
-        this.channels = channels;
     }
 
     public void setAdded(long added) {
@@ -481,6 +375,7 @@ public class Song implements Parcelable {
         return 0;
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.id);
@@ -495,21 +390,17 @@ public class Song implements Parcelable {
         dest.writeString(this.artistName);
         dest.writeString(this.primary);
         dest.writeString(Boolean.toString(favorite));
-        dest.writeString(this.blurHash);
         dest.writeString(this.path);
         dest.writeLong(this.size);
         dest.writeString(this.container);
-        dest.writeString(this.codec);
-        dest.writeInt(this.sampleRate);
         dest.writeInt(this.bitRate);
-        dest.writeInt(this.bitDepth);
-        dest.writeInt(this.channels);
         dest.writeLong(this.added);
         dest.writeInt(this.playCount);
         dest.writeLong(this.lastPlay);
         dest.writeBoolean(this.offline);
     }
 
+    @SuppressLint("NewApi")
     protected Song(Parcel in) {
         this.id = in.readString();
         this.title = in.readString();
@@ -523,15 +414,10 @@ public class Song implements Parcelable {
         this.artistName = in.readString();
         this.primary = in.readString();
         this.favorite = Boolean.parseBoolean(in.readString());
-        this.blurHash = in.readString();
         this.path = in.readString();
         this.size = in.readLong();
         this.container = in.readString();
-        this.codec = in.readString();
-        this.sampleRate = in.readInt();
         this.bitRate = in.readInt();
-        this.bitDepth = in.readInt();
-        this.channels = in.readInt();
         this.added = in.readLong();
         this.playCount = in.readInt();
         this.lastPlay = in.readLong();

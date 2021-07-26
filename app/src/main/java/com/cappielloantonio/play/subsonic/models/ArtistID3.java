@@ -1,105 +1,65 @@
 package com.cappielloantonio.play.subsonic.models;
 
+import com.tickaroo.tikxml.annotation.Attribute;
+import com.tickaroo.tikxml.annotation.Xml;
+import com.tickaroo.tikxml.converters.date.rfc3339.DateRfc3339TypeConverter;
+
 import java.time.LocalDateTime;
+import java.util.Date;
 
+@Xml
 public class ArtistID3 {
+    @Attribute
     protected String id;
+    @Attribute
     protected String name;
+    @Attribute(name = "coverArt")
     protected String coverArtId;
+    @Attribute
     protected int albumCount;
-    protected LocalDateTime starred;
-
-    /**
-     * Gets the value of the id property.
-     *
-     * @return possible object is
-     * {@link String }
-     */
+    @Attribute(converter = DateRfc3339TypeConverter.class)
+    protected Date starred;
+    
     public String getId() {
         return id;
     }
-
-    /**
-     * Sets the value of the id property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
+    
     public void setId(String value) {
         this.id = value;
     }
-
-    /**
-     * Gets the value of the name property.
-     *
-     * @return possible object is
-     * {@link String }
-     */
+    
     public String getName() {
         return name;
     }
-
-    /**
-     * Sets the value of the name property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
+    
     public void setName(String value) {
         this.name = value;
     }
 
-    /**
-     * Gets the value of the coverArtId property.
-     *
-     * @return possible object is
-     * {@link String }
-     */
     public String getCoverArtId() {
         return coverArtId;
     }
 
-    /**
-     * Sets the value of the coverArtId property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
+    
     public void setCoverArtId(String value) {
         this.coverArtId = value;
     }
 
-    /**
-     * Gets the value of the albumCount property.
-     */
+    
     public int getAlbumCount() {
         return albumCount;
     }
 
-    /**
-     * Sets the value of the albumCount property.
-     */
+    
     public void setAlbumCount(int value) {
         this.albumCount = value;
     }
 
-    /**
-     * Gets the value of the starred property.
-     *
-     * @return possible object is
-     * {@link String }
-     */
-    public LocalDateTime getStarred() {
+    public Date getStarred() {
         return starred;
     }
 
-    /**
-     * Sets the value of the starred property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setStarred(LocalDateTime value) {
+    public void setStarred(Date value) {
         this.starred = value;
     }
 

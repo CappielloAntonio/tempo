@@ -1,54 +1,38 @@
 package com.cappielloantonio.play.subsonic.models;
 
+import com.tickaroo.tikxml.annotation.Attribute;
+import com.tickaroo.tikxml.annotation.TextContent;
+import com.tickaroo.tikxml.annotation.Xml;
+
+@Xml
 public class Genre {
-    protected String name;
+    @TextContent
+    protected String genre;
+    @Attribute
     protected int songCount;
+    @Attribute
     protected int albumCount;
 
-    /**
-     * Gets the value of the name property.
-     *
-     * @return possible object is
-     * {@link String }
-     */
-    public String getName() {
-        return name;
+    public String getGenre() {
+        return genre;
     }
 
-    /**
-     * Sets the value of the name property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setName(String value) {
-        this.name = value;
+    public void setGenre(String value) {
+        this.genre = value;
     }
 
-    /**
-     * Gets the value of the songCount property.
-     */
     public int getSongCount() {
         return songCount;
     }
 
-    /**
-     * Sets the value of the songCount property.
-     */
     public void setSongCount(int value) {
         this.songCount = value;
     }
 
-    /**
-     * Gets the value of the albumCount property.
-     */
     public int getAlbumCount() {
         return albumCount;
     }
 
-    /**
-     * Sets the value of the albumCount property.
-     */
     public void setAlbumCount(int value) {
         this.albumCount = value;
     }

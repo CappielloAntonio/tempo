@@ -1,36 +1,24 @@
 package com.cappielloantonio.play.subsonic.models;
 
+import com.tickaroo.tikxml.annotation.Element;
+import com.tickaroo.tikxml.annotation.Xml;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Xml
 public class MusicFolders {
+    @Element
     protected List<MusicFolder> musicFolders;
 
-    /**
-     * Gets the value of the musicFolders property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the musicFolders property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getMusicFolders().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link MusicFolder }
-     */
     public List<MusicFolder> getMusicFolders() {
         if (musicFolders == null) {
-            musicFolders = new ArrayList<MusicFolder>();
+            musicFolders = new ArrayList<>();
         }
         return this.musicFolders;
     }
 
+    public void setMusicFolders(List<MusicFolder> musicFolders) {
+        this.musicFolders = musicFolders;
+    }
 }

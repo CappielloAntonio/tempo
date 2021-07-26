@@ -14,10 +14,15 @@ import androidx.fragment.app.Fragment;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.databinding.FragmentLoginBinding;
+import com.cappielloantonio.play.helper.ErrorHelper;
+import com.cappielloantonio.play.subsonic.models.Genre;
 import com.cappielloantonio.play.subsonic.models.ResponseStatus;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.PreferenceUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -91,21 +96,22 @@ public class LoginFragment extends Fragment {
                     @Override
                     public void onResponse(Call<SubsonicResponse> call, retrofit2.Response<SubsonicResponse> response) {
                         if (response.body().getStatus().getValue().equals(ResponseStatus.FAILED)) {
-                            int code = response.body().getError().getCode().getValue();
-                            String message = response.body().getError().getMessage();
-                            Toast.makeText(requireContext(), code + " - " + message, Toast.LENGTH_LONG).show();
+                            ErrorHelper.handle(requireContext(), response.body().getError().getCode().getValue(), response.body().getError().getMessage());
                         } else if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
-                            Toast.makeText(requireContext(), response.body().getStatus().getValue(), Toast.LENGTH_LONG).show();
+                            enter();
                         } else {
                             Toast.makeText(requireContext(), "Empty response", Toast.LENGTH_LONG).show();
                         }
                     }
-
                     @Override
                     public void onFailure(Call<SubsonicResponse> call, Throwable t) {
-                        Log.d(TAG, "+++ " + t.getMessage());
+                        Log.e(TAG, t.getMessage());
                         Toast.makeText(requireContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    private void enter() {
+        activity.goFromLogin();
     }
 }

@@ -217,11 +217,11 @@ public class MainActivity extends BaseActivity {
         setBottomSheetVisibility(false);
 
         if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.loginFragment) {
-            Bundle bundle = SyncUtil.getSyncBundle(true, true, true, true, true, true);
+            Bundle bundle = SyncUtil.getSyncBundle(true, true, true, true, true);
             navController.navigate(R.id.action_loginFragment_to_syncFragment, bundle);
         }
         else if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.landingFragment) {
-            Bundle bundle = SyncUtil.getSyncBundle(true, true, true, true, true, true);
+            Bundle bundle = SyncUtil.getSyncBundle(true, true, true, true, true);
             navController.navigate(R.id.action_landingFragment_to_syncFragment, bundle);
         }
     }

@@ -27,6 +27,7 @@ public class SubsonicResponse {
     private Lyrics lyrics;
     private Songs songsByGenre;
     private Songs randomSongs;
+    @Element
     private AlbumList2 albumList2;
     private AlbumList albumList;
     private ChatMessages chatMessages;
@@ -35,7 +36,9 @@ public class SubsonicResponse {
     private License license;
     private JukeboxPlaylist jukeboxPlaylist;
     private JukeboxStatus jukeboxStatus;
+    @Element
     private PlaylistWithSongs playlist;
+    @Element
     private Playlists playlists;
     private SearchResult3 searchResult3;
     private SearchResult2 searchResult2;
@@ -44,12 +47,16 @@ public class SubsonicResponse {
     private VideoInfo videoInfo;
     private Videos videos;
     private Child song;
+    @Element(name = "album")
     private AlbumWithSongsID3 album;
     private ArtistWithAlbumsID3 artist;
+    @Element(name = "artists")
     private ArtistsID3 artists;
+    @Element
     private Genres genres;
     private Directory directory;
     private Indexes indexes;
+    @Element
     private MusicFolders musicFolders;
     @Attribute(converter = ResponseStatusConverter.class)
     private ResponseStatus status;

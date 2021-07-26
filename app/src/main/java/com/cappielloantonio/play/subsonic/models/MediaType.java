@@ -1,27 +1,23 @@
 package com.cappielloantonio.play.subsonic.models;
 
-public enum MediaType {
-    MUSIC("music"),
-    PODCAST("podcast"),
-    AUDIOBOOK("audiobook"),
-    VIDEO("video");
+import com.tickaroo.tikxml.annotation.Attribute;
+import com.tickaroo.tikxml.annotation.Xml;
 
-    private final String value;
+@Xml
+public class MediaType {
+    public static String MUSIC = "music";
+    public static String PODCAST = "podcast";
+    public static String AUDIOBOOK = "audiobook";
+    public static String VIDEO = "video";
 
-    MediaType(String v) {
-        value = v;
-    }
+    @Attribute
+    private String value;
 
-    public String value() {
+    public String getValue() {
         return value;
     }
 
-    public static MediaType fromValue(String v) {
-        for (MediaType c : MediaType.values()) {
-            if (c.value.equals(v)) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException(v);
+    public void setValue(String value) {
+        this.value = value;
     }
 }

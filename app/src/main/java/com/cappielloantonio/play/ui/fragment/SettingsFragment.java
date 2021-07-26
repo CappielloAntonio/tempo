@@ -64,7 +64,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                         PreferenceUtil.getInstance(requireContext()).setSync(false);
                         PreferenceUtil.getInstance(requireContext()).setSongGenreSync(false);
 
-                        Bundle bundle = SyncUtil.getSyncBundle(true, true, true, true, true, true);
+                        Bundle bundle = SyncUtil.getSyncBundle(true, true, true, true, true);
                         activity.goFromSettingsToSync(bundle);
                     })
                     .show();
@@ -78,7 +78,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     .setTitle("Force sync playlist")
                     .setNegativeButton(R.string.ignore, null)
                     .setPositiveButton("Sync", (dialog, id) -> {
-                        Bundle bundle = SyncUtil.getSyncBundle(false, false, false, true, false, false);
+                        Bundle bundle = SyncUtil.getSyncBundle(false, false, false, true, false);
                         activity.goFromSettingsToSync(bundle);
                     })
                     .show();

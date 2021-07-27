@@ -6,14 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.GenreDto;
-import org.jellyfin.apiclient.model.entities.ImageType;
-
-import java.util.UUID;
 
 @Entity(tableName = "genre")
 public class Genre implements Parcelable {
@@ -40,25 +33,6 @@ public class Genre implements Parcelable {
         this.songCount = songCount;
         this.primary = primary;
         this.blurHash = blurHash;
-    }
-
-    @Ignore
-    public Genre(GenreDto genreDto) {
-        this.id = genreDto.getId();
-        this.name = genreDto.getName();
-        this.songCount = 0;
-    }
-
-    @Ignore
-    public Genre(BaseItemDto itemDto) {
-        this.id = itemDto.getId();
-        this.name = itemDto.getName();
-        this.songCount = itemDto.getSongCount() != null ? itemDto.getSongCount() : 0;
-
-        this.primary = itemDto.getImageTags().containsKey(ImageType.Primary) ? id : null;
-        if (itemDto.getImageBlurHashes() != null && itemDto.getImageBlurHashes().get(ImageType.Primary) != null) {
-            this.blurHash = (String) itemDto.getImageBlurHashes().get(ImageType.Primary).values().toArray()[0];
-        }
     }
 
     @NonNull

@@ -6,11 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.entities.ImageType;
 
 @Entity(tableName = "playlist")
 public class Playlist implements Parcelable {
@@ -33,17 +29,6 @@ public class Playlist implements Parcelable {
         this.name = name;
         this.primary = primary;
         this.blurHash = blurHash;
-    }
-
-    @Ignore
-    public Playlist(BaseItemDto itemDto) {
-        this.id = itemDto.getId();
-        this.name = itemDto.getName();
-
-        this.primary = itemDto.getImageTags().containsKey(ImageType.Primary) ? id : null;
-        if (itemDto.getImageBlurHashes() != null && itemDto.getImageBlurHashes().get(ImageType.Primary) != null) {
-            this.blurHash = (String) itemDto.getImageBlurHashes().get(ImageType.Primary).values().toArray()[0];
-        }
     }
 
     @NonNull

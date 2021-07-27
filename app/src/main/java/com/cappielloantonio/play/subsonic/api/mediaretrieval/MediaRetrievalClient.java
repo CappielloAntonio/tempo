@@ -30,7 +30,7 @@ public class MediaRetrievalClient {
         this.mediaRetrievalService = retrofit.create(MediaRetrievalService.class);
     }
 
-    public Call<SubsonicResponse> stream(String id, int maxBitRate, String format) {
+    public Call<SubsonicResponse> stream(String id, Integer maxBitRate, String format) {
         Log.d(TAG, "stream()");
         return mediaRetrievalService.stream(subsonic.getParams(), id, maxBitRate, format);
     }

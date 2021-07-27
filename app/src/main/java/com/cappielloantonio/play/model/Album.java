@@ -2,7 +2,6 @@ package com.cappielloantonio.play.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -11,13 +10,6 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
-
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.entities.ImageType;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @Entity(tableName = "album")
 public class Album implements Parcelable {

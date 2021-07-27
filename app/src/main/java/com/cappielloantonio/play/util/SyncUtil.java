@@ -5,21 +5,13 @@ import android.os.Bundle;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.MediaCallback;
-import com.cappielloantonio.play.model.PlaylistSongCross;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
-import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.subsonic.models.IndexID3;
 import com.cappielloantonio.play.subsonic.models.MusicFolder;
 import com.cappielloantonio.play.subsonic.models.ResponseStatus;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
-
-import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.playlists.PlaylistItemQuery;
-import org.jellyfin.apiclient.model.querying.ItemFields;
-import org.jellyfin.apiclient.model.querying.ItemsResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -203,7 +195,7 @@ public class SyncUtil {
     }
 
     public static void getSongsPerPlaylist(Context context, MediaCallback callback, String playlistId) {
-        PlaylistItemQuery query = new PlaylistItemQuery();
+        /*PlaylistItemQuery query = new PlaylistItemQuery();
 
         query.setId(playlistId);
         query.setUserId(App.getApiClientInstance(context).getCurrentUserId());
@@ -227,7 +219,7 @@ public class SyncUtil {
             public void onError(Exception exception) {
                 callback.onError(exception);
             }
-        });
+        });*/
     }
 
     public static void getInstantMix(Context context, MediaCallback callback, String resultType, String itemID, int limit) {
@@ -308,7 +300,7 @@ public class SyncUtil {
     }
 
     private static void updateSongData(Map<Integer, Song> library, List<Song> songs) {
-        for (Song song: songs) {
+        for (Song song : songs) {
             if (library.containsKey(song.hashCode())) {
                 Song oldSong = library.get(song.hashCode());
                 song.setFavorite(oldSong.isFavorite());

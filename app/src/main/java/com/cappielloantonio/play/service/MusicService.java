@@ -37,20 +37,12 @@ import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.ui.notification.PlayingNotification;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
-import org.jellyfin.apiclient.interaction.EmptyResponse;
-import org.jellyfin.apiclient.interaction.Response;
-import org.jellyfin.apiclient.model.session.PlaybackProgressInfo;
-import org.jellyfin.apiclient.model.session.PlaybackStartInfo;
-import org.jellyfin.apiclient.model.session.PlaybackStopInfo;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import static com.google.android.exoplayer2.Player.MEDIA_ITEM_TRANSITION_REASON_AUTO;
 import static com.google.android.exoplayer2.Player.MEDIA_ITEM_TRANSITION_REASON_PLAYLIST_CHANGED;
@@ -794,7 +786,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         private final WeakReference<MusicService> mService;
 
         private ScheduledExecutorService executorService;
-        private Future<?> task;
 
         public ProgressHandler(MusicService service, Looper looper) {
             super(looper);
@@ -806,66 +797,9 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         public void handleMessage(@NonNull final Message msg) {
             switch (msg.what) {
                 case TRACK_STARTED:
-                    onStart();
-                case TRACK_CHANGED:
-                    onNext();
-                    break;
+                case TRACK_CHANGED: break;
                 case TRACK_ENDED:
-                    onStop();
             }
-        }
-
-        public void onStart() {
-            if (executorService != null) executorService.shutdownNow();
-
-            executorService = Executors.newScheduledThreadPool(1);
-            task = executorService.scheduleAtFixedRate(this::onProgress, 10, 10, TimeUnit.SECONDS);
-        }
-
-        public void onNext() {
-            PlaybackStartInfo startInfo = new PlaybackStartInfo();
-
-            startInfo.setItemId(mService.get().getCurrentSong().getId());
-            startInfo.setVolumeLevel(mService.get().playback.getVolume());
-            startInfo.setCanSeek(true);
-            startInfo.setIsPaused(false);
-
-            App.getApiClientInstance(App.getInstance()).ensureWebSocket();
-            App.getApiClientInstance(App.getInstance()).ReportPlaybackStartAsync(startInfo, new EmptyResponse());
-        }
-
-        public void onProgress() {
-            PlaybackProgressInfo progressInfo = new PlaybackProgressInfo();
-
-            // TODO these cause a wrong thread error
-            long progress = mService.get().getSongProgressMillis();
-            double duration = mService.get().getSongDurationMillis();
-            if (progress / duration > 0.9) {
-                Song current = mService.get().getCurrentSong();
-                String user = App.getApiClientInstance(App.getInstance()).getCurrentUserId();
-                Date time = new Date(System.currentTimeMillis());
-
-                App.getApiClientInstance(App.getInstance()).MarkPlayedAsync(current.getId(), user, time, new Response<>());
-            }
-
-            progressInfo.setItemId(mService.get().getCurrentSong().getId());
-            progressInfo.setPositionTicks(progress * 10000);
-            progressInfo.setVolumeLevel(mService.get().playback.getVolume());
-            progressInfo.setIsPaused(!mService.get().playback.isPlaying());
-            progressInfo.setCanSeek(true);
-
-            App.getApiClientInstance(App.getInstance()).ReportPlaybackProgressAsync(progressInfo, new EmptyResponse());
-        }
-
-        public void onStop() {
-            PlaybackStopInfo info = new PlaybackStopInfo();
-            long progress = mService.get().getSongProgressMillis();
-
-            info.setItemId(mService.get().getCurrentSong().getId());
-            info.setPositionTicks(progress * 10000);
-
-            if (task != null) task.cancel(true);
-            if (executorService != null) executorService.shutdownNow();
         }
     }
 

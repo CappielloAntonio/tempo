@@ -6,16 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
-import org.jellyfin.apiclient.model.entities.ImageType;
-import org.jellyfin.apiclient.model.entities.MediaStream;
-
-import java.time.Instant;
-import java.util.UUID;
 
 @Entity(tableName = "song_genre_cross")
 public class SongGenreCross implements Parcelable {

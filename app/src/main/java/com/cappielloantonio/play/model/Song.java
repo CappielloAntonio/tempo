@@ -3,7 +3,6 @@ package com.cappielloantonio.play.model;
 import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -13,15 +12,7 @@ import androidx.room.PrimaryKey;
 
 import com.cappielloantonio.play.subsonic.models.Child;
 
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.MediaSourceInfo;
-import org.jellyfin.apiclient.model.entities.ImageType;
-import org.jellyfin.apiclient.model.entities.MediaStream;
-
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 @Entity(tableName = "song")
@@ -341,7 +332,9 @@ public class Song implements Parcelable {
         this.playCount = playCount;
     }
 
-    public void setOffline(boolean offline) { this.offline = offline; }
+    public void setOffline(boolean offline) {
+        this.offline = offline;
+    }
 
     /*
         Log.i(TAG, "increasePlayCount: " + isIncreased);
@@ -354,7 +347,7 @@ public class Song implements Parcelable {
     public boolean nowPlaying() {
         long startPlayTime = Instant.now().toEpochMilli();
 
-        if(startPlayTime - (getDuration()/2) > getLastPlay()) {
+        if (startPlayTime - (getDuration() / 2) > getLastPlay()) {
             this.playCount++;
             this.lastPlay = startPlayTime;
             return true;

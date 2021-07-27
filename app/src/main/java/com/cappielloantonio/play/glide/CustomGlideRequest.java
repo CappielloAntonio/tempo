@@ -18,9 +18,6 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.wolt.blurhashkt.BlurHashDecoder;
 
-import org.jellyfin.apiclient.model.dto.ImageOptions;
-import org.jellyfin.apiclient.model.entities.ImageType;
-
 import java.util.Map;
 
 public class CustomGlideRequest {
@@ -50,7 +47,7 @@ public class CustomGlideRequest {
         String url = App.getSubsonicClientInstance(App.getInstance(), false).getUrl();
         Map<String, String> params = App.getSubsonicClientInstance(App.getInstance(), false).getParams();
 
-        String sb = url + "/rest/" + "getCoverArt" +
+        String sb = url + "getCoverArt" +
                 "?u=" + params.get("u") +
                 "&s=" + params.get("s") +
                 "&t=" + params.get("t") +

@@ -13,6 +13,7 @@ import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.model.SongGenreCross;
 import com.cappielloantonio.play.subsonic.api.albumsonglist.AlbumSongListClient;
+import com.cappielloantonio.play.subsonic.api.browsing.BrowsingClient;
 import com.cappielloantonio.play.subsonic.models.ResponseStatus;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.util.MappingUtil;
@@ -29,6 +30,7 @@ public class SongRepository {
     private static final String TAG = "SongRepository";
 
     private AlbumSongListClient albumSongListClient;
+    private BrowsingClient browsingClient;
 
     private SongDao songDao;
     private SongGenreCrossDao songGenreCrossDao;
@@ -50,6 +52,7 @@ public class SongRepository {
 
     public SongRepository(Application application) {
         albumSongListClient = App.getSubsonicClientInstance(application, false).getAlbumSongListClient();
+        browsingClient = App.getSubsonicClientInstance(application, false).getBrowsingClient();
 
         AppDatabase database = AppDatabase.getInstance(application);
         songDao = database.songDao();
@@ -77,6 +80,33 @@ public class SongRepository {
                 });
 
         return liveSongs;
+    }
+
+    public void getInstantMix(Song song, int count, MediaCallback callback) {
+        browsingClient
+                .getSimilarSongs2(song.getId(), count)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            List<Song> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getSimilarSongs2().getSongs()));
+                            if(songs.size() > 1) {
+                                callback.onLoadMedia(songs);
+                            }
+                            else {
+                                songs.add(song);
+                                callback.onLoadMedia(songs);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+                        List<Song> songs = new ArrayList<>();
+                        songs.add(song);
+                        callback.onLoadMedia(songs);
+                    }
+                });
     }
 
     public LiveData<List<Song>> searchListLiveSong(String title, int limit) {

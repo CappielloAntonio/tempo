@@ -2,17 +2,12 @@ package com.cappielloantonio.play.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
-import org.jellyfin.apiclient.model.dto.BaseItemDto;
-import org.jellyfin.apiclient.model.dto.GenreDto;
-import org.jellyfin.apiclient.model.entities.ImageType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,39 +49,6 @@ public class Artist implements Parcelable {
         this.primaryBlurHash = primaryBlurHash;
         this.backdrop = backdrop;
         this.backdropBlurHash = backdropBlurHash;
-    }
-
-    @Ignore
-    public Artist(BaseItemDto itemDto) {
-        this.id = itemDto.getId();
-        this.name = itemDto.getName();
-
-        this.primary = itemDto.getImageTags().containsKey(ImageType.Primary) ? id : null;
-        if (itemDto.getImageBlurHashes() != null && itemDto.getImageBlurHashes().get(ImageType.Primary) != null) {
-            this.primaryBlurHash = (String) itemDto.getImageBlurHashes().get(ImageType.Primary).values().toArray()[0];
-        }
-
-        try {
-            this.backdrop = !itemDto.getBackdropImageTags().get(0).isEmpty() ? id : null;
-            if (itemDto.getImageBlurHashes() != null && itemDto.getBackdropImageTags().get(0) != null) {
-                this.backdropBlurHash = (String) itemDto.getImageBlurHashes().get(ImageType.Backdrop).values().toArray()[0];
-            }
-        }
-        catch (IndexOutOfBoundsException exception) {
-            this.backdrop = null;
-            this.backdropBlurHash = null;
-        }
-
-
-        this.genres = new ArrayList<>();
-        this.albums = new ArrayList<>();
-        this.songs = new ArrayList<>();
-
-        if (itemDto.getGenreItems() != null) {
-            for (GenreDto genre : itemDto.getGenreItems()) {
-                genres.add(new Genre(genre));
-            }
-        }
     }
 
     @Ignore

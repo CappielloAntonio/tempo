@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
@@ -12,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.App;
-import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
+import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentSongListPageBinding;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
@@ -21,7 +20,6 @@ import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.SongListPageViewModel;
 
 import java.util.Collections;
-import java.util.List;
 
 public class SongListPageFragment extends Fragment {
 
@@ -29,7 +27,7 @@ public class SongListPageFragment extends Fragment {
     private MainActivity activity;
     private SongListPageViewModel songListPageViewModel;
 
-    private SongResultSearchAdapter songResultSearchAdapter;
+    private SongHorizontalAdapter songHorizontalAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -161,8 +159,8 @@ public class SongListPageFragment extends Fragment {
         bind.songListRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.songListRecyclerView.setHasFixedSize(true);
 
-        songResultSearchAdapter = new SongResultSearchAdapter(activity, requireContext(), getChildFragmentManager());
-        bind.songListRecyclerView.setAdapter(songResultSearchAdapter);
-        songListPageViewModel.getSongList().observe(requireActivity(), songs -> songResultSearchAdapter.setItems(songs));
+        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
+        bind.songListRecyclerView.setAdapter(songHorizontalAdapter);
+        songListPageViewModel.getSongList().observe(requireActivity(), songs -> songHorizontalAdapter.setItems(songs));
     }
 }

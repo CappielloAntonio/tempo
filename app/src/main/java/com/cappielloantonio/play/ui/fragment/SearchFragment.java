@@ -1,7 +1,6 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +17,11 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumAdapter;
 import com.cappielloantonio.play.adapter.ArtistAdapter;
 import com.cappielloantonio.play.adapter.GenreCatalogueAdapter;
-import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
+import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentSearchBinding;
 import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.SearchViewModel;
 import com.paulrybitskyi.persistentsearchview.adapters.model.SuggestionItem;
 import com.paulrybitskyi.persistentsearchview.listeners.OnSuggestionChangeListener;
@@ -36,7 +34,7 @@ public class SearchFragment extends Fragment {
     private MainActivity activity;
     private SearchViewModel searchViewModel;
 
-    private SongResultSearchAdapter songResultSearchAdapter;
+    private SongHorizontalAdapter songHorizontalAdapter;
     private AlbumAdapter albumAdapter;
     private ArtistAdapter artistAdapter;
     private GenreCatalogueAdapter genreCatalogueAdapter;
@@ -79,8 +77,8 @@ public class SearchFragment extends Fragment {
         bind.searchResultTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.searchResultTracksRecyclerView.setHasFixedSize(true);
 
-        songResultSearchAdapter = new SongResultSearchAdapter(activity, requireContext(), getChildFragmentManager());
-        bind.searchResultTracksRecyclerView.setAdapter(songResultSearchAdapter);
+        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
+        bind.searchResultTracksRecyclerView.setAdapter(songHorizontalAdapter);
 
         // Albums
         bind.searchResultAlbumRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -177,7 +175,7 @@ public class SearchFragment extends Fragment {
     private void performSearch(String query) {
         searchViewModel.searchSong(query, requireContext()).observe(requireActivity(), songs -> {
             if(bind != null) bind.searchSongSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
-            songResultSearchAdapter.setItems(songs);
+            songHorizontalAdapter.setItems(songs);
         });
         searchViewModel.searchAlbum(query, requireContext()).observe(requireActivity(), albums -> {
             if(bind != null) bind.searchAlbumSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);

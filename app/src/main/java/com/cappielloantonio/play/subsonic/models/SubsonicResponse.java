@@ -17,6 +17,7 @@ public class SubsonicResponse {
     private ArtistInfo2 artistInfo2;
     private ArtistInfo artistInfo;
     private AlbumInfo albumInfo;
+    @Element(name = "starred2")
     private Starred2 starred2;
     private Starred starred;
     private Shares shares;

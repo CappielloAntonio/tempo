@@ -18,14 +18,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
+import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlaylistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.DownloadUtil;
-import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.PlaylistPageViewModel;
 
 import java.util.Collections;
@@ -36,7 +35,7 @@ public class PlaylistPageFragment extends Fragment {
     private MainActivity activity;
     private PlaylistPageViewModel playlistPageViewModel;
 
-    private SongResultSearchAdapter songResultSearchAdapter;
+    private SongHorizontalAdapter songHorizontalAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -159,10 +158,10 @@ public class PlaylistPageFragment extends Fragment {
         bind.playlistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.playlistRecyclerView.setHasFixedSize(true);
 
-        songResultSearchAdapter = new SongResultSearchAdapter(activity, requireContext(), getChildFragmentManager());
-        bind.playlistRecyclerView.setAdapter(songResultSearchAdapter);
+        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
+        bind.playlistRecyclerView.setAdapter(songHorizontalAdapter);
         playlistPageViewModel.getPlaylistSongLiveList().observe(requireActivity(), songs -> {
-            songResultSearchAdapter.setItems(songs);
+            songHorizontalAdapter.setItems(songs);
         });
     }
 }

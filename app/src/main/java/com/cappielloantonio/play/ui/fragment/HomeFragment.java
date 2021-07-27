@@ -18,9 +18,11 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumAdapter;
+import com.cappielloantonio.play.adapter.AlbumHorizontalAdapter;
+import com.cappielloantonio.play.adapter.ArtistHorizontalAdapter;
 import com.cappielloantonio.play.adapter.DiscoverSongAdapter;
 import com.cappielloantonio.play.adapter.RecentMusicAdapter;
-import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
+import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.adapter.YearAdapter;
 import com.cappielloantonio.play.databinding.FragmentHomeBinding;
 import com.cappielloantonio.play.interfaces.MediaCallback;
@@ -37,9 +39,10 @@ public class HomeFragment extends Fragment {
     private MainActivity activity;
     private HomeViewModel homeViewModel;
 
-
     private YearAdapter yearAdapter;
-    private SongResultSearchAdapter favoriteSongAdapter;
+    private SongHorizontalAdapter starredSongAdapter;
+    private AlbumHorizontalAdapter starredAlbumAdapter;
+    private ArtistHorizontalAdapter starredArtistAdapter;
     private RecentMusicAdapter dowanloadedMusicAdapter;
 
     // ---------------------------------------------------- SUBSONIC ADAPTER
@@ -69,7 +72,9 @@ public class HomeFragment extends Fragment {
         initDiscoverSongSlideView();
         initMostPlayedAlbumView();
         initRecentPlayedAlbumView();
-        initFavoritesSongView();
+        initStarredTracksView();
+        initStarredAlbumsView();
+        initStarredArtistsView();
         initYearSongView();
         initRecentAddedAlbumView();
         initDownloadedSongView();
@@ -107,7 +112,19 @@ public class HomeFragment extends Fragment {
             activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
         });
 
-        bind.favoritesTracksTextViewClickable.setOnClickListener(v -> {
+        bind.starredTracksTextViewClickable.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(Song.IS_FAVORITE, Song.IS_FAVORITE);
+            activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
+        });
+
+        bind.starredAlbumsTextViewClickable.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(Song.IS_FAVORITE, Song.IS_FAVORITE);
+            activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
+        });
+
+        bind.starredArtistsTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putString(Song.IS_FAVORITE, Song.IS_FAVORITE);
             activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
@@ -180,19 +197,49 @@ public class HomeFragment extends Fragment {
         bind.yearsRecyclerView.setAdapter(yearAdapter);
     }
 
-    private void initFavoritesSongView() {
-        bind.favoritesTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 5, GridLayoutManager.HORIZONTAL, false));
-        bind.favoritesTracksRecyclerView.setHasFixedSize(true);
+    private void initStarredTracksView() {
+        bind.starredTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 5, GridLayoutManager.HORIZONTAL, false));
+        bind.starredTracksRecyclerView.setHasFixedSize(true);
 
-        favoriteSongAdapter = new SongResultSearchAdapter(activity, requireContext(), getChildFragmentManager());
-        bind.favoritesTracksRecyclerView.setAdapter(favoriteSongAdapter);
-        homeViewModel.getFavorites().observe(requireActivity(), songs -> {
-            if(bind != null) bind.homeFavoriteTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
-            favoriteSongAdapter.setItems(songs);
+        starredSongAdapter = new SongHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
+        bind.starredTracksRecyclerView.setAdapter(starredSongAdapter);
+        homeViewModel.getStarredTracks().observe(requireActivity(), songs -> {
+            if(bind != null) bind.homeStarredTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+            starredSongAdapter.setItems(songs);
         });
 
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
-        pagerSnapHelper.attachToRecyclerView(bind.favoritesTracksRecyclerView);
+        pagerSnapHelper.attachToRecyclerView(bind.starredTracksRecyclerView);
+    }
+
+    private void initStarredAlbumsView() {
+        bind.starredAlbumsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 5, GridLayoutManager.HORIZONTAL, false));
+        bind.starredAlbumsRecyclerView.setHasFixedSize(true);
+
+        starredAlbumAdapter = new AlbumHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
+        bind.starredAlbumsRecyclerView.setAdapter(starredAlbumAdapter);
+        homeViewModel.getStarredAlbums().observe(requireActivity(), albums -> {
+            if(bind != null) bind.homeStarredAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+            starredAlbumAdapter.setItems(albums);
+        });
+
+        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+        pagerSnapHelper.attachToRecyclerView(bind.starredAlbumsRecyclerView);
+    }
+
+    private void initStarredArtistsView() {
+        bind.starredArtistsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 5, GridLayoutManager.HORIZONTAL, false));
+        bind.starredArtistsRecyclerView.setHasFixedSize(true);
+
+        starredArtistAdapter = new ArtistHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
+        bind.starredArtistsRecyclerView.setAdapter(starredArtistAdapter);
+        homeViewModel.getStarredArtists().observe(requireActivity(), artists -> {
+            if(bind != null) bind.homeStarredArtistsSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+            starredArtistAdapter.setItems(artists);
+        });
+
+        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+        pagerSnapHelper.attachToRecyclerView(bind.starredArtistsRecyclerView);
     }
 
     private void initRecentAddedAlbumView() {
@@ -246,7 +293,9 @@ public class HomeFragment extends Fragment {
             bind.homeLinearLayoutContainer.addView(bind.homeDiscoverSector);
             bind.homeLinearLayoutContainer.addView(bind.homeRecentlyAddedAlbumsSector);
             bind.homeLinearLayoutContainer.addView(bind.homeFlashbackSector);
-            bind.homeLinearLayoutContainer.addView(bind.homeFavoriteTracksSector);
+            bind.homeLinearLayoutContainer.addView(bind.homeStarredTracksSector);
+            bind.homeLinearLayoutContainer.addView(bind.homeStarredAlbumsSector);
+            bind.homeLinearLayoutContainer.addView(bind.homeStarredArtistsSector);
             bind.homeLinearLayoutContainer.addView(bind.homeDownloadedTracksSector);
             bind.homeLinearLayoutContainer.addView(bind.homeMostPlayedAlbumsSector);
             bind.homeLinearLayoutContainer.addView(bind.homeRecentlyPlayedAlbumsSector);

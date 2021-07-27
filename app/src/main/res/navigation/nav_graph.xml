@@ -48,6 +48,9 @@
         <action
             android:id="@+id/action_homeFragment_to_albumPageFragment"
             app:destination="@id/albumPageFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_artistPageFragment"
+            app:destination="@id/artistPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/libraryFragment"

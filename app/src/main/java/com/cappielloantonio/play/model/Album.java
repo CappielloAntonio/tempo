@@ -56,7 +56,6 @@ public class Album implements Parcelable {
         this.artistId = albumID3.getArtistId();
         this.artistName = albumID3.getArtist();
         this.primary = albumID3.getCoverArtId();
-        this.blurHash = blurHash;
     }
 
     @NonNull

@@ -20,21 +20,19 @@ import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
-import com.cappielloantonio.play.util.PreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSearchAdapter.ViewHolder> {
-    private static final String TAG = "SongResultSearchAdapter";
-
+public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAdapter.ViewHolder> {
+    private static final String TAG = "SongHorizontalAdapter";
     private List<Song> songs;
     private LayoutInflater mInflater;
     private MainActivity mainActivity;
     private Context context;
     private FragmentManager fragmentManager;
 
-    public SongResultSearchAdapter(MainActivity mainActivity, Context context, FragmentManager fragmentManager) {
+    public SongHorizontalAdapter(MainActivity mainActivity, Context context, FragmentManager fragmentManager) {
         this.mainActivity = mainActivity;
         this.context = context;
         this.fragmentManager = fragmentManager;
@@ -44,7 +42,7 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_search_result_song, parent, false);
+        View view = mInflater.inflate(R.layout.item_horizontal_track, parent, false);
         return new ViewHolder(view);
     }
 
@@ -94,7 +92,7 @@ public class SongResultSearchAdapter extends RecyclerView.Adapter<SongResultSear
             super(itemView);
 
             songTitle = itemView.findViewById(R.id.search_result_song_title_text_view);
-            songArtist = itemView.findViewById(R.id.search_result_song_artist_text_view);
+            songArtist = itemView.findViewById(R.id.album_artist_text_view);
             songDuration = itemView.findViewById(R.id.search_result_song_duration_text_view);
             downloadIndicator = itemView.findViewById(R.id.search_result_dowanload_indicator_image_view);
             more = itemView.findViewById(R.id.search_result_song_more_button);

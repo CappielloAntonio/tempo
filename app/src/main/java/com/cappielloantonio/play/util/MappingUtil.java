@@ -1,8 +1,10 @@
 package com.cappielloantonio.play.util;
 
 import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
+import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.Child;
 
 import java.util.ArrayList;
@@ -27,5 +29,15 @@ public class MappingUtil {
         }
 
         return albums;
+    }
+
+    public static ArrayList<Artist> mapArtist(List<ArtistID3> albumID3List) {
+        ArrayList<Artist> artists = new ArrayList();
+
+        for(ArtistID3 artistID3 : albumID3List){
+            artists.add(new Artist(artistID3));
+        }
+
+        return artists;
     }
 }

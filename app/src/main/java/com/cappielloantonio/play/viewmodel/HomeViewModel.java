@@ -8,8 +8,10 @@ import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.AlbumRepository;
+import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 
 import java.util.ArrayList;
@@ -19,28 +21,28 @@ public class HomeViewModel extends AndroidViewModel {
     private static final String TAG = "HomeViewModel";
     private SongRepository songRepository;
     private AlbumRepository albumRepository;
+    private ArtistRepository artistRepository;
 
-    private List<Song> dicoverSongSample = new ArrayList<>();
-    private LiveData<List<Song>> recentlyPlayedSongSample;
-    private LiveData<List<Song>> recentlyAddedSongSample;
-    private LiveData<List<Song>> mostPlayedSongSample;
     private LiveData<List<Song>> favoritesSongSample;
     private LiveData<List<Song>> downloadedSongSample;
     private List<Integer> years;
 
+    private List<Song> dicoverSongSample = new ArrayList<>();
     private LiveData<List<Album>> mostPlayedAlbumSample;
     private LiveData<List<Album>> recentlyAddedAlbumSample;
     private LiveData<List<Album>> recentlyPlayedAlbumSample;
+
+    private LiveData<List<Song>> starredTracks;
+    private LiveData<List<Album>> starredAlbums;
+    private LiveData<List<Artist>> starredArtists;
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
 
         songRepository = new SongRepository(application);
         albumRepository = new AlbumRepository(application);
+        artistRepository = new ArtistRepository(application);
 
-        recentlyPlayedSongSample = songRepository.getListLiveRecentlyPlayedSampleSong(20);
-        recentlyAddedSongSample = songRepository.getListLiveRecentlyAddedSampleSong(20);
-        mostPlayedSongSample = songRepository.getListLiveMostPlayedSampleSong(20);
         favoritesSongSample = songRepository.getListLiveFavoritesSampleSong(20);
         downloadedSongSample = songRepository.getListLiveDownloadedSampleSong(20);
         years = songRepository.getYearList();
@@ -48,22 +50,14 @@ public class HomeViewModel extends AndroidViewModel {
         mostPlayedAlbumSample = albumRepository.getListLiveAlbums("frequent", 20);
         recentlyAddedAlbumSample = albumRepository.getListLiveAlbums("newest", 20);
         recentlyPlayedAlbumSample = albumRepository.getListLiveAlbums("recent", 20);
+
+        starredTracks = songRepository.getStarredSongs();
+        starredAlbums = albumRepository.getStarredAlbums();
+        starredArtists = artistRepository.getStarredArtists();
     }
 
     public SongRepository getSongRepository() {
         return songRepository;
-    }
-
-    public LiveData<List<Song>> getRecentlyAddedSongList() {
-        return recentlyAddedSongSample;
-    }
-
-    public LiveData<List<Song>> getRecentlyPlayedSongList() {
-        return recentlyPlayedSongSample;
-    }
-
-    public LiveData<List<Song>> getMostPlayedSongList() {
-        return mostPlayedSongSample;
     }
 
     public List<Integer> getYearList() {
@@ -72,6 +66,18 @@ public class HomeViewModel extends AndroidViewModel {
 
     public LiveData<List<Song>> getFavorites() {
         return favoritesSongSample;
+    }
+
+    public LiveData<List<Song>> getStarredTracks() {
+        return starredTracks;
+    }
+
+    public LiveData<List<Album>> getStarredAlbums() {
+        return starredAlbums;
+    }
+
+    public LiveData<List<Artist>> getStarredArtists() {
+        return starredArtists;
     }
 
     public LiveData<List<Song>> getDownloaded() {

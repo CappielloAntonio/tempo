@@ -9,6 +9,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.cappielloantonio.play.subsonic.models.ArtistID3;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +51,13 @@ public class Artist implements Parcelable {
         this.primaryBlurHash = primaryBlurHash;
         this.backdrop = backdrop;
         this.backdropBlurHash = backdropBlurHash;
+    }
+
+    public Artist(ArtistID3 artistID3) {
+        this.id = artistID3.getId();
+        this.name = artistID3.getName();
+        this.primary = artistID3.getCoverArtId();
+        this.backdrop = artistID3.getCoverArtId();
     }
 
     @Ignore

@@ -8,9 +8,11 @@ import androidx.lifecycle.MutableLiveData;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.AlbumDao;
+import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.subsonic.api.albumsonglist.AlbumSongListClient;
+import com.cappielloantonio.play.subsonic.models.ResponseStatus;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.util.MappingUtil;
 
@@ -27,11 +29,13 @@ public class AlbumRepository {
     private AlbumSongListClient albumSongListClient;
 
     private AlbumDao albumDao;
-    private LiveData<List<Album>> listLiveAlbums;
     private LiveData<List<Album>> artistListLiveAlbums;
     private LiveData<List<Album>> listLiveSampleAlbum;
     private LiveData<List<Album>> searchListLiveAlbum;
 
+    private MutableLiveData<List<Album>> listLiveRecentlyAddedAlbums = new MutableLiveData<>();
+    private MutableLiveData<List<Album>> listLiveMostPlayedAlbums = new MutableLiveData<>();
+    private MutableLiveData<List<Album>> listLiveRecentlyPlayedAlbums = new MutableLiveData<>();
 
     public AlbumRepository(Application application) {
         albumSongListClient = App.getSubsonicClientInstance(application, false).getAlbumSongListClient();
@@ -41,15 +45,24 @@ public class AlbumRepository {
     }
 
     public LiveData<List<Album>> getListLiveAlbums(String type, int size) {
-        MutableLiveData<List<Album>> listLiveAlbums = new MutableLiveData<>();
-
         albumSongListClient
                 .getAlbumList2(type, size, 0)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
                         List<Album> albums = new ArrayList<>(MappingUtil.mapAlbum(response.body().getAlbumList2().getAlbums()));
-                        listLiveAlbums.setValue(albums);
+
+                        switch (type) {
+                            case "newest":
+                                listLiveRecentlyAddedAlbums.setValue(albums);
+                                break;
+                            case "frequent":
+                                listLiveMostPlayedAlbums.setValue(albums);
+                                break;
+                            case "recent":
+                                listLiveRecentlyPlayedAlbums.setValue(albums);
+                                break;
+                        }
                     }
 
                     @Override
@@ -58,7 +71,38 @@ public class AlbumRepository {
                     }
                 });
 
-        return listLiveAlbums;
+        switch (type) {
+            case "newest":
+                return listLiveRecentlyAddedAlbums;
+            case "frequent":
+                return listLiveMostPlayedAlbums;
+            case "recent":
+                return listLiveRecentlyPlayedAlbums;
+            default:
+                return new MutableLiveData<>();
+        }
+    }
+
+    public MutableLiveData<List<Album>> getStarredAlbums() {
+        MutableLiveData<List<Album>> starredAlbums = new MutableLiveData<>();
+
+        albumSongListClient
+                .getStarred2()
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            List<Album> albums = new ArrayList<>(MappingUtil.mapAlbum(response.body().getStarred2().getAlbums()));
+                            starredAlbums.setValue(albums);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+                    }
+                });
+
+        return starredAlbums;
     }
 
     public LiveData<List<Album>> getArtistListLiveAlbums(String artistId) {

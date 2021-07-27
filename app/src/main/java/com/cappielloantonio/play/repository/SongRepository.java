@@ -50,6 +50,8 @@ public class SongRepository {
     private LiveData<List<Song>> listLiveSampleDownloadedSong;
     private LiveData<List<Song>> listLiveDownloadedSong;
 
+    private MutableLiveData<List<Song>> starredSongs = new MutableLiveData<>();
+
     public SongRepository(Application application) {
         albumSongListClient = App.getSubsonicClientInstance(application, false).getAlbumSongListClient();
         browsingClient = App.getSubsonicClientInstance(application, false).getBrowsingClient();
@@ -59,17 +61,15 @@ public class SongRepository {
         songGenreCrossDao = database.songGenreCrossDao();
     }
 
-    public MutableLiveData<List<Song>> getSongs() {
-        MutableLiveData<List<Song>> liveSongs = new MutableLiveData<>();
-
+    public MutableLiveData<List<Song>> getStarredSongs() {
         albumSongListClient
-                .getRandomSongs(10)
+                .getStarred2()
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
                         if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
-                            List<Song> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getRandomSongs().getSongs()));
-                            liveSongs.setValue(songs);
+                            List<Song> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getStarred2().getSongs()));
+                            starredSongs.setValue(songs);
                         }
                     }
 
@@ -79,7 +79,7 @@ public class SongRepository {
                     }
                 });
 
-        return liveSongs;
+        return starredSongs;
     }
 
     public void getInstantMix(Song song, int count, MediaCallback callback) {
@@ -343,23 +343,6 @@ public class SongRepository {
         Thread thread = new Thread(delete);
         thread.start();
     }
-
-    /*public List<Song> getRandomSample(int number) {
-        List<Song> sample = new ArrayList<>();
-
-        PickRandomThreadSafe randomThread = new PickRandomThreadSafe(songDao, number);
-        Thread thread = new Thread(randomThread);
-        thread.start();
-
-        try {
-            thread.join();
-            sample = randomThread.getSample();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return sample;
-    }*/
 
     public void getRandomSample(int number, MediaCallback callback) {
         albumSongListClient

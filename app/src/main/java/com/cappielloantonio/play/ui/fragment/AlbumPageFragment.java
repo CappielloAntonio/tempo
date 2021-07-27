@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumArtistPageOrSimilarAdapter;
-import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
+import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.MediaCallback;
@@ -45,7 +44,7 @@ public class AlbumPageFragment extends Fragment {
     private MainActivity activity;
     private AlbumPageViewModel albumPageViewModel;
 
-    private SongResultSearchAdapter songResultSearchAdapter;
+    private SongHorizontalAdapter songHorizontalAdapter;
     private AlbumArtistPageOrSimilarAdapter albumArtistPageOrSimilarAdapter;
 
     @Override
@@ -189,11 +188,11 @@ public class AlbumPageFragment extends Fragment {
         bind.songRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.songRecyclerView.setHasFixedSize(true);
 
-        songResultSearchAdapter = new SongResultSearchAdapter(activity, requireContext(), getChildFragmentManager());
-        bind.songRecyclerView.setAdapter(songResultSearchAdapter);
+        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
+        bind.songRecyclerView.setAdapter(songHorizontalAdapter);
 
         albumPageViewModel.getAlbumSongLiveList().observe(requireActivity(), songs -> {
-            songResultSearchAdapter.setItems(songs);
+            songHorizontalAdapter.setItems(songs);
         });
     }
 

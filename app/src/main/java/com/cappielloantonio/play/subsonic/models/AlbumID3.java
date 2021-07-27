@@ -17,7 +17,7 @@ public class AlbumID3 {
     protected String artist;
     @Attribute
     protected String artistId;
-    @Attribute
+    @Attribute(name = "coverArt")
     protected String coverArtId;
     @Attribute
     protected int songCount;

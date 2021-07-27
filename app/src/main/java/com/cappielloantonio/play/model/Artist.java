@@ -56,7 +56,7 @@ public class Artist implements Parcelable {
     public Artist(ArtistID3 artistID3) {
         this.id = artistID3.getId();
         this.name = artistID3.getName();
-        this.primary = artistID3.getCoverArtId();
+        this.primary = artistID3.getCoverArtId() != null ? artistID3.getCoverArtId() : artistID3.getId();
         this.backdrop = artistID3.getCoverArtId();
     }
 

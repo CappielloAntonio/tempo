@@ -39,18 +39,15 @@ public class ArtistID3 {
     public String getCoverArtId() {
         return coverArtId;
     }
-
     
     public void setCoverArtId(String value) {
         this.coverArtId = value;
     }
 
-    
     public int getAlbumCount() {
         return albumCount;
     }
 
-    
     public void setAlbumCount(int value) {
         this.albumCount = value;
     }

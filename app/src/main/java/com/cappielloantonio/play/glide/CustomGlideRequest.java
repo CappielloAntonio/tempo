@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import androidx.core.content.res.ResourcesCompat;
 
@@ -21,6 +22,8 @@ import com.wolt.blurhashkt.BlurHashDecoder;
 import java.util.Map;
 
 public class CustomGlideRequest {
+    private static final String TAG = "CustomGlideRequest";
+
     public static final String PRIMARY = "PRIMARY";
     public static final String BACKDROP = "BACKDROP";
 
@@ -54,6 +57,8 @@ public class CustomGlideRequest {
                 "&v=" + params.get("v") +
                 "&c=" + params.get("c") +
                 "&id=" + item;
+
+        Log.d(TAG, "--- createUrl() - " + sb);
 
         return sb;
     }

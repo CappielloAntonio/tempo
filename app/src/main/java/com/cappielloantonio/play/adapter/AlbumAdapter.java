@@ -47,7 +47,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         holder.textArtistName.setText(album.getArtistName());
 
         CustomGlideRequest.Builder
-                .from(context, album.getPrimary(), album.getBlurHash(), CustomGlideRequest.PRIMARY, PreferenceUtil.getInstance(context).getImageQuality(), CustomGlideRequest.ALBUM_PIC)
+                .from(context, album.getPrimary(), album.getBlurHash(), CustomGlideRequest.ALBUM_PIC)
                 .build()
                 .into(holder.cover);
     }
@@ -93,6 +93,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
                 Navigation.findNavController(view).navigate(R.id.action_libraryFragment_to_albumPageFragment, bundle);
             } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.albumCatalogueFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_albumCatalogueFragment_to_albumPageFragment, bundle);
+            } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.homeFragment) {
+                Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_albumPageFragment, bundle);
             }
         }
 

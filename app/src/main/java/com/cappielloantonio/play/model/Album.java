@@ -10,6 +10,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.cappielloantonio.play.subsonic.models.AlbumID3;
+
 import org.jellyfin.apiclient.model.dto.BaseItemDto;
 import org.jellyfin.apiclient.model.entities.ImageType;
 
@@ -20,19 +22,6 @@ import java.util.UUID;
 @Entity(tableName = "album")
 public class Album implements Parcelable {
     private static final String TAG = "Album";
-
-    @Ignore
-    public List<Song> songs;
-
-    /*
-    * TODO: Da capire chi tra albumArtist e artistItems sono i compositori e suonatori dell'album, oppure le comparse
-    * In teoria AlbumArtist sono i creatori, mentre ArtistItems le comparse
-    */
-    @Ignore
-    public List<Artist> albumArtists;
-
-    @Ignore
-    public List<Artist> artistItems;
 
     @NonNull
     @PrimaryKey
@@ -68,37 +57,14 @@ public class Album implements Parcelable {
     }
 
     @Ignore
-    public Album(BaseItemDto itemDto) {
-        this.id = itemDto.getId();
-        this.title = itemDto.getName();
-        this.year = itemDto.getProductionYear() != null ? itemDto.getProductionYear() : 0;
-
-        albumArtists = new ArrayList<>();
-        artistItems = new ArrayList<>();
-
-        if (itemDto.getAlbumArtists().size() != 0) {
-            this.artistId = itemDto.getAlbumArtists().get(0).getId();
-            this.artistName = itemDto.getAlbumArtists().get(0).getName();
-
-            itemDto.getAlbumArtists().forEach(artist -> {
-                albumArtists.add(new Artist(artist.getId(), artist.getName()));
-            });
-        }
-        else if (itemDto.getArtistItems().size() != 0) {
-            this.artistId = itemDto.getArtistItems().get(0).getId();
-            this.artistName = itemDto.getArtistItems().get(0).getName();
-
-            itemDto.getArtistItems().forEach(artist -> {
-                artistItems.add(new Artist(artist.getId(), artist.getName()));
-            });
-        }
-
-        this.primary = itemDto.getImageTags().containsKey(ImageType.Primary) ? id : null;
-        if (itemDto.getImageBlurHashes() != null && itemDto.getImageBlurHashes().get(ImageType.Primary) != null) {
-            this.blurHash = (String) itemDto.getImageBlurHashes().get(ImageType.Primary).values().toArray()[0];
-        }
-
-        this.songs = new ArrayList<>();
+    public Album(AlbumID3 albumID3) {
+        this.id = albumID3.getId();
+        this.title = albumID3.getName();
+        this.year = albumID3.getYear();
+        this.artistId = albumID3.getArtistId();
+        this.artistName = albumID3.getArtist();
+        this.primary = albumID3.getCoverArtId();
+        this.blurHash = blurHash;
     }
 
     @NonNull
@@ -195,8 +161,6 @@ public class Album implements Parcelable {
     }
 
     protected Album(Parcel in) {
-        this.songs = new ArrayList<>();
-
         this.id = in.readString();
         this.title = in.readString();
         this.year = in.readInt();

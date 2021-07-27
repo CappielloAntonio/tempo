@@ -6,16 +6,21 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.cappielloantonio.play.interfaces.MediaCallback;
+import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeViewModel extends AndroidViewModel {
     private static final String TAG = "HomeViewModel";
     private SongRepository songRepository;
+    private AlbumRepository albumRepository;
 
-    private List<Song> dicoverSongSample;
+    private List<Song> dicoverSongSample = new ArrayList<>();
     private LiveData<List<Song>> recentlyPlayedSongSample;
     private LiveData<List<Song>> recentlyAddedSongSample;
     private LiveData<List<Song>> mostPlayedSongSample;
@@ -23,27 +28,30 @@ public class HomeViewModel extends AndroidViewModel {
     private LiveData<List<Song>> downloadedSongSample;
     private List<Integer> years;
 
+    private LiveData<List<Album>> mostPlayedAlbumSample;
+    private LiveData<List<Album>> recentlyAddedAlbumSample;
+    private LiveData<List<Album>> recentlyPlayedAlbumSample;
+
     public HomeViewModel(@NonNull Application application) {
         super(application);
 
         songRepository = new SongRepository(application);
+        albumRepository = new AlbumRepository(application);
 
-        dicoverSongSample = songRepository.getRandomSample(10);
         recentlyPlayedSongSample = songRepository.getListLiveRecentlyPlayedSampleSong(20);
         recentlyAddedSongSample = songRepository.getListLiveRecentlyAddedSampleSong(20);
         mostPlayedSongSample = songRepository.getListLiveMostPlayedSampleSong(20);
         favoritesSongSample = songRepository.getListLiveFavoritesSampleSong(20);
         downloadedSongSample = songRepository.getListLiveDownloadedSampleSong(20);
         years = songRepository.getYearList();
+
+        mostPlayedAlbumSample = albumRepository.getListLiveAlbums("frequent", 20);
+        recentlyAddedAlbumSample = albumRepository.getListLiveAlbums("newest", 20);
+        recentlyPlayedAlbumSample = albumRepository.getListLiveAlbums("recent", 20);
     }
 
-
-    public List<Song> getDiscoverSongList() {
-        if (dicoverSongSample.isEmpty()) {
-            dicoverSongSample = songRepository.getRandomSample(10);
-        }
-
-        return dicoverSongSample;
+    public SongRepository getSongRepository() {
+        return songRepository;
     }
 
     public LiveData<List<Song>> getRecentlyAddedSongList() {
@@ -68,5 +76,17 @@ public class HomeViewModel extends AndroidViewModel {
 
     public LiveData<List<Song>> getDownloaded() {
         return downloadedSongSample;
+    }
+
+    public LiveData<List<Album>> getMostPlayedAlbums()  {
+        return mostPlayedAlbumSample;
+    }
+
+    public LiveData<List<Album>> getMostRecentlyAddedAlbums()  {
+        return recentlyAddedAlbumSample;
+    }
+
+    public LiveData<List<Album>> getRecentlyPlayedAlbumList()  {
+        return recentlyPlayedAlbumSample;
     }
 }

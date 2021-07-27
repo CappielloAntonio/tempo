@@ -18,6 +18,7 @@ import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.subsonic.models.Genre;
+import com.cappielloantonio.play.util.MappingUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,9 +41,8 @@ public class SyncViewModel extends AndroidViewModel {
     private ArrayList<Genre> genreList = new ArrayList<>();
     private ArrayList<Playlist> playlistList = new ArrayList<>();
     private ArrayList<Song> songList = new ArrayList<>();
-    private ArrayList<Child> childList = new ArrayList<>();
 
-    private SongRepository songRepository;
+    private final SongRepository songRepository;
     private AlbumRepository albumRepository;
     private ArtistRepository artistRepository;
     private PlaylistRepository playlistRepository;
@@ -128,12 +128,8 @@ public class SyncViewModel extends AndroidViewModel {
         this.songList = songList;
     }
 
-    public ArrayList<Child> getChildList() {
-        return childList;
-    }
-
-    public void addToChildList(ArrayList<Child> childList) {
-        this.childList.addAll(childList);
+    public void addToSongList(ArrayList<Song> songList) {
+        this.songList.addAll(songList);
     }
 
     public Map<Integer, Song> getCatalogue() {

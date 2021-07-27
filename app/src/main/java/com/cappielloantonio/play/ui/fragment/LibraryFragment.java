@@ -60,7 +60,6 @@ public class LibraryFragment extends Fragment {
         initArtistView();
         initGenreView();
         initPlaylistSlideView();
-        initCatalogueSyncCheck();
     }
 
     @Override
@@ -124,17 +123,6 @@ public class LibraryFragment extends Fragment {
         bind.playlistViewPager.setAdapter(playlistAdapter);
         bind.playlistViewPager.setOffscreenPageLimit(3);
         setDiscoverSongSlideViewOffset(20, 16);
-    }
-
-    private void initCatalogueSyncCheck() {
-        if (!PreferenceUtil.getInstance(requireContext()).getSongGenreSync()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            builder.setMessage("Sync song's genres otherwise nothing will be shown in each genre category")
-                    .setTitle("Song's genres not synchronized")
-                    .setNegativeButton(R.string.ignore, null)
-                    .setPositiveButton("Sync", (dialog, id) -> activity.goToSync())
-                    .show();
-        }
     }
 
     private void setDiscoverSongSlideViewOffset(float pageOffset, float pageMargin) {

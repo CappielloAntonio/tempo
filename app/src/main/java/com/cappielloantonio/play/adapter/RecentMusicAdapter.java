@@ -58,7 +58,7 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
         holder.textAlbum.setText(song.getAlbumName());
 
         CustomGlideRequest.Builder
-                .from(context, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.PRIMARY, PreferenceUtil.getInstance(context).getImageQuality(), CustomGlideRequest.SONG_PIC)
+                .from(context, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.SONG_PIC)
                 .build()
                 .into(holder.cover);
     }

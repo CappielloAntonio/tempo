@@ -3,19 +3,32 @@ package com.cappielloantonio.play.repository;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.SongDao;
 import com.cappielloantonio.play.database.dao.SongGenreCrossDao;
+import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.model.SongGenreCross;
+import com.cappielloantonio.play.subsonic.api.albumsonglist.AlbumSongListClient;
+import com.cappielloantonio.play.subsonic.models.ResponseStatus;
+import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
+import com.cappielloantonio.play.util.MappingUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class SongRepository {
     private static final String TAG = "SongRepository";
+
+    private AlbumSongListClient albumSongListClient;
 
     private SongDao songDao;
     private SongGenreCrossDao songGenreCrossDao;
@@ -36,9 +49,34 @@ public class SongRepository {
     private LiveData<List<Song>> listLiveDownloadedSong;
 
     public SongRepository(Application application) {
+        albumSongListClient = App.getSubsonicClientInstance(application, false).getAlbumSongListClient();
+
         AppDatabase database = AppDatabase.getInstance(application);
         songDao = database.songDao();
         songGenreCrossDao = database.songGenreCrossDao();
+    }
+
+    public MutableLiveData<List<Song>> getSongs() {
+        MutableLiveData<List<Song>> liveSongs = new MutableLiveData<>();
+
+        albumSongListClient
+                .getRandomSongs(10)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            List<Song> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getRandomSongs().getSongs()));
+                            liveSongs.setValue(songs);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+
+        return liveSongs;
     }
 
     public LiveData<List<Song>> searchListLiveSong(String title, int limit) {
@@ -276,7 +314,7 @@ public class SongRepository {
         thread.start();
     }
 
-    public List<Song> getRandomSample(int number) {
+    /*public List<Song> getRandomSample(int number) {
         List<Song> sample = new ArrayList<>();
 
         PickRandomThreadSafe randomThread = new PickRandomThreadSafe(songDao, number);
@@ -291,6 +329,28 @@ public class SongRepository {
         }
 
         return sample;
+    }*/
+
+    public void getRandomSample(int number, MediaCallback callback) {
+        albumSongListClient
+                .getRandomSongs(number)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        List<Song> songs = new ArrayList<>();
+
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            songs = new ArrayList<>(MappingUtil.mapSong(response.body().getRandomSongs().getSongs()));
+                        }
+
+                        callback.onLoadMedia(songs);
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+                        callback.onError(new Exception(t.getMessage()));
+                    }
+                });
     }
 
     public List<Song> getPlaylistSong(String playlistID) {

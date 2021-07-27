@@ -41,7 +41,7 @@ public class PlayerNowPlayingSongAdapter extends RecyclerView.Adapter<PlayerNowP
         Song song = songs.get(position);
 
         CustomGlideRequest.Builder
-                .from(context, song.getPrimary(), song.getPrimary(), CustomGlideRequest.PRIMARY, PreferenceUtil.getInstance(context).getImageQuality(), CustomGlideRequest.SONG_PIC)
+                .from(context, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.PRIMARY)
                 .build()
                 .into(holder.cover);
     }

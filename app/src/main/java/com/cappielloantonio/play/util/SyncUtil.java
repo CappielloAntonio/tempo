@@ -68,7 +68,7 @@ public class SyncUtil {
                 });
     }
 
-    public static void getSongs(Context context, MediaCallback callback, AlbumID3 album) {
+    public static void getSongs(Context context, Map<Integer, Song> currentCatalogue, MediaCallback callback, AlbumID3 album) {
         App.getSubsonicClientInstance(context, false)
                 .getBrowsingClient()
                 .getAlbum(album.getId())
@@ -79,9 +79,9 @@ public class SyncUtil {
                             String errorMessage = response.body().getError().getCode().getValue() + " - " + response.body().getError().getMessage();
                             callback.onError(new Exception(errorMessage));
                         } else if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
-                            List<Child> childList = new ArrayList<>();
-                            childList.addAll(response.body().getAlbum().getSongs());
-                            callback.onLoadMedia(childList);
+                            List<Song> songList = new ArrayList<>(MappingUtil.mapSong(response.body().getAlbum().getSongs()));
+                            updateSongData(currentCatalogue, songList);
+                            callback.onLoadMedia(songList);
                         } else {
                             callback.onError(new Exception("Empty response"));
                         }
@@ -307,16 +307,16 @@ public class SyncUtil {
         return bundle;
     }
 
-    private static Song updateSongData(Map<Integer, Song> library, Song newSong) {
-        if (library.containsKey(newSong.hashCode())) {
-            Song oldSong = library.get(newSong.hashCode());
-            newSong.setFavorite(oldSong.isFavorite());
-            newSong.setAdded(oldSong.getAdded());
-            newSong.setLastPlay(oldSong.getLastPlay());
-            newSong.setPlayCount(oldSong.getPlayCount());
-            newSong.setOffline(oldSong.isOffline());
+    private static void updateSongData(Map<Integer, Song> library, List<Song> songs) {
+        for (Song song: songs) {
+            if (library.containsKey(song.hashCode())) {
+                Song oldSong = library.get(song.hashCode());
+                song.setFavorite(oldSong.isFavorite());
+                song.setAdded(oldSong.getAdded());
+                song.setLastPlay(oldSong.getLastPlay());
+                song.setPlayCount(oldSong.getPlayCount());
+                song.setOffline(oldSong.isOffline());
+            }
         }
-
-        return newSong;
     }
 }

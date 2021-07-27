@@ -93,6 +93,9 @@ public class Song implements Parcelable {
     @ColumnInfo(name = "primary")
     private String primary;
 
+    @ColumnInfo(name = "blurHash")
+    private String blurHash;
+
     @ColumnInfo(name = "favorite")
     private boolean favorite;
 
@@ -120,7 +123,7 @@ public class Song implements Parcelable {
     @ColumnInfo(name = "offline")
     private boolean offline;
 
-    public Song(@NonNull String id, String title, int trackNumber, int discNumber, int year, long duration, String albumId, String albumName, String artistId, String artistName, String primary, boolean favorite, String path, long size, String container, int bitRate, long added, int playCount, long lastPlay, boolean offline) {
+    public Song(@NonNull String id, String title, int trackNumber, int discNumber, int year, long duration, String albumId, String albumName, String artistId, String artistName, String primary, String blurHash, boolean favorite, String path, long size, String container, int bitRate, long added, int playCount, long lastPlay, boolean offline) {
         this.id = id;
         this.title = title;
         this.trackNumber = trackNumber;
@@ -132,6 +135,7 @@ public class Song implements Parcelable {
         this.artistId = artistId;
         this.artistName = artistName;
         this.primary = primary;
+        this.blurHash = blurHash;
         this.favorite = favorite;
         this.path = path;
         this.size = size;
@@ -154,7 +158,7 @@ public class Song implements Parcelable {
         this.title = child.getTitle();
         this.trackNumber = child.getTrack();
         this.discNumber = child.getDiscNumber();
-        this.year = child.getYear();
+        this.year = child.getYear() != null ? child.getYear() : 0;
         this.duration = child.getDuration();
         this.albumId = child.getAlbumId();
         this.albumName = child.getAlbum();
@@ -215,6 +219,10 @@ public class Song implements Parcelable {
 
     public String getPrimary() {
         return primary;
+    }
+
+    public String getBlurHash() {
+        return blurHash;
     }
 
     public boolean isFavorite() {
@@ -295,6 +303,10 @@ public class Song implements Parcelable {
 
     public void setPrimary(String primary) {
         this.primary = primary;
+    }
+
+    public void setBlurHash(String blurHash) {
+        this.blurHash = blurHash;
     }
 
     public void setFavorite(boolean favorite) {
@@ -390,6 +402,7 @@ public class Song implements Parcelable {
         dest.writeString(this.artistName);
         dest.writeString(this.primary);
         dest.writeString(Boolean.toString(favorite));
+        dest.writeString(this.blurHash);
         dest.writeString(this.path);
         dest.writeLong(this.size);
         dest.writeString(this.container);
@@ -414,6 +427,7 @@ public class Song implements Parcelable {
         this.artistName = in.readString();
         this.primary = in.readString();
         this.favorite = Boolean.parseBoolean(in.readString());
+        this.blurHash = in.readString();
         this.path = in.readString();
         this.size = in.readLong();
         this.container = in.readString();

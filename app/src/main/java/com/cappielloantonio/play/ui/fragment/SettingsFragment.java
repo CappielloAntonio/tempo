@@ -53,36 +53,5 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                         return true;
                     });
         }
-
-        Preference music_sync_button = findPreference(getString(R.string.music_sync));
-        music_sync_button.setOnPreferenceClickListener(preference -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            builder.setMessage("Force reload your entire music library")
-                    .setTitle("Force sync")
-                    .setNegativeButton(R.string.ignore, null)
-                    .setPositiveButton("Sync", (dialog, id) -> {
-                        PreferenceUtil.getInstance(requireContext()).setSync(false);
-                        PreferenceUtil.getInstance(requireContext()).setSongGenreSync(false);
-
-                        Bundle bundle = SyncUtil.getSyncBundle(true, true, true, true, true);
-                        activity.goFromSettingsToSync(bundle);
-                    })
-                    .show();
-            return true;
-        });
-
-        Preference playlist_sync_button = findPreference(getString(R.string.playlist_song_cross_sync));
-        playlist_sync_button.setOnPreferenceClickListener(preference -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            builder.setMessage("Sync playlists' songs")
-                    .setTitle("Force sync playlist")
-                    .setNegativeButton(R.string.ignore, null)
-                    .setPositiveButton("Sync", (dialog, id) -> {
-                        Bundle bundle = SyncUtil.getSyncBundle(false, false, false, true, false);
-                        activity.goFromSettingsToSync(bundle);
-                    })
-                    .show();
-            return true;
-        });
     }
 }

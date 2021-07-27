@@ -72,7 +72,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
     private void init(View view) {
         coverSong = view.findViewById(R.id.song_cover_image_view);
         CustomGlideRequest.Builder
-                .from(requireContext(), songBottomSheetViewModel.getSong().getPrimary(), songBottomSheetViewModel.getSong().getBlurHash(), CustomGlideRequest.PRIMARY, PreferenceUtil.getInstance(requireContext()).getImageQuality(), CustomGlideRequest.SONG_PIC)
+                .from(requireContext(), songBottomSheetViewModel.getSong().getPrimary(), songBottomSheetViewModel.getSong().getBlurHash(), CustomGlideRequest.SONG_PIC)
                 .build()
                 .into(coverSong);
 

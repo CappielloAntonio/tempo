@@ -212,45 +212,19 @@ public class MainActivity extends BaseActivity {
             navController.navigate(R.id.action_landingFragment_to_loginFragment);
     }
 
-    public void goToSync() {
-        setBottomNavigationBarVisibility(false);
-        setBottomSheetVisibility(false);
-
-        if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.loginFragment) {
-            Bundle bundle = SyncUtil.getSyncBundle(true, true, true, true, true);
-            navController.navigate(R.id.action_loginFragment_to_syncFragment, bundle);
-        }
-        else if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.landingFragment) {
-            Bundle bundle = SyncUtil.getSyncBundle(true, true, true, true, true);
-            navController.navigate(R.id.action_landingFragment_to_syncFragment, bundle);
-        }
-    }
-
-    public void goFromSettingsToSync(Bundle bundle) {
-        setBottomNavigationBarVisibility(false);
-        setBottomSheetVisibility(false);
-
-        navController.navigate(R.id.action_settingsFragment_to_syncFragment, bundle);
-    }
-
     public void goToHome() {
         bottomNavigationView.setVisibility(View.VISIBLE);
 
         if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.landingFragment) {
             navController.navigate(R.id.action_landingFragment_to_homeFragment);
-        } else if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.syncFragment) {
-            navController.navigate(R.id.action_syncFragment_to_homeFragment);
-        } else if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.loginFragment) {
+        }
+        else if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.loginFragment) {
             navController.navigate(R.id.action_loginFragment_to_homeFragment);
         }
     }
 
     public void goFromLogin() {
-        if (PreferenceUtil.getInstance(getApplicationContext()).getSync()) {
-            goToHome();
-        } else {
-            goToSync();
-        }
+        goToHome();
     }
 
     @Override

@@ -21,13 +21,11 @@ import com.wolt.blurhashkt.BlurHashDecoder;
 import org.jellyfin.apiclient.model.dto.ImageOptions;
 import org.jellyfin.apiclient.model.entities.ImageType;
 
+import java.util.Map;
+
 public class CustomGlideRequest {
     public static final String PRIMARY = "PRIMARY";
     public static final String BACKDROP = "BACKDROP";
-
-    public static final String TOP_QUALITY = "TOP";
-    public static final String MEDIUM_QUALITY = "MEDIUM";
-    public static final String LOW_QUALITY = "LOW";
 
     public static final String SONG_PIC = "SONG";
     public static final String ALBUM_PIC = "ALBUM";
@@ -48,42 +46,19 @@ public class CustomGlideRequest {
         return options;
     }
 
-    public static String createUrl(String item, String itemType, String quality) {
-        ImageOptions options = new ImageOptions();
+    public static String createUrl(String item) {
+        String url = App.getSubsonicClientInstance(App.getInstance(), false).getUrl();
+        Map<String, String> params = App.getSubsonicClientInstance(App.getInstance(), false).getParams();
 
-        switch (itemType) {
-            case PRIMARY: {
-                options.setImageType(ImageType.Primary);
-                break;
-            }
-            case BACKDROP: {
-                options.setImageType(ImageType.Backdrop);
-                break;
-            }
-        }
+        String sb = url + "/rest/" + "getCoverArt" +
+                "?u=" + params.get("u") +
+                "&s=" + params.get("s") +
+                "&t=" + params.get("t") +
+                "&v=" + params.get("v") +
+                "&c=" + params.get("c") +
+                "&id=" + item;
 
-        switch (quality) {
-            case TOP_QUALITY: {
-                options.setQuality(100);
-                options.setMaxHeight(800);
-                options.setEnableImageEnhancers(true);
-                break;
-            }
-            case MEDIUM_QUALITY: {
-                options.setQuality(100);
-                options.setMaxHeight(600);
-                options.setEnableImageEnhancers(true);
-                break;
-            }
-            case LOW_QUALITY: {
-                options.setQuality(100);
-                options.setMaxHeight(400);
-                options.setEnableImageEnhancers(true);
-                break;
-            }
-        }
-
-        return App.getApiClientInstance(App.getInstance()).GetImageUrl(item, options);
+        return sb;
     }
 
     public static class Builder {
@@ -91,9 +66,9 @@ public class CustomGlideRequest {
         private final Object item;
         private final Context context;
 
-        private Builder(Context context, String item, String placeholder, String itemType, String quality, String category) {
+        private Builder(Context context, String item, String placeholder, String category) {
             this.requestManager = Glide.with(context);
-            this.item = item != null ? createUrl(item, itemType, quality) : MusicUtil.getDefaultPicPerCategory(category);
+            this.item = item != null ? createUrl(item) : MusicUtil.getDefaultPicPerCategory(category);
             this.context = context;
 
             if (placeholder != null) {
@@ -106,8 +81,8 @@ public class CustomGlideRequest {
             }
         }
 
-        public static Builder from(Context context, String item, String placeholder, String itemType, String quality, String category) {
-            return new Builder(context, item, placeholder, itemType, quality, category);
+        public static Builder from(Context context, String item, String placeholder, String category) {
+            return new Builder(context, item, placeholder, category);
         }
 
         public BitmapBuilder bitmap() {

@@ -47,7 +47,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         holder.textPlaylistName.setText(playlist.getName());
 
         CustomGlideRequest.Builder
-                .from(context, playlist.getPrimary(), playlist.getBlurHash(), CustomGlideRequest.PRIMARY, PreferenceUtil.getInstance(context).getImageQuality(), CustomGlideRequest.PLAYLIST_PIC)
+                .from(context, playlist.getPrimary(), playlist.getBlurHash(), CustomGlideRequest.PLAYLIST_PIC)
                 .build()
                 .into(holder.cover);
     }

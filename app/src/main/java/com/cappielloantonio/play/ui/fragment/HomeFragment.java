@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,15 +17,18 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.adapter.AlbumAdapter;
 import com.cappielloantonio.play.adapter.DiscoverSongAdapter;
 import com.cappielloantonio.play.adapter.RecentMusicAdapter;
 import com.cappielloantonio.play.adapter.SongResultSearchAdapter;
 import com.cappielloantonio.play.adapter.YearAdapter;
 import com.cappielloantonio.play.databinding.FragmentHomeBinding;
+import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.util.Util;
 import com.cappielloantonio.play.viewmodel.HomeViewModel;
+
+import java.util.List;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = "CategoriesFragment";
@@ -33,13 +37,16 @@ public class HomeFragment extends Fragment {
     private MainActivity activity;
     private HomeViewModel homeViewModel;
 
-    private DiscoverSongAdapter discoverSongAdapter;
-    private RecentMusicAdapter recentlyAddedMusicAdapter;
+
     private YearAdapter yearAdapter;
     private SongResultSearchAdapter favoriteSongAdapter;
-    private RecentMusicAdapter recentlyPlayedMusicAdapter;
-    private RecentMusicAdapter mostPlayedMusicAdapter;
     private RecentMusicAdapter dowanloadedMusicAdapter;
+
+    // ---------------------------------------------------- SUBSONIC ADAPTER
+    private DiscoverSongAdapter discoverSongAdapter;
+    private AlbumAdapter recentlyAddedAlbumAdapter;
+    private AlbumAdapter recentlyPlayedAlbumAdapter;
+    private AlbumAdapter mostPlayedAlbumAdapter;
 
     @Nullable
     @Override
@@ -60,11 +67,11 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initDiscoverSongSlideView();
-        initMostPlayedSongView();
-        initRecentPlayedSongView();
+        initMostPlayedAlbumView();
+        initRecentPlayedAlbumView();
         initFavoritesSongView();
         initYearSongView();
-        initRecentAddedSongView();
+        initRecentAddedAlbumView();
         initDownloadedSongView();
     }
 
@@ -82,19 +89,19 @@ public class HomeFragment extends Fragment {
     }
 
     private void init() {
-        bind.recentlyAddedTracksTextViewClickable.setOnClickListener(v -> {
+        bind.recentlyAddedAlbumsTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putString(Song.RECENTLY_ADDED, Song.RECENTLY_ADDED);
             activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
         });
 
-        bind.recentlyPlayedTracksTextViewClickable.setOnClickListener(v -> {
+        bind.recentlyPlayedAlbumsTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putString(Song.RECENTLY_PLAYED, Song.RECENTLY_PLAYED);
             activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
         });
 
-        bind.mostPlayedTracksTextViewClickable.setOnClickListener(v -> {
+        bind.mostPlayedAlbumsTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putString(Song.MOST_PLAYED, Song.MOST_PLAYED);
             activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
@@ -118,34 +125,44 @@ public class HomeFragment extends Fragment {
     private void initDiscoverSongSlideView() {
         bind.discoverSongViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
-        discoverSongAdapter = new DiscoverSongAdapter(activity, requireContext(), homeViewModel.getDiscoverSongList());
-        bind.discoverSongViewPager.setAdapter(discoverSongAdapter);
-        bind.discoverSongViewPager.setOffscreenPageLimit(3);
-        setDiscoverSongSlideViewOffset(20, 16);
-    }
+        homeViewModel.getSongRepository().getRandomSample(10, new MediaCallback() {
+            @Override
+            public void onError(Exception exception) {
+                Toast.makeText(requireContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
 
-    private void initMostPlayedSongView() {
-        bind.mostPlayedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        bind.mostPlayedTracksRecyclerView.setHasFixedSize(true);
-
-        mostPlayedMusicAdapter = new RecentMusicAdapter(activity, requireContext(), getChildFragmentManager());
-        bind.mostPlayedTracksRecyclerView.setAdapter(mostPlayedMusicAdapter);
-        homeViewModel.getMostPlayedSongList().observe(requireActivity(), songs -> {
-            if(songs.size() < 10) reorder();
-            if(bind != null) bind.homeMostPlayedTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
-            mostPlayedMusicAdapter.setItems(songs);
+            @Override
+            public void onLoadMedia(List<?> media) {
+                discoverSongAdapter = new DiscoverSongAdapter(activity, requireContext(), (List<Song>) media);
+                bind.discoverSongViewPager.setAdapter(discoverSongAdapter);
+                bind.discoverSongViewPager.setOffscreenPageLimit(3);
+                setDiscoverSongSlideViewOffset(20, 16);
+            }
         });
     }
 
-    private void initRecentPlayedSongView() {
-        bind.recentlyPlayedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        bind.recentlyPlayedTracksRecyclerView.setHasFixedSize(true);
+    private void initMostPlayedAlbumView() {
+        bind.mostPlayedAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        bind.mostPlayedAlbumsRecyclerView.setHasFixedSize(true);
 
-        recentlyPlayedMusicAdapter = new RecentMusicAdapter(activity, requireContext(), getChildFragmentManager());
-        bind.recentlyPlayedTracksRecyclerView.setAdapter(recentlyPlayedMusicAdapter);
-        homeViewModel.getRecentlyPlayedSongList().observe(requireActivity(), songs -> {
-            if(bind != null) bind.homeRecentlyPlayedTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
-            recentlyPlayedMusicAdapter.setItems(songs);
+        mostPlayedAlbumAdapter = new AlbumAdapter(requireContext());
+        bind.mostPlayedAlbumsRecyclerView.setAdapter(mostPlayedAlbumAdapter);
+        homeViewModel.getMostPlayedAlbums().observe(requireActivity(), albums -> {
+            if(albums.size() < 10) reorder();
+            if(bind != null) bind.homeMostPlayedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+            mostPlayedAlbumAdapter.setItems(albums);
+        });
+    }
+
+    private void initRecentPlayedAlbumView() {
+        bind.recentlyPlayedAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        bind.recentlyPlayedAlbumsRecyclerView.setHasFixedSize(true);
+
+        recentlyPlayedAlbumAdapter = new AlbumAdapter(requireContext());
+        bind.recentlyPlayedAlbumsRecyclerView.setAdapter(recentlyPlayedAlbumAdapter);
+        homeViewModel.getRecentlyPlayedAlbumList().observe(requireActivity(), albums -> {
+            if(bind != null) bind.homeRecentlyPlayedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+            recentlyPlayedAlbumAdapter.setItems(albums);
         });
     }
 
@@ -178,13 +195,15 @@ public class HomeFragment extends Fragment {
         pagerSnapHelper.attachToRecyclerView(bind.favoritesTracksRecyclerView);
     }
 
-    private void initRecentAddedSongView() {
-        bind.recentlyAddedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        bind.recentlyAddedTracksRecyclerView.setHasFixedSize(true);
+    private void initRecentAddedAlbumView() {
+        bind.recentlyAddedAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        bind.recentlyAddedAlbumsRecyclerView.setHasFixedSize(true);
 
-        recentlyAddedMusicAdapter = new RecentMusicAdapter(activity, requireContext(), getChildFragmentManager());
-        bind.recentlyAddedTracksRecyclerView.setAdapter(recentlyAddedMusicAdapter);
-        homeViewModel.getRecentlyAddedSongList().observe(requireActivity(), songs -> recentlyAddedMusicAdapter.setItems(songs));
+        recentlyAddedAlbumAdapter = new AlbumAdapter(requireContext());
+        bind.recentlyAddedAlbumsRecyclerView.setAdapter(recentlyAddedAlbumAdapter);
+        homeViewModel.getMostRecentlyAddedAlbums().observe(requireActivity(), albums -> {
+            recentlyAddedAlbumAdapter.setItems(albums);
+        });
     }
 
     private void initDownloadedSongView() {
@@ -225,12 +244,12 @@ public class HomeFragment extends Fragment {
         if(bind != null) {
             bind.homeLinearLayoutContainer.removeAllViews();
             bind.homeLinearLayoutContainer.addView(bind.homeDiscoverSector);
-            bind.homeLinearLayoutContainer.addView(bind.homeRecentlyAddedTracksSector);
+            bind.homeLinearLayoutContainer.addView(bind.homeRecentlyAddedAlbumsSector);
             bind.homeLinearLayoutContainer.addView(bind.homeFlashbackSector);
             bind.homeLinearLayoutContainer.addView(bind.homeFavoriteTracksSector);
             bind.homeLinearLayoutContainer.addView(bind.homeDownloadedTracksSector);
-            bind.homeLinearLayoutContainer.addView(bind.homeMostPlayedTracksSector);
-            bind.homeLinearLayoutContainer.addView(bind.homeRecentlyPlayedTracksSector);
+            bind.homeLinearLayoutContainer.addView(bind.homeMostPlayedAlbumsSector);
+            bind.homeLinearLayoutContainer.addView(bind.homeRecentlyPlayedAlbumsSector);
         }
     }
 }

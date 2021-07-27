@@ -52,7 +52,7 @@ public class App extends Application {
     }
 
     private static ApiClient getApiClient(Context context) {
-        String server = PreferenceUtil.getInstance(context).getServer();
+        String server = "http://192.168.1.81:8096";
 
         JellyfinOptions.Builder options = new JellyfinOptions.Builder();
         options.setLogger(new NullLogger());

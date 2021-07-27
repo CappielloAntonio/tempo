@@ -20,11 +20,6 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/landingFragment"
             app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_landingFragment_to_syncFragment"
-            app:destination="@id/syncFragment"
-            app:popUpTo="@id/landingFragment"
-            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -33,31 +28,9 @@
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_loginFragment_to_syncFragment"
-            app:destination="@id/syncFragment"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
-        <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/syncFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.SyncFragment"
-        android:label="SyncFragment"
-        tools:layout="@layout/fragment_sync">
-        <action
-            android:id="@+id/action_syncFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/syncFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_syncFragment_to_libraryFragment"
-            app:destination="@id/libraryFragment"
-            app:popUpTo="@id/syncFragment"
             app:popUpToInclusive="true" />
     </fragment>
 
@@ -67,16 +40,14 @@
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeFragment_to_syncFragment"
-            app:destination="@id/syncFragment"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true" />
-        <action
             android:id="@+id/action_homeFragment_to_songListPageFragment"
             app:destination="@id/songListPageFragment" />
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_albumPageFragment"
+            app:destination="@id/albumPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/libraryFragment"
@@ -105,11 +76,6 @@
             android:id="@+id/action_libraryFragment_to_songListPageFragment"
             app:destination="@id/songListPageFragment" />
         <action
-            android:id="@+id/action_libraryFragment_to_syncFragment"
-            app:destination="@id/syncFragment"
-            app:popUpTo="@id/libraryFragment"
-            app:popUpToInclusive="true" />
-        <action
             android:id="@+id/action_libraryFragment_to_playlistPageFragment"
             app:destination="@id/playlistPageFragment" />
     </fragment>
@@ -118,11 +84,6 @@
         android:name="com.cappielloantonio.play.ui.fragment.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings">
-        <action
-            android:id="@+id/action_settingsFragment_to_syncFragment"
-            app:destination="@id/syncFragment"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"

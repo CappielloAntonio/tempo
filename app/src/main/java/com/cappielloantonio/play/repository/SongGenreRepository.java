@@ -3,9 +3,7 @@ package com.cappielloantonio.play.repository;
 import android.app.Application;
 
 import com.cappielloantonio.play.database.AppDatabase;
-import com.cappielloantonio.play.database.dao.SongArtistCrossDao;
 import com.cappielloantonio.play.database.dao.SongGenreCrossDao;
-import com.cappielloantonio.play.model.SongArtistCross;
 import com.cappielloantonio.play.model.SongGenreCross;
 
 import java.util.List;

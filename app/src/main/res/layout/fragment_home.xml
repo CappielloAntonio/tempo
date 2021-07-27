@@ -65,9 +65,9 @@
                 android:paddingBottom="8dp" />
         </LinearLayout>
 
-        <!--  Most played tracks -->
+        <!--  Most played albums -->
         <LinearLayout
-            android:id="@+id/home_most_played_tracks_sector"
+            android:id="@+id/home_most_played_albums_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -93,7 +93,7 @@
 
 
                 <TextView
-                    android:id="@+id/most_played_tracks_text_view_clickable"
+                    android:id="@+id/most_played_albums_text_view_clickable"
                     style="@style/SubheadTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/most_played_tracks_recycler_view"
+                android:id="@+id/most_played_albums_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -117,9 +117,9 @@
                 android:paddingBottom="8dp" />
         </LinearLayout>
 
-        <!--  Recently played tracks -->
+        <!--  Recently played albums -->
         <LinearLayout
-            android:id="@+id/home_recently_played_tracks_sector"
+            android:id="@+id/home_recently_played_albums_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -145,7 +145,7 @@
 
 
                 <TextView
-                    android:id="@+id/recently_played_tracks_text_view_clickable"
+                    android:id="@+id/recently_played_albums_text_view_clickable"
                     style="@style/SubheadTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -157,7 +157,7 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recently_played_tracks_recycler_view"
+                android:id="@+id/recently_played_albums_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -301,9 +301,9 @@
                 android:paddingBottom="8dp" />
         </LinearLayout>
 
-        <!--  Recently added tracks -->
+        <!--  Recently added albums -->
         <LinearLayout
-            android:id="@+id/home_recently_added_tracks_sector"
+            android:id="@+id/home_recently_added_albums_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -329,7 +329,7 @@
 
 
                 <TextView
-                    android:id="@+id/recently_added_tracks_text_view_clickable"
+                    android:id="@+id/recently_added_albums_text_view_clickable"
                     style="@style/SubheadTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -341,7 +341,7 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recently_added_tracks_recycler_view"
+                android:id="@+id/recently_added_albums_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

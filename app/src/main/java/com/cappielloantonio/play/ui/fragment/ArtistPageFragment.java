@@ -114,7 +114,7 @@ public class ArtistPageFragment extends Fragment {
 
     private void initBackdrop() {
         CustomGlideRequest.Builder
-                .from(requireContext(), artistPageViewModel.getArtist().getBackdrop(), artistPageViewModel.getArtist().getBackdropBlurHash(), CustomGlideRequest.BACKDROP, PreferenceUtil.getInstance(requireContext()).getImageQuality(), CustomGlideRequest.ARTIST_PIC)
+                .from(requireContext(), artistPageViewModel.getArtist().getPrimary(), artistPageViewModel.getArtist().getPrimary(), CustomGlideRequest.ARTIST_PIC)
                 .build()
                 .into(bind.artistBackdropImageView);
     }

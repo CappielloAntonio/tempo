@@ -56,19 +56,6 @@
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
-        <Preference
-            android:key="@string/music_sync"
-            android:summary="@string/music_sync_caption"
-            android:title="@string/music_sync" />
-
-        <Preference
-            android:key="@string/playlist_song_cross_sync"
-            android:summary="@string/playlist_song_cross_sync_caption"
-            android:title="@string/playlist_song_cross_sync" />
-
-    </PreferenceCategory>
-
     <PreferenceCategory app:title="@string/about_header">
         <Preference
             app:selectable="false"

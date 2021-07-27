@@ -23,7 +23,7 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Album>> getAlbumList() {
-        albumList = albumRepository.getListLiveAlbums();
+        // albumList = albumRepository.getListLiveAlbums();
         return albumList;
     }
 

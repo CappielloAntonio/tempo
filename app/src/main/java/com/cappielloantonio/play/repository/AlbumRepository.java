@@ -3,16 +3,28 @@ package com.cappielloantonio.play.repository;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.AlbumDao;
 import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.subsonic.api.albumsonglist.AlbumSongListClient;
+import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
+import com.cappielloantonio.play.util.MappingUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class AlbumRepository {
     private static final String TAG = "AlbumRepository";
+
+    private AlbumSongListClient albumSongListClient;
 
     private AlbumDao albumDao;
     private LiveData<List<Album>> listLiveAlbums;
@@ -22,12 +34,30 @@ public class AlbumRepository {
 
 
     public AlbumRepository(Application application) {
+        albumSongListClient = App.getSubsonicClientInstance(application, false).getAlbumSongListClient();
+
         AppDatabase database = AppDatabase.getInstance(application);
         albumDao = database.albumDao();
     }
 
-    public LiveData<List<Album>> getListLiveAlbums() {
-        listLiveAlbums = albumDao.getAll();
+    public LiveData<List<Album>> getListLiveAlbums(String type, int size) {
+        MutableLiveData<List<Album>> listLiveAlbums = new MutableLiveData<>();
+
+        albumSongListClient
+                .getAlbumList2(type, size, 0)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        List<Album> albums = new ArrayList<>(MappingUtil.mapAlbum(response.body().getAlbumList2().getAlbums()));
+                        listLiveAlbums.setValue(albums);
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+
         return listLiveAlbums;
     }
 

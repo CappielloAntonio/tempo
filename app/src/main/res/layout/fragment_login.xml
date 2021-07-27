@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:hint="Password"
             android:inputType="textPassword"
-            android:text="hYP3%yD!rx@GBf95B2wbRUk8" />
+            android:text="!$4EBXhSPUi4$E#oagvAisCA" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:hint="Server URL"
             android:inputType="textNoSuggestions"
-            android:text="http://192.168.1.81:4747" />
+            android:text="http://192.168.1.81:4533" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

@@ -16,6 +16,7 @@ import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.PreferenceUtil;
@@ -85,8 +86,8 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
 
         @Override
         public void onClick(View view) {
-            SyncUtil.getInstantMix(context, new MediaCallback() {
-
+            SongRepository songRepository = new SongRepository(App.getInstance());
+            songRepository.getInstantMix(songs.get(getBindingAdapterPosition()), 20, new MediaCallback() {
                 @Override
                 public void onError(Exception exception) {
                     Log.e(TAG, "onError: " + exception.getMessage());
@@ -98,11 +99,11 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
                     List<Song> mix = queueRepository.insertMix((ArrayList<Song>) media);
 
                     activity.isBottomSheetInPeek(true);
-                    activity.setBottomSheetMusicInfo(mix.get(0));
+                    activity.setBottomSheetMusicInfo((Song) media.get(0));
 
-                    MusicPlayerRemote.openQueue(mix, 0, true);
+                    MusicPlayerRemote.openQueue((List<Song>) media, 0, true);
                 }
-            }, SyncUtil.SONG, songs.get(getBindingAdapterPosition()).getId(), PreferenceUtil.getInstance(context).getInstantMixSongNumber());
+            });
         }
     }
 }

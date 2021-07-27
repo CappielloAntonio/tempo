@@ -1,35 +1,24 @@
 package com.cappielloantonio.play.subsonic.models;
 
+import com.tickaroo.tikxml.annotation.Element;
+import com.tickaroo.tikxml.annotation.Xml;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Xml
 public class SimilarSongs2 {
+    @Element(name = "song")
     protected List<Child> songs;
 
-    /**
-     * Gets the value of the songs property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the songs property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getSongs().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Child }
-     */
     public List<Child> getSongs() {
         if (songs == null) {
-            songs = new ArrayList<Child>();
+            songs = new ArrayList<>();
         }
         return this.songs;
+    }
+
+    public void setSongs(List<Child> songs) {
+        this.songs = songs;
     }
 }

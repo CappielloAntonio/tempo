@@ -15,8 +15,7 @@ public class SubsonicPreferences {
         this.serverUrl = serverUrl;
         this.username = username;
         if(password != null) this.authentication = new SubsonicAuthentication(password);
-        if(token != null) this.authentication.setToken(token);
-        if(salt != null) this.authentication.setSalt(salt);
+        if(token != null && salt != null) this.authentication = new SubsonicAuthentication(token, salt);
     }
 
     public String getServerUrl() {
@@ -47,20 +46,17 @@ public class SubsonicPreferences {
             update(password);
         }
 
+        public SubsonicAuthentication(String token, String salt) {
+            this.token = token;
+            this.salt = salt;
+        }
+
         public String getSalt() {
             return salt;
         }
 
         public String getToken() {
             return token;
-        }
-
-        public void setSalt(String salt) {
-            this.salt = salt;
-        }
-
-        public void setToken(String token) {
-            this.token = token;
         }
 
         void update(String password) {

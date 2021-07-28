@@ -107,6 +107,9 @@ public class LoginFragment extends Fragment {
             PreferenceUtil.getInstance(requireContext()).setPassword(null);
             PreferenceUtil.getInstance(requireContext()).setToken(token);
             PreferenceUtil.getInstance(requireContext()).setSalt(salt);
+            return;
         }
+
+        App.getSubsonicClientInstance(requireContext(), true);
     }
 }

@@ -192,13 +192,13 @@ public class HomeFragment extends Fragment {
     }
 
     private void initStarredTracksView() {
-        bind.starredTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 5, GridLayoutManager.HORIZONTAL, false));
         bind.starredTracksRecyclerView.setHasFixedSize(true);
 
         starredSongAdapter = new SongHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
         bind.starredTracksRecyclerView.setAdapter(starredSongAdapter);
         homeViewModel.getStarredTracks().observe(requireActivity(), songs -> {
             if(bind != null) bind.homeStarredTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+            bind.starredTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), (songs.size() / 5) > 0 ? 5 : songs.size() % 5, GridLayoutManager.HORIZONTAL, false));
             starredSongAdapter.setItems(songs);
         });
 
@@ -207,13 +207,13 @@ public class HomeFragment extends Fragment {
     }
 
     private void initStarredAlbumsView() {
-        bind.starredAlbumsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 5, GridLayoutManager.HORIZONTAL, false));
         bind.starredAlbumsRecyclerView.setHasFixedSize(true);
 
         starredAlbumAdapter = new AlbumHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
         bind.starredAlbumsRecyclerView.setAdapter(starredAlbumAdapter);
         homeViewModel.getStarredAlbums().observe(requireActivity(), albums -> {
             if(bind != null) bind.homeStarredAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+            bind.starredAlbumsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), (albums.size() / 5) > 0 ? 5 : albums.size() % 5, GridLayoutManager.HORIZONTAL, false));
             starredAlbumAdapter.setItems(albums);
         });
 
@@ -222,13 +222,13 @@ public class HomeFragment extends Fragment {
     }
 
     private void initStarredArtistsView() {
-        bind.starredArtistsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 5, GridLayoutManager.HORIZONTAL, false));
         bind.starredArtistsRecyclerView.setHasFixedSize(true);
 
         starredArtistAdapter = new ArtistHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
         bind.starredArtistsRecyclerView.setAdapter(starredArtistAdapter);
         homeViewModel.getStarredArtists().observe(requireActivity(), artists -> {
             if(bind != null) bind.homeStarredArtistsSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+            bind.starredArtistsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), (artists.size() / 5) > 0 ? 5 : artists.size() % 5, GridLayoutManager.HORIZONTAL, false));
             starredArtistAdapter.setItems(artists);
         });
 

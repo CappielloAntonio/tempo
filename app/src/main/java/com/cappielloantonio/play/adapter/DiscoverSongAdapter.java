@@ -86,6 +86,16 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
 
         @Override
         public void onClick(View view) {
+            List<Song> opener = new ArrayList<>();
+            opener.add(songs.get(getBindingAdapterPosition()));
+            MusicPlayerRemote.openQueue(opener, 0, true);
+
+            QueueRepository queueRepository = new QueueRepository(App.getInstance());
+            queueRepository.insertAllAndStartNew(opener);
+
+            activity.isBottomSheetInPeek(true);
+            activity.setBottomSheetMusicInfo(songs.get(getBindingAdapterPosition()));
+
             SongRepository songRepository = new SongRepository(App.getInstance());
             songRepository.getInstantMix(songs.get(getBindingAdapterPosition()), 20, new MediaCallback() {
                 @Override
@@ -95,13 +105,7 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
 
                 @Override
                 public void onLoadMedia(List<?> media) {
-                    QueueRepository queueRepository = new QueueRepository(App.getInstance());
-                    List<Song> mix = queueRepository.insertMix((ArrayList<Song>) media);
-
-                    activity.isBottomSheetInPeek(true);
-                    activity.setBottomSheetMusicInfo((Song) media.get(0));
-
-                    MusicPlayerRemote.openQueue((List<Song>) media, 0, true);
+                    MusicPlayerRemote.enqueue((List<Song>) media);
                 }
             });
         }

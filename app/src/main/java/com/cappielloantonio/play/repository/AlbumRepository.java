@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.subsonic.api.albumsonglist.AlbumSongListClient;
 import com.cappielloantonio.play.subsonic.models.ResponseStatus;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.util.MappingUtil;
@@ -22,18 +21,18 @@ import retrofit2.Response;
 public class AlbumRepository {
     private static final String TAG = "AlbumRepository";
 
-    private AlbumSongListClient albumSongListClient;
+    private Application application;
 
     private MutableLiveData<List<Album>> listLiveRecentlyAddedAlbums = new MutableLiveData<>();
     private MutableLiveData<List<Album>> listLiveMostPlayedAlbums = new MutableLiveData<>();
     private MutableLiveData<List<Album>> listLiveRecentlyPlayedAlbums = new MutableLiveData<>();
 
     public AlbumRepository(Application application) {
-        albumSongListClient = App.getSubsonicClientInstance(application, false).getAlbumSongListClient();
+        this.application = application;
     }
 
     public LiveData<List<Album>> getListLiveAlbums(String type, int size) {
-        albumSongListClient
+        App.getSubsonicClientInstance(application, false).getAlbumSongListClient()
                 .getAlbumList2(type, size, 0)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
@@ -74,7 +73,7 @@ public class AlbumRepository {
     public MutableLiveData<List<Album>> getStarredAlbums() {
         MutableLiveData<List<Album>> starredAlbums = new MutableLiveData<>();
 
-        albumSongListClient
+        App.getSubsonicClientInstance(application, false).getAlbumSongListClient()
                 .getStarred2()
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override

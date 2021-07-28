@@ -54,7 +54,7 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
         Artist artist = artists.get(position);
 
         holder.artistName.setText(artist.getName());
-        holder.artistInfo.setText("--");
+        holder.artistInfo.setText("Album count: " + String.valueOf(artist.getAlbumCount()));
 
         CustomGlideRequest.Builder
                 .from(context, artist.getPrimary(), artist.getPrimaryBlurHash(), CustomGlideRequest.ARTIST_PIC)

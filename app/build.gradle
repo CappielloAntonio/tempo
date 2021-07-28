@@ -84,6 +84,8 @@ dependencies {
     implementation 'com.tickaroo.tikxml:core:0.9.0_11-SNAPSHOT'
     annotationProcessor 'com.tickaroo.tikxml:processor:0.9.0_11-SNAPSHOT'
     implementation 'com.tickaroo.tikxml:converter-date-rfc3339:0.9.0_11-SNAPSHOT'
+    implementation 'com.tickaroo.tikxml:converter-htmlescape:0.9.0_11-SNAPSHOT'
+
 
     // Database debugger via adb
     // debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'

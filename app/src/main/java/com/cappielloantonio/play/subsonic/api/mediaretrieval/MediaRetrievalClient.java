@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.cappielloantonio.play.subsonic.Subsonic;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
+import com.tickaroo.tikxml.TikXml;
+import com.tickaroo.tikxml.converter.htmlescape.HtmlEscapeStringConverter;
 import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory;
 
 import okhttp3.OkHttpClient;
@@ -23,7 +25,7 @@ public class MediaRetrievalClient {
 
         this.retrofit = new Retrofit.Builder()
                 .baseUrl(subsonic.getUrl())
-                .addConverterFactory(TikXmlConverterFactory.create())
+                .addConverterFactory(TikXmlConverterFactory.create(getParser()))
                 .client(getOkHttpClient())
                 .build();
 
@@ -38,6 +40,12 @@ public class MediaRetrievalClient {
     public Call<SubsonicResponse> download(String id) {
         Log.d(TAG, "download()");
         return mediaRetrievalService.download(subsonic.getParams(), id);
+    }
+
+    private TikXml getParser() {
+        return new TikXml.Builder()
+                .addTypeConverter(String.class, new HtmlEscapeStringConverter()) // HtmlEscapeStringConverter encode / decode html characters. This class ships as optional dependency
+                .build();
     }
 
     private OkHttpClient getOkHttpClient() {

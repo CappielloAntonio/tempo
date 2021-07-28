@@ -17,56 +17,32 @@ import java.util.List;
 @Entity(tableName = "artist")
 public class Artist implements Parcelable {
     private static final String TAG = "Artist";
-    @Ignore
+
     public List<Genre> genres;
-    @Ignore
     public List<Album> albums;
-    @Ignore
     public List<Song> songs;
 
-    @NonNull
-    @PrimaryKey
-    @ColumnInfo(name = "id")
     public String id;
-
-    @ColumnInfo(name = "name")
     public String name;
-
-    @ColumnInfo(name = "primary")
     public String primary;
-
-    @ColumnInfo(name = "primary_blurHash")
     public String primaryBlurHash;
-
-    @ColumnInfo(name = "backdrop")
     public String backdrop;
-
-    @ColumnInfo(name = "backdrop_blurHash")
     public String backdropBlurHash;
-
-    public Artist(@NonNull String id, String name, String primary, String primaryBlurHash, String backdrop, String backdropBlurHash) {
-        this.id = id;
-        this.name = name;
-        this.primary = primary;
-        this.primaryBlurHash = primaryBlurHash;
-        this.backdrop = backdrop;
-        this.backdropBlurHash = backdropBlurHash;
-    }
+    public int albumCount;
 
     public Artist(ArtistID3 artistID3) {
         this.id = artistID3.getId();
         this.name = artistID3.getName();
         this.primary = artistID3.getCoverArtId() != null ? artistID3.getCoverArtId() : artistID3.getId();
         this.backdrop = artistID3.getCoverArtId();
+        this.albumCount = artistID3.getAlbumCount();
     }
 
-    @Ignore
     public Artist(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    @NonNull
     public String getId() {
         return id;
     }
@@ -113,6 +89,14 @@ public class Artist implements Parcelable {
 
     public void setBackdropBlurHash(String backdropBlurHash) {
         this.backdropBlurHash = backdropBlurHash;
+    }
+
+    public int getAlbumCount() {
+        return albumCount;
+    }
+
+    public void setAlbumCount(int albumCount) {
+        this.albumCount = albumCount;
     }
 
     @Override

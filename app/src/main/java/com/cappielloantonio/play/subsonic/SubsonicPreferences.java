@@ -7,16 +7,16 @@ import java.util.UUID;
 public class SubsonicPreferences {
     private String serverUrl;
     private String username;
-    private String clientName = "SubsonicJavaClient";
-    private int streamBitRate = 320;
-    private String streamFormat = "mp3";
+    private String clientName = "Play for Subsonic";
 
-    private final SubsonicAuthentication authentication;
+    private SubsonicAuthentication authentication;
 
-    public SubsonicPreferences(String serverUrl, String username, String password) {
+    public SubsonicPreferences(String serverUrl, String username, String password, String token, String salt) {
         this.serverUrl = serverUrl;
         this.username = username;
-        this.authentication = new SubsonicAuthentication(password);
+        if(password != null) this.authentication = new SubsonicAuthentication(password);
+        if(token != null) this.authentication.setToken(token);
+        if(salt != null) this.authentication.setSalt(salt);
     }
 
     public String getServerUrl() {
@@ -29,14 +29,6 @@ public class SubsonicPreferences {
 
     public String getClientName() {
         return clientName;
-    }
-
-    public int getStreamBitRate() {
-        return streamBitRate;
-    }
-
-    public String getStreamFormat() {
-        return streamFormat;
     }
 
     public SubsonicAuthentication getAuthentication() {
@@ -61,6 +53,14 @@ public class SubsonicPreferences {
 
         public String getToken() {
             return token;
+        }
+
+        public void setSalt(String salt) {
+            this.salt = salt;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
         }
 
         void update(String password) {

@@ -20,6 +20,7 @@ public class PreferenceUtil {
     public static final String USER = "user";
     public static final String PASSWORD = "password";
     public static final String TOKEN = "token";
+    public static final String SALT = "salt";
     public static final String MUSIC_LIBRARY_ID = "music_library_id";
     public static final String POSITION = "position";
     public static final String PROGRESS = "progress";
@@ -93,6 +94,16 @@ public class PreferenceUtil {
     public void setToken(String token) {
         final SharedPreferences.Editor editor = mPreferences.edit();
         editor.putString(TOKEN, token);
+        editor.apply();
+    }
+
+    public String getSalt() {
+        return mPreferences.getString(SALT, null);
+    }
+
+    public void setSalt(String salt) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putString(SALT, salt);
         editor.apply();
     }
 

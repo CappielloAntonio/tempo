@@ -14,18 +14,10 @@ import androidx.fragment.app.Fragment;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.databinding.FragmentLoginBinding;
-import com.cappielloantonio.play.helper.ErrorHelper;
-import com.cappielloantonio.play.subsonic.models.Genre;
-import com.cappielloantonio.play.subsonic.models.ResponseStatus;
-import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
+import com.cappielloantonio.play.interfaces.SystemCallback;
+import com.cappielloantonio.play.repository.SystemRepository;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.PreferenceUtil;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
 
 public class LoginFragment extends Fragment {
     private static final String TAG = "LoginFragment";
@@ -36,6 +28,8 @@ public class LoginFragment extends Fragment {
     private String username;
     private String password;
     private String server;
+
+    private SystemRepository systemRepository;
 
     @Nullable
     @Override
@@ -56,9 +50,11 @@ public class LoginFragment extends Fragment {
     }
 
     private void init() {
+        systemRepository = new SystemRepository(App.getInstance());
+
         bind.loginButton.setOnClickListener(v -> {
             if (validateInput()) {
-                saveServerPreference(server, username, password);
+                saveServerPreference(server, username, password, null, null);
                 authenticate();
             }
         });
@@ -82,36 +78,35 @@ public class LoginFragment extends Fragment {
         return true;
     }
 
-    private void saveServerPreference(String server, String user, String password) {
-        PreferenceUtil.getInstance(requireContext()).setUser(user);
-        PreferenceUtil.getInstance(requireContext()).setServer(server);
-        PreferenceUtil.getInstance(requireContext()).setPassword(password);
-    }
-
     private void authenticate() {
-        App.getSubsonicClientInstance(requireContext(), true)
-                .getSystemClient()
-                .ping()
-                .enqueue(new Callback<SubsonicResponse>() {
-                    @Override
-                    public void onResponse(Call<SubsonicResponse> call, retrofit2.Response<SubsonicResponse> response) {
-                        if (response.body().getStatus().getValue().equals(ResponseStatus.FAILED)) {
-                            ErrorHelper.handle(requireContext(), response.body().getError().getCode().getValue(), response.body().getError().getMessage());
-                        } else if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
-                            enter();
-                        } else {
-                            Toast.makeText(requireContext(), "Empty response", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
-                        Log.e(TAG, t.getMessage());
-                        Toast.makeText(requireContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
+        systemRepository.checkUserCredential(new SystemCallback() {
+            @Override
+            public void onError(Exception exception) {
+                Log.e(TAG, exception.getMessage());
+                Toast.makeText(requireContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onSuccess(String token, String salt) {
+                saveServerPreference(null, null, null, token, salt);
+                enter();
+            }
+        });
     }
 
     private void enter() {
         activity.goFromLogin();
+    }
+
+    private void saveServerPreference(String server, String user, String password, String token, String salt) {
+        if (user != null) PreferenceUtil.getInstance(requireContext()).setUser(user);
+        if (server != null) PreferenceUtil.getInstance(requireContext()).setServer(server);
+        if (password != null) PreferenceUtil.getInstance(requireContext()).setPassword(password);
+
+        if (token != null && salt != null) {
+            PreferenceUtil.getInstance(requireContext()).setPassword(null);
+            PreferenceUtil.getInstance(requireContext()).setToken(token);
+            PreferenceUtil.getInstance(requireContext()).setSalt(salt);
+        }
     }
 }

@@ -12,24 +12,17 @@ import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.GenreRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
-import com.cappielloantonio.play.repository.PlaylistSongRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
-import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.subsonic.models.Genre;
-import com.cappielloantonio.play.util.MappingUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class SyncViewModel extends AndroidViewModel {
     private static final String TAG = "SyncViewModel";
-    
+
     private boolean syncAlbum = false;
     private boolean syncArtist = false;
     private boolean syncGenres = false;
@@ -47,7 +40,6 @@ public class SyncViewModel extends AndroidViewModel {
     private ArtistRepository artistRepository;
     private PlaylistRepository playlistRepository;
     private GenreRepository genreRepository;
-    private PlaylistSongRepository playlistSongRepository;
 
     public SyncViewModel(@NonNull Application application) {
         super(application);
@@ -57,7 +49,6 @@ public class SyncViewModel extends AndroidViewModel {
         artistRepository = new ArtistRepository(application);
         playlistRepository = new PlaylistRepository(application);
         genreRepository = new GenreRepository(application);
-        playlistSongRepository = new PlaylistSongRepository(application);
     }
 
     public void setArguemnts(Bundle bundle) {
@@ -130,15 +121,5 @@ public class SyncViewModel extends AndroidViewModel {
 
     public void addToSongList(ArrayList<Song> songList) {
         this.songList.addAll(songList);
-    }
-
-    public Map<Integer, Song> getCatalogue() {
-        Map<Integer, Song> map = new HashMap<>();
-
-        for (Song song : songRepository.getCatalogue()) {
-            map.put(song.hashCode(), song);
-        }
-
-        return map;
     }
 }

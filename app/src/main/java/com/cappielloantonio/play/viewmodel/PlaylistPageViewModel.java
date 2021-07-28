@@ -28,12 +28,13 @@ public class PlaylistPageViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Song>> getPlaylistSongLiveList() {
-        songLiveList = songRepository.getPlaylistLiveSong(playlist.getId());
+        // songLiveList = songRepository.getPlaylistLiveSong(playlist.getId());
         return songLiveList;
     }
 
     public List<Song> getPlaylistSongList() {
-        return songRepository.getPlaylistSong(playlist.getId());
+        // return songRepository.getPlaylistSong(playlist.getId());
+        return null;
     }
 
     public Playlist getPlaylist() {

@@ -15,135 +15,46 @@ import com.cappielloantonio.play.subsonic.models.Child;
 import java.time.Instant;
 import java.util.UUID;
 
-@Entity(tableName = "song")
 public class Song implements Parcelable {
     private static final String TAG = "SongClass";
 
-    @Ignore
     public static final String RECENTLY_PLAYED = "RECENTLY_PLAYED";
-
-    @Ignore
     public static final String MOST_PLAYED = "MOST_PLAYED";
-
-    @Ignore
     public static final String RECENTLY_ADDED = "RECENTLY_ADDED";
-
-    @Ignore
     public static final String BY_GENRE = "BY_GENRE";
-
-    @Ignore
     public static final String BY_GENRES = "BY_GENRES";
-
-    @Ignore
     public static final String BY_ARTIST = "BY_ARTIST";
-
-    @Ignore
     public static final String BY_YEAR = "BY_YEAR";
-
-    @Ignore
     public static final String IS_FAVORITE = "IS_FAVORITE";
-
-    @Ignore
     public static final String DOWNLOADED = "DOWNLOADED";
-
-    @Ignore
     public static final String RADIO = "RADIO";
 
-    @NonNull
-    @PrimaryKey
-    @ColumnInfo(name = "id")
     private String id;
-
-    @ColumnInfo(name = "title")
     private String title;
-
-    @ColumnInfo(name = "trackNumber")
     private int trackNumber;
-
-    @ColumnInfo(name = "discNumber")
     private int discNumber;
-
-    @ColumnInfo(name = "year")
     private int year;
-
-    @ColumnInfo(name = "duration")
     private long duration;
-
-    @ColumnInfo(name = "albumId")
     private String albumId;
-
-    @ColumnInfo(name = "albumName")
     private String albumName;
-
-    @ColumnInfo(name = "artistId")
     private String artistId;
-
-    @ColumnInfo(name = "artistName")
     private String artistName;
-
-    @ColumnInfo(name = "primary")
     private String primary;
-
-    @ColumnInfo(name = "blurHash")
     private String blurHash;
-
-    @ColumnInfo(name = "favorite")
     private boolean favorite;
-
-    @ColumnInfo(name = "path")
     private String path;
-
-    @ColumnInfo(name = "size")
     private long size;
-
-    @ColumnInfo(name = "container")
     private String container;
-
-    @ColumnInfo(name = "bitRate")
     private int bitRate;
-
-    @ColumnInfo(name = "added")
     private long added;
-
-    @ColumnInfo(name = "play_count")
     private int playCount;
-
-    @ColumnInfo(name = "last_play")
     private long lastPlay;
-
-    @ColumnInfo(name = "offline")
     private boolean offline;
 
-    public Song(@NonNull String id, String title, int trackNumber, int discNumber, int year, long duration, String albumId, String albumName, String artistId, String artistName, String primary, String blurHash, boolean favorite, String path, long size, String container, int bitRate, long added, int playCount, long lastPlay, boolean offline) {
-        this.id = id;
-        this.title = title;
-        this.trackNumber = trackNumber;
-        this.discNumber = discNumber;
-        this.year = year;
-        this.duration = duration;
-        this.albumId = albumId;
-        this.albumName = albumName;
-        this.artistId = artistId;
-        this.artistName = artistName;
-        this.primary = primary;
-        this.blurHash = blurHash;
-        this.favorite = favorite;
-        this.path = path;
-        this.size = size;
-        this.container = container;
-        this.bitRate = bitRate;
-        this.added = added;
-        this.playCount = playCount;
-        this.lastPlay = lastPlay;
-        this.offline = offline;
-    }
-
-    @Ignore
     public Song() {
         this.id = UUID.randomUUID().toString();
     }
 
-    @Ignore
     public Song(Child child) {
         this.id = child.getId();
         this.title = child.getTitle();
@@ -167,7 +78,16 @@ public class Song implements Parcelable {
         this.offline = false;
     }
 
-    @NonNull
+    public Song(Queue queue) {
+        this.id = queue.getSongID();
+        this.title = queue.getTitle();
+        this.albumId = queue.getAlbumId();
+        this.albumName = queue.getAlbumName();
+        this.artistId = queue.getArtistId();
+        this.artistName = queue.getArtistName();
+        this.primary = queue.getPrimary();
+    }
+
     public String getId() {
         return id;
     }
@@ -252,7 +172,7 @@ public class Song implements Parcelable {
         return offline;
     }
 
-    public void setId(@NonNull String id) {
+    public void setId(String id) {
         this.id = id;
     }
 

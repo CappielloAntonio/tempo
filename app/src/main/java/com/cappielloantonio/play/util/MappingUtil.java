@@ -2,6 +2,7 @@ package com.cappielloantonio.play.util;
 
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
@@ -39,5 +40,15 @@ public class MappingUtil {
         }
 
         return artists;
+    }
+
+    public static ArrayList<Song> mapQueue(List<Queue> queueList) {
+        ArrayList<Song> songs = new ArrayList();
+
+        for(Queue item : queueList){
+            songs.add(new Song(item));
+        }
+
+        return songs;
     }
 }

@@ -27,6 +27,7 @@ import com.cappielloantonio.play.helper.MusicProgressViewUpdateHelper;
 import com.cappielloantonio.play.interfaces.MusicServiceEventListener;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
@@ -103,7 +104,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
         playerNowPlayingSongAdapter = new PlayerNowPlayingSongAdapter(requireContext());
         bind.playerBodyLayout.playerSongCoverViewPager.setAdapter(playerNowPlayingSongAdapter);
-        playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), songs -> playerNowPlayingSongAdapter.setItems(songs));
+        playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), queue -> playerNowPlayingSongAdapter.setItems(MappingUtil.mapQueue(queue)));
 
         bind.playerBodyLayout.playerSongCoverViewPager.setOffscreenPageLimit(3);
         bind.playerBodyLayout.playerSongCoverViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -140,7 +141,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
         playerSongQueueAdapter = new PlayerSongQueueAdapter(requireContext(), this);
         bind.playerBodyLayout.playerQueueRecyclerView.setAdapter(playerSongQueueAdapter);
-        playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), songs -> playerSongQueueAdapter.setItems(songs));
+        playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), queue -> playerSongQueueAdapter.setItems(MappingUtil.mapQueue(queue)));
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
             int originalPosition = -1;

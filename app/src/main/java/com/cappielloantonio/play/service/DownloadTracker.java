@@ -86,14 +86,8 @@ public class DownloadTracker {
                 DownloadService.sendAddDownload(context, DownloaderService.class, getDownloadRequest(song.getId(), mediaItem.playbackProperties.uri), false);
             }
 
-            songRepository.setOfflineStatus(song);
+            // songRepository.setOfflineStatus(song);
         }
-    }
-
-    public void removeAllDownloads() {
-        SongRepository songRepository = new SongRepository(App.getInstance());
-        songRepository.setAllOffline();
-        DownloadService.sendRemoveAllDownloads(context, DownloaderService.class, false);
     }
 
     private void loadDownloads() {

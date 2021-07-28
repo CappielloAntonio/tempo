@@ -34,31 +34,31 @@ public class SongListPageViewModel extends AndroidViewModel {
     public LiveData<List<Song>> getSongList() {
         switch (title) {
             case Song.RECENTLY_PLAYED:
-                songList = songRepository.getListLiveRecentlyPlayedSampleSong(100);
+                // songList = songRepository.getListLiveRecentlyPlayedSampleSong(100);
                 break;
             case Song.MOST_PLAYED:
-                songList = songRepository.getListLiveMostPlayedSampleSong(100);
+                // songList = songRepository.getListLiveMostPlayedSampleSong(100);
                 break;
             case Song.RECENTLY_ADDED:
-                songList = songRepository.getListLiveRecentlyAddedSampleSong(100);
+                // songList = songRepository.getListLiveRecentlyAddedSampleSong(100);
                 break;
             case Song.BY_GENRE:
-                songList = songRepository.getListLiveSongByGenre(genre.getId());
+                // songList = songRepository.getListLiveSongByGenre(genre.getId());
                 break;
             case Song.BY_ARTIST:
-                songList = songRepository.getArtistListLiveTopSong(artist.getId());
+                // songList = songRepository.getArtistListLiveTopSong(artist.getId());
                 break;
             case Song.BY_GENRES:
-                songList = songRepository.getFilteredListLiveSong(filters);
+                // songList = songRepository.getFilteredListLiveSong(filters);
                 break;
             case Song.BY_YEAR:
-                songList = songRepository.getSongByYearListLive(year);
+                // songList = songRepository.getSongByYearListLive(year);
                 break;
             case Song.IS_FAVORITE:
-                songList = songRepository.getListLiveFavoritesSong();
+                // songList = songRepository.getListLiveFavoritesSong();
                 break;
             case Song.DOWNLOADED:
-                songList = songRepository.getListLiveDownloadedSong();
+                // songList = songRepository.getListLiveDownloadedSong();
                 break;
         }
 

@@ -37,14 +37,16 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
 
     public void setFavorite() {
         song.setFavorite(!song.isFavorite());
-        songRepository.setFavoriteStatus(song);
+        // songRepository.setFavoriteStatus(song);
     }
 
     public Album getAlbum() {
-        return albumRepository.getAlbumByID(song.getAlbumId());
+        // return albumRepository.getAlbumByID(song.getAlbumId());
+        return null;
     }
 
     public Artist getArtist() {
-        return artistRepository.getArtistByID(song.getArtistId());
+        // return artistRepository.getArtistByID(song.getArtistId());
+        return null;
     }
 }

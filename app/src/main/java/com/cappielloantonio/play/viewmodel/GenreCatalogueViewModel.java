@@ -23,7 +23,7 @@ public class GenreCatalogueViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Genre>> getGenreList() {
-        genreList = genreRepository.getListLiveGenres();
+        // genreList = genreRepository.getListLiveGenres();
         return genreList;
     }
 }

@@ -6,8 +6,9 @@ import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.QueueDao;
-import com.cappielloantonio.play.database.dao.SongDao;
+import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.QueueUtil;
 
 import java.util.ArrayList;
@@ -16,17 +17,15 @@ import java.util.List;
 public class QueueRepository {
     private static final String TAG = "QueueRepository";
 
-    private SongDao songDao;
     private QueueDao queueDao;
-    private LiveData<List<Song>> listLiveQueue;
+    private LiveData<List<Queue>> listLiveQueue;
 
     public QueueRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
-        songDao = database.songDao();
         queueDao = database.queueDao();
     }
 
-    public LiveData<List<Song>> getLiveQueue() {
+    public LiveData<List<Queue>> getLiveQueue() {
         listLiveQueue = queueDao.getAll();
         return listLiveQueue;
     }
@@ -58,7 +57,7 @@ public class QueueRepository {
         List<String> IDs = QueueUtil.getIDsFromSongs(media);
         List<Song> mix = new ArrayList<>();
 
-        GetSongsByIDThreadSafe getSongsByIDThreadSafe = new GetSongsByIDThreadSafe(songDao, IDs);
+        /*GetSongsByIDThreadSafe getSongsByIDThreadSafe = new GetSongsByIDThreadSafe(songDao, IDs);
         Thread thread = new Thread(getSongsByIDThreadSafe);
         thread.start();
 
@@ -69,7 +68,7 @@ public class QueueRepository {
             insertAllAndStartNew(mix);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
 
         return mix;
     }
@@ -90,12 +89,6 @@ public class QueueRepository {
 
     public void deleteByPosition(int position) {
         DeleteByPositionThreadSafe delete = new DeleteByPositionThreadSafe(queueDao, position);
-        Thread thread = new Thread(delete);
-        thread.start();
-    }
-
-    public void deleteAll() {
-        DeleteAllThreadSafe delete = new DeleteAllThreadSafe(queueDao);
         Thread thread = new Thread(delete);
         thread.start();
     }
@@ -127,27 +120,7 @@ public class QueueRepository {
 
         @Override
         public void run() {
-            songs = queueDao.getAllSimple();
-        }
-
-        public List<Song> getSongs() {
-            return songs;
-        }
-    }
-
-    private static class GetSongsByIDThreadSafe implements Runnable {
-        private SongDao songDao;
-        private List<String> IDs;
-        private List<Song> songs;
-
-        public GetSongsByIDThreadSafe(SongDao songDao, List<String> IDs) {
-            this.songDao = songDao;
-            this.IDs = IDs;
-        }
-
-        @Override
-        public void run() {
-            songs = songDao.getSongsByID(IDs);
+            songs = MappingUtil.mapQueue(queueDao.getAllSimple());
         }
 
         public List<Song> getSongs() {

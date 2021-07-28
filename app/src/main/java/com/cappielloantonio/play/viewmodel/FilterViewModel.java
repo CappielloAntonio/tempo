@@ -26,7 +26,7 @@ public class FilterViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Genre>> getGenreList() {
-        allGenres = genreRepository.getListLiveGenres();
+        // allGenres = genreRepository.getListLiveGenres();
         return allGenres;
     }
 

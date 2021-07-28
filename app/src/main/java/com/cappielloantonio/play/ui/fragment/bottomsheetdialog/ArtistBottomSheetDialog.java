@@ -98,7 +98,8 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
 
         playRandom = view.findViewById(R.id.play_random_text_view);
         playRandom.setOnClickListener(v -> {
-            List<Song> songs = songRepository.getArtistListLiveRandomSong(artist.getId());
+            // List<Song> songs = songRepository.getArtistListLiveRandomSong(artist.getId());
+            List<Song> songs = new ArrayList<>();
 
             if(songs.size() > 0) {
                 QueueRepository queueRepository = new QueueRepository(App.getInstance());

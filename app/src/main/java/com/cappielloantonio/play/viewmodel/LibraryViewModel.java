@@ -38,15 +38,15 @@ public class LibraryViewModel extends AndroidViewModel {
 
         // Inizializzate all'interno del costruttore, in modo da rimanere immutabili per tutto il
         // ciclo di vita dell'applicazione
-        sampleAlbum = albumRepository.getListLiveSampleAlbum();
-        sampleArtist = artistRepository.getListLiveSampleArtist();
-        sampleGenres = genreRepository.getListLiveSampleGenre();
-        playlistSample = playlistRepository.getRandomSample(5);
+        // sampleAlbum = albumRepository.getListLiveSampleAlbum();
+        // sampleArtist = artistRepository.getListLiveSampleArtist();
+        // sampleGenres = genreRepository.getListLiveSampleGenre();
+        // playlistSample = playlistRepository.getRandomSample(5);
     }
 
     public List<Playlist> getPlaylistSample() {
         if (playlistSample.isEmpty()) {
-            playlistSample = playlistRepository.getRandomSample(5);
+            // playlistSample = playlistRepository.getRandomSample(5);
         }
 
         return playlistSample;

@@ -110,7 +110,8 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
         playRandom = view.findViewById(R.id.play_random_text_view);
         playRandom.setOnClickListener(v -> {
-            List<Song> songs = songRepository.getAlbumListSong(album.getId(), true);
+            // List<Song> songs = songRepository.getAlbumListSong(album.getId(), true);
+            List<Song> songs = new ArrayList<>();
 
             QueueRepository queueRepository = new QueueRepository(App.getInstance());
             queueRepository.insertAllAndStartNew(songs);
@@ -122,21 +123,21 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
         playNext = view.findViewById(R.id.play_next_text_view);
         playNext.setOnClickListener(v -> {
-            MusicPlayerRemote.playNext(songRepository.getAlbumListSong(album.getId(), false));
+            // MusicPlayerRemote.playNext(songRepository.getAlbumListSong(album.getId(), false));
             ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
             dismissBottomSheet();
         });
 
         addToQueue = view.findViewById(R.id.add_to_queue_text_view);
         addToQueue.setOnClickListener(v -> {
-            MusicPlayerRemote.enqueue(songRepository.getAlbumListSong(album.getId(), false));
+            // MusicPlayerRemote.enqueue(songRepository.getAlbumListSong(album.getId(), false));
             dismissBottomSheet();
         });
 
         Download = view.findViewById(R.id.download_text_view);
         Download.setOnClickListener(v -> {
-            List<Song> songs = songRepository.getAlbumListSong(album.getId(), false);
-            DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(songs);
+            // List<Song> songs = songRepository.getAlbumListSong(album.getId(), false);
+            // DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(songs);
             dismissBottomSheet();
         });
 

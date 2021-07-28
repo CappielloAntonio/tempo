@@ -32,17 +32,17 @@ public class ArtistPageViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Album>> getAlbumList() {
-        albumList = albumRepository.getArtistListLiveAlbums(artist.id);
+        // albumList = albumRepository.getArtistListLiveAlbums(artist.id);
         return albumList;
     }
 
     public List<Song> getArtistRandomSongList() {
-        randomList = songRepository.getArtistListLiveRandomSong(artist.id);
+        // randomList = songRepository.getArtistListLiveRandomSong(artist.id);
         return randomList;
     }
 
     public LiveData<List<Song>> getArtistTopSongList() {
-        songList = songRepository.getArtistListLiveTopSongSample(artist.id);
+        // songList = songRepository.getArtistListLiveTopSongSample(artist.id);
         return songList;
     }
 

@@ -29,6 +29,7 @@ public class AlbumBottomSheetViewModel extends AndroidViewModel {
     }
 
     public Artist getArtist() {
-        return artistRepository.getArtistByID(album.getArtistId());
+        // return artistRepository.getArtistByID(album.getArtistId());
+        return null;
     }
 }

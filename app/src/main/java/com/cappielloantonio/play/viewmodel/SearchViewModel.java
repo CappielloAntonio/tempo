@@ -62,22 +62,22 @@ public class SearchViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Song>> searchSong(String title, Context context) {
-        searchSong = songRepository.searchListLiveSong(title, PreferenceUtil.getInstance(context).getSearchElementPerCategory());
+        // searchSong = songRepository.searchListLiveSong(title, PreferenceUtil.getInstance(context).getSearchElementPerCategory());
         return searchSong;
     }
 
     public LiveData<List<Album>> searchAlbum(String name, Context context) {
-        searchAlbum = albumRepository.searchListLiveAlbum(name, PreferenceUtil.getInstance(context).getSearchElementPerCategory());
+        // searchAlbum = albumRepository.searchListLiveAlbum(name, PreferenceUtil.getInstance(context).getSearchElementPerCategory());
         return searchAlbum;
     }
 
     public LiveData<List<Artist>> searchArtist(String name, Context context) {
-        searchArtist = artistRepository.searchListLiveArtist(name, PreferenceUtil.getInstance(context).getSearchElementPerCategory());
+        // searchArtist = artistRepository.searchListLiveArtist(name, PreferenceUtil.getInstance(context).getSearchElementPerCategory());
         return searchArtist;
     }
 
     public LiveData<List<Genre>> searchGenre(String name, Context context) {
-        searchGenre = genreRepository.searchListLiveGenre(name, PreferenceUtil.getInstance(context).getSearchElementPerCategory());
+        // searchGenre = genreRepository.searchListLiveGenre(name, PreferenceUtil.getInstance(context).getSearchElementPerCategory());
         return searchGenre;
     }
 
@@ -91,10 +91,10 @@ public class SearchViewModel extends AndroidViewModel {
 
     public List<String> getSearchSuggestion(String query) {
         ArrayList<String> suggestions = new ArrayList<>();
-        suggestions.addAll(songRepository.getSearchSuggestion(query));
-        suggestions.addAll(albumRepository.getSearchSuggestion(query));
-        suggestions.addAll(artistRepository.getSearchSuggestion(query));
-        suggestions.addAll(genreRepository.getSearchSuggestion(query));
+        // suggestions.addAll(songRepository.getSearchSuggestion(query));
+        // suggestions.addAll(albumRepository.getSearchSuggestion(query));
+        // suggestions.addAll(artistRepository.getSearchSuggestion(query));
+        // suggestions.addAll(genreRepository.getSearchSuggestion(query));
 
         LinkedHashSet<String> hashSet = new LinkedHashSet<>(suggestions);
         ArrayList<String> suggestionsWithoutDuplicates = new ArrayList<>(hashSet);

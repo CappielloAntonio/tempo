@@ -23,7 +23,7 @@ public class ArtistCatalogueViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Artist>> getArtistList() {
-        artistList = artistRepository.getListLiveArtists();
+        // artistList = artistRepository.getListLiveArtists();
         return artistList;
     }
 }

@@ -23,7 +23,7 @@ public class PlaylistCatalogueViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Playlist>> getPlaylistList() {
-        playlistList = playlistRepository.getListLivePlaylists();
+        // playlistList = playlistRepository.getListLivePlaylists();
         return playlistList;
     }
 }

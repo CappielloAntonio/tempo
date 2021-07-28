@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
@@ -19,7 +20,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     private SongRepository songRepository;
     private QueueRepository queueRepository;
 
-    private LiveData<List<Song>> queueSong;
+    private LiveData<List<Queue>> queueSong;
 
     public PlayerBottomSheetViewModel(@NonNull Application application) {
         super(application);
@@ -30,14 +31,14 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         queueSong = queueRepository.getLiveQueue();
     }
 
-    public LiveData<List<Song>> getQueueSong() {
+    public LiveData<List<Queue>> getQueueSong() {
         return queueSong;
     }
 
     public void setFavorite() {
         Song song = MusicPlayerRemote.getCurrentSong();
         song.setFavorite(!song.isFavorite());
-        songRepository.setFavoriteStatus(song);
+        // songRepository.setFavoriteStatus(song);
     }
 
     public void orderSongAfterSwap(List<Song> songs) {

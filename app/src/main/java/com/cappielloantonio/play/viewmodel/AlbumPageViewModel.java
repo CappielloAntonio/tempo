@@ -30,12 +30,13 @@ public class AlbumPageViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Song>> getAlbumSongLiveList() {
-        songLiveList = songRepository.getAlbumListLiveSong(album.getId());
+        // songLiveList = songRepository.getAlbumListLiveSong(album.getId());
         return songLiveList;
     }
 
     public List<Song> getAlbumSongList() {
-        return songRepository.getAlbumListSong(album.getId(), false);
+        // return songRepository.getAlbumListSong(album.getId(), false);
+        return null;
     }
 
     public Album getAlbum() {
@@ -47,6 +48,7 @@ public class AlbumPageViewModel extends AndroidViewModel {
     }
 
     public Artist getArtist() {
-        return artistRepository.getArtistByID(album.getArtistId());
+        // return artistRepository.getArtistByID(album.getArtistId());
+        return null;
     }
 }

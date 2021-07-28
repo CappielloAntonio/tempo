@@ -13,11 +13,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Subsonic {
-    private final SubsonicPreferences preferences;
-
     private static final Version API_MAX_VERSION = Version.of("1.15.0");
 
     private Version apiVersion = API_MAX_VERSION;
+    private SubsonicPreferences preferences;
 
     private SystemClient systemClient;
     private BrowsingClient browsingClient;
@@ -28,10 +27,6 @@ public class Subsonic {
 
     public Subsonic(SubsonicPreferences preferences) {
         this.preferences = preferences;
-    }
-
-    public SubsonicPreferences getPreferences() {
-        return preferences;
     }
 
     public Version getApiVersion() {

@@ -7,8 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.subsonic.api.albumsonglist.AlbumSongListClient;
-import com.cappielloantonio.play.subsonic.api.browsing.BrowsingClient;
 import com.cappielloantonio.play.subsonic.models.ResponseStatus;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.util.MappingUtil;
@@ -23,18 +21,16 @@ import retrofit2.Response;
 public class SongRepository {
     private static final String TAG = "SongRepository";
 
-    private AlbumSongListClient albumSongListClient;
-    private BrowsingClient browsingClient;
+    private Application application;
 
     private MutableLiveData<List<Song>> starredSongs = new MutableLiveData<>();
 
     public SongRepository(Application application) {
-        albumSongListClient = App.getSubsonicClientInstance(application, false).getAlbumSongListClient();
-        browsingClient = App.getSubsonicClientInstance(application, false).getBrowsingClient();
+        this.application = application;
     }
 
     public MutableLiveData<List<Song>> getStarredSongs() {
-        albumSongListClient
+        App.getSubsonicClientInstance(application, false).getAlbumSongListClient()
                 .getStarred2()
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
@@ -55,7 +51,7 @@ public class SongRepository {
     }
 
     public void getInstantMix(Song song, int count, MediaCallback callback) {
-        browsingClient
+        App.getSubsonicClientInstance(application, false).getBrowsingClient()
                 .getSimilarSongs2(song.getId(), count)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
@@ -81,7 +77,7 @@ public class SongRepository {
     }
 
     public void getRandomSample(int number, MediaCallback callback) {
-        albumSongListClient
+        App.getSubsonicClientInstance(application, false).getAlbumSongListClient()
                 .getRandomSongs(number)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override

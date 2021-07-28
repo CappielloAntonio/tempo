@@ -47,7 +47,10 @@ public class App extends Application {
         String token = PreferenceUtil.getInstance(context).getToken();
         String salt = PreferenceUtil.getInstance(context).getSalt();
 
-        SubsonicPreferences preferences = new SubsonicPreferences(server, username, password, token, salt);
+        SubsonicPreferences preferences = new SubsonicPreferences();
+        preferences.setServerUrl(server);
+        preferences.setUsername(username);
+        preferences.setAuthentication(password, token, salt);
 
         return new Subsonic(preferences);
     }

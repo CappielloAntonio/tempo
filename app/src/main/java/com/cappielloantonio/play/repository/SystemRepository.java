@@ -14,14 +14,14 @@ import retrofit2.Callback;
 public class SystemRepository {
     private static final String TAG = "SongRepository";
 
-    private SystemClient systemClient;
+    private Application application;
 
     public SystemRepository(Application application) {
-        systemClient = App.getSubsonicClientInstance(application, false).getSystemClient();
+        this.application = application;
     }
 
     public void checkUserCredential(SystemCallback callback) {
-        systemClient
+        App.getSubsonicClientInstance(application, false).getSystemClient()
                 .ping()
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override

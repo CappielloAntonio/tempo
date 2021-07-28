@@ -33,11 +33,11 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
     private Context context;
     private MainActivity activity;
 
-    public DiscoverSongAdapter(MainActivity activity, Context context, List<Song> songs) {
+    public DiscoverSongAdapter(MainActivity activity, Context context) {
         this.activity = activity;
         this.context = context;
         this.inflater = LayoutInflater.from(context);
-        this.songs = songs;
+        this.songs = new ArrayList<>();
     }
 
     @Override

@@ -142,20 +142,14 @@ public class HomeFragment extends Fragment {
     private void initDiscoverSongSlideView() {
         bind.discoverSongViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
-        homeViewModel.getSongRepository().getRandomSample(10, new MediaCallback() {
-            @Override
-            public void onError(Exception exception) {
-                Toast.makeText(requireContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onLoadMedia(List<?> media) {
-                discoverSongAdapter = new DiscoverSongAdapter(activity, requireContext(), (List<Song>) media);
-                bind.discoverSongViewPager.setAdapter(discoverSongAdapter);
-                bind.discoverSongViewPager.setOffscreenPageLimit(3);
-                setDiscoverSongSlideViewOffset(20, 16);
-            }
+        discoverSongAdapter = new DiscoverSongAdapter(activity, requireContext());
+        bind.discoverSongViewPager.setAdapter(discoverSongAdapter);
+        bind.discoverSongViewPager.setOffscreenPageLimit(3);
+        homeViewModel.getDiscoverSongSample().observe(requireActivity(), songs -> {
+            discoverSongAdapter.setItems(songs);
         });
+
+        setDiscoverSongSlideViewOffset(20, 16);
     }
 
     private void initMostPlayedAlbumView() {

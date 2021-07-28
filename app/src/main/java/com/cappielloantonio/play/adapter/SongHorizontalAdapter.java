@@ -52,7 +52,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
 
         holder.songTitle.setText(song.getTitle());
         holder.songArtist.setText(song.getArtistName());
-        holder.songDuration.setText(MusicUtil.getReadableDurationString(song.getDuration()));
+        holder.songDuration.setText(MusicUtil.getReadableDurationString(song.getDuration(), false));
 
         if (song.isOffline()) {
             holder.downloadIndicator.setVisibility(View.VISIBLE);

@@ -10,7 +10,7 @@ public class QueueUtil {
     private static final String TAG = "QueueUtil";
 
     public static Queue getQueueElementFromSong(Song song, int startingPosition) {
-        return new Queue(startingPosition, song.getId(), song.getTitle(), song.getAlbumId(), song.getAlbumName(), song.getArtistId(), song.getArtistName(), song.getPrimary());
+        return new Queue(startingPosition, song.getId(), song.getTitle(), song.getAlbumId(), song.getAlbumName(), song.getArtistId(), song.getArtistName(), song.getPrimary(), song.getDuration());
     }
 
     public static List<Queue> getQueueElementsFromSongs(List<Song> songs) {
@@ -18,7 +18,7 @@ public class QueueUtil {
         List<Queue> queue = new ArrayList<>();
 
         for (Song song : songs) {
-            queue.add(new Queue(counter, song.getId(), song.getTitle(), song.getAlbumId(), song.getAlbumName(), song.getArtistId(), song.getArtistName(), song.getPrimary()));
+            queue.add(new Queue(counter, song.getId(), song.getTitle(), song.getAlbumId(), song.getAlbumName(), song.getArtistId(), song.getArtistName(), song.getPrimary(), song.getDuration()));
             counter++;
         }
 

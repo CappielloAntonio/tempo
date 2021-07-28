@@ -86,6 +86,7 @@ public class Song implements Parcelable {
         this.artistId = queue.getArtistId();
         this.artistName = queue.getArtistName();
         this.primary = queue.getPrimary();
+        this.duration = queue.getDuration();
     }
 
     public String getId() {

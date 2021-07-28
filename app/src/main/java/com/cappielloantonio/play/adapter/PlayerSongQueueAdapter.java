@@ -50,7 +50,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
 
         holder.songTitle.setText(song.getTitle());
         holder.songArtist.setText(song.getArtistName());
-        holder.songDuration.setText(MusicUtil.getReadableDurationString(song.getDuration()));
+        holder.songDuration.setText(MusicUtil.getReadableDurationString(song.getDuration(), false));
 
         CustomGlideRequest.Builder
                 .from(context, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.SONG_PIC)

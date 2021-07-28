@@ -336,7 +336,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         bind.playerBodyLayout.playerBigSeekBar.setMax(total);
         bind.playerBodyLayout.playerBigSeekBar.setProgress(progress);
 
-        bind.playerBodyLayout.playerBigSongTimeIn.setText(MusicUtil.getReadableDurationString(progress));
-        bind.playerBodyLayout.playerBigSongDuration.setText(MusicUtil.getReadableDurationString(total));
+        bind.playerBodyLayout.playerBigSongTimeIn.setText(MusicUtil.getReadableDurationString(progress, true));
+        bind.playerBodyLayout.playerBigSongDuration.setText(MusicUtil.getReadableDurationString(total, true));
     }
 }

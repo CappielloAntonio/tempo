@@ -12,7 +12,7 @@ import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.RecentSearch;
 import com.cappielloantonio.play.model.Song;
 
-@Database(entities = {Queue.class, RecentSearch.class}, version = 2, exportSchema = false)
+@Database(entities = {Queue.class, RecentSearch.class}, version = 3, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String TAG = "AppDatabase";
 

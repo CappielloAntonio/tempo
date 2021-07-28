@@ -31,9 +31,19 @@ public class MusicUtil {
                 "&id=" + song.getId();
     }
 
-    public static String getReadableDurationString(long songDurationMillis) {
-        long minutes = (songDurationMillis / 1000) / 60;
-        long seconds = (songDurationMillis / 1000) % 60;
+    public static String getReadableDurationString(long duration, boolean millis) {
+        long minutes = 0;
+        long seconds = 0;
+
+        if(millis) {
+            minutes = (duration / 1000) / 60;
+            seconds = (duration / 1000) % 60;
+        }
+        else {
+            minutes = duration / 60;
+            seconds = duration % 60;
+        }
+
 
         if (minutes < 60) {
             return String.format(Locale.getDefault(), "%01d:%02d", minutes, seconds);

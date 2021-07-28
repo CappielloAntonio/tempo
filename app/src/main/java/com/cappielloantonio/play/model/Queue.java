@@ -33,7 +33,10 @@ public class Queue {
     @ColumnInfo(name = "primary")
     private String primary;
 
-    public Queue(int trackOrder, String songID, String title, String albumId, String albumName, String artistId, String artistName, String primary) {
+    @ColumnInfo(name = "duration")
+    private long duration;
+
+    public Queue(int trackOrder, String songID, String title, String albumId, String albumName, String artistId, String artistName, String primary, long duration) {
         this.trackOrder = trackOrder;
         this.songID = songID;
         this.title = title;
@@ -42,6 +45,7 @@ public class Queue {
         this.artistId = artistId;
         this.artistName = artistName;
         this.primary = primary;
+        this.duration = duration;
     }
 
     public int getTrackOrder() {
@@ -106,5 +110,13 @@ public class Queue {
 
     public void setPrimary(String primary) {
         this.primary = primary;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 }

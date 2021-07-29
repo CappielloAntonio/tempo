@@ -30,7 +30,8 @@ public class SongRepository {
     }
 
     public MutableLiveData<List<Song>> getStarredSongs() {
-        App.getSubsonicClientInstance(application, false).getAlbumSongListClient()
+        App.getSubsonicClientInstance(application, false)
+                .getAlbumSongListClient()
                 .getStarred2()
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
@@ -51,7 +52,8 @@ public class SongRepository {
     }
 
     public void getInstantMix(Song song, int count, MediaCallback callback) {
-        App.getSubsonicClientInstance(application, false).getBrowsingClient()
+        App.getSubsonicClientInstance(application, false)
+                .getBrowsingClient()
                 .getSimilarSongs2(song.getId(), count)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
@@ -77,7 +79,8 @@ public class SongRepository {
     }
 
     public void getRandomSample(int number, MediaCallback callback) {
-        App.getSubsonicClientInstance(application, false).getAlbumSongListClient()
+        App.getSubsonicClientInstance(application, false)
+                .getAlbumSongListClient()
                 .getRandomSongs(number)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
@@ -94,6 +97,23 @@ public class SongRepository {
                     @Override
                     public void onFailure(Call<SubsonicResponse> call, Throwable t) {
                         callback.onError(new Exception(t.getMessage()));
+                    }
+                });
+    }
+
+    public void scrobble(String id) {
+        App.getSubsonicClientInstance(application, false)
+                .getMediaAnnotationClient()
+                .scrobble(id)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
                     }
                 });
     }

@@ -2,6 +2,7 @@ package com.cappielloantonio.play.subsonic;
 
 import com.cappielloantonio.play.subsonic.api.albumsonglist.AlbumSongListClient;
 import com.cappielloantonio.play.subsonic.api.browsing.BrowsingClient;
+import com.cappielloantonio.play.subsonic.api.mediaannotation.MediaAnnotationClient;
 import com.cappielloantonio.play.subsonic.api.mediaretrieval.MediaRetrievalClient;
 import com.cappielloantonio.play.subsonic.api.playlist.PlaylistClient;
 import com.cappielloantonio.play.subsonic.api.searching.SearchingClient;
@@ -24,6 +25,7 @@ public class Subsonic {
     private PlaylistClient playlistClient;
     private SearchingClient searchingClient;
     private AlbumSongListClient albumSongListClient;
+    private MediaAnnotationClient mediaAnnotationClient;
 
     public Subsonic(SubsonicPreferences preferences) {
         this.preferences = preferences;
@@ -73,6 +75,13 @@ public class Subsonic {
             albumSongListClient = new AlbumSongListClient(this);
         }
         return albumSongListClient;
+    }
+
+    public MediaAnnotationClient getMediaAnnotationClient() {
+        if (mediaAnnotationClient == null) {
+            mediaAnnotationClient = new MediaAnnotationClient(this);
+        }
+        return mediaAnnotationClient;
     }
 
     public String getUrl() {

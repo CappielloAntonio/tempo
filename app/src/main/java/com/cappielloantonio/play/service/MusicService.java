@@ -381,6 +381,8 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
             nextPosition = getNextPosition();
             playback.queueDataSource(getSongAt(nextPosition));
         }
+
+        increaseSongCount();
     }
 
     public void initNotification() {
@@ -637,7 +639,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
                 saveProgress();
                 break;
             case QUEUE_CHANGED:
-                // because playing queue size might have changed
                 updateMediaSessionMetadata();
                 saveState();
                 if (playingQueue.size() > 0) {
@@ -657,6 +658,11 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         if (wakeLock.isHeld()) {
             wakeLock.release();
         }
+    }
+
+    private void increaseSongCount() {
+        SongRepository songRepository = new SongRepository(App.getInstance());
+        songRepository.scrobble(getCurrentSong().getId());
     }
 
     @Override

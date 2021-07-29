@@ -119,8 +119,8 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
 
         private void openMore(View view) {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("song_object", artists.get(getBindingAdapterPosition()));
-            Navigation.findNavController(view).navigate(R.id.songBottomSheetDialog, bundle);
+            bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
+            Navigation.findNavController(view).navigate(R.id.artistBottomSheetDialog, bundle);
         }
     }
 }

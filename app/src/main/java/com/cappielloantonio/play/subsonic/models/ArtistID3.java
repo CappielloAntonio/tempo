@@ -7,7 +7,7 @@ import com.tickaroo.tikxml.converters.date.rfc3339.DateRfc3339TypeConverter;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-@Xml
+@Xml(name = "artist")
 public class ArtistID3 {
     @Attribute
     protected String id;

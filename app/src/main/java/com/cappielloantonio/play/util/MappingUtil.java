@@ -6,6 +6,7 @@ import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
+import com.cappielloantonio.play.subsonic.models.ArtistWithAlbumsID3;
 import com.cappielloantonio.play.subsonic.models.Child;
 
 import java.util.ArrayList;
@@ -32,14 +33,18 @@ public class MappingUtil {
         return albums;
     }
 
-    public static ArrayList<Artist> mapArtist(List<ArtistID3> albumID3List) {
+    public static ArrayList<Artist> mapArtist(List<ArtistID3> artistID3List) {
         ArrayList<Artist> artists = new ArrayList();
 
-        for(ArtistID3 artistID3 : albumID3List){
+        for(ArtistID3 artistID3 : artistID3List){
             artists.add(new Artist(artistID3));
         }
 
         return artists;
+    }
+
+    public static Artist mapArtistWithAlbum(ArtistWithAlbumsID3 artistWithAlbumsID3) {
+        return new Artist(artistWithAlbumsID3);
     }
 
     public static ArrayList<Song> mapQueue(List<Queue> queueList) {

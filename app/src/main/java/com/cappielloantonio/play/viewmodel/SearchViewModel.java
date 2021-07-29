@@ -15,9 +15,8 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.GenreRepository;
-import com.cappielloantonio.play.repository.RecentSearchRepository;
+import com.cappielloantonio.play.repository.SearchingRepository;
 import com.cappielloantonio.play.repository.SongRepository;
-import com.cappielloantonio.play.util.PreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -32,7 +31,7 @@ public class SearchViewModel extends AndroidViewModel {
     private AlbumRepository albumRepository;
     private ArtistRepository artistRepository;
     private GenreRepository genreRepository;
-    private RecentSearchRepository recentSearchRepository;
+    private SearchingRepository searchingRepository;
 
     private LiveData<List<Song>> searchSong;
     private LiveData<List<Album>> searchAlbum;
@@ -46,7 +45,7 @@ public class SearchViewModel extends AndroidViewModel {
         albumRepository = new AlbumRepository(application);
         artistRepository = new ArtistRepository(application);
         genreRepository = new GenreRepository(application);
-        recentSearchRepository = new RecentSearchRepository(application);
+        searchingRepository = new SearchingRepository(application);
     }
 
     public String getQuery() {
@@ -82,11 +81,11 @@ public class SearchViewModel extends AndroidViewModel {
     }
 
     public void insertNewSearch(String search) {
-        recentSearchRepository.insert(new RecentSearch(search));
+        searchingRepository.insert(new RecentSearch(search));
     }
 
     public void deleteRecentSearch(String search) {
-        recentSearchRepository.delete(new RecentSearch(search));
+        searchingRepository.delete(new RecentSearch(search));
     }
 
     public List<String> getSearchSuggestion(String query) {
@@ -104,7 +103,7 @@ public class SearchViewModel extends AndroidViewModel {
 
     public List<String> getRecentSearchSuggestion() {
         ArrayList<String> suggestions = new ArrayList<>();
-        suggestions.addAll(recentSearchRepository.getRecentSearchSuggestion(5));
+        suggestions.addAll(searchingRepository.getRecentSearchSuggestion(5));
 
         return suggestions;
     }

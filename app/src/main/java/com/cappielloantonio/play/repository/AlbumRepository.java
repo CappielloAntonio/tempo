@@ -26,13 +26,15 @@ public class AlbumRepository {
     private MutableLiveData<List<Album>> listLiveRecentlyAddedAlbums = new MutableLiveData<>();
     private MutableLiveData<List<Album>> listLiveMostPlayedAlbums = new MutableLiveData<>();
     private MutableLiveData<List<Album>> listLiveRecentlyPlayedAlbums = new MutableLiveData<>();
+    private MutableLiveData<List<Album>> listLiveRandomAlbums = new MutableLiveData<>();
 
     public AlbumRepository(Application application) {
         this.application = application;
     }
 
-    public LiveData<List<Album>> getListLiveAlbums(String type, int size) {
-        App.getSubsonicClientInstance(application, false).getAlbumSongListClient()
+    public LiveData<List<Album>> getAlbums(String type, int size) {
+        App.getSubsonicClientInstance(application, false)
+                .getAlbumSongListClient()
                 .getAlbumList2(type, size, 0)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
@@ -48,6 +50,9 @@ public class AlbumRepository {
                                 break;
                             case "recent":
                                 listLiveRecentlyPlayedAlbums.setValue(albums);
+                                break;
+                            case "random":
+                                listLiveRandomAlbums.setValue(albums);
                                 break;
                         }
                     }
@@ -65,6 +70,8 @@ public class AlbumRepository {
                 return listLiveMostPlayedAlbums;
             case "recent":
                 return listLiveRecentlyPlayedAlbums;
+            case "random":
+                return listLiveRandomAlbums;
             default:
                 return new MutableLiveData<>();
         }
@@ -73,7 +80,8 @@ public class AlbumRepository {
     public MutableLiveData<List<Album>> getStarredAlbums() {
         MutableLiveData<List<Album>> starredAlbums = new MutableLiveData<>();
 
-        App.getSubsonicClientInstance(application, false).getAlbumSongListClient()
+        App.getSubsonicClientInstance(application, false)
+                .getAlbumSongListClient()
                 .getStarred2()
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override

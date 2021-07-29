@@ -9,10 +9,10 @@ import com.cappielloantonio.play.model.RecentSearch;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecentSearchRepository {
+public class SearchingRepository {
     private RecentSearchDao recentSearchDao;
 
-    public RecentSearchRepository(Application application) {
+    public SearchingRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
         recentSearchDao = database.recentSearchDao();
     }

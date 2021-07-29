@@ -2,6 +2,7 @@ package com.cappielloantonio.play.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.Html;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -10,11 +11,12 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
+import com.cappielloantonio.play.subsonic.models.ArtistWithAlbumsID3;
+import com.cappielloantonio.play.util.MappingUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(tableName = "artist")
 public class Artist implements Parcelable {
     private static final String TAG = "Artist";
 
@@ -33,9 +35,18 @@ public class Artist implements Parcelable {
     public Artist(ArtistID3 artistID3) {
         this.id = artistID3.getId();
         this.name = artistID3.getName();
-        this.primary = artistID3.getCoverArtId() != null ? artistID3.getCoverArtId() : artistID3.getId();
+        this.primary = artistID3.getCoverArtId();
         this.backdrop = artistID3.getCoverArtId();
         this.albumCount = artistID3.getAlbumCount();
+    }
+
+    public Artist(ArtistWithAlbumsID3 artistWithAlbumsID3) {
+        this.id = artistWithAlbumsID3.getId();
+        this.name = artistWithAlbumsID3.getName();
+        this.primary = artistWithAlbumsID3.getCoverArtId();
+        this.backdrop = artistWithAlbumsID3.getCoverArtId();
+        this.albumCount = artistWithAlbumsID3.getAlbumCount();
+        this.albums = MappingUtil.mapAlbum(artistWithAlbumsID3.getAlbums());
     }
 
     public Artist(String id, String name) {
@@ -97,6 +108,14 @@ public class Artist implements Parcelable {
 
     public void setAlbumCount(int albumCount) {
         this.albumCount = albumCount;
+    }
+
+    public List<Album> getAlbums() {
+        return albums;
+    }
+
+    public void setAlbums(List<Album> albums) {
+        this.albums = albums;
     }
 
     @Override

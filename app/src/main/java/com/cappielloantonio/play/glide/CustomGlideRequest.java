@@ -58,8 +58,6 @@ public class CustomGlideRequest {
                 "&c=" + params.get("c") +
                 "&id=" + item;
 
-        Log.d(TAG, "--- createUrl() - " + sb);
-
         return sb;
     }
 

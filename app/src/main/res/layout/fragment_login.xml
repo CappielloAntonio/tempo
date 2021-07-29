@@ -52,13 +52,15 @@
         app:errorEnabled="true"
         app:hintTextColor="?android:textColorSecondary">
 
+        <!-- Navidrome android:text="!$4EBXhSPUi4$E#oagvAisCA" -->
+        <!-- Gonic android:text="hYP3%yD!rx@GBf95B2wbRUk8" -->
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
             android:inputType="textPassword"
-            android:text="!$4EBXhSPUi4$E#oagvAisCA" />
+            android:text="!$4EBXhSPUi4$E#oagvAisCA"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

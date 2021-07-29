@@ -1,14 +1,12 @@
 package com.cappielloantonio.play.viewmodel;
 
 import android.app.Application;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.cappielloantonio.play.adapter.DiscoverSongAdapter;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
@@ -54,9 +52,9 @@ public class HomeViewModel extends AndroidViewModel {
         downloadedSongSample = new MutableLiveData<>();
         years = new ArrayList<>();
 
-        mostPlayedAlbumSample = albumRepository.getListLiveAlbums("frequent", 20);
-        recentlyAddedAlbumSample = albumRepository.getListLiveAlbums("newest", 20);
-        recentlyPlayedAlbumSample = albumRepository.getListLiveAlbums("recent", 20);
+        mostPlayedAlbumSample = albumRepository.getAlbums("frequent", 20);
+        recentlyAddedAlbumSample = albumRepository.getAlbums("newest", 20);
+        recentlyPlayedAlbumSample = albumRepository.getAlbums("recent", 20);
 
         starredTracks = songRepository.getStarredSongs();
         starredAlbums = albumRepository.getStarredAlbums();

@@ -11,44 +11,17 @@ import androidx.room.PrimaryKey;
 
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 
-@Entity(tableName = "album")
 public class Album implements Parcelable {
     private static final String TAG = "Album";
 
-    @NonNull
-    @PrimaryKey
-    @ColumnInfo(name = "id")
     public String id;
-
-    @ColumnInfo(name = "title")
     public String title;
-
-    @ColumnInfo(name = "year")
     public int year;
-
-    @ColumnInfo(name = "artistId")
     public String artistId;
-
-    @ColumnInfo(name = "artistName")
     public String artistName;
-
-    @ColumnInfo(name = "primary")
     public String primary;
-
-    @ColumnInfo(name = "blurHash")
     public String blurHash;
 
-    public Album(@NonNull String id, String title, int year, String artistId, String artistName, String primary, String blurHash) {
-        this.id = id;
-        this.title = title;
-        this.year = year;
-        this.artistId = artistId;
-        this.artistName = artistName;
-        this.primary = primary;
-        this.blurHash = blurHash;
-    }
-
-    @Ignore
     public Album(AlbumID3 albumID3) {
         this.id = albumID3.getId();
         this.title = albumID3.getName();
@@ -57,13 +30,11 @@ public class Album implements Parcelable {
         this.artistName = albumID3.getArtist();
         this.primary = albumID3.getCoverArtId();
     }
-
-    @NonNull
     public String getId() {
         return id;
     }
 
-    public void setId(@NonNull String id) {
+    public void setId(String id) {
         this.id = id;
     }
 

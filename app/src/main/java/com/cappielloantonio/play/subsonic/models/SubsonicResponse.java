@@ -52,6 +52,7 @@ public class SubsonicResponse {
     private Child song;
     @Element(name = "album")
     private AlbumWithSongsID3 album;
+    @Element(name = "artist")
     private ArtistWithAlbumsID3 artist;
     @Element(name = "artists")
     private ArtistsID3 artists;

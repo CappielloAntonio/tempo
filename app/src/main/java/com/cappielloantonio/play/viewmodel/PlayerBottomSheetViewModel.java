@@ -37,8 +37,14 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
 
     public void setFavorite() {
         Song song = MusicPlayerRemote.getCurrentSong();
-        song.setFavorite(!song.isFavorite());
-        // songRepository.setFavoriteStatus(song);
+
+        if (song.isFavorite()) {
+            songRepository.unstar(song.getId());
+            song.setFavorite(false);
+        } else {
+            songRepository.star(song.getId());
+            song.setFavorite(true);
+        }
     }
 
     public void orderSongAfterSwap(List<Song> songs) {

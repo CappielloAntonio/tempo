@@ -10,9 +10,11 @@ import androidx.lifecycle.MutableLiveData;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
+import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 
 import java.util.ArrayList;
@@ -23,8 +25,9 @@ public class HomeViewModel extends AndroidViewModel {
     private SongRepository songRepository;
     private AlbumRepository albumRepository;
     private ArtistRepository artistRepository;
+    private DownloadRepository downloadRepository;
 
-    private LiveData<List<Song>> downloadedSongSample;
+    private LiveData<List<Download>> downloadedSongSample;
     private List<Integer> years;
 
     private MutableLiveData<List<Song>> dicoverSongSample;
@@ -42,6 +45,7 @@ public class HomeViewModel extends AndroidViewModel {
         songRepository = new SongRepository(application);
         albumRepository = new AlbumRepository(application);
         artistRepository = new ArtistRepository(application);
+        downloadRepository = new DownloadRepository(application);
 
         // favoritesSongSample = songRepository.getListLiveFavoritesSampleSong(20);
         // downloadedSongSample = songRepository.getListLiveDownloadedSampleSong(20);
@@ -49,7 +53,7 @@ public class HomeViewModel extends AndroidViewModel {
 
         setDicoverSongSample();
         dicoverSongSample = new MutableLiveData<>();
-        downloadedSongSample = new MutableLiveData<>();
+        downloadedSongSample = downloadRepository.getLiveDownloadSample(10);
         years = new ArrayList<>();
 
         mostPlayedAlbumSample = albumRepository.getAlbums("frequent", 20);
@@ -85,7 +89,7 @@ public class HomeViewModel extends AndroidViewModel {
         return starredArtists;
     }
 
-    public LiveData<List<Song>> getDownloaded() {
+    public LiveData<List<Download>> getDownloaded() {
         return downloadedSongSample;
     }
 

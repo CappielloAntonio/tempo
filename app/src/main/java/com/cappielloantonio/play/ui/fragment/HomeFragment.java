@@ -28,6 +28,7 @@ import com.cappielloantonio.play.databinding.FragmentHomeBinding;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.HomeViewModel;
 
@@ -254,9 +255,9 @@ public class HomeFragment extends Fragment {
 
         dowanloadedMusicAdapter = new RecentMusicAdapter(activity, requireContext(), getChildFragmentManager());
         bind.downloadedTracksRecyclerView.setAdapter(dowanloadedMusicAdapter);
-        homeViewModel.getDownloaded().observe(requireActivity(), songs -> {
-            if(bind != null) bind.homeDownloadedTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
-            dowanloadedMusicAdapter.setItems(songs);
+        homeViewModel.getDownloaded().observe(requireActivity(), downloads -> {
+            if(bind != null) bind.homeDownloadedTracksSector.setVisibility(!downloads.isEmpty() ? View.VISIBLE : View.GONE);
+            dowanloadedMusicAdapter.setItems(MappingUtil.mapDownload(downloads));
         });
     }
 

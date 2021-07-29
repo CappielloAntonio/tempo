@@ -8,7 +8,9 @@ import androidx.annotation.Nullable;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.offline.Download;
@@ -71,7 +73,7 @@ public class DownloadTracker {
     }
 
     public void toggleDownload(List<Song> songs) {
-        SongRepository songRepository = new SongRepository(App.getInstance());
+        DownloadRepository downloadRepository = new DownloadRepository(App.getInstance());
 
         for (Song song : songs) {
             MediaItem mediaItem = MusicUtil.getMediaItemFromSong(song);
@@ -81,12 +83,12 @@ public class DownloadTracker {
             if (download != null && download.state != Download.STATE_FAILED) {
                 song.setOffline(false);
                 DownloadService.sendRemoveDownload(context, DownloaderService.class, download.request.id, false);
+                downloadRepository.delete(MappingUtil.mapToDownload(song));
             } else {
                 song.setOffline(true);
                 DownloadService.sendAddDownload(context, DownloaderService.class, getDownloadRequest(song.getId(), mediaItem.playbackProperties.uri), false);
+                downloadRepository.insert(MappingUtil.mapToDownload(song));
             }
-
-            // songRepository.setOfflineStatus(song);
         }
     }
 

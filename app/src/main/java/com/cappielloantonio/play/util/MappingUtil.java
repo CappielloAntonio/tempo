@@ -2,6 +2,7 @@ package com.cappielloantonio.play.util;
 
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Song;
@@ -67,5 +68,29 @@ public class MappingUtil {
         }
 
         return playlist;
+    }
+
+    public static ArrayList<Song> mapDownload(List<Download> downloads) {
+        ArrayList<Song> songs = new ArrayList();
+
+        for(Download download : downloads){
+            songs.add(new Song(download));
+        }
+
+        return songs;
+    }
+
+    public static ArrayList<Download> mapToDownload(List<Song> songs) {
+        ArrayList<Download> downloads = new ArrayList();
+
+        for(Song song : songs){
+            downloads.add(new Download(song));
+        }
+
+        return downloads;
+    }
+
+    public static Download mapToDownload(Song song) {
+        return new Download(song);
     }
 }

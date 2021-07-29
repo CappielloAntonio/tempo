@@ -103,6 +103,57 @@ public class ArtistRepository {
         }
     }
 
+    public void star(String id) {
+        App.getSubsonicClientInstance(application, false)
+                .getMediaAnnotationClient()
+                .star(null, null, id)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+    }
+
+    public void unstar(String id) {
+        App.getSubsonicClientInstance(application, false)
+                .getMediaAnnotationClient()
+                .unstar(null, null, id)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+    }
+
+    public void setRating(String id, int star) {
+        App.getSubsonicClientInstance(application, false)
+                .getMediaAnnotationClient()
+                .setRating(id, star)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+    }
+
     private void addToMutableLiveData(MutableLiveData<List<Artist>> liveData, Artist artist) {
         List<Artist> liveArtists = liveData.getValue();
         liveArtists.add(artist);

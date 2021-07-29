@@ -99,4 +99,55 @@ public class AlbumRepository {
 
         return starredAlbums;
     }
+
+    public void star(String id) {
+        App.getSubsonicClientInstance(application, false)
+                .getMediaAnnotationClient()
+                .star(null, id, null)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+    }
+
+    public void unstar(String id) {
+        App.getSubsonicClientInstance(application, false)
+                .getMediaAnnotationClient()
+                .unstar(null, id, null)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+    }
+
+    public void setRating(String id, int star) {
+        App.getSubsonicClientInstance(application, false)
+                .getMediaAnnotationClient()
+                .setRating(id, star)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+    }
 }

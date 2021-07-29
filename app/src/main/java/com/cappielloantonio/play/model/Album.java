@@ -21,6 +21,7 @@ public class Album implements Parcelable {
     public String artistName;
     public String primary;
     public String blurHash;
+    public boolean favorite;
 
     public Album(AlbumID3 albumID3) {
         this.id = albumID3.getId();
@@ -29,6 +30,7 @@ public class Album implements Parcelable {
         this.artistId = albumID3.getArtistId();
         this.artistName = albumID3.getArtist();
         this.primary = albumID3.getCoverArtId();
+        this.favorite = albumID3.getStarred() != null;
     }
     public String getId() {
         return id;
@@ -84,6 +86,14 @@ public class Album implements Parcelable {
 
     public void setBlurHash(String blurHash) {
         this.blurHash = blurHash;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
 
     @Override

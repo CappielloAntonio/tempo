@@ -117,4 +117,55 @@ public class SongRepository {
                     }
                 });
     }
+
+    public void star(String id) {
+        App.getSubsonicClientInstance(application, false)
+                .getMediaAnnotationClient()
+                .star(id, null, null)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+    }
+
+    public void unstar(String id) {
+        App.getSubsonicClientInstance(application, false)
+                .getMediaAnnotationClient()
+                .unstar(id, null, null)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+    }
+
+    public void setRating(String id, int star) {
+        App.getSubsonicClientInstance(application, false)
+                .getMediaAnnotationClient()
+                .setRating(id, star)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+    }
 }

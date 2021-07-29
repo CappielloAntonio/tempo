@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -43,6 +44,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
     private ImageView coverAlbum;
     private TextView titleAlbum;
     private TextView artistAlbum;
+    private ToggleButton favoriteToggle;
 
     private TextView playRadio;
     private TextView playRandom;
@@ -82,6 +84,13 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
         artistAlbum = view.findViewById(R.id.album_artist_text_view);
         artistAlbum.setText(albumBottomSheetViewModel.getAlbum().getArtistName());
+
+        favoriteToggle = view.findViewById(R.id.button_favorite);
+        favoriteToggle.setChecked(albumBottomSheetViewModel.getAlbum().isFavorite());
+        favoriteToggle.setOnClickListener(v -> {
+            albumBottomSheetViewModel.setFavorite();
+            dismissBottomSheet();
+        });
 
         playRadio = view.findViewById(R.id.play_radio_text_view);
         playRadio.setOnClickListener(v -> {

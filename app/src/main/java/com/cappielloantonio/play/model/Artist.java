@@ -31,6 +31,7 @@ public class Artist implements Parcelable {
     public String backdrop;
     public String backdropBlurHash;
     public int albumCount;
+    public boolean favorite;
 
     public Artist(ArtistID3 artistID3) {
         this.id = artistID3.getId();
@@ -38,6 +39,7 @@ public class Artist implements Parcelable {
         this.primary = artistID3.getCoverArtId();
         this.backdrop = artistID3.getCoverArtId();
         this.albumCount = artistID3.getAlbumCount();
+        this.favorite = artistID3.getStarred() != null;
     }
 
     public Artist(ArtistWithAlbumsID3 artistWithAlbumsID3) {
@@ -47,6 +49,7 @@ public class Artist implements Parcelable {
         this.backdrop = artistWithAlbumsID3.getCoverArtId();
         this.albumCount = artistWithAlbumsID3.getAlbumCount();
         this.albums = MappingUtil.mapAlbum(artistWithAlbumsID3.getAlbums());
+        this.favorite = artistWithAlbumsID3.getStarred() != null;
     }
 
     public Artist(String id, String name) {
@@ -116,6 +119,14 @@ public class Artist implements Parcelable {
 
     public void setAlbums(List<Album> albums) {
         this.albums = albums;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
 
     @Override

@@ -32,14 +32,14 @@ public class MediaAnnotationClient {
         this.mediaAnnotationService = retrofit.create(MediaAnnotationService.class);
     }
 
-    public Call<SubsonicResponse> star(String id) {
+    public Call<SubsonicResponse> star(String id, String albumId, String artistId) {
         Log.d(TAG, "star()");
-        return mediaAnnotationService.star(subsonic.getParams(), id);
+        return mediaAnnotationService.star(subsonic.getParams(), id, albumId, artistId);
     }
 
-    public Call<SubsonicResponse> unstar(String id) {
+    public Call<SubsonicResponse> unstar(String id, String albumId, String artistId) {
         Log.d(TAG, "unstar()");
-        return mediaAnnotationService.unstar(subsonic.getParams(), id);
+        return mediaAnnotationService.unstar(subsonic.getParams(), id, albumId, artistId);
     }
 
     public Call<SubsonicResponse> setRating(String id, int star) {

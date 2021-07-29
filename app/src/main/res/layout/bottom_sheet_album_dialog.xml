@@ -23,6 +23,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ToggleButton
+            android:id="@+id/button_favorite"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/button_favorite_selector"
+            android:checked="false"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
+            android:gravity="center_vertical"
+            android:text=""
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/album_title_text_view"
             android:layout_width="0dp"
@@ -41,7 +57,7 @@
             android:textColor="@color/titleTextColor"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button_favorite"
             app:layout_constraintStart_toEndOf="@+id/album_cover_image_view"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,7 +71,7 @@
             android:text="@string/label_placeholder"
             android:textColor="@color/subtitleTextColor"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button_favorite"
             app:layout_constraintStart_toEndOf="@+id/album_cover_image_view"
             app:layout_constraintTop_toBottomOf="@+id/album_title_text_view" />
 

@@ -32,4 +32,14 @@ public class AlbumBottomSheetViewModel extends AndroidViewModel {
         // return artistRepository.getArtistByID(album.getArtistId());
         return null;
     }
+
+    public void setFavorite() {
+        if (album.isFavorite()) {
+            artistRepository.unstar(album.getId());
+            album.setFavorite(false);
+        } else {
+            artistRepository.star(album.getId());
+            album.setFavorite(true);
+        }
+    }
 }

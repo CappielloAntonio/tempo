@@ -32,9 +32,26 @@
             android:layout_marginTop="18dp"
             android:layout_marginRight="16dp"
             android:ellipsize="end"
+            android:fontFamily="@font/inter"
             android:maxLines="2"
             android:textColor="@color/gradientTitleColor"
+            android:textFontWeight="400"
             android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/playlist_song_counter_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/playlist_name_text"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:drawablePadding="10dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/inter"
+            android:maxLines="1"
+            android:textColor="@color/gradientSubtitleColor"
+            android:textFontWeight="400"
+            android:textSize="14sp" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

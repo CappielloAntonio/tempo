@@ -8,30 +8,23 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "playlist")
 public class Playlist implements Parcelable {
-    @NonNull
-    @PrimaryKey
-    @ColumnInfo(name = "id")
     public String id;
-
-    @ColumnInfo(name = "name")
     public String name;
-
-    @ColumnInfo(name = "primary")
     public String primary;
-
-    @ColumnInfo(name = "blurHash")
     public String blurHash;
+    public int songCount;
+    public int duration;
 
-    public Playlist(@NonNull String id, String name, String primary, String blurHash) {
-        this.id = id;
-        this.name = name;
-        this.primary = primary;
-        this.blurHash = blurHash;
+    public Playlist(com.cappielloantonio.play.subsonic.models.Playlist playlist) {
+        this.id = playlist.getId();
+        this.name = playlist.getName();
+        this.primary = playlist.getCoverArtId();
+        this.blurHash = playlist.getCoverArtId();
+        this.songCount = playlist.getSongCount();
+        this.duration = playlist.getDuration();
     }
 
-    @NonNull
     public String getId() {
         return id;
     }
@@ -44,16 +37,16 @@ public class Playlist implements Parcelable {
         return primary;
     }
 
-    public void setPrimary(String primary) {
-        this.primary = primary;
-    }
-
     public String getBlurHash() {
         return blurHash;
     }
 
-    public void setBlurHash(String blurHash) {
-        this.blurHash = blurHash;
+    public int getSongCount() {
+        return songCount;
+    }
+
+    public int getDuration() {
+        return duration;
     }
 
     @Override
@@ -70,7 +63,6 @@ public class Playlist implements Parcelable {
         return id.hashCode();
     }
 
-    @NonNull
     @Override
     public String toString() {
         return id;

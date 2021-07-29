@@ -2,12 +2,14 @@ package com.cappielloantonio.play.util;
 
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.ArtistWithAlbumsID3;
 import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.subsonic.models.Playlists;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,5 +57,15 @@ public class MappingUtil {
         }
 
         return songs;
+    }
+
+    public static ArrayList<Playlist> mapPlaylist(List<com.cappielloantonio.play.subsonic.models.Playlist> playlists) {
+        ArrayList<Playlist> playlist = new ArrayList();
+
+        for(com.cappielloantonio.play.subsonic.models.Playlist item : playlists){
+            playlist.add(new Playlist(item));
+        }
+
+        return playlist;
     }
 }

@@ -18,6 +18,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumAdapter;
 import com.cappielloantonio.play.adapter.ArtistAdapter;
+import com.cappielloantonio.play.adapter.DiscoverSongAdapter;
 import com.cappielloantonio.play.adapter.GenreAdapter;
 import com.cappielloantonio.play.adapter.PlaylistAdapter;
 import com.cappielloantonio.play.databinding.FragmentLibraryBinding;
@@ -119,9 +120,13 @@ public class LibraryFragment extends Fragment {
     private void initPlaylistSlideView() {
         bind.playlistViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
-        playlistAdapter = new PlaylistAdapter(activity, requireContext(), libraryViewModel.getPlaylistSample());
+        playlistAdapter = new PlaylistAdapter(activity, requireContext());
         bind.playlistViewPager.setAdapter(playlistAdapter);
         bind.playlistViewPager.setOffscreenPageLimit(3);
+        libraryViewModel.getPlaylistSample().observe(requireActivity(), playlists -> {
+            playlistAdapter.setItems(playlists);
+        });
+
         setDiscoverSongSlideViewOffset(20, 16);
     }
 

@@ -1,5 +1,6 @@
 package com.cappielloantonio.play.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
@@ -27,11 +29,11 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     private Context context;
     private MainActivity activity;
 
-    public PlaylistAdapter(MainActivity activity, Context context, List<Playlist> playlists) {
+    public PlaylistAdapter(MainActivity activity, Context context) {
         this.activity = activity;
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
-        this.playlists = playlists;
+        this.playlists = new ArrayList<>();
     }
 
     @Override
@@ -45,6 +47,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         Playlist playlist = playlists.get(position);
 
         holder.textPlaylistName.setText(playlist.getName());
+        holder.textPlaylistSongCount.setText("Song count: " + String.valueOf(playlist.getSongCount()));
 
         CustomGlideRequest.Builder
                 .from(context, playlist.getPrimary(), playlist.getBlurHash(), CustomGlideRequest.PLAYLIST_PIC)
@@ -68,12 +71,14 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textPlaylistName;
+        TextView textPlaylistSongCount;
         ImageView cover;
 
         ViewHolder(View itemView) {
             super(itemView);
 
             textPlaylistName = itemView.findViewById(R.id.playlist_name_text);
+            textPlaylistSongCount = itemView.findViewById(R.id.playlist_song_counter_text);
             cover = itemView.findViewById(R.id.playlist_cover_image_view);
 
             itemView.setOnClickListener(this);

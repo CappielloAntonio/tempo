@@ -8,7 +8,7 @@ import java.util.List;
 
 @Xml
 public class Playlists {
-    @Element
+    @Element(name = "playlist")
     protected List<Playlist> playlists;
 
     public List<Playlist> getPlaylists() {

@@ -40,9 +40,12 @@ import com.cappielloantonio.play.util.PreferenceUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static com.google.android.exoplayer2.Player.MEDIA_ITEM_TRANSITION_REASON_AUTO;
 import static com.google.android.exoplayer2.Player.MEDIA_ITEM_TRANSITION_REASON_PLAYLIST_CHANGED;
@@ -799,6 +802,24 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
                 case TRACK_CHANGED: break;
                 case TRACK_ENDED:
             }
+        }
+
+        public void onStart() {
+            if (executorService != null) executorService.shutdownNow();
+
+            executorService = Executors.newScheduledThreadPool(1);
+        }
+
+        public void onNext() {
+
+        }
+
+        public void onProgress() {
+
+        }
+
+        public void onStop() {
+
         }
     }
 

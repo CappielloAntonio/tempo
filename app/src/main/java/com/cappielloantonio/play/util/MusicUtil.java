@@ -1,18 +1,13 @@
 package com.cappielloantonio.play.util;
 
-import android.content.Context;
-
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Song;
 import com.google.android.exoplayer2.MediaItem;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Random;
 
 public class MusicUtil {
     private static final String TAG = "MusicUtil";
@@ -35,15 +30,13 @@ public class MusicUtil {
         long minutes = 0;
         long seconds = 0;
 
-        if(millis) {
+        if (millis) {
             minutes = (duration / 1000) / 60;
             seconds = (duration / 1000) % 60;
-        }
-        else {
+        } else {
             minutes = duration / 60;
             seconds = duration % 60;
         }
-
 
         if (minutes < 60) {
             return String.format(Locale.getDefault(), "%01d:%02d", minutes, seconds);
@@ -68,37 +61,9 @@ public class MusicUtil {
         }
     }
 
-    public static List<MediaItem> getMediaItemsFromSongs(List<Song> songs) {
-        List<MediaItem> mediaItems = new ArrayList<>();
-
-        for (Song song : songs) {
-            mediaItems.add(getMediaItemFromSong(song));
-        }
-
-        return mediaItems;
-    }
-
     public static MediaItem getMediaItemFromSong(Song song) {
         String uri = MusicUtil.getSongFileUri(song);
         MediaItem mediaItem = MediaItem.fromUri(uri);
         return mediaItem;
-    }
-
-    public static List<Integer> getRandomSongNumber(Context context, int numberOfNumbers, int refreshAfterXHours) {
-        List<Integer> list = new ArrayList<>();
-
-        for (int i = 0; i < numberOfNumbers; i++) {
-            list.add(getRandomNumber(0, PreferenceUtil.getInstance(context).getSongNumber(), getMidnightTimestamp(System.currentTimeMillis() / 1000, refreshAfterXHours) + i));
-        }
-
-        return list;
-    }
-
-    private static long getMidnightTimestamp(long timestamp, int hours) {
-        return timestamp - timestamp % (hours * 60 * 60); // 24 * 60 * 60 sec in one day
-    }
-
-    private static int getRandomNumber(int min, int max, long seed) {
-        return new Random(seed).nextInt((max - min) + 1) + min;
     }
 }

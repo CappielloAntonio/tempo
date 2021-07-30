@@ -40,7 +40,7 @@ public class SubsonicResponse {
     private License license;
     private JukeboxPlaylist jukeboxPlaylist;
     private JukeboxStatus jukeboxStatus;
-    @Element
+    @Element(name = "playlist")
     private PlaylistWithSongs playlist;
     @Element
     private Playlists playlists;

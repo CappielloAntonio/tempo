@@ -88,7 +88,7 @@ public class PlaylistPageFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_download_playlist:
-                DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(playlistPageViewModel.getPlaylistSongList());
+                DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(playlistPageViewModel.getPlaylistSongLiveList().getValue());
                 return true;
             default:
                 break;

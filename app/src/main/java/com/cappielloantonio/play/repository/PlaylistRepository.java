@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.subsonic.models.ResponseStatus;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.util.MappingUtil;
@@ -24,6 +25,7 @@ public class PlaylistRepository {
 
     private MutableLiveData<List<Playlist>> listLivePlaylists = new MutableLiveData<>(new ArrayList<>());
     private MutableLiveData<List<Playlist>> listLiveRandomPlaylist = new MutableLiveData<>(new ArrayList<>());
+    private MutableLiveData<List<Song>> listLivePlaylistSongs = new MutableLiveData<>(new ArrayList<>());
 
     public PlaylistRepository(Application application) {
         this.application = application;
@@ -50,5 +52,26 @@ public class PlaylistRepository {
                 });
 
         return listLivePlaylists;
+    }
+
+    public MutableLiveData<List<Song>> getPlaylistSongs(String id) {
+        App.getSubsonicClientInstance(application, false)
+                .getPlaylistClient()
+                .getPlaylist(id)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            List<Song> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getPlaylist().getEntries()));
+                            listLivePlaylistSongs.setValue(songs);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+                    }
+                });
+
+        return listLivePlaylistSongs;
     }
 }

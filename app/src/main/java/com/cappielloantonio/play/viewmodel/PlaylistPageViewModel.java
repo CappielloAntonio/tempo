@@ -5,36 +5,30 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.repository.PlaylistRepository;
 
 import java.util.List;
 
 public class PlaylistPageViewModel extends AndroidViewModel {
-    private static final String TAG = "PlaylistPageViewModel";
+    private PlaylistRepository playlistRepository;
 
-    private SongRepository songRepository;
-
-    private LiveData<List<Song>> songLiveList;
+    private MutableLiveData<List<Song>> songLiveList = new MutableLiveData<>();
 
     private Playlist playlist;
 
     public PlaylistPageViewModel(@NonNull Application application) {
         super(application);
 
-        songRepository = new SongRepository(application);
+        playlistRepository = new PlaylistRepository(application);
     }
 
-    public LiveData<List<Song>> getPlaylistSongLiveList() {
-        // songLiveList = songRepository.getPlaylistLiveSong(playlist.getId());
+    public MutableLiveData<List<Song>> getPlaylistSongLiveList() {
+        songLiveList = playlistRepository.getPlaylistSongs(playlist.getId());
         return songLiveList;
-    }
-
-    public List<Song> getPlaylistSongList() {
-        // return songRepository.getPlaylistSong(playlist.getId());
-        return null;
     }
 
     public Playlist getPlaylist() {

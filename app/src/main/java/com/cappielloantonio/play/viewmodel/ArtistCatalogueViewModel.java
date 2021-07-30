@@ -31,7 +31,6 @@ public class ArtistCatalogueViewModel extends AndroidViewModel {
 
     private ArtistRepository artistRepository;
     private String query = "";
-    private int page = 0;
 
     public ArtistCatalogueViewModel(@NonNull Application application) {
         super(application);
@@ -66,13 +65,5 @@ public class ArtistCatalogueViewModel extends AndroidViewModel {
 
                     }
                 });
-    }
-
-    public String getQuery() {
-        return query;
-    }
-
-    public void setQuery(String query) {
-        this.query = query;
     }
 }

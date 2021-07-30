@@ -24,6 +24,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.PlaylistCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlaylistCatalogueBinding;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.viewmodel.ArtistCatalogueViewModel;
 import com.cappielloantonio.play.viewmodel.PlaylistCatalogueViewModel;
 
 public class PlaylistCatalogueFragment extends Fragment {
@@ -39,6 +40,8 @@ public class PlaylistCatalogueFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        initData();
     }
 
     @Override
@@ -47,7 +50,6 @@ public class PlaylistCatalogueFragment extends Fragment {
 
         bind = FragmentPlaylistCatalogueBinding.inflate(inflater, container, false);
         View view = bind.getRoot();
-        playlistCatalogueViewModel = new ViewModelProvider(requireActivity()).get(PlaylistCatalogueViewModel.class);
 
         initAppBar();
         initArtistCatalogueView();
@@ -65,6 +67,11 @@ public class PlaylistCatalogueFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         bind = null;
+    }
+
+    private void initData() {
+        playlistCatalogueViewModel = new ViewModelProvider(requireActivity()).get(PlaylistCatalogueViewModel.class);
+        playlistCatalogueViewModel.loadPlaylists(requireContext());
     }
 
     private void initAppBar() {

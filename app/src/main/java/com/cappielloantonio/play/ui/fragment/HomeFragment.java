@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,14 +24,13 @@ import com.cappielloantonio.play.adapter.RecentMusicAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.adapter.YearAdapter;
 import com.cappielloantonio.play.databinding.FragmentHomeBinding;
-import com.cappielloantonio.play.interfaces.MediaCallback;
+import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.HomeViewModel;
-
-import java.util.List;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = "CategoriesFragment";
@@ -98,38 +96,38 @@ public class HomeFragment extends Fragment {
     private void init() {
         bind.recentlyAddedAlbumsTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Song.RECENTLY_ADDED, Song.RECENTLY_ADDED);
-            activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
+            bundle.putString(Album.RECENTLY_ADDED, Album.RECENTLY_ADDED);
+            activity.navController.navigate(R.id.action_homeFragment_to_albumListPageFragment, bundle);
         });
 
         bind.recentlyPlayedAlbumsTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Song.RECENTLY_PLAYED, Song.RECENTLY_PLAYED);
-            activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
+            bundle.putString(Album.RECENTLY_PLAYED, Album.RECENTLY_PLAYED);
+            activity.navController.navigate(R.id.action_homeFragment_to_albumListPageFragment, bundle);
         });
 
         bind.mostPlayedAlbumsTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Song.MOST_PLAYED, Song.MOST_PLAYED);
-            activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
+            bundle.putString(Album.MOST_PLAYED, Album.MOST_PLAYED);
+            activity.navController.navigate(R.id.action_homeFragment_to_albumListPageFragment, bundle);
         });
 
         bind.starredTracksTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Song.IS_FAVORITE, Song.IS_FAVORITE);
+            bundle.putString(Song.STARRED, Song.STARRED);
             activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
         });
 
         bind.starredAlbumsTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Song.IS_FAVORITE, Song.IS_FAVORITE);
-            activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
+            bundle.putString(Album.STARRED, Album.STARRED);
+            activity.navController.navigate(R.id.action_homeFragment_to_albumListPageFragment, bundle);
         });
 
         bind.starredArtistsTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Song.IS_FAVORITE, Song.IS_FAVORITE);
-            activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
+            bundle.putString(Artist.STARRED, Artist.STARRED);
+            activity.navController.navigate(R.id.action_homeFragment_to_artistListPageFragment, bundle);
         });
 
         bind.downloadedTracksTextViewClickable.setOnClickListener(v -> {
@@ -180,6 +178,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void initYearSongView() {
+        if(bind != null) bind.homeFlashbackSector.setVisibility(!homeViewModel.getYearList().isEmpty() ? View.VISIBLE : View.GONE);
+
         bind.yearsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.yearsRecyclerView.setHasFixedSize(true);
 

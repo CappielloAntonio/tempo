@@ -25,9 +25,8 @@ public class Song implements Parcelable {
     public static final String BY_GENRES = "BY_GENRES";
     public static final String BY_ARTIST = "BY_ARTIST";
     public static final String BY_YEAR = "BY_YEAR";
-    public static final String IS_FAVORITE = "IS_FAVORITE";
+    public static final String STARRED = "STARRED";
     public static final String DOWNLOADED = "DOWNLOADED";
-    public static final String RADIO = "RADIO";
 
     private String id;
     private String title;

@@ -3,6 +3,7 @@ package com.cappielloantonio.play.repository;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.DownloadDao;
@@ -20,7 +21,7 @@ public class DownloadRepository {
     private static final String TAG = "QueueRepository";
 
     private DownloadDao downloadDao;
-    private LiveData<List<Download>> listLiveDownload;
+    private MutableLiveData<List<Download>> listLiveDownload = new MutableLiveData<>(new ArrayList<>());
     private LiveData<List<Download>> listLiveDownloadSample;
 
     public DownloadRepository(Application application) {
@@ -28,9 +29,39 @@ public class DownloadRepository {
         downloadDao = database.downloadDao();
     }
 
-    public LiveData<List<Download>> getLiveDownload() {
-        listLiveDownload = downloadDao.getAll();
-        return listLiveDownload;
+    public List<Download> getLiveDownload() {
+        List<Download> downloads = new ArrayList<>();
+
+        GetDownloadThreadSafe getDownloads = new GetDownloadThreadSafe(downloadDao);
+        Thread thread = new Thread(getDownloads);
+        thread.start();
+
+        try {
+            thread.join();
+            downloads = getDownloads.getDownloads();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return downloads;
+    }
+
+    private static class GetDownloadThreadSafe implements Runnable {
+        private DownloadDao downloadDao;
+        private List<Download> downloads;
+
+        public GetDownloadThreadSafe(DownloadDao downloadDao) {
+            this.downloadDao = downloadDao;
+        }
+
+        @Override
+        public void run() {
+            downloads = downloadDao.getAll();
+        }
+
+        public List<Download> getDownloads() {
+            return downloads;
+        }
     }
 
     public LiveData<List<Download>> getLiveDownloadSample(int size) {

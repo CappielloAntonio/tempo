@@ -60,25 +60,25 @@ public class SongListPageFragment extends Fragment {
     private void init() {
         if(getArguments().getString(Song.RECENTLY_PLAYED) != null) {
             songListPageViewModel.title = Song.RECENTLY_PLAYED;
-            bind.pageTitleLabel.setText("Recently played songs");
+            bind.pageTitleLabel.setText("Recently played tracks");
         }
         else if(getArguments().getString(Song.MOST_PLAYED) != null) {
             songListPageViewModel.title = Song.MOST_PLAYED;
-            bind.pageTitleLabel.setText("Most played songs");
+            bind.pageTitleLabel.setText("Most played tracks");
         }
         else if(getArguments().getString(Song.RECENTLY_ADDED) != null) {
             songListPageViewModel.title = Song.RECENTLY_ADDED;
-            bind.pageTitleLabel.setText("Recently added song");
+            bind.pageTitleLabel.setText("Recently added tracks");
         }
         else if(getArguments().getString(Song.BY_GENRE) != null) {
             songListPageViewModel.title = Song.BY_GENRE;
             songListPageViewModel.genre = getArguments().getParcelable("genre_object");
-            bind.pageTitleLabel.setText(songListPageViewModel.genre.getName() + ": all songs");
+            bind.pageTitleLabel.setText(songListPageViewModel.genre.getName() + ": all tracks");
         }
         else if(getArguments().getString(Song.BY_ARTIST) != null) {
             songListPageViewModel.title = Song.BY_ARTIST;
             songListPageViewModel.artist = getArguments().getParcelable("artist_object");
-            bind.pageTitleLabel.setText(songListPageViewModel.artist.getName() + "'s top songs");
+            bind.pageTitleLabel.setText(songListPageViewModel.artist.getName() + "'s top tracks");
         }
         else if(getArguments().getString(Song.BY_GENRES) != null) {
             songListPageViewModel.title = Song.BY_GENRES;
@@ -91,18 +91,13 @@ public class SongListPageFragment extends Fragment {
             songListPageViewModel.year = getArguments().getInt("year_object");
             bind.pageTitleLabel.setText("Year " + songListPageViewModel.year);
         }
-        else if(getArguments().getString(Song.IS_FAVORITE) != null) {
-            songListPageViewModel.title = Song.IS_FAVORITE;
-            bind.pageTitleLabel.setText("Favourite song");
+        else if(getArguments().getString(Song.STARRED) != null) {
+            songListPageViewModel.title = Song.STARRED;
+            bind.pageTitleLabel.setText("Starred tracks");
         }
         else if(getArguments().getString(Song.DOWNLOADED) != null) {
             songListPageViewModel.title = Song.DOWNLOADED;
             bind.pageTitleLabel.setText("Downloaded");
-        }
-        else if(getArguments().getString(Song.RADIO) != null) {
-            songListPageViewModel.title = Song.IS_FAVORITE;
-            songListPageViewModel.year = getArguments().getInt("radio_object");
-            bind.pageTitleLabel.setText("Radio");
         }
     }
 

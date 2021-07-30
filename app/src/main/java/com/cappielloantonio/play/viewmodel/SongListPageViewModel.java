@@ -1,37 +1,52 @@
 package com.cappielloantonio.play.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
 import android.text.TextUtils;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.util.MappingUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SongListPageViewModel extends AndroidViewModel {
+    private SongRepository songRepository;
+    private DownloadRepository downloadRepository;
+
     public String title;
     public Genre genre;
     public Artist artist;
+
     public ArrayList<String> filters = new ArrayList<>();
     public ArrayList<String> filterNames = new ArrayList<>();
+
     public int year = 0;
-    private SongRepository songRepository;
-    private LiveData<List<Song>> songList;
+
+    private MutableLiveData<List<Song>> songList;
 
     public SongListPageViewModel(@NonNull Application application) {
         super(application);
 
         songRepository = new SongRepository(application);
+        downloadRepository = new DownloadRepository(application);
     }
 
     public LiveData<List<Song>> getSongList() {
+        songList = new MutableLiveData<>(new ArrayList<>());
+
         switch (title) {
             case Song.RECENTLY_PLAYED:
                 // songList = songRepository.getListLiveRecentlyPlayedSampleSong(100);
@@ -54,11 +69,11 @@ public class SongListPageViewModel extends AndroidViewModel {
             case Song.BY_YEAR:
                 // songList = songRepository.getSongByYearListLive(year);
                 break;
-            case Song.IS_FAVORITE:
-                // songList = songRepository.getListLiveFavoritesSong();
+            case Song.STARRED:
+                songList = songRepository.getStarredSongs();
                 break;
             case Song.DOWNLOADED:
-                // songList = songRepository.getListLiveDownloadedSong();
+                songList.setValue(MappingUtil.mapDownload(downloadRepository.getLiveDownload()));
                 break;
         }
 

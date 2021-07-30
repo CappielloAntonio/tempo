@@ -13,7 +13,7 @@ import java.util.List;
 @Dao
 public interface DownloadDao {
     @Query("SELECT * FROM download")
-    LiveData<List<Download>> getAll();
+    List<Download> getAll();
 
     @Query("SELECT * FROM download LIMIT :size")
     LiveData<List<Download>> getSample(int size);

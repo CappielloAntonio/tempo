@@ -43,6 +43,12 @@
             android:id="@+id/action_homeFragment_to_songListPageFragment"
             app:destination="@id/songListPageFragment" />
         <action
+            android:id="@+id/action_homeFragment_to_albumListPageFragment"
+            app:destination="@id/albumListPageFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_artistListPageFragment"
+            app:destination="@id/artistListPageFragment" />
+        <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
         <action
@@ -181,6 +187,24 @@
         android:name="com.cappielloantonio.play.ui.fragment.SongListPageFragment"
         android:label="SongListPageFragment"
         tools:layout="@layout/fragment_song_list_page" />
+    <fragment
+        android:id="@+id/albumListPageFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.AlbumListPageFragment"
+        android:label="AlbumListPageFragment"
+        tools:layout="@layout/fragment_album_list_page">
+        <action
+            android:id="@+id/action_albumListPageFragment_to_albumPageFragment"
+            app:destination="@id/albumPageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/artistListPageFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.ArtistListPageFragment"
+        android:label="ArtistListPageFragment"
+        tools:layout="@layout/fragment_artist_list_page">
+        <action
+            android:id="@+id/action_artistListPageFragment_to_artistPageFragment"
+            app:destination="@id/artistPageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/playlistPageFragment"
         android:name="com.cappielloantonio.play.ui.fragment.PlaylistPageFragment"

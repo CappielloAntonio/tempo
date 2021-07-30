@@ -14,6 +14,11 @@ import com.cappielloantonio.play.subsonic.models.AlbumID3;
 public class Album implements Parcelable {
     private static final String TAG = "Album";
 
+    public static final String RECENTLY_PLAYED = "RECENTLY_PLAYED";
+    public static final String MOST_PLAYED = "MOST_PLAYED";
+    public static final String RECENTLY_ADDED = "RECENTLY_ADDED";
+    public static final String STARRED = "STARRED";
+
     public String id;
     public String title;
     public int year;

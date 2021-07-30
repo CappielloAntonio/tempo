@@ -12,6 +12,7 @@
         android:paddingBottom="@dimen/global_padding_bottom">
 
         <LinearLayout
+            android:id="@+id/library_album_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -64,6 +65,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/library_artist_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

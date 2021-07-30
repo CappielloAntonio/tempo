@@ -88,7 +88,10 @@ public class LibraryFragment extends Fragment {
 
         albumAdapter = new AlbumAdapter(requireContext());
         bind.albumRecyclerView.setAdapter(albumAdapter);
-        libraryViewModel.getAlbumSample().observe(requireActivity(), albums -> albumAdapter.setItems(albums));
+        libraryViewModel.getAlbumSample().observe(requireActivity(), albums -> {
+            if(bind != null) bind.libraryAlbumSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+            albumAdapter.setItems(albums);
+        });
     }
 
     private void initArtistView() {
@@ -97,7 +100,10 @@ public class LibraryFragment extends Fragment {
 
         artistAdapter = new ArtistAdapter(requireContext());
         bind.artistRecyclerView.setAdapter(artistAdapter);
-        libraryViewModel.getArtistSample().observe(requireActivity(), artists -> artistAdapter.setItems(artists));
+        libraryViewModel.getArtistSample().observe(requireActivity(), artists -> {
+            if(bind != null) bind.libraryArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+            artistAdapter.setItems(artists);
+        });
     }
 
     private void initGenreView() {
@@ -113,6 +119,7 @@ public class LibraryFragment extends Fragment {
         });
         bind.genreRecyclerView.setAdapter(genreAdapter);
         libraryViewModel.getGenreSample().observe(requireActivity(), genres -> {
+            if(bind != null) bind.libraryGenresSector.setVisibility(!genres.isEmpty() ? View.VISIBLE : View.GONE);
             genreAdapter.setItems(genres);
         });
     }
@@ -124,6 +131,7 @@ public class LibraryFragment extends Fragment {
         bind.playlistViewPager.setAdapter(playlistAdapter);
         bind.playlistViewPager.setOffscreenPageLimit(3);
         libraryViewModel.getPlaylistSample().observe(requireActivity(), playlists -> {
+            if(bind != null) bind.libraryPlaylistSector.setVisibility(!playlists.isEmpty() ? View.VISIBLE : View.GONE);
             playlistAdapter.setItems(playlists);
         });
 

@@ -47,7 +47,7 @@ public class LibraryViewModel extends AndroidViewModel {
 
         sampleAlbum = albumRepository.getAlbums("random", 20);
         sampleArtist = artistRepository.getArtists(true, 20);
-        sampleGenres = new MutableLiveData<>();
+        sampleGenres = new MutableLiveData<>(new ArrayList<>());
         playlistSample = playlistRepository.getPlaylists(true, 10);
     }
 

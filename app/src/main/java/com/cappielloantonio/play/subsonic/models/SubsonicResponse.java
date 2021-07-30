@@ -14,6 +14,7 @@ public class SubsonicResponse {
     @Element(name = "similarSongs2")
     private SimilarSongs2 similarSongs2;
     private SimilarSongs similarSongs;
+    @Element(name = "artistInfo2")
     private ArtistInfo2 artistInfo2;
     private ArtistInfo artistInfo;
     private AlbumInfo albumInfo;

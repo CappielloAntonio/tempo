@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
+import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.subsonic.models.ArtistWithAlbumsID3;
 import com.cappielloantonio.play.subsonic.models.IndexID3;
@@ -84,6 +85,9 @@ public class ArtistRepository {
         }
     }
 
+    /*
+     * Metodo che mi restituisce le informazioni essenzionali dell'artista (cover, numero di album...)
+     */
     public void getArtistInfo(List<Artist> artists, MutableLiveData<List<Artist>> list) {
         for (Artist artist : artists) {
             App.getSubsonicClientInstance(application, false)
@@ -101,6 +105,51 @@ public class ArtistRepository {
                         }
                     });
         }
+    }
+
+    public MutableLiveData<Artist> getArtistInfo(String id) {
+        MutableLiveData<Artist> artist = new MutableLiveData<>();
+
+        App.getSubsonicClientInstance(application, false)
+                .getBrowsingClient()
+                .getArtist(id)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        artist.setValue(MappingUtil.mapArtistWithAlbum(response.body().getArtist()));
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+
+        return artist;
+    }
+
+    /*
+     * Metodo che mi restituisce le informazioni complete dell'artista (bio, immagini prese da last.fm, artisti simili...)
+     */
+    public MutableLiveData<Artist> getArtistFullInfo(String id) {
+        MutableLiveData<Artist> artistFullInfo = new MutableLiveData<>();
+
+        App.getSubsonicClientInstance(application, false)
+                .getBrowsingClient()
+                .getArtistInfo2(id)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        artistFullInfo.setValue(MappingUtil.mapArtist(response.body().getArtistInfo2()));
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+
+        return artistFullInfo;
     }
 
     public void star(String id) {

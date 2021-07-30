@@ -11,6 +11,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
+import com.cappielloantonio.play.subsonic.models.ArtistInfo2;
 import com.cappielloantonio.play.subsonic.models.ArtistWithAlbumsID3;
 import com.cappielloantonio.play.util.MappingUtil;
 
@@ -23,6 +24,7 @@ public class Artist implements Parcelable {
     public List<Genre> genres;
     public List<Album> albums;
     public List<Song> songs;
+    public List<Artist> similarArtists;
 
     public String id;
     public String name;
@@ -32,6 +34,7 @@ public class Artist implements Parcelable {
     public String backdropBlurHash;
     public int albumCount;
     public boolean favorite;
+    public String bio;
 
     public Artist(ArtistID3 artistID3) {
         this.id = artistID3.getId();
@@ -50,6 +53,11 @@ public class Artist implements Parcelable {
         this.albumCount = artistWithAlbumsID3.getAlbumCount();
         this.albums = MappingUtil.mapAlbum(artistWithAlbumsID3.getAlbums());
         this.favorite = artistWithAlbumsID3.getStarred() != null;
+    }
+
+    public Artist(ArtistInfo2 artistInfo2) {
+        this.similarArtists = MappingUtil.mapArtist(artistInfo2.getSimilarArtists());
+        this.bio = artistInfo2.getBiography();
     }
 
     public Artist(String id, String name) {
@@ -127,6 +135,23 @@ public class Artist implements Parcelable {
 
     public void setFavorite(boolean favorite) {
         this.favorite = favorite;
+    }
+
+
+    public List<Artist> getSimilarArtists() {
+        return similarArtists;
+    }
+
+    public void setSimilarArtists(List<Artist> similarArtists) {
+        this.similarArtists = similarArtists;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
     @Override

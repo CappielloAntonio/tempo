@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.subsonic.models.ResponseStatus;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.util.MappingUtil;
@@ -94,6 +95,7 @@ public class AlbumRepository {
 
                     @Override
                     public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
                     }
                 });
 
@@ -149,5 +151,51 @@ public class AlbumRepository {
 
                     }
                 });
+    }
+
+    public MutableLiveData<List<Song>> getAlbumTracks(String id) {
+        MutableLiveData<List<Song>> albumTracks = new MutableLiveData<>();
+
+        App.getSubsonicClientInstance(application, false)
+                .getBrowsingClient()
+                .getAlbum(id)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        List<Song> tracks = new ArrayList<>(MappingUtil.mapSong(response.body().getAlbum().getSongs()));
+                        albumTracks.setValue(tracks);
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+
+        return albumTracks;
+    }
+
+    public MutableLiveData<List<Album>> getArtistAlbums(String id) {
+        MutableLiveData<List<Album>> artistsAlbum = new MutableLiveData<>();
+
+        App.getSubsonicClientInstance(application, false)
+                .getBrowsingClient()
+                .getArtist(id)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            List<Album> albums = new ArrayList<>(MappingUtil.mapAlbum(response.body().getArtist().getAlbums()));
+                            artistsAlbum.setValue(albums);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+
+        return artistsAlbum;
     }
 }

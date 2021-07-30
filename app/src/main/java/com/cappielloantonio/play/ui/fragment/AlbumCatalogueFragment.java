@@ -3,6 +3,7 @@ package com.cappielloantonio.play.ui.fragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,11 +37,14 @@ public class AlbumCatalogueFragment extends Fragment {
     private AlbumCatalogueViewModel albumCatalogueViewModel;
 
     private AlbumCatalogueAdapter albumAdapter;
+    private GridLayoutManager gridLayoutManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        initData();
     }
 
     @Override
@@ -49,7 +53,6 @@ public class AlbumCatalogueFragment extends Fragment {
 
         bind = FragmentAlbumCatalogueBinding.inflate(inflater, container, false);
         View view = bind.getRoot();
-        albumCatalogueViewModel = new ViewModelProvider(requireActivity()).get(AlbumCatalogueViewModel.class);
 
         initAppBar();
         initAlbumCatalogueView();
@@ -67,6 +70,11 @@ public class AlbumCatalogueFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         bind = null;
+    }
+
+    private void initData() {
+        albumCatalogueViewModel = new ViewModelProvider(requireActivity()).get(AlbumCatalogueViewModel.class);
+        albumCatalogueViewModel.loadAlbums(requireContext(), 500);
     }
 
     private void initAppBar() {
@@ -94,13 +102,16 @@ public class AlbumCatalogueFragment extends Fragment {
 
     @SuppressLint("ClickableViewAccessibility")
     private void initAlbumCatalogueView() {
-        bind.albumCatalogueRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+        gridLayoutManager = new GridLayoutManager(requireContext(), 2);
+
+        bind.albumCatalogueRecyclerView.setLayoutManager(gridLayoutManager);
         bind.albumCatalogueRecyclerView.addItemDecoration(new GridItemDecoration(2, 20, false));
         bind.albumCatalogueRecyclerView.setHasFixedSize(true);
 
         albumAdapter = new AlbumCatalogueAdapter(activity, requireContext());
         albumAdapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
         bind.albumCatalogueRecyclerView.setAdapter(albumAdapter);
+
         albumCatalogueViewModel.getAlbumList().observe(requireActivity(), albums -> {
             albumAdapter.setItems(albums);
         });

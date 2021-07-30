@@ -26,6 +26,7 @@ import com.cappielloantonio.play.adapter.ArtistCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistCatalogueBinding;
 import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.viewmodel.AlbumCatalogueViewModel;
 import com.cappielloantonio.play.viewmodel.ArtistCatalogueViewModel;
 
 public class ArtistCatalogueFragment extends Fragment {
@@ -41,6 +42,8 @@ public class ArtistCatalogueFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        initData();
     }
 
     @Override
@@ -49,7 +52,6 @@ public class ArtistCatalogueFragment extends Fragment {
 
         bind = FragmentArtistCatalogueBinding.inflate(inflater, container, false);
         View view = bind.getRoot();
-        artistCatalogueViewModel = new ViewModelProvider(requireActivity()).get(ArtistCatalogueViewModel.class);
 
         initAppBar();
         initArtistCatalogueView();
@@ -67,6 +69,11 @@ public class ArtistCatalogueFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         bind = null;
+    }
+
+    private void initData() {
+        artistCatalogueViewModel = new ViewModelProvider(requireActivity()).get(ArtistCatalogueViewModel.class);
+        artistCatalogueViewModel.loadArtists(requireContext());
     }
 
     private void initAppBar() {

@@ -1,7 +1,9 @@
 package com.cappielloantonio.play.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -16,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.adapter.AlbumAdapter;
 import com.cappielloantonio.play.adapter.AlbumArtistPageOrSimilarAdapter;
 import com.cappielloantonio.play.adapter.ArtistSimilarAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
@@ -93,6 +97,7 @@ public class ArtistPageFragment extends Fragment {
         });
     }
 
+    @SuppressLint("NewApi")
     private void initAppBar() {
         activity.setSupportActionBar(bind.animToolbar);
         if (activity.getSupportActionBar() != null)
@@ -168,22 +173,14 @@ public class ArtistPageFragment extends Fragment {
     }
 
     private void initSimilarArtistsView() {
-        SyncUtil.getSimilarItems(requireContext(), new MediaCallback() {
-            @Override
-            public void onError(Exception exception) {
-                // Toast.makeText(requireContext(), "Error retrieving similar items", Toast.LENGTH_SHORT).show();
-            }
+        bind.similarArtistsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        bind.similarArtistsRecyclerView.setHasFixedSize(true);
 
-            @Override
-            public void onLoadMedia(List<?> media) {
-                bind.similarArtistSector.setVisibility(View.VISIBLE);
-
-                bind.similarArtistsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-
-                artistSimilarAdapter = new ArtistSimilarAdapter(requireContext());
-                bind.similarArtistsRecyclerView.setAdapter(artistSimilarAdapter);
-                artistSimilarAdapter.setItems((ArrayList<Artist>) media);
-            }
-        }, SyncUtil.ARTIST, artistPageViewModel.getArtist().getId(), PreferenceUtil.getInstance(requireContext()).getSimilarItemsNumber());
+        artistSimilarAdapter = new ArtistSimilarAdapter(requireContext());
+        bind.similarArtistsRecyclerView.setAdapter(artistSimilarAdapter);
+        artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(requireActivity(), artist -> {
+            if(bind != null) bind.similarArtistSector.setVisibility(!artist.getSimilarArtists().isEmpty() ? View.VISIBLE : View.GONE);
+            artistSimilarAdapter.setItems(artist.getSimilarArtists());
+        });
     }
 }

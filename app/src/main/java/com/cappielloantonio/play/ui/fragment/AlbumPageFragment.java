@@ -100,7 +100,7 @@ public class AlbumPageFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_download_album:
-                DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(albumPageViewModel.getAlbumSongList());
+                DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(albumPageViewModel.getAlbumSongLiveList().getValue());
                 return true;
             default:
                 break;
@@ -132,20 +132,21 @@ public class AlbumPageFragment extends Fragment {
 
     private void initAlbumInfoTextButton() {
         bind.albumArtistLabel.setOnClickListener(v -> {
-            Artist artist = albumPageViewModel.getArtist();
-            if(artist != null) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("artist_object", artist);
-               activity.navController.navigate(R.id.action_albumPageFragment_to_artistPageFragment, bundle);
-            }
-            else Toast.makeText(requireContext(), "Error retrieving artist", Toast.LENGTH_SHORT).show();
+            albumPageViewModel.getArtist().observe(requireActivity(), artist -> {
+                if(artist != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("artist_object", artist);
+                    activity.navController.navigate(R.id.action_albumPageFragment_to_artistPageFragment, bundle);
+                }
+                else Toast.makeText(requireContext(), "Error retrieving artist", Toast.LENGTH_SHORT).show();
+            });
         });
 
         bind.albumReleaseYearLabel.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
+            /*Bundle bundle = new Bundle();
             bundle.putString(Song.BY_YEAR, Song.BY_YEAR);
             bundle.putInt("year_object", albumPageViewModel.getAlbum().getYear());
-            activity.navController.navigate(R.id.action_albumPageFragment_to_songListPageFragment, bundle);
+            activity.navController.navigate(R.id.action_albumPageFragment_to_songListPageFragment, bundle);*/
         });
     }
 
@@ -197,22 +198,6 @@ public class AlbumPageFragment extends Fragment {
     }
 
     private void initSimilarAlbumsView() {
-        SyncUtil.getSimilarItems(requireContext(), new MediaCallback() {
-            @Override
-            public void onError(Exception exception) {
-                // Toast.makeText(requireContext(), "Error retrieving similar items", Toast.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void onLoadMedia(List<?> media) {
-                bind.similarAlbumSector.setVisibility(View.VISIBLE);
-
-                bind.similarAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-
-                albumArtistPageOrSimilarAdapter = new AlbumArtistPageOrSimilarAdapter(requireContext());
-                bind.similarAlbumsRecyclerView.setAdapter(albumArtistPageOrSimilarAdapter);
-                albumArtistPageOrSimilarAdapter.setItems((ArrayList<Album>) media);
-            }
-        }, SyncUtil.ALBUM, albumPageViewModel.getAlbum().getId(), PreferenceUtil.getInstance(requireContext()).getSimilarItemsNumber());
     }
 }

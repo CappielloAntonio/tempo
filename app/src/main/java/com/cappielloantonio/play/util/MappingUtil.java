@@ -8,6 +8,7 @@ import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
+import com.cappielloantonio.play.subsonic.models.ArtistInfo2;
 import com.cappielloantonio.play.subsonic.models.ArtistWithAlbumsID3;
 import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.subsonic.models.Playlists;
@@ -44,6 +45,10 @@ public class MappingUtil {
         }
 
         return artists;
+    }
+
+    public static Artist mapArtist(ArtistInfo2 artistInfo2) {
+        return new Artist(artistInfo2);
     }
 
     public static Artist mapArtistWithAlbum(ArtistWithAlbumsID3 artistWithAlbumsID3) {

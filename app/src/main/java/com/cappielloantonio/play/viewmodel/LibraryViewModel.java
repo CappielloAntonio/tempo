@@ -40,14 +40,9 @@ public class LibraryViewModel extends AndroidViewModel {
 
         // Inizializzate all'interno del costruttore, in modo da rimanere immutabili per tutto il
         // ciclo di vita dell'applicazione
-        // sampleAlbum = albumRepository.getListLiveSampleAlbum();
-        // sampleArtist = artistRepository.getListLiveSampleArtist();
-        // sampleGenres = genreRepository.getListLiveSampleGenre();
-        // playlistSample = playlistRepository.getRandomSample(5);
-
         sampleAlbum = albumRepository.getAlbums("random", 20);
         sampleArtist = artistRepository.getArtists(true, 20);
-        sampleGenres = new MutableLiveData<>(new ArrayList<>());
+        sampleGenres = genreRepository.getGenres(true, 15);
         playlistSample = playlistRepository.getPlaylists(true, 10);
     }
 

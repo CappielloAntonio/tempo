@@ -8,34 +8,19 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "genre")
 public class Genre implements Parcelable {
-    @NonNull
-    @PrimaryKey
-    @ColumnInfo(name = "id")
     public String id;
-
-    @ColumnInfo(name = "name")
     public String name;
-
-    @ColumnInfo(name = "songCount")
     public int songCount;
+    public int albumCount;
 
-    @ColumnInfo(name = "primary")
-    public String primary;
-
-    @ColumnInfo(name = "blurHash")
-    public String blurHash;
-
-    public Genre(@NonNull String id, String name, int songCount, String primary, String blurHash) {
-        this.id = id;
-        this.name = name;
-        this.songCount = songCount;
-        this.primary = primary;
-        this.blurHash = blurHash;
+    public Genre(com.cappielloantonio.play.subsonic.models.Genre genre) {
+        this.id = genre.getGenre();
+        this.name = genre.getGenre();
+        this.songCount = genre.getSongCount();
+        this.albumCount = genre.getAlbumCount();
     }
 
-    @NonNull
     public String getId() {
         return id;
     }
@@ -46,22 +31,6 @@ public class Genre implements Parcelable {
 
     public int getSongCount() {
         return songCount;
-    }
-
-    public String getPrimary() {
-        return primary;
-    }
-
-    public void setPrimary(String primary) {
-        this.primary = primary;
-    }
-
-    public String getBlurHash() {
-        return blurHash;
-    }
-
-    public void setBlurHash(String blurHash) {
-        this.blurHash = blurHash;
     }
 
     @Override

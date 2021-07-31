@@ -12,6 +12,8 @@ import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.util.MappingUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import retrofit2.Call;
@@ -167,5 +169,63 @@ public class SongRepository {
 
                     }
                 });
+    }
+
+    public MutableLiveData<List<Song>> getSongsByGenre(String id) {
+        MutableLiveData<List<Song>> songsByGenre = new MutableLiveData<>();
+
+        App.getSubsonicClientInstance(application, false)
+                .getAlbumSongListClient()
+                .getSongsByGenre(id, 500, 0)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            List<Song> newSongs = new ArrayList<>(MappingUtil.mapSong(response.body().getSongsByGenre().getSongs()));
+                            List<Song> songs = songsByGenre.getValue();
+
+                            songs.addAll(newSongs);
+                            Collections.shuffle(songs);
+
+                            LinkedHashSet<Song> hashSet = new LinkedHashSet<>(songs);
+                            ArrayList<Song> songsWithoutDuplicates = new ArrayList<>(hashSet);
+
+                            songsByGenre.setValue(songsWithoutDuplicates);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+
+        return songsByGenre;
+    }
+
+    public MutableLiveData<List<Song>> getSongsByGenres(ArrayList<String> genresId) {
+        MutableLiveData<List<Song>> songsByGenre = new MutableLiveData<>();
+
+        for(String id: genresId)
+
+        App.getSubsonicClientInstance(application, false)
+                .getAlbumSongListClient()
+                .getSongsByGenre(id, 500, 0)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            List<Song> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getSongsByGenre().getSongs()));
+                            songsByGenre.setValue(songs);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+
+        return songsByGenre;
     }
 }

@@ -12,6 +12,7 @@ import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.ArtistInfo2;
 import com.cappielloantonio.play.subsonic.models.ArtistWithAlbumsID3;
 import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.subsonic.models.Genre;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,5 +106,15 @@ public class MappingUtil {
 
     public static Download mapToDownload(Song song) {
         return new Download(song);
+    }
+
+    public static ArrayList<com.cappielloantonio.play.model.Genre> mapGenre(List<Genre> genreList) {
+        ArrayList<com.cappielloantonio.play.model.Genre> genres = new ArrayList();
+
+        for (Genre genre : genreList) {
+            genres.add(new com.cappielloantonio.play.model.Genre(genre));
+        }
+
+        return genres;
     }
 }

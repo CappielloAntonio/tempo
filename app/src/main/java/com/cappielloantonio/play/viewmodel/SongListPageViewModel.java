@@ -58,13 +58,13 @@ public class SongListPageViewModel extends AndroidViewModel {
                 // songList = songRepository.getListLiveRecentlyAddedSampleSong(100);
                 break;
             case Song.BY_GENRE:
-                // songList = songRepository.getListLiveSongByGenre(genre.getId());
+                songList = songList = songRepository.getSongsByGenre(genre.getId());
                 break;
             case Song.BY_ARTIST:
                 // songList = songRepository.getArtistListLiveTopSong(artist.getId());
                 break;
             case Song.BY_GENRES:
-                // songList = songRepository.getFilteredListLiveSong(filters);
+                songList = songRepository.getSongsByGenres(filters);
                 break;
             case Song.BY_YEAR:
                 // songList = songRepository.getSongByYearListLive(year);

@@ -28,6 +28,7 @@ public class SubsonicResponse {
     private NewestPodcasts newestPodcasts;
     private Podcasts podcasts;
     private Lyrics lyrics;
+    @Element(name = "songsByGenre")
     private Songs songsByGenre;
     @Element(name = "randomSongs")
     private Songs randomSongs;

@@ -125,16 +125,6 @@ public class SongListPageFragment extends Fragment {
     private void initButtons() {
         songListPageViewModel.getSongList().observe(requireActivity(), songs -> {
             if(bind != null) {
-                bind.songListPlayImageView.setOnClickListener(v -> {
-                    QueueRepository queueRepository = new QueueRepository(App.getInstance());
-                    queueRepository.insertAllAndStartNew(songs);
-
-                    activity.isBottomSheetInPeek(true);
-                    activity.setBottomSheetMusicInfo(songs.get(0));
-
-                    MusicPlayerRemote.openQueue(songs, 0, true);
-                });
-
                 bind.songListShuffleImageView.setOnClickListener(v -> {
                     Collections.shuffle(songs);
 

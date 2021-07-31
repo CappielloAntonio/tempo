@@ -2,19 +2,152 @@ package com.cappielloantonio.play.repository;
 
 import android.app.Application;
 
+import androidx.lifecycle.MutableLiveData;
+
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.RecentSearchDao;
+import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.RecentSearch;
+import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.subsonic.models.AlbumID3;
+import com.cappielloantonio.play.subsonic.models.ArtistID3;
+import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.subsonic.models.ResponseStatus;
+import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
+import com.cappielloantonio.play.util.MappingUtil;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SearchingRepository {
     private RecentSearchDao recentSearchDao;
 
+    private Application application;
+
     public SearchingRepository(Application application) {
+        this.application = application;
+
         AppDatabase database = AppDatabase.getInstance(application);
         recentSearchDao = database.recentSearchDao();
+    }
+
+    public MutableLiveData<List<Song>> getSearchedSongs(String query) {
+        MutableLiveData<List<Song>> searchedSongs = new MutableLiveData<>();
+
+        App.getSubsonicClientInstance(application, false)
+                .getSearchingClient()
+                .search3(query, 20, 0, 0)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            List<Song> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getSearchResult3().getSongs()));
+                            searchedSongs.setValue(songs);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+
+        return searchedSongs;
+    }
+
+    public MutableLiveData<List<Album>> getSearchedAlbums(String query) {
+        MutableLiveData<List<Album>> searchedAlbums = new MutableLiveData<>();
+
+        App.getSubsonicClientInstance(application, false)
+                .getSearchingClient()
+                .search3(query, 0, 20, 0)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            List<Album> albums = new ArrayList<>(MappingUtil.mapAlbum(response.body().getSearchResult3().getAlbums()));
+                            searchedAlbums.setValue(albums);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+
+        return searchedAlbums;
+    }
+
+    public MutableLiveData<List<Artist>> getSearchedArtists(String query) {
+        MutableLiveData<List<Artist>> searchedArtists = new MutableLiveData<>();
+
+        App.getSubsonicClientInstance(application, false)
+                .getSearchingClient()
+                .search3(query, 0, 0, 20)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            List<Artist> artists = new ArrayList<>(MappingUtil.mapArtist(response.body().getSearchResult3().getArtists()));
+                            searchedArtists.setValue(artists);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+
+        return searchedArtists;
+    }
+
+    public MutableLiveData<List<String>> getSuggestions(String query) {
+        MutableLiveData<List<String>>  suggestions = new MutableLiveData<>(new ArrayList());
+
+        App.getSubsonicClientInstance(application, false)
+                .getSearchingClient()
+                .search3(query, 5, 5, 5)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        List<String> newSuggestions = new ArrayList();
+
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            for(ArtistID3 artistID3 : response.body().getSearchResult3().getArtists()) {
+                                newSuggestions.add(artistID3.getName());
+                            }
+
+                            for(AlbumID3 albumID3 : response.body().getSearchResult3().getAlbums()) {
+                                newSuggestions.add(albumID3.getName());
+                            }
+
+                            for(Child song : response.body().getSearchResult3().getSongs()) {
+                                newSuggestions.add(song.getTitle());
+                            }
+
+                            LinkedHashSet<String> hashSet = new LinkedHashSet<>(newSuggestions);
+                            ArrayList<String> suggestionsWithoutDuplicates = new ArrayList<>(hashSet);
+
+                            suggestions.setValue(suggestionsWithoutDuplicates);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+
+        return suggestions;
     }
 
     public void insert(RecentSearch recentSearch) {
@@ -25,12 +158,6 @@ public class SearchingRepository {
 
     public void delete(RecentSearch recentSearch) {
         DeleteThreadSafe delete = new DeleteThreadSafe(recentSearchDao, recentSearch);
-        Thread thread = new Thread(delete);
-        thread.start();
-    }
-
-    public void deleteAll() {
-        DeleteAllThreadSafe delete = new DeleteAllThreadSafe(recentSearchDao);
         Thread thread = new Thread(delete);
         thread.start();
     }
@@ -79,19 +206,6 @@ public class SearchingRepository {
         @Override
         public void run() {
             recentSearchDao.insert(recentSearch);
-        }
-    }
-
-    private static class DeleteAllThreadSafe implements Runnable {
-        private RecentSearchDao recentSearchDao;
-
-        public DeleteAllThreadSafe(RecentSearchDao recentSearchDao) {
-            this.recentSearchDao = recentSearchDao;
-        }
-
-        @Override
-        public void run() {
-            recentSearchDao.deleteAll();
         }
     }
 

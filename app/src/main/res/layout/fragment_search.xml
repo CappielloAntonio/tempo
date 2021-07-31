@@ -139,37 +139,6 @@
                     android:paddingEnd="8dp"
                     android:paddingBottom="8dp" />
             </LinearLayout>
-
-            <!--  Genre  -->
-            <LinearLayout
-                android:id="@+id/search_genre_sector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="8dp"
-                android:visibility="gone">
-
-                <TextView
-                    style="@style/HeadlineTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="16dp"
-                    android:paddingTop="20dp"
-                    android:paddingEnd="16dp"
-                    android:text="Genres" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/search_result_genre_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:clipToPadding="false"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="16dp"
-                    android:paddingBottom="8dp" />
-            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

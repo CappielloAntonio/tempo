@@ -6,6 +6,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
@@ -33,10 +34,10 @@ public class SearchViewModel extends AndroidViewModel {
     private GenreRepository genreRepository;
     private SearchingRepository searchingRepository;
 
-    private LiveData<List<Song>> searchSong;
-    private LiveData<List<Album>> searchAlbum;
-    private LiveData<List<Artist>> searchArtist;
-    private LiveData<List<Genre>> searchGenre;
+    private LiveData<List<Song>> searchSong = new MutableLiveData<>(new ArrayList<>());
+    private LiveData<List<Album>> searchAlbum = new MutableLiveData<>(new ArrayList<>());
+    private LiveData<List<Artist>> searchArtist = new MutableLiveData<>(new ArrayList<>());
+    private LiveData<List<Genre>> searchGenre = new MutableLiveData<>(new ArrayList<>());
 
     public SearchViewModel(@NonNull Application application) {
         super(application);
@@ -60,24 +61,19 @@ public class SearchViewModel extends AndroidViewModel {
         }
     }
 
-    public LiveData<List<Song>> searchSong(String title, Context context) {
-        // searchSong = songRepository.searchListLiveSong(title, PreferenceUtil.getInstance(context).getSearchElementPerCategory());
+    public LiveData<List<Song>> searchSong(String title) {
+        searchSong = searchingRepository.getSearchedSongs(title);
         return searchSong;
     }
 
-    public LiveData<List<Album>> searchAlbum(String name, Context context) {
-        // searchAlbum = albumRepository.searchListLiveAlbum(name, PreferenceUtil.getInstance(context).getSearchElementPerCategory());
+    public LiveData<List<Album>> searchAlbum(String name) {
+        searchAlbum = searchingRepository.getSearchedAlbums(name);
         return searchAlbum;
     }
 
-    public LiveData<List<Artist>> searchArtist(String name, Context context) {
-        // searchArtist = artistRepository.searchListLiveArtist(name, PreferenceUtil.getInstance(context).getSearchElementPerCategory());
+    public LiveData<List<Artist>> searchArtist(String name) {
+        searchArtist = searchingRepository.getSearchedArtists(name);
         return searchArtist;
-    }
-
-    public LiveData<List<Genre>> searchGenre(String name, Context context) {
-        // searchGenre = genreRepository.searchListLiveGenre(name, PreferenceUtil.getInstance(context).getSearchElementPerCategory());
-        return searchGenre;
     }
 
     public void insertNewSearch(String search) {
@@ -88,17 +84,8 @@ public class SearchViewModel extends AndroidViewModel {
         searchingRepository.delete(new RecentSearch(search));
     }
 
-    public List<String> getSearchSuggestion(String query) {
-        ArrayList<String> suggestions = new ArrayList<>();
-        // suggestions.addAll(songRepository.getSearchSuggestion(query));
-        // suggestions.addAll(albumRepository.getSearchSuggestion(query));
-        // suggestions.addAll(artistRepository.getSearchSuggestion(query));
-        // suggestions.addAll(genreRepository.getSearchSuggestion(query));
-
-        LinkedHashSet<String> hashSet = new LinkedHashSet<>(suggestions);
-        ArrayList<String> suggestionsWithoutDuplicates = new ArrayList<>(hashSet);
-
-        return suggestionsWithoutDuplicates;
+    public LiveData<List<String>> getSearchSuggestion(String query) {
+        return searchingRepository.getSuggestions(query);
     }
 
     public List<String> getRecentSearchSuggestion() {

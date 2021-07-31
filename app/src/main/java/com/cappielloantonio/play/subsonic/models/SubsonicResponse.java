@@ -44,7 +44,9 @@ public class SubsonicResponse {
     private PlaylistWithSongs playlist;
     @Element
     private Playlists playlists;
+    @Element
     private SearchResult3 searchResult3;
+    @Element
     private SearchResult2 searchResult2;
     private SearchResult searchResult;
     private NowPlaying nowPlaying;

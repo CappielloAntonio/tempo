@@ -37,7 +37,6 @@ public class SearchFragment extends Fragment {
     private SongHorizontalAdapter songHorizontalAdapter;
     private AlbumAdapter albumAdapter;
     private ArtistAdapter artistAdapter;
-    private GenreCatalogueAdapter genreCatalogueAdapter;
 
     @Nullable
     @Override
@@ -93,20 +92,6 @@ public class SearchFragment extends Fragment {
 
         artistAdapter = new ArtistAdapter(requireContext());
         bind.searchResultArtistRecyclerView.setAdapter(artistAdapter);
-
-        // Genres
-        bind.searchResultGenreRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-        bind.searchResultGenreRecyclerView.addItemDecoration(new GridItemDecoration(2, 16, false));
-        bind.searchResultGenreRecyclerView.setHasFixedSize(true);
-
-        genreCatalogueAdapter = new GenreCatalogueAdapter(activity, requireContext());
-        genreCatalogueAdapter.setClickListener((view, position) -> {
-            Bundle bundle = new Bundle();
-            bundle.putString(Song.BY_GENRE, Song.BY_GENRE);
-            bundle.putParcelable("genre_object", genreCatalogueAdapter.getItem(position));
-            activity.navController.navigate(R.id.action_searchFragment_to_songListPageFragment, bundle);
-        });
-        bind.searchResultGenreRecyclerView.setAdapter(genreCatalogueAdapter);
     }
 
     private void initSearchView() {
@@ -119,7 +104,9 @@ public class SearchFragment extends Fragment {
 
         bind.persistentSearchView.setOnSearchQueryChangeListener((searchView, oldQuery, newQuery) -> {
             if (!newQuery.trim().equals("") && newQuery.trim().length() > 1) {
-                searchView.setSuggestions(SuggestionCreationUtil.asRegularSearchSuggestions(searchViewModel.getSearchSuggestion(newQuery)), false);
+                searchViewModel.getSearchSuggestion(newQuery).observe(requireActivity(), suggestions -> {
+                    searchView.setSuggestions(SuggestionCreationUtil.asRegularSearchSuggestions(suggestions), false);
+                });
             } else {
                 setSuggestions();
             }
@@ -173,21 +160,17 @@ public class SearchFragment extends Fragment {
     }
 
     private void performSearch(String query) {
-        searchViewModel.searchSong(query, requireContext()).observe(requireActivity(), songs -> {
+        searchViewModel.searchSong(query).observe(requireActivity(), songs -> {
             if(bind != null) bind.searchSongSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
             songHorizontalAdapter.setItems(songs);
         });
-        searchViewModel.searchAlbum(query, requireContext()).observe(requireActivity(), albums -> {
+        searchViewModel.searchAlbum(query).observe(requireActivity(), albums -> {
             if(bind != null) bind.searchAlbumSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
             albumAdapter.setItems(albums);
         });
-        searchViewModel.searchArtist(query, requireContext()).observe(requireActivity(), artists -> {
+        searchViewModel.searchArtist(query).observe(requireActivity(), artists -> {
             if(bind != null) bind.searchArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
             artistAdapter.setItems(artists);
-        });
-        searchViewModel.searchGenre(query, requireContext()).observe(requireActivity(), genres -> {
-            if(bind != null) bind.searchGenreSector.setVisibility(!genres.isEmpty() ? View.VISIBLE : View.GONE);
-            genreCatalogueAdapter.setItems(genres);
         });
 
         bind.searchResultLayout.setVisibility(View.VISIBLE);

@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
@@ -45,13 +46,11 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
         }
     }
 
-    public Album getAlbum() {
-        // return albumRepository.getAlbumByID(song.getAlbumId());
-        return null;
+    public LiveData<Album> getAlbum() {
+        return albumRepository.getAlbum(song.getAlbumId());
     }
 
-    public Artist getArtist() {
-        // return artistRepository.getArtistByID(song.getArtistId());
-        return null;
+    public LiveData<Artist> getArtist() {
+        return artistRepository.getArtist(song.getArtistId());
     }
 }

@@ -17,28 +17,28 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.DownloadUtil;
-import com.cappielloantonio.play.util.PreferenceUtil;
-import com.cappielloantonio.play.util.SyncUtil;
 import com.cappielloantonio.play.viewmodel.AlbumBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
     private static final String TAG = "AlbumBottomSheetDialog";
 
+    private MainActivity activity;
+
     private AlbumBottomSheetViewModel albumBottomSheetViewModel;
-    private SongRepository songRepository;
     private Album album;
 
     private ImageView coverAlbum;
@@ -51,7 +51,6 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
     private TextView playNext;
     private TextView addToQueue;
     private TextView Download;
-    private TextView addToPlaylist;
     private TextView goToArtist;
 
     @Nullable
@@ -64,14 +63,14 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
         albumBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(AlbumBottomSheetViewModel.class);
         albumBottomSheetViewModel.setAlbum(album);
 
-        songRepository = new SongRepository(App.getInstance());
-
         init(view);
 
         return view;
     }
 
     private void init(View view) {
+        activity = (MainActivity) requireActivity();
+
         coverAlbum = view.findViewById(R.id.album_cover_image_view);
         CustomGlideRequest.Builder
                 .from(requireContext(), albumBottomSheetViewModel.getAlbum().getPrimary(), albumBottomSheetViewModel.getAlbum().getBlurHash(), CustomGlideRequest.ALBUM_PIC)
@@ -94,79 +93,87 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
         playRadio = view.findViewById(R.id.play_radio_text_view);
         playRadio.setOnClickListener(v -> {
-            SyncUtil.getInstantMix(requireContext(), new MediaCallback() {
-                MainActivity activity = (MainActivity) requireActivity();
-
+            AlbumRepository albumRepository = new AlbumRepository(App.getInstance());
+            albumRepository.getInstantMix(album, 20, new MediaCallback() {
                 @Override
                 public void onError(Exception exception) {
                     Log.e(TAG, "onError: " + exception.getMessage());
+
+                    dismissBottomSheet();
                 }
 
                 @Override
                 public void onLoadMedia(List<?> media) {
-                    QueueRepository queueRepository = new QueueRepository(App.getInstance());
-                    List<Song> mix = queueRepository.insertMix((ArrayList<Song>) media);
+                    if(media.size() > 0) {
+                        QueueRepository queueRepository = new QueueRepository(App.getInstance());
+                        queueRepository.insertAllAndStartNew((ArrayList<Song>) media);
 
-                    activity.isBottomSheetInPeek(true);
-                    activity.setBottomSheetMusicInfo(mix.get(0));
+                        activity.isBottomSheetInPeek(true);
+                        activity.setBottomSheetMusicInfo((Song) media.get(0));
 
-                    MusicPlayerRemote.openQueue(mix, 0, true);
+                        MusicPlayerRemote.openQueue((List<Song>) media, 0, true);
+                    } else {
+                        Toast.makeText(requireContext(), "Error retrieving album's radio", Toast.LENGTH_SHORT).show();
+                    }
+
+                    dismissBottomSheet();
                 }
-            }, SyncUtil.SONG, album.getId(), PreferenceUtil.getInstance(requireContext()).getInstantMixSongNumber());
-
-            dismissBottomSheet();
+            });
         });
 
         playRandom = view.findViewById(R.id.play_random_text_view);
         playRandom.setOnClickListener(v -> {
-            // List<Song> songs = songRepository.getAlbumListSong(album.getId(), true);
-            List<Song> songs = new ArrayList<>();
+            AlbumRepository albumRepository = new AlbumRepository(App.getInstance());
+            albumRepository.getAlbumTracks(album.getId()).observe(requireActivity(), songs -> {
+                Collections.shuffle(songs);
 
-            QueueRepository queueRepository = new QueueRepository(App.getInstance());
-            queueRepository.insertAllAndStartNew(songs);
+                QueueRepository queueRepository = new QueueRepository(App.getInstance());
+                queueRepository.insertAllAndStartNew(songs);
 
-            MusicPlayerRemote.openQueue(songs, 0, true);
-            ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
-            dismissBottomSheet();
+                MusicPlayerRemote.openQueue(songs, 0, true);
+                activity.isBottomSheetInPeek(true);
+
+                dismissBottomSheet();
+            });
         });
 
         playNext = view.findViewById(R.id.play_next_text_view);
         playNext.setOnClickListener(v -> {
-            // MusicPlayerRemote.playNext(songRepository.getAlbumListSong(album.getId(), false));
-            ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
-            dismissBottomSheet();
+            albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
+                MusicPlayerRemote.playNext(songs);
+                activity.isBottomSheetInPeek(true);
+                dismissBottomSheet();
+            });
         });
 
         addToQueue = view.findViewById(R.id.add_to_queue_text_view);
         addToQueue.setOnClickListener(v -> {
-            // MusicPlayerRemote.enqueue(songRepository.getAlbumListSong(album.getId(), false));
-            dismissBottomSheet();
+            albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
+                MusicPlayerRemote.enqueue(songs);
+                dismissBottomSheet();
+            });
         });
 
         Download = view.findViewById(R.id.download_text_view);
         Download.setOnClickListener(v -> {
-            // List<Song> songs = songRepository.getAlbumListSong(album.getId(), false);
-            // DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(songs);
-            dismissBottomSheet();
-        });
-
-        addToPlaylist = view.findViewById(R.id.add_to_playlist_text_view);
-        addToPlaylist.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Add to playlist", Toast.LENGTH_SHORT).show();
-            dismissBottomSheet();
+            albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
+                DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(songs);
+                dismissBottomSheet();
+            });
         });
 
         goToArtist = view.findViewById(R.id.go_to_artist_text_view);
         goToArtist.setOnClickListener(v -> {
-            Artist artist = albumBottomSheetViewModel.getArtist();
-            if(artist != null) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("artist_object", artist);
-                NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
-            }
-            else Toast.makeText(requireContext(), "Error retrieving artist", Toast.LENGTH_SHORT).show();
+            albumBottomSheetViewModel.getArtist().observe(requireActivity(), artist -> {
+                if (artist != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("artist_object", artist);
+                    NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
+                } else
+                    Toast.makeText(requireContext(), "Error retrieving artist", Toast.LENGTH_SHORT).show();
 
-            dismissBottomSheet();
+                dismissBottomSheet();
+            });
         });
     }
 

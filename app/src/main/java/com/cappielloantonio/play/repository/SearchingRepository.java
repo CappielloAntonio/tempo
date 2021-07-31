@@ -111,7 +111,7 @@ public class SearchingRepository {
     }
 
     public MutableLiveData<List<String>> getSuggestions(String query) {
-        MutableLiveData<List<String>>  suggestions = new MutableLiveData<>(new ArrayList());
+        MutableLiveData<List<String>> suggestions = new MutableLiveData<>(new ArrayList());
 
         App.getSubsonicClientInstance(application, false)
                 .getSearchingClient()
@@ -122,15 +122,15 @@ public class SearchingRepository {
                         List<String> newSuggestions = new ArrayList();
 
                         if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
-                            for(ArtistID3 artistID3 : response.body().getSearchResult3().getArtists()) {
+                            for (ArtistID3 artistID3 : response.body().getSearchResult3().getArtists()) {
                                 newSuggestions.add(artistID3.getName());
                             }
 
-                            for(AlbumID3 albumID3 : response.body().getSearchResult3().getAlbums()) {
+                            for (AlbumID3 albumID3 : response.body().getSearchResult3().getAlbums()) {
                                 newSuggestions.add(albumID3.getName());
                             }
 
-                            for(Child song : response.body().getSearchResult3().getSongs()) {
+                            for (Child song : response.body().getSearchResult3().getSongs()) {
                                 newSuggestions.add(song.getTitle());
                             }
 

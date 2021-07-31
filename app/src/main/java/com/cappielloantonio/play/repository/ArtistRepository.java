@@ -2,12 +2,14 @@ package com.cappielloantonio.play.repository;
 
 import android.app.Application;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
+import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.subsonic.models.ArtistWithAlbumsID3;
+import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.subsonic.models.IndexID3;
 import com.cappielloantonio.play.subsonic.models.ResponseStatus;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
@@ -201,6 +203,85 @@ public class ArtistRepository {
 
                     }
                 });
+    }
+
+    public MutableLiveData<Artist> getArtist(String id) {
+        MutableLiveData<Artist> artist = new MutableLiveData<>();
+
+        App.getSubsonicClientInstance(application, false)
+                .getBrowsingClient()
+                .getArtist(id)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            artist.setValue(MappingUtil.mapArtist(response.body().getArtist()));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+
+        return artist;
+    }
+
+    public void getInstantMix(Artist artist, int count, MediaCallback callback) {
+        App.getSubsonicClientInstance(application, false)
+                .getBrowsingClient()
+                .getSimilarSongs2(artist.getId(), count)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            List<Song> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getSimilarSongs2().getSongs()));
+                            callback.onLoadMedia(songs);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+                        callback.onLoadMedia(new ArrayList<>());
+                    }
+                });
+    }
+
+    public MutableLiveData<ArrayList<Song>> getArtistRandomSong(FragmentActivity fragmentActivity, Artist artist, int count) {
+        MutableLiveData<ArrayList<Song>> randomSongs = new MutableLiveData<>(new ArrayList());
+
+        App.getSubsonicClientInstance(application, false)
+                .getBrowsingClient()
+                .getArtist(artist.getId())
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            List<Album> albums = new ArrayList<>(MappingUtil.mapAlbum(response.body().getArtist().getAlbums()));
+
+                            if(albums.size() > 0) {
+                                AlbumRepository albumRepository = new AlbumRepository(App.getInstance());
+
+                                for (int index = 0; index < albums.size(); index++) {
+                                    albumRepository.getAlbumTracks(albums.get(index).getId()).observe(fragmentActivity, songs -> {
+                                        ArrayList<Song> liveSongs = randomSongs.getValue();
+                                        Collections.shuffle(liveSongs);
+                                        liveSongs.addAll(songs);
+                                        randomSongs.setValue(liveSongs);
+                                    });
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+
+        return randomSongs;
     }
 
     private void addToMutableLiveData(MutableLiveData<List<Artist>> liveData, Artist artist) {

@@ -4,12 +4,19 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 
+import java.util.List;
+
 public class AlbumBottomSheetViewModel extends AndroidViewModel {
+    private AlbumRepository albumRepository;
     private ArtistRepository artistRepository;
 
     private Album album;
@@ -17,6 +24,7 @@ public class AlbumBottomSheetViewModel extends AndroidViewModel {
     public AlbumBottomSheetViewModel(@NonNull Application application) {
         super(application);
 
+        albumRepository = new AlbumRepository(application);
         artistRepository = new ArtistRepository(application);
     }
 
@@ -28,9 +36,12 @@ public class AlbumBottomSheetViewModel extends AndroidViewModel {
         this.album = album;
     }
 
-    public Artist getArtist() {
-        // return artistRepository.getArtistByID(album.getArtistId());
-        return null;
+    public LiveData<Artist> getArtist() {
+        return artistRepository.getArtist(album.getArtistId());
+    }
+
+    public MutableLiveData<List<Song>> getAlbumTracks() {
+        return albumRepository.getAlbumTracks(album.getId());
     }
 
     public void setFavorite() {

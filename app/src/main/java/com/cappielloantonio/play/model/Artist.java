@@ -2,13 +2,8 @@ package com.cappielloantonio.play.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.Html;
 
 import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
 
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.ArtistInfo2;
@@ -55,6 +50,7 @@ public class Artist implements Parcelable {
         this.albumCount = artistWithAlbumsID3.getAlbumCount();
         this.albums = MappingUtil.mapAlbum(artistWithAlbumsID3.getAlbums());
         this.favorite = artistWithAlbumsID3.getStarred() != null;
+        this.albums = MappingUtil.mapAlbum(artistWithAlbumsID3.getAlbums());
     }
 
     public Artist(ArtistInfo2 artistInfo2) {

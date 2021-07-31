@@ -5,6 +5,7 @@ import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import com.cappielloantonio.play.databinding.FragmentArtistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
@@ -39,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArtistPageFragment extends Fragment {
+    private static final String TAG = "ArtistPageFragment";
 
     private FragmentArtistPageBinding bind;
     private MainActivity activity;
@@ -125,35 +128,44 @@ public class ArtistPageFragment extends Fragment {
 
     private void initPlayButtons() {
         bind.artistPageShuffleButton.setOnClickListener(v -> {
-            List<Song> songs = artistPageViewModel.getArtistRandomSongList();
+            ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
+            artistRepository.getArtistRandomSong(requireActivity(), artistPageViewModel.getArtist(), 20).observe(requireActivity(), songs -> {
+                if (songs.size() > 0) {
+                    QueueRepository queueRepository = new QueueRepository(App.getInstance());
+                    queueRepository.insertAllAndStartNew(songs);
 
-            if(songs.size() > 0) {
-                QueueRepository queueRepository = new QueueRepository(App.getInstance());
-                queueRepository.insertAllAndStartNew(songs);
-
-                MusicPlayerRemote.openQueue(songs, 0, true);
-                ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
-            }
-            else Toast.makeText(requireContext(), "Error retrieving artist's songs", Toast.LENGTH_SHORT).show();
+                    MusicPlayerRemote.openQueue(songs, 0, true);
+                    activity.isBottomSheetInPeek(true);
+                } else {
+                    Toast.makeText(requireContext(), "Error retrieving artist's songs", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
-        bind.artistPageRadioButton.setOnClickListener(v -> SyncUtil.getInstantMix(requireContext(), new MediaCallback() {
-            @Override
-            public void onError(Exception exception) {
-                Toast.makeText(requireContext(), "Error retrieving artist's radio", Toast.LENGTH_SHORT).show();
-            }
+        bind.artistPageRadioButton.setOnClickListener(v -> {
+            ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
+            artistRepository.getInstantMix(artistPageViewModel.getArtist(), 20, new MediaCallback() {
+                @Override
+                public void onError(Exception exception) {
+                    Log.e(TAG, "onError: " + exception.getMessage());
+                }
 
-            @Override
-            public void onLoadMedia(List<?> media) {
-                QueueRepository queueRepository = new QueueRepository(App.getInstance());
-                List<Song> mix = queueRepository.insertMix((ArrayList<Song>) media);
+                @Override
+                public void onLoadMedia(List<?> media) {
+                    if (media.size() > 0) {
+                        QueueRepository queueRepository = new QueueRepository(App.getInstance());
+                        queueRepository.insertAllAndStartNew((ArrayList<Song>) media);
 
-                activity.isBottomSheetInPeek(true);
-                activity.setBottomSheetMusicInfo(mix.get(0));
+                        activity.isBottomSheetInPeek(true);
+                        activity.setBottomSheetMusicInfo((Song) media.get(0));
 
-                MusicPlayerRemote.openQueue(mix, 0, true);
-            }
-        }, SyncUtil.SONG, artistPageViewModel.getArtist().getId(), PreferenceUtil.getInstance(requireContext()).getInstantMixSongNumber()));
+                        MusicPlayerRemote.openQueue((List<Song>) media, 0, true);
+                    } else {
+                        Toast.makeText(requireContext(), "Error retrieving artist's radio", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        });
     }
 
     private void initTopSongsView() {

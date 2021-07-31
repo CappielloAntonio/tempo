@@ -47,32 +47,6 @@ public class QueueRepository {
         return songs;
     }
 
-    public void insertAll(List<Song> songs) {
-        InsertAllThreadSafe insertAll = new InsertAllThreadSafe(queueDao, songs);
-        Thread thread = new Thread(insertAll);
-        thread.start();
-    }
-
-    public List<Song> insertMix(ArrayList<Song> media) {
-        List<String> IDs = QueueUtil.getIDsFromSongs(media);
-        List<Song> mix = new ArrayList<>();
-
-        /*GetSongsByIDThreadSafe getSongsByIDThreadSafe = new GetSongsByIDThreadSafe(songDao, IDs);
-        Thread thread = new Thread(getSongsByIDThreadSafe);
-        thread.start();
-
-        try {
-            thread.join();
-            mix = QueueUtil.orderSongByIdList(IDs, getSongsByIDThreadSafe.getSongs());
-
-            insertAllAndStartNew(mix);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-
-        return mix;
-    }
-
     public void insertAllAndStartNew(List<Song> songs) {
         try {
             final Thread delete = new Thread(new DeleteAllThreadSafe(queueDao));

@@ -10,6 +10,10 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
+import com.cappielloantonio.play.subsonic.models.AlbumWithSongsID3;
+import com.cappielloantonio.play.util.MappingUtil;
+
+import java.util.List;
 
 public class Album implements Parcelable {
     private static final String TAG = "Album";
@@ -27,6 +31,7 @@ public class Album implements Parcelable {
     public String primary;
     public String blurHash;
     public boolean favorite;
+    public List<Song> songs;
 
     public Album(AlbumID3 albumID3) {
         this.id = albumID3.getId();
@@ -37,6 +42,18 @@ public class Album implements Parcelable {
         this.primary = albumID3.getCoverArtId();
         this.favorite = albumID3.getStarred() != null;
     }
+
+    public Album(AlbumWithSongsID3 albumWithSongsID3) {
+        this.id = albumWithSongsID3.getId();
+        this.title = albumWithSongsID3.getName();
+        this.year = albumWithSongsID3.getYear();
+        this.artistId = albumWithSongsID3.getArtistId();
+        this.artistName = albumWithSongsID3.getArtist();
+        this.primary = albumWithSongsID3.getCoverArtId();
+        this.favorite = albumWithSongsID3.getStarred() != null;
+        this.songs = MappingUtil.mapSong(albumWithSongsID3.getSongs());
+    }
+
     public String getId() {
         return id;
     }
@@ -99,6 +116,14 @@ public class Album implements Parcelable {
 
     public void setFavorite(boolean favorite) {
         this.favorite = favorite;
+    }
+
+    public List<Song> getSongs() {
+        return songs;
+    }
+
+    public void setSongs(List<Song> songs) {
+        this.songs = songs;
     }
 
     @Override

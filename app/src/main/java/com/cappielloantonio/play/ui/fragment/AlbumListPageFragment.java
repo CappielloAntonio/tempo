@@ -10,20 +10,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.adapter.AlbumHorizontalAdapter;
-import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumListPageBinding;
-import com.cappielloantonio.play.databinding.FragmentSongListPageBinding;
 import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.repository.QueueRepository;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.AlbumListPageViewModel;
-import com.cappielloantonio.play.viewmodel.SongListPageViewModel;
-
-import java.util.Collections;
 
 public class AlbumListPageFragment extends Fragment {
     private FragmentAlbumListPageBinding bind;
@@ -61,19 +52,16 @@ public class AlbumListPageFragment extends Fragment {
     }
 
     private void init() {
-        if(getArguments().getString(Album.RECENTLY_PLAYED) != null) {
+        if (getArguments().getString(Album.RECENTLY_PLAYED) != null) {
             albumListPageViewModel.title = Album.RECENTLY_PLAYED;
             bind.pageTitleLabel.setText("Recently played albums");
-        }
-        else if(getArguments().getString(Album.MOST_PLAYED) != null) {
+        } else if (getArguments().getString(Album.MOST_PLAYED) != null) {
             albumListPageViewModel.title = Album.MOST_PLAYED;
             bind.pageTitleLabel.setText("Most played albums");
-        }
-        else if(getArguments().getString(Album.RECENTLY_ADDED) != null) {
+        } else if (getArguments().getString(Album.RECENTLY_ADDED) != null) {
             albumListPageViewModel.title = Album.RECENTLY_ADDED;
             bind.pageTitleLabel.setText("Recently added albums");
-        }
-        else if(getArguments().getString(Album.STARRED) != null) {
+        } else if (getArguments().getString(Album.STARRED) != null) {
             albumListPageViewModel.title = Album.STARRED;
             bind.pageTitleLabel.setText("Starred albums");
         }

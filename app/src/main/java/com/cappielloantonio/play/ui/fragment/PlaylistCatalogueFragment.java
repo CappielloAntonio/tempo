@@ -24,11 +24,11 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.PlaylistCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlaylistCatalogueBinding;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.viewmodel.ArtistCatalogueViewModel;
 import com.cappielloantonio.play.viewmodel.PlaylistCatalogueViewModel;
 
 public class PlaylistCatalogueFragment extends Fragment {
-    private static final String TAG = "GenreCatalogueFragment";;
+    private static final String TAG = "GenreCatalogueFragment";
+    ;
 
     private FragmentPlaylistCatalogueBinding bind;
     private MainActivity activity;

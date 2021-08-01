@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.cappielloantonio.play.subsonic.Subsonic;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
-import com.tickaroo.tikxml.TikXml;
 import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory;
 
 import okhttp3.OkHttpClient;

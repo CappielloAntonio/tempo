@@ -9,11 +9,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
-import com.cappielloantonio.play.interfaces.MediaCallback;
-import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.repository.ArtistRepository;
-import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.IndexID3;
 import com.cappielloantonio.play.subsonic.models.ResponseStatus;

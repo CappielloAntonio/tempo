@@ -60,8 +60,10 @@ public class FilterFragment extends Fragment {
         bundle.putStringArrayList("filters_list", filterViewModel.getFilters());
         bundle.putStringArrayList("filter_name_list", filterViewModel.getFilterNames());
         bind.finishFilteringTextViewClickable.setOnClickListener(v -> {
-            if(filterViewModel.getFilters().size() > 1) activity.navController.navigate(R.id.action_filterFragment_to_songListPageFragment, bundle);
-            else Toast.makeText(requireContext(), "Select two or more filters", Toast.LENGTH_SHORT).show();
+            if (filterViewModel.getFilters().size() > 1)
+                activity.navController.navigate(R.id.action_filterFragment_to_songListPageFragment, bundle);
+            else
+                Toast.makeText(requireContext(), "Select two or more filters", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -96,8 +98,10 @@ public class FilterFragment extends Fragment {
                 chip.setText(genre.getName());
                 chip.setChecked(filterViewModel.getFilters().contains(genre.getId()));
                 chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    if(isChecked) filterViewModel.addFilter(genre.getId(), buttonView.getText().toString());
-                    else filterViewModel.removeFilter(genre.getId(), buttonView.getText().toString());
+                    if (isChecked)
+                        filterViewModel.addFilter(genre.getId(), buttonView.getText().toString());
+                    else
+                        filterViewModel.removeFilter(genre.getId(), buttonView.getText().toString());
                 });
                 bind.filtersChipsGroup.addView(chip);
             }

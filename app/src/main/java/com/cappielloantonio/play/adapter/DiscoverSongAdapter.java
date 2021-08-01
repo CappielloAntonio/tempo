@@ -20,8 +20,6 @@ import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.util.PreferenceUtil;
-import com.cappielloantonio.play.util.SyncUtil;
 
 import java.util.ArrayList;
 import java.util.List;

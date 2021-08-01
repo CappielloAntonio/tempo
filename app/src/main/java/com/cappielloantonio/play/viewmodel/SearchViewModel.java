@@ -1,7 +1,6 @@
 package com.cappielloantonio.play.viewmodel;
 
 import android.app.Application;
-import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -20,7 +19,6 @@ import com.cappielloantonio.play.repository.SearchingRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 public class SearchViewModel extends AndroidViewModel {

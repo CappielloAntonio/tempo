@@ -39,8 +39,9 @@ public class SubsonicPreferences {
     }
 
     public void setAuthentication(String password, String token, String salt) {
-        if(password != null) this.authentication = new SubsonicAuthentication(password);
-        if(token != null && salt != null) this.authentication = new SubsonicAuthentication(token, salt);
+        if (password != null) this.authentication = new SubsonicAuthentication(password);
+        if (token != null && salt != null)
+            this.authentication = new SubsonicAuthentication(token, salt);
     }
 
     public static class SubsonicAuthentication {

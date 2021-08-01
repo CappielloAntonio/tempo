@@ -7,7 +7,6 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.cappielloantonio.play.model.Queue;
-import com.cappielloantonio.play.model.Song;
 
 import java.util.List;
 

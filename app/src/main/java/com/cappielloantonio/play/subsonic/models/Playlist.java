@@ -1,11 +1,9 @@
 package com.cappielloantonio.play.subsonic.models;
 
 import com.tickaroo.tikxml.annotation.Attribute;
-import com.tickaroo.tikxml.annotation.Element;
 import com.tickaroo.tikxml.annotation.Xml;
 import com.tickaroo.tikxml.converters.date.rfc3339.DateRfc3339TypeConverter;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +31,7 @@ public class Playlist {
     protected Date changed;
     @Attribute
     protected String coverArtId;
-    
+
     public List<String> getAllowedUsers() {
         if (allowedUsers == null) {
             allowedUsers = new ArrayList<>();
@@ -48,7 +46,7 @@ public class Playlist {
     public String getId() {
         return id;
     }
-    
+
     public void setId(String value) {
         this.id = value;
     }
@@ -56,7 +54,7 @@ public class Playlist {
     public String getName() {
         return name;
     }
-    
+
     public void setName(String value) {
         this.name = value;
     }
@@ -72,7 +70,7 @@ public class Playlist {
     public String getOwner() {
         return owner;
     }
-    
+
     public void setOwner(String value) {
         this.owner = value;
     }
@@ -88,19 +86,19 @@ public class Playlist {
     public int getSongCount() {
         return songCount;
     }
-    
+
     public void setSongCount(int value) {
         this.songCount = value;
     }
-    
+
     public int getDuration() {
         return duration;
     }
-    
+
     public void setDuration(int value) {
         this.duration = value;
     }
-    
+
     public Date getCreated() {
         return created;
     }
@@ -108,7 +106,7 @@ public class Playlist {
     public void setCreated(Date value) {
         this.created = value;
     }
-    
+
     public Date getChanged() {
         return changed;
     }

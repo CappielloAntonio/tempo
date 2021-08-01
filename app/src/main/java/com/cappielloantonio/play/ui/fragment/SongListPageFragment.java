@@ -58,44 +58,36 @@ public class SongListPageFragment extends Fragment {
     }
 
     private void init() {
-        if(getArguments().getString(Song.RECENTLY_PLAYED) != null) {
+        if (getArguments().getString(Song.RECENTLY_PLAYED) != null) {
             songListPageViewModel.title = Song.RECENTLY_PLAYED;
             bind.pageTitleLabel.setText("Recently played tracks");
-        }
-        else if(getArguments().getString(Song.MOST_PLAYED) != null) {
+        } else if (getArguments().getString(Song.MOST_PLAYED) != null) {
             songListPageViewModel.title = Song.MOST_PLAYED;
             bind.pageTitleLabel.setText("Most played tracks");
-        }
-        else if(getArguments().getString(Song.RECENTLY_ADDED) != null) {
+        } else if (getArguments().getString(Song.RECENTLY_ADDED) != null) {
             songListPageViewModel.title = Song.RECENTLY_ADDED;
             bind.pageTitleLabel.setText("Recently added tracks");
-        }
-        else if(getArguments().getString(Song.BY_GENRE) != null) {
+        } else if (getArguments().getString(Song.BY_GENRE) != null) {
             songListPageViewModel.title = Song.BY_GENRE;
             songListPageViewModel.genre = getArguments().getParcelable("genre_object");
             bind.pageTitleLabel.setText(songListPageViewModel.genre.getName() + ": all tracks");
-        }
-        else if(getArguments().getString(Song.BY_ARTIST) != null) {
+        } else if (getArguments().getString(Song.BY_ARTIST) != null) {
             songListPageViewModel.title = Song.BY_ARTIST;
             songListPageViewModel.artist = getArguments().getParcelable("artist_object");
             bind.pageTitleLabel.setText(songListPageViewModel.artist.getName() + "'s top tracks");
-        }
-        else if(getArguments().getString(Song.BY_GENRES) != null) {
+        } else if (getArguments().getString(Song.BY_GENRES) != null) {
             songListPageViewModel.title = Song.BY_GENRES;
             songListPageViewModel.filters = getArguments().getStringArrayList("filters_list");
             songListPageViewModel.filterNames = getArguments().getStringArrayList("filter_name_list");
             bind.pageTitleLabel.setText(songListPageViewModel.getFiltersTitle());
-        }
-        else if(getArguments().getString(Song.BY_YEAR) != null) {
+        } else if (getArguments().getString(Song.BY_YEAR) != null) {
             songListPageViewModel.title = Song.BY_YEAR;
             songListPageViewModel.year = getArguments().getInt("year_object");
             bind.pageTitleLabel.setText("Year " + songListPageViewModel.year);
-        }
-        else if(getArguments().getString(Song.STARRED) != null) {
+        } else if (getArguments().getString(Song.STARRED) != null) {
             songListPageViewModel.title = Song.STARRED;
             bind.pageTitleLabel.setText("Starred tracks");
-        }
-        else if(getArguments().getString(Song.DOWNLOADED) != null) {
+        } else if (getArguments().getString(Song.DOWNLOADED) != null) {
             songListPageViewModel.title = Song.DOWNLOADED;
             bind.pageTitleLabel.setText("Downloaded");
         }
@@ -124,7 +116,7 @@ public class SongListPageFragment extends Fragment {
 
     private void initButtons() {
         songListPageViewModel.getSongList().observe(requireActivity(), songs -> {
-            if(bind != null) {
+            if (bind != null) {
                 bind.songListShuffleImageView.setOnClickListener(v -> {
                     Collections.shuffle(songs);
 

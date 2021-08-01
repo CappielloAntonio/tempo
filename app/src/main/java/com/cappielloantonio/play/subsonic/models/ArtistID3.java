@@ -4,7 +4,6 @@ import com.tickaroo.tikxml.annotation.Attribute;
 import com.tickaroo.tikxml.annotation.Xml;
 import com.tickaroo.tikxml.converters.date.rfc3339.DateRfc3339TypeConverter;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Xml(name = "artist")
@@ -19,19 +18,19 @@ public class ArtistID3 {
     protected int albumCount;
     @Attribute(converter = DateRfc3339TypeConverter.class)
     protected Date starred;
-    
+
     public String getId() {
         return id;
     }
-    
+
     public void setId(String value) {
         this.id = value;
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     public void setName(String value) {
         this.name = value;
     }
@@ -39,7 +38,7 @@ public class ArtistID3 {
     public String getCoverArtId() {
         return coverArtId;
     }
-    
+
     public void setCoverArtId(String value) {
         this.coverArtId = value;
     }

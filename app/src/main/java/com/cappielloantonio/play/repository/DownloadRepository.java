@@ -7,12 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.DownloadDao;
-import com.cappielloantonio.play.database.dao.QueueDao;
 import com.cappielloantonio.play.model.Download;
-import com.cappielloantonio.play.model.Queue;
-import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.util.MappingUtil;
-import com.cappielloantonio.play.util.QueueUtil;
 
 import java.util.ArrayList;
 import java.util.List;

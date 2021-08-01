@@ -30,7 +30,8 @@ import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.GenreCatalogueViewModel;
 
 public class GenreCatalogueFragment extends Fragment {
-    private static final String TAG = "GenreCatalogueFragment";;
+    private static final String TAG = "GenreCatalogueFragment";
+    ;
 
     private FragmentGenreCatalogueBinding bind;
     private MainActivity activity;

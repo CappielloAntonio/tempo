@@ -14,14 +14,14 @@ public class SearchResult3 {
     protected List<AlbumID3> albums;
     @Element(name = "song")
     protected List<Child> songs;
-    
+
     public List<ArtistID3> getArtists() {
         if (artists == null) {
             artists = new ArrayList<>();
         }
         return this.artists;
     }
-    
+
     public List<AlbumID3> getAlbums() {
         if (albums == null) {
             albums = new ArrayList<>();

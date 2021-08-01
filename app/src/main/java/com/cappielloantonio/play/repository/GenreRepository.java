@@ -39,14 +39,13 @@ public class GenreRepository {
                         if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
                             List<Genre> genreList = new ArrayList<>(MappingUtil.mapGenre(response.body().getGenres().getGenres()));
 
-                            if(random) {
+                            if (random) {
                                 Collections.shuffle(genreList);
                             }
 
-                            if(size != -1) {
+                            if (size != -1) {
                                 genres.setValue(genreList.subList(0, Math.min(size, genreList.size())));
-                            }
-                            else {
+                            } else {
                                 genres.setValue(genreList);
                             }
                         }

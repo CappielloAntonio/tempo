@@ -9,7 +9,6 @@ import androidx.annotation.Nullable;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.DownloadRepository;
-import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.google.android.exoplayer2.MediaItem;

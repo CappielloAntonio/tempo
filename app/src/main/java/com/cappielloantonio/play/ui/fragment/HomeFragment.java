@@ -159,8 +159,9 @@ public class HomeFragment extends Fragment {
         mostPlayedAlbumAdapter = new AlbumAdapter(requireContext());
         bind.mostPlayedAlbumsRecyclerView.setAdapter(mostPlayedAlbumAdapter);
         homeViewModel.getMostPlayedAlbums().observe(requireActivity(), albums -> {
-            if(albums.size() < 10) reorder();
-            if(bind != null) bind.homeMostPlayedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+            if (albums.size() < 10) reorder();
+            if (bind != null)
+                bind.homeMostPlayedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
             mostPlayedAlbumAdapter.setItems(albums);
         });
     }
@@ -172,13 +173,15 @@ public class HomeFragment extends Fragment {
         recentlyPlayedAlbumAdapter = new AlbumAdapter(requireContext());
         bind.recentlyPlayedAlbumsRecyclerView.setAdapter(recentlyPlayedAlbumAdapter);
         homeViewModel.getRecentlyPlayedAlbumList().observe(requireActivity(), albums -> {
-            if(bind != null) bind.homeRecentlyPlayedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+            if (bind != null)
+                bind.homeRecentlyPlayedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
             recentlyPlayedAlbumAdapter.setItems(albums);
         });
     }
 
     private void initYearSongView() {
-        if(bind != null) bind.homeFlashbackSector.setVisibility(!homeViewModel.getYearList().isEmpty() ? View.VISIBLE : View.GONE);
+        if (bind != null)
+            bind.homeFlashbackSector.setVisibility(!homeViewModel.getYearList().isEmpty() ? View.VISIBLE : View.GONE);
 
         bind.yearsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.yearsRecyclerView.setHasFixedSize(true);
@@ -199,7 +202,8 @@ public class HomeFragment extends Fragment {
         starredSongAdapter = new SongHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
         bind.starredTracksRecyclerView.setAdapter(starredSongAdapter);
         homeViewModel.getStarredTracks().observe(requireActivity(), songs -> {
-            if(bind != null) bind.homeStarredTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+            if (bind != null)
+                bind.homeStarredTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
             bind.starredTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(songs.size(), 5), GridLayoutManager.HORIZONTAL, false));
             starredSongAdapter.setItems(songs);
         });
@@ -214,7 +218,8 @@ public class HomeFragment extends Fragment {
         starredAlbumAdapter = new AlbumHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
         bind.starredAlbumsRecyclerView.setAdapter(starredAlbumAdapter);
         homeViewModel.getStarredAlbums().observe(requireActivity(), albums -> {
-            if(bind != null) bind.homeStarredAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+            if (bind != null)
+                bind.homeStarredAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
             bind.starredAlbumsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
             starredAlbumAdapter.setItems(albums);
         });
@@ -229,7 +234,8 @@ public class HomeFragment extends Fragment {
         starredArtistAdapter = new ArtistHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
         bind.starredArtistsRecyclerView.setAdapter(starredArtistAdapter);
         homeViewModel.getStarredArtists().observe(requireActivity(), artists -> {
-            if(bind != null) bind.homeStarredArtistsSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+            if (bind != null)
+                bind.homeStarredArtistsSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
             bind.starredArtistsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(artists.size(), 5), GridLayoutManager.HORIZONTAL, false));
             starredArtistAdapter.setItems(artists);
         });
@@ -256,7 +262,8 @@ public class HomeFragment extends Fragment {
         dowanloadedMusicAdapter = new RecentMusicAdapter(activity, requireContext(), getChildFragmentManager());
         bind.downloadedTracksRecyclerView.setAdapter(dowanloadedMusicAdapter);
         homeViewModel.getDownloaded().observe(requireActivity(), downloads -> {
-            if(bind != null) bind.homeDownloadedTracksSector.setVisibility(!downloads.isEmpty() ? View.VISIBLE : View.GONE);
+            if (bind != null)
+                bind.homeDownloadedTracksSector.setVisibility(!downloads.isEmpty() ? View.VISIBLE : View.GONE);
             dowanloadedMusicAdapter.setItems(MappingUtil.mapDownload(downloads));
         });
     }
@@ -284,7 +291,7 @@ public class HomeFragment extends Fragment {
      * - Discovery - Recently_added - Year - Favorite - Downloaded - Most_played - Last_played
      */
     public void reorder() {
-        if(bind != null) {
+        if (bind != null) {
             bind.homeLinearLayoutContainer.removeAllViews();
             bind.homeLinearLayoutContainer.addView(bind.homeDiscoverSector);
             bind.homeLinearLayoutContainer.addView(bind.homeRecentlyAddedAlbumsSector);

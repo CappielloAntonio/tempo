@@ -1,6 +1,6 @@
 package com.cappielloantonio.play.subsonic.base;
 
-public class SubsonicIncompatibilityException extends RuntimeException{
+public class SubsonicIncompatibilityException extends RuntimeException {
     private final Version serverApiVersion;
     private final Version minClientApiVersion;
 

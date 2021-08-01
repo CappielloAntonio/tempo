@@ -14,21 +14,21 @@ public class SearchResult2 {
     protected List<Child> albums;
     @Element(name = "song")
     protected List<Child> songs;
-    
+
     public List<Artist> getArtists() {
         if (artists == null) {
             artists = new ArrayList<>();
         }
         return this.artists;
     }
-    
+
     public List<Child> getAlbums() {
         if (albums == null) {
             albums = new ArrayList<>();
         }
         return this.albums;
     }
-    
+
     public List<Child> getSongs() {
         if (songs == null) {
             songs = new ArrayList<>();

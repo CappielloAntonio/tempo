@@ -5,7 +5,6 @@ import android.app.Application;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
-import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.subsonic.models.ResponseStatus;

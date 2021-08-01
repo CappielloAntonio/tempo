@@ -12,7 +12,6 @@ import com.cappielloantonio.play.database.dao.RecentSearchDao;
 import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.RecentSearch;
-import com.cappielloantonio.play.model.Song;
 
 @Database(entities = {Queue.class, RecentSearch.class, Download.class}, version = 5, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {

@@ -57,7 +57,7 @@ public class ArtistInfoBase {
     public void setMediumImageUrl(String value) {
         this.mediumImageUrl = value;
     }
-    
+
     public String getLargeImageUrl() {
         return largeImageUrl;
     }

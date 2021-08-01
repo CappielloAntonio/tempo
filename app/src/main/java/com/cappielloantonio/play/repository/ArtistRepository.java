@@ -260,7 +260,7 @@ public class ArtistRepository {
                         if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
                             List<Album> albums = new ArrayList<>(MappingUtil.mapAlbum(response.body().getArtist().getAlbums()));
 
-                            if(albums.size() > 0) {
+                            if (albums.size() > 0) {
                                 AlbumRepository albumRepository = new AlbumRepository(App.getInstance());
 
                                 for (int index = 0; index < albums.size(); index++) {

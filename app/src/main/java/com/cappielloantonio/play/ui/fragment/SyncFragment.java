@@ -4,19 +4,13 @@ import android.content.Context;
 
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Playlist;
-import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.subsonic.models.AlbumID3;
-import com.cappielloantonio.play.subsonic.models.ArtistID3;
-import com.cappielloantonio.play.subsonic.models.Genre;
-import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.SyncUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SyncFragment {
     private Context context;
-    
+
     private void syncLibraries() {
         SyncUtil.getLibraries(context, new MediaCallback() {
             @Override

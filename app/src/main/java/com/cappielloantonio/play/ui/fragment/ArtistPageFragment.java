@@ -3,7 +3,6 @@ package com.cappielloantonio.play.ui.fragment;
 import android.annotation.SuppressLint;
 import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -20,21 +18,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.adapter.AlbumAdapter;
 import com.cappielloantonio.play.adapter.AlbumArtistPageOrSimilarAdapter;
 import com.cappielloantonio.play.adapter.ArtistSimilarAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.MediaCallback;
-import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.repository.ArtistRepository;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.util.PreferenceUtil;
-import com.cappielloantonio.play.util.SyncUtil;
 import com.cappielloantonio.play.viewmodel.ArtistPageViewModel;
 
 import java.util.ArrayList;
@@ -191,7 +185,8 @@ public class ArtistPageFragment extends Fragment {
         artistSimilarAdapter = new ArtistSimilarAdapter(requireContext());
         bind.similarArtistsRecyclerView.setAdapter(artistSimilarAdapter);
         artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(requireActivity(), artist -> {
-            if(bind != null) bind.similarArtistSector.setVisibility(!artist.getSimilarArtists().isEmpty() ? View.VISIBLE : View.GONE);
+            if (bind != null)
+                bind.similarArtistSector.setVisibility(!artist.getSimilarArtists().isEmpty() ? View.VISIBLE : View.GONE);
             artistSimilarAdapter.setItems(artist.getSimilarArtists());
         });
     }

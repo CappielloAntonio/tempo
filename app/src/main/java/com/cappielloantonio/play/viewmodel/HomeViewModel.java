@@ -93,15 +93,15 @@ public class HomeViewModel extends AndroidViewModel {
         return downloadedSongSample;
     }
 
-    public LiveData<List<Album>> getMostPlayedAlbums()  {
+    public LiveData<List<Album>> getMostPlayedAlbums() {
         return mostPlayedAlbumSample;
     }
 
-    public LiveData<List<Album>> getMostRecentlyAddedAlbums()  {
+    public LiveData<List<Album>> getMostRecentlyAddedAlbums() {
         return recentlyAddedAlbumSample;
     }
 
-    public LiveData<List<Album>> getRecentlyPlayedAlbumList()  {
+    public LiveData<List<Album>> getRecentlyPlayedAlbumList() {
         return recentlyPlayedAlbumSample;
     }
 

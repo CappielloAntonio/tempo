@@ -5,16 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.preference.ListPreference;
-import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.helper.ThemeHelper;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.util.PreferenceUtil;
-import com.cappielloantonio.play.util.SyncUtil;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
     private static final String TAG = "SettingsFragment";
@@ -27,7 +23,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        if(view != null) {
+        if (view != null) {
             getListView().setPadding(0, 0, 0, (int) getResources().getDimension(R.dimen.global_padding_bottom));
         }
 

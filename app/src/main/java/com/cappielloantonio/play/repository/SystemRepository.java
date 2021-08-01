@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.SystemCallback;
-import com.cappielloantonio.play.subsonic.api.system.SystemClient;
 import com.cappielloantonio.play.subsonic.models.ResponseStatus;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 

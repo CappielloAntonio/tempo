@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,13 +17,11 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumAdapter;
 import com.cappielloantonio.play.adapter.ArtistAdapter;
-import com.cappielloantonio.play.adapter.DiscoverSongAdapter;
 import com.cappielloantonio.play.adapter.GenreAdapter;
 import com.cappielloantonio.play.adapter.PlaylistAdapter;
 import com.cappielloantonio.play.databinding.FragmentLibraryBinding;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.LibraryViewModel;
 
 public class LibraryFragment extends Fragment {
@@ -89,7 +86,8 @@ public class LibraryFragment extends Fragment {
         albumAdapter = new AlbumAdapter(requireContext());
         bind.albumRecyclerView.setAdapter(albumAdapter);
         libraryViewModel.getAlbumSample().observe(requireActivity(), albums -> {
-            if(bind != null) bind.libraryAlbumSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+            if (bind != null)
+                bind.libraryAlbumSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
             albumAdapter.setItems(albums);
         });
     }
@@ -101,7 +99,8 @@ public class LibraryFragment extends Fragment {
         artistAdapter = new ArtistAdapter(requireContext());
         bind.artistRecyclerView.setAdapter(artistAdapter);
         libraryViewModel.getArtistSample().observe(requireActivity(), artists -> {
-            if(bind != null) bind.libraryArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+            if (bind != null)
+                bind.libraryArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
             artistAdapter.setItems(artists);
         });
     }
@@ -119,7 +118,8 @@ public class LibraryFragment extends Fragment {
         });
         bind.genreRecyclerView.setAdapter(genreAdapter);
         libraryViewModel.getGenreSample().observe(requireActivity(), genres -> {
-            if(bind != null) bind.libraryGenresSector.setVisibility(!genres.isEmpty() ? View.VISIBLE : View.GONE);
+            if (bind != null)
+                bind.libraryGenresSector.setVisibility(!genres.isEmpty() ? View.VISIBLE : View.GONE);
             genreAdapter.setItems(genres);
         });
     }
@@ -131,7 +131,8 @@ public class LibraryFragment extends Fragment {
         bind.playlistViewPager.setAdapter(playlistAdapter);
         bind.playlistViewPager.setOffscreenPageLimit(3);
         libraryViewModel.getPlaylistSample().observe(requireActivity(), playlists -> {
-            if(bind != null) bind.libraryPlaylistSector.setVisibility(!playlists.isEmpty() ? View.VISIBLE : View.GONE);
+            if (bind != null)
+                bind.libraryPlaylistSector.setVisibility(!playlists.isEmpty() ? View.VISIBLE : View.GONE);
             playlistAdapter.setItems(playlists);
         });
 

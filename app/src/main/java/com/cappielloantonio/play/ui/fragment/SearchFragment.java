@@ -10,17 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumAdapter;
 import com.cappielloantonio.play.adapter.ArtistAdapter;
-import com.cappielloantonio.play.adapter.GenreCatalogueAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentSearchBinding;
-import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
-import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.SearchViewModel;
 import com.paulrybitskyi.persistentsearchview.adapters.model.SuggestionItem;
@@ -127,8 +122,7 @@ public class SearchFragment extends Fragment {
             if (isQueryValid(query)) {
                 searchView.collapse();
                 search(query);
-            }
-            else {
+            } else {
                 Toast.makeText(requireContext(), "Enter at least three characters", Toast.LENGTH_SHORT).show();
             }
         });
@@ -161,15 +155,18 @@ public class SearchFragment extends Fragment {
 
     private void performSearch(String query) {
         searchViewModel.searchSong(query).observe(requireActivity(), songs -> {
-            if(bind != null) bind.searchSongSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+            if (bind != null)
+                bind.searchSongSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
             songHorizontalAdapter.setItems(songs);
         });
         searchViewModel.searchAlbum(query).observe(requireActivity(), albums -> {
-            if(bind != null) bind.searchAlbumSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+            if (bind != null)
+                bind.searchAlbumSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
             albumAdapter.setItems(albums);
         });
         searchViewModel.searchArtist(query).observe(requireActivity(), artists -> {
-            if(bind != null) bind.searchArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+            if (bind != null)
+                bind.searchArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
             artistAdapter.setItems(artists);
         });
 
@@ -181,7 +178,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void inputFocus() {
-        if(!isQueryValid(searchViewModel.getQuery())) {
+        if (!isQueryValid(searchViewModel.getQuery())) {
             bind.persistentSearchView.expand();
         }
     }

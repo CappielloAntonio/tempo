@@ -7,7 +7,6 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.repository.AlbumRepository;
-import com.cappielloantonio.play.repository.ArtistRepository;
 
 public class ArtistBottomSheetViewModel extends AndroidViewModel {
     private AlbumRepository albumRepository;

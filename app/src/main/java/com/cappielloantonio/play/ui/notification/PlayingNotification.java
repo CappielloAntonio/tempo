@@ -22,7 +22,6 @@ import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.service.MusicService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.util.PreferenceUtil;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static com.cappielloantonio.play.service.MusicService.ACTION_REWIND;

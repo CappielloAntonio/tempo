@@ -121,7 +121,7 @@ public class PlaylistPageFragment extends Fragment {
 
     private void initMusicButton() {
         playlistPageViewModel.getPlaylistSongLiveList().observe(requireActivity(), songs -> {
-            if(bind != null) {
+            if (bind != null) {
                 bind.playlistPagePlayButton.setOnClickListener(v -> {
                     QueueRepository queueRepository = new QueueRepository(App.getInstance());
                     queueRepository.insertAllAndStartNew(songs);

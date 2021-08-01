@@ -10,13 +10,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cappielloantonio.play.adapter.AlbumHorizontalAdapter;
 import com.cappielloantonio.play.adapter.ArtistHorizontalAdapter;
-import com.cappielloantonio.play.databinding.FragmentAlbumListPageBinding;
 import com.cappielloantonio.play.databinding.FragmentArtistListPageBinding;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.viewmodel.AlbumListPageViewModel;
 import com.cappielloantonio.play.viewmodel.ArtistListPageViewModel;
 
 public class ArtistListPageFragment extends Fragment {
@@ -55,7 +52,7 @@ public class ArtistListPageFragment extends Fragment {
     }
 
     private void init() {
-        if(getArguments().getString(Album.STARRED) != null) {
+        if (getArguments().getString(Album.STARRED) != null) {
             artistListPageViewModel.title = Album.STARRED;
             bind.pageTitleLabel.setText("Starred artists");
         }

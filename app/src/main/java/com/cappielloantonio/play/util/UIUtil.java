@@ -6,8 +6,7 @@ public class UIUtil {
 
         if (itemSize / maxSpan > 0) {
             return maxSpan;
-        }
-        else {
+        } else {
             return itemSize % maxSpan;
         }
     }

@@ -10,7 +10,7 @@ import java.util.List;
 public class AlbumWithSongsID3 extends AlbumID3 {
     @Element(name = "song")
     protected List<Child> songs;
-    
+
     public List<Child> getSongs() {
         if (songs == null) {
             songs = new ArrayList<>();

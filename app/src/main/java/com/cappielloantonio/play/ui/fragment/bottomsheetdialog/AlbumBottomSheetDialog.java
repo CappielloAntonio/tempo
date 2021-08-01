@@ -22,7 +22,6 @@ import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
-import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.DownloadUtil;
@@ -104,7 +103,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
                 @Override
                 public void onLoadMedia(List<?> media) {
-                    if(media.size() > 0) {
+                    if (media.size() > 0) {
                         QueueRepository queueRepository = new QueueRepository(App.getInstance());
                         queueRepository.insertAllAndStartNew((ArrayList<Song>) media);
 

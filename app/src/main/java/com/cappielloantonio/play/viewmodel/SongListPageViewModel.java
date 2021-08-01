@@ -1,18 +1,14 @@
 package com.cappielloantonio.play.viewmodel;
 
 import android.app.Application;
-import android.content.Context;
 import android.text.TextUtils;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.DownloadRepository;

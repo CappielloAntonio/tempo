@@ -22,10 +22,10 @@ import com.cappielloantonio.play.adapter.PlayerNowPlayingSongAdapter;
 import com.cappielloantonio.play.adapter.PlayerSongQueueAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlayerBottomSheetBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.helper.MusicProgressViewUpdateHelper;
 import com.cappielloantonio.play.interfaces.MusicServiceEventListener;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
@@ -150,7 +150,8 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                if(originalPosition == -1) originalPosition = viewHolder.getBindingAdapterPosition();
+                if (originalPosition == -1)
+                    originalPosition = viewHolder.getBindingAdapterPosition();
 
                 fromPosition = viewHolder.getBindingAdapterPosition();
                 toPosition = target.getBindingAdapterPosition();
@@ -191,13 +192,12 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                if(!(viewHolder.getBindingAdapterPosition() == MusicPlayerRemote.getPosition()) && !(MusicPlayerRemote.getPlayingQueue().size() <= 1)) {
+                if (!(viewHolder.getBindingAdapterPosition() == MusicPlayerRemote.getPosition()) && !(MusicPlayerRemote.getPlayingQueue().size() <= 1)) {
                     MusicPlayerRemote.removeFromQueue(viewHolder.getBindingAdapterPosition());
                     playerBottomSheetViewModel.removeSong(viewHolder.getBindingAdapterPosition());
                     bind.playerBodyLayout.playerQueueRecyclerView.getAdapter().notifyItemRemoved(viewHolder.getBindingAdapterPosition());
                     bind.playerBodyLayout.playerSongCoverViewPager.setCurrentItem(MusicPlayerRemote.getPosition(), false);
-                }
-                else {
+                } else {
                     bind.playerBodyLayout.playerQueueRecyclerView.getAdapter().notifyDataSetChanged();
                 }
             }

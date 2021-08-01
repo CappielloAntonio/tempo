@@ -8,7 +8,6 @@ import com.cappielloantonio.play.subsonic.api.playlist.PlaylistClient;
 import com.cappielloantonio.play.subsonic.api.searching.SearchingClient;
 import com.cappielloantonio.play.subsonic.api.system.SystemClient;
 import com.cappielloantonio.play.subsonic.base.Version;
-import com.cappielloantonio.play.subsonic.models.Playlist;
 
 import java.util.HashMap;
 import java.util.Map;

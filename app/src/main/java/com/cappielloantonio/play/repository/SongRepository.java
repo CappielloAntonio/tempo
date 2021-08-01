@@ -206,25 +206,25 @@ public class SongRepository {
     public MutableLiveData<List<Song>> getSongsByGenres(ArrayList<String> genresId) {
         MutableLiveData<List<Song>> songsByGenre = new MutableLiveData<>(new ArrayList<>());
 
-        for(String id: genresId)
+        for (String id : genresId)
 
-        App.getSubsonicClientInstance(application, false)
-                .getAlbumSongListClient()
-                .getSongsByGenre(id, 500, 0)
-                .enqueue(new Callback<SubsonicResponse>() {
-                    @Override
-                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
-                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
-                            List<Song> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getSongsByGenre().getSongs()));
-                            songsByGenre.setValue(songs);
+            App.getSubsonicClientInstance(application, false)
+                    .getAlbumSongListClient()
+                    .getSongsByGenre(id, 500, 0)
+                    .enqueue(new Callback<SubsonicResponse>() {
+                        @Override
+                        public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                            if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                                List<Song> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getSongsByGenre().getSongs()));
+                                songsByGenre.setValue(songs);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+                        @Override
+                        public void onFailure(Call<SubsonicResponse> call, Throwable t) {
 
-                    }
-                });
+                        }
+                    });
 
         return songsByGenre;
     }

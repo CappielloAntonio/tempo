@@ -21,21 +21,13 @@ import com.cappielloantonio.play.adapter.AlbumArtistPageOrSimilarAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.interfaces.MediaCallback;
-import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.DownloadUtil;
-import com.cappielloantonio.play.util.PreferenceUtil;
-import com.cappielloantonio.play.util.SyncUtil;
 import com.cappielloantonio.play.viewmodel.AlbumPageViewModel;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class AlbumPageFragment extends Fragment {
     private static final String TAG = "AlbumPageFragment";
@@ -133,12 +125,12 @@ public class AlbumPageFragment extends Fragment {
     private void initAlbumInfoTextButton() {
         bind.albumArtistLabel.setOnClickListener(v -> {
             albumPageViewModel.getArtist().observe(requireActivity(), artist -> {
-                if(artist != null) {
+                if (artist != null) {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("artist_object", artist);
                     activity.navController.navigate(R.id.action_albumPageFragment_to_artistPageFragment, bundle);
-                }
-                else Toast.makeText(requireContext(), "Error retrieving artist", Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(requireContext(), "Error retrieving artist", Toast.LENGTH_SHORT).show();
             });
         });
 
@@ -152,7 +144,7 @@ public class AlbumPageFragment extends Fragment {
 
     private void initMusicButton() {
         albumPageViewModel.getAlbumSongLiveList().observe(requireActivity(), songs -> {
-            if(bind != null) {
+            if (bind != null) {
                 bind.albumPagePlayButton.setOnClickListener(v -> {
                     QueueRepository queueRepository = new QueueRepository(App.getInstance());
                     queueRepository.insertAllAndStartNew(songs);

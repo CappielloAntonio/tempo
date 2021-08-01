@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         Artist artist = artists.get(position);
 
-        holder.textArtistName.setText(Html.fromHtml(artist.getName(), Html.FROM_HTML_MODE_COMPACT));
+        holder.textArtistName.setText(MusicUtil.getReadableInfo(artist.getName()));
 
         CustomGlideRequest.Builder
                 .from(context, artist.getPrimary(), artist.getPrimaryBlurHash(), CustomGlideRequest.ALBUM_PIC)

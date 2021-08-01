@@ -18,6 +18,7 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.SongListPageViewModel;
 
 import java.util.Collections;
@@ -71,11 +72,11 @@ public class SongListPageFragment extends Fragment {
         } else if (getArguments().getString(Song.BY_GENRE) != null) {
             songListPageViewModel.title = Song.BY_GENRE;
             songListPageViewModel.genre = getArguments().getParcelable("genre_object");
-            bind.pageTitleLabel.setText(Html.fromHtml(songListPageViewModel.genre.getName(), Html.FROM_HTML_MODE_COMPACT) + ": all tracks");
+            bind.pageTitleLabel.setText(MusicUtil.getReadableInfo(songListPageViewModel.genre.getName()) + ": all tracks");
         } else if (getArguments().getString(Song.BY_ARTIST) != null) {
             songListPageViewModel.title = Song.BY_ARTIST;
             songListPageViewModel.artist = getArguments().getParcelable("artist_object");
-            bind.pageTitleLabel.setText(Html.fromHtml(songListPageViewModel.artist.getName(), Html.FROM_HTML_MODE_COMPACT) + "'s top tracks");
+            bind.pageTitleLabel.setText(MusicUtil.getReadableInfo(songListPageViewModel.artist.getName()) + "'s top tracks");
         } else if (getArguments().getString(Song.BY_GENRES) != null) {
             songListPageViewModel.title = Song.BY_GENRES;
             songListPageViewModel.filters = getArguments().getStringArrayList("filters_list");

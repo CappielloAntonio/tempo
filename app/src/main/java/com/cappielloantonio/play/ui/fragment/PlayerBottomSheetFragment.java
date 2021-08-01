@@ -119,7 +119,6 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
             public void onPageScrollStateChanged(int state) {
                 super.onPageScrollStateChanged(state);
                 pageState = state;
-
             }
 
             @Override
@@ -258,11 +257,11 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     private void setSongInfo(Song song) {
-        bind.playerBodyLayout.playerSongTitleLabel.setText(Html.fromHtml(song.getTitle(), Html.FROM_HTML_MODE_COMPACT));
-        bind.playerBodyLayout.playerArtistNameLabel.setText(Html.fromHtml(song.getArtistName(), Html.FROM_HTML_MODE_COMPACT));
+        bind.playerBodyLayout.playerSongTitleLabel.setText(MusicUtil.getReadableInfo(song.getTitle()));
+        bind.playerBodyLayout.playerArtistNameLabel.setText(MusicUtil.getReadableInfo(song.getArtistName()));
 
-        bind.playerHeaderLayout.playerHeaderSongTitleLabel.setText(Html.fromHtml(song.getTitle(), Html.FROM_HTML_MODE_COMPACT));
-        bind.playerHeaderLayout.playerHeaderSongArtistLabel.setText(Html.fromHtml(song.getArtistName(), Html.FROM_HTML_MODE_COMPACT));
+        bind.playerHeaderLayout.playerHeaderSongTitleLabel.setText(MusicUtil.getReadableInfo(song.getTitle()));
+        bind.playerHeaderLayout.playerHeaderSongArtistLabel.setText(MusicUtil.getReadableInfo(song.getArtistName()));
 
         CustomGlideRequest.Builder
                 .from(requireContext(), song.getPrimary(), song.getBlurHash(), CustomGlideRequest.SONG_PIC)

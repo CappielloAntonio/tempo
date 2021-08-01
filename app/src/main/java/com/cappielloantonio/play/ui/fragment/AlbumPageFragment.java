@@ -26,6 +26,7 @@ import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.DownloadUtil;
+import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.AlbumPageViewModel;
 
 import java.util.Collections;
@@ -116,8 +117,8 @@ public class AlbumPageFragment extends Fragment {
 
         bind.animToolbar.setTitle(albumPageViewModel.getAlbum().getTitle());
 
-        bind.albumNameLabel.setText(Html.fromHtml(albumPageViewModel.getAlbum().getTitle(), Html.FROM_HTML_MODE_COMPACT));
-        bind.albumArtistLabel.setText(Html.fromHtml(albumPageViewModel.getAlbum().getArtistName(), Html.FROM_HTML_MODE_COMPACT));
+        bind.albumNameLabel.setText(MusicUtil.getReadableInfo(albumPageViewModel.getAlbum().getTitle()));
+        bind.albumArtistLabel.setText(MusicUtil.getReadableInfo(albumPageViewModel.getAlbum().getArtistName()));
         bind.albumReleaseYearLabel.setText(albumPageViewModel.getAlbum().getYear() != 0 ? String.valueOf(albumPageViewModel.getAlbum().getYear()) : "");
 
         bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());

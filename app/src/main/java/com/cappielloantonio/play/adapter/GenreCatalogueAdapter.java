@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +77,7 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         Genre genre = genres.get(position);
 
-        holder.textGenre.setText(Html.fromHtml(genre.getName(), Html.FROM_HTML_MODE_COMPACT));
+        holder.textGenre.setText(MusicUtil.getReadableInfo(genre.getName()));
     }
 
     @Override

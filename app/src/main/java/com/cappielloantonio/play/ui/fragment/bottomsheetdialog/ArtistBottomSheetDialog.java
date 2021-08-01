@@ -24,6 +24,7 @@ import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.ArtistBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -70,7 +71,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
                 .into(coverArtist);
 
         nameArtist = view.findViewById(R.id.song_title_text_view);
-        nameArtist.setText(Html.fromHtml(artistBottomSheetViewModel.getArtist().getName(), Html.FROM_HTML_MODE_COMPACT));
+        nameArtist.setText(MusicUtil.getReadableInfo(artistBottomSheetViewModel.getArtist().getName()));
         nameArtist.setSelected(true);
 
         favoriteToggle = view.findViewById(R.id.button_favorite);

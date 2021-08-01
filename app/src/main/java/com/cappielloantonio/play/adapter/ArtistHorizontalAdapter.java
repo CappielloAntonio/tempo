@@ -17,6 +17,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +50,7 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
     public void onBindViewHolder(ViewHolder holder, int position) {
         Artist artist = artists.get(position);
 
-        holder.artistName.setText(Html.fromHtml(artist.getName(), Html.FROM_HTML_MODE_COMPACT));
+        holder.artistName.setText(MusicUtil.getReadableInfo(artist.getName()));
         holder.artistInfo.setText("Album count: " + String.valueOf(artist.getAlbumCount()));
 
         CustomGlideRequest.Builder

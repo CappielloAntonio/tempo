@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
@@ -29,6 +30,7 @@ public class PlayerNowPlayingSongAdapter extends RecyclerView.Adapter<PlayerNowP
         this.songs = new ArrayList<>();
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.item_player_now_playing_song, parent, false);
@@ -63,7 +65,7 @@ public class PlayerNowPlayingSongAdapter extends RecyclerView.Adapter<PlayerNowP
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView cover;
 
         ViewHolder(View itemView) {

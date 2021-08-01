@@ -1,5 +1,7 @@
 package com.cappielloantonio.play.util;
 
+import android.text.Html;
+
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
@@ -45,6 +47,14 @@ public class MusicUtil {
             minutes = minutes % 60;
             return String.format(Locale.getDefault(), "%d:%02d:%02d", hours, minutes, seconds);
         }
+    }
+
+    public static String getReadableInfo(String info) {
+        if (info != null) {
+            return Html.fromHtml(info, Html.FROM_HTML_MODE_COMPACT).toString();
+        }
+
+        return "";
     }
 
     public static int getDefaultPicPerCategory(String category) {

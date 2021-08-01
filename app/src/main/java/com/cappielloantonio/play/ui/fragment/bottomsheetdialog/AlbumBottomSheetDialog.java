@@ -26,6 +26,7 @@ import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.DownloadUtil;
+import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.AlbumBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -78,11 +79,11 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
                 .into(coverAlbum);
 
         titleAlbum = view.findViewById(R.id.album_title_text_view);
-        titleAlbum.setText(Html.fromHtml(albumBottomSheetViewModel.getAlbum().getTitle(), Html.FROM_HTML_MODE_COMPACT));
+        titleAlbum.setText(MusicUtil.getReadableInfo(albumBottomSheetViewModel.getAlbum().getTitle()));
         titleAlbum.setSelected(true);
 
         artistAlbum = view.findViewById(R.id.album_artist_text_view);
-        artistAlbum.setText(Html.fromHtml(albumBottomSheetViewModel.getAlbum().getArtistName(), Html.FROM_HTML_MODE_COMPACT));
+        artistAlbum.setText(MusicUtil.getReadableInfo(albumBottomSheetViewModel.getAlbum().getArtistName()));
 
         favoriteToggle = view.findViewById(R.id.button_favorite);
         favoriteToggle.setChecked(albumBottomSheetViewModel.getAlbum().isFavorite());

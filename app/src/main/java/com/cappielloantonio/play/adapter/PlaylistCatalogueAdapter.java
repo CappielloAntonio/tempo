@@ -19,6 +19,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +79,7 @@ public class PlaylistCatalogueAdapter extends RecyclerView.Adapter<PlaylistCatal
     public void onBindViewHolder(ViewHolder holder, int position) {
         Playlist playlist = playlists.get(position);
 
-        holder.textPlaylistName.setText(Html.fromHtml(playlist.getName(), Html.FROM_HTML_MODE_COMPACT));
+        holder.textPlaylistName.setText(MusicUtil.getReadableInfo(playlist.getName()));
 
         CustomGlideRequest.Builder
                 .from(context, playlist.getPrimary(), playlist.getBlurHash(), CustomGlideRequest.PLAYLIST_PIC)

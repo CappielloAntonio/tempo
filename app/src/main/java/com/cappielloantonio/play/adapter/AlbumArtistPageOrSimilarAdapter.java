@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +43,8 @@ public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumA
     public void onBindViewHolder(ViewHolder holder, int position) {
         Album album = albums.get(position);
 
-        holder.textAlbumName.setText(Html.fromHtml(album.getTitle(), Html.FROM_HTML_MODE_COMPACT));
-        holder.textArtistName.setText(Html.fromHtml(album.getArtistName(), Html.FROM_HTML_MODE_COMPACT));
+        holder.textAlbumName.setText(MusicUtil.getReadableInfo(album.getTitle()));
+        holder.textArtistName.setText(MusicUtil.getReadableInfo(album.getArtistName()));
 
         CustomGlideRequest.Builder
                 .from(context, album.getPrimary(), album.getBlurHash(), CustomGlideRequest.ALBUM_PIC)

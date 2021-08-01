@@ -20,6 +20,7 @@ import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +50,8 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         Song song = songs.get(position);
 
-        holder.textTitle.setText(Html.fromHtml(song.getTitle(), Html.FROM_HTML_MODE_COMPACT));
-        holder.textAlbum.setText(Html.fromHtml(song.getAlbumName(), Html.FROM_HTML_MODE_COMPACT));
+        holder.textTitle.setText(MusicUtil.getReadableInfo(song.getTitle()));
+        holder.textAlbum.setText(MusicUtil.getReadableInfo(song.getAlbumName()));
 
         CustomGlideRequest.Builder
                 .from(context, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.SONG_PIC)

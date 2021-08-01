@@ -18,6 +18,7 @@ import com.cappielloantonio.play.databinding.FragmentFilterBinding;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.FilterViewModel;
 import com.google.android.material.chip.Chip;
 
@@ -96,7 +97,7 @@ public class FilterFragment extends Fragment {
             bind.filterContainer.setVisibility(View.VISIBLE);
             for (Genre genre : genres) {
                 Chip chip = (Chip) requireActivity().getLayoutInflater().inflate(R.layout.chip_search_filter_genre, null, false);
-                chip.setText(Html.fromHtml(genre.getName(), Html.FROM_HTML_MODE_COMPACT));
+                chip.setText(MusicUtil.getReadableInfo(genre.getName()));
                 chip.setChecked(filterViewModel.getFilters().contains(genre.getId()));
                 chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     if (isChecked)

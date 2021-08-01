@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,11 +71,11 @@ public class SongListPageFragment extends Fragment {
         } else if (getArguments().getString(Song.BY_GENRE) != null) {
             songListPageViewModel.title = Song.BY_GENRE;
             songListPageViewModel.genre = getArguments().getParcelable("genre_object");
-            bind.pageTitleLabel.setText(songListPageViewModel.genre.getName() + ": all tracks");
+            bind.pageTitleLabel.setText(Html.fromHtml(songListPageViewModel.genre.getName(), Html.FROM_HTML_MODE_COMPACT) + ": all tracks");
         } else if (getArguments().getString(Song.BY_ARTIST) != null) {
             songListPageViewModel.title = Song.BY_ARTIST;
             songListPageViewModel.artist = getArguments().getParcelable("artist_object");
-            bind.pageTitleLabel.setText(songListPageViewModel.artist.getName() + "'s top tracks");
+            bind.pageTitleLabel.setText(Html.fromHtml(songListPageViewModel.artist.getName(), Html.FROM_HTML_MODE_COMPACT) + "'s top tracks");
         } else if (getArguments().getString(Song.BY_GENRES) != null) {
             songListPageViewModel.title = Song.BY_GENRES;
             songListPageViewModel.filters = getArguments().getStringArrayList("filters_list");

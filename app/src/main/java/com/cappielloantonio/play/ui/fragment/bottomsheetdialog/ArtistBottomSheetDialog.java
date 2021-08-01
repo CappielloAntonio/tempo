@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.ui.fragment.bottomsheetdialog;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,7 +70,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
                 .into(coverArtist);
 
         nameArtist = view.findViewById(R.id.song_title_text_view);
-        nameArtist.setText(artistBottomSheetViewModel.getArtist().getName());
+        nameArtist.setText(Html.fromHtml(artistBottomSheetViewModel.getArtist().getName(), Html.FROM_HTML_MODE_COMPACT));
         nameArtist.setSelected(true);
 
         favoriteToggle = view.findViewById(R.id.button_favorite);

@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +96,7 @@ public class FilterFragment extends Fragment {
             bind.filterContainer.setVisibility(View.VISIBLE);
             for (Genre genre : genres) {
                 Chip chip = (Chip) requireActivity().getLayoutInflater().inflate(R.layout.chip_search_filter_genre, null, false);
-                chip.setText(genre.getName());
+                chip.setText(Html.fromHtml(genre.getName(), Html.FROM_HTML_MODE_COMPACT));
                 chip.setChecked(filterViewModel.getFilters().contains(genre.getId()));
                 chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     if (isChecked)

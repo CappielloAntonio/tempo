@@ -2,6 +2,7 @@ package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -257,11 +258,11 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     private void setSongInfo(Song song) {
-        bind.playerBodyLayout.playerSongTitleLabel.setText(song.getTitle());
-        bind.playerBodyLayout.playerArtistNameLabel.setText(song.getArtistName());
+        bind.playerBodyLayout.playerSongTitleLabel.setText(Html.fromHtml(song.getTitle(), Html.FROM_HTML_MODE_COMPACT));
+        bind.playerBodyLayout.playerArtistNameLabel.setText(Html.fromHtml(song.getArtistName(), Html.FROM_HTML_MODE_COMPACT));
 
-        bind.playerHeaderLayout.playerHeaderSongTitleLabel.setText(song.getTitle());
-        bind.playerHeaderLayout.playerHeaderSongArtistLabel.setText(song.getArtistName());
+        bind.playerHeaderLayout.playerHeaderSongTitleLabel.setText(Html.fromHtml(song.getTitle(), Html.FROM_HTML_MODE_COMPACT));
+        bind.playerHeaderLayout.playerHeaderSongArtistLabel.setText(Html.fromHtml(song.getArtistName(), Html.FROM_HTML_MODE_COMPACT));
 
         CustomGlideRequest.Builder
                 .from(requireContext(), song.getPrimary(), song.getBlurHash(), CustomGlideRequest.SONG_PIC)

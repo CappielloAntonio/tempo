@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -115,8 +116,8 @@ public class AlbumPageFragment extends Fragment {
 
         bind.animToolbar.setTitle(albumPageViewModel.getAlbum().getTitle());
 
-        bind.albumNameLabel.setText(albumPageViewModel.getAlbum().getTitle());
-        bind.albumArtistLabel.setText(albumPageViewModel.getAlbum().getArtistName());
+        bind.albumNameLabel.setText(Html.fromHtml(albumPageViewModel.getAlbum().getTitle(), Html.FROM_HTML_MODE_COMPACT));
+        bind.albumArtistLabel.setText(Html.fromHtml(albumPageViewModel.getAlbum().getArtistName(), Html.FROM_HTML_MODE_COMPACT));
         bind.albumReleaseYearLabel.setText(albumPageViewModel.getAlbum().getYear() != 0 ? String.valueOf(albumPageViewModel.getAlbum().getYear()) : "");
 
         bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());

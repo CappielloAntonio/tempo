@@ -41,7 +41,9 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static com.google.android.exoplayer2.Player.MEDIA_ITEM_TRANSITION_REASON_AUTO;
 import static com.google.android.exoplayer2.Player.MEDIA_ITEM_TRANSITION_REASON_PLAYLIST_CHANGED;
@@ -101,7 +103,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     private Handler uiThreadHandler;
     private ThrottledSeekHandler throttledSeekHandler;
     private QueueHandler queueHandler;
-    private ProgressHandler progressHandler;
     private HandlerThread playerHandlerThread;
     private HandlerThread progressHandlerThread;
     private HandlerThread queueHandlerThread;
@@ -123,7 +124,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
 
         progressHandlerThread = new HandlerThread(ProgressHandler.class.getName());
         progressHandlerThread.start();
-        progressHandler = new ProgressHandler(this, progressHandlerThread.getLooper());
 
         queueHandlerThread = new HandlerThread(QueueHandler.class.getName(), Process.THREAD_PRIORITY_BACKGROUND);
         queueHandlerThread.start();
@@ -247,7 +247,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     public void onDestroy() {
         unregisterReceiver(becomingNoisyReceiver);
 
-        progressHandler.sendEmptyMessage(TRACK_ENDED);
         mediaSession.setActive(false);
         quit();
         releaseResources();
@@ -313,7 +312,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         playerHandler.removeCallbacksAndMessages(null);
         playerHandlerThread.quitSafely();
 
-        progressHandler.removeCallbacksAndMessages(null);
         progressHandlerThread.quitSafely();
 
         queueHandler.removeCallbacksAndMessages(null);
@@ -417,7 +415,7 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, song.getArtistName())
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, song.getAlbumName())
                 .putString(MediaMetadataCompat.METADATA_KEY_TITLE, song.getTitle())
-                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, song.getDuration())
+                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, song.getDuration() * 1000)
                 .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, getPosition() + 1)
                 .putLong(MediaMetadataCompat.METADATA_KEY_YEAR, song.getYear())
                 .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, null);
@@ -674,10 +672,7 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         notifyChange(STATE_CHANGED);
 
         if (ready) {
-            progressHandler.sendEmptyMessage(TRACK_STARTED);
             prepareNext();
-        } else if (reason == PLAY_WHEN_READY_CHANGE_REASON_END_OF_MEDIA_ITEM) {
-            progressHandler.sendEmptyMessage(TRACK_ENDED);
         }
     }
 
@@ -685,9 +680,7 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     public void onTrackChanged(int reason) {
         if (reason == MEDIA_ITEM_TRANSITION_REASON_AUTO) {
             playerHandler.sendEmptyMessage(TRACK_CHANGED);
-            progressHandler.sendEmptyMessage(TRACK_CHANGED);
         } else if (reason == MEDIA_ITEM_TRANSITION_REASON_PLAYLIST_CHANGED) {
-            progressHandler.sendEmptyMessage(TRACK_CHANGED);
             prepareNext();
         }
     }
@@ -781,14 +774,8 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     }
 
     private static final class ProgressHandler extends Handler {
-        private final WeakReference<MusicService> mService;
-
-        private ScheduledExecutorService executorService;
-
         public ProgressHandler(MusicService service, Looper looper) {
             super(looper);
-
-            mService = new WeakReference<>(service);
         }
 
         @Override
@@ -799,24 +786,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
                     break;
                 case TRACK_ENDED:
             }
-        }
-
-        public void onStart() {
-            if (executorService != null) executorService.shutdownNow();
-
-            executorService = Executors.newScheduledThreadPool(1);
-        }
-
-        public void onNext() {
-
-        }
-
-        public void onProgress() {
-
-        }
-
-        public void onStop() {
-
         }
     }
 

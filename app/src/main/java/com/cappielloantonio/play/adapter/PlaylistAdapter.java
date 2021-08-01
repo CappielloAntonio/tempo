@@ -3,6 +3,7 @@ package com.cappielloantonio.play.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Playlist playlist = playlists.get(position);
 
-        holder.textPlaylistName.setText(playlist.getName());
+        holder.textPlaylistName.setText(Html.fromHtml(playlist.getName(), Html.FROM_HTML_MODE_COMPACT));
         holder.textPlaylistSongCount.setText("Song count: " + String.valueOf(playlist.getSongCount()));
 
         CustomGlideRequest.Builder

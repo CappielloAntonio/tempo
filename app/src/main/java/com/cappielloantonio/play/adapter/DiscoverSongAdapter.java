@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,8 +51,8 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         Song song = songs.get(position);
 
-        holder.textTitle.setText(song.getTitle());
-        holder.textAlbum.setText(song.getAlbumName());
+        holder.textTitle.setText(Html.fromHtml(song.getTitle(), Html.FROM_HTML_MODE_COMPACT));
+        holder.textAlbum.setText(Html.fromHtml(song.getAlbumName(), Html.FROM_HTML_MODE_COMPACT));
 
         CustomGlideRequest.Builder
                 .from(context, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.SONG_PIC)

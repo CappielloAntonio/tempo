@@ -2,6 +2,7 @@ package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import java.util.List;
 
 public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAdapter.ViewHolder> {
     private static final String TAG = "SongHorizontalAdapter";
+
     private List<Song> songs;
     private LayoutInflater mInflater;
     private MainActivity mainActivity;
@@ -50,8 +52,8 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         Song song = songs.get(position);
 
-        holder.songTitle.setText(song.getTitle());
-        holder.songArtist.setText(song.getArtistName());
+        holder.songTitle.setText(Html.fromHtml(song.getTitle(), Html.FROM_HTML_MODE_COMPACT));
+        holder.songArtist.setText(Html.fromHtml(song.getArtistName(), Html.FROM_HTML_MODE_COMPACT));
         holder.songDuration.setText(MusicUtil.getReadableDurationString(song.getDuration(), false));
 
         if (song.isOffline()) {

@@ -2,6 +2,7 @@ package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,7 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
     public void onBindViewHolder(ViewHolder holder, int position) {
         Artist artist = artists.get(position);
 
-        holder.artistName.setText(artist.getName());
+        holder.artistName.setText(Html.fromHtml(artist.getName(), Html.FROM_HTML_MODE_COMPACT));
         holder.artistInfo.setText("Album count: " + String.valueOf(artist.getAlbumCount()));
 
         CustomGlideRequest.Builder

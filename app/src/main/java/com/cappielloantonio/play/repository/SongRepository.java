@@ -172,7 +172,7 @@ public class SongRepository {
     }
 
     public MutableLiveData<List<Song>> getSongsByGenre(String id) {
-        MutableLiveData<List<Song>> songsByGenre = new MutableLiveData<>();
+        MutableLiveData<List<Song>> songsByGenre = new MutableLiveData<>(new ArrayList<>());
 
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
@@ -204,7 +204,7 @@ public class SongRepository {
     }
 
     public MutableLiveData<List<Song>> getSongsByGenres(ArrayList<String> genresId) {
-        MutableLiveData<List<Song>> songsByGenre = new MutableLiveData<>();
+        MutableLiveData<List<Song>> songsByGenre = new MutableLiveData<>(new ArrayList<>());
 
         for(String id: genresId)
 

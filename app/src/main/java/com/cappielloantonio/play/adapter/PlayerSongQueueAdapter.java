@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,8 +49,8 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
     public void onBindViewHolder(ViewHolder holder, int position) {
         Song song = songs.get(position);
 
-        holder.songTitle.setText(song.getTitle());
-        holder.songArtist.setText(song.getArtistName());
+        holder.songTitle.setText(Html.fromHtml(song.getTitle(), Html.FROM_HTML_MODE_COMPACT));
+        holder.songArtist.setText(Html.fromHtml(song.getArtistName(), Html.FROM_HTML_MODE_COMPACT));
         holder.songDuration.setText(MusicUtil.getReadableDurationString(song.getDuration(), false));
 
         CustomGlideRequest.Builder

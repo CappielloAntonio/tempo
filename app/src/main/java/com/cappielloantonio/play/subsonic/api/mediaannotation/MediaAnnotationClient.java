@@ -5,7 +5,6 @@ import android.util.Log;
 import com.cappielloantonio.play.subsonic.Subsonic;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.tickaroo.tikxml.TikXml;
-import com.tickaroo.tikxml.converter.htmlescape.HtmlEscapeStringConverter;
 import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory;
 
 import okhttp3.OkHttpClient;
@@ -25,7 +24,7 @@ public class MediaAnnotationClient {
 
         this.retrofit = new Retrofit.Builder()
                 .baseUrl(subsonic.getUrl())
-                .addConverterFactory(TikXmlConverterFactory.create(getParser()))
+                .addConverterFactory(TikXmlConverterFactory.create())
                 .client(getOkHttpClient())
                 .build();
 
@@ -50,12 +49,6 @@ public class MediaAnnotationClient {
     public Call<SubsonicResponse> scrobble(String id) {
         Log.d(TAG, "scrobble()");
         return mediaAnnotationService.scrobble(subsonic.getParams(), id);
-    }
-
-    private TikXml getParser() {
-        return new TikXml.Builder()
-                .addTypeConverter(String.class, new HtmlEscapeStringConverter()) // HtmlEscapeStringConverter encode / decode html characters. This class ships as optional dependency
-                .build();
     }
 
     private OkHttpClient getOkHttpClient() {

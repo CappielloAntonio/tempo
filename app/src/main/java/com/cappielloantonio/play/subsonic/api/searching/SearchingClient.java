@@ -5,7 +5,6 @@ import android.util.Log;
 import com.cappielloantonio.play.subsonic.Subsonic;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.tickaroo.tikxml.TikXml;
-import com.tickaroo.tikxml.converter.htmlescape.HtmlEscapeStringConverter;
 import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory;
 
 import okhttp3.OkHttpClient;
@@ -25,7 +24,7 @@ public class SearchingClient {
 
         this.retrofit = new Retrofit.Builder()
                 .baseUrl(subsonic.getUrl())
-                .addConverterFactory(TikXmlConverterFactory.create(getParser()))
+                .addConverterFactory(TikXmlConverterFactory.create())
                 .client(getOkHttpClient())
                 .build();
 
@@ -40,12 +39,6 @@ public class SearchingClient {
     public Call<SubsonicResponse> search3(String query, int songCount, int albumCount, int artistCount) {
         Log.d(TAG, "search3()");
         return searchingService.search3(subsonic.getParams(), query, songCount, albumCount, artistCount);
-    }
-
-    private TikXml getParser() {
-        return new TikXml.Builder()
-                .addTypeConverter(String.class, new HtmlEscapeStringConverter()) // HtmlEscapeStringConverter encode / decode html characters. This class ships as optional dependency
-                .build();
     }
 
     private OkHttpClient getOkHttpClient() {

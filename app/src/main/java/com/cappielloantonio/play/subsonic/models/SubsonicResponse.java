@@ -10,6 +10,7 @@ public class SubsonicResponse {
     @Element
     private Error error;
     private ScanStatus scanStatus;
+    @Element(name = "topSongs")
     private TopSongs topSongs;
     @Element(name = "similarSongs2")
     private SimilarSongs2 similarSongs2;

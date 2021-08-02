@@ -110,9 +110,9 @@ public class BrowsingClient {
         return browsingService.getSimilarSongs2(subsonic.getParams(), id, limit);
     }
 
-    public Call<SubsonicResponse> getTopSongs(String id, int count) {
+    public Call<SubsonicResponse> getTopSongs(String artist, int count) {
         Log.d(TAG, "getTopSongs()");
-        return browsingService.getTopSongs(subsonic.getParams(), id, count);
+        return browsingService.getTopSongs(subsonic.getParams(), artist, count);
     }
 
     private OkHttpClient getOkHttpClient() {

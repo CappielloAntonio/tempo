@@ -59,5 +59,5 @@ public interface BrowsingService {
     Call<SubsonicResponse> getSimilarSongs2(@QueryMap Map<String, String> params, @Query("id") String id, @Query("count") int count);
 
     @GET("getTopSongs")
-    Call<SubsonicResponse> getTopSongs(@QueryMap Map<String, String> params, @Query("id") String id, @Query("count") int count);
+    Call<SubsonicResponse> getTopSongs(@QueryMap Map<String, String> params, @Query("artist") String artist, @Query("count") int count);
 }

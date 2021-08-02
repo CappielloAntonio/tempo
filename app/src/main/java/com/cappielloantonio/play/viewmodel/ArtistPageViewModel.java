@@ -54,7 +54,7 @@ public class ArtistPageViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Song>> getArtistTopSongList() {
-        // songList = songRepository.getArtistListLiveTopSongSample(artist.id);
+        songList = artistRepository.getTopSongs(artist.getName(), 50);
         return songList;
     }
 

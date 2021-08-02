@@ -284,6 +284,27 @@ public class ArtistRepository {
         return randomSongs;
     }
 
+    public MutableLiveData<List<Song>> getTopSongs(String artistName, int count) {
+        MutableLiveData<List<Song>> topSongs = new MutableLiveData<>();
+
+        App.getSubsonicClientInstance(application, false)
+                .getBrowsingClient()
+                .getTopSongs(artistName, count)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        topSongs.setValue(MappingUtil.mapSong(response.body().getTopSongs().getSongs()));
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+
+        return topSongs;
+    }
+
     private void addToMutableLiveData(MutableLiveData<List<Artist>> liveData, Artist artist) {
         List<Artist> liveArtists = liveData.getValue();
         liveArtists.add(artist);

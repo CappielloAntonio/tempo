@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
+import com.cappielloantonio.play.subsonic.models.AlbumInfo;
 import com.cappielloantonio.play.subsonic.models.AlbumWithSongsID3;
 import com.cappielloantonio.play.util.MappingUtil;
 
@@ -28,6 +29,7 @@ public class Album implements Parcelable {
     public String blurHash;
     public boolean favorite;
     public List<Song> songs;
+    public String notes;
 
     public Album(AlbumID3 albumID3) {
         this.id = albumID3.getId();
@@ -48,6 +50,10 @@ public class Album implements Parcelable {
         this.primary = albumWithSongsID3.getCoverArtId();
         this.favorite = albumWithSongsID3.getStarred() != null;
         this.songs = MappingUtil.mapSong(albumWithSongsID3.getSongs());
+    }
+
+    public Album(AlbumInfo info) {
+        this.notes = info.getNotes();
     }
 
     public String getId() {
@@ -120,6 +126,14 @@ public class Album implements Parcelable {
 
     public void setSongs(List<Song> songs) {
         this.songs = songs;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     @Override

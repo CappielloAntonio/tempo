@@ -7,6 +7,7 @@ import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
+import com.cappielloantonio.play.subsonic.models.AlbumInfo;
 import com.cappielloantonio.play.subsonic.models.AlbumWithSongsID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.ArtistInfo2;
@@ -41,6 +42,10 @@ public class MappingUtil {
 
     public static Album mapAlbum(AlbumWithSongsID3 albumWithSongsID3) {
         return new Album(albumWithSongsID3);
+    }
+
+    public static Album mapAlbum(AlbumInfo albumInfo) {
+        return new Album(albumInfo);
     }
 
     public static ArrayList<Artist> mapArtist(List<ArtistID3> artistID3List) {

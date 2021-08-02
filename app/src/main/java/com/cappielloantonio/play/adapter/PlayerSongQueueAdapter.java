@@ -50,7 +50,6 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
 
         holder.songTitle.setText(MusicUtil.getReadableInfo(song.getTitle()));
         holder.songArtist.setText(MusicUtil.getReadableInfo(song.getArtistName()));
-        holder.songDuration.setText(MusicUtil.getReadableDurationString(song.getDuration(), false));
 
         CustomGlideRequest.Builder
                 .from(context, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.SONG_PIC)
@@ -60,7 +59,6 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
         if (position < MusicPlayerRemote.getPosition()) {
             holder.songTitle.setTextColor(context.getResources().getColor(R.color.songToPlayTextColor, null));
             holder.songArtist.setTextColor(context.getResources().getColor(R.color.songToPlayTextColor, null));
-            holder.songDuration.setTextColor(context.getResources().getColor(R.color.songToPlayTextColor, null));
         }
     }
 
@@ -85,7 +83,6 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView songTitle;
         TextView songArtist;
-        TextView songDuration;
         ImageView cover;
 
         ViewHolder(View itemView) {
@@ -93,7 +90,6 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
 
             songTitle = itemView.findViewById(R.id.queue_song_title_text_view);
             songArtist = itemView.findViewById(R.id.queue_song_artist_text_view);
-            songDuration = itemView.findViewById(R.id.queue_song_duration_text_view);
             cover = itemView.findViewById(R.id.queue_song_cover_image_view);
 
             itemView.setOnClickListener(this);

@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.util.MappingUtil;
@@ -20,6 +21,7 @@ import java.util.List;
 
 public class SongListPageViewModel extends AndroidViewModel {
     private SongRepository songRepository;
+    private ArtistRepository artistRepository;
     private DownloadRepository downloadRepository;
 
     public String title;
@@ -37,6 +39,7 @@ public class SongListPageViewModel extends AndroidViewModel {
         super(application);
 
         songRepository = new SongRepository(application);
+        artistRepository = new ArtistRepository(application);
         downloadRepository = new DownloadRepository(application);
     }
 
@@ -57,7 +60,7 @@ public class SongListPageViewModel extends AndroidViewModel {
                 songList = songList = songRepository.getSongsByGenre(genre.getId());
                 break;
             case Song.BY_ARTIST:
-                // songList = songRepository.getArtistListLiveTopSong(artist.getId());
+                songList = artistRepository.getTopSongs(artist.getName(), 50);
                 break;
             case Song.BY_GENRES:
                 songList = songRepository.getSongsByGenres(filters);

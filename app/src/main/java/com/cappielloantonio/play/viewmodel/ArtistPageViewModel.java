@@ -53,8 +53,8 @@ public class ArtistPageViewModel extends AndroidViewModel {
         return randomList;
     }
 
-    public LiveData<List<Song>> getArtistTopSongList() {
-        songList = artistRepository.getTopSongs(artist.getName(), 50);
+    public LiveData<List<Song>> getArtistTopSongList(int count) {
+        songList = artistRepository.getTopSongs(artist.getName(), count);
         return songList;
     }
 

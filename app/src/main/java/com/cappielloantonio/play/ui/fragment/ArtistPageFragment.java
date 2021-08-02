@@ -14,7 +14,9 @@ import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
@@ -29,6 +31,7 @@ import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.ArtistPageViewModel;
 
 import java.util.ArrayList;
@@ -163,11 +166,18 @@ public class ArtistPageFragment extends Fragment {
     }
 
     private void initTopSongsView() {
-        bind.mostStreamedSongRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        bind.mostStreamedSongRecyclerView.setHasFixedSize(true);
 
         songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
         bind.mostStreamedSongRecyclerView.setAdapter(songHorizontalAdapter);
-        artistPageViewModel.getArtistTopSongList().observe(requireActivity(), songs -> songHorizontalAdapter.setItems(songs));
+        artistPageViewModel.getArtistTopSongList().observe(requireActivity(), songs -> {
+            if (bind != null) bind.artistPageTopSongsSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+            bind.mostStreamedSongRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(songs.size(), 5), GridLayoutManager.HORIZONTAL, false));
+            songHorizontalAdapter.setItems(songs);
+        });
+
+        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+        pagerSnapHelper.attachToRecyclerView(bind.mostStreamedSongRecyclerView);
     }
 
     private void initAlbumsView() {

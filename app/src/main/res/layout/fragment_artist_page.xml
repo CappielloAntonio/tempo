@@ -117,6 +117,7 @@
 
             <!--  Label and button  -->
             <LinearLayout
+                android:id="@+id/artist_page_top_songs_sector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">

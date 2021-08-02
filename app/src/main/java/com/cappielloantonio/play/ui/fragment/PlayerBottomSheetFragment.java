@@ -130,6 +130,10 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
                 if (pageState != -1) {
                     MusicPlayerRemote.playSongAt(position);
                     pageState = -1;
+
+                    // TODO: Soluzione termporanea e non totalmente funzionante al problema del cambio colore
+                    // TODO: |_ delle righe delle canzoni già riprodotte
+                    playerSongQueueAdapter.notifyDataSetChanged();
                 }
             }
         });

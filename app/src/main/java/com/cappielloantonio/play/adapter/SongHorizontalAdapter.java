@@ -75,7 +75,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
 
     public void setItems(List<Song> songs) {
         this.songs = songs;
-        notifyItemRangeChanged(0, songs.size());
+        notifyDataSetChanged();
     }
 
     public Song getItem(int id) {

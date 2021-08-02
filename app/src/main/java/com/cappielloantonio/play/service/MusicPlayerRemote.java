@@ -7,7 +7,6 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -112,8 +111,6 @@ public class MusicPlayerRemote {
     }
 
     public static void openQueue(final List<Song> queue, final int startPosition, final boolean startPlaying) {
-        Log.d(TAG, "MusicPlayerRemote - openQueue:      S " + queue.size() + "      P " + startPosition + "      SP " + startPlaying);
-
         if (!tryToHandleOpenPlayingQueue(queue, startPosition, startPlaying) && musicService != null) {
             musicService.openQueue(queue, startPosition, startPlaying);
         }

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Play for Subsonic</string>
-    <string name="storage_permission_rationale">We need permissions because this and that</string>
 
     <string name="general_header">General</string>
     <string name="search_hint">Search title, artists or albums</string>
@@ -16,11 +15,6 @@
     <string name="search_element_per_category">Number of items searched for each category</string>
     <string name="image_quality">Image quality</string>
 
-    <string name="sync_header">Synchronization</string>
-    <string name="music_sync">Music sync</string>
-    <string name="music_sync_caption">Sync tracks, albums, artists, genres and playlists</string>
-    <string name="playlist_song_cross_sync">Playlist sync</string>
-    <string name="playlist_song_cross_sync_caption">Refresh playlists\' track list</string>
     <string name="about_header">About</string>
     <string name="summary_about">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="app_version">1.1</string>
@@ -37,7 +31,6 @@
 
     <string name="unplayable_file">Couldn\'t play this song.</string>
     <string name="playlist_is_empty">Playlist is empty</string>
-    <string name="audio_focus_denied">Audio focus denied.</string>
 
     <string name="action_play_pause">Play/Pause</string>
     <string name="action_previous">Previous</string>

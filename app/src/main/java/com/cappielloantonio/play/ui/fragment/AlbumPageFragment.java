@@ -1,5 +1,7 @@
 package com.cappielloantonio.play.ui.fragment;
 
+import android.graphics.BlendMode;
+import android.graphics.BlendModeColorFilter;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -142,6 +145,11 @@ public class AlbumPageFragment extends Fragment {
             bundle.putInt("year_object", albumPageViewModel.getAlbum().getYear());
             activity.navController.navigate(R.id.action_albumPageFragment_to_songListPageFragment, bundle);*/
         });
+
+        /*albumPageViewModel.getAlbumInfo().observe(requireActivity(), album -> {
+            if (bind != null) bind.albumBioLabel.setVisibility(album.getNotes() != null ? View.VISIBLE : View.GONE);
+            bind.albumBioLabel.setText(album.getNotes());
+        });*/
     }
 
     private void initMusicButton() {

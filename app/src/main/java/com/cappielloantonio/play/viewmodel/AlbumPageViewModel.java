@@ -22,6 +22,7 @@ public class AlbumPageViewModel extends AndroidViewModel {
     private ArtistRepository artistRepository;
 
     private LiveData<List<Song>> songLiveList = new MutableLiveData<>();
+    private LiveData<Album> albumInfo = new MutableLiveData<>();
 
     private Album album;
 
@@ -48,5 +49,9 @@ public class AlbumPageViewModel extends AndroidViewModel {
 
     public LiveData<Artist> getArtist() {
         return artistRepository.getArtistInfo(album.getArtistId());
+    }
+
+    public LiveData<Album> getAlbumInfo() {
+        return albumRepository.getAlbumInfo(album.getId());
     }
 }

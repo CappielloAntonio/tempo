@@ -4,7 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/ic_refresh.xml" value="0.18958333333333333" />
-        <entry key="app/src/main/res/layout/fragment_artist_page.xml" value="0.3229166666666667" />
+        <entry key="app/src/main/res/layout/fragment_album_page.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_artist_page.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_horizontal_album.xml" value="0.3166496424923391" />
         <entry key="app/src/main/res/layout/item_horizontal_track.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_player_queue_song.xml" value="0.3229166666666667" />

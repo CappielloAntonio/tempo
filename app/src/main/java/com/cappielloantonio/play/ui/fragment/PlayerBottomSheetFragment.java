@@ -105,7 +105,9 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
         playerNowPlayingSongAdapter = new PlayerNowPlayingSongAdapter(requireContext());
         bind.playerBodyLayout.playerSongCoverViewPager.setAdapter(playerNowPlayingSongAdapter);
-        playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), queue -> playerNowPlayingSongAdapter.setItems(MappingUtil.mapQueue(queue)));
+        playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), queue -> {
+            playerNowPlayingSongAdapter.setItems(MappingUtil.mapQueue(queue));
+        });
 
         bind.playerBodyLayout.playerSongCoverViewPager.setOffscreenPageLimit(3);
         bind.playerBodyLayout.playerSongCoverViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -141,7 +143,9 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
         playerSongQueueAdapter = new PlayerSongQueueAdapter(requireContext(), this);
         bind.playerBodyLayout.playerQueueRecyclerView.setAdapter(playerSongQueueAdapter);
-        playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), queue -> playerSongQueueAdapter.setItems(MappingUtil.mapQueue(queue)));
+        playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), queue -> {
+            playerSongQueueAdapter.setItems(MappingUtil.mapQueue(queue));
+        });
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
             int originalPosition = -1;

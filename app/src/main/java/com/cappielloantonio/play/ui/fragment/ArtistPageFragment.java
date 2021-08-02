@@ -185,8 +185,7 @@ public class ArtistPageFragment extends Fragment {
         artistSimilarAdapter = new ArtistSimilarAdapter(requireContext());
         bind.similarArtistsRecyclerView.setAdapter(artistSimilarAdapter);
         artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(requireActivity(), artist -> {
-            if (bind != null)
-                bind.similarArtistSector.setVisibility(!artist.getSimilarArtists().isEmpty() ? View.VISIBLE : View.GONE);
+            if (bind != null) bind.similarArtistSector.setVisibility(!artist.getSimilarArtists().isEmpty() ? View.VISIBLE : View.GONE);
             artistSimilarAdapter.setItems(artist.getSimilarArtists());
         });
     }

@@ -13,6 +13,7 @@ import com.cappielloantonio.play.subsonic.models.ArtistInfo2;
 import com.cappielloantonio.play.subsonic.models.ArtistWithAlbumsID3;
 import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.subsonic.models.Genre;
+import com.cappielloantonio.play.subsonic.models.SimilarArtistID3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +63,16 @@ public class MappingUtil {
 
     public static Artist mapArtistWithAlbum(ArtistWithAlbumsID3 artistWithAlbumsID3) {
         return new Artist(artistWithAlbumsID3);
+    }
+
+    public static ArrayList<Artist> mapSimilarArtist(List<SimilarArtistID3> similarArtistID3s) {
+        ArrayList<Artist> artists = new ArrayList();
+
+        for (SimilarArtistID3 similarArtistID3 : similarArtistID3s) {
+            artists.add(new Artist(similarArtistID3));
+        }
+
+        return artists;
     }
 
     public static ArrayList<Song> mapQueue(List<Queue> queueList) {

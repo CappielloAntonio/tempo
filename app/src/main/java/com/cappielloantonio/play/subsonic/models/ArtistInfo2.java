@@ -9,17 +9,17 @@ import java.util.List;
 
 @Xml
 public class ArtistInfo2 extends ArtistInfoBase {
-    @Element(name = "similarArtist", typesByElement = @ElementNameMatcher(type = ArtistID3.class))
-    protected List<ArtistID3> similarArtists;
+    @Element(name = "similarArtist")
+    protected List<SimilarArtistID3> similarArtists;
 
-    public List<ArtistID3> getSimilarArtists() {
+    public List<SimilarArtistID3> getSimilarArtists() {
         if (similarArtists == null) {
             similarArtists = new ArrayList<>();
         }
         return this.similarArtists;
     }
 
-    public void setSimilarArtists(List<ArtistID3> similarArtists) {
+    public void setSimilarArtists(List<SimilarArtistID3> similarArtists) {
         this.similarArtists = similarArtists;
     }
 }

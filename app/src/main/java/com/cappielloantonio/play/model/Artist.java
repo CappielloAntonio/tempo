@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.ArtistInfo2;
 import com.cappielloantonio.play.subsonic.models.ArtistWithAlbumsID3;
+import com.cappielloantonio.play.subsonic.models.SimilarArtistID3;
 import com.cappielloantonio.play.util.MappingUtil;
 
 import java.util.ArrayList;
@@ -53,8 +54,16 @@ public class Artist implements Parcelable {
         this.albums = MappingUtil.mapAlbum(artistWithAlbumsID3.getAlbums());
     }
 
+    public Artist(SimilarArtistID3 similarArtistID3) {
+        this.id = similarArtistID3.getId();
+        this.name = similarArtistID3.getName();
+        this.primary = similarArtistID3.getCoverArtId();
+        this.backdrop = similarArtistID3.getCoverArtId();
+        this.albumCount = similarArtistID3.getAlbumCount();
+    }
+
     public Artist(ArtistInfo2 artistInfo2) {
-        this.similarArtists = MappingUtil.mapArtist(artistInfo2.getSimilarArtists());
+        this.similarArtists = MappingUtil.mapSimilarArtist(artistInfo2.getSimilarArtists());
         this.bio = artistInfo2.getBiography();
     }
 

@@ -57,16 +57,6 @@ public class AlbumPageFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        initAppBar();
-        initAlbumInfoTextButton();
-        initMusicButton();
-        initSimilarAlbumsView();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = (MainActivity) getActivity();
 
@@ -75,6 +65,10 @@ public class AlbumPageFragment extends Fragment {
         albumPageViewModel = new ViewModelProvider(requireActivity()).get(AlbumPageViewModel.class);
 
         init();
+        initAppBar();
+        initAlbumInfoTextButton();
+        initMusicButton();
+        initSimilarAlbumsView();
         initBackCover();
         initSongsView();
 

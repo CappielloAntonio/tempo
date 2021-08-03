@@ -47,13 +47,6 @@ public class ArtistPageFragment extends Fragment {
     private ArtistSimilarAdapter artistSimilarAdapter;
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        initAppBar();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = (MainActivity) getActivity();
 
@@ -62,6 +55,7 @@ public class ArtistPageFragment extends Fragment {
         artistPageViewModel = new ViewModelProvider(requireActivity()).get(ArtistPageViewModel.class);
 
         init();
+        initAppBar();
         initBackdrop();
         initPlayButtons();
         initTopSongsView();

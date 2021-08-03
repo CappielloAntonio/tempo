@@ -50,13 +50,6 @@ public class PlaylistPageFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        initAppBar();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = (MainActivity) getActivity();
 
@@ -65,6 +58,7 @@ public class PlaylistPageFragment extends Fragment {
         playlistPageViewModel = new ViewModelProvider(requireActivity()).get(PlaylistPageViewModel.class);
 
         init();
+        initAppBar();
         initBackCover();
         initMusicButton();
         initSongsView();

@@ -118,7 +118,7 @@ public class AlbumPageFragment extends Fragment {
             activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        bind.animToolbar.setTitle(albumPageViewModel.getAlbum().getTitle());
+        bind.animToolbar.setTitle(MusicUtil.getReadableInfo(albumPageViewModel.getAlbum().getTitle()));
 
         bind.albumNameLabel.setText(MusicUtil.getReadableInfo(albumPageViewModel.getAlbum().getTitle()));
         bind.albumArtistLabel.setText(MusicUtil.getReadableInfo(albumPageViewModel.getAlbum().getArtistName()));
@@ -137,13 +137,6 @@ public class AlbumPageFragment extends Fragment {
                 } else
                     Toast.makeText(requireContext(), "Error retrieving artist", Toast.LENGTH_SHORT).show();
             });
-        });
-
-        bind.albumReleaseYearLabel.setOnClickListener(v -> {
-            /*Bundle bundle = new Bundle();
-            bundle.putString(Song.BY_YEAR, Song.BY_YEAR);
-            bundle.putInt("year_object", albumPageViewModel.getAlbum().getYear());
-            activity.navController.navigate(R.id.action_albumPageFragment_to_songListPageFragment, bundle);*/
         });
 
         /*albumPageViewModel.getAlbumInfo().observe(requireActivity(), album -> {

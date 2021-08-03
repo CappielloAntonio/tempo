@@ -29,6 +29,7 @@ import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.ArtistPageViewModel;
 
 import java.util.ArrayList;
@@ -100,7 +101,7 @@ public class ArtistPageFragment extends Fragment {
         if (activity.getSupportActionBar() != null)
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        bind.collapsingToolbar.setTitle(artistPageViewModel.getArtist().getName());
+        bind.collapsingToolbar.setTitle(MusicUtil.getReadableInfo(artistPageViewModel.getArtist().getName()));
         bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
         bind.collapsingToolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.titleTextColor, null));
 

@@ -154,10 +154,10 @@ public class SongRepository {
                 });
     }
 
-    public void setRating(String id, int star) {
+    public void setRating(String id, int rating) {
         App.getSubsonicClientInstance(application, false)
                 .getMediaAnnotationClient()
-                .setRating(id, star)
+                .setRating(id, rating)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {

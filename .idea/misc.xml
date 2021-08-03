@@ -3,7 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_downloading.xml" value="0.2722222222222222" />
+        <entry key="app/src/main/res/drawable/ic_file_download.xml" value="0.2722222222222222" />
         <entry key="app/src/main/res/drawable/ic_refresh.xml" value="0.18958333333333333" />
+        <entry key="app/src/main/res/drawable/ic_shuffle.xml" value="0.2722222222222222" />
+        <entry key="app/src/main/res/drawable/ic_star.xml" value="0.2722222222222222" />
+        <entry key="app/src/main/res/layout/bottom_sheet_song_dialog.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/layout/dialog_rating.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/fragment_album_page.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_artist_page.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_horizontal_album.xml" value="0.3166496424923391" />

@@ -40,9 +40,9 @@ public class MediaAnnotationClient {
         return mediaAnnotationService.unstar(subsonic.getParams(), id, albumId, artistId);
     }
 
-    public Call<SubsonicResponse> setRating(String id, int star) {
+    public Call<SubsonicResponse> setRating(String id, int rating) {
         Log.d(TAG, "setRating()");
-        return mediaAnnotationService.setRating(subsonic.getParams(), id, star);
+        return mediaAnnotationService.setRating(subsonic.getParams(), id, rating);
     }
 
     public Call<SubsonicResponse> scrobble(String id) {

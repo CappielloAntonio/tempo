@@ -17,7 +17,7 @@ public interface MediaAnnotationService {
     Call<SubsonicResponse> unstar(@QueryMap Map<String, String> params, @Query("id") String id, @Query("albumId") String albumId, @Query("artistId") String artistId);
 
     @GET("setRating")
-    Call<SubsonicResponse> setRating(@QueryMap Map<String, String> params, @Query("id") String id, @Query("star") int star);
+    Call<SubsonicResponse> setRating(@QueryMap Map<String, String> params, @Query("id") String id, @Query("rating") int rating);
 
     @GET("scrobble")
     Call<SubsonicResponse> scrobble(@QueryMap Map<String, String> params, @Query("id") String id);

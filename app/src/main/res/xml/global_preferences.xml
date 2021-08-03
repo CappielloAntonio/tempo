@@ -18,42 +18,7 @@
             app:key="themePref"
             app:title="@string/theme_selection"
             app:useSimpleSummaryProvider="true" />
-
-        <ListPreference
-            app:defaultValue="10"
-            app:dialogTitle="@string/instant_mix_song_number"
-            app:entries="@array/instant_mix_song_number_titles"
-            app:entryValues="@array/instant_mix_song_number_values"
-            app:key="instant_mix_song_number"
-            app:title="@string/instant_mix_song_number"
-            app:useSimpleSummaryProvider="true" />
-
-        <ListPreference
-            app:defaultValue="10"
-            app:dialogTitle="@string/similar_items_number"
-            app:entries="@array/similar_items_number_titles"
-            app:entryValues="@array/similar_items_number_values"
-            app:key="similar_items_number"
-            app:title="@string/similar_items_number"
-            app:useSimpleSummaryProvider="true" />
-
-        <ListPreference
-            app:defaultValue="10"
-            app:dialogTitle="@string/search_element_per_category"
-            app:entries="@array/search_element_per_category_titles"
-            app:entryValues="@array/search_element_per_category_values"
-            app:key="search_element_per_category"
-            app:title="@string/search_element_per_category"
-            app:useSimpleSummaryProvider="true" />
-
-        <ListPreference
-            app:defaultValue="Top"
-            app:dialogTitle="@string/image_quality"
-            app:entries="@array/image_quality_titles"
-            app:entryValues="@array/image_quality_values"
-            app:key="image_quality"
-            app:title="@string/image_quality"
-            app:useSimpleSummaryProvider="true" />
+        
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/about_header">

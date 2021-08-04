@@ -223,7 +223,7 @@
                     android:paddingStart="8dp"
                     android:paddingTop="12dp"
                     android:paddingEnd="8dp"
-                    android:text="★ tracks" />
+                    android:text="★ Starred tracks" />
 
 
                 <TextView
@@ -272,7 +272,7 @@
                     android:paddingStart="8dp"
                     android:paddingTop="12dp"
                     android:paddingEnd="8dp"
-                    android:text="★ albums" />
+                    android:text="★ Starred albums" />
 
 
                 <TextView
@@ -321,7 +321,7 @@
                     android:paddingStart="8dp"
                     android:paddingTop="12dp"
                     android:paddingEnd="8dp"
-                    android:text="★ artists" />
+                    android:text="★ Starred artists" />
 
 
                 <TextView

@@ -19,6 +19,7 @@ import com.cappielloantonio.play.repository.SongRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class HomeViewModel extends AndroidViewModel {
     private static final String TAG = "HomeViewModel";
@@ -27,13 +28,12 @@ public class HomeViewModel extends AndroidViewModel {
     private ArtistRepository artistRepository;
     private DownloadRepository downloadRepository;
 
-    private LiveData<List<Download>> downloadedSongSample;
-    private List<Integer> years;
-
-    private MutableLiveData<List<Song>> dicoverSongSample;
+    private LiveData<List<Song>> dicoverSongSample;
     private LiveData<List<Album>> mostPlayedAlbumSample;
     private LiveData<List<Album>> recentlyAddedAlbumSample;
     private LiveData<List<Album>> recentlyPlayedAlbumSample;
+    private LiveData<List<Download>> downloadedSongSample;
+    private LiveData<List<Integer>> years;
 
     private LiveData<List<Song>> starredTracks;
     private LiveData<List<Album>> starredAlbums;
@@ -47,18 +47,12 @@ public class HomeViewModel extends AndroidViewModel {
         artistRepository = new ArtistRepository(application);
         downloadRepository = new DownloadRepository(application);
 
-        // favoritesSongSample = songRepository.getListLiveFavoritesSampleSong(20);
-        // downloadedSongSample = songRepository.getListLiveDownloadedSampleSong(20);
-        // years = songRepository.getYearList();
-
-        setDicoverSongSample();
-        dicoverSongSample = new MutableLiveData<>();
-        downloadedSongSample = downloadRepository.getLiveDownloadSample(10);
-        years = new ArrayList<>();
-
+        dicoverSongSample = songRepository.getRandomSample(10, null, null);
         mostPlayedAlbumSample = albumRepository.getAlbums("frequent", 20);
         recentlyAddedAlbumSample = albumRepository.getAlbums("newest", 20);
         recentlyPlayedAlbumSample = albumRepository.getAlbums("recent", 20);
+        downloadedSongSample = downloadRepository.getLiveDownloadSample(10);
+        years = albumRepository.getDecades();
 
         starredTracks = songRepository.getStarredSongs();
         starredAlbums = albumRepository.getStarredAlbums();
@@ -73,7 +67,7 @@ public class HomeViewModel extends AndroidViewModel {
         return dicoverSongSample;
     }
 
-    public List<Integer> getYearList() {
+    public LiveData<List<Integer>> getYearList() {
         return years;
     }
 
@@ -103,19 +97,5 @@ public class HomeViewModel extends AndroidViewModel {
 
     public LiveData<List<Album>> getRecentlyPlayedAlbumList() {
         return recentlyPlayedAlbumSample;
-    }
-
-    private void setDicoverSongSample() {
-        songRepository.getRandomSample(10, new MediaCallback() {
-            @Override
-            public void onError(Exception exception) {
-
-            }
-
-            @Override
-            public void onLoadMedia(List<?> media) {
-                dicoverSongSample.setValue((List<Song>) media);
-            }
-        });
     }
 }

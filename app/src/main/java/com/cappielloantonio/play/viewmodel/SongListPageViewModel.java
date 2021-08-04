@@ -66,7 +66,7 @@ public class SongListPageViewModel extends AndroidViewModel {
                 songList = songRepository.getSongsByGenres(filters);
                 break;
             case Song.BY_YEAR:
-                // songList = songRepository.getSongByYearListLive(year);
+                songList = songRepository.getRandomSample(500, year, year + 10);
                 break;
             case Song.STARRED:
                 songList = songRepository.getStarredSongs();

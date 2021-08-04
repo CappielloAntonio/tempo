@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
+import com.cappielloantonio.play.interfaces.DecadesCallback;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Song;
@@ -14,7 +15,10 @@ import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.util.MappingUtil;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,7 +41,7 @@ public class AlbumRepository {
     public LiveData<List<Album>> getAlbums(String type, int size) {
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
-                .getAlbumList2(type, size, 0)
+                .getAlbumList2(type, size, 0, null, null)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
@@ -262,6 +266,70 @@ public class AlbumRepository {
                     @Override
                     public void onFailure(Call<SubsonicResponse> call, Throwable t) {
                         callback.onLoadMedia(new ArrayList<>());
+                    }
+                });
+    }
+
+    public MutableLiveData<List<Integer>> getDecades() {
+        MutableLiveData<List<Integer>> decades = new MutableLiveData<>();
+
+        getFirstAlbum(first -> {
+            getLastAlbum(last -> {
+                List<Integer> decadeList = new ArrayList();
+
+                int startDecade = first - (first % 10);
+                int lastDecade = last - (last % 10);
+
+                while (startDecade <= lastDecade) {
+                    decadeList.add(startDecade);
+                    startDecade = startDecade + 10;
+                }
+
+                decades.setValue(decadeList);
+            });
+        });
+
+        return decades;
+    }
+
+    private void getFirstAlbum(DecadesCallback callback) {
+        App.getSubsonicClientInstance(application, false)
+                .getAlbumSongListClient()
+                .getAlbumList2("byYear", 1, 0, 0, Calendar.getInstance().get(Calendar.YEAR))
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            if(response.body().getAlbumList2().getAlbums().get(0) != null){
+                                callback.onLoadYear(response.body().getAlbumList2().getAlbums().get(0).getYear());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+    }
+
+    private void getLastAlbum(DecadesCallback callback) {
+        App.getSubsonicClientInstance(application, false)
+                .getAlbumSongListClient()
+                .getAlbumList2("byYear", 1, 0, Calendar.getInstance().get(Calendar.YEAR), 0)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            if(response.body().getAlbumList2().getAlbums().get(0) != null){
+                                callback.onLoadYear(response.body().getAlbumList2().getAlbums().get(0).getYear());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
                     }
                 });
     }

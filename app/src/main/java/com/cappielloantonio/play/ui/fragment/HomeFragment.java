@@ -179,13 +179,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void initYearSongView() {
-        if (bind != null)
-            bind.homeFlashbackSector.setVisibility(!homeViewModel.getYearList().isEmpty() ? View.VISIBLE : View.GONE);
-
         bind.yearsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.yearsRecyclerView.setHasFixedSize(true);
 
-        yearAdapter = new YearAdapter(requireContext(), homeViewModel.getYearList());
+        yearAdapter = new YearAdapter(requireContext());
         yearAdapter.setClickListener((view, position) -> {
             Bundle bundle = new Bundle();
             bundle.putString(Song.BY_YEAR, Song.BY_YEAR);
@@ -193,6 +190,10 @@ public class HomeFragment extends Fragment {
             activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
         });
         bind.yearsRecyclerView.setAdapter(yearAdapter);
+        homeViewModel.getYearList().observe(requireActivity(), years -> {
+            if (bind != null) bind.homeFlashbackSector.setVisibility(!years.isEmpty() ? View.VISIBLE : View.GONE);
+            yearAdapter.setItems(years);
+        });
     }
 
     private void initStarredTracksView() {

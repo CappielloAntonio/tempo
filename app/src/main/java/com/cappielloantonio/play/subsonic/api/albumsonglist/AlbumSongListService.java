@@ -14,10 +14,10 @@ public interface AlbumSongListService {
     Call<SubsonicResponse> getAlbumList(@QueryMap Map<String, String> params, @Query("type") String type, @Query("size") int size, @Query("offset") int offset);
 
     @GET("getAlbumList2")
-    Call<SubsonicResponse> getAlbumList2(@QueryMap Map<String, String> params, @Query("type") String type, @Query("size") int size, @Query("offset") int offset);
+    Call<SubsonicResponse> getAlbumList2(@QueryMap Map<String, String> params, @Query("type") String type, @Query("size") int size, @Query("offset") int offset, @Query("fromYear") Integer fromYear, @Query("toYear") Integer toYear);
 
     @GET("getRandomSongs")
-    Call<SubsonicResponse> getRandomSongs(@QueryMap Map<String, String> params, @Query("size") int size);
+    Call<SubsonicResponse> getRandomSongs(@QueryMap Map<String, String> params, @Query("size") int size, @Query("fromYear") Integer fromYear, @Query("toYear") Integer toYear);
 
     @GET("getSongsByGenre")
     Call<SubsonicResponse> getSongsByGenre(@QueryMap Map<String, String> params, @Query("genre") String genre, @Query("count") int count, @Query("offset") int offset);

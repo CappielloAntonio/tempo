@@ -25,13 +25,13 @@ public class SongRepository {
 
     private Application application;
 
-    private MutableLiveData<List<Song>> starredSongs = new MutableLiveData<>();
-
     public SongRepository(Application application) {
         this.application = application;
     }
 
     public MutableLiveData<List<Song>> getStarredSongs() {
+        MutableLiveData<List<Song>> starredSongs = new MutableLiveData<>();
+
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
                 .getStarred2()
@@ -80,27 +80,29 @@ public class SongRepository {
                 });
     }
 
-    public void getRandomSample(int number, MediaCallback callback) {
+    public MutableLiveData<List<Song>> getRandomSample(int number, Integer fromYear, Integer toYear) {
+        MutableLiveData<List<Song>> randomSongsSample = new MutableLiveData<>(new ArrayList<>());
+
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
-                .getRandomSongs(number)
+                .getRandomSongs(number, fromYear, toYear)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
-                        List<Song> songs = new ArrayList<>();
-
                         if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
-                            songs = new ArrayList<>(MappingUtil.mapSong(response.body().getRandomSongs().getSongs()));
+                            List<Song> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getRandomSongs().getSongs()));
+                            randomSongsSample.setValue(songs);
                         }
 
-                        callback.onLoadMedia(songs);
                     }
 
                     @Override
                     public void onFailure(Call<SubsonicResponse> call, Throwable t) {
-                        callback.onError(new Exception(t.getMessage()));
+
                     }
                 });
+
+        return randomSongsSample;
     }
 
     public void scrobble(String id) {

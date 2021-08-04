@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {
@@ -19,10 +20,10 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {
     private Context context;
     private ItemClickListener itemClickListener;
 
-    public YearAdapter(Context context, List<Integer> years) {
+    public YearAdapter(Context context) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
-        this.years = years;
+        this.years = new ArrayList<>();
     }
 
     @Override

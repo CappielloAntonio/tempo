@@ -35,14 +35,14 @@ public class AlbumSongListClient {
         return albumSongListService.getAlbumList(subsonic.getParams(), type, size, offset);
     }
 
-    public Call<SubsonicResponse> getAlbumList2(String type, int size, int offset) {
+    public Call<SubsonicResponse> getAlbumList2(String type, int size, int offset, Integer fromYear, Integer toYear) {
         Log.d(TAG, "getAlbumList2()");
-        return albumSongListService.getAlbumList2(subsonic.getParams(), type, size, offset);
+        return albumSongListService.getAlbumList2(subsonic.getParams(), type, size, offset, fromYear, toYear);
     }
 
-    public Call<SubsonicResponse> getRandomSongs(int size) {
+    public Call<SubsonicResponse> getRandomSongs(int size, Integer fromYear, Integer toYear) {
         Log.d(TAG, "getRandomSongs()");
-        return albumSongListService.getRandomSongs(subsonic.getParams(), size);
+        return albumSongListService.getRandomSongs(subsonic.getParams(), size, fromYear, toYear);
     }
 
     public Call<SubsonicResponse> getSongsByGenre(String genre, int count, int offset) {

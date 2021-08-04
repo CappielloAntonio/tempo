@@ -63,7 +63,7 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
     private void retrieveAlbums(Context context, MediaCallback callback, int size, int offset) {
         App.getSubsonicClientInstance(context, false)
                 .getAlbumSongListClient()
-                .getAlbumList2("alphabeticalByName", size, offset)
+                .getAlbumList2("alphabeticalByName", size, offset, null, null)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(Call<SubsonicResponse> call, retrofit2.Response<SubsonicResponse> response) {

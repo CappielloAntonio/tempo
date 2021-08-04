@@ -52,6 +52,9 @@ dependencies {
     // Android Material
     implementation 'com.google.android.material:material:1.4.0'
 
+    // Splashscreen
+    implementation 'androidx.core:core-splashscreen:1.0.0-alpha01'
+
     // VolleyRequest
     implementation 'com.android.volley:volley:1.2.0'
 

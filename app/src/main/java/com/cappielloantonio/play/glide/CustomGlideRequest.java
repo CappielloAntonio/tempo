@@ -23,21 +23,16 @@ import java.util.Map;
 public class CustomGlideRequest {
     private static final String TAG = "CustomGlideRequest";
 
-    public static final String PRIMARY = "PRIMARY";
-    public static final String BACKDROP = "BACKDROP";
-
     public static final String SONG_PIC = "SONG";
     public static final String ALBUM_PIC = "ALBUM";
     public static final String ARTIST_PIC = "ARTIST";
     public static final String PLAYLIST_PIC = "PLAYLIST";
 
     public static final DiskCacheStrategy DEFAULT_DISK_CACHE_STRATEGY = DiskCacheStrategy.ALL;
-    public static final int DEFAULT_IMAGE = R.drawable.default_album_art;
 
     public static RequestOptions createRequestOptions(String item, Drawable placeholder) {
         RequestOptions options = new RequestOptions()
-                .placeholder(placeholder)
-                .error(DEFAULT_IMAGE)
+                .error(placeholder)
                 .diskCacheStrategy(DEFAULT_DISK_CACHE_STRATEGY)
                 .signature(new ObjectKey(item != null ? item : 0))
                 .centerCrop();
@@ -65,23 +60,17 @@ public class CustomGlideRequest {
         private final Object item;
         private final Context context;
 
-        private Builder(Context context, String item, String placeholder, String category) {
+        private Builder(Context context, String item, String category) {
             this.requestManager = Glide.with(context);
             this.item = item != null ? createUrl(item) : MusicUtil.getDefaultPicPerCategory(category);
             this.context = context;
 
-            if (placeholder != null) {
-                Bitmap bitmap = BlurHashDecoder.INSTANCE.decode(placeholder, 40, 40, 1, true);
-                BitmapDrawable drawable = new BitmapDrawable(context.getResources(), bitmap);
-                requestManager.applyDefaultRequestOptions(createRequestOptions(item, drawable));
-            } else {
-                Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), MusicUtil.getDefaultPicPerCategory(category), null);
-                requestManager.applyDefaultRequestOptions(createRequestOptions(item, drawable));
-            }
+            Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), MusicUtil.getDefaultPicPerCategory(category), null);
+            requestManager.applyDefaultRequestOptions(createRequestOptions(item, drawable));
         }
 
-        public static Builder from(Context context, String item, String placeholder, String category) {
-            return new Builder(context, item, placeholder, category);
+        public static Builder from(Context context, String item, String category) {
+            return new Builder(context, item, category);
         }
 
         public BitmapBuilder bitmap() {

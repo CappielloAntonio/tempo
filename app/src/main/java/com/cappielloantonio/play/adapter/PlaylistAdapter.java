@@ -50,7 +50,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         holder.textPlaylistSongCount.setText("Song count: " + String.valueOf(playlist.getSongCount()));
 
         CustomGlideRequest.Builder
-                .from(context, playlist.getPrimary(), playlist.getBlurHash(), CustomGlideRequest.PLAYLIST_PIC)
+                .from(context, playlist.getPrimary(), CustomGlideRequest.PLAYLIST_PIC)
                 .build()
                 .into(holder.cover);
     }

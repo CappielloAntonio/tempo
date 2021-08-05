@@ -47,7 +47,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
         holder.textArtistName.setText(MusicUtil.getReadableInfo(artist.getName()));
 
         CustomGlideRequest.Builder
-                .from(context, artist.getId(), artist.getPrimaryBlurHash(), CustomGlideRequest.ARTIST_PIC)
+                .from(context, artist.getId(), CustomGlideRequest.ARTIST_PIC)
                 .build()
                 .into(holder.cover);
     }

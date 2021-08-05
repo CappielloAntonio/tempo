@@ -66,7 +66,7 @@ public class PlayingNotification {
 
         final int bigNotificationImageSize = service.getResources().getDimensionPixelSize(R.dimen.notification_big_image_size);
         service.runOnUiThread(() -> CustomGlideRequest.Builder
-                .from(service, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.SONG_PIC)
+                .from(service, song.getPrimary(), CustomGlideRequest.SONG_PIC)
                 .bitmap()
                 .build()
                 .into(new CustomTarget<Bitmap>(bigNotificationImageSize, bigNotificationImageSize) {

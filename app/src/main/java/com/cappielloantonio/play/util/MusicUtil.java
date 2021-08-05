@@ -73,7 +73,6 @@ public class MusicUtil {
 
     public static MediaItem getMediaItemFromSong(Song song) {
         String uri = MusicUtil.getSongFileUri(song);
-        MediaItem mediaItem = MediaItem.fromUri(uri);
-        return mediaItem;
+        return MediaItem.fromUri(uri);
     }
 }

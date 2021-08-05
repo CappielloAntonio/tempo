@@ -63,7 +63,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         }
 
         CustomGlideRequest.Builder
-                .from(context, song.getPrimary(), song.getBlurHash(), CustomGlideRequest.SONG_PIC)
+                .from(context, song.getPrimary(), CustomGlideRequest.SONG_PIC)
                 .build()
                 .into(holder.cover);
     }

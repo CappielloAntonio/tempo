@@ -173,7 +173,10 @@ public class ArtistPageFragment extends Fragment {
 
         albumArtistPageOrSimilarAdapter = new AlbumArtistPageOrSimilarAdapter(requireContext());
         bind.albumsRecyclerView.setAdapter(albumArtistPageOrSimilarAdapter);
-        artistPageViewModel.getAlbumList().observe(requireActivity(), songs -> albumArtistPageOrSimilarAdapter.setItems(songs));
+        artistPageViewModel.getAlbumList().observe(requireActivity(), albums -> {
+            if (bind != null) bind.artistPageAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+            albumArtistPageOrSimilarAdapter.setItems(albums);
+        });
     }
 
     private void initSimilarArtistsView() {

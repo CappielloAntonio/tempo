@@ -52,7 +52,7 @@ public class Song implements Parcelable {
         this.id = child.getId();
         this.title = child.getTitle();
         this.trackNumber = child.getTrack();
-        this.discNumber = child.getDiscNumber();
+        this.discNumber = child.getDiscNumber() != null ? child.getDiscNumber() : 0;
         this.year = child.getYear() != null ? child.getYear() : 0;
         this.duration = child.getDuration();
         this.albumId = child.getAlbumId();

@@ -35,6 +35,7 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.ui.notification.PlayingNotification;
+import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
 import java.lang.ref.WeakReference;
@@ -411,10 +412,10 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         }
 
         final MediaMetadataCompat.Builder metaData = new MediaMetadataCompat.Builder()
-                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, song.getArtistName())
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, song.getArtistName())
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, song.getAlbumName())
-                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, song.getTitle())
+                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, MusicUtil.getReadableInfo(song.getArtistName()))
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, MusicUtil.getReadableInfo(song.getArtistName()))
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, MusicUtil.getReadableInfo(song.getAlbumName()))
+                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, MusicUtil.getReadableInfo(song.getTitle()))
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, song.getDuration() * 1000)
                 .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, getPosition() + 1)
                 .putLong(MediaMetadataCompat.METADATA_KEY_YEAR, song.getYear())

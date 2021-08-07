@@ -14,9 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.cappielloantonio.play.App;
-import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.util.MusicUtil;
-import com.wolt.blurhashkt.BlurHashDecoder;
 
 import java.util.Map;
 

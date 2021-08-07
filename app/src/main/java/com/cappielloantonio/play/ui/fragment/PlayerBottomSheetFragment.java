@@ -265,11 +265,11 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     private void setSongInfo(Song song) {
-        bind.playerBodyLayout.playerSongTitleLabel.setText(MusicUtil.getReadableInfo(song.getTitle()));
-        bind.playerBodyLayout.playerArtistNameLabel.setText(MusicUtil.getReadableInfo(song.getArtistName()));
+        bind.playerBodyLayout.playerSongTitleLabel.setText(MusicUtil.getReadableString(song.getTitle()));
+        bind.playerBodyLayout.playerArtistNameLabel.setText(MusicUtil.getReadableString(song.getArtistName()));
 
-        bind.playerHeaderLayout.playerHeaderSongTitleLabel.setText(MusicUtil.getReadableInfo(song.getTitle()));
-        bind.playerHeaderLayout.playerHeaderSongArtistLabel.setText(MusicUtil.getReadableInfo(song.getArtistName()));
+        bind.playerHeaderLayout.playerHeaderSongTitleLabel.setText(MusicUtil.getReadableString(song.getTitle()));
+        bind.playerHeaderLayout.playerHeaderSongArtistLabel.setText(MusicUtil.getReadableString(song.getArtistName()));
 
         CustomGlideRequest.Builder
                 .from(requireContext(), song.getPrimary(), CustomGlideRequest.SONG_PIC)

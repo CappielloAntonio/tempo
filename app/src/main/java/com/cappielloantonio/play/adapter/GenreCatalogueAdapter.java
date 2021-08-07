@@ -77,7 +77,7 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         Genre genre = genres.get(position);
 
-        holder.textGenre.setText(MusicUtil.getReadableInfo(genre.getName()));
+        holder.textGenre.setText(MusicUtil.getReadableString(genre.getName()));
     }
 
     @Override

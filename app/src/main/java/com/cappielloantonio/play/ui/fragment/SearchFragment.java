@@ -17,6 +17,7 @@ import com.cappielloantonio.play.adapter.ArtistAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentSearchBinding;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.SearchViewModel;
 import com.paulrybitskyi.persistentsearchview.adapters.model.SuggestionItem;
 import com.paulrybitskyi.persistentsearchview.listeners.OnSuggestionChangeListener;
@@ -100,7 +101,7 @@ public class SearchFragment extends Fragment {
         bind.persistentSearchView.setOnSearchQueryChangeListener((searchView, oldQuery, newQuery) -> {
             if (!newQuery.trim().equals("") && newQuery.trim().length() > 1) {
                 searchViewModel.getSearchSuggestion(newQuery).observe(requireActivity(), suggestions -> {
-                    searchView.setSuggestions(SuggestionCreationUtil.asRegularSearchSuggestions(suggestions), false);
+                    searchView.setSuggestions(SuggestionCreationUtil.asRegularSearchSuggestions(MusicUtil.getReadableStrings(suggestions)), false);
                 });
             } else {
                 setSuggestions();

@@ -95,7 +95,7 @@ public class ArtistPageFragment extends Fragment {
         if (activity.getSupportActionBar() != null)
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        bind.collapsingToolbar.setTitle(MusicUtil.getReadableInfo(artistPageViewModel.getArtist().getName()));
+        bind.collapsingToolbar.setTitle(MusicUtil.getReadableString(artistPageViewModel.getArtist().getName()));
         bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
         bind.collapsingToolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.titleTextColor, null));
 

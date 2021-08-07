@@ -112,10 +112,10 @@ public class AlbumPageFragment extends Fragment {
             activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        bind.animToolbar.setTitle(MusicUtil.getReadableInfo(albumPageViewModel.getAlbum().getTitle()));
+        bind.animToolbar.setTitle(MusicUtil.getReadableString(albumPageViewModel.getAlbum().getTitle()));
 
-        bind.albumNameLabel.setText(MusicUtil.getReadableInfo(albumPageViewModel.getAlbum().getTitle()));
-        bind.albumArtistLabel.setText(MusicUtil.getReadableInfo(albumPageViewModel.getAlbum().getArtistName()));
+        bind.albumNameLabel.setText(MusicUtil.getReadableString(albumPageViewModel.getAlbum().getTitle()));
+        bind.albumArtistLabel.setText(MusicUtil.getReadableString(albumPageViewModel.getAlbum().getArtistName()));
         bind.albumReleaseYearLabel.setText(albumPageViewModel.getAlbum().getYear() != 0 ? String.valueOf(albumPageViewModel.getAlbum().getYear()) : "");
 
         bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());

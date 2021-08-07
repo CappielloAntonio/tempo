@@ -8,6 +8,8 @@ import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Song;
 import com.google.android.exoplayer2.MediaItem;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -49,12 +51,26 @@ public class MusicUtil {
         }
     }
 
-    public static String getReadableInfo(String info) {
-        if (info != null) {
-            return Html.fromHtml(info, Html.FROM_HTML_MODE_COMPACT).toString();
+    public static String getReadableString(String string) {
+        if (string != null) {
+            return Html.fromHtml(string, Html.FROM_HTML_MODE_COMPACT).toString();
         }
 
         return "";
+    }
+
+    public static List<String> getReadableStrings(List<String> strings) {
+        List<String> readableStrings = new ArrayList<>();
+
+        if (strings.size() > 0) {
+            for (String string : strings) {
+                if (string != null) {
+                    readableStrings.add(Html.fromHtml(string, Html.FROM_HTML_MODE_COMPACT).toString());
+                }
+            }
+        }
+
+        return readableStrings;
     }
 
     public static int getDefaultPicPerCategory(String category) {

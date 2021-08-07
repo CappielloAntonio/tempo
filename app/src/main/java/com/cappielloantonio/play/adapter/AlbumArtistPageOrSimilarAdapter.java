@@ -43,8 +43,8 @@ public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumA
     public void onBindViewHolder(ViewHolder holder, int position) {
         Album album = albums.get(position);
 
-        holder.textAlbumName.setText(MusicUtil.getReadableInfo(album.getTitle()));
-        holder.textArtistName.setText(MusicUtil.getReadableInfo(album.getArtistName()));
+        holder.textAlbumName.setText(MusicUtil.getReadableString(album.getTitle()));
+        holder.textArtistName.setText(MusicUtil.getReadableString(album.getArtistName()));
 
         CustomGlideRequest.Builder
                 .from(context, album.getPrimary(), CustomGlideRequest.ALBUM_PIC)

@@ -52,8 +52,8 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         Song song = songs.get(position);
 
-        holder.songTitle.setText(MusicUtil.getReadableInfo(song.getTitle()));
-        holder.songArtist.setText(MusicUtil.getReadableInfo(song.getArtistName()));
+        holder.songTitle.setText(MusicUtil.getReadableString(song.getTitle()));
+        holder.songArtist.setText(MusicUtil.getReadableString(song.getArtistName()));
         holder.songDuration.setText(MusicUtil.getReadableDurationString(song.getDuration(), false));
 
         if (song.isOffline()) {

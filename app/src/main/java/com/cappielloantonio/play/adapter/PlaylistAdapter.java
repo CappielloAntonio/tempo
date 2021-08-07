@@ -46,7 +46,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Playlist playlist = playlists.get(position);
 
-        holder.textPlaylistName.setText(MusicUtil.getReadableInfo(playlist.getName()));
+        holder.textPlaylistName.setText(MusicUtil.getReadableString(playlist.getName()));
         holder.textPlaylistSongCount.setText("Song count: " + String.valueOf(playlist.getSongCount()));
 
         CustomGlideRequest.Builder

@@ -50,7 +50,7 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
     public void onBindViewHolder(ViewHolder holder, int position) {
         Artist artist = artists.get(position);
 
-        holder.artistName.setText(MusicUtil.getReadableInfo(artist.getName()));
+        holder.artistName.setText(MusicUtil.getReadableString(artist.getName()));
         holder.artistInfo.setText("Album count: " + String.valueOf(artist.getAlbumCount()));
 
         CustomGlideRequest.Builder

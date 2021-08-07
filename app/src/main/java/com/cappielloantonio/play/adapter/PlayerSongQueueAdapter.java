@@ -48,8 +48,8 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
     public void onBindViewHolder(ViewHolder holder, int position) {
         Song song = songs.get(position);
 
-        holder.songTitle.setText(MusicUtil.getReadableInfo(song.getTitle()));
-        holder.songArtist.setText(MusicUtil.getReadableInfo(song.getArtistName()));
+        holder.songTitle.setText(MusicUtil.getReadableString(song.getTitle()));
+        holder.songArtist.setText(MusicUtil.getReadableString(song.getArtistName()));
 
         CustomGlideRequest.Builder
                 .from(context, song.getPrimary(), CustomGlideRequest.SONG_PIC)

@@ -412,10 +412,10 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         }
 
         final MediaMetadataCompat.Builder metaData = new MediaMetadataCompat.Builder()
-                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, MusicUtil.getReadableInfo(song.getArtistName()))
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, MusicUtil.getReadableInfo(song.getArtistName()))
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, MusicUtil.getReadableInfo(song.getAlbumName()))
-                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, MusicUtil.getReadableInfo(song.getTitle()))
+                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, MusicUtil.getReadableString(song.getArtistName()))
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, MusicUtil.getReadableString(song.getArtistName()))
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, MusicUtil.getReadableString(song.getAlbumName()))
+                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, MusicUtil.getReadableString(song.getTitle()))
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, song.getDuration() * 1000)
                 .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, getPosition() + 1)
                 .putLong(MediaMetadataCompat.METADATA_KEY_YEAR, song.getYear())

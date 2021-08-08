@@ -91,7 +91,7 @@ public class PreferenceUtil {
     }
 
     public String getServerId() {
-        return mPreferences.getString(SERVER_ID, null);
+        return mPreferences.getString(SERVER_ID, "");
     }
 
     public void setServerId(String serverId) {

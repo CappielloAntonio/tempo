@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.repository;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -28,7 +29,7 @@ public class QueueRepository {
     }
 
     public LiveData<List<Queue>> getLiveQueue() {
-        listLiveQueue = queueDao.getAll(PreferenceUtil.getInstance(App.getInstance()).getServerId());
+        listLiveQueue = queueDao.getAll();
         return listLiveQueue;
     }
 
@@ -69,6 +70,12 @@ public class QueueRepository {
         thread.start();
     }
 
+    public void deleteAll() {
+        DeleteAllThreadSafe deleteAll = new DeleteAllThreadSafe(queueDao);
+        Thread thread = new Thread(deleteAll);
+        thread.start();
+    }
+
     public int count() {
         int count = 0;
 
@@ -96,7 +103,7 @@ public class QueueRepository {
 
         @Override
         public void run() {
-            songs = MappingUtil.mapQueue(queueDao.getAllSimple(PreferenceUtil.getInstance(App.getInstance()).getServerId()));
+            songs = MappingUtil.mapQueue(queueDao.getAllSimple());
         }
 
         public List<Song> getSongs() {
@@ -115,7 +122,7 @@ public class QueueRepository {
 
         @Override
         public void run() {
-            queueDao.insertAll(QueueUtil.getQueueElementsFromSongs(songs, PreferenceUtil.getInstance(App.getInstance()).getServerId()));
+            queueDao.insertAll(QueueUtil.getQueueElementsFromSongs(songs));
         }
     }
 
@@ -130,7 +137,7 @@ public class QueueRepository {
 
         @Override
         public void run() {
-            queueDao.deleteByPosition(position, PreferenceUtil.getInstance(App.getInstance()).getServerId());
+            queueDao.deleteByPosition(position);
         }
     }
 
@@ -143,7 +150,7 @@ public class QueueRepository {
 
         @Override
         public void run() {
-            queueDao.deleteAll(PreferenceUtil.getInstance(App.getInstance()).getServerId());
+            queueDao.deleteAll();
         }
     }
 

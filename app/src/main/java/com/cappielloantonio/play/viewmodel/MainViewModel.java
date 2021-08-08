@@ -10,18 +10,15 @@ import com.cappielloantonio.play.repository.QueueRepository;
 public class MainViewModel extends AndroidViewModel {
     private static final String TAG = "SearchViewModel";
 
-    private QueueRepository queueRepository;
+    private Application application;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
-
-        queueRepository = new QueueRepository(application);
+        this.application = application;
     }
 
     public boolean isQueueLoaded() {
-        if (queueRepository.count() == 0)
-            return false;
-
-        return true;
+        QueueRepository queueRepository = new QueueRepository(application);
+        return queueRepository.count() != 0;
     }
 }

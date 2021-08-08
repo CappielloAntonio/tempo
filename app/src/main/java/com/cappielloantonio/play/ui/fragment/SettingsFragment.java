@@ -9,8 +9,10 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.helper.ThemeHelper;
+import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
@@ -50,7 +52,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             PreferenceUtil.getInstance(requireContext()).setSalt(null);
             PreferenceUtil.getInstance(requireContext()).setServerId(null);
 
-            activity.goToLogin();
+            activity.quit();
 
             return true;
         });

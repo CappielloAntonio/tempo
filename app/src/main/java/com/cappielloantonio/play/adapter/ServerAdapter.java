@@ -89,6 +89,7 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
         public void onClick(View view) {
             Server server = servers.get(getBindingAdapterPosition());
             saveServerPreference(server.getAddress(), server.getUsername(), server.getToken(), server.getSalt());
+            refreshSubsonicClientInstance();
 
             SystemRepository systemRepository = new SystemRepository(App.getInstance());
             systemRepository.checkUserCredential(new SystemCallback() {
@@ -116,11 +117,11 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
             if (token != null && salt != null) {
                 PreferenceUtil.getInstance(context).setToken(token);
                 PreferenceUtil.getInstance(context).setSalt(salt);
-                PreferenceUtil.getInstance(context).setServerId(servers.get(getBindingAdapterPosition()).getServerId());
-
-                return;
             }
+        }
 
+        private void refreshSubsonicClientInstance() {
+            PreferenceUtil.getInstance(context).setServerId(servers.get(getBindingAdapterPosition()).getServerId());
             App.getSubsonicClientInstance(context, true);
         }
     }

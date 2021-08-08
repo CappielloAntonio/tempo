@@ -293,7 +293,9 @@ public class ArtistRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
-                        topSongs.setValue(MappingUtil.mapSong(response.body().getTopSongs().getSongs()));
+                        if (response.body().getTopSongs() != null) {
+                            topSongs.setValue(MappingUtil.mapSong(response.body().getTopSongs().getSongs()));
+                        }
                     }
 
                     @Override

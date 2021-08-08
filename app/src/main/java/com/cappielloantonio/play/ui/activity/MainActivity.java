@@ -13,10 +13,12 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.broadcast.receiver.ConnectivityStatusBroadcastReceiver;
 import com.cappielloantonio.play.databinding.ActivityMainBinding;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.base.BaseActivity;
 import com.cappielloantonio.play.ui.fragment.PlayerBottomSheetFragment;
@@ -179,6 +181,9 @@ public class MainActivity extends BaseActivity {
 
     // NAVIGATION
     public void goToLogin() {
+        setBottomNavigationBarVisibility(false);
+        setBottomSheetVisibility(false);
+
         if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.landingFragment) {
             navController.navigate(R.id.action_landingFragment_to_loginFragment);
         } else if(Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.settingsFragment) {
@@ -197,7 +202,21 @@ public class MainActivity extends BaseActivity {
     }
 
     public void goFromLogin() {
+        isBottomSheetInPeek(mainViewModel.isQueueLoaded());
         goToHome();
+    }
+
+    public void clearViewModel() {
+        this.getViewModelStore().clear();
+    }
+
+    public void quit() {
+        QueueRepository queueRepository = new QueueRepository(App.getInstance());
+        queueRepository.deleteAll();
+
+        MusicPlayerRemote.quitPlaying();
+        clearViewModel();
+        goToLogin();
     }
 
     @Override

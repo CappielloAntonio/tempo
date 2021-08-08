@@ -179,8 +179,11 @@ public class MainActivity extends BaseActivity {
 
     // NAVIGATION
     public void goToLogin() {
-        if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.landingFragment)
+        if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.landingFragment) {
             navController.navigate(R.id.action_landingFragment_to_loginFragment);
+        } else if(Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.settingsFragment) {
+            navController.navigate(R.id.action_settingsFragment_to_loginFragment);
+        }
     }
 
     public void goToHome() {

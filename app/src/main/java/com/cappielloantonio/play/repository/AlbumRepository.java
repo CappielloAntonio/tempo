@@ -275,17 +275,19 @@ public class AlbumRepository {
 
         getFirstAlbum(first -> {
             getLastAlbum(last -> {
-                List<Integer> decadeList = new ArrayList();
+                if(first != -1 && last != -1) {
+                    List<Integer> decadeList = new ArrayList();
 
-                int startDecade = first - (first % 10);
-                int lastDecade = last - (last % 10);
+                    int startDecade = first - (first % 10);
+                    int lastDecade = last - (last % 10);
 
-                while (startDecade <= lastDecade) {
-                    decadeList.add(startDecade);
-                    startDecade = startDecade + 10;
+                    while (startDecade <= lastDecade) {
+                        decadeList.add(startDecade);
+                        startDecade = startDecade + 10;
+                    }
+
+                    decades.setValue(decadeList);
                 }
-
-                decades.setValue(decadeList);
             });
         });
 
@@ -295,7 +297,7 @@ public class AlbumRepository {
     private void getFirstAlbum(DecadesCallback callback) {
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
-                .getAlbumList2("byYear", 1, 0, 0, Calendar.getInstance().get(Calendar.YEAR))
+                .getAlbumList2("byYear", 1, 0, 1900, Calendar.getInstance().get(Calendar.YEAR))
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
@@ -308,7 +310,7 @@ public class AlbumRepository {
 
                     @Override
                     public void onFailure(Call<SubsonicResponse> call, Throwable t) {
-
+                        callback.onLoadYear(-1);
                     }
                 });
     }
@@ -316,20 +318,23 @@ public class AlbumRepository {
     private void getLastAlbum(DecadesCallback callback) {
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
-                .getAlbumList2("byYear", 1, 0, Calendar.getInstance().get(Calendar.YEAR), 0)
+                .getAlbumList2("byYear", 1, 0, Calendar.getInstance().get(Calendar.YEAR), 1900)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
                         if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
-                            if(response.body().getAlbumList2().getAlbums().get(0) != null){
+                            if(response.body().getAlbumList2().getAlbums().size() > 0 && response.body().getAlbumList2().getAlbums().get(0) != null){
                                 callback.onLoadYear(response.body().getAlbumList2().getAlbums().get(0).getYear());
+                            }
+                            else {
+                                callback.onLoadYear(-1);
                             }
                         }
                     }
 
                     @Override
                     public void onFailure(Call<SubsonicResponse> call, Throwable t) {
-
+                        callback.onLoadYear(-1);
                     }
                 });
     }

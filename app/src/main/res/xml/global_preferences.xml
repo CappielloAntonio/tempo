@@ -18,6 +18,10 @@
             app:key="themePref"
             app:title="@string/theme_selection"
             app:useSimpleSummaryProvider="true" />
+
+        <Preference
+            android:key="logout"
+            android:title="Log out" />
         
     </PreferenceCategory>
 

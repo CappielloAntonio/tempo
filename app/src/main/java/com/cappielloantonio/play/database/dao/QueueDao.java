@@ -12,20 +12,20 @@ import java.util.List;
 
 @Dao
 public interface QueueDao {
-    @Query("SELECT * FROM queue")
-    LiveData<List<Queue>> getAll();
+    @Query("SELECT * FROM queue WHERE server = :server")
+    LiveData<List<Queue>> getAll(String server);
 
-    @Query("SELECT * FROM queue")
-    List<Queue> getAllSimple();
+    @Query("SELECT * FROM queue WHERE server = :server")
+    List<Queue> getAllSimple(String server);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<Queue> songQueueObject);
 
-    @Query("DELETE FROM queue WHERE queue.track_order = :position")
-    void deleteByPosition(int position);
+    @Query("DELETE FROM queue WHERE queue.track_order = :position AND server = :server")
+    void deleteByPosition(int position, String server);
 
-    @Query("DELETE FROM queue")
-    void deleteAll();
+    @Query("DELETE FROM queue WHERE server = :server")
+    void deleteAll(String server);
 
     @Query("SELECT COUNT(*) FROM queue;")
     int count();

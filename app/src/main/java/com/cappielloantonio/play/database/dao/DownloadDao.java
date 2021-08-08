@@ -15,8 +15,8 @@ public interface DownloadDao {
     @Query("SELECT * FROM download")
     List<Download> getAll();
 
-    @Query("SELECT * FROM download LIMIT :size")
-    LiveData<List<Download>> getSample(int size);
+    @Query("SELECT * FROM download WHERE server=:server LIMIT :size")
+    LiveData<List<Download>> getSample(int size, String server);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Download download);
@@ -27,6 +27,6 @@ public interface DownloadDao {
     @Query("DELETE FROM download WHERE id = :id")
     void delete(String id);
 
-    @Query("DELETE FROM download")
-    void deleteAll();
+    @Query("DELETE FROM download WHERE server=:server")
+    void deleteAll(String server);
 }

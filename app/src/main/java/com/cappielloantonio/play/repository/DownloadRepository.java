@@ -5,9 +5,11 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.DownloadDao;
 import com.cappielloantonio.play.model.Download;
+import com.cappielloantonio.play.util.PreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +62,7 @@ public class DownloadRepository {
     }
 
     public LiveData<List<Download>> getLiveDownloadSample(int size) {
-        listLiveDownloadSample = downloadDao.getSample(size);
+        listLiveDownloadSample = downloadDao.getSample(size, PreferenceUtil.getInstance(App.getInstance()).getServerId());
         return listLiveDownloadSample;
     }
 
@@ -121,7 +123,7 @@ public class DownloadRepository {
 
         @Override
         public void run() {
-            downloadDao.deleteAll();
+            downloadDao.deleteAll(PreferenceUtil.getInstance(App.getInstance()).getServerId());
         }
     }
 

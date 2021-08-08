@@ -4,11 +4,13 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.QueueDao;
 import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.util.MappingUtil;
+import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.util.QueueUtil;
 
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ public class QueueRepository {
     }
 
     public LiveData<List<Queue>> getLiveQueue() {
-        listLiveQueue = queueDao.getAll();
+        listLiveQueue = queueDao.getAll(PreferenceUtil.getInstance(App.getInstance()).getServerId());
         return listLiveQueue;
     }
 
@@ -94,7 +96,7 @@ public class QueueRepository {
 
         @Override
         public void run() {
-            songs = MappingUtil.mapQueue(queueDao.getAllSimple());
+            songs = MappingUtil.mapQueue(queueDao.getAllSimple(PreferenceUtil.getInstance(App.getInstance()).getServerId()));
         }
 
         public List<Song> getSongs() {
@@ -113,7 +115,7 @@ public class QueueRepository {
 
         @Override
         public void run() {
-            queueDao.insertAll(QueueUtil.getQueueElementsFromSongs(songs));
+            queueDao.insertAll(QueueUtil.getQueueElementsFromSongs(songs, PreferenceUtil.getInstance(App.getInstance()).getServerId()));
         }
     }
 
@@ -128,7 +130,7 @@ public class QueueRepository {
 
         @Override
         public void run() {
-            queueDao.deleteByPosition(position);
+            queueDao.deleteByPosition(position, PreferenceUtil.getInstance(App.getInstance()).getServerId());
         }
     }
 
@@ -141,7 +143,7 @@ public class QueueRepository {
 
         @Override
         public void run() {
-            queueDao.deleteAll();
+            queueDao.deleteAll(PreferenceUtil.getInstance(App.getInstance()).getServerId());
         }
     }
 

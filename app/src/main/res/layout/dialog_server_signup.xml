@@ -1,0 +1,97 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:textColorHint="?android:textColorHint"
+        app:endIconMode="clear_text"
+        app:endIconTint="?android:textColorSecondary"
+        app:errorEnabled="true"
+        app:hintTextColor="?android:textColorSecondary">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/server_name_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Server Name"
+            android:inputType="textNoSuggestions"
+            android:text="Navidrome" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:textColorHint="?android:textColorHint"
+        app:endIconMode="clear_text"
+        app:endIconTint="?android:textColorSecondary"
+        app:errorEnabled="true"
+        app:hintTextColor="?android:textColorSecondary">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/username_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username"
+            android:inputType="textShortMessage"
+            android:text="antonio" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:textColorHint="?android:textColorHint"
+        app:endIconMode="password_toggle"
+        app:endIconTint="?android:textColorSecondary"
+        app:errorEnabled="true"
+        app:hintTextColor="?android:textColorSecondary">
+
+        <!-- Navidrome android:text="!$4EBXhSPUi4$E#oagvAisCA" -->
+        <!-- Gonic android:text="hYP3%yD!rx@GBf95B2wbRUk8" -->
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:text="!$4EBXhSPUi4$E#oagvAisCA" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:textColorHint="?android:textColorHint"
+        app:endIconMode="clear_text"
+        app:endIconTint="?android:textColorSecondary"
+        app:errorEnabled="true"
+        app:hintTextColor="?android:textColorSecondary">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/server_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Server URL"
+            android:inputType="textNoSuggestions"
+            android:text="http://192.168.1.81:4533" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+</LinearLayout>

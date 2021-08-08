@@ -34,7 +34,7 @@ public class Album implements Parcelable {
     public Album(AlbumID3 albumID3) {
         this.id = albumID3.getId();
         this.title = albumID3.getName();
-        this.year = albumID3.getYear();
+        this.year = albumID3.getYear() != null ? albumID3.getYear() : 0;
         this.artistId = albumID3.getArtistId();
         this.artistName = albumID3.getArtist();
         this.primary = albumID3.getCoverArtId();
@@ -44,7 +44,7 @@ public class Album implements Parcelable {
     public Album(AlbumWithSongsID3 albumWithSongsID3) {
         this.id = albumWithSongsID3.getId();
         this.title = albumWithSongsID3.getName();
-        this.year = albumWithSongsID3.getYear();
+        this.year = albumWithSongsID3.getYear() != null ? albumWithSongsID3.getYear() : 0;
         this.artistId = albumWithSongsID3.getArtistId();
         this.artistName = albumWithSongsID3.getArtist();
         this.primary = albumWithSongsID3.getCoverArtId();

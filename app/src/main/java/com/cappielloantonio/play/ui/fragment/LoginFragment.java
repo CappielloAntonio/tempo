@@ -1,44 +1,64 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.cappielloantonio.play.App;
+import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.adapter.ServerAdapter;
 import com.cappielloantonio.play.databinding.FragmentLoginBinding;
-import com.cappielloantonio.play.interfaces.SystemCallback;
-import com.cappielloantonio.play.repository.SystemRepository;
+import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.util.PreferenceUtil;
+import com.cappielloantonio.play.ui.fragment.dialog.ServerSignupDialog;
+import com.cappielloantonio.play.viewmodel.LoginViewModel;
+
+import java.util.Collections;
 
 public class LoginFragment extends Fragment {
     private static final String TAG = "LoginFragment";
 
     private FragmentLoginBinding bind;
     private MainActivity activity;
+    private LoginViewModel loginViewModel;
 
-    private String username;
-    private String password;
-    private String server;
+    private ServerAdapter serverAdapter;
 
-    private SystemRepository systemRepository;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.login_page_menu, menu);
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (MainActivity) getActivity();
 
+        loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
         bind = FragmentLoginBinding.inflate(inflater, container, false);
         View view = bind.getRoot();
-        init();
+
+        initAppBar();
+        initServerListView();
 
         return view;
     }
@@ -49,67 +69,75 @@ public class LoginFragment extends Fragment {
         bind = null;
     }
 
-    private void init() {
-        systemRepository = new SystemRepository(App.getInstance());
+    private void initAppBar() {
+        activity.setSupportActionBar(bind.toolbar);
 
-        bind.loginButton.setOnClickListener(v -> {
-            if (validateInput()) {
-                saveServerPreference(server, username, password, null, null);
-                authenticate();
+        bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            if ((bind.serverInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.toolbar))) {
+                bind.toolbar.setTitle("Subsonic servers");
+            } else {
+                bind.toolbar.setTitle("");
             }
         });
     }
 
-    private boolean validateInput() {
-        username = bind.usernameTextView.getText().toString().trim();
-        password = bind.passwordTextView.getText().toString();
-        server = bind.serverTextView.getText().toString().trim();
+    private void initServerListView() {
+        bind.serverListRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        bind.serverListRecyclerView.setHasFixedSize(true);
 
-        if (TextUtils.isEmpty(username)) {
-            Toast.makeText(requireContext(), "Empty username", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (TextUtils.isEmpty(server)) {
-            Toast.makeText(requireContext(), "Empty server url", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        return true;
-    }
-
-    private void authenticate() {
-        systemRepository.checkUserCredential(new SystemCallback() {
-            @Override
-            public void onError(Exception exception) {
-                Log.e(TAG, exception.getMessage());
-                Toast.makeText(requireContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
+        serverAdapter = new ServerAdapter(activity, requireContext());
+        bind.serverListRecyclerView.setAdapter(serverAdapter);
+        loginViewModel.getServerList().observe(requireActivity(), servers -> {
+            if(servers.size() > 0) {
+                if (bind != null) bind.noServerAddedTextView.setVisibility(View.GONE);
+                if (bind != null) bind.serverListRecyclerView.setVisibility(View.VISIBLE);
+                serverAdapter.setItems(servers);
             }
-
-            @Override
-            public void onSuccess(String token, String salt) {
-                saveServerPreference(null, null, null, token, salt);
-                enter();
+            else {
+                if (bind != null) bind.noServerAddedTextView.setVisibility(View.VISIBLE);
+                if (bind != null) bind.serverListRecyclerView.setVisibility(View.GONE);
             }
         });
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
+            int originalPosition = -1;
+            int fromPosition = -1;
+            int toPosition = -1;
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                if (originalPosition == -1)
+                    originalPosition = viewHolder.getBindingAdapterPosition();
+
+                fromPosition = viewHolder.getBindingAdapterPosition();
+                toPosition = target.getBindingAdapterPosition();
+
+                Collections.swap(serverAdapter.getItems(), fromPosition, toPosition);
+                recyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
+
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                loginViewModel.deleteServer(serverAdapter.getItem(viewHolder.getBindingAdapterPosition()));
+                bind.serverListRecyclerView.getAdapter().notifyItemRemoved(viewHolder.getBindingAdapterPosition());
+            }
+        }
+        ).attachToRecyclerView(bind.serverListRecyclerView);
     }
 
-    private void enter() {
-        activity.goFromLogin();
-    }
-
-    private void saveServerPreference(String server, String user, String password, String token, String salt) {
-        if (user != null) PreferenceUtil.getInstance(requireContext()).setUser(user);
-        if (server != null) PreferenceUtil.getInstance(requireContext()).setServer(server);
-        if (password != null) PreferenceUtil.getInstance(requireContext()).setPassword(password);
-
-        if (token != null && salt != null) {
-            PreferenceUtil.getInstance(requireContext()).setPassword(null);
-            PreferenceUtil.getInstance(requireContext()).setToken(token);
-            PreferenceUtil.getInstance(requireContext()).setSalt(salt);
-            return;
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_add:
+                ServerSignupDialog dialog = new ServerSignupDialog();
+                dialog.show(activity.getSupportFragmentManager(), null);
+                return true;
+            default:
+                break;
         }
 
-        App.getSubsonicClientInstance(requireContext(), true);
+        return false;
     }
 }

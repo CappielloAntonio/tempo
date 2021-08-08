@@ -6,11 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.preference.ListPreference;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.helper.ThemeHelper;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.PreferenceUtil;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
     private static final String TAG = "SettingsFragment";
@@ -34,6 +36,24 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onStart() {
         super.onStart();
         activity.setBottomNavigationBarVisibility(false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        findPreference("logout").setOnPreferenceClickListener(preference -> {
+            PreferenceUtil.getInstance(requireContext()).setUser(null);
+            PreferenceUtil.getInstance(requireContext()).setServer(null);
+            PreferenceUtil.getInstance(requireContext()).setPassword(null);
+            PreferenceUtil.getInstance(requireContext()).setToken(null);
+            PreferenceUtil.getInstance(requireContext()).setSalt(null);
+            PreferenceUtil.getInstance(requireContext()).setServerId(null);
+
+            activity.goToLogin();
+
+            return true;
+        });
     }
 
     @Override

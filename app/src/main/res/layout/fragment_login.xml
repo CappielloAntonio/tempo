@@ -1,104 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/login_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:paddingTop="20dp">
+    android:orientation="vertical">
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:textColorHint="?android:textColorHint"
-        app:boxCornerRadiusBottomEnd="24dp"
-        app:boxCornerRadiusBottomStart="24dp"
-        app:boxCornerRadiusTopEnd="24dp"
-        app:boxCornerRadiusTopStart="24dp"
-        app:boxStrokeColor="?android:textColorSecondary"
-        app:endIconMode="clear_text"
-        app:endIconTint="?android:textColorSecondary"
-        app:errorEnabled="true"
-        app:hintTextColor="?android:textColorSecondary">
+        android:layout_height="?attr/actionBarSize"
+        app:layout_collapseMode="pin" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/username_text_view"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="8dp">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Username"
-            android:inputType="textShortMessage"
-            android:text="antonio" />
+            app:elevation="0dp">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/server_info_sector"
+                android:layout_width="match_parent"
+                android:layout_height="172dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:textColorHint="?android:textColorHint"
-        app:boxCornerRadiusBottomEnd="24dp"
-        app:boxCornerRadiusBottomStart="24dp"
-        app:boxCornerRadiusTopEnd="24dp"
-        app:boxCornerRadiusTopStart="24dp"
-        app:boxStrokeColor="?android:textColorSecondary"
-        app:endIconMode="password_toggle"
-        app:endIconTint="?android:textColorSecondary"
-        app:errorEnabled="true"
-        app:hintTextColor="?android:textColorSecondary">
+                <TextView
+                    style="@style/HeadlineTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="24dp"
+                    android:text="Subsonic servers"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-        <!-- Navidrome android:text="!$4EBXhSPUi4$E#oagvAisCA" -->
-        <!-- Gonic android:text="hYP3%yD!rx@GBf95B2wbRUk8" -->
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/password_text_view"
+        <TextView
+            android:id="@+id/no_server_added_text_view"
+            style="@style/SubheadTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:text="!$4EBXhSPUi4$E#oagvAisCA"/>
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:gravity="center"
+            android:text="No server added"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/global_padding_bottom"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:visibility="gone"/>
 
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:textColorHint="?android:textColorHint"
-        app:boxCornerRadiusBottomEnd="24dp"
-        app:boxCornerRadiusBottomStart="24dp"
-        app:boxCornerRadiusTopEnd="24dp"
-        app:boxCornerRadiusTopStart="24dp"
-        app:boxStrokeColor="?android:textColorSecondary"
-        app:endIconMode="clear_text"
-        app:endIconTint="?android:textColorSecondary"
-        app:errorEnabled="true"
-        app:hintTextColor="?android:textColorSecondary">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/server_text_view"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/server_list_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Server URL"
-            android:inputType="textNoSuggestions"
-            android:text="http://192.168.1.81:4533" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <Button
-        android:id="@+id/login_button"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_margin="32dp"
-        android:backgroundTint="@color/colorAccent"
-        android:text="Login"
-        android:textAllCaps="false"
-        app:cornerRadius="24dp" />
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/global_padding_bottom"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:visibility="gone"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

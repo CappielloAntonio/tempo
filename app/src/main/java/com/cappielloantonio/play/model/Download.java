@@ -33,7 +33,10 @@ public class Download {
     @ColumnInfo(name = "duration")
     private long duration;
 
-    public Download(String songID, String title, String albumId, String albumName, String artistId, String artistName, String primary, long duration) {
+    @ColumnInfo(name = "server")
+    private String server;
+
+    public Download(String songID, String title, String albumId, String albumName, String artistId, String artistName, String primary, long duration, String server) {
         this.songID = songID;
         this.title = title;
         this.albumId = albumId;
@@ -42,6 +45,7 @@ public class Download {
         this.artistName = artistName;
         this.primary = primary;
         this.duration = duration;
+        this.server = server;
     }
 
     public Download(Song song) {
@@ -117,5 +121,13 @@ public class Download {
 
     public void setDuration(long duration) {
         this.duration = duration;
+    }
+
+    public String getServer() {
+        return server;
+    }
+
+    public void setServer(String server) {
+        this.server = server;
     }
 }

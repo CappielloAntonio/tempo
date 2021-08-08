@@ -12,7 +12,7 @@ public class RecentSearch {
     @ColumnInfo(name = "search")
     private String search;
 
-    public RecentSearch(String search) {
+    public RecentSearch(@NonNull String search) {
         this.search = search;
     }
 
@@ -21,7 +21,7 @@ public class RecentSearch {
         return search;
     }
 
-    public void setSearch(String search) {
+    public void setSearch(@NonNull String search) {
         this.search = search;
     }
 }

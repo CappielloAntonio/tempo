@@ -15,6 +15,7 @@ public class PreferenceUtil {
     public static final String PASSWORD = "password";
     public static final String TOKEN = "token";
     public static final String SALT = "salt";
+    public static final String SERVER_ID = "server_id";
     public static final String POSITION = "position";
     public static final String PROGRESS = "progress";
     public static final String IMAGE_CACHE_SIZE = "image_cache_size";
@@ -86,6 +87,16 @@ public class PreferenceUtil {
     public void setSalt(String salt) {
         final SharedPreferences.Editor editor = mPreferences.edit();
         editor.putString(SALT, salt);
+        editor.apply();
+    }
+
+    public String getServerId() {
+        return mPreferences.getString(SERVER_ID, null);
+    }
+
+    public void setServerId(String serverId) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putString(SERVER_ID, serverId);
         editor.apply();
     }
 

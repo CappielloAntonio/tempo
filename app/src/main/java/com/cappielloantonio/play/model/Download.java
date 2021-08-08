@@ -5,6 +5,9 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.cappielloantonio.play.App;
+import com.cappielloantonio.play.util.PreferenceUtil;
+
 @Entity(tableName = "download")
 public class Download {
     @NonNull
@@ -57,6 +60,7 @@ public class Download {
         this.artistName = song.getArtistName();
         this.primary = song.getPrimary();
         this.duration = song.getDuration();
+        this.server = PreferenceUtil.getInstance(App.getInstance()).getServerId();
     }
 
     public String getSongID() {

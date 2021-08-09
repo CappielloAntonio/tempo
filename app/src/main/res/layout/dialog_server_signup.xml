@@ -15,7 +15,8 @@
         app:endIconMode="clear_text"
         app:endIconTint="?android:textColorSecondary"
         app:errorEnabled="true"
-        app:hintTextColor="?android:textColorSecondary">
+        app:hintTextColor="@color/colorAccent"
+        app:boxStrokeColor="@color/colorAccent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/server_name_text_view"
@@ -23,7 +24,8 @@
             android:layout_height="wrap_content"
             android:hint="Server Name"
             android:inputType="textNoSuggestions"
-            android:text="Navidrome" />
+            android:text="Navidrome"
+            android:textCursorDrawable="@null" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -37,7 +39,8 @@
         app:endIconMode="clear_text"
         app:endIconTint="?android:textColorSecondary"
         app:errorEnabled="true"
-        app:hintTextColor="?android:textColorSecondary">
+        app:hintTextColor="@color/colorAccent"
+        app:boxStrokeColor="@color/colorAccent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/username_text_view"
@@ -45,7 +48,8 @@
             android:layout_height="wrap_content"
             android:hint="Username"
             android:inputType="textShortMessage"
-            android:text="antonio" />
+            android:text="antonio"
+            android:textCursorDrawable="@null"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -59,7 +63,8 @@
         app:endIconMode="password_toggle"
         app:endIconTint="?android:textColorSecondary"
         app:errorEnabled="true"
-        app:hintTextColor="?android:textColorSecondary">
+        app:hintTextColor="@color/colorAccent"
+        app:boxStrokeColor="@color/colorAccent">
 
         <!-- Navidrome android:text="!$4EBXhSPUi4$E#oagvAisCA" -->
         <!-- Gonic android:text="hYP3%yD!rx@GBf95B2wbRUk8" -->
@@ -69,7 +74,8 @@
             android:layout_height="wrap_content"
             android:hint="Password"
             android:inputType="textPassword"
-            android:text="!$4EBXhSPUi4$E#oagvAisCA" />
+            android:text="!$4EBXhSPUi4$E#oagvAisCA"
+            android:textCursorDrawable="@null"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -83,7 +89,8 @@
         app:endIconMode="clear_text"
         app:endIconTint="?android:textColorSecondary"
         app:errorEnabled="true"
-        app:hintTextColor="?android:textColorSecondary">
+        app:hintTextColor="@color/colorAccent"
+        app:boxStrokeColor="@color/colorAccent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/server_text_view"
@@ -91,7 +98,8 @@
             android:layout_height="wrap_content"
             android:hint="Server URL"
             android:inputType="textNoSuggestions"
-            android:text="http://192.168.1.81:4533" />
+            android:text="http://192.168.1.81:4533"
+            android:textCursorDrawable="@null"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

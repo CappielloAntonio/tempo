@@ -14,6 +14,7 @@ import android.widget.ToggleButton;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
@@ -68,6 +69,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
         CustomGlideRequest.Builder
                 .from(requireContext(), artistBottomSheetViewModel.getArtist().getPrimary(), CustomGlideRequest.ARTIST_PIC)
                 .build()
+                .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(coverArtist);
 
         nameArtist = view.findViewById(R.id.song_title_text_view);

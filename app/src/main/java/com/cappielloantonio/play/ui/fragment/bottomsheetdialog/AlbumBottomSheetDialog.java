@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
@@ -76,6 +77,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
         CustomGlideRequest.Builder
                 .from(requireContext(), albumBottomSheetViewModel.getAlbum().getPrimary(), CustomGlideRequest.ALBUM_PIC)
                 .build()
+                .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(coverAlbum);
 
         titleAlbum = view.findViewById(R.id.album_title_text_view);

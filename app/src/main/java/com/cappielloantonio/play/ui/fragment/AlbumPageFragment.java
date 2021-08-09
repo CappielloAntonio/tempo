@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumArtistPageOrSimilarAdapter;
@@ -171,6 +172,7 @@ public class AlbumPageFragment extends Fragment {
         CustomGlideRequest.Builder
                 .from(requireContext(), albumPageViewModel.getAlbum().getPrimary(), CustomGlideRequest.ALBUM_PIC)
                 .build()
+                .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(bind.albumCoverImageView);
     }
 

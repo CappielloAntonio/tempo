@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Artist;
@@ -48,6 +49,7 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
         CustomGlideRequest.Builder
                 .from(context, artist.getId(), CustomGlideRequest.ALBUM_PIC)
                 .build()
+                .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.cover);
     }
 

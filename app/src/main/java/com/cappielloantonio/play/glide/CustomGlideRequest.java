@@ -26,42 +26,38 @@ public class CustomGlideRequest {
     public static final String ARTIST_PIC = "ARTIST";
     public static final String PLAYLIST_PIC = "PLAYLIST";
 
+    public static final int CORNER_RADIUS = 12;
+
     public static final DiskCacheStrategy DEFAULT_DISK_CACHE_STRATEGY = DiskCacheStrategy.ALL;
 
     public static RequestOptions createRequestOptions(String item, Drawable placeholder) {
-        RequestOptions options = new RequestOptions()
+        return new RequestOptions()
                 .error(placeholder)
                 .diskCacheStrategy(DEFAULT_DISK_CACHE_STRATEGY)
                 .signature(new ObjectKey(item != null ? item : 0))
                 .centerCrop();
-
-        return options;
     }
 
     public static String createUrl(String item) {
         String url = App.getSubsonicClientInstance(App.getInstance(), false).getUrl();
         Map<String, String> params = App.getSubsonicClientInstance(App.getInstance(), false).getParams();
 
-        String sb = url + "getCoverArt" +
+        return url + "getCoverArt" +
                 "?u=" + params.get("u") +
                 "&s=" + params.get("s") +
                 "&t=" + params.get("t") +
                 "&v=" + params.get("v") +
                 "&c=" + params.get("c") +
                 "&id=" + item;
-
-        return sb;
     }
 
     public static class Builder {
         private final RequestManager requestManager;
         private final Object item;
-        private final Context context;
 
         private Builder(Context context, String item, String category) {
             this.requestManager = Glide.with(context);
             this.item = item != null ? createUrl(item) : MusicUtil.getDefaultPicPerCategory(category);
-            this.context = context;
 
             Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), MusicUtil.getDefaultPicPerCategory(category), null);
             requestManager.applyDefaultRequestOptions(createRequestOptions(item, drawable));

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.PlayerNowPlayingSongAdapter;
 import com.cappielloantonio.play.adapter.PlayerSongQueueAdapter;
@@ -274,6 +275,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         CustomGlideRequest.Builder
                 .from(requireContext(), song.getPrimary(), CustomGlideRequest.SONG_PIC)
                 .build()
+                .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(bind.playerHeaderLayout.playerHeaderSongCoverImage);
 
         bind.playerBodyLayout.buttonFavorite.setChecked(song.isFavorite());

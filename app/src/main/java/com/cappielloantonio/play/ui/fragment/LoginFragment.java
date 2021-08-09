@@ -1,5 +1,6 @@
 package com.cappielloantonio.play.ui.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,8 +35,6 @@ public class LoginFragment extends Fragment {
     private LoginViewModel loginViewModel;
 
     private ServerAdapter serverAdapter;
-
-    private ItemTouchHelper itemTouchHelper;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -135,6 +134,7 @@ public class LoginFragment extends Fragment {
                 switch (direction) {
                     case ItemTouchHelper.LEFT:
                         loginViewModel.deleteServer(serverAdapter.getItem(viewHolder.getBindingAdapterPosition()));
+                        viewHolder.itemView.setBackgroundColor(Color.RED);
                         break;
                     case ItemTouchHelper.RIGHT:
                         Bundle bundle = new Bundle();

@@ -1,12 +1,15 @@
 package com.cappielloantonio.play.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "server")
-public class Server {
+public class Server implements Parcelable {
     @NonNull
     @PrimaryKey
     @ColumnInfo(name = "id")
@@ -95,5 +98,31 @@ public class Server {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(serverId);
+        dest.writeString(serverName);
+        dest.writeString(username);
+        dest.writeString(address);
+        dest.writeString(token);
+        dest.writeString(salt);
+        dest.writeLong(timestamp);
+    }
+
+    protected Server(Parcel in) {
+        this.serverId = in.readString();
+        this.serverName = in.readString();
+        this.username = in.readString();
+        this.address = in.readString();
+        this.token = in.readString();
+        this.salt = in.readString();
+        this.timestamp = in.readLong();
     }
 }

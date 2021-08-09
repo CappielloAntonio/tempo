@@ -25,14 +25,19 @@ public class SystemRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(Call<SubsonicResponse> call, retrofit2.Response<SubsonicResponse> response) {
-                        if (response.body().getStatus().getValue().equals(ResponseStatus.FAILED)) {
-                            callback.onError(new Exception(response.body().getError().getCode().getValue() + " - " + response.body().getError().getMessage()));
-                        } else if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
-                            String salt = response.raw().request().url().queryParameter("s");
-                            String token = response.raw().request().url().queryParameter("t");
-                            callback.onSuccess(token, salt);
-                        } else {
-                            callback.onError(new Exception("Empty response"));
+                        if(response.body() != null) {
+                            if (response.body().getStatus().getValue().equals(ResponseStatus.FAILED)) {
+                                callback.onError(new Exception(response.body().getError().getCode().getValue() + " - " + response.body().getError().getMessage()));
+                            } else if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                                String salt = response.raw().request().url().queryParameter("s");
+                                String token = response.raw().request().url().queryParameter("t");
+                                callback.onSuccess(token, salt);
+                            } else {
+                                callback.onError(new Exception("Empty response"));
+                            }
+                        }
+                        else {
+                            callback.onError(new Exception(String.valueOf(response.code())));
                         }
                     }
 

@@ -39,6 +39,7 @@ public class ServerSignupDialog extends DialogFragment {
     private String username;
     private String password;
     private String server;
+    private boolean directAccess = false;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -54,7 +55,8 @@ public class ServerSignupDialog extends DialogFragment {
 
         builder.setView(bind.getRoot())
                 .setTitle("Add server")
-                .setPositiveButton("Enter", (dialog, id) -> { })
+                .setNeutralButton("Delete", (dialog, id) -> { })
+                .setPositiveButton("Save", (dialog, id) -> { })
                 .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
 
         return builder.create();
@@ -63,6 +65,29 @@ public class ServerSignupDialog extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        setServerInfo();
+        setButtonAction();
+    }
+
+    private void setServerInfo() {
+        if (getArguments() != null) {
+            loginViewModel.setServerToEdit(getArguments().getParcelable("server_object"));
+
+            if (loginViewModel.getServerToEdit() != null) {
+                bind.serverNameTextView.setText(loginViewModel.getServerToEdit().getServerName());
+                bind.usernameTextView.setText(loginViewModel.getServerToEdit().getUsername());
+                bind.passwordTextView.setText("");
+                bind.serverTextView.setText(loginViewModel.getServerToEdit().getAddress());
+                bind.directAccessCheckbox.setChecked(false);
+            }
+        } else {
+            loginViewModel.setServerToEdit(null);
+        }
+    }
+
+    private void setButtonAction() {
+        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.colorAccent, null));
         ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent, null));
         ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorAccent, null));
 
@@ -70,8 +95,13 @@ public class ServerSignupDialog extends DialogFragment {
             if (validateInput()) {
                 saveServerPreference(server, username, password, null, null);
                 authenticate();
-                ((AlertDialog) Objects.requireNonNull(getDialog())).dismiss();
+                Objects.requireNonNull(getDialog()).dismiss();
             }
+        });
+
+        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
+            loginViewModel.deleteServer(null);
+            Objects.requireNonNull(getDialog()).dismiss();
         });
     }
 
@@ -80,6 +110,7 @@ public class ServerSignupDialog extends DialogFragment {
         username = bind.usernameTextView.getText().toString().trim();
         password = bind.passwordTextView.getText().toString();
         server = bind.serverTextView.getText().toString().trim();
+        directAccess = bind.directAccessCheckbox.isChecked();
 
         if (TextUtils.isEmpty(serverName)) {
             bind.serverNameTextView.setError("Required");
@@ -110,7 +141,7 @@ public class ServerSignupDialog extends DialogFragment {
             @Override
             public void onSuccess(String token, String salt) {
                 saveServerPreference(null, null, null, token, salt);
-                enter();
+                if (directAccess) enter();
             }
         });
     }
@@ -125,7 +156,7 @@ public class ServerSignupDialog extends DialogFragment {
         if (password != null) PreferenceUtil.getInstance(context).setPassword(password);
 
         if (token != null && salt != null) {
-            String serverID = UUID.randomUUID().toString();
+            String serverID = loginViewModel.getServerToEdit() != null ? loginViewModel.getServerToEdit().getServerId() : UUID.randomUUID().toString();
 
             PreferenceUtil.getInstance(context).setPassword(null);
             PreferenceUtil.getInstance(context).setToken(token);

@@ -84,7 +84,9 @@ public class Subsonic {
     }
 
     public String getUrl() {
-        return preferences.getServerUrl() + "/rest/";
+        String url = preferences.getServerUrl() + "/rest/";
+
+        return url.replace("//rest","/rest");
     }
 
     public Map<String, String> getParams() {

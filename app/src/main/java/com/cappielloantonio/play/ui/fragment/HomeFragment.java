@@ -12,7 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.SnapHelper;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.cappielloantonio.play.R;
@@ -24,6 +26,7 @@ import com.cappielloantonio.play.adapter.RecentMusicAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.adapter.YearAdapter;
 import com.cappielloantonio.play.databinding.FragmentHomeBinding;
+import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Song;
@@ -165,6 +168,9 @@ public class HomeFragment extends Fragment {
 
             mostPlayedAlbumAdapter.setItems(albums);
         });
+
+        CustomLinearSnapHelper mostPlayedAlbumSnapHelper = new CustomLinearSnapHelper();
+        mostPlayedAlbumSnapHelper.attachToRecyclerView(bind.mostPlayedAlbumsRecyclerView);
     }
 
     private void initRecentPlayedAlbumView() {
@@ -179,6 +185,9 @@ public class HomeFragment extends Fragment {
 
             recentlyPlayedAlbumAdapter.setItems(albums);
         });
+
+        CustomLinearSnapHelper recentPlayedAlbumSnapHelper = new CustomLinearSnapHelper();
+        recentPlayedAlbumSnapHelper.attachToRecyclerView(bind.recentlyPlayedAlbumsRecyclerView);
     }
 
     private void initYearSongView() {
@@ -199,6 +208,9 @@ public class HomeFragment extends Fragment {
 
             yearAdapter.setItems(years);
         });
+
+        CustomLinearSnapHelper yearSnapHelper = new CustomLinearSnapHelper();
+        yearSnapHelper.attachToRecyclerView(bind.yearsRecyclerView);
     }
 
     private void initStarredTracksView() {
@@ -214,8 +226,8 @@ public class HomeFragment extends Fragment {
             starredSongAdapter.setItems(songs);
         });
 
-        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
-        pagerSnapHelper.attachToRecyclerView(bind.starredTracksRecyclerView);
+        SnapHelper starredTrackSnapHelper = new PagerSnapHelper();
+        starredTrackSnapHelper.attachToRecyclerView(bind.starredTracksRecyclerView);
     }
 
     private void initStarredAlbumsView() {
@@ -231,8 +243,8 @@ public class HomeFragment extends Fragment {
             starredAlbumAdapter.setItems(albums);
         });
 
-        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
-        pagerSnapHelper.attachToRecyclerView(bind.starredAlbumsRecyclerView);
+        SnapHelper starredAlbumSnapHelper = new PagerSnapHelper();
+        starredAlbumSnapHelper.attachToRecyclerView(bind.starredAlbumsRecyclerView);
     }
 
     private void initStarredArtistsView() {
@@ -248,8 +260,8 @@ public class HomeFragment extends Fragment {
             starredArtistAdapter.setItems(artists);
         });
 
-        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
-        pagerSnapHelper.attachToRecyclerView(bind.starredArtistsRecyclerView);
+        SnapHelper starredArtistSnapHelper = new PagerSnapHelper();
+        starredArtistSnapHelper.attachToRecyclerView(bind.starredArtistsRecyclerView);
     }
 
     private void initRecentAddedAlbumView() {
@@ -261,6 +273,9 @@ public class HomeFragment extends Fragment {
         homeViewModel.getMostRecentlyAddedAlbums().observe(requireActivity(), albums -> {
             recentlyAddedAlbumAdapter.setItems(albums);
         });
+
+        CustomLinearSnapHelper recentAddedAlbumSnapHelper = new CustomLinearSnapHelper();
+        recentAddedAlbumSnapHelper.attachToRecyclerView(bind.recentlyAddedAlbumsRecyclerView);
     }
 
     private void initDownloadedSongView() {
@@ -275,6 +290,9 @@ public class HomeFragment extends Fragment {
 
             dowanloadedMusicAdapter.setItems(MappingUtil.mapDownload(downloads));
         });
+
+        CustomLinearSnapHelper downloadedSongSnapHelper = new CustomLinearSnapHelper();
+        downloadedSongSnapHelper.attachToRecyclerView(bind.downloadedTracksRecyclerView);
     }
 
     private void setDiscoverSongSlideViewOffset(float pageOffset, float pageMargin) {

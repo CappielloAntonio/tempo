@@ -23,6 +23,7 @@ import com.cappielloantonio.play.adapter.ArtistSimilarAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.ArtistRepository;
@@ -177,6 +178,9 @@ public class ArtistPageFragment extends Fragment {
             if (bind != null) bind.artistPageAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
             albumArtistPageOrSimilarAdapter.setItems(albums);
         });
+
+        CustomLinearSnapHelper albumSnapHelper = new CustomLinearSnapHelper();
+        albumSnapHelper.attachToRecyclerView(bind.albumsRecyclerView);
     }
 
     private void initSimilarArtistsView() {
@@ -189,5 +193,8 @@ public class ArtistPageFragment extends Fragment {
             if (bind != null) bind.similarArtistSector.setVisibility(!artist.getSimilarArtists().isEmpty() ? View.VISIBLE : View.GONE);
             artistSimilarAdapter.setItems(artist.getSimilarArtists());
         });
+
+        CustomLinearSnapHelper similarArtistSnapHelper = new CustomLinearSnapHelper();
+        similarArtistSnapHelper.attachToRecyclerView(bind.similarArtistsRecyclerView);
     }
 }

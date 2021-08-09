@@ -20,6 +20,7 @@ import com.cappielloantonio.play.adapter.ArtistAdapter;
 import com.cappielloantonio.play.adapter.GenreAdapter;
 import com.cappielloantonio.play.adapter.PlaylistAdapter;
 import com.cappielloantonio.play.databinding.FragmentLibraryBinding;
+import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.LibraryViewModel;
@@ -90,6 +91,9 @@ public class LibraryFragment extends Fragment {
                 bind.libraryAlbumSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
             albumAdapter.setItems(albums);
         });
+
+        CustomLinearSnapHelper albumSnapHelper = new CustomLinearSnapHelper();
+        albumSnapHelper.attachToRecyclerView(bind.albumRecyclerView);
     }
 
     private void initArtistView() {
@@ -103,6 +107,9 @@ public class LibraryFragment extends Fragment {
                 bind.libraryArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
             artistAdapter.setItems(artists);
         });
+
+        CustomLinearSnapHelper artistSnapHelper = new CustomLinearSnapHelper();
+        artistSnapHelper.attachToRecyclerView(bind.artistRecyclerView);
     }
 
     private void initGenreView() {
@@ -122,6 +129,9 @@ public class LibraryFragment extends Fragment {
                 bind.libraryGenresSector.setVisibility(!genres.isEmpty() ? View.VISIBLE : View.GONE);
             genreAdapter.setItems(genres);
         });
+
+        CustomLinearSnapHelper genreSnapHelper = new CustomLinearSnapHelper();
+        genreSnapHelper.attachToRecyclerView(bind.genreRecyclerView);
     }
 
     private void initPlaylistSlideView() {

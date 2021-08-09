@@ -16,6 +16,7 @@ import com.cappielloantonio.play.adapter.AlbumAdapter;
 import com.cappielloantonio.play.adapter.ArtistAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentSearchBinding;
+import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.SearchViewModel;
@@ -82,12 +83,18 @@ public class SearchFragment extends Fragment {
         albumAdapter = new AlbumAdapter(requireContext());
         bind.searchResultAlbumRecyclerView.setAdapter(albumAdapter);
 
+        CustomLinearSnapHelper albumSnapHelper = new CustomLinearSnapHelper();
+        albumSnapHelper.attachToRecyclerView(bind.searchResultAlbumRecyclerView);
+
         // Artists
         bind.searchResultArtistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.searchResultArtistRecyclerView.setHasFixedSize(true);
 
         artistAdapter = new ArtistAdapter(requireContext());
         bind.searchResultArtistRecyclerView.setAdapter(artistAdapter);
+
+        CustomLinearSnapHelper artistSnapHelper = new CustomLinearSnapHelper();
+        artistSnapHelper.attachToRecyclerView(bind.searchResultArtistRecyclerView);
     }
 
     private void initSearchView() {

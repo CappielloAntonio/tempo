@@ -104,7 +104,7 @@ public class ServerSignupDialog extends DialogFragment {
             @Override
             public void onError(Exception exception) {
                 Log.e(TAG, exception.getMessage());
-                Toast.makeText(requireContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, exception.getMessage(), Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -137,6 +137,6 @@ public class ServerSignupDialog extends DialogFragment {
             return;
         }
 
-        App.getSubsonicClientInstance(requireContext(), true);
+        App.getSubsonicClientInstance(context, true);
     }
 }

@@ -53,7 +53,6 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         CustomGlideRequest.Builder
                 .from(context, playlist.getPrimary(), CustomGlideRequest.PLAYLIST_PIC)
                 .build()
-                .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.cover);
     }
 

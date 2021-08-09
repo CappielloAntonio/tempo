@@ -85,7 +85,6 @@ public class PlaylistCatalogueAdapter extends RecyclerView.Adapter<PlaylistCatal
         CustomGlideRequest.Builder
                 .from(context, playlist.getPrimary(), CustomGlideRequest.PLAYLIST_PIC)
                 .build()
-                .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.cover);
     }
 

@@ -42,17 +42,15 @@ public class HomeFragment extends Fragment {
     private MainActivity activity;
     private HomeViewModel homeViewModel;
 
+    private DiscoverSongAdapter discoverSongAdapter;
+    private AlbumAdapter recentlyAddedAlbumAdapter;
+    private AlbumAdapter recentlyPlayedAlbumAdapter;
+    private AlbumAdapter mostPlayedAlbumAdapter;
     private YearAdapter yearAdapter;
     private SongHorizontalAdapter starredSongAdapter;
     private AlbumHorizontalAdapter starredAlbumAdapter;
     private ArtistHorizontalAdapter starredArtistAdapter;
     private RecentMusicAdapter dowanloadedMusicAdapter;
-
-    // ---------------------------------------------------- SUBSONIC ADAPTER
-    private DiscoverSongAdapter discoverSongAdapter;
-    private AlbumAdapter recentlyAddedAlbumAdapter;
-    private AlbumAdapter recentlyPlayedAlbumAdapter;
-    private AlbumAdapter mostPlayedAlbumAdapter;
 
     @Nullable
     @Override

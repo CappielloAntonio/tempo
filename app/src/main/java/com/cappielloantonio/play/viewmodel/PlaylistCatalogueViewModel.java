@@ -22,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class PlaylistCatalogueViewModel extends AndroidViewModel {
-    private MutableLiveData<List<Playlist>> playlists = new MutableLiveData<>(new ArrayList<>());
+    private MutableLiveData<List<Playlist>> playlists;
 
     private PlaylistRepository playlistRepository;
     private String query = "";
@@ -31,28 +31,12 @@ public class PlaylistCatalogueViewModel extends AndroidViewModel {
         super(application);
 
         playlistRepository = new PlaylistRepository(application);
+
+        playlists = playlistRepository.getPlaylists(false, -1);
     }
 
     public LiveData<List<Playlist>> getPlaylistList() {
         return playlists;
     }
 
-    public void loadPlaylists(Context context) {
-        App.getSubsonicClientInstance(context, false)
-                .getPlaylistClient()
-                .getPlaylists()
-                .enqueue(new Callback<SubsonicResponse>() {
-                    @Override
-                    public void onResponse(Call<SubsonicResponse> call, retrofit2.Response<SubsonicResponse> response) {
-                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
-                            playlists.setValue(MappingUtil.mapPlaylist(response.body().getPlaylists().getPlaylists()));
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
-
-                    }
-                });
-    }
 }

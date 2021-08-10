@@ -29,16 +29,13 @@ public class AlbumRepository {
 
     private Application application;
 
-    private MutableLiveData<List<Album>> listLiveRecentlyAddedAlbums = new MutableLiveData<>();
-    private MutableLiveData<List<Album>> listLiveMostPlayedAlbums = new MutableLiveData<>();
-    private MutableLiveData<List<Album>> listLiveRecentlyPlayedAlbums = new MutableLiveData<>();
-    private MutableLiveData<List<Album>> listLiveRandomAlbums = new MutableLiveData<>();
-
     public AlbumRepository(Application application) {
         this.application = application;
     }
 
     public MutableLiveData<List<Album>> getAlbums(String type, int size) {
+        MutableLiveData<List<Album>> listLiveAlbums = new MutableLiveData<>();
+
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
                 .getAlbumList2(type, size, 0, null, null)
@@ -46,21 +43,7 @@ public class AlbumRepository {
                     @Override
                     public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
                         List<Album> albums = new ArrayList<>(MappingUtil.mapAlbum(response.body().getAlbumList2().getAlbums()));
-
-                        switch (type) {
-                            case "newest":
-                                listLiveRecentlyAddedAlbums.setValue(albums);
-                                break;
-                            case "frequent":
-                                listLiveMostPlayedAlbums.setValue(albums);
-                                break;
-                            case "recent":
-                                listLiveRecentlyPlayedAlbums.setValue(albums);
-                                break;
-                            case "random":
-                                listLiveRandomAlbums.setValue(albums);
-                                break;
-                        }
+                        listLiveAlbums.setValue(albums);
                     }
 
                     @Override
@@ -69,18 +52,7 @@ public class AlbumRepository {
                     }
                 });
 
-        switch (type) {
-            case "newest":
-                return listLiveRecentlyAddedAlbums;
-            case "frequent":
-                return listLiveMostPlayedAlbums;
-            case "recent":
-                return listLiveRecentlyPlayedAlbums;
-            case "random":
-                return listLiveRandomAlbums;
-            default:
-                return new MutableLiveData<>();
-        }
+        return listLiveAlbums;
     }
 
     public MutableLiveData<List<Album>> getStarredAlbums() {

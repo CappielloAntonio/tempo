@@ -23,13 +23,13 @@ public class GenreRepository {
 
     private Application application;
 
-    private MutableLiveData<List<Genre>> genres = new MutableLiveData<>();
-
     public GenreRepository(Application application) {
         this.application = application;
     }
 
     public MutableLiveData<List<Genre>> getGenres(boolean random, int size) {
+        MutableLiveData<List<Genre>> genres = new MutableLiveData<>();
+
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
                 .getGenres()

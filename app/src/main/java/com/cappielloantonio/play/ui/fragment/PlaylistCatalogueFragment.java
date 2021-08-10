@@ -52,7 +52,7 @@ public class PlaylistCatalogueFragment extends Fragment {
         View view = bind.getRoot();
 
         initAppBar();
-        initArtistCatalogueView();
+        initPlaylistCatalogueView();
 
         return view;
     }
@@ -71,7 +71,6 @@ public class PlaylistCatalogueFragment extends Fragment {
 
     private void initData() {
         playlistCatalogueViewModel = new ViewModelProvider(requireActivity()).get(PlaylistCatalogueViewModel.class);
-        playlistCatalogueViewModel.loadPlaylists(requireContext());
     }
 
     private void initAppBar() {
@@ -98,7 +97,7 @@ public class PlaylistCatalogueFragment extends Fragment {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private void initArtistCatalogueView() {
+    private void initPlaylistCatalogueView() {
         bind.playlistCatalogueRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.playlistCatalogueRecyclerView.setHasFixedSize(true);
 

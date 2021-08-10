@@ -26,15 +26,13 @@ import retrofit2.Response;
 public class ArtistRepository {
     private Application application;
 
-    private MutableLiveData<List<Artist>> starredArtists = new MutableLiveData<>(new ArrayList<>());
-    private MutableLiveData<List<Artist>> listLiveRandomArtists = new MutableLiveData<>(new ArrayList<>());
-    private MutableLiveData<List<Artist>> listLiveArtists = new MutableLiveData<>(new ArrayList<>());
-
     public ArtistRepository(Application application) {
         this.application = application;
     }
 
     public MutableLiveData<List<Artist>> getStarredArtists() {
+        MutableLiveData<List<Artist>> starredArtists = new MutableLiveData<>(new ArrayList<>());
+
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
                 .getStarred2()
@@ -56,6 +54,8 @@ public class ArtistRepository {
     }
 
     public MutableLiveData<List<Artist>> getArtists(boolean random, int size) {
+        MutableLiveData<List<Artist>> listLiveArtists = new MutableLiveData<>(new ArrayList<>());
+
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
                 .getArtists()
@@ -69,9 +69,13 @@ public class ArtistRepository {
                                 artists.addAll(MappingUtil.mapArtist(index.getArtists()));
                             }
 
-                            listLiveArtists.setValue(artists);
-                            Collections.shuffle(artists);
-                            getArtistInfo(artists.subList(0, artists.size() / size > 0 ? size : artists.size()), listLiveRandomArtists);
+                            if(random) {
+                                Collections.shuffle(artists);
+                                getArtistInfo(artists.subList(0, artists.size() / size > 0 ? size : artists.size()), listLiveArtists);
+                            }
+                            else {
+                                listLiveArtists.setValue(artists);
+                            }
                         }
                     }
 
@@ -80,11 +84,7 @@ public class ArtistRepository {
                     }
                 });
 
-        if (random) {
-            return listLiveRandomArtists;
-        } else {
-            return listLiveArtists;
-        }
+        return listLiveArtists;
     }
 
     /*

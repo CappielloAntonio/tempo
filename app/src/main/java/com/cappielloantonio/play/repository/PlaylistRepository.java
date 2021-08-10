@@ -22,15 +22,13 @@ import retrofit2.Response;
 public class PlaylistRepository {
     private Application application;
 
-    private MutableLiveData<List<Playlist>> listLivePlaylists = new MutableLiveData<>(new ArrayList<>());
-    private MutableLiveData<List<Playlist>> listLiveRandomPlaylist = new MutableLiveData<>(new ArrayList<>());
-    private MutableLiveData<List<Song>> listLivePlaylistSongs = new MutableLiveData<>(new ArrayList<>());
-
     public PlaylistRepository(Application application) {
         this.application = application;
     }
 
     public MutableLiveData<List<Playlist>> getPlaylists(boolean random, int size) {
+        MutableLiveData<List<Playlist>> listLivePlaylists = new MutableLiveData<>(new ArrayList<>());
+
         App.getSubsonicClientInstance(application, false)
                 .getPlaylistClient()
                 .getPlaylists()
@@ -39,9 +37,13 @@ public class PlaylistRepository {
                     public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
                         if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
                             List<Playlist> playlists = new ArrayList<>(MappingUtil.mapPlaylist(response.body().getPlaylists().getPlaylists()));
-                            listLivePlaylists.setValue(playlists);
-                            Collections.shuffle(playlists);
-                            listLiveRandomPlaylist.setValue(playlists);
+                            if(random) {
+                                Collections.shuffle(playlists);
+                                listLivePlaylists.setValue(playlists.subList(0, size));
+                            }
+                            else {
+                                listLivePlaylists.setValue(playlists);
+                            }
                         }
                     }
 
@@ -54,6 +56,8 @@ public class PlaylistRepository {
     }
 
     public MutableLiveData<List<Song>> getPlaylistSongs(String id) {
+        MutableLiveData<List<Song>> listLivePlaylistSongs = new MutableLiveData<>(new ArrayList<>());
+
         App.getSubsonicClientInstance(application, false)
                 .getPlaylistClient()
                 .getPlaylist(id)

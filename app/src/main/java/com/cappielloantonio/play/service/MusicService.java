@@ -71,11 +71,9 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     public static final int TRACK_STARTED = 9;
     public static final int TRACK_CHANGED = 1;
     public static final int TRACK_ENDED = 2;
-    public static final int RELEASE_WAKELOCK = 0;
     public static final int PLAY_SONG = 3;
     public static final int PREPARE_NEXT = 4;
     public static final int SET_POSITION = 5;
-    public static final int LOAD_QUEUE = 9;
 
     private static final long MEDIA_SESSION_ACTIONS = PlaybackStateCompat.ACTION_PLAY
             | PlaybackStateCompat.ACTION_PAUSE
@@ -93,7 +91,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     private int position = -1;
     private int nextPosition = -1;
     private boolean notHandledMetaChangedForCurrentTrack;
-    private boolean queuesRestored;
 
     private PlayingNotification playingNotification;
     private final BroadcastReceiver becomingNoisyReceiver = new BroadcastReceiver() {
@@ -105,7 +102,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         }
     };
     private MediaSessionCompat mediaSession;
-    private PowerManager.WakeLock wakeLock;
     private PlaybackHandler playerHandler;
     private Handler uiThreadHandler;
     private ThrottledSeekHandler throttledSeekHandler;
@@ -115,10 +111,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        final PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, getClass().getName());
-        wakeLock.setReferenceCounted(false);
 
         playback = new MultiPlayer(this);
         playback.setCallbacks(this);
@@ -251,7 +243,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         mediaSession.setActive(false);
         quit();
         releaseResources();
-        wakeLock.release();
     }
 
     @Override
@@ -274,28 +265,24 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     }
 
     private void restoreState() {
-        if (!queuesRestored && playingQueue.isEmpty()) {
-            QueueRepository queueRepository = new QueueRepository(App.getInstance());
-            List<Song> restoredQueue = queueRepository.getSongs();
+        QueueRepository queueRepository = new QueueRepository(App.getInstance());
+        List<Song> restoredQueue = queueRepository.getSongs();
 
-            int restoredPosition = PreferenceUtil.getInstance(getApplicationContext()).getPosition();
-            int restoredPositionInTrack = PreferenceUtil.getInstance(getApplicationContext()).getProgress();
+        int restoredPosition = PreferenceUtil.getInstance(getApplicationContext()).getPosition();
+        int restoredPositionInTrack = PreferenceUtil.getInstance(getApplicationContext()).getProgress();
 
-            if (restoredQueue.size() > 0 && restoredPosition != -1) {
-                this.playingQueue = restoredQueue;
+        if (restoredQueue.size() > 0 && restoredPosition != -1) {
+            this.playingQueue = restoredQueue;
 
-                position = restoredPosition;
-                openCurrent();
+            position = restoredPosition;
+            openCurrent();
 
-                if (restoredPositionInTrack > 0) seek(restoredPositionInTrack);
+            if (restoredPositionInTrack > 0) seek(restoredPositionInTrack);
 
-                notHandledMetaChangedForCurrentTrack = true;
-                handleChangeInternal(META_CHANGED);
-                handleChangeInternal(QUEUE_CHANGED);
-            }
+            notHandledMetaChangedForCurrentTrack = true;
+            handleChangeInternal(META_CHANGED);
+            handleChangeInternal(QUEUE_CHANGED);
         }
-
-        queuesRestored = true;
     }
 
     private void quit() {
@@ -588,15 +575,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         return playback.getDuration();
     }
 
-    public long getQueueDurationMillis(int position) {
-        long duration = 0;
-        for (int i = position + 1; i < playingQueue.size(); i++) {
-            duration += playingQueue.get(i).getDuration();
-        }
-
-        return duration;
-    }
-
     public int seek(int millis) {
         synchronized (this) {
             playback.setProgress(millis);
@@ -642,12 +620,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
 
     public MediaSessionCompat getMediaSession() {
         return mediaSession;
-    }
-
-    public void releaseWakeLock() {
-        if (wakeLock.isHeld()) {
-            wakeLock.release();
-        }
     }
 
     private void increaseSongCount() {
@@ -721,12 +693,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
                     } else {
                         service.playNextSong();
                     }
-
-                    sendEmptyMessage(RELEASE_WAKELOCK);
-                    break;
-
-                case RELEASE_WAKELOCK:
-                    service.releaseWakeLock();
                     break;
 
                 case PLAY_SONG:

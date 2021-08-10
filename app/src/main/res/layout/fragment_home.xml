@@ -23,22 +23,22 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipChildren="false"
                 android:orientation="horizontal"
                 android:paddingStart="8dp"
                 android:paddingTop="8dp"
-                android:paddingEnd="8dp"
-                android:clipChildren="false">
+                android:paddingEnd="8dp">
 
                 <TextView
                     android:id="@+id/music_discovery_text_view_refreshable"
                     style="@style/HeadlineTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:layout_weight="1"
                     android:paddingStart="8dp"
                     android:paddingTop="12dp"
                     android:paddingEnd="8dp"
-                    android:layout_marginBottom="8dp"
                     android:text="Music discovery" />
 
 
@@ -46,11 +46,11 @@
                     android:id="@+id/home_settings_image_view"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_gravity="center_vertical"
                     android:background="@drawable/ic_settings"
                     android:backgroundTint="@color/bottomNavIconColor"
                     android:foreground="?android:attr/selectableItemBackgroundBorderless" />

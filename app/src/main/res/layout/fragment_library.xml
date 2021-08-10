@@ -29,6 +29,7 @@
                 android:paddingEnd="8dp">
 
                 <TextView
+                    android:id="@+id/album_catalogue_sample_text_view_refreshable"
                     style="@style/HeadlineTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -82,6 +83,7 @@
                 android:paddingEnd="8dp">
 
                 <TextView
+                    android:id="@+id/artist_catalogue_sample_text_view_refreshable"
                     style="@style/HeadlineTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -135,6 +137,7 @@
                 android:paddingEnd="8dp">
 
                 <TextView
+                    android:id="@+id/genre_catalogue_sample_text_view_refreshable"
                     style="@style/HeadlineTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -186,6 +189,7 @@
                 android:paddingEnd="8dp">
 
                 <TextView
+                    android:id="@+id/playlist_catalogue_sample_text_view_refreshable"
                     style="@style/HeadlineTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

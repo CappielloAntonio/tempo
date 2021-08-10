@@ -38,7 +38,7 @@ public class AlbumRepository {
         this.application = application;
     }
 
-    public LiveData<List<Album>> getAlbums(String type, int size) {
+    public MutableLiveData<List<Album>> getAlbums(String type, int size) {
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
                 .getAlbumList2(type, size, 0, null, null)

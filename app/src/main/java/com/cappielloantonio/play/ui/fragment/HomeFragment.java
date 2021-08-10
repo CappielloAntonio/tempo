@@ -138,6 +138,41 @@ public class HomeFragment extends Fragment {
         });
 
         bind.homeSettingsImageView.setOnClickListener(v -> activity.navController.navigate(R.id.action_homeFragment_to_settingsFragment));
+
+        bind.musicDiscoveryTextViewRefreshable.setOnLongClickListener(v -> {
+            homeViewModel.refreshDiscoverySongSample(requireActivity());
+            return true;
+        });
+
+        bind.recentlyPlayedAlbumsTextViewRefreshable.setOnLongClickListener(v -> {
+            homeViewModel.refreshRecentlyPlayedAlbumList(requireActivity());
+            return true;
+        });
+
+        bind.mostPlayedAlbumsTextViewRefreshable.setOnLongClickListener(v -> {
+            homeViewModel.refreshMostPlayedAlbums(requireActivity());
+            return true;
+        });
+
+        bind.recentlyAddedAlbumsTextViewRefreshable.setOnLongClickListener(v -> {
+            homeViewModel.refreshMostRecentlyAddedAlbums(requireActivity());
+            return true;
+        });
+
+        bind.starredTracksTextViewRefreshable.setOnLongClickListener(v -> {
+            homeViewModel.refreshStarredTracks(requireActivity());
+            return true;
+        });
+
+        bind.starredAlbumsTextViewRefreshable.setOnLongClickListener(v -> {
+            homeViewModel.refreshStarredAlbums(requireActivity());
+            return true;
+        });
+
+        bind.starredArtistsTextViewRefreshable.setOnLongClickListener(v -> {
+            homeViewModel.refreshStarredArtists(requireActivity());
+            return true;
+        });
     }
 
     private void initDiscoverSongSlideView() {

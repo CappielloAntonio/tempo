@@ -4,7 +4,9 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
@@ -23,10 +25,10 @@ public class LibraryViewModel extends AndroidViewModel {
     private GenreRepository genreRepository;
     private PlaylistRepository playlistRepository;
 
-    private LiveData<List<Playlist>> playlistSample;
-    private LiveData<List<Album>> sampleAlbum;
-    private LiveData<List<Artist>> sampleArtist;
-    private LiveData<List<Genre>> sampleGenres;
+    private MutableLiveData<List<Playlist>> playlistSample;
+    private MutableLiveData<List<Album>> sampleAlbum;
+    private MutableLiveData<List<Artist>> sampleArtist;
+    private MutableLiveData<List<Genre>> sampleGenres;
 
     public LibraryViewModel(@NonNull Application application) {
         super(application);
@@ -44,10 +46,6 @@ public class LibraryViewModel extends AndroidViewModel {
         playlistSample = playlistRepository.getPlaylists(true, 10);
     }
 
-    public LiveData<List<Playlist>> getPlaylistSample() {
-        return playlistSample;
-    }
-
     public LiveData<List<Album>> getAlbumSample() {
         return sampleAlbum;
     }
@@ -58,5 +56,25 @@ public class LibraryViewModel extends AndroidViewModel {
 
     public LiveData<List<Genre>> getGenreSample() {
         return sampleGenres;
+    }
+
+    public LiveData<List<Playlist>> getPlaylistSample() {
+        return playlistSample;
+    }
+
+    public void refreshAlbumSample(LifecycleOwner owner) {
+        albumRepository.getAlbums("random", 20).observe(owner, albums -> sampleAlbum.postValue(albums));
+    }
+
+    public void refreshArtistSample(LifecycleOwner owner) {
+        artistRepository.getArtists(true, 20).observe(owner, artists -> sampleArtist.postValue(artists));
+    }
+
+    public void refreshGenreSample(LifecycleOwner owner) {
+        genreRepository.getGenres(true, 15).observe(owner, genres -> sampleGenres.postValue(genres));
+    }
+
+    public void refreshPlaylistSample(LifecycleOwner owner) {
+        playlistRepository.getPlaylists(true, 10).observe(owner, playlists -> playlistSample.postValue(playlists));
     }
 }

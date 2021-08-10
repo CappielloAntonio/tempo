@@ -78,6 +78,23 @@ public class LibraryFragment extends Fragment {
         bind.artistCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_artistCatalogueFragment));
         bind.genreCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_genreCatalogueFragment));
         bind.playlistCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_playlistCatalogueFragment));
+
+        bind.albumCatalogueSampleTextViewRefreshable.setOnLongClickListener(view -> {
+            libraryViewModel.refreshAlbumSample(requireActivity());
+            return true;
+        });
+        bind.artistCatalogueSampleTextViewRefreshable.setOnLongClickListener(view -> {
+            libraryViewModel.refreshArtistSample(requireActivity());
+            return true;
+        });
+        bind.genreCatalogueSampleTextViewRefreshable.setOnLongClickListener(view -> {
+            libraryViewModel.refreshGenreSample(requireActivity());
+            return true;
+        });
+        bind.playlistCatalogueSampleTextViewRefreshable.setOnLongClickListener(view -> {
+            libraryViewModel.refreshPlaylistSample(requireActivity());
+            return true;
+        });
     }
 
     private void initAlbumView() {

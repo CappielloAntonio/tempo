@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -28,16 +29,16 @@ public class HomeViewModel extends AndroidViewModel {
     private ArtistRepository artistRepository;
     private DownloadRepository downloadRepository;
 
-    private LiveData<List<Song>> dicoverSongSample;
-    private LiveData<List<Album>> mostPlayedAlbumSample;
-    private LiveData<List<Album>> recentlyAddedAlbumSample;
-    private LiveData<List<Album>> recentlyPlayedAlbumSample;
+    private MutableLiveData<List<Song>> dicoverSongSample;
+    private MutableLiveData<List<Album>> mostPlayedAlbumSample;
+    private MutableLiveData<List<Album>> recentlyAddedAlbumSample;
+    private MutableLiveData<List<Album>> recentlyPlayedAlbumSample;
     private LiveData<List<Download>> downloadedSongSample;
     private LiveData<List<Integer>> years;
 
-    private LiveData<List<Song>> starredTracks;
-    private LiveData<List<Album>> starredAlbums;
-    private LiveData<List<Artist>> starredArtists;
+    private MutableLiveData<List<Song>> starredTracks;
+    private MutableLiveData<List<Album>> starredAlbums;
+    private MutableLiveData<List<Artist>> starredArtists;
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
@@ -97,5 +98,33 @@ public class HomeViewModel extends AndroidViewModel {
 
     public LiveData<List<Album>> getRecentlyPlayedAlbumList() {
         return recentlyPlayedAlbumSample;
+    }
+
+    public void refreshDiscoverySongSample(LifecycleOwner owner) {
+        songRepository.getRandomSample(10, null, null).observe(owner, songs -> dicoverSongSample.postValue(songs));
+    }
+
+    public void refreshStarredTracks(LifecycleOwner owner) {
+        songRepository.getStarredSongs().observe(owner, songs -> starredTracks.postValue(songs));
+    }
+
+    public void refreshStarredAlbums(LifecycleOwner owner) {
+        albumRepository.getStarredAlbums().observe(owner, albums -> starredAlbums.postValue(albums));
+    }
+
+    public void refreshStarredArtists(LifecycleOwner owner) {
+        artistRepository.getStarredArtists().observe(owner, artists -> starredArtists.postValue(artists));
+    }
+
+    public void refreshMostPlayedAlbums(LifecycleOwner owner) {
+        albumRepository.getAlbums("frequent", 20).observe(owner, albums -> mostPlayedAlbumSample.postValue(albums));
+    }
+
+    public void refreshMostRecentlyAddedAlbums(LifecycleOwner owner) {
+        albumRepository.getAlbums("newest", 20).observe(owner, albums -> recentlyAddedAlbumSample.postValue(albums));
+    }
+
+    public void refreshRecentlyPlayedAlbumList(LifecycleOwner owner) {
+        albumRepository.getAlbums("recent", 20).observe(owner, albums -> recentlyPlayedAlbumSample.postValue(albums));
     }
 }

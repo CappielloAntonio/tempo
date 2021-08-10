@@ -39,7 +39,7 @@ public class PlaylistRepository {
                             List<Playlist> playlists = new ArrayList<>(MappingUtil.mapPlaylist(response.body().getPlaylists().getPlaylists()));
                             if(random) {
                                 Collections.shuffle(playlists);
-                                listLivePlaylists.setValue(playlists.subList(0, size));
+                                listLivePlaylists.setValue(playlists.subList(0, Math.min(playlists.size(), size)));
                             }
                             else {
                                 listLivePlaylists.setValue(playlists);

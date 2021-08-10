@@ -52,6 +52,7 @@ import static com.google.android.exoplayer2.Player.PLAY_WHEN_READY_CHANGE_REASON
 
 public class MusicService extends Service implements Playback.PlaybackCallbacks {
     private static final String TAG = "MusicService";
+
     public static final String PACKAGE_NAME = "com.antoniocappiello.play";
     public static final String ACTION_TOGGLE = PACKAGE_NAME + ".toggle";
     public static final String ACTION_PLAY = PACKAGE_NAME + ".play";
@@ -66,6 +67,7 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     public static final String STATE_CHANGED = PACKAGE_NAME + ".state.changed";
     public static final String META_CHANGED = PACKAGE_NAME + ".meta.changed";
     public static final String QUEUE_CHANGED = PACKAGE_NAME + ".queue.changed";
+
     public static final int TRACK_STARTED = 9;
     public static final int TRACK_CHANGED = 1;
     public static final int TRACK_ENDED = 2;
@@ -74,6 +76,7 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     public static final int PREPARE_NEXT = 4;
     public static final int SET_POSITION = 5;
     public static final int LOAD_QUEUE = 9;
+
     private static final long MEDIA_SESSION_ACTIONS = PlaybackStateCompat.ACTION_PLAY
             | PlaybackStateCompat.ACTION_PAUSE
             | PlaybackStateCompat.ACTION_PLAY_PAUSE
@@ -81,7 +84,9 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
             | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
             | PlaybackStateCompat.ACTION_STOP
             | PlaybackStateCompat.ACTION_SEEK_TO;
+
     private final IBinder musicBinder = new MusicBinder();
+
     public boolean pendingQuit = false;
     private Playback playback;
     private List<Song> playingQueue = new ArrayList<>();
@@ -89,6 +94,7 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     private int nextPosition = -1;
     private boolean notHandledMetaChangedForCurrentTrack;
     private boolean queuesRestored;
+
     private PlayingNotification playingNotification;
     private final BroadcastReceiver becomingNoisyReceiver = new BroadcastReceiver() {
         @Override
@@ -103,10 +109,8 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     private PlaybackHandler playerHandler;
     private Handler uiThreadHandler;
     private ThrottledSeekHandler throttledSeekHandler;
-    private QueueHandler queueHandler;
     private HandlerThread playerHandlerThread;
     private HandlerThread progressHandlerThread;
-    private HandlerThread queueHandlerThread;
 
     @Override
     public void onCreate() {
@@ -125,10 +129,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
 
         progressHandlerThread = new HandlerThread(ProgressHandler.class.getName());
         progressHandlerThread.start();
-
-        queueHandlerThread = new HandlerThread(QueueHandler.class.getName(), Process.THREAD_PRIORITY_BACKGROUND);
-        queueHandlerThread.start();
-        queueHandler = new QueueHandler(this, queueHandlerThread.getLooper());
 
         throttledSeekHandler = new ThrottledSeekHandler(playerHandler);
         uiThreadHandler = new Handler();
@@ -274,11 +274,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     }
 
     private void restoreState() {
-        queueHandler.removeMessages(LOAD_QUEUE);
-        queueHandler.sendEmptyMessage(LOAD_QUEUE);
-    }
-
-    private synchronized void restoreQueuesAndPositionIfNecessary() {
         if (!queuesRestored && playingQueue.isEmpty()) {
             QueueRepository queueRepository = new QueueRepository(App.getInstance());
             List<Song> restoredQueue = queueRepository.getSongs();
@@ -314,9 +309,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         playerHandlerThread.quitSafely();
 
         progressHandlerThread.quitSafely();
-
-        queueHandler.removeCallbacksAndMessages(null);
-        queueHandlerThread.quitSafely();
 
         playback.stop();
         mediaSession.release();
@@ -683,26 +675,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
             playerHandler.sendEmptyMessage(TRACK_CHANGED);
         } else if (reason == MEDIA_ITEM_TRANSITION_REASON_PLAYLIST_CHANGED) {
             prepareNext();
-        }
-    }
-
-    private static final class QueueHandler extends Handler {
-        @NonNull
-        private final WeakReference<MusicService> mService;
-
-        public QueueHandler(final MusicService service, @NonNull final Looper looper) {
-            super(looper);
-            mService = new WeakReference<>(service);
-        }
-
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            final MusicService service = mService.get();
-            switch (msg.what) {
-                case LOAD_QUEUE:
-                    service.restoreQueuesAndPositionIfNecessary();
-                    break;
-            }
         }
     }
 

@@ -32,8 +32,8 @@ public class MultiPlayer implements Playback {
 
     private final Context context;
     private final SimpleExoPlayer exoPlayer;
-    private final SimpleCache simpleCache;
 
+    private SimpleCache simpleCache;
     private PlaybackCallbacks callbacks;
 
     private final ExoPlayer.EventListener eventListener = new ExoPlayer.EventListener() {
@@ -94,9 +94,11 @@ public class MultiPlayer implements Playback {
 
     public MultiPlayer(Context context) {
         this.context = context;
+        setSimpleCache(context);
 
         // Create a read-only cache data source factory using the download cache.
         DataSource.Factory cacheDataSourceFactory = new CacheDataSource.Factory()
+                .setCache(simpleCache)
                 .setCache(DownloadUtil.getDownloadCache(context))
                 .setUpstreamDataSourceFactory(DownloadUtil.getHttpDataSourceFactory(context))
                 .setCacheWriteDataSinkFactory(null); // Disable writing.
@@ -115,7 +117,9 @@ public class MultiPlayer implements Playback {
 
         exoPlayer.addListener(eventListener);
         exoPlayer.prepare();
+    }
 
+    private void setSimpleCache(Context context) {
         long cacheSize = PreferenceUtil.getInstance(context).getMediaCacheSize();
         LeastRecentlyUsedCacheEvictor recentlyUsedCache = new LeastRecentlyUsedCacheEvictor(cacheSize);
         ExoDatabaseProvider databaseProvider = new ExoDatabaseProvider(context);
@@ -168,7 +172,6 @@ public class MultiPlayer implements Playback {
     @Override
     public boolean isPlaying() {
         return exoPlayer.getPlayWhenReady() && exoPlayer.getPlaybackSuppressionReason() == Player.PLAYBACK_SUPPRESSION_REASON_NONE;
-
     }
 
     @Override

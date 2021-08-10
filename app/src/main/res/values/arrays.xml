@@ -29,4 +29,19 @@
         <item>200000000</item>
     </string-array>
 
+    <string-array name="pref_media_cache_size_titles">
+        <item>Unlimited</item>
+        <item>2GB</item>
+        <item>1GB</item>
+        <item>400MB</item>
+        <item>200MB</item>
+    </string-array>
+
+    <string-array name="pref_media_cache_size_values">
+        <item>4000000000</item>
+        <item>2000000000</item>
+        <item>1000000000</item>
+        <item>400000000</item>
+        <item>200000000</item>
+    </string-array>
 </resources>

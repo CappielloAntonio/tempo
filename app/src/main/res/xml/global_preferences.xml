@@ -11,6 +11,15 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
+            app:defaultValue="400000000"
+            app:dialogTitle="@string/media_cache"
+            app:entries="@array/pref_media_cache_size_titles"
+            app:entryValues="@array/pref_media_cache_size_values"
+            app:key="media_cache_size"
+            app:title="@string/media_cache"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
             app:defaultValue="default"
             app:dialogTitle="@string/theme_selection"
             app:entries="@array/themeListArray"

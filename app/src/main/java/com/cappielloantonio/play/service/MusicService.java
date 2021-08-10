@@ -1,5 +1,8 @@
 package com.cappielloantonio.play.service;
 
+import static com.google.android.exoplayer2.Player.MEDIA_ITEM_TRANSITION_REASON_AUTO;
+import static com.google.android.exoplayer2.Player.MEDIA_ITEM_TRANSITION_REASON_PLAYLIST_CHANGED;
+
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -15,8 +18,6 @@ import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
-import android.os.PowerManager;
-import android.os.Process;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -41,14 +42,6 @@ import com.cappielloantonio.play.util.PreferenceUtil;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-import static com.google.android.exoplayer2.Player.MEDIA_ITEM_TRANSITION_REASON_AUTO;
-import static com.google.android.exoplayer2.Player.MEDIA_ITEM_TRANSITION_REASON_PLAYLIST_CHANGED;
-import static com.google.android.exoplayer2.Player.PLAY_WHEN_READY_CHANGE_REASON_END_OF_MEDIA_ITEM;
 
 public class MusicService extends Service implements Playback.PlaybackCallbacks {
     private static final String TAG = "MusicService";
@@ -68,7 +61,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     public static final String META_CHANGED = PACKAGE_NAME + ".meta.changed";
     public static final String QUEUE_CHANGED = PACKAGE_NAME + ".queue.changed";
 
-    public static final int TRACK_STARTED = 9;
     public static final int TRACK_CHANGED = 1;
     public static final int TRACK_ENDED = 2;
     public static final int PLAY_SONG = 3;
@@ -93,14 +85,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     private boolean notHandledMetaChangedForCurrentTrack;
 
     private PlayingNotification playingNotification;
-    private final BroadcastReceiver becomingNoisyReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, @NonNull Intent intent) {
-            if (intent.getAction().equals(AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
-                pause();
-            }
-        }
-    };
     private MediaSessionCompat mediaSession;
     private PlaybackHandler playerHandler;
     private Handler uiThreadHandler;
@@ -120,8 +104,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
 
         throttledSeekHandler = new ThrottledSeekHandler(playerHandler);
         uiThreadHandler = new Handler();
-
-        registerReceiver(becomingNoisyReceiver, new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY));
 
         initNotification();
         initMediaSession();
@@ -234,8 +216,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
 
     @Override
     public void onDestroy() {
-        unregisterReceiver(becomingNoisyReceiver);
-
         mediaSession.setActive(false);
         quit();
         releaseResources();

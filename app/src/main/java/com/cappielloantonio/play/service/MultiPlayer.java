@@ -109,6 +109,7 @@ public class MultiPlayer implements Playback {
         exoPlayer = new SimpleExoPlayer.Builder(context)
                 .setMediaSourceFactory(new DefaultMediaSourceFactory(cacheDataSourceFactory))
                 .setAudioAttributes(audioAttributes, true)
+                .setHandleAudioBecomingNoisy(true)
                 .build();
 
         exoPlayer.addListener(eventListener);

@@ -53,10 +53,6 @@ public class LoginViewModel extends AndroidViewModel {
         }
     }
 
-    public void orderServer(List<Server> servers) {
-        serverRepository.order(servers);
-    }
-
     public void setServerToEdit(Server server) {
         toEdit = server;
     }

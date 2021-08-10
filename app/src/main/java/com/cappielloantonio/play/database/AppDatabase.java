@@ -15,7 +15,7 @@ import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.RecentSearch;
 import com.cappielloantonio.play.model.Server;
 
-@Database(entities = {Queue.class, Server.class, RecentSearch.class, Download.class}, version = 13, exportSchema = false)
+@Database(entities = {Queue.class, Server.class, RecentSearch.class, Download.class}, version = 14, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String TAG = "AppDatabase";
 

@@ -20,12 +20,6 @@ public interface ServerDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Server server);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(List<Server> servers);
-
     @Delete
     void delete(Server server);
-
-    @Query("DELETE FROM server")
-    void deleteAll();
 }

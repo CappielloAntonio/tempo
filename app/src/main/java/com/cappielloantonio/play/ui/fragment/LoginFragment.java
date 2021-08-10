@@ -98,58 +98,6 @@ public class LoginFragment extends Fragment {
                 if (bind != null) bind.serverListRecyclerView.setVisibility(View.GONE);
             }
         });
-
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            int originalPosition = -1;
-            int fromPosition = -1;
-            int toPosition = -1;
-
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                if (originalPosition == -1)
-                    originalPosition = viewHolder.getBindingAdapterPosition();
-
-                fromPosition = viewHolder.getBindingAdapterPosition();
-                toPosition = target.getBindingAdapterPosition();
-
-                Collections.swap(serverAdapter.getItems(), fromPosition, toPosition);
-                recyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
-
-                return false;
-            }
-
-            @Override
-            public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-                super.clearView(recyclerView, viewHolder);
-
-                loginViewModel.orderServer(serverAdapter.getItems());
-
-                originalPosition = -1;
-                fromPosition = -1;
-                toPosition = -1;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                switch (direction) {
-                    case ItemTouchHelper.LEFT:
-                        loginViewModel.deleteServer(serverAdapter.getItem(viewHolder.getBindingAdapterPosition()));
-                        viewHolder.itemView.setBackgroundColor(Color.RED);
-                        break;
-                    case ItemTouchHelper.RIGHT:
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable("server_object", serverAdapter.getItem(viewHolder.getBindingAdapterPosition()));
-
-                        ServerSignupDialog dialog = new ServerSignupDialog();
-                        dialog.setArguments(bundle);
-                        dialog.show(activity.getSupportFragmentManager(), null);
-
-                        bind.serverListRecyclerView.getAdapter().notifyDataSetChanged();
-                        break;
-                }
-            }
-        }
-        ).attachToRecyclerView(bind.serverListRecyclerView);
     }
 
     @Override

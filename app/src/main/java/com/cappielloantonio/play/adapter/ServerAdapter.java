@@ -60,10 +60,6 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
         return servers.size();
     }
 
-    public List<Server> getItems() {
-        return this.servers;
-    }
-
     public void setItems(List<Server> servers) {
         this.servers = servers;
         notifyDataSetChanged();
@@ -73,7 +69,7 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
         return servers.get(id);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView serverName;
         TextView serverAddress;
 
@@ -84,6 +80,7 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
             serverAddress = itemView.findViewById(R.id.server_address_text_view);
 
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
 
             serverName.setSelected(true);
         }
@@ -107,6 +104,18 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
                     enter();
                 }
             });
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("server_object", servers.get(getBindingAdapterPosition()));
+
+            ServerSignupDialog dialog = new ServerSignupDialog();
+            dialog.setArguments(bundle);
+            dialog.show(mainActivity.getSupportFragmentManager(), null);
+
+            return true;
         }
 
         private void enter() {

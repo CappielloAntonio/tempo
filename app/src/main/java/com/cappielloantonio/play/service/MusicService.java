@@ -106,7 +106,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     private Handler uiThreadHandler;
     private ThrottledSeekHandler throttledSeekHandler;
     private HandlerThread playerHandlerThread;
-    private HandlerThread progressHandlerThread;
 
     @Override
     public void onCreate() {
@@ -118,9 +117,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
         playerHandlerThread = new HandlerThread(PlaybackHandler.class.getName());
         playerHandlerThread.start();
         playerHandler = new PlaybackHandler(this, playerHandlerThread.getLooper());
-
-        progressHandlerThread = new HandlerThread(ProgressHandler.class.getName());
-        progressHandlerThread.start();
 
         throttledSeekHandler = new ThrottledSeekHandler(playerHandler);
         uiThreadHandler = new Handler();
@@ -294,8 +290,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     private void releaseResources() {
         playerHandler.removeCallbacksAndMessages(null);
         playerHandlerThread.quitSafely();
-
-        progressHandlerThread.quitSafely();
 
         playback.stop();
         mediaSession.release();
@@ -708,22 +702,6 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
                 case PREPARE_NEXT:
                     service.prepareNextImpl();
                     break;
-            }
-        }
-    }
-
-    private static final class ProgressHandler extends Handler {
-        public ProgressHandler(MusicService service, Looper looper) {
-            super(looper);
-        }
-
-        @Override
-        public void handleMessage(@NonNull final Message msg) {
-            switch (msg.what) {
-                case TRACK_STARTED:
-                case TRACK_CHANGED:
-                    break;
-                case TRACK_ENDED:
             }
         }
     }

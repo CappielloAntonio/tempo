@@ -42,7 +42,6 @@ public class Song implements Parcelable {
     private long added;
     private int playCount;
     private long lastPlay;
-    private boolean offline;
 
     public Song() {
         this.id = UUID.randomUUID().toString();
@@ -68,7 +67,6 @@ public class Song implements Parcelable {
         this.added = child.getCreated().getTime();
         this.playCount = 0;
         this.lastPlay = 0;
-        this.offline = false;
     }
 
     public Song(Queue queue) {
@@ -173,10 +171,6 @@ public class Song implements Parcelable {
         return lastPlay;
     }
 
-    public boolean isOffline() {
-        return offline;
-    }
-
     public void setId(String id) {
         this.id = id;
     }
@@ -257,10 +251,6 @@ public class Song implements Parcelable {
         this.playCount = playCount;
     }
 
-    public void setOffline(boolean offline) {
-        this.offline = offline;
-    }
-
     /*
         Log.i(TAG, "increasePlayCount: " + isIncreased);
      * Incremento il numero di ascolti solo se ho ascoltato la canzone da più tempo di:
@@ -328,7 +318,6 @@ public class Song implements Parcelable {
         dest.writeLong(this.added);
         dest.writeInt(this.playCount);
         dest.writeLong(this.lastPlay);
-        dest.writeBoolean(this.offline);
     }
 
     @SuppressLint("NewApi")
@@ -353,7 +342,6 @@ public class Song implements Parcelable {
         this.added = in.readLong();
         this.playCount = in.readInt();
         this.lastPlay = in.readLong();
-        this.offline = in.readBoolean();
     }
 
     public static final Creator<Song> CREATOR = new Creator<Song>() {

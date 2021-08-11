@@ -43,10 +43,12 @@ public class DownloadTracker {
     public DownloadTracker(Context context, HttpDataSource.Factory httpDataSourceFactory, DownloadManager downloadManager) {
         this.context = context.getApplicationContext();
         this.httpDataSourceFactory = httpDataSourceFactory;
+
         listeners = new CopyOnWriteArraySet<>();
         downloads = new HashMap<>();
         downloadIndex = downloadManager.getDownloadIndex();
         trackSelectorParameters = DownloadHelper.getDefaultTrackSelectorParameters(context);
+
         downloadManager.addListener(new DownloadManagerListener());
         loadDownloads();
     }
@@ -80,11 +82,9 @@ public class DownloadTracker {
             @Nullable Download download = downloads.get(checkNotNull(mediaItem.playbackProperties).uri);
 
             if (download != null && download.state != Download.STATE_FAILED) {
-                song.setOffline(false);
                 DownloadService.sendRemoveDownload(context, DownloaderService.class, download.request.id, false);
                 downloadRepository.delete(MappingUtil.mapToDownload(song));
             } else {
-                song.setOffline(true);
                 DownloadService.sendAddDownload(context, DownloaderService.class, getDownloadRequest(song.getId(), mediaItem.playbackProperties.uri), false);
                 downloadRepository.insert(MappingUtil.mapToDownload(song));
             }

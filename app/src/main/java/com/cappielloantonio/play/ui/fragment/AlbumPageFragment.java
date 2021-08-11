@@ -92,7 +92,9 @@ public class AlbumPageFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_download_album:
-                DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(albumPageViewModel.getAlbumSongLiveList().getValue());
+                albumPageViewModel.getAlbumSongLiveList().observe(requireActivity(), songs -> {
+                    DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(songs);
+                });
                 return true;
             default:
                 break;

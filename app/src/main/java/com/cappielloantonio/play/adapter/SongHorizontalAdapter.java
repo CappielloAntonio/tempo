@@ -21,6 +21,7 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         holder.songArtist.setText(MusicUtil.getReadableString(song.getArtistName()));
         holder.songDuration.setText(MusicUtil.getReadableDurationString(song.getDuration(), false));
 
-        if (song.isOffline()) {
+        if (DownloadUtil.getDownloadTracker(context).isDownloaded(song)) {
             holder.downloadIndicator.setVisibility(View.VISIBLE);
         } else {
             holder.downloadIndicator.setVisibility(View.GONE);

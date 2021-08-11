@@ -178,7 +178,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
     }
 
     private void initDownloadedUI() {
-        if (song.isOffline()) {
+        if (DownloadUtil.getDownloadTracker(requireContext()).isDownloaded(song)) {
             download.setText("Remove");
         } else {
             download.setText("Download");

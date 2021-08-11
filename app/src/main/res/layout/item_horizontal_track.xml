@@ -83,9 +83,8 @@
         android:id="@+id/search_result_dowanload_indicator_image_view"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_gravity="center"
         android:layout_margin="8dp"
-        android:background="@drawable/ic_download_for_offline"
+        android:background="@drawable/ic_download"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/search_result_song_more_button"
@@ -99,7 +98,6 @@
         android:layout_marginEnd="12dp"
         android:background="@drawable/ic_more_vert"
         android:foreground="?android:attr/selectableItemBackgroundBorderless"
-        android:gravity="center_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

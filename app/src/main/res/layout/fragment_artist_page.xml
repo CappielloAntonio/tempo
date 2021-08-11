@@ -115,6 +115,46 @@
                 android:layout_marginEnd="18dp"
                 android:layout_marginBottom="12dp"/>
 
+            <LinearLayout
+                android:id="@+id/artist_page_bio_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="22dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/HeadlineTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="8dp"
+                        android:text="Bio" />
+
+                    <TextView
+                        android:id="@+id/bio_more_text_view_clickable"
+                        style="@style/SubheadTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="16dp"
+                        android:text="More" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/bio_text_view"
+                    style="@style/SubheadTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="More" />
+            </LinearLayout>
+
             <!--  Label and button  -->
             <LinearLayout
                 android:id="@+id/artist_page_top_songs_sector"

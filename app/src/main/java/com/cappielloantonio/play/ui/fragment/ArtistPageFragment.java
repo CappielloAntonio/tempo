@@ -57,7 +57,7 @@ public class ArtistPageFragment extends Fragment {
 
         init();
         initAppBar();
-        initBackdrop();
+        initArtistInfo();
         initPlayButtons();
         initTopSongsView();
         initAlbumsView();
@@ -109,11 +109,15 @@ public class ArtistPageFragment extends Fragment {
         });
     }
 
-    private void initBackdrop() {
-        CustomGlideRequest.Builder
-                .from(requireContext(), artistPageViewModel.getArtist().getId(), CustomGlideRequest.ARTIST_PIC)
-                .build()
-                .into(bind.artistBackdropImageView);
+    private void initArtistInfo() {
+        artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(requireActivity(), artist -> {
+            CustomGlideRequest.Builder
+                    .from(requireContext(), null, CustomGlideRequest.ARTIST_PIC, artist.getImageUrl())
+                    .build()
+                    .into(bind.artistBackdropImageView);
+
+            bind.bioTextView.setText(MusicUtil.HTMLParser(artist.getBio()));
+        });
     }
 
     private void initPlayButtons() {

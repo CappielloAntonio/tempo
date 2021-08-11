@@ -9,6 +9,7 @@ import com.tickaroo.tikxml.annotation.Xml;
 public class SubsonicResponse {
     @Element
     private Error error;
+    @Element(name = "scanStatus")
     private ScanStatus scanStatus;
     @Element(name = "topSongs")
     private TopSongs topSongs;

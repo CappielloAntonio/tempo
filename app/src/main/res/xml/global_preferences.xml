@@ -29,6 +29,10 @@
             app:useSimpleSummaryProvider="true" />
 
         <Preference
+            android:key="scan_library"
+            android:title="Scan library" />
+
+        <Preference
             android:key="logout"
             android:title="Log out" />
         

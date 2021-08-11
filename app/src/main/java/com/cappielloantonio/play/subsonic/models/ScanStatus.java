@@ -1,39 +1,27 @@
 package com.cappielloantonio.play.subsonic.models;
 
-public class ScanStatus {
-    protected boolean scanning;
-    protected Long count;
+import com.tickaroo.tikxml.annotation.Attribute;
+import com.tickaroo.tikxml.annotation.Xml;
 
-    /**
-     * Gets the value of the scanning property.
-     */
+@Xml
+public class ScanStatus {
+    @Attribute
+    protected boolean scanning;
+    @Attribute
+    protected Long count;
+    
     public boolean isScanning() {
         return scanning;
     }
 
-    /**
-     * Sets the value of the scanning property.
-     */
     public void setScanning(boolean value) {
         this.scanning = value;
     }
 
-    /**
-     * Gets the value of the count property.
-     *
-     * @return possible object is
-     * {@link Long }
-     */
     public Long getCount() {
         return count;
     }
 
-    /**
-     * Sets the value of the count property.
-     *
-     * @param value allowed object is
-     *              {@link Long }
-     */
     public void setCount(Long value) {
         this.count = value;
     }

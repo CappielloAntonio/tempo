@@ -20,7 +20,8 @@ public class SystemRepository {
     }
 
     public void checkUserCredential(SystemCallback callback) {
-        App.getSubsonicClientInstance(application, false).getSystemClient()
+        App.getSubsonicClientInstance(application, false)
+                .getSystemClient()
                 .ping()
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override

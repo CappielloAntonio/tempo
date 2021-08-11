@@ -68,12 +68,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             settingViewModel.launchScan(new ScanCallback() {
                 @Override
                 public void onError(Exception exception) {
-                    Toast.makeText(requireContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+                    findPreference("scan_library").setSummary(exception.getMessage());
                 }
 
                 @Override
                 public void onSuccess(boolean isScanning, long count) {
-                    Toast.makeText(requireContext(), "Scanning: counting " + count + " elements", Toast.LENGTH_SHORT).show();
+                    if(isScanning) getScanStatus();
+                    else findPreference("scan_library").setSummary("Scanning: counting " + count + " tracks");
                 }
             });
             return true;
@@ -93,5 +94,20 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                         return true;
                     });
         }
+    }
+
+    private void getScanStatus() {
+        settingViewModel.getScanStatus(new ScanCallback() {
+            @Override
+            public void onError(Exception exception) {
+                findPreference("scan_library").setSummary(exception.getMessage());
+            }
+
+            @Override
+            public void onSuccess(boolean isScanning, long count) {
+                findPreference("scan_library").setSummary("Scanning: counting " + count + " tracks");
+                if(isScanning) getScanStatus();
+            }
+        });
     }
 }

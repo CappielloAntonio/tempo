@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MusicUtil {
     private static final String TAG = "MusicUtil";
@@ -90,5 +92,22 @@ public class MusicUtil {
     public static MediaItem getMediaItemFromSong(Song song) {
         String uri = MusicUtil.getSongFileUri(song);
         return MediaItem.fromUri(uri);
+    }
+
+    public static CharSequence HTMLParser(String toParse) {
+        if (toParse != null && containsHTML(toParse)) {
+            return Html.fromHtml(toParse, Html.FROM_HTML_MODE_LEGACY);
+        }
+        else {
+            return toParse;
+        }
+    }
+
+    private static boolean containsHTML(String toParse) {
+        String HTML_PATTERN = "<(\"[^\"]*\"|'[^']*'|[^'\">])*>";
+        Pattern pattern = Pattern.compile(HTML_PATTERN);
+
+        Matcher matcher = pattern.matcher(toParse);
+        return matcher.find();
     }
 }

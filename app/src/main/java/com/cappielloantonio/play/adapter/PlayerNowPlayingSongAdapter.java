@@ -43,7 +43,7 @@ public class PlayerNowPlayingSongAdapter extends RecyclerView.Adapter<PlayerNowP
         Song song = songs.get(position);
 
         CustomGlideRequest.Builder
-                .from(context, song.getId(), CustomGlideRequest.SONG_PIC)
+                .from(context, song.getId(), CustomGlideRequest.SONG_PIC, null)
                 .build()
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.cover);

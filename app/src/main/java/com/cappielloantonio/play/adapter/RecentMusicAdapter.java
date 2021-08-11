@@ -60,7 +60,7 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
         holder.textAlbum.setText(MusicUtil.getReadableString(song.getAlbumName()));
 
         CustomGlideRequest.Builder
-                .from(context, song.getPrimary(), CustomGlideRequest.SONG_PIC)
+                .from(context, song.getPrimary(), CustomGlideRequest.SONG_PIC, null)
                 .build()
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.cover);

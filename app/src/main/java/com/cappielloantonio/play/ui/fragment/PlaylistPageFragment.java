@@ -143,7 +143,7 @@ public class PlaylistPageFragment extends Fragment {
 
     private void initBackCover() {
         CustomGlideRequest.Builder
-                .from(requireContext(), playlistPageViewModel.getPlaylist().getPrimary(), CustomGlideRequest.ALBUM_PIC)
+                .from(requireContext(), playlistPageViewModel.getPlaylist().getPrimary(), CustomGlideRequest.ALBUM_PIC, null)
                 .build()
                 .into(bind.albumBackCoverImageView);
     }

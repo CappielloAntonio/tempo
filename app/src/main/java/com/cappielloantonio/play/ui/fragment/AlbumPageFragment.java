@@ -172,7 +172,7 @@ public class AlbumPageFragment extends Fragment {
 
     private void initBackCover() {
         CustomGlideRequest.Builder
-                .from(requireContext(), albumPageViewModel.getAlbum().getPrimary(), CustomGlideRequest.ALBUM_PIC)
+                .from(requireContext(), albumPageViewModel.getAlbum().getPrimary(), CustomGlideRequest.ALBUM_PIC, null)
                 .build()
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(bind.albumCoverImageView);

@@ -50,7 +50,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         holder.textArtistName.setText(MusicUtil.getReadableString(album.getArtistName()));
 
         CustomGlideRequest.Builder
-                .from(context, album.getPrimary(), CustomGlideRequest.ALBUM_PIC)
+                .from(context, album.getPrimary(), CustomGlideRequest.ALBUM_PIC, null)
                 .build()
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.cover);

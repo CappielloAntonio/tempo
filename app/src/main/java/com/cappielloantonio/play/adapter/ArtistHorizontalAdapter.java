@@ -55,7 +55,7 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
         holder.artistInfo.setText("Album count: " + String.valueOf(artist.getAlbumCount()));
 
         CustomGlideRequest.Builder
-                .from(context, artist.getId(), CustomGlideRequest.ARTIST_PIC)
+                .from(context, artist.getId(), CustomGlideRequest.ARTIST_PIC, null)
                 .build()
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.cover);

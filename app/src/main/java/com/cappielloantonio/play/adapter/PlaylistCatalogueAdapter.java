@@ -83,7 +83,7 @@ public class PlaylistCatalogueAdapter extends RecyclerView.Adapter<PlaylistCatal
         holder.textPlaylistName.setText(MusicUtil.getReadableString(playlist.getName()));
 
         CustomGlideRequest.Builder
-                .from(context, playlist.getPrimary(), CustomGlideRequest.PLAYLIST_PIC)
+                .from(context, playlist.getPrimary(), CustomGlideRequest.PLAYLIST_PIC, null)
                 .build()
                 .into(holder.cover);
     }

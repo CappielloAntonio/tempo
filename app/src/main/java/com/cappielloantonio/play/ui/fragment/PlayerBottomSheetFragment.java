@@ -269,7 +269,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         bind.playerHeaderLayout.playerHeaderSongArtistLabel.setText(MusicUtil.getReadableString(song.getArtistName()));
 
         CustomGlideRequest.Builder
-                .from(requireContext(), song.getPrimary(), CustomGlideRequest.SONG_PIC)
+                .from(requireContext(), song.getPrimary(), CustomGlideRequest.SONG_PIC, null)
                 .build()
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(bind.playerHeaderLayout.playerHeaderSongCoverImage);

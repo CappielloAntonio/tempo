@@ -55,16 +55,25 @@ public class CustomGlideRequest {
         private final RequestManager requestManager;
         private final Object item;
 
-        private Builder(Context context, String item, String category) {
+        private Builder(Context context, String item, String category, String custom) {
             this.requestManager = Glide.with(context);
-            this.item = item != null ? createUrl(item) : MusicUtil.getDefaultPicPerCategory(category);
+
+            if(item != null) {
+                this.item = createUrl(item);
+            }
+            else if(custom != null) {
+                this.item = custom;
+            }
+            else {
+                this.item = MusicUtil.getDefaultPicPerCategory(category);
+            }
 
             Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), MusicUtil.getDefaultPicPerCategory(category), null);
             requestManager.applyDefaultRequestOptions(createRequestOptions(item, drawable));
         }
 
-        public static Builder from(Context context, String item, String category) {
-            return new Builder(context, item, category);
+        public static Builder from(Context context, String item, String category, String custom) {
+            return new Builder(context, item, category, custom);
         }
 
         public BitmapBuilder bitmap() {

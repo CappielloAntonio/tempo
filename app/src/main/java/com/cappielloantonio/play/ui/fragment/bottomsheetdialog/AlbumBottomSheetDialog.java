@@ -75,7 +75,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
         coverAlbum = view.findViewById(R.id.album_cover_image_view);
         CustomGlideRequest.Builder
-                .from(requireContext(), albumBottomSheetViewModel.getAlbum().getPrimary(), CustomGlideRequest.ALBUM_PIC)
+                .from(requireContext(), albumBottomSheetViewModel.getAlbum().getPrimary(), CustomGlideRequest.ALBUM_PIC, null)
                 .build()
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(coverAlbum);

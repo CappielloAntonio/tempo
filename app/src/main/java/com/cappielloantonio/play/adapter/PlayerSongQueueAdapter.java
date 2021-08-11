@@ -53,7 +53,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
         holder.songArtist.setText(MusicUtil.getReadableString(song.getArtistName()));
 
         CustomGlideRequest.Builder
-                .from(context, song.getPrimary(), CustomGlideRequest.SONG_PIC)
+                .from(context, song.getPrimary(), CustomGlideRequest.SONG_PIC, null)
                 .build()
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.cover);

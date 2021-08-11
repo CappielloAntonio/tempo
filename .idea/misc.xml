@@ -6,6 +6,7 @@
         <entry key="app/src/main/res/drawable-v24/ic_add.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable-v24/ic_download.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2814814814814815" />
+        <entry key="app/src/main/res/drawable/dialog_shape.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable/ic_close.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable/ic_download_for_offline.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable/ic_downloading.xml" value="0.2722222222222222" />

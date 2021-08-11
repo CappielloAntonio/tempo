@@ -51,12 +51,14 @@ public class ServerSignupDialog extends DialogFragment {
 
         bind = DialogServerSignupBinding.inflate(LayoutInflater.from(requireContext()));
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppTheme_Dialog);
 
         builder.setView(bind.getRoot())
                 .setTitle("Add server")
-                .setNeutralButton("Delete", (dialog, id) -> { })
-                .setPositiveButton("Save", (dialog, id) -> { })
+                .setNeutralButton("Delete", (dialog, id) -> {
+                })
+                .setPositiveButton("Save", (dialog, id) -> {
+                })
                 .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
 
         return builder.create();

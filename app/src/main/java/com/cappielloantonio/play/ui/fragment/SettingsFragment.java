@@ -4,21 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.ListPreference;
-import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.helper.ThemeHelper;
 import com.cappielloantonio.play.interfaces.ScanCallback;
-import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.PreferenceUtil;
-import com.cappielloantonio.play.viewmodel.LibraryViewModel;
 import com.cappielloantonio.play.viewmodel.SettingViewModel;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
@@ -73,8 +68,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
                 @Override
                 public void onSuccess(boolean isScanning, long count) {
-                    if(isScanning) getScanStatus();
-                    else findPreference("scan_library").setSummary("Scanning: counting " + count + " tracks");
+                    if (isScanning) getScanStatus();
+                    else
+                        findPreference("scan_library").setSummary("Scanning: counting " + count + " tracks");
                 }
             });
             return true;
@@ -106,7 +102,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             @Override
             public void onSuccess(boolean isScanning, long count) {
                 findPreference("scan_library").setSummary("Scanning: counting " + count + " tracks");
-                if(isScanning) getScanStatus();
+                if (isScanning) getScanStatus();
             }
         });
     }

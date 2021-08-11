@@ -142,8 +142,6 @@ public class ArtistPageFragment extends Fragment {
 
                     MusicPlayerRemote.openQueue(songs, 0, true);
                     activity.isBottomSheetInPeek(true);
-                } else {
-                    Toast.makeText(requireContext(), "Error retrieving artist's songs", Toast.LENGTH_SHORT).show();
                 }
             });
         });

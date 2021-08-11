@@ -9,6 +9,7 @@ import com.cappielloantonio.play.model.Song;
 import com.google.android.exoplayer2.MediaItem;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -61,6 +62,17 @@ public class MusicUtil {
         return "";
     }
 
+    public static String forceReadableString(String string) {
+        if (string != null) {
+            return getReadableString(string)
+                    .replaceAll("&#34;", "\"")
+                    .replaceAll("&#39;", "'")
+                    .replaceAll("<a[\\s]+([^>]+)>((?:.(?!</a>))*.)</a>", "");
+        }
+
+        return "";
+    }
+
     public static List<String> getReadableStrings(List<String> strings) {
         List<String> readableStrings = new ArrayList<>();
 
@@ -92,22 +104,5 @@ public class MusicUtil {
     public static MediaItem getMediaItemFromSong(Song song) {
         String uri = MusicUtil.getSongFileUri(song);
         return MediaItem.fromUri(uri);
-    }
-
-    public static CharSequence HTMLParser(String toParse) {
-        if (toParse != null && containsHTML(toParse)) {
-            return Html.fromHtml(toParse, Html.FROM_HTML_MODE_LEGACY);
-        }
-        else {
-            return toParse;
-        }
-    }
-
-    private static boolean containsHTML(String toParse) {
-        String HTML_PATTERN = "<(\"[^\"]*\"|'[^']*'|[^'\">])*>";
-        Pattern pattern = Pattern.compile(HTML_PATTERN);
-
-        Matcher matcher = pattern.matcher(toParse);
-        return matcher.find();
     }
 }

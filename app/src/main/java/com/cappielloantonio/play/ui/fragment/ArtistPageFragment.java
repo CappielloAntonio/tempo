@@ -1,8 +1,10 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -110,13 +112,23 @@ public class ArtistPageFragment extends Fragment {
     }
 
     private void initArtistInfo() {
+
         artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(requireActivity(), artist -> {
+            if (bind != null) bind.artistPageBioSector.setVisibility(artist.getBio() != null ? View.VISIBLE : View.GONE);
+            if (bind != null) bind.bioMoreTextViewClickable.setVisibility(artist.getLastfm() != null ? View.VISIBLE : View.GONE);
+
             CustomGlideRequest.Builder
                     .from(requireContext(), null, CustomGlideRequest.ARTIST_PIC, artist.getImageUrl())
                     .build()
                     .into(bind.artistBackdropImageView);
 
-            bind.bioTextView.setText(MusicUtil.HTMLParser(artist.getBio()));
+            bind.bioTextView.setText(MusicUtil.forceReadableString(artist.getBio()));
+
+            bind.bioMoreTextViewClickable.setOnClickListener(v -> {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(artist.getLastfm()));
+                startActivity(intent);
+            });
         });
     }
 

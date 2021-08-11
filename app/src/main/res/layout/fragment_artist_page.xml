@@ -134,7 +134,7 @@
                         android:layout_weight="1"
                         android:paddingStart="16dp"
                         android:paddingEnd="8dp"
-                        android:text="Bio" />
+                        android:text="Biography" />
 
                     <TextView
                         android:id="@+id/bio_more_text_view_clickable"
@@ -152,7 +152,8 @@
                     android:layout_height="match_parent"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    android:text="More" />
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"/>
             </LinearLayout>
 
             <!--  Label and button  -->

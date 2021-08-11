@@ -34,6 +34,7 @@ public class Artist implements Parcelable {
     public boolean favorite;
     public String bio;
     public String imageUrl;
+    public String lastfm;
 
     public Artist(ArtistID3 artistID3) {
         this.id = artistID3.getId();
@@ -67,6 +68,7 @@ public class Artist implements Parcelable {
         this.similarArtists = MappingUtil.mapSimilarArtist(artistInfo2.getSimilarArtists());
         this.bio = artistInfo2.getBiography();
         this.imageUrl = artistInfo2.getLargeImageUrl();
+        this.lastfm = artistInfo2.getLastFmUrl();
     }
 
     public Artist(String id, String name) {
@@ -168,6 +170,14 @@ public class Artist implements Parcelable {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getLastfm() {
+        return lastfm;
+    }
+
+    public void setLastfm(String lastfm) {
+        this.lastfm = lastfm;
     }
 
     @Override

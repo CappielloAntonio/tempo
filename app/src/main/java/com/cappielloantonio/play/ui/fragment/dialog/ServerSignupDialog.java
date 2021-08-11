@@ -51,7 +51,7 @@ public class ServerSignupDialog extends DialogFragment {
 
         bind = DialogServerSignupBinding.inflate(LayoutInflater.from(requireContext()));
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppTheme_Dialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppTheme_AlertDialog);
 
         builder.setView(bind.getRoot())
                 .setTitle("Add server")

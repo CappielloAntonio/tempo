@@ -32,6 +32,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.broadcast.receiver.MediaButtonIntentReceiver;
 import com.cappielloantonio.play.interfaces.Playback;
 import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
@@ -598,7 +599,10 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
 
     private void increaseSongCount() {
         SongRepository songRepository = new SongRepository(App.getInstance());
+        QueueRepository queueRepository = new QueueRepository(App.getInstance());
+
         songRepository.scrobble(getCurrentSong().getId());
+        queueRepository.setTimestamp(getCurrentSong());
     }
 
     @Override

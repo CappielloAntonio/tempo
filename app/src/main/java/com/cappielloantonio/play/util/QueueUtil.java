@@ -14,7 +14,7 @@ public class QueueUtil {
         List<Queue> queue = new ArrayList<>();
 
         for (Song song : songs) {
-            queue.add(new Queue(counter, song.getId(), song.getTitle(), song.getAlbumId(), song.getAlbumName(), song.getArtistId(), song.getArtistName(), song.getPrimary(), song.getDuration()));
+            queue.add(new Queue(counter, song.getId(), song.getTitle(), song.getAlbumId(), song.getAlbumName(), song.getArtistId(), song.getArtistName(), song.getPrimary(), song.getDuration(), 0));
             counter++;
         }
 

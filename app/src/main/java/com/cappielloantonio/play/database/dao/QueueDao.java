@@ -29,4 +29,7 @@ public interface QueueDao {
 
     @Query("SELECT COUNT(*) FROM queue")
     int count();
+
+    @Query("UPDATE queue SET last_play=:timestamp WHERE id=:id")
+    void setLastPlay(String id, long timestamp);
 }

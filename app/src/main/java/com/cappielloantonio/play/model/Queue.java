@@ -36,7 +36,10 @@ public class Queue {
     @ColumnInfo(name = "duration")
     private long duration;
 
-    public Queue(int trackOrder, String songID, String title, String albumId, String albumName, String artistId, String artistName, String primary, long duration) {
+    @ColumnInfo(name = "last_play")
+    private long lastPlay;
+
+    public Queue(int trackOrder, String songID, String title, String albumId, String albumName, String artistId, String artistName, String primary, long duration, long lastPlay) {
         this.trackOrder = trackOrder;
         this.songID = songID;
         this.title = title;
@@ -46,6 +49,7 @@ public class Queue {
         this.artistName = artistName;
         this.primary = primary;
         this.duration = duration;
+        this.lastPlay = lastPlay;
     }
 
     public int getTrackOrder() {
@@ -118,5 +122,13 @@ public class Queue {
 
     public void setDuration(long duration) {
         this.duration = duration;
+    }
+
+    public long getLastPlay() {
+        return lastPlay;
+    }
+
+    public void setLastPlay(long lastPlay) {
+        this.lastPlay = lastPlay;
     }
 }

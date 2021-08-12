@@ -14,6 +14,7 @@ import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.util.QueueUtil;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,6 +94,12 @@ public class QueueRepository {
         return count;
     }
 
+    public void setTimestamp(Song song) {
+        SetTimestampThreadSafe delete = new SetTimestampThreadSafe(queueDao, song.getId());
+        Thread thread = new Thread(delete);
+        thread.start();
+    }
+
     private static class GetSongsThreadSafe implements Runnable {
         private QueueDao queueDao;
         private List<Song> songs;
@@ -169,6 +176,21 @@ public class QueueRepository {
 
         public int getCount() {
             return count;
+        }
+    }
+
+    private static class SetTimestampThreadSafe implements Runnable {
+        private QueueDao queueDao;
+        private String songId;
+
+        public SetTimestampThreadSafe(QueueDao queueDao, String songId) {
+            this.queueDao = queueDao;
+            this.songId = songId;
+        }
+
+        @Override
+        public void run() {
+            queueDao.setLastPlay(songId, Instant.now().toEpochMilli());
         }
     }
 }

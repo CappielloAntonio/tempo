@@ -40,6 +40,21 @@ public class PlaylistClient {
         return playlistService.getPlaylist(subsonic.getParams(), id);
     }
 
+    public Call<SubsonicResponse> createPlaylist(String playlistId, String name, String songId) {
+        Log.d(TAG, "createPlaylist()");
+        return playlistService.createPlaylist(subsonic.getParams(), playlistId, name, songId);
+    }
+
+    public Call<SubsonicResponse> updatePlaylist(String playlistId, String name, boolean isPublic, String songIdToAdd, String songIndexToRemove) {
+        Log.d(TAG, "updatePlaylist()");
+        return playlistService.updatePlaylist(subsonic.getParams(), playlistId, name, isPublic, songIdToAdd, songIndexToRemove);
+    }
+
+    public Call<SubsonicResponse> deletePlaylist(String id) {
+        Log.d(TAG, "deletePlaylist()");
+        return playlistService.deletePlaylist(subsonic.getParams(), id);
+    }
+
     private OkHttpClient getOkHttpClient() {
         return new OkHttpClient.Builder()
                 .addInterceptor(getHttpLoggingInterceptor())

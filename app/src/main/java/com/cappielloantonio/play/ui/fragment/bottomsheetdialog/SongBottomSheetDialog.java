@@ -25,6 +25,8 @@ import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.ui.fragment.dialog.PlaylistChooserDialog;
+import com.cappielloantonio.play.ui.fragment.dialog.ServerSignupDialog;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.SongBottomSheetViewModel;
@@ -49,6 +51,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
     private TextView playNext;
     private TextView addToQueue;
     private TextView download;
+    private TextView addToPlaylist;
     private TextView goToAlbum;
     private TextView goToArtist;
 
@@ -136,6 +139,18 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         download = view.findViewById(R.id.download_text_view);
         download.setOnClickListener(v -> {
             DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(Arrays.asList(song));
+            dismissBottomSheet();
+        });
+
+        addToPlaylist = view.findViewById(R.id.add_to_playlist_text_view);
+        addToPlaylist.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("song_object", song);
+
+            PlaylistChooserDialog dialog = new PlaylistChooserDialog();
+            dialog.setArguments(bundle);
+            dialog.show(requireActivity().getSupportFragmentManager(), null);
+
             dismissBottomSheet();
         });
 

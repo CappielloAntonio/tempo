@@ -1,0 +1,71 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clipChildren="false"
+    android:orientation="horizontal"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp">
+
+    <TextView
+        android:id="@+id/playlist_dialog_title_text_view"
+        style="@style/ItemTitleTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:paddingStart="12dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="12dp"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="@string/label_placeholder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingEnd="12dp"
+        android:paddingBottom="8dp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playlist_dialog_title_text_view">
+
+        <TextView
+            android:id="@+id/playlist_dialog_count_text_view"
+            style="@style/ItemSubtitleTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingStart="12dp"
+            android:paddingEnd="4dp"
+            android:text="@string/label_placeholder" />
+
+        <TextView
+            android:id="@+id/queue_separator_text_view"
+            style="@style/ItemSubtitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_dot_separator" />
+
+        <TextView
+            android:id="@+id/playlist_dialog_duration_text_view"
+            style="@style/ItemSubtitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:paddingStart="4dp"
+            android:paddingEnd="12dp"
+            android:text="@string/label_placeholder" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

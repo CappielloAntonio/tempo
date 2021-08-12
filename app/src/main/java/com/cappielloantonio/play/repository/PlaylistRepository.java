@@ -77,4 +77,42 @@ public class PlaylistRepository {
 
         return listLivePlaylistSongs;
     }
+
+    public void addSongToPlaylist(String playlistId, String songId) {
+        App.getSubsonicClientInstance(application, false)
+                .getPlaylistClient()
+                .updatePlaylist(playlistId, null, true, songId, null)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+    }
+
+    public void createPlaylist(String name, String songId) {
+        App.getSubsonicClientInstance(application, false)
+                .getPlaylistClient()
+                .createPlaylist(null, name, songId)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+    }
 }

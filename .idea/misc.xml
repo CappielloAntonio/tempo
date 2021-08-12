@@ -20,10 +20,12 @@
         <entry key="app/src/main/res/drawable/ic_star.xml" value="0.2722222222222222" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/bottom_sheet_song_dialog.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/layout/dialog_playlist_chooser.xml" value="0.3229166666666667" />
+        <entry key="app/src/main/res/layout/dialog_playlist_creator.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/dialog_rating.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/dialog_server_signup.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/fragment_album_catalogue.xml" value="0.3229166666666667" />
-        <entry key="app/src/main/res/layout/fragment_album_page.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_album_page.xml" value="0.8" />
         <entry key="app/src/main/res/layout/fragment_artist_page.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.2212962962962963" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.3166496424923391" />
@@ -31,11 +33,13 @@
         <entry key="app/src/main/res/layout/fragment_playlist_page.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_home_discover_song.xml" value="0.3166496424923391" />
         <entry key="app/src/main/res/layout/item_horizontal_album.xml" value="0.3166496424923391" />
+        <entry key="app/src/main/res/layout/item_horizontal_playlist.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_horizontal_track.xml" value="4.0" />
         <entry key="app/src/main/res/layout/item_library_album.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_login_server.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_player_now_playing_song.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_player_queue_song.xml" value="0.3229166666666667" />
+        <entry key="app/src/main/res/layout/player_body_bottom_sheet.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/menu/login_page_menu.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/menu/toolbar_menu.xml" value="0.3229166666666667" />
       </map>

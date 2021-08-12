@@ -17,6 +17,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.ui.fragment.dialog.PlaylistEditorDialog;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView textPlaylistName;
         TextView textPlaylistSongCount;
         ImageView cover;
@@ -83,6 +84,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             cover = itemView.findViewById(R.id.playlist_cover_image_view);
 
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
@@ -90,7 +92,18 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             Bundle bundle = new Bundle();
             bundle.putParcelable("playlist_object", playlists.get(getBindingAdapterPosition()));
             Navigation.findNavController(view).navigate(R.id.action_libraryFragment_to_playlistPageFragment, bundle);
+        }
 
+        @Override
+        public boolean onLongClick(View view) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("playlist_object", playlists.get(getBindingAdapterPosition()));
+
+            PlaylistEditorDialog dialog = new PlaylistEditorDialog();
+            dialog.setArguments(bundle);
+            dialog.show(activity.getSupportFragmentManager(), null);
+
+            return true;
         }
     }
 }

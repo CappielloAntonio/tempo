@@ -19,7 +19,10 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.ui.fragment.dialog.PlaylistChooserDialog;
+import com.cappielloantonio.play.ui.fragment.dialog.PlaylistEditorDialog;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
@@ -108,7 +111,7 @@ public class PlaylistCatalogueAdapter extends RecyclerView.Adapter<PlaylistCatal
         return filtering;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView textPlaylistName;
         ImageView cover;
 
@@ -119,6 +122,7 @@ public class PlaylistCatalogueAdapter extends RecyclerView.Adapter<PlaylistCatal
             cover = itemView.findViewById(R.id.playlist_cover_image_view);
 
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
@@ -129,6 +133,18 @@ public class PlaylistCatalogueAdapter extends RecyclerView.Adapter<PlaylistCatal
 
             InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("playlist_object", playlists.get(getBindingAdapterPosition()));
+
+            PlaylistEditorDialog dialog = new PlaylistEditorDialog();
+            dialog.setArguments(bundle);
+            dialog.show(activity.getSupportFragmentManager(), null);
+
+            return true;
         }
     }
 }

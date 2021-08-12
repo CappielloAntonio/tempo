@@ -6,6 +6,8 @@ import com.cappielloantonio.play.subsonic.Subsonic;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory;
 
+import java.util.ArrayList;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -40,12 +42,12 @@ public class PlaylistClient {
         return playlistService.getPlaylist(subsonic.getParams(), id);
     }
 
-    public Call<SubsonicResponse> createPlaylist(String playlistId, String name, String songId) {
+    public Call<SubsonicResponse> createPlaylist(String playlistId, String name, ArrayList<String> songsId) {
         Log.d(TAG, "createPlaylist()");
-        return playlistService.createPlaylist(subsonic.getParams(), playlistId, name, songId);
+        return playlistService.createPlaylist(subsonic.getParams(), playlistId, name, songsId);
     }
 
-    public Call<SubsonicResponse> updatePlaylist(String playlistId, String name, boolean isPublic, String songIdToAdd, String songIndexToRemove) {
+    public Call<SubsonicResponse> updatePlaylist(String playlistId, String name, boolean isPublic, ArrayList<String> songIdToAdd, ArrayList<Integer> songIndexToRemove) {
         Log.d(TAG, "updatePlaylist()");
         return playlistService.updatePlaylist(subsonic.getParams(), playlistId, name, isPublic, songIdToAdd, songIndexToRemove);
     }

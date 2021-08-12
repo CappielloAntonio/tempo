@@ -78,10 +78,10 @@ public class PlaylistRepository {
         return listLivePlaylistSongs;
     }
 
-    public void addSongToPlaylist(String playlistId, String songId) {
+    public void addSongToPlaylist(String playlistId, ArrayList<String> songsId) {
         App.getSubsonicClientInstance(application, false)
                 .getPlaylistClient()
-                .updatePlaylist(playlistId, null, true, songId, null)
+                .updatePlaylist(playlistId, null, true, songsId, null)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
@@ -97,10 +97,48 @@ public class PlaylistRepository {
                 });
     }
 
-    public void createPlaylist(String name, String songId) {
+    public void createPlaylist(String playlistId, String name, ArrayList<String> songsId) {
         App.getSubsonicClientInstance(application, false)
                 .getPlaylistClient()
-                .createPlaylist(null, name, songId)
+                .createPlaylist(playlistId, name, songsId)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+    }
+
+    public void updatePlaylist(String playlistId, String name, boolean isPublic, ArrayList<String> songIdToAdd, ArrayList<Integer> songIndexToRemove) {
+        App.getSubsonicClientInstance(application, false)
+                .getPlaylistClient()
+                .updatePlaylist(playlistId, name, isPublic, songIdToAdd, songIndexToRemove)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+    }
+
+    public void deletePlaylist(String playlistId) {
+        App.getSubsonicClientInstance(application, false)
+                .getPlaylistClient()
+                .deletePlaylist(playlistId)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {

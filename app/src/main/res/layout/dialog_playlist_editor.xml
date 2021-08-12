@@ -25,6 +25,15 @@
             android:hint="Playlist Name"
             android:inputType="textNoSuggestions"
             android:textCursorDrawable="@null" />
-
     </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/playlist_song_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:nestedScrollingEnabled="false"
+        android:paddingStart="8dp"
+        android:layout_marginTop="12dp"
+        android:paddingEnd="12dp" />
 </LinearLayout>

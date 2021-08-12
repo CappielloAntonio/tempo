@@ -31,12 +31,9 @@ public class PlaylistCatalogueViewModel extends AndroidViewModel {
         super(application);
 
         playlistRepository = new PlaylistRepository(application);
-
-        playlists = playlistRepository.getPlaylists(false, -1);
     }
 
     public LiveData<List<Playlist>> getPlaylistList() {
-        return playlists;
+        return playlistRepository.getPlaylists(false, -1);
     }
-
 }

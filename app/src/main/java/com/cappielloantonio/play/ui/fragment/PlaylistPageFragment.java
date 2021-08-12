@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
@@ -25,6 +26,7 @@ import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.DownloadUtil;
+import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlaylistPageViewModel;
 
 import java.util.Collections;
@@ -59,8 +61,8 @@ public class PlaylistPageFragment extends Fragment {
 
         init();
         initAppBar();
-        initBackCover();
         initMusicButton();
+        initBackCover();
         initSongsView();
 
         return view;
@@ -97,20 +99,19 @@ public class PlaylistPageFragment extends Fragment {
 
     private void initAppBar() {
         activity.setSupportActionBar(bind.animToolbar);
-        if (activity.getSupportActionBar() != null)
+
+        if (activity.getSupportActionBar() != null) {
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
-        bind.collapsingToolbar.setTitle(playlistPageViewModel.getPlaylist().getName());
+        bind.animToolbar.setTitle(MusicUtil.getReadableString(playlistPageViewModel.getPlaylist().getName()));
+
+        bind.playlistNameLabel.setText(playlistPageViewModel.getPlaylist().getName());
+        bind.playlistSongCountLabel.setText("Song count: " + playlistPageViewModel.getPlaylist().getSongCount());
+        bind.playlistDurationLabel.setText("Playlist duration: " + MusicUtil.getReadableDurationString(playlistPageViewModel.getPlaylist().getDuration(), false));
+
         bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
-        bind.collapsingToolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.titleTextColor, null));
-
-        bind.appbar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
-            if ((bind.collapsingToolbar.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.collapsingToolbar))) {
-                bind.animToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.titleTextColor, null), PorterDuff.Mode.SRC_ATOP);
-            } else {
-                bind.animToolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white, null), PorterDuff.Mode.SRC_ATOP);
-            }
-        });
     }
 
     private void initMusicButton() {
@@ -143,17 +144,19 @@ public class PlaylistPageFragment extends Fragment {
 
     private void initBackCover() {
         CustomGlideRequest.Builder
-                .from(requireContext(), playlistPageViewModel.getPlaylist().getPrimary(), CustomGlideRequest.ALBUM_PIC, null)
+                .from(requireContext(), playlistPageViewModel.getPlaylist().getPrimary(), CustomGlideRequest.PLAYLIST_PIC, null)
                 .build()
-                .into(bind.albumBackCoverImageView);
+                .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
+                .into(bind.playlistCoverImageView);
     }
 
     private void initSongsView() {
-        bind.playlistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        bind.playlistRecyclerView.setHasFixedSize(true);
+        bind.songRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        bind.songRecyclerView.setHasFixedSize(true);
 
         songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
-        bind.playlistRecyclerView.setAdapter(songHorizontalAdapter);
+        bind.songRecyclerView.setAdapter(songHorizontalAdapter);
+
         playlistPageViewModel.getPlaylistSongLiveList().observe(requireActivity(), songs -> {
             songHorizontalAdapter.setItems(songs);
         });

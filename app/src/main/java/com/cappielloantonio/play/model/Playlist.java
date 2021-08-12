@@ -4,12 +4,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Playlist implements Parcelable {
-    public String id;
-    public String name;
-    public String primary;
-    public String blurHash;
-    public int songCount;
-    public int duration;
+    private String id;
+    private String name;
+    private String primary;
+    private String blurHash;
+    private int songCount;
+    private long duration;
 
     public Playlist(com.cappielloantonio.play.subsonic.models.Playlist playlist) {
         this.id = playlist.getId();
@@ -40,7 +40,7 @@ public class Playlist implements Parcelable {
         return songCount;
     }
 
-    public int getDuration() {
+    public long getDuration() {
         return duration;
     }
 

@@ -6,10 +6,10 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class Genre implements Parcelable {
-    public String id;
-    public String name;
-    public int songCount;
-    public int albumCount;
+    private String id;
+    private String name;
+    private int songCount;
+    private int albumCount;
 
     public Genre(com.cappielloantonio.play.subsonic.models.Genre genre) {
         this.id = genre.getGenre();

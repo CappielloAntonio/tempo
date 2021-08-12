@@ -20,16 +20,16 @@ public class Album implements Parcelable {
     public static final String RECENTLY_ADDED = "RECENTLY_ADDED";
     public static final String STARRED = "STARRED";
 
-    public String id;
-    public String title;
-    public int year;
-    public String artistId;
-    public String artistName;
-    public String primary;
-    public String blurHash;
-    public boolean favorite;
-    public List<Song> songs;
-    public String notes;
+    private String id;
+    private String title;
+    private int year;
+    private String artistId;
+    private String artistName;
+    private String primary;
+    private String blurHash;
+    private boolean favorite;
+    private List<Song> songs;
+    private String notes;
 
     public Album(AlbumID3 albumID3) {
         this.id = albumID3.getId();

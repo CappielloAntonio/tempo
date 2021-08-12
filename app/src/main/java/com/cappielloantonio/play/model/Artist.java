@@ -19,22 +19,22 @@ public class Artist implements Parcelable {
 
     public static final String STARRED = "STARRED";
 
-    public List<Genre> genres;
-    public List<Album> albums;
-    public List<Song> songs;
-    public List<Artist> similarArtists;
+    private List<Genre> genres;
+    private List<Album> albums;
+    private List<Song> songs;
+    private List<Artist> similarArtists;
 
-    public String id;
-    public String name;
-    public String primary;
-    public String primaryBlurHash;
-    public String backdrop;
-    public String backdropBlurHash;
-    public int albumCount;
-    public boolean favorite;
-    public String bio;
-    public String imageUrl;
-    public String lastfm;
+    private String id;
+    private String name;
+    private String primary;
+    private String primaryBlurHash;
+    private String backdrop;
+    private String backdropBlurHash;
+    private int albumCount;
+    private boolean favorite;
+    private String bio;
+    private String imageUrl;
+    private String lastfm;
 
     public Artist(ArtistID3 artistID3) {
         this.id = artistID3.getId();

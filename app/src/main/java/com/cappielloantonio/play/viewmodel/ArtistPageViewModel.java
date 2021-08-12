@@ -39,7 +39,7 @@ public class ArtistPageViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Album>> getAlbumList() {
-        albumList = albumRepository.getArtistAlbums(artist.id);
+        albumList = albumRepository.getArtistAlbums(artist.getId());
         return albumList;
     }
 

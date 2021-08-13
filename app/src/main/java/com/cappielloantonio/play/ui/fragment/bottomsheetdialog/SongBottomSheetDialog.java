@@ -51,6 +51,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
     private TextView playRadio;
     private TextView playNext;
     private TextView addToQueue;
+    private TextView rate;
     private TextView download;
     private TextView addToPlaylist;
     private TextView goToAlbum;
@@ -145,6 +146,18 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         addToQueue.setOnClickListener(v -> {
             MusicPlayerRemote.enqueue(song);
             ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
+            dismissBottomSheet();
+        });
+
+        rate = view.findViewById(R.id.rate_text_view);
+        rate.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("song_object", song);
+
+            RatingDialog dialog = new RatingDialog();
+            dialog.setArguments(bundle);
+            dialog.show(requireActivity().getSupportFragmentManager(), null);
+
             dismissBottomSheet();
         });
 

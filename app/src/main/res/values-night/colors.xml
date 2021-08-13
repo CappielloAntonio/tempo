@@ -31,5 +31,8 @@
     <color name="chipBorderColor">#707070</color>
     <color name="chipSelectedBackgroundColor">#606060</color>
     <color name="chipUnelectedBackgroundColor">#1D1D1D</color>
+
+    <color name="startTintColor">#733ae6</color>
+    <color name="startBackgroundTintColor">#1D1D1D</color>
 </resources>
 

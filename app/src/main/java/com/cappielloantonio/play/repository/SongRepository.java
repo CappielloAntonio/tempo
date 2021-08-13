@@ -230,4 +230,27 @@ public class SongRepository {
 
         return songsByGenre;
     }
+
+    public MutableLiveData<Song> getSong(String id) {
+        MutableLiveData<Song> song = new MutableLiveData<>();
+
+        App.getSubsonicClientInstance(application, false)
+                .getBrowsingClient()
+                .getSong(id)
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            song.setValue(MappingUtil.mapSong(response.body().getSong()));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+
+                    }
+                });
+
+        return song;
+    }
 }

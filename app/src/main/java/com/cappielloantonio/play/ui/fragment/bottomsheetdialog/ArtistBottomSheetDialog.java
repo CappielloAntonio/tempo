@@ -25,6 +25,7 @@ import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.ui.fragment.dialog.RatingDialog;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.ArtistBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -81,6 +82,17 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
         favoriteToggle.setOnClickListener(v -> {
             artistBottomSheetViewModel.setFavorite();
             dismissBottomSheet();
+        });
+        favoriteToggle.setOnLongClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("artist_object", artist);
+
+            RatingDialog dialog = new RatingDialog();
+            dialog.setArguments(bundle);
+            dialog.show(requireActivity().getSupportFragmentManager(), null);
+
+            dismissBottomSheet();
+            return true;
         });
 
         playRadio = view.findViewById(R.id.play_radio_text_view);

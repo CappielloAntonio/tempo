@@ -26,6 +26,7 @@ import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.fragment.dialog.PlaylistChooserDialog;
+import com.cappielloantonio.play.ui.fragment.dialog.RatingDialog;
 import com.cappielloantonio.play.ui.fragment.dialog.ServerSignupDialog;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MusicUtil;
@@ -92,6 +93,17 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         favoriteToggle.setOnClickListener(v -> {
             songBottomSheetViewModel.setFavorite();
             dismissBottomSheet();
+        });
+        favoriteToggle.setOnLongClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("song_object", song);
+
+            RatingDialog dialog = new RatingDialog();
+            dialog.setArguments(bundle);
+            dialog.show(requireActivity().getSupportFragmentManager(), null);
+
+            dismissBottomSheet();
+            return true;
         });
 
         playRadio = view.findViewById(R.id.play_radio_text_view);

@@ -37,4 +37,6 @@
 
     <color name="white">#FFFFFF</color>
 
+    <color name="startTintColor">#3700B3</color>
+    <color name="startBackgroundTintColor">#f0f0f0</color>
 </resources>

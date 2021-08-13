@@ -35,6 +35,11 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         return queueSong;
     }
 
+    public Song getCurrentSong() {
+        return MusicPlayerRemote.getCurrentSong();
+    }
+
+
     public void setFavorite() {
         Song song = MusicPlayerRemote.getCurrentSong();
 

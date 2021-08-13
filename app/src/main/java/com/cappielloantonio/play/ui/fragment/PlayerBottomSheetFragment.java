@@ -29,6 +29,7 @@ import com.cappielloantonio.play.interfaces.MusicServiceEventListener;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.ui.fragment.dialog.RatingDialog;
 import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
@@ -212,6 +213,16 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
     private void initFavoriteButtonClick() {
         bind.playerBodyLayout.buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite());
+        bind.playerBodyLayout.buttonFavorite.setOnLongClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("song_object", playerBottomSheetViewModel.getCurrentSong());
+
+            RatingDialog dialog = new RatingDialog();
+            dialog.setArguments(bundle);
+            dialog.show(requireActivity().getSupportFragmentManager(), null);
+
+            return true;
+        });
     }
 
     private void initMusicCommandButton() {

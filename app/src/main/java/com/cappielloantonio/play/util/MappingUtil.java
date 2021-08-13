@@ -30,6 +30,10 @@ public class MappingUtil {
         return songs;
     }
 
+    public static Song mapSong(Child child) {
+        return new Song(child);
+    }
+
     public static ArrayList<Album> mapAlbum(List<AlbumID3> albumID3List) {
         ArrayList<Album> albums = new ArrayList();
 

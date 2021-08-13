@@ -42,6 +42,7 @@ public class Song implements Parcelable {
     private long added;
     private int playCount;
     private long lastPlay;
+    private int rating;
 
     public Song() {
         this.id = UUID.randomUUID().toString();
@@ -67,6 +68,7 @@ public class Song implements Parcelable {
         this.added = child.getCreated().getTime();
         this.playCount = 0;
         this.lastPlay = 0;
+        this.rating = child.getUserRating() != null ? child.getUserRating() : 0;
     }
 
     public Song(Queue queue) {
@@ -251,14 +253,22 @@ public class Song implements Parcelable {
         this.playCount = playCount;
     }
 
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
     /*
-        Log.i(TAG, "increasePlayCount: " + isIncreased);
-     * Incremento il numero di ascolti solo se ho ascoltato la canzone da più tempo di:
-     * tempo dell'ultimo ascolto - (durata_canzone / 2)
-     * Ritorno un booleano
-     * Se vero, allora SongRepository scriverà nd DB l'incremento dell'ascolto
-     * Se falso, SongRepository non scriverà nulla nel db
-     */
+            Log.i(TAG, "increasePlayCount: " + isIncreased);
+         * Incremento il numero di ascolti solo se ho ascoltato la canzone da più tempo di:
+         * tempo dell'ultimo ascolto - (durata_canzone / 2)
+         * Ritorno un booleano
+         * Se vero, allora SongRepository scriverà nd DB l'incremento dell'ascolto
+         * Se falso, SongRepository non scriverà nulla nel db
+         */
     public boolean nowPlaying() {
         long startPlayTime = Instant.now().toEpochMilli();
 

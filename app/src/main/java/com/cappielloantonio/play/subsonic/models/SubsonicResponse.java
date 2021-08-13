@@ -56,6 +56,7 @@ public class SubsonicResponse {
     private NowPlaying nowPlaying;
     private VideoInfo videoInfo;
     private Videos videos;
+    @Element(name = "song")
     private Child song;
     @Element(name = "album")
     private AlbumWithSongsID3 album;

@@ -107,7 +107,7 @@ public class PlaylistPageFragment extends Fragment {
 
         bind.animToolbar.setTitle(MusicUtil.getReadableString(playlistPageViewModel.getPlaylist().getName()));
 
-        bind.playlistNameLabel.setText(playlistPageViewModel.getPlaylist().getName());
+        bind.playlistNameLabel.setText(MusicUtil.getReadableString(playlistPageViewModel.getPlaylist().getName()));
         bind.playlistSongCountLabel.setText("Song count: " + playlistPageViewModel.getPlaylist().getSongCount());
         bind.playlistDurationLabel.setText("Playlist duration: " + MusicUtil.getReadableDurationString(playlistPageViewModel.getPlaylist().getDuration(), false));
 

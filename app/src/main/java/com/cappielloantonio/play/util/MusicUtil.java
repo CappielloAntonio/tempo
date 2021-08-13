@@ -67,6 +67,7 @@ public class MusicUtil {
             return getReadableString(string)
                     .replaceAll("&#34;", "\"")
                     .replaceAll("&#39;", "'")
+                    .replaceAll("&amp;", "'")
                     .replaceAll("<a[\\s]+([^>]+)>((?:.(?!</a>))*.)</a>", "");
         }
 

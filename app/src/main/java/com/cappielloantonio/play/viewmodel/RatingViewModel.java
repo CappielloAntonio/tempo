@@ -72,18 +72,6 @@ public class RatingViewModel extends AndroidViewModel {
         this.artist = artist;
     }
 
-    public int getItemRating() {
-        if (song != null) {
-            return song.getRating();
-        } else if (album != null) {
-            return 0;
-        } else if (artist != null) {
-            return 0;
-        } else {
-            return 0;
-        }
-    }
-
     public void rate(int star) {
         if (song != null) {
             songRepository.setRating(song.getId(), star);

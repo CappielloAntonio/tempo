@@ -94,17 +94,6 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
             albumBottomSheetViewModel.setFavorite();
             dismissBottomSheet();
         });
-        favoriteToggle.setOnLongClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("album_object", album);
-
-            RatingDialog dialog = new RatingDialog();
-            dialog.setArguments(bundle);
-            dialog.show(requireActivity().getSupportFragmentManager(), null);
-
-            dismissBottomSheet();
-            return true;
-        });
 
         playRadio = view.findViewById(R.id.play_radio_text_view);
         playRadio.setOnClickListener(v -> {

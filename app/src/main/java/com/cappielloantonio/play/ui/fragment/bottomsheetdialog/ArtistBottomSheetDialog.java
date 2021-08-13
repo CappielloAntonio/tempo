@@ -83,17 +83,6 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
             artistBottomSheetViewModel.setFavorite();
             dismissBottomSheet();
         });
-        favoriteToggle.setOnLongClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("artist_object", artist);
-
-            RatingDialog dialog = new RatingDialog();
-            dialog.setArguments(bundle);
-            dialog.show(requireActivity().getSupportFragmentManager(), null);
-
-            dismissBottomSheet();
-            return true;
-        });
 
         playRadio = view.findViewById(R.id.play_radio_text_view);
         playRadio.setOnClickListener(v -> {

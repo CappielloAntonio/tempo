@@ -33,8 +33,6 @@ public class SongListPageViewModel extends AndroidViewModel {
 
     public int year = 0;
 
-    private MutableLiveData<List<Song>> songList;
-
     public SongListPageViewModel(@NonNull Application application) {
         super(application);
 
@@ -44,7 +42,7 @@ public class SongListPageViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Song>> getSongList() {
-        songList = new MutableLiveData<>(new ArrayList<>());
+        MutableLiveData<List<Song>> songList = new MutableLiveData<>(new ArrayList<>());
 
         switch (title) {
             case Song.RECENTLY_PLAYED:

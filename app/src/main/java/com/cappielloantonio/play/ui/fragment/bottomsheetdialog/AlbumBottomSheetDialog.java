@@ -44,18 +44,6 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
     private AlbumBottomSheetViewModel albumBottomSheetViewModel;
     private Album album;
 
-    private ImageView coverAlbum;
-    private TextView titleAlbum;
-    private TextView artistAlbum;
-    private ToggleButton favoriteToggle;
-
-    private TextView playRadio;
-    private TextView playRandom;
-    private TextView playNext;
-    private TextView addToQueue;
-    private TextView Download;
-    private TextView goToArtist;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,28 +62,28 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
     private void init(View view) {
         activity = (MainActivity) requireActivity();
 
-        coverAlbum = view.findViewById(R.id.album_cover_image_view);
+        ImageView coverAlbum = view.findViewById(R.id.album_cover_image_view);
         CustomGlideRequest.Builder
                 .from(requireContext(), albumBottomSheetViewModel.getAlbum().getPrimary(), CustomGlideRequest.ALBUM_PIC, null)
                 .build()
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(coverAlbum);
 
-        titleAlbum = view.findViewById(R.id.album_title_text_view);
+        TextView titleAlbum = view.findViewById(R.id.album_title_text_view);
         titleAlbum.setText(MusicUtil.getReadableString(albumBottomSheetViewModel.getAlbum().getTitle()));
         titleAlbum.setSelected(true);
 
-        artistAlbum = view.findViewById(R.id.album_artist_text_view);
+        TextView artistAlbum = view.findViewById(R.id.album_artist_text_view);
         artistAlbum.setText(MusicUtil.getReadableString(albumBottomSheetViewModel.getAlbum().getArtistName()));
 
-        favoriteToggle = view.findViewById(R.id.button_favorite);
+        ToggleButton favoriteToggle = view.findViewById(R.id.button_favorite);
         favoriteToggle.setChecked(albumBottomSheetViewModel.getAlbum().isFavorite());
         favoriteToggle.setOnClickListener(v -> {
             albumBottomSheetViewModel.setFavorite();
             dismissBottomSheet();
         });
 
-        playRadio = view.findViewById(R.id.play_radio_text_view);
+        TextView playRadio = view.findViewById(R.id.play_radio_text_view);
         playRadio.setOnClickListener(v -> {
             AlbumRepository albumRepository = new AlbumRepository(App.getInstance());
             albumRepository.getInstantMix(album, 20, new MediaCallback() {
@@ -125,7 +113,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
             });
         });
 
-        playRandom = view.findViewById(R.id.play_random_text_view);
+        TextView playRandom = view.findViewById(R.id.play_random_text_view);
         playRandom.setOnClickListener(v -> {
             AlbumRepository albumRepository = new AlbumRepository(App.getInstance());
             albumRepository.getAlbumTracks(album.getId()).observe(requireActivity(), songs -> {
@@ -141,7 +129,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
             });
         });
 
-        playNext = view.findViewById(R.id.play_next_text_view);
+        TextView playNext = view.findViewById(R.id.play_next_text_view);
         playNext.setOnClickListener(v -> {
             albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
                 MusicPlayerRemote.playNext(songs);
@@ -150,7 +138,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
             });
         });
 
-        addToQueue = view.findViewById(R.id.add_to_queue_text_view);
+        TextView addToQueue = view.findViewById(R.id.add_to_queue_text_view);
         addToQueue.setOnClickListener(v -> {
             albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
                 MusicPlayerRemote.enqueue(songs);
@@ -158,15 +146,15 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
             });
         });
 
-        Download = view.findViewById(R.id.download_text_view);
-        Download.setOnClickListener(v -> {
+        TextView download = view.findViewById(R.id.download_text_view);
+        download.setOnClickListener(v -> {
             albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
                 DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(songs);
                 dismissBottomSheet();
             });
         });
 
-        goToArtist = view.findViewById(R.id.go_to_artist_text_view);
+        TextView goToArtist = view.findViewById(R.id.go_to_artist_text_view);
         goToArtist.setOnClickListener(v -> {
             albumBottomSheetViewModel.getArtist().observe(requireActivity(), artist -> {
                 if (artist != null) {

@@ -22,7 +22,6 @@ public class QueueRepository {
     private static final String TAG = "QueueRepository";
 
     private QueueDao queueDao;
-    private LiveData<List<Queue>> listLiveQueue;
 
     public QueueRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
@@ -30,8 +29,7 @@ public class QueueRepository {
     }
 
     public LiveData<List<Queue>> getLiveQueue() {
-        listLiveQueue = queueDao.getAll();
-        return listLiveQueue;
+        return queueDao.getAll();
     }
 
     public List<Song> getSongs() {

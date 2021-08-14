@@ -19,7 +19,6 @@ public class DownloadRepository {
 
     private DownloadDao downloadDao;
     private MutableLiveData<List<Download>> listLiveDownload = new MutableLiveData<>(new ArrayList<>());
-    private LiveData<List<Download>> listLiveDownloadSample;
 
     public DownloadRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
@@ -62,8 +61,7 @@ public class DownloadRepository {
     }
 
     public LiveData<List<Download>> getLiveDownloadSample(int size) {
-        listLiveDownloadSample = downloadDao.getSample(size, PreferenceUtil.getInstance(App.getInstance()).getServerId());
-        return listLiveDownloadSample;
+        return downloadDao.getSample(size, PreferenceUtil.getInstance(App.getInstance()).getServerId());
     }
 
     public void insert(Download download) {

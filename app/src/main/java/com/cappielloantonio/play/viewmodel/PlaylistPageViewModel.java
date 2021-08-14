@@ -15,8 +15,6 @@ import java.util.List;
 public class PlaylistPageViewModel extends AndroidViewModel {
     private PlaylistRepository playlistRepository;
 
-    private MutableLiveData<List<Song>> songLiveList = new MutableLiveData<>();
-
     private Playlist playlist;
 
     public PlaylistPageViewModel(@NonNull Application application) {
@@ -26,8 +24,7 @@ public class PlaylistPageViewModel extends AndroidViewModel {
     }
 
     public MutableLiveData<List<Song>> getPlaylistSongLiveList() {
-        songLiveList = playlistRepository.getPlaylistSongs(playlist.getId());
-        return songLiveList;
+        return playlistRepository.getPlaylistSongs(playlist.getId());
     }
 
     public Playlist getPlaylist() {

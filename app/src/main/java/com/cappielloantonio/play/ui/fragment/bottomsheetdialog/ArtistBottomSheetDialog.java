@@ -41,13 +41,6 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
     private ArtistBottomSheetViewModel artistBottomSheetViewModel;
     private Artist artist;
 
-    private ImageView coverArtist;
-    private TextView nameArtist;
-    private ToggleButton favoriteToggle;
-
-    private TextView playRadio;
-    private TextView playRandom;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,25 +59,25 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
     private void init(View view) {
         activity = (MainActivity) requireActivity();
 
-        coverArtist = view.findViewById(R.id.artist_cover_image_view);
+        ImageView coverArtist = view.findViewById(R.id.artist_cover_image_view);
         CustomGlideRequest.Builder
                 .from(requireContext(), artistBottomSheetViewModel.getArtist().getPrimary(), CustomGlideRequest.ARTIST_PIC, null)
                 .build()
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(coverArtist);
 
-        nameArtist = view.findViewById(R.id.song_title_text_view);
+        TextView nameArtist = view.findViewById(R.id.song_title_text_view);
         nameArtist.setText(MusicUtil.getReadableString(artistBottomSheetViewModel.getArtist().getName()));
         nameArtist.setSelected(true);
 
-        favoriteToggle = view.findViewById(R.id.button_favorite);
+        ToggleButton favoriteToggle = view.findViewById(R.id.button_favorite);
         favoriteToggle.setChecked(artistBottomSheetViewModel.getArtist().isFavorite());
         favoriteToggle.setOnClickListener(v -> {
             artistBottomSheetViewModel.setFavorite();
             dismissBottomSheet();
         });
 
-        playRadio = view.findViewById(R.id.play_radio_text_view);
+        TextView playRadio = view.findViewById(R.id.play_radio_text_view);
         playRadio.setOnClickListener(v -> {
             ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
             artistRepository.getInstantMix(artist, 20, new MediaCallback() {
@@ -114,7 +107,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
             });
         });
 
-        playRandom = view.findViewById(R.id.play_random_text_view);
+        TextView playRandom = view.findViewById(R.id.play_random_text_view);
         playRandom.setOnClickListener(v -> {
             ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
             artistRepository.getArtistRandomSong(requireActivity(), artist, 20).observe(requireActivity(), songs -> {

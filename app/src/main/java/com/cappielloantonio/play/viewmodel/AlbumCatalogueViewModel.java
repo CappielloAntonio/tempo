@@ -26,14 +26,10 @@ import retrofit2.Callback;
 public class AlbumCatalogueViewModel extends AndroidViewModel {
     private MutableLiveData<List<Album>> albumList = new MutableLiveData<>(new ArrayList<>());
 
-    private AlbumRepository albumRepository;
-    private String query = "";
     private int page = 0;
 
     public AlbumCatalogueViewModel(@NonNull Application application) {
         super(application);
-
-        albumRepository = new AlbumRepository(application);
     }
 
     public LiveData<List<Album>> getAlbumList() {

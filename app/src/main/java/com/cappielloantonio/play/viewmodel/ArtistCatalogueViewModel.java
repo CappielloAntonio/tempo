@@ -26,13 +26,8 @@ import retrofit2.Callback;
 public class ArtistCatalogueViewModel extends AndroidViewModel {
     private MutableLiveData<List<Artist>> artistList = new MutableLiveData<>(new ArrayList<>());
 
-    private ArtistRepository artistRepository;
-    private String query = "";
-
     public ArtistCatalogueViewModel(@NonNull Application application) {
         super(application);
-
-        artistRepository = new ArtistRepository(application);
     }
 
     public LiveData<List<Artist>> getArtistList() {

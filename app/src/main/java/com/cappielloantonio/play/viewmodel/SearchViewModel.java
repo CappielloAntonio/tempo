@@ -26,24 +26,15 @@ public class SearchViewModel extends AndroidViewModel {
 
     private String query = "";
 
-    private SongRepository songRepository;
-    private AlbumRepository albumRepository;
-    private ArtistRepository artistRepository;
-    private GenreRepository genreRepository;
     private SearchingRepository searchingRepository;
 
     private LiveData<List<Song>> searchSong = new MutableLiveData<>(new ArrayList<>());
     private LiveData<List<Album>> searchAlbum = new MutableLiveData<>(new ArrayList<>());
     private LiveData<List<Artist>> searchArtist = new MutableLiveData<>(new ArrayList<>());
-    private LiveData<List<Genre>> searchGenre = new MutableLiveData<>(new ArrayList<>());
 
     public SearchViewModel(@NonNull Application application) {
         super(application);
 
-        songRepository = new SongRepository(application);
-        albumRepository = new AlbumRepository(application);
-        artistRepository = new ArtistRepository(application);
-        genreRepository = new GenreRepository(application);
         searchingRepository = new SearchingRepository(application);
     }
 

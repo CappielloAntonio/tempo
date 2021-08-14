@@ -11,7 +11,6 @@ import com.cappielloantonio.play.repository.ArtistRepository;
 
 public class ArtistBottomSheetViewModel extends AndroidViewModel {
     private AlbumRepository albumRepository;
-    private ArtistRepository artistRepository;
 
     private Artist artist;
 
@@ -19,7 +18,6 @@ public class ArtistBottomSheetViewModel extends AndroidViewModel {
         super(application);
 
         albumRepository = new AlbumRepository(application);
-        artistRepository = new ArtistRepository(application);
     }
 
     public Artist getArtist() {

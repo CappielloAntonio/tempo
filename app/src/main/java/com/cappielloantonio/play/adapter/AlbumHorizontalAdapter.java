@@ -31,12 +31,10 @@ public class AlbumHorizontalAdapter extends RecyclerView.Adapter<AlbumHorizontal
     private LayoutInflater mInflater;
     private MainActivity mainActivity;
     private Context context;
-    private FragmentManager fragmentManager;
 
     public AlbumHorizontalAdapter(MainActivity mainActivity, Context context, FragmentManager fragmentManager) {
         this.mainActivity = mainActivity;
         this.context = context;
-        this.fragmentManager = fragmentManager;
         this.mInflater = LayoutInflater.from(context);
         this.albums = new ArrayList<>();
     }

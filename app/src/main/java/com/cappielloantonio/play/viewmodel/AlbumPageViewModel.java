@@ -17,7 +17,6 @@ import com.cappielloantonio.play.repository.SongRepository;
 import java.util.List;
 
 public class AlbumPageViewModel extends AndroidViewModel {
-    private SongRepository songRepository;
     private AlbumRepository albumRepository;
     private ArtistRepository artistRepository;
 
@@ -29,7 +28,6 @@ public class AlbumPageViewModel extends AndroidViewModel {
     public AlbumPageViewModel(@NonNull Application application) {
         super(application);
 
-        songRepository = new SongRepository(application);
         albumRepository = new AlbumRepository(application);
         artistRepository = new ArtistRepository(application);
     }
@@ -49,9 +47,5 @@ public class AlbumPageViewModel extends AndroidViewModel {
 
     public LiveData<Artist> getArtist() {
         return artistRepository.getArtistInfo(album.getArtistId());
-    }
-
-    public LiveData<Album> getAlbumInfo() {
-        return albumRepository.getAlbumInfo(album.getId());
     }
 }

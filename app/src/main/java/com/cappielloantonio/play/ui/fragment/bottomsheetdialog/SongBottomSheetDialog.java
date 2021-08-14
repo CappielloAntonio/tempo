@@ -43,19 +43,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
     private SongBottomSheetViewModel songBottomSheetViewModel;
     private Song song;
 
-    private ImageView coverSong;
-    private TextView titleSong;
-    private TextView artistSong;
-    private ToggleButton favoriteToggle;
-
-    private TextView playRadio;
-    private TextView playNext;
-    private TextView addToQueue;
-    private TextView rate;
     private TextView download;
-    private TextView addToPlaylist;
-    private TextView goToAlbum;
-    private TextView goToArtist;
 
     @Nullable
     @Override
@@ -68,28 +56,28 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         songBottomSheetViewModel.setSong(song);
 
         init(view);
-        initDownloadedUI();
+        initDownloadedUI(view.findViewById(R.id.download_text_view));
 
         return view;
     }
 
     private void init(View view) {
-        coverSong = view.findViewById(R.id.song_cover_image_view);
+        ImageView coverSong = view.findViewById(R.id.song_cover_image_view);
         CustomGlideRequest.Builder
                 .from(requireContext(), songBottomSheetViewModel.getSong().getPrimary(), CustomGlideRequest.SONG_PIC, null)
                 .build()
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(coverSong);
 
-        titleSong = view.findViewById(R.id.song_title_text_view);
+        TextView titleSong = view.findViewById(R.id.song_title_text_view);
         titleSong.setText(MusicUtil.getReadableString(songBottomSheetViewModel.getSong().getTitle()));
 
         titleSong.setSelected(true);
 
-        artistSong = view.findViewById(R.id.song_artist_text_view);
+        TextView artistSong = view.findViewById(R.id.song_artist_text_view);
         artistSong.setText(MusicUtil.getReadableString(songBottomSheetViewModel.getSong().getArtistName()));
 
-        favoriteToggle = view.findViewById(R.id.button_favorite);
+        ToggleButton favoriteToggle = view.findViewById(R.id.button_favorite);
         favoriteToggle.setChecked(songBottomSheetViewModel.getSong().isFavorite());
         favoriteToggle.setOnClickListener(v -> {
             songBottomSheetViewModel.setFavorite();
@@ -107,7 +95,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
             return true;
         });
 
-        playRadio = view.findViewById(R.id.play_radio_text_view);
+        TextView playRadio = view.findViewById(R.id.play_radio_text_view);
         playRadio.setOnClickListener(v -> {
             List<Song> opener = new ArrayList<>();
             opener.add(song);
@@ -135,21 +123,21 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
             dismissBottomSheet();
         });
 
-        playNext = view.findViewById(R.id.play_next_text_view);
+        TextView playNext = view.findViewById(R.id.play_next_text_view);
         playNext.setOnClickListener(v -> {
             MusicPlayerRemote.playNext(song);
             ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
             dismissBottomSheet();
         });
 
-        addToQueue = view.findViewById(R.id.add_to_queue_text_view);
+        TextView addToQueue = view.findViewById(R.id.add_to_queue_text_view);
         addToQueue.setOnClickListener(v -> {
             MusicPlayerRemote.enqueue(song);
             ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
             dismissBottomSheet();
         });
 
-        rate = view.findViewById(R.id.rate_text_view);
+        TextView rate = view.findViewById(R.id.rate_text_view);
         rate.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putParcelable("song_object", song);
@@ -167,7 +155,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
             dismissBottomSheet();
         });
 
-        addToPlaylist = view.findViewById(R.id.add_to_playlist_text_view);
+        TextView addToPlaylist = view.findViewById(R.id.add_to_playlist_text_view);
         addToPlaylist.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putParcelable("song_object", song);
@@ -179,7 +167,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
             dismissBottomSheet();
         });
 
-        goToAlbum = view.findViewById(R.id.go_to_album_text_view);
+        TextView goToAlbum = view.findViewById(R.id.go_to_album_text_view);
         goToAlbum.setOnClickListener(v -> {
             songBottomSheetViewModel.getAlbum().observe(requireActivity(), album -> {
                 if (album != null) {
@@ -193,7 +181,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
             });
         });
 
-        goToArtist = view.findViewById(R.id.go_to_artist_text_view);
+        TextView goToArtist = view.findViewById(R.id.go_to_artist_text_view);
         goToArtist.setOnClickListener(v -> {
             songBottomSheetViewModel.getArtist().observe(requireActivity(), artist -> {
                 if (artist != null) {
@@ -217,7 +205,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         dismiss();
     }
 
-    private void initDownloadedUI() {
+    private void initDownloadedUI(TextView download) {
         if (DownloadUtil.getDownloadTracker(requireContext()).isDownloaded(song)) {
             download.setText("Remove");
         } else {

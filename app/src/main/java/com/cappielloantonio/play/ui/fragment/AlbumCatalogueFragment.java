@@ -36,7 +36,6 @@ public class AlbumCatalogueFragment extends Fragment {
     private AlbumCatalogueViewModel albumCatalogueViewModel;
 
     private AlbumCatalogueAdapter albumAdapter;
-    private GridLayoutManager gridLayoutManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,7 +100,7 @@ public class AlbumCatalogueFragment extends Fragment {
 
     @SuppressLint("ClickableViewAccessibility")
     private void initAlbumCatalogueView() {
-        gridLayoutManager = new GridLayoutManager(requireContext(), 2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(), 2);
 
         bind.albumCatalogueRecyclerView.setLayoutManager(gridLayoutManager);
         bind.albumCatalogueRecyclerView.addItemDecoration(new GridItemDecoration(2, 20, false));

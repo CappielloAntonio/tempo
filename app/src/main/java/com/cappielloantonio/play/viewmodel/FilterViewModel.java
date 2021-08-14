@@ -15,7 +15,6 @@ import java.util.List;
 public class FilterViewModel extends AndroidViewModel {
     private GenreRepository genreRepository;
 
-    private LiveData<List<Genre>> allGenres;
     private ArrayList<String> selectedFiltersID = new ArrayList<>();
     private ArrayList<String> selectedFilters = new ArrayList<>();
 
@@ -26,8 +25,7 @@ public class FilterViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Genre>> getGenreList() {
-        allGenres = genreRepository.getGenres(false, -1);
-        return allGenres;
+        return genreRepository.getGenres(false, -1);
     }
 
     public void addFilter(String filterID, String filterName) {

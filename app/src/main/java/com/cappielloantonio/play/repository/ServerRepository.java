@@ -17,7 +17,6 @@ public class ServerRepository {
     private static final String TAG = "QueueRepository";
 
     private ServerDao serverDao;
-    private LiveData<List<Server>> listLiveServer;
 
     public ServerRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
@@ -25,8 +24,7 @@ public class ServerRepository {
     }
 
     public LiveData<List<Server>> getLiveServer() {
-        listLiveServer = serverDao.getAll();
-        return listLiveServer;
+        return serverDao.getAll();
     }
 
     public void insert(Server server) {

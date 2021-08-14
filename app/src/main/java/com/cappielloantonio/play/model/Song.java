@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.model;
 
-import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -305,7 +304,6 @@ public class Song implements Parcelable {
         return 0;
     }
 
-    @SuppressLint("NewApi")
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.id);
@@ -330,7 +328,6 @@ public class Song implements Parcelable {
         dest.writeLong(this.lastPlay);
     }
 
-    @SuppressLint("NewApi")
     protected Song(Parcel in) {
         this.id = in.readString();
         this.title = in.readString();

@@ -153,6 +153,10 @@ public class MainActivity extends BaseActivity {
                             if (playerBottomSheetFragment != null)
                                 playerBottomSheetFragment.scrollOnTop();
                             break;
+                        case BottomSheetBehavior.STATE_DRAGGING:
+                        case BottomSheetBehavior.STATE_EXPANDED:
+                        case BottomSheetBehavior.STATE_HALF_EXPANDED:
+                            break;
                     }
                 }
 

@@ -101,6 +101,25 @@ public class Server implements Parcelable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Server server = (Server) o;
+        return serverId.equals(server.getServerId());
+    }
+
+    @Override
+    public int hashCode() {
+        return serverId.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return serverId;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -125,4 +144,10 @@ public class Server implements Parcelable {
         this.salt = in.readString();
         this.timestamp = in.readLong();
     }
+
+    public static final Creator<Server> CREATOR = new Creator<Server>() {
+        public Server createFromParcel(Parcel in) { return new Server(in); }
+
+        public Server[] newArray(int size) { return new Server[size]; }
+    };
 }

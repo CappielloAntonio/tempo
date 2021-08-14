@@ -47,7 +47,7 @@ public class MediaButtonIntentReceiver extends BroadcastReceiver {
     private static long mLastClickTime = 0;
 
     @SuppressLint("HandlerLeak")
-    private static Handler mHandler = new Handler() {
+    private static final Handler mHandler = new Handler() {
 
         @Override
         public void handleMessage(final Message msg) {

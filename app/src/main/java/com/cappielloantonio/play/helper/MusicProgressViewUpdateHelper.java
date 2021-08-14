@@ -14,9 +14,9 @@ public class MusicProgressViewUpdateHelper extends Handler {
     private static final int UPDATE_INTERVAL_PLAYING = 1000;
     private static final int UPDATE_INTERVAL_PAUSED = 500;
 
-    private Callback callback;
-    private int intervalPlaying;
-    private int intervalPaused;
+    private final Callback callback;
+    private final int intervalPlaying;
+    private final int intervalPaused;
 
     public MusicProgressViewUpdateHelper(Callback callback) {
         this.callback = callback;

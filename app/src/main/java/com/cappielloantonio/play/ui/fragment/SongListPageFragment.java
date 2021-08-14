@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -32,7 +33,7 @@ public class SongListPageFragment extends Fragment {
     private SongHorizontalAdapter songHorizontalAdapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = (MainActivity) getActivity();
 
         bind = FragmentSongListPageBinding.inflate(inflater, container, false);
@@ -103,9 +104,7 @@ public class SongListPageFragment extends Fragment {
             activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        bind.toolbar.setNavigationOnClickListener(v -> {
-            activity.navController.navigateUp();
-        });
+        bind.toolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
 
         bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             if ((bind.albumInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.toolbar))) {
@@ -138,7 +137,7 @@ public class SongListPageFragment extends Fragment {
         bind.songListRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.songListRecyclerView.setHasFixedSize(true);
 
-        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
+        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext());
         bind.songListRecyclerView.setAdapter(songHorizontalAdapter);
         songListPageViewModel.getSongList().observe(requireActivity(), songs -> songHorizontalAdapter.setItems(songs));
     }

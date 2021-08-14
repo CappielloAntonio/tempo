@@ -36,8 +36,6 @@ import java.util.List;
 public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
     private static final String TAG = "AlbumBottomSheetDialog";
 
-    private MainActivity activity;
-
     private ArtistBottomSheetViewModel artistBottomSheetViewModel;
     private Artist artist;
 
@@ -57,8 +55,6 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
     }
 
     private void init(View view) {
-        activity = (MainActivity) requireActivity();
-
         ImageView coverArtist = view.findViewById(R.id.artist_cover_image_view);
         CustomGlideRequest.Builder
                 .from(requireContext(), artistBottomSheetViewModel.getArtist().getPrimary(), CustomGlideRequest.ARTIST_PIC, null)
@@ -94,8 +90,8 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
                         QueueRepository queueRepository = new QueueRepository(App.getInstance());
                         queueRepository.insertAllAndStartNew((ArrayList<Song>) media);
 
-                        activity.isBottomSheetInPeek(true);
-                        activity.setBottomSheetMusicInfo((Song) media.get(0));
+                        ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
+                        ((MainActivity) requireActivity()).setBottomSheetMusicInfo((Song) media.get(0));
 
                         MusicPlayerRemote.openQueue((List<Song>) media, 0, true);
                     } else {
@@ -116,7 +112,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
                     queueRepository.insertAllAndStartNew(songs);
 
                     MusicPlayerRemote.openQueue(songs, 0, true);
-                    activity.isBottomSheetInPeek(true);
+                    ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
                 } else {
                     Toast.makeText(requireContext(), "Error retrieving artist's songs", Toast.LENGTH_SHORT).show();
                 }

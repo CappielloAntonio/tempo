@@ -89,16 +89,17 @@ public class MusicUtil {
     }
 
     public static int getDefaultPicPerCategory(String category) {
-        if (category.equals(CustomGlideRequest.SONG_PIC)) {
-            return R.drawable.default_album_art;
-        } else if (category.equals(CustomGlideRequest.ALBUM_PIC)) {
-            return R.drawable.default_album_art;
-        } else if (category.equals(CustomGlideRequest.ARTIST_PIC)) {
-            return R.drawable.default_album_art;
-        } else if (category.equals(CustomGlideRequest.PLAYLIST_PIC)) {
-            return R.drawable.default_album_art;
-        } else {
-            return R.drawable.default_album_art;
+        switch (category) {
+            case CustomGlideRequest.SONG_PIC:
+                return R.drawable.default_album_art;
+            case CustomGlideRequest.ALBUM_PIC:
+                return R.drawable.default_album_art;
+            case CustomGlideRequest.ARTIST_PIC:
+                return R.drawable.default_album_art;
+            case CustomGlideRequest.PLAYLIST_PIC:
+                return R.drawable.default_album_art;
+            default:
+                return R.drawable.default_album_art;
         }
     }
 

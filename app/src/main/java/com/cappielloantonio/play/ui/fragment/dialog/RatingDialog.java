@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -22,6 +23,7 @@ public class RatingDialog extends DialogFragment {
     private DialogRatingBinding bind;
     private RatingViewModel ratingViewModel;
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         bind = DialogRatingBinding.inflate(LayoutInflater.from(requireContext()));

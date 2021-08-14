@@ -113,9 +113,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
         playerNowPlayingSongAdapter = new PlayerNowPlayingSongAdapter(requireContext());
         bind.playerBodyLayout.playerSongCoverViewPager.setAdapter(playerNowPlayingSongAdapter);
-        playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), queue -> {
-            playerNowPlayingSongAdapter.setItems(MappingUtil.mapQueue(queue));
-        });
+        playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), queue -> playerNowPlayingSongAdapter.setItems(MappingUtil.mapQueue(queue)));
 
         bind.playerBodyLayout.playerSongCoverViewPager.setOffscreenPageLimit(3);
         bind.playerBodyLayout.playerSongCoverViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -151,9 +149,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
         playerSongQueueAdapter = new PlayerSongQueueAdapter(requireContext(), this);
         bind.playerBodyLayout.playerQueueRecyclerView.setAdapter(playerSongQueueAdapter);
-        playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), queue -> {
-            playerSongQueueAdapter.setItems(MappingUtil.mapQueue(queue));
-        });
+        playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), queue -> playerSongQueueAdapter.setItems(MappingUtil.mapQueue(queue)));
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
             int originalPosition = -1;
@@ -161,7 +157,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
             int toPosition = -1;
 
             @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 if (originalPosition == -1)
                     originalPosition = viewHolder.getBindingAdapterPosition();
 
@@ -203,7 +199,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 if (!(viewHolder.getBindingAdapterPosition() == MusicPlayerRemote.getPosition()) && !(MusicPlayerRemote.getPlayingQueue().size() <= 1)) {
                     MusicPlayerRemote.removeFromQueue(viewHolder.getBindingAdapterPosition());
                     playerBottomSheetViewModel.removeSong(viewHolder.getBindingAdapterPosition());
@@ -295,11 +291,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     protected void updatePlayPauseState() {
-        if (MusicPlayerRemote.isPlaying()) {
-            bind.playerHeaderLayout.playerHeaderButton.setChecked(false);
-        } else {
-            bind.playerHeaderLayout.playerHeaderButton.setChecked(true);
-        }
+        bind.playerHeaderLayout.playerHeaderButton.setChecked(!MusicPlayerRemote.isPlaying());
     }
 
     private void setUpMusicControllers() {

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
@@ -50,7 +51,7 @@ public class ArtistPageFragment extends Fragment {
     private ArtistSimilarAdapter artistSimilarAdapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = (MainActivity) getActivity();
 
         bind = FragmentArtistPageBinding.inflate(inflater, container, false);
@@ -175,7 +176,7 @@ public class ArtistPageFragment extends Fragment {
     private void initTopSongsView() {
         bind.mostStreamedSongRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
+        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext());
         bind.mostStreamedSongRecyclerView.setAdapter(songHorizontalAdapter);
         artistPageViewModel.getArtistTopSongList(10).observe(requireActivity(), songs -> {
             if (bind != null) bind.artistPageTopSongsSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);

@@ -31,7 +31,6 @@ import com.cappielloantonio.play.viewmodel.GenreCatalogueViewModel;
 
 public class GenreCatalogueFragment extends Fragment {
     private static final String TAG = "GenreCatalogueFragment";
-    ;
 
     private FragmentGenreCatalogueBinding bind;
     private MainActivity activity;
@@ -46,7 +45,7 @@ public class GenreCatalogueFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = (MainActivity) getActivity();
 
         bind = FragmentGenreCatalogueBinding.inflate(inflater, container, false);

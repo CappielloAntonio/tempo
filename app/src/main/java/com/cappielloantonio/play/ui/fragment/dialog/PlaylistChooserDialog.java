@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +26,7 @@ public class PlaylistChooserDialog extends DialogFragment {
 
     private PlaylistHorizontalAdapter playlistHorizontalAdapter;
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         bind = DialogPlaylistChooserBinding.inflate(LayoutInflater.from(requireContext()));

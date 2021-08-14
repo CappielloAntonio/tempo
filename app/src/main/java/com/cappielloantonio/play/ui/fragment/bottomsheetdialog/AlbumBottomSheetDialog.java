@@ -39,8 +39,6 @@ import java.util.List;
 public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
     private static final String TAG = "AlbumBottomSheetDialog";
 
-    private MainActivity activity;
-
     private AlbumBottomSheetViewModel albumBottomSheetViewModel;
     private Album album;
 
@@ -60,8 +58,6 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
     }
 
     private void init(View view) {
-        activity = (MainActivity) requireActivity();
-
         ImageView coverAlbum = view.findViewById(R.id.album_cover_image_view);
         CustomGlideRequest.Builder
                 .from(requireContext(), albumBottomSheetViewModel.getAlbum().getPrimary(), CustomGlideRequest.ALBUM_PIC, null)
@@ -100,8 +96,8 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
                         QueueRepository queueRepository = new QueueRepository(App.getInstance());
                         queueRepository.insertAllAndStartNew((ArrayList<Song>) media);
 
-                        activity.isBottomSheetInPeek(true);
-                        activity.setBottomSheetMusicInfo((Song) media.get(0));
+                        ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
+                        ((MainActivity) requireActivity()).setBottomSheetMusicInfo((Song) media.get(0));
 
                         MusicPlayerRemote.openQueue((List<Song>) media, 0, true);
                     } else {
@@ -123,7 +119,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
                 queueRepository.insertAllAndStartNew(songs);
 
                 MusicPlayerRemote.openQueue(songs, 0, true);
-                activity.isBottomSheetInPeek(true);
+                ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
 
                 dismissBottomSheet();
             });
@@ -133,7 +129,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
         playNext.setOnClickListener(v -> {
             albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
                 MusicPlayerRemote.playNext(songs);
-                activity.isBottomSheetInPeek(true);
+                ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
                 dismissBottomSheet();
             });
         });

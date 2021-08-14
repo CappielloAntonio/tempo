@@ -9,7 +9,7 @@ import android.view.View;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 
 public class ConnectivityStatusBroadcastReceiver extends BroadcastReceiver {
-    private MainActivity activity;
+    private final MainActivity activity;
 
     public ConnectivityStatusBroadcastReceiver(MainActivity activity) {
         this.activity = activity;

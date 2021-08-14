@@ -43,8 +43,6 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
     private SongBottomSheetViewModel songBottomSheetViewModel;
     private Song song;
 
-    private TextView download;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -149,7 +147,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
             dismissBottomSheet();
         });
 
-        download = view.findViewById(R.id.download_text_view);
+        TextView download = view.findViewById(R.id.download_text_view);
         download.setOnClickListener(v -> {
             DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(Arrays.asList(song));
             dismissBottomSheet();

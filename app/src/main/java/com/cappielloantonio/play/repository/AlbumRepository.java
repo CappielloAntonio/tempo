@@ -27,7 +27,7 @@ import retrofit2.Response;
 public class AlbumRepository {
     private static final String TAG = "AlbumRepository";
 
-    private Application application;
+    private final Application application;
 
     public AlbumRepository(Application application) {
         this.application = application;

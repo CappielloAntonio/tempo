@@ -46,13 +46,13 @@ public class PlaylistPageFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.playlist_page_menu, menu);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = (MainActivity) getActivity();
 
         bind = FragmentPlaylistPageBinding.inflate(inflater, container, false);
@@ -154,7 +154,7 @@ public class PlaylistPageFragment extends Fragment {
         bind.songRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.songRecyclerView.setHasFixedSize(true);
 
-        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
+        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext());
         bind.songRecyclerView.setAdapter(songHorizontalAdapter);
 
         playlistPageViewModel.getPlaylistSongLiveList().observe(requireActivity(), songs -> {

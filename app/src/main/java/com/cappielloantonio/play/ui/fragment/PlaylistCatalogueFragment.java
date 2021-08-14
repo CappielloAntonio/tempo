@@ -28,7 +28,6 @@ import com.cappielloantonio.play.viewmodel.PlaylistCatalogueViewModel;
 
 public class PlaylistCatalogueFragment extends Fragment {
     private static final String TAG = "GenreCatalogueFragment";
-    ;
 
     private FragmentPlaylistCatalogueBinding bind;
     private MainActivity activity;
@@ -45,7 +44,7 @@ public class PlaylistCatalogueFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = (MainActivity) getActivity();
 
         bind = FragmentPlaylistCatalogueBinding.inflate(inflater, container, false);

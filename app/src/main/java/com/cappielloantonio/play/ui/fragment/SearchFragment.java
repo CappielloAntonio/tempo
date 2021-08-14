@@ -73,7 +73,7 @@ public class SearchFragment extends Fragment {
         bind.searchResultTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.searchResultTracksRecyclerView.setHasFixedSize(true);
 
-        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
+        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext());
         bind.searchResultTracksRecyclerView.setAdapter(songHorizontalAdapter);
 
         // Albums
@@ -107,9 +107,7 @@ public class SearchFragment extends Fragment {
 
         bind.persistentSearchView.setOnSearchQueryChangeListener((searchView, oldQuery, newQuery) -> {
             if (!newQuery.trim().equals("") && newQuery.trim().length() > 1) {
-                searchViewModel.getSearchSuggestion(newQuery).observe(requireActivity(), suggestions -> {
-                    searchView.setSuggestions(SuggestionCreationUtil.asRegularSearchSuggestions(MusicUtil.getReadableStrings(suggestions)), false);
-                });
+                searchViewModel.getSearchSuggestion(newQuery).observe(requireActivity(), suggestions -> searchView.setSuggestions(SuggestionCreationUtil.asRegularSearchSuggestions(MusicUtil.getReadableStrings(suggestions)), false));
             } else {
                 setSuggestions();
             }

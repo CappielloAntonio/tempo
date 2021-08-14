@@ -2,7 +2,6 @@ package com.cappielloantonio.play.ui.fragment.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.PlaylistHorizontalAdapter;
 import com.cappielloantonio.play.databinding.DialogPlaylistChooserBinding;
-import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.PlaylistChooserViewModel;
 
 import java.util.Objects;
@@ -23,17 +21,12 @@ public class PlaylistChooserDialog extends DialogFragment {
     private static final String TAG = "ServerSignupDialog";
 
     private DialogPlaylistChooserBinding bind;
-    private MainActivity activity;
-    private Context context;
     private PlaylistChooserViewModel playlistChooserViewModel;
 
     private PlaylistHorizontalAdapter playlistHorizontalAdapter;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        activity = (MainActivity) getActivity();
-        context = requireContext();
-
         bind = DialogPlaylistChooserBinding.inflate(LayoutInflater.from(requireContext()));
         playlistChooserViewModel = new ViewModelProvider(requireActivity()).get(PlaylistChooserViewModel.class);
 
@@ -46,6 +39,12 @@ public class PlaylistChooserDialog extends DialogFragment {
                 .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
 
         return builder.create();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        bind = null;
     }
 
     @Override
@@ -89,12 +88,11 @@ public class PlaylistChooserDialog extends DialogFragment {
         bind.playlistDialogRecyclerView.setAdapter(playlistHorizontalAdapter);
 
         playlistChooserViewModel.getPlaylistList().observe(requireActivity(), playlists -> {
-            if(playlists.size() > 0) {
+            if (playlists.size() > 0) {
                 if (bind != null) bind.noPlaylistsCreatedTextView.setVisibility(View.GONE);
                 if (bind != null) bind.playlistDialogRecyclerView.setVisibility(View.VISIBLE);
                 playlistHorizontalAdapter.setItems(playlists);
-            }
-            else {
+            } else {
                 if (bind != null) bind.noPlaylistsCreatedTextView.setVisibility(View.VISIBLE);
                 if (bind != null) bind.playlistDialogRecyclerView.setVisibility(View.GONE);
             }

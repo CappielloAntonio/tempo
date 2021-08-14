@@ -29,7 +29,6 @@ public class PlaylistEditorDialog extends DialogFragment {
 
     private DialogPlaylistEditorBinding bind;
     private MainActivity activity;
-    private Context context;
     private PlaylistEditorViewModel playlistEditorViewModel;
 
     private String playlistName;
@@ -38,7 +37,6 @@ public class PlaylistEditorDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         activity = (MainActivity) getActivity();
-        context = requireContext();
 
         bind = DialogPlaylistEditorBinding.inflate(LayoutInflater.from(requireContext()));
         playlistEditorViewModel = new ViewModelProvider(requireActivity()).get(PlaylistEditorViewModel.class);
@@ -62,6 +60,12 @@ public class PlaylistEditorDialog extends DialogFragment {
         setParameterInfo();
         setButtonAction();
         initSongsView();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        bind = null;
     }
 
     private void setParameterInfo() {

@@ -72,6 +72,12 @@ public class ServerSignupDialog extends DialogFragment {
         setButtonAction();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        bind = null;
+    }
+
     private void setServerInfo() {
         if (getArguments() != null) {
             loginViewModel.setServerToEdit(getArguments().getParcelable("server_object"));

@@ -102,6 +102,12 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         activity.removeMusicServiceEventListener(this);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        bind = null;
+    }
+
     private void initQueueSlideView() {
         bind.playerBodyLayout.playerSongCoverViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 

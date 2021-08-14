@@ -20,15 +20,10 @@ public class RatingDialog extends DialogFragment {
     private static final String TAG = "ServerSignupDialog";
 
     private DialogRatingBinding bind;
-    private MainActivity activity;
-    private Context context;
     private RatingViewModel ratingViewModel;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        activity = (MainActivity) getActivity();
-        context = requireContext();
-
         bind = DialogRatingBinding.inflate(LayoutInflater.from(requireContext()));
         ratingViewModel = new ViewModelProvider(requireActivity()).get(RatingViewModel.class);
 
@@ -51,6 +46,12 @@ public class RatingDialog extends DialogFragment {
         setElementInfo();
         setButtonColor();
         setRating();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        bind = null;
     }
 
     private void setElementInfo() {

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,9 +27,10 @@ import java.util.Objects;
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
     private static final String TAG = "AlbumAdapter";
 
+    private final LayoutInflater inflater;
+    private final Context context;
+
     private List<Album> albums;
-    private LayoutInflater inflater;
-    private Context context;
 
     public AlbumAdapter(Context context) {
         this.context = context;
@@ -36,8 +38,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         this.albums = new ArrayList<>();
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.item_library_album, parent, false);
         return new ViewHolder(view);
     }

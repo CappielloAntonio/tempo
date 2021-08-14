@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
@@ -15,19 +16,20 @@ import java.util.List;
 
 public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {
     private static final String TAG = "YearAdapter";
+
+    private final LayoutInflater mInflater;
+
     private List<Integer> years;
-    private LayoutInflater mInflater;
-    private Context context;
     private ItemClickListener itemClickListener;
 
     public YearAdapter(Context context) {
-        this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.years = new ArrayList<>();
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.item_home_year, parent, false);
         return new ViewHolder(view);
     }

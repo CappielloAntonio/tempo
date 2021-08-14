@@ -265,7 +265,7 @@ public class HomeFragment extends Fragment {
     private void initStarredAlbumsView() {
         bind.starredAlbumsRecyclerView.setHasFixedSize(true);
 
-        starredAlbumAdapter = new AlbumHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
+        starredAlbumAdapter = new AlbumHorizontalAdapter(requireContext());
         bind.starredAlbumsRecyclerView.setAdapter(starredAlbumAdapter);
         homeViewModel.getStarredAlbums().observe(requireActivity(), albums -> {
             if (bind != null) {
@@ -282,7 +282,7 @@ public class HomeFragment extends Fragment {
     private void initStarredArtistsView() {
         bind.starredArtistsRecyclerView.setHasFixedSize(true);
 
-        starredArtistAdapter = new ArtistHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
+        starredArtistAdapter = new ArtistHorizontalAdapter(requireContext());
         bind.starredArtistsRecyclerView.setAdapter(starredArtistAdapter);
         homeViewModel.getStarredArtists().observe(requireActivity(), artists -> {
             if (bind != null) {
@@ -314,7 +314,7 @@ public class HomeFragment extends Fragment {
         bind.downloadedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.downloadedTracksRecyclerView.setHasFixedSize(true);
 
-        dowanloadedMusicAdapter = new RecentMusicAdapter(activity, requireContext(), getChildFragmentManager());
+        dowanloadedMusicAdapter = new RecentMusicAdapter(activity, requireContext());
         bind.downloadedTracksRecyclerView.setAdapter(dowanloadedMusicAdapter);
         homeViewModel.getDownloaded().observe(requireActivity(), downloads -> {
             if (bind != null)

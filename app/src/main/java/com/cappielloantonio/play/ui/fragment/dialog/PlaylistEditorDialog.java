@@ -115,7 +115,7 @@ public class PlaylistEditorDialog extends DialogFragment {
         bind.playlistSongRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.playlistSongRecyclerView.setHasFixedSize(true);
 
-        playlistDialogSongHorizontalAdapter = new PlaylistDialogSongHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
+        playlistDialogSongHorizontalAdapter = new PlaylistDialogSongHorizontalAdapter(requireContext());
         bind.playlistSongRecyclerView.setAdapter(playlistDialogSongHorizontalAdapter);
 
         playlistEditorViewModel.getPlaylistSongLiveList().observe(requireActivity(), songs -> {

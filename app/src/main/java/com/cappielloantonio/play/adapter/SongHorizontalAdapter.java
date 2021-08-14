@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,22 +31,22 @@ import java.util.List;
 public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAdapter.ViewHolder> {
     private static final String TAG = "SongHorizontalAdapter";
 
-    private List<Song> songs;
-    private LayoutInflater mInflater;
-    private MainActivity mainActivity;
-    private Context context;
-    private FragmentManager fragmentManager;
+    private final MainActivity mainActivity;
+    private final Context context;
+    private final LayoutInflater mInflater;
 
-    public SongHorizontalAdapter(MainActivity mainActivity, Context context, FragmentManager fragmentManager) {
+    private List<Song> songs;
+
+    public SongHorizontalAdapter(MainActivity mainActivity, Context context) {
         this.mainActivity = mainActivity;
         this.context = context;
-        this.fragmentManager = fragmentManager;
         this.mInflater = LayoutInflater.from(context);
         this.songs = new ArrayList<>();
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.item_horizontal_track, parent, false);
         return new ViewHolder(view);
     }

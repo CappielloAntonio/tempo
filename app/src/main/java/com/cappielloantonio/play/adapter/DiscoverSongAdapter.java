@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -29,10 +30,11 @@ import java.util.List;
 public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapter.ViewHolder> {
     private static final String TAG = "DiscoverSongAdapter";
 
+    private final LayoutInflater inflater;
+    private final Context context;
+    private final MainActivity activity;
+
     private List<Song> songs;
-    private LayoutInflater inflater;
-    private Context context;
-    private MainActivity activity;
 
     public DiscoverSongAdapter(MainActivity activity, Context context) {
         this.activity = activity;
@@ -41,8 +43,9 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
         this.songs = new ArrayList<>();
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.item_home_discover_song, parent, false);
         return new ViewHolder(view);
     }

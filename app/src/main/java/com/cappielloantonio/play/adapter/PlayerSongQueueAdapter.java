@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -27,10 +28,11 @@ import java.util.List;
 public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueueAdapter.ViewHolder> {
     private static final String TAG = "SongResultSearchAdapter";
 
+    private final LayoutInflater mInflater;
+    private final PlayerBottomSheetFragment playerBottomSheetFragment;
+    private final Context context;
+
     private List<Song> songs;
-    private LayoutInflater mInflater;
-    private PlayerBottomSheetFragment playerBottomSheetFragment;
-    private Context context;
 
     public PlayerSongQueueAdapter(Context context, PlayerBottomSheetFragment playerBottomSheetFragment) {
         this.context = context;
@@ -39,8 +41,9 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
         this.songs = new ArrayList<>();
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.item_player_queue_song, parent, false);
         return new ViewHolder(view);
     }

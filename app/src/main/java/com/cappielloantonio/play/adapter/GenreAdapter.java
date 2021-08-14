@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
@@ -19,19 +20,19 @@ import java.util.List;
 public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> {
     private static final String TAG = "GenreAdapter";
 
+    private final LayoutInflater mInflater;
+
     private List<Genre> genres;
-    private LayoutInflater mInflater;
-    private Context context;
     private ItemClickListener itemClickListener;
 
     public GenreAdapter(Context context) {
-        this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.genres = new ArrayList<>();
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.item_library_genre, parent, false);
         return new ViewHolder(view);
     }

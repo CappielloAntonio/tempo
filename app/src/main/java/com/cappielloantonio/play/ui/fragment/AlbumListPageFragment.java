@@ -92,7 +92,7 @@ public class AlbumListPageFragment extends Fragment {
         bind.albumListRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.albumListRecyclerView.setHasFixedSize(true);
 
-        albumHorizontalAdapter = new AlbumHorizontalAdapter(activity, requireContext(), getChildFragmentManager());
+        albumHorizontalAdapter = new AlbumHorizontalAdapter(requireContext());
         bind.albumListRecyclerView.setAdapter(albumHorizontalAdapter);
         albumListPageViewModel.getAlbumList(requireActivity()).observe(requireActivity(), albums -> albumHorizontalAdapter.setItems(albums));
     }

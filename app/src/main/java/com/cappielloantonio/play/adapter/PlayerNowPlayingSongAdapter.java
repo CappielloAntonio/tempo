@@ -21,9 +21,10 @@ import java.util.List;
 public class PlayerNowPlayingSongAdapter extends RecyclerView.Adapter<PlayerNowPlayingSongAdapter.ViewHolder> {
     private static final String TAG = "DiscoverSongAdapter";
 
+    private final LayoutInflater inflater;
+    private final Context context;
+
     private List<Song> songs;
-    private LayoutInflater inflater;
-    private Context context;
 
     public PlayerNowPlayingSongAdapter(Context context) {
         this.context = context;
@@ -33,7 +34,7 @@ public class PlayerNowPlayingSongAdapter extends RecyclerView.Adapter<PlayerNowP
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.item_player_now_playing_song, parent, false);
         return new ViewHolder(view);
     }

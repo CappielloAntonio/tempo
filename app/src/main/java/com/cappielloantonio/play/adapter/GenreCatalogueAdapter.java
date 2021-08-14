@@ -10,6 +10,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
@@ -23,13 +24,9 @@ import java.util.List;
 public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAdapter.ViewHolder> implements Filterable {
     private static final String TAG = "GenreCatalogueAdapter";
 
-    private List<Genre> genres;
-    private List<Genre> genresFull;
-    private LayoutInflater mInflater;
-    private MainActivity activity;
-    private Context context;
-    private ItemClickListener itemClickListener;
-    private Filter filtering = new Filter() {
+    private final LayoutInflater mInflater;
+    private final MainActivity activity;
+    private final Filter filtering = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<Genre> filteredList = new ArrayList<>();
@@ -60,15 +57,19 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
         }
     };
 
+    private List<Genre> genres;
+    private List<Genre> genresFull;
+    private ItemClickListener itemClickListener;
+
     public GenreCatalogueAdapter(MainActivity activity, Context context) {
         this.activity = activity;
-        this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.genres = new ArrayList<>();
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.item_library_catalogue_genre, parent, false);
         return new ViewHolder(view);
     }

@@ -12,6 +12,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,13 +30,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlaylistCatalogueAdapter extends RecyclerView.Adapter<PlaylistCatalogueAdapter.ViewHolder> implements Filterable {
+    private static final String TAG = "PlaylistCatalogueAdapter";
 
-    private List<Playlist> playlists;
-    private List<Playlist> playlistsFull;
-    private LayoutInflater mInflater;
-    private MainActivity activity;
-    private Context context;
-    private Filter filtering = new Filter() {
+    private final LayoutInflater mInflater;
+    private final MainActivity activity;
+    private final Context context;
+    private final Filter filtering = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<Playlist> filteredList = new ArrayList<>();
@@ -66,6 +66,9 @@ public class PlaylistCatalogueAdapter extends RecyclerView.Adapter<PlaylistCatal
         }
     };
 
+    private List<Playlist> playlists;
+    private List<Playlist> playlistsFull;
+
     public PlaylistCatalogueAdapter(MainActivity activity, Context context) {
         this.activity = activity;
         this.context = context;
@@ -73,8 +76,9 @@ public class PlaylistCatalogueAdapter extends RecyclerView.Adapter<PlaylistCatal
         this.playlists = new ArrayList<>();
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.item_library_catalogue_playlist, parent, false);
         return new ViewHolder(view);
     }

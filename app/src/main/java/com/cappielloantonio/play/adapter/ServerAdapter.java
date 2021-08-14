@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,10 +30,11 @@ import java.util.UUID;
 public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder> {
     private static final String TAG = "ServerAdapter";
 
-    private List<Server> servers;
     private final LayoutInflater mInflater;
-    private MainActivity mainActivity;
-    private Context context;
+    private final MainActivity mainActivity;
+    private final Context context;
+
+    private List<Server> servers;
 
     public ServerAdapter(MainActivity mainActivity, Context context) {
         this.mInflater = LayoutInflater.from(context);
@@ -41,8 +43,9 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
         this.context = context;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.item_login_server, parent, false);
         return new ViewHolder(view);
     }

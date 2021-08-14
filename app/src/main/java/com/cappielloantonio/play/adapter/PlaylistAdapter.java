@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,10 +27,11 @@ import java.util.List;
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
     private static final String TAG = "PlaylistAdapter";
 
+    private final MainActivity activity;
+    private final Context context;
+    private final LayoutInflater mInflater;
+
     private List<Playlist> playlists;
-    private LayoutInflater mInflater;
-    private Context context;
-    private MainActivity activity;
 
     public PlaylistAdapter(MainActivity activity, Context context) {
         this.activity = activity;
@@ -38,8 +40,9 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         this.playlists = new ArrayList<>();
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.item_library_playlist, parent, false);
         return new ViewHolder(view);
     }

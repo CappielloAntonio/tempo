@@ -12,6 +12,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,12 +30,10 @@ import java.util.Objects;
 public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAdapter.ViewHolder> implements Filterable {
     private static final String TAG = "AlbumCatalogueAdapter";
 
-    private List<Album> albums;
-    private List<Album> albumsFull;
-    private LayoutInflater inflater;
-    private MainActivity activity;
-    private Context context;
-    private Filter filtering = new Filter() {
+    private final LayoutInflater inflater;
+    private final MainActivity activity;
+    private final Context context;
+    private final Filter filtering = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<Album> filteredList = new ArrayList<>();
@@ -65,6 +64,9 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
         }
     };
 
+    private List<Album> albums;
+    private List<Album> albumsFull;
+
     public AlbumCatalogueAdapter(MainActivity activity, Context context) {
         this.activity = activity;
         this.context = context;
@@ -72,8 +74,9 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
         this.albums = new ArrayList<>();
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.item_library_catalogue_album, parent, false);
         return new ViewHolder(view);
     }

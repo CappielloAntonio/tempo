@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
@@ -20,15 +21,14 @@ import java.util.List;
 public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHorizontalAdapter.ViewHolder> {
     private static final String TAG = "PlaylistHorizontalAdapter";
 
-    private List<Playlist> playlists;
-    private LayoutInflater mInflater;
-    private Context context;
+    private final LayoutInflater mInflater;
 
-    private PlaylistChooserViewModel playlistChooserViewModel;
-    private PlaylistChooserDialog playlistChooserDialog;
+    private final PlaylistChooserViewModel playlistChooserViewModel;
+    private final PlaylistChooserDialog playlistChooserDialog;
+
+    private List<Playlist> playlists;
 
     public PlaylistHorizontalAdapter(Context context, PlaylistChooserViewModel playlistChooserViewModel, PlaylistChooserDialog playlistChooserDialog) {
-        this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.playlists = new ArrayList<>();
 
@@ -36,8 +36,9 @@ public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHori
         this.playlistChooserDialog = playlistChooserDialog;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.item_horizontal_playlist, parent, false);
         return new ViewHolder(view);
     }

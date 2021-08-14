@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,20 +33,17 @@ public class PlaylistDialogSongHorizontalAdapter extends RecyclerView.Adapter<Pl
 
     private List<Song> songs;
     private LayoutInflater mInflater;
-    private MainActivity mainActivity;
     private Context context;
-    private FragmentManager fragmentManager;
 
-    public PlaylistDialogSongHorizontalAdapter(MainActivity mainActivity, Context context, FragmentManager fragmentManager) {
-        this.mainActivity = mainActivity;
+    public PlaylistDialogSongHorizontalAdapter(Context context) {
         this.context = context;
-        this.fragmentManager = fragmentManager;
         this.mInflater = LayoutInflater.from(context);
         this.songs = new ArrayList<>();
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.item_horizontal_playlist_dialog_track, parent, false);
         return new ViewHolder(view);
     }

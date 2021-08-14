@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,19 +29,18 @@ public class AlbumHorizontalAdapter extends RecyclerView.Adapter<AlbumHorizontal
     private static final String TAG = "AlbumHorizontalAdapter";
 
     private List<Album> albums;
-    private LayoutInflater mInflater;
-    private MainActivity mainActivity;
-    private Context context;
+    private final LayoutInflater mInflater;
+    private final Context context;
 
-    public AlbumHorizontalAdapter(MainActivity mainActivity, Context context, FragmentManager fragmentManager) {
-        this.mainActivity = mainActivity;
+    public AlbumHorizontalAdapter(Context context) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.albums = new ArrayList<>();
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.item_horizontal_album, parent, false);
         return new ViewHolder(view);
     }

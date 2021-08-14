@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 import androidx.preference.PreferenceManager;
 
+import com.balsikandar.crashreporter.CrashReporter;
 import com.cappielloantonio.play.helper.ThemeHelper;
 import com.cappielloantonio.play.subsonic.Subsonic;
 import com.cappielloantonio.play.subsonic.SubsonicPreferences;
@@ -20,6 +21,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         // RedScreenOfDeath.init(this);
+        CrashReporter.initialize(this);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String themePref = sharedPreferences.getString("themePref", ThemeHelper.DEFAULT_MODE);

@@ -74,9 +74,9 @@ public class PlaylistEditorViewModel extends AndroidViewModel {
         return songLiveList;
     }
 
-    public void removeFromPlaylistSongLiveList(Song song) {
+    public void removeFromPlaylistSongLiveList(int position) {
         List<Song> songs = songLiveList.getValue();
-        Objects.requireNonNull(songs).remove(song);
+        Objects.requireNonNull(songs).remove(position);
         songLiveList.postValue(songs);
     }
 

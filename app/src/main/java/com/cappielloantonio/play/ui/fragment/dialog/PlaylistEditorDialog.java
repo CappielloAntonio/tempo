@@ -156,7 +156,7 @@ public class PlaylistEditorDialog extends DialogFragment {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                playlistEditorViewModel.removeFromPlaylistSongLiveList(playlistDialogSongHorizontalAdapter.getItem(viewHolder.getBindingAdapterPosition()));
+                playlistEditorViewModel.removeFromPlaylistSongLiveList(viewHolder.getBindingAdapterPosition());
                 bind.playlistSongRecyclerView.getAdapter().notifyItemRemoved(viewHolder.getBindingAdapterPosition());
             }
         }

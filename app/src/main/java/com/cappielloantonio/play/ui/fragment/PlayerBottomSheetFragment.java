@@ -2,7 +2,6 @@ package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -279,7 +278,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
         final Handler handler = new Handler();
         final Runnable r = () -> {
-            bodyBind.playerSongCoverViewPager.setCurrentItem(position, false);
+            if (bind != null) bodyBind.playerSongCoverViewPager.setCurrentItem(position, false);
         };
         handler.postDelayed(r, 100);
     }

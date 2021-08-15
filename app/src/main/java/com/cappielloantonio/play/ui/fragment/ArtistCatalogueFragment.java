@@ -91,7 +91,7 @@ public class ArtistCatalogueFragment extends Fragment {
 
         bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             if ((bind.artistInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.toolbar))) {
-                bind.toolbar.setTitle("Artist Catalogue");
+                bind.toolbar.setTitle("Artists");
             } else {
                 bind.toolbar.setTitle("");
             }

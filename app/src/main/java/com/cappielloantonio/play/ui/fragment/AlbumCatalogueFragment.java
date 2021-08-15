@@ -91,7 +91,7 @@ public class AlbumCatalogueFragment extends Fragment {
 
         bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             if ((bind.albumInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.toolbar))) {
-                bind.toolbar.setTitle("Album Catalogue");
+                bind.toolbar.setTitle("Albums");
             } else {
                 bind.toolbar.setTitle("");
             }
@@ -100,16 +100,13 @@ public class AlbumCatalogueFragment extends Fragment {
 
     @SuppressLint("ClickableViewAccessibility")
     private void initAlbumCatalogueView() {
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(), 2);
-
-        bind.albumCatalogueRecyclerView.setLayoutManager(gridLayoutManager);
+        bind.albumCatalogueRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
         bind.albumCatalogueRecyclerView.addItemDecoration(new GridItemDecoration(2, 20, false));
         bind.albumCatalogueRecyclerView.setHasFixedSize(true);
 
         albumAdapter = new AlbumCatalogueAdapter(activity, requireContext());
         albumAdapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
         bind.albumCatalogueRecyclerView.setAdapter(albumAdapter);
-
         albumCatalogueViewModel.getAlbumList().observe(requireActivity(), albums -> {
             albumAdapter.setItems(albums);
         });

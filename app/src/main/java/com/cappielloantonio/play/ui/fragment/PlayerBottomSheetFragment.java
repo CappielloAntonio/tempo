@@ -23,6 +23,8 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.PlayerNowPlayingSongAdapter;
 import com.cappielloantonio.play.adapter.PlayerSongQueueAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlayerBottomSheetBinding;
+import com.cappielloantonio.play.databinding.PlayerBodyBottomSheetBinding;
+import com.cappielloantonio.play.databinding.PlayerHeaderBottomSheetBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.helper.MusicProgressViewUpdateHelper;
 import com.cappielloantonio.play.interfaces.MusicServiceEventListener;
@@ -41,6 +43,8 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     private static final String TAG = "PlayerBottomSheetFragment";
 
     private FragmentPlayerBottomSheetBinding bind;
+    private PlayerHeaderBottomSheetBinding headerBind;
+    private PlayerBodyBottomSheetBinding bodyBind;
     private MainActivity activity;
     private PlayerBottomSheetViewModel playerBottomSheetViewModel;
 
@@ -63,6 +67,10 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
         bind = FragmentPlayerBottomSheetBinding.inflate(inflater, container, false);
         View view = bind.getRoot();
+
+        headerBind = bind.playerHeaderLayout;
+        bodyBind = bind.playerBodyLayout;
+
         playerBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(PlayerBottomSheetViewModel.class);
 
         initQueueSlideView();
@@ -105,18 +113,20 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        headerBind = null;
+        bodyBind = null;
         bind = null;
     }
 
     private void initQueueSlideView() {
-        bind.playerBodyLayout.playerSongCoverViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        bodyBind.playerSongCoverViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
         playerNowPlayingSongAdapter = new PlayerNowPlayingSongAdapter(requireContext());
-        bind.playerBodyLayout.playerSongCoverViewPager.setAdapter(playerNowPlayingSongAdapter);
+        bodyBind.playerSongCoverViewPager.setAdapter(playerNowPlayingSongAdapter);
         playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), queue -> playerNowPlayingSongAdapter.setItems(MappingUtil.mapQueue(queue)));
 
-        bind.playerBodyLayout.playerSongCoverViewPager.setOffscreenPageLimit(3);
-        bind.playerBodyLayout.playerSongCoverViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        bodyBind.playerSongCoverViewPager.setOffscreenPageLimit(3);
+        bodyBind.playerSongCoverViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             // 0 = IDLE
             // 1 = DRAGGING
             // 2 = SETTLING
@@ -144,11 +154,11 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     private void initQueueRecyclerView() {
-        bind.playerBodyLayout.playerQueueRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        bind.playerBodyLayout.playerQueueRecyclerView.setHasFixedSize(true);
+        bodyBind.playerQueueRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        bodyBind.playerQueueRecyclerView.setHasFixedSize(true);
 
         playerSongQueueAdapter = new PlayerSongQueueAdapter(requireContext(), this);
-        bind.playerBodyLayout.playerQueueRecyclerView.setAdapter(playerSongQueueAdapter);
+        bodyBind.playerQueueRecyclerView.setAdapter(playerSongQueueAdapter);
         playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), queue -> playerSongQueueAdapter.setItems(MappingUtil.mapQueue(queue)));
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
@@ -191,7 +201,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
                  */
                 playerBottomSheetViewModel.orderSongAfterSwap(playerSongQueueAdapter.getItems());
                 MusicPlayerRemote.moveSong(originalPosition, toPosition);
-                bind.playerBodyLayout.playerSongCoverViewPager.setCurrentItem(MusicPlayerRemote.getPosition(), false);
+                bodyBind.playerSongCoverViewPager.setCurrentItem(MusicPlayerRemote.getPosition(), false);
 
                 originalPosition = -1;
                 fromPosition = -1;
@@ -203,19 +213,19 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
                 if (!(viewHolder.getBindingAdapterPosition() == MusicPlayerRemote.getPosition()) && !(MusicPlayerRemote.getPlayingQueue().size() <= 1)) {
                     MusicPlayerRemote.removeFromQueue(viewHolder.getBindingAdapterPosition());
                     playerBottomSheetViewModel.removeSong(viewHolder.getBindingAdapterPosition());
-                    bind.playerBodyLayout.playerQueueRecyclerView.getAdapter().notifyItemRemoved(viewHolder.getBindingAdapterPosition());
-                    bind.playerBodyLayout.playerSongCoverViewPager.setCurrentItem(MusicPlayerRemote.getPosition(), false);
+                    bodyBind.playerQueueRecyclerView.getAdapter().notifyItemRemoved(viewHolder.getBindingAdapterPosition());
+                    bodyBind.playerSongCoverViewPager.setCurrentItem(MusicPlayerRemote.getPosition(), false);
                 } else {
-                    bind.playerBodyLayout.playerQueueRecyclerView.getAdapter().notifyDataSetChanged();
+                    bodyBind.playerQueueRecyclerView.getAdapter().notifyDataSetChanged();
                 }
             }
         }
-        ).attachToRecyclerView(bind.playerBodyLayout.playerQueueRecyclerView);
+        ).attachToRecyclerView(bodyBind.playerQueueRecyclerView);
     }
 
     private void initFavoriteButtonClick() {
-        bind.playerBodyLayout.buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite());
-        bind.playerBodyLayout.buttonFavorite.setOnLongClickListener(v -> {
+        bodyBind.buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite());
+        bodyBind.buttonFavorite.setOnLongClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putParcelable("song_object", playerBottomSheetViewModel.getCurrentSong());
 
@@ -228,7 +238,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     private void initMusicCommandButton() {
-        bind.playerHeaderLayout.playerHeaderButton.setOnClickListener(v -> {
+        headerBind.playerHeaderButton.setOnClickListener(v -> {
             if (MusicPlayerRemote.isPlaying()) {
                 MusicPlayerRemote.pauseSong();
             } else {
@@ -236,11 +246,11 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
             }
         });
 
-        bind.playerHeaderLayout.playerHeaderNextSongButton.setOnClickListener(v -> MusicPlayerRemote.playNextSong());
+        headerBind.playerHeaderNextSongButton.setOnClickListener(v -> MusicPlayerRemote.playNextSong());
     }
 
     private void initSeekBar() {
-        bind.playerBodyLayout.playerBigSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        bodyBind.playerBigSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
@@ -262,36 +272,36 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     private void setViewPageDelayed(int position) {
-        /*bind.playerBodyLayout.playerSongCoverViewPager.post(() -> {
+        /*bodyBind.playerSongCoverViewPager.post(() -> {
             int restoredPosition = PreferenceManager.getDefaultSharedPreferences(requireContext()).getInt(PreferenceUtil.POSITION, -1);
-            bind.playerBodyLayout.playerSongCoverViewPager.setCurrentItem(restoredPosition, true);
+            bodyBind.playerSongCoverViewPager.setCurrentItem(restoredPosition, true);
         });*/
 
         final Handler handler = new Handler();
         final Runnable r = () -> {
-            bind.playerBodyLayout.playerSongCoverViewPager.setCurrentItem(position, false);
+            bodyBind.playerSongCoverViewPager.setCurrentItem(position, false);
         };
         handler.postDelayed(r, 100);
     }
 
     private void setSongInfo(Song song) {
-        bind.playerBodyLayout.playerSongTitleLabel.setText(MusicUtil.getReadableString(song.getTitle()));
-        bind.playerBodyLayout.playerArtistNameLabel.setText(MusicUtil.getReadableString(song.getArtistName()));
+        bodyBind.playerSongTitleLabel.setText(MusicUtil.getReadableString(song.getTitle()));
+        bodyBind.playerArtistNameLabel.setText(MusicUtil.getReadableString(song.getArtistName()));
 
-        bind.playerHeaderLayout.playerHeaderSongTitleLabel.setText(MusicUtil.getReadableString(song.getTitle()));
-        bind.playerHeaderLayout.playerHeaderSongArtistLabel.setText(MusicUtil.getReadableString(song.getArtistName()));
+        headerBind.playerHeaderSongTitleLabel.setText(MusicUtil.getReadableString(song.getTitle()));
+        headerBind.playerHeaderSongArtistLabel.setText(MusicUtil.getReadableString(song.getArtistName()));
 
         CustomGlideRequest.Builder
                 .from(requireContext(), song.getPrimary(), CustomGlideRequest.SONG_PIC, null)
                 .build()
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
-                .into(bind.playerHeaderLayout.playerHeaderSongCoverImage);
+                .into(headerBind.playerHeaderSongCoverImage);
 
-        bind.playerBodyLayout.buttonFavorite.setChecked(song.isFavorite());
+        bodyBind.buttonFavorite.setChecked(song.isFavorite());
     }
 
     protected void updatePlayPauseState() {
-        bind.playerHeaderLayout.playerHeaderButton.setChecked(!MusicPlayerRemote.isPlaying());
+        headerBind.playerHeaderButton.setChecked(!MusicPlayerRemote.isPlaying());
     }
 
     private void setUpMusicControllers() {
@@ -307,7 +317,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     public void scrollPager(Song song, int page, boolean smoothScroll) {
-        bind.playerBodyLayout.playerSongCoverViewPager.setCurrentItem(page, smoothScroll);
+        bodyBind.playerSongCoverViewPager.setCurrentItem(page, smoothScroll);
         setSongInfo(song);
     }
 
@@ -345,13 +355,13 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
     @Override
     public void onUpdateProgressViews(int progress, int total) {
-        bind.playerHeaderLayout.playerHeaderSeekBar.setMax(total);
-        bind.playerHeaderLayout.playerHeaderSeekBar.setProgress(progress);
+        headerBind.playerHeaderSeekBar.setMax(total);
+        headerBind.playerHeaderSeekBar.setProgress(progress);
 
-        bind.playerBodyLayout.playerBigSeekBar.setMax(total);
-        bind.playerBodyLayout.playerBigSeekBar.setProgress(progress);
+        bodyBind.playerBigSeekBar.setMax(total);
+        bodyBind.playerBigSeekBar.setProgress(progress);
 
-        bind.playerBodyLayout.playerBigSongTimeIn.setText(MusicUtil.getReadableDurationString(progress, true));
-        bind.playerBodyLayout.playerBigSongDuration.setText(MusicUtil.getReadableDurationString(total, true));
+        bodyBind.playerBigSongTimeIn.setText(MusicUtil.getReadableDurationString(progress, true));
+        bodyBind.playerBigSongDuration.setText(MusicUtil.getReadableDurationString(total, true));
     }
 }

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -64,6 +65,12 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
     }
 
     @Override
+    public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        startAnimation(holder);
+    }
+
+    @Override
     public int getItemCount() {
         return songs.size();
     }
@@ -113,5 +120,15 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
                 }
             });
         }
+    }
+
+    private void startAnimation(ViewHolder holder) {
+        holder.cover.animate()
+                .setDuration(20000)
+                .setStartDelay(10)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .scaleX(1.4f)
+                .scaleY(1.4f)
+                .start();
     }
 }

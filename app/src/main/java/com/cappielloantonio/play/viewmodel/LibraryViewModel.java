@@ -20,15 +20,15 @@ import com.cappielloantonio.play.repository.PlaylistRepository;
 import java.util.List;
 
 public class LibraryViewModel extends AndroidViewModel {
-    private AlbumRepository albumRepository;
-    private ArtistRepository artistRepository;
-    private GenreRepository genreRepository;
-    private PlaylistRepository playlistRepository;
+    private final AlbumRepository albumRepository;
+    private final ArtistRepository artistRepository;
+    private final GenreRepository genreRepository;
+    private final PlaylistRepository playlistRepository;
 
-    private MutableLiveData<List<Playlist>> playlistSample;
-    private MutableLiveData<List<Album>> sampleAlbum;
-    private MutableLiveData<List<Artist>> sampleArtist;
-    private MutableLiveData<List<Genre>> sampleGenres;
+    private final MutableLiveData<List<Playlist>> playlistSample = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Album>> sampleAlbum = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Artist>> sampleArtist = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Genre>> sampleGenres = new MutableLiveData<>(null);
 
     public LibraryViewModel(@NonNull Application application) {
         super(application);
@@ -40,10 +40,10 @@ public class LibraryViewModel extends AndroidViewModel {
 
         // Inizializzate all'interno del costruttore, in modo da rimanere immutabili per tutto il
         // ciclo di vita dell'applicazione
-        sampleAlbum = albumRepository.getAlbums("random", 20);
-        sampleArtist = artistRepository.getArtists(true, 20);
-        sampleGenres = genreRepository.getGenres(true, 15);
-        playlistSample = playlistRepository.getPlaylists(true, 10);
+        albumRepository.getAlbums("random", 20).observeForever(sampleAlbum::postValue);
+        artistRepository.getArtists(true, 20).observeForever(sampleArtist::postValue);
+        genreRepository.getGenres(true, 15).observeForever(sampleGenres::postValue);
+        playlistRepository.getPlaylists(true, 10).observeForever(playlistSample::postValue);
     }
 
     public LiveData<List<Album>> getAlbumSample() {
@@ -63,18 +63,18 @@ public class LibraryViewModel extends AndroidViewModel {
     }
 
     public void refreshAlbumSample(LifecycleOwner owner) {
-        albumRepository.getAlbums("random", 20).observe(owner, albums -> sampleAlbum.postValue(albums));
+        albumRepository.getAlbums("random", 20).observe(owner, sampleAlbum::postValue);
     }
 
     public void refreshArtistSample(LifecycleOwner owner) {
-        artistRepository.getArtists(true, 20).observe(owner, artists -> sampleArtist.postValue(artists));
+        artistRepository.getArtists(true, 20).observe(owner, sampleArtist::postValue);
     }
 
     public void refreshGenreSample(LifecycleOwner owner) {
-        genreRepository.getGenres(true, 15).observe(owner, genres -> sampleGenres.postValue(genres));
+        genreRepository.getGenres(true, 15).observe(owner, sampleGenres::postValue);
     }
 
     public void refreshPlaylistSample(LifecycleOwner owner) {
-        playlistRepository.getPlaylists(true, 10).observe(owner, playlists -> playlistSample.postValue(playlists));
+        playlistRepository.getPlaylists(true, 10).observe(owner, playlistSample::postValue);
     }
 }

@@ -104,9 +104,15 @@ public class LibraryFragment extends Fragment {
         albumAdapter = new AlbumAdapter(requireContext());
         bind.albumRecyclerView.setAdapter(albumAdapter);
         libraryViewModel.getAlbumSample().observe(requireActivity(), albums -> {
-            if (bind != null)
-                bind.libraryAlbumSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
-            albumAdapter.setItems(albums);
+            if (albums == null) {
+                if (bind != null) bind.libraryAlbumPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.libraryAlbumSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.libraryAlbumPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.libraryAlbumSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+
+                albumAdapter.setItems(albums);
+            }
         });
 
         CustomLinearSnapHelper albumSnapHelper = new CustomLinearSnapHelper();
@@ -120,9 +126,15 @@ public class LibraryFragment extends Fragment {
         artistAdapter = new ArtistAdapter(requireContext());
         bind.artistRecyclerView.setAdapter(artistAdapter);
         libraryViewModel.getArtistSample().observe(requireActivity(), artists -> {
-            if (bind != null)
-                bind.libraryArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
-            artistAdapter.setItems(artists);
+            if (artists == null) {
+                if (bind != null) bind.libraryArtistPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.libraryArtistSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.libraryArtistPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.libraryArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+
+                artistAdapter.setItems(artists);
+            }
         });
 
         CustomLinearSnapHelper artistSnapHelper = new CustomLinearSnapHelper();
@@ -142,9 +154,15 @@ public class LibraryFragment extends Fragment {
         });
         bind.genreRecyclerView.setAdapter(genreAdapter);
         libraryViewModel.getGenreSample().observe(requireActivity(), genres -> {
-            if (bind != null)
-                bind.libraryGenresSector.setVisibility(!genres.isEmpty() ? View.VISIBLE : View.GONE);
-            genreAdapter.setItems(genres);
+            if (genres == null) {
+                if (bind != null) bind.libraryGenrePlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.libraryGenresSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.libraryGenrePlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.libraryGenresSector.setVisibility(!genres.isEmpty() ? View.VISIBLE : View.GONE);
+
+                genreAdapter.setItems(genres);
+            }
         });
 
         CustomLinearSnapHelper genreSnapHelper = new CustomLinearSnapHelper();
@@ -158,9 +176,15 @@ public class LibraryFragment extends Fragment {
         bind.playlistViewPager.setAdapter(playlistAdapter);
         bind.playlistViewPager.setOffscreenPageLimit(3);
         libraryViewModel.getPlaylistSample().observe(requireActivity(), playlists -> {
-            if (bind != null)
-                bind.libraryPlaylistSector.setVisibility(!playlists.isEmpty() ? View.VISIBLE : View.GONE);
-            playlistAdapter.setItems(playlists);
+            if (playlists == null) {
+                if (bind != null) bind.libraryPlaylistPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.libraryPlaylistSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.libraryPlaylistPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.libraryPlaylistSector.setVisibility(!playlists.isEmpty() ? View.VISIBLE : View.GONE);
+
+                playlistAdapter.setItems(playlists);
+            }
         });
 
         setDiscoverSongSlideViewOffset(20, 16);

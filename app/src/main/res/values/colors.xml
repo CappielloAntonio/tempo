@@ -37,6 +37,8 @@
 
     <color name="white">#FFFFFF</color>
 
-    <color name="startTintColor">#3700B3</color>
-    <color name="startBackgroundTintColor">#f0f0f0</color>
+    <color name="starTintColor">#3700B3</color>
+    <color name="starBackgroundTintColor">#f0f0f0</color>
+
+    <color name="placeholderColor">#F1F3F4</color>
 </resources>

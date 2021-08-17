@@ -65,6 +65,11 @@
                 android:paddingBottom="8dp" />
         </LinearLayout>
 
+        <include
+            android:id="@+id/library_album_placeholder"
+            layout="@layout/item_placeholder_album"
+            android:visibility="gone"/>
+
         <LinearLayout
             android:id="@+id/library_artist_sector"
             android:layout_width="match_parent"
@@ -119,6 +124,11 @@
                 android:paddingBottom="8dp" />
         </LinearLayout>
 
+        <include
+            android:id="@+id/library_artist_placeholder"
+            layout="@layout/item_placeholder_album"
+            android:visibility="gone"/>
+
         <LinearLayout
             android:id="@+id/library_genres_sector"
             android:layout_width="match_parent"
@@ -171,6 +181,11 @@
                 android:paddingEnd="8dp" />
         </LinearLayout>
 
+        <include
+            android:id="@+id/library_genre_placeholder"
+            layout="@layout/item_placeholder_genre"
+            android:visibility="gone"/>
+
         <LinearLayout
             android:id="@+id/library_playlist_sector"
             android:layout_width="match_parent"
@@ -221,5 +236,10 @@
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp" />
         </LinearLayout>
+
+        <include
+            android:id="@+id/library_playlist_placeholder"
+            layout="@layout/item_placeholder_album"
+            android:visibility="gone"/>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

@@ -1,7 +1,6 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -182,7 +181,15 @@ public class HomeFragment extends Fragment {
         bind.discoverSongViewPager.setAdapter(discoverSongAdapter);
         bind.discoverSongViewPager.setOffscreenPageLimit(3);
         homeViewModel.getDiscoverSongSample().observe(requireActivity(), songs -> {
-            discoverSongAdapter.setItems(songs);
+            if (songs == null) {
+                if (bind != null) bind.homeDiscoveryPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeDiscoverSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.homeDiscoveryPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeDiscoverSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+
+                discoverSongAdapter.setItems(songs);
+            }
         });
 
         setDiscoverSongSlideViewOffset(20, 16);
@@ -194,12 +201,17 @@ public class HomeFragment extends Fragment {
 
         mostPlayedAlbumAdapter = new AlbumAdapter(requireContext());
         bind.mostPlayedAlbumsRecyclerView.setAdapter(mostPlayedAlbumAdapter);
-        homeViewModel.getMostPlayedAlbums().observe(requireActivity(), albums -> {
-            if (albums.size() < 10) reorder();
-            if (bind != null)
-                bind.homeMostPlayedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+        homeViewModel.getMostPlayedAlbums(requireActivity()).observe(requireActivity(), albums -> {
+            if (albums == null) {
+                if (bind != null) bind.homeMostPlayedAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeMostPlayedAlbumsSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.homeMostPlayedAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeMostPlayedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+                if (albums.size() < 10) reorder();
 
-            mostPlayedAlbumAdapter.setItems(albums);
+                mostPlayedAlbumAdapter.setItems(albums);
+            }
         });
 
         CustomLinearSnapHelper mostPlayedAlbumSnapHelper = new CustomLinearSnapHelper();
@@ -212,11 +224,16 @@ public class HomeFragment extends Fragment {
 
         recentlyPlayedAlbumAdapter = new AlbumAdapter(requireContext());
         bind.recentlyPlayedAlbumsRecyclerView.setAdapter(recentlyPlayedAlbumAdapter);
-        homeViewModel.getRecentlyPlayedAlbumList().observe(requireActivity(), albums -> {
-            if (bind != null)
-                bind.homeRecentlyPlayedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+        homeViewModel.getRecentlyPlayedAlbumList(requireActivity()).observe(requireActivity(), albums -> {
+            if (albums == null) {
+                if (bind != null) bind.homeRecentlyPlayedAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeRecentlyPlayedAlbumsSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.homeRecentlyPlayedAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeRecentlyPlayedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
 
-            recentlyPlayedAlbumAdapter.setItems(albums);
+                recentlyPlayedAlbumAdapter.setItems(albums);
+            }
         });
 
         CustomLinearSnapHelper recentPlayedAlbumSnapHelper = new CustomLinearSnapHelper();
@@ -235,11 +252,16 @@ public class HomeFragment extends Fragment {
             activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
         });
         bind.yearsRecyclerView.setAdapter(yearAdapter);
-        homeViewModel.getYearList().observe(requireActivity(), years -> {
-            if (bind != null)
-                bind.homeFlashbackSector.setVisibility(!years.isEmpty() ? View.VISIBLE : View.GONE);
+        homeViewModel.getYearList(requireActivity()).observe(requireActivity(), years -> {
+            if (years == null) {
+                if (bind != null) bind.homeFlashbackPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeFlashbackSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.homeFlashbackPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeFlashbackSector.setVisibility(!years.isEmpty() ? View.VISIBLE : View.GONE);
 
-            yearAdapter.setItems(years);
+                yearAdapter.setItems(years);
+            }
         });
 
         CustomLinearSnapHelper yearSnapHelper = new CustomLinearSnapHelper();
@@ -251,12 +273,17 @@ public class HomeFragment extends Fragment {
 
         starredSongAdapter = new SongHorizontalAdapter(activity, requireContext());
         bind.starredTracksRecyclerView.setAdapter(starredSongAdapter);
-        homeViewModel.getStarredTracks().observe(requireActivity(), songs -> {
-            if (bind != null) {
-                bind.homeStarredTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
-                bind.starredTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(songs.size(), 5), GridLayoutManager.HORIZONTAL, false));
+        homeViewModel.getStarredTracks(requireActivity()).observe(requireActivity(), songs -> {
+            if (songs == null) {
+                if (bind != null) bind.homeStarredTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeStarredTracksSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.homeStarredTracksPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeStarredTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null) bind.starredTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(songs.size(), 5), GridLayoutManager.HORIZONTAL, false));
+
+                starredSongAdapter.setItems(songs);
             }
-            starredSongAdapter.setItems(songs);
         });
 
         SnapHelper starredTrackSnapHelper = new PagerSnapHelper();
@@ -268,12 +295,17 @@ public class HomeFragment extends Fragment {
 
         starredAlbumAdapter = new AlbumHorizontalAdapter(requireContext());
         bind.starredAlbumsRecyclerView.setAdapter(starredAlbumAdapter);
-        homeViewModel.getStarredAlbums().observe(requireActivity(), albums -> {
-            if (bind != null) {
-                bind.homeStarredAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
-                bind.starredAlbumsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
+        homeViewModel.getStarredAlbums(requireActivity()).observe(requireActivity(), albums -> {
+            if (albums == null) {
+                if (bind != null) bind.homeStarredAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeStarredAlbumsSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.homeStarredAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeStarredAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null) bind.starredAlbumsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
+
+                starredAlbumAdapter.setItems(albums);
             }
-            starredAlbumAdapter.setItems(albums);
         });
 
         SnapHelper starredAlbumSnapHelper = new PagerSnapHelper();
@@ -285,12 +317,17 @@ public class HomeFragment extends Fragment {
 
         starredArtistAdapter = new ArtistHorizontalAdapter(requireContext());
         bind.starredArtistsRecyclerView.setAdapter(starredArtistAdapter);
-        homeViewModel.getStarredArtists().observe(requireActivity(), artists -> {
-            if (bind != null) {
-                bind.homeStarredArtistsSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
-                bind.starredArtistsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(artists.size(), 5), GridLayoutManager.HORIZONTAL, false));
+        homeViewModel.getStarredArtists(requireActivity()).observe(requireActivity(), artists -> {
+            if (artists == null) {
+                if (bind != null) bind.homeStarredArtistsPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeStarredArtistsSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.homeStarredArtistsPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeStarredArtistsSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null) bind.starredArtistsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(artists.size(), 5), GridLayoutManager.HORIZONTAL, false));
+
+                starredArtistAdapter.setItems(artists);
             }
-            starredArtistAdapter.setItems(artists);
         });
 
         SnapHelper starredArtistSnapHelper = new PagerSnapHelper();
@@ -303,8 +340,16 @@ public class HomeFragment extends Fragment {
 
         recentlyAddedAlbumAdapter = new AlbumAdapter(requireContext());
         bind.recentlyAddedAlbumsRecyclerView.setAdapter(recentlyAddedAlbumAdapter);
-        homeViewModel.getMostRecentlyAddedAlbums().observe(requireActivity(), albums -> {
-            recentlyAddedAlbumAdapter.setItems(albums);
+        homeViewModel.getMostRecentlyAddedAlbums(requireActivity()).observe(requireActivity(), albums -> {
+            if (albums == null) {
+                if (bind != null) bind.homeRecentlyAddedAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeRecentlyAddedAlbumsSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.homeRecentlyAddedAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeRecentlyAddedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+
+                recentlyAddedAlbumAdapter.setItems(albums);
+            }
         });
 
         CustomLinearSnapHelper recentAddedAlbumSnapHelper = new CustomLinearSnapHelper();
@@ -317,11 +362,16 @@ public class HomeFragment extends Fragment {
 
         dowanloadedMusicAdapter = new RecentMusicAdapter(activity, requireContext());
         bind.downloadedTracksRecyclerView.setAdapter(dowanloadedMusicAdapter);
-        homeViewModel.getDownloaded().observe(requireActivity(), downloads -> {
-            if (bind != null)
-                bind.homeDownloadedTracksSector.setVisibility(!downloads.isEmpty() ? View.VISIBLE : View.GONE);
+        homeViewModel.getDownloaded(requireActivity()).observe(requireActivity(), downloads -> {
+            if (downloads == null) {
+                if (bind != null) bind.homeDownloadedTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeDownloadedTracksSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.homeDownloadedTracksPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeDownloadedTracksSector.setVisibility(!downloads.isEmpty() ? View.VISIBLE : View.GONE);
 
-            dowanloadedMusicAdapter.setItems(MappingUtil.mapDownload(downloads));
+                dowanloadedMusicAdapter.setItems(MappingUtil.mapDownload(downloads));
+            }
         });
 
         CustomLinearSnapHelper downloadedSongSnapHelper = new CustomLinearSnapHelper();

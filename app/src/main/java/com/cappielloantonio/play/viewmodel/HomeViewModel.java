@@ -21,21 +21,21 @@ import java.util.List;
 
 public class HomeViewModel extends AndroidViewModel {
     private static final String TAG = "HomeViewModel";
-    private SongRepository songRepository;
-    private AlbumRepository albumRepository;
-    private ArtistRepository artistRepository;
-    private DownloadRepository downloadRepository;
 
-    private MutableLiveData<List<Song>> dicoverSongSample;
-    private MutableLiveData<List<Album>> mostPlayedAlbumSample;
-    private MutableLiveData<List<Album>> recentlyAddedAlbumSample;
-    private MutableLiveData<List<Album>> recentlyPlayedAlbumSample;
-    private LiveData<List<Download>> downloadedSongSample;
-    private LiveData<List<Integer>> years;
+    private final SongRepository songRepository;
+    private final AlbumRepository albumRepository;
+    private final ArtistRepository artistRepository;
+    private final DownloadRepository downloadRepository;
 
-    private MutableLiveData<List<Song>> starredTracks;
-    private MutableLiveData<List<Album>> starredAlbums;
-    private MutableLiveData<List<Artist>> starredArtists;
+    private final MutableLiveData<List<Song>> dicoverSongSample = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Album>> mostPlayedAlbumSample = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Album>> recentlyPlayedAlbumSample = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Integer>> years = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Song>> starredTracks = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Album>> starredAlbums = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Artist>> starredArtists = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Download>> downloadedSongSample = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Album>> recentlyAddedAlbumSample = new MutableLiveData<>(null);
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
@@ -45,83 +45,78 @@ public class HomeViewModel extends AndroidViewModel {
         artistRepository = new ArtistRepository(application);
         downloadRepository = new DownloadRepository(application);
 
-        dicoverSongSample = songRepository.getRandomSample(10, null, null);
-        mostPlayedAlbumSample = albumRepository.getAlbums("frequent", 20);
-        recentlyAddedAlbumSample = albumRepository.getAlbums("newest", 20);
-        recentlyPlayedAlbumSample = albumRepository.getAlbums("recent", 20);
-        downloadedSongSample = downloadRepository.getLiveDownloadSample(10);
-        years = albumRepository.getDecades();
-
-        starredTracks = songRepository.getStarredSongs();
-        starredAlbums = albumRepository.getStarredAlbums();
-        starredArtists = artistRepository.getStarredArtists();
-    }
-
-    public SongRepository getSongRepository() {
-        return songRepository;
+        songRepository.getRandomSample(10, null, null).observeForever(dicoverSongSample::postValue);
     }
 
     public LiveData<List<Song>> getDiscoverSongSample() {
         return dicoverSongSample;
     }
 
-    public LiveData<List<Integer>> getYearList() {
+    public LiveData<List<Integer>> getYearList(LifecycleOwner owner) {
+        albumRepository.getDecades().observe(owner, years::postValue);
         return years;
     }
 
-    public LiveData<List<Song>> getStarredTracks() {
+    public LiveData<List<Song>> getStarredTracks(LifecycleOwner owner) {
+        songRepository.getStarredSongs().observe(owner, starredTracks::postValue);
         return starredTracks;
     }
 
-    public LiveData<List<Album>> getStarredAlbums() {
+    public LiveData<List<Album>> getStarredAlbums(LifecycleOwner owner) {
+        albumRepository.getStarredAlbums().observe(owner, starredAlbums::postValue);
         return starredAlbums;
     }
 
-    public LiveData<List<Artist>> getStarredArtists() {
+    public LiveData<List<Artist>> getStarredArtists(LifecycleOwner owner) {
+        artistRepository.getStarredArtists().observe(owner, starredArtists::postValue);
         return starredArtists;
     }
 
-    public LiveData<List<Download>> getDownloaded() {
+    public LiveData<List<Download>> getDownloaded(LifecycleOwner owner) {
+        downloadRepository.getLiveDownloadSample(10).observe(owner, downloadedSongSample::postValue);
         return downloadedSongSample;
     }
 
-    public LiveData<List<Album>> getMostPlayedAlbums() {
+    public LiveData<List<Album>> getMostPlayedAlbums(LifecycleOwner owner) {
+        albumRepository.getAlbums("frequent", 20).observe(owner, mostPlayedAlbumSample::postValue);
         return mostPlayedAlbumSample;
     }
 
-    public LiveData<List<Album>> getMostRecentlyAddedAlbums() {
+    public LiveData<List<Album>> getMostRecentlyAddedAlbums(LifecycleOwner owner) {
+        albumRepository.getAlbums("newest", 20).observe(owner, recentlyAddedAlbumSample::postValue);
         return recentlyAddedAlbumSample;
     }
 
-    public LiveData<List<Album>> getRecentlyPlayedAlbumList() {
+    public LiveData<List<Album>> getRecentlyPlayedAlbumList(LifecycleOwner owner) {
+        albumRepository.getAlbums("recent", 20).observe(owner, recentlyPlayedAlbumSample::postValue);
         return recentlyPlayedAlbumSample;
     }
 
     public void refreshDiscoverySongSample(LifecycleOwner owner) {
-        songRepository.getRandomSample(10, null, null).observe(owner, songs -> dicoverSongSample.postValue(songs));
+        songRepository.getRandomSample(10, null, null).observe(owner, dicoverSongSample::postValue);
     }
 
     public void refreshStarredTracks(LifecycleOwner owner) {
-        songRepository.getStarredSongs().observe(owner, songs -> starredTracks.postValue(songs));
+        songRepository.getStarredSongs().observe(owner, starredTracks::postValue);
     }
 
     public void refreshStarredAlbums(LifecycleOwner owner) {
-        albumRepository.getStarredAlbums().observe(owner, albums -> starredAlbums.postValue(albums));
+        albumRepository.getStarredAlbums().observe(owner, starredAlbums::postValue);
     }
 
     public void refreshStarredArtists(LifecycleOwner owner) {
-        artistRepository.getStarredArtists().observe(owner, artists -> starredArtists.postValue(artists));
+        artistRepository.getStarredArtists().observe(owner, starredArtists::postValue);
     }
 
     public void refreshMostPlayedAlbums(LifecycleOwner owner) {
-        albumRepository.getAlbums("frequent", 20).observe(owner, albums -> mostPlayedAlbumSample.postValue(albums));
+        albumRepository.getAlbums("frequent", 20).observe(owner, mostPlayedAlbumSample::postValue);
     }
 
     public void refreshMostRecentlyAddedAlbums(LifecycleOwner owner) {
-        albumRepository.getAlbums("newest", 20).observe(owner, albums -> recentlyAddedAlbumSample.postValue(albums));
+        albumRepository.getAlbums("newest", 20).observe(owner, recentlyAddedAlbumSample::postValue);
     }
 
     public void refreshRecentlyPlayedAlbumList(LifecycleOwner owner) {
-        albumRepository.getAlbums("recent", 20).observe(owner, albums -> recentlyPlayedAlbumSample.postValue(albums));
+        albumRepository.getAlbums("recent", 20).observe(owner, recentlyPlayedAlbumSample::postValue);
     }
 }

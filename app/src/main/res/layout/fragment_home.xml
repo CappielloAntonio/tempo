@@ -71,6 +71,41 @@
             layout="@layout/item_placehoder_discovery"
             android:visibility="gone"/>
 
+        <!--  Similar tracks -->
+        <LinearLayout
+            android:id="@+id/home_similar_tracks_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/similar_tracks_text_view_refreshable"
+                style="@style/HeadlineTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="16dp"
+                android:text="Made for you" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/similar_tracks_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:clipToPadding="false"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/home_similar_tracks_placeholder"
+            layout="@layout/item_placeholder_album"
+            android:visibility="gone"/>
+
         <!--  Most played albums -->
         <LinearLayout
             android:id="@+id/home_most_played_albums_sector"
@@ -427,11 +462,6 @@
                     android:text="See all" />
             </LinearLayout>
 
-            <include
-                android:id="@+id/home_downloaded_tracks_placeholder"
-                layout="@layout/item_placeholder_album"
-                android:visibility="gone"/>
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/downloaded_tracks_recycler_view"
                 android:layout_width="match_parent"
@@ -444,6 +474,11 @@
                 android:paddingEnd="8dp"
                 android:paddingBottom="8dp" />
         </LinearLayout>
+
+        <include
+            android:id="@+id/home_downloaded_tracks_placeholder"
+            layout="@layout/item_placeholder_album"
+            android:visibility="gone"/>
 
         <!--  Recently added albums -->
         <LinearLayout

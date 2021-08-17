@@ -21,7 +21,8 @@ import com.cappielloantonio.play.adapter.AlbumAdapter;
 import com.cappielloantonio.play.adapter.AlbumHorizontalAdapter;
 import com.cappielloantonio.play.adapter.ArtistHorizontalAdapter;
 import com.cappielloantonio.play.adapter.DiscoverSongAdapter;
-import com.cappielloantonio.play.adapter.RecentMusicAdapter;
+import com.cappielloantonio.play.adapter.SimilarTrackAdapter;
+import com.cappielloantonio.play.adapter.TrackAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.adapter.YearAdapter;
 import com.cappielloantonio.play.databinding.FragmentHomeBinding;
@@ -49,7 +50,8 @@ public class HomeFragment extends Fragment {
     private SongHorizontalAdapter starredSongAdapter;
     private AlbumHorizontalAdapter starredAlbumAdapter;
     private ArtistHorizontalAdapter starredArtistAdapter;
-    private RecentMusicAdapter dowanloadedMusicAdapter;
+    private TrackAdapter dowanloadedMusicAdapter;
+    private SimilarTrackAdapter similarMusicAdapter;
 
     @Nullable
     @Override
@@ -70,6 +72,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initDiscoverSongSlideView();
+        initSimilarSongView();
         initMostPlayedAlbumView();
         initRecentPlayedAlbumView();
         initStarredTracksView();
@@ -143,6 +146,11 @@ public class HomeFragment extends Fragment {
             return true;
         });
 
+        bind.similarTracksTextViewRefreshable.setOnLongClickListener(v -> {
+            homeViewModel.refreshSimilarSongSample(requireActivity());
+            return true;
+        });
+
         bind.recentlyPlayedAlbumsTextViewRefreshable.setOnLongClickListener(v -> {
             homeViewModel.refreshRecentlyPlayedAlbumList(requireActivity());
             return true;
@@ -193,6 +201,28 @@ public class HomeFragment extends Fragment {
         });
 
         setDiscoverSongSlideViewOffset(20, 16);
+    }
+
+    private void initSimilarSongView() {
+        bind.similarTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        bind.similarTracksRecyclerView.setHasFixedSize(true);
+
+        similarMusicAdapter = new SimilarTrackAdapter(activity, requireContext());
+        bind.similarTracksRecyclerView.setAdapter(similarMusicAdapter);
+        homeViewModel.getStarredTracksSample().observe(requireActivity(), songs -> {
+            if (songs == null) {
+                if (bind != null) bind.homeSimilarTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeSimilarTracksSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.homeSimilarTracksPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeSimilarTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+
+                similarMusicAdapter.setItems(songs);
+            }
+        });
+
+        CustomLinearSnapHelper similarSongSnapHelper = new CustomLinearSnapHelper();
+        similarSongSnapHelper.attachToRecyclerView(bind.similarTracksRecyclerView);
     }
 
     private void initMostPlayedAlbumView() {
@@ -360,7 +390,7 @@ public class HomeFragment extends Fragment {
         bind.downloadedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.downloadedTracksRecyclerView.setHasFixedSize(true);
 
-        dowanloadedMusicAdapter = new RecentMusicAdapter(activity, requireContext());
+        dowanloadedMusicAdapter = new TrackAdapter(activity, requireContext());
         bind.downloadedTracksRecyclerView.setAdapter(dowanloadedMusicAdapter);
         homeViewModel.getDownloaded(requireActivity()).observe(requireActivity(), downloads -> {
             if (downloads == null) {
@@ -404,6 +434,7 @@ public class HomeFragment extends Fragment {
         if (bind != null) {
             bind.homeLinearLayoutContainer.removeAllViews();
             bind.homeLinearLayoutContainer.addView(bind.homeDiscoverSector);
+            bind.homeLinearLayoutContainer.addView(bind.homeSimilarTracksSector);
             bind.homeLinearLayoutContainer.addView(bind.homeRecentlyAddedAlbumsSector);
             bind.homeLinearLayoutContainer.addView(bind.homeFlashbackSector);
             bind.homeLinearLayoutContainer.addView(bind.homeStarredTracksSector);

@@ -2,7 +2,7 @@ package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,8 +17,10 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
@@ -27,11 +28,9 @@ import com.cappielloantonio.play.util.MusicUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Adapter per i brani recenti in home
- */
-public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.ViewHolder> {
-    private static final String TAG = "RecentMusicAdapter";
+
+public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapter.ViewHolder> {
+    private static final String TAG = "SimilarTrackAdapter";
 
     private final MainActivity mainActivity;
     private final Context context;
@@ -39,7 +38,7 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
 
     private List<Song> songs;
 
-    public RecentMusicAdapter(MainActivity mainActivity, Context context) {
+    public SimilarTrackAdapter(MainActivity mainActivity, Context context) {
         this.mainActivity = mainActivity;
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
@@ -77,7 +76,7 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textTitle;
         TextView textAlbum;
         ImageView cover;
@@ -90,27 +89,32 @@ public class RecentMusicAdapter extends RecyclerView.Adapter<RecentMusicAdapter.
             cover = itemView.findViewById(R.id.track_cover_image_view);
 
             itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
+            List<Song> opener = new ArrayList<>();
+            opener.add(songs.get(getBindingAdapterPosition()));
+            MusicPlayerRemote.openQueue(opener, 0, true);
+
             QueueRepository queueRepository = new QueueRepository(App.getInstance());
-            queueRepository.insertAllAndStartNew(songs);
+            queueRepository.insertAllAndStartNew(opener);
 
             mainActivity.isBottomSheetInPeek(true);
             mainActivity.setBottomSheetMusicInfo(songs.get(getBindingAdapterPosition()));
 
-            MusicPlayerRemote.openQueue(songs, getBindingAdapterPosition(), true);
+            SongRepository songRepository = new SongRepository(App.getInstance());
+            songRepository.getInstantMix(songs.get(getBindingAdapterPosition()), 20, new MediaCallback() {
+                @Override
+                public void onError(Exception exception) {
+                    Log.e(TAG, "onError: " + exception.getMessage());
+                }
 
-        }
-
-        @Override
-        public boolean onLongClick(View view) {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("song_object", songs.get(getBindingAdapterPosition()));
-            Navigation.findNavController(view).navigate(R.id.songBottomSheetDialog, bundle);
-            return true;
+                @Override
+                public void onLoadMedia(List<?> media) {
+                    MusicPlayerRemote.enqueue((List<Song>) media);
+                }
+            });
         }
     }
 }

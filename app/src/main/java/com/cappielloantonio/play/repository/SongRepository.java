@@ -29,7 +29,7 @@ public class SongRepository {
         this.application = application;
     }
 
-    public MutableLiveData<List<Song>> getStarredSongs() {
+    public MutableLiveData<List<Song>> getStarredSongs(boolean random, int size) {
         MutableLiveData<List<Song>> starredSongs = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
@@ -40,7 +40,13 @@ public class SongRepository {
                     public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
                         if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
                             List<Song> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getStarred2().getSongs()));
-                            starredSongs.setValue(songs);
+
+                            if (!random) {
+                                starredSongs.setValue(songs);
+                            } else {
+                                Collections.shuffle(songs);
+                                starredSongs.setValue(songs.subList(0, Math.min(size, songs.size())));
+                            }
                         }
                     }
 

@@ -28,6 +28,8 @@ public class HomeViewModel extends AndroidViewModel {
     private final DownloadRepository downloadRepository;
 
     private final MutableLiveData<List<Song>> dicoverSongSample = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Song>> starredTracksSample = new MutableLiveData<>(null);
+
     private final MutableLiveData<List<Album>> mostPlayedAlbumSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Album>> recentlyPlayedAlbumSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Integer>> years = new MutableLiveData<>(null);
@@ -46,10 +48,15 @@ public class HomeViewModel extends AndroidViewModel {
         downloadRepository = new DownloadRepository(application);
 
         songRepository.getRandomSample(10, null, null).observeForever(dicoverSongSample::postValue);
+        songRepository.getStarredSongs(true, 10).observeForever(starredTracksSample::postValue);
     }
 
     public LiveData<List<Song>> getDiscoverSongSample() {
         return dicoverSongSample;
+    }
+
+    public LiveData<List<Song>> getStarredTracksSample() {
+        return starredTracksSample;
     }
 
     public LiveData<List<Integer>> getYearList(LifecycleOwner owner) {
@@ -58,7 +65,7 @@ public class HomeViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Song>> getStarredTracks(LifecycleOwner owner) {
-        songRepository.getStarredSongs().observe(owner, starredTracks::postValue);
+        songRepository.getStarredSongs(false, -1).observe(owner, starredTracks::postValue);
         return starredTracks;
     }
 
@@ -96,8 +103,12 @@ public class HomeViewModel extends AndroidViewModel {
         songRepository.getRandomSample(10, null, null).observe(owner, dicoverSongSample::postValue);
     }
 
+    public void refreshSimilarSongSample(LifecycleOwner owner) {
+        songRepository.getStarredSongs(true, 10).observe(owner, starredTracksSample::postValue);
+    }
+
     public void refreshStarredTracks(LifecycleOwner owner) {
-        songRepository.getStarredSongs().observe(owner, starredTracks::postValue);
+        songRepository.getStarredSongs(false, -1).observe(owner, starredTracks::postValue);
     }
 
     public void refreshStarredAlbums(LifecycleOwner owner) {

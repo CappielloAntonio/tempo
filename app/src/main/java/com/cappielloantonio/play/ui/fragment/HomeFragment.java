@@ -179,7 +179,7 @@ public class HomeFragment extends Fragment {
 
         discoverSongAdapter = new DiscoverSongAdapter(activity, requireContext());
         bind.discoverSongViewPager.setAdapter(discoverSongAdapter);
-        bind.discoverSongViewPager.setOffscreenPageLimit(3);
+        bind.discoverSongViewPager.setOffscreenPageLimit(1);
         homeViewModel.getDiscoverSongSample().observe(requireActivity(), songs -> {
             if (songs == null) {
                 if (bind != null) bind.homeDiscoveryPlaceholder.placeholder.setVisibility(View.VISIBLE);

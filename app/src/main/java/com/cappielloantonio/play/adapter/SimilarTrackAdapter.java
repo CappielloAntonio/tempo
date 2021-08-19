@@ -48,7 +48,7 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_home_track, parent, false);
+        View view = mInflater.inflate(R.layout.item_home_similar_track, parent, false);
         return new ViewHolder(view);
     }
 
@@ -57,7 +57,6 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
         Song song = songs.get(position);
 
         holder.textTitle.setText(MusicUtil.getReadableString(song.getTitle()));
-        holder.textAlbum.setText(MusicUtil.getReadableString(song.getAlbumName()));
 
         CustomGlideRequest.Builder
                 .from(context, song.getPrimary(), CustomGlideRequest.SONG_PIC, null)
@@ -78,14 +77,12 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textTitle;
-        TextView textAlbum;
         ImageView cover;
 
         ViewHolder(View itemView) {
             super(itemView);
 
             textTitle = itemView.findViewById(R.id.title_track_label);
-            textAlbum = itemView.findViewById(R.id.album_track_label);
             cover = itemView.findViewById(R.id.track_cover_image_view);
 
             itemView.setOnClickListener(this);

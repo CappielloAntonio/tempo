@@ -111,7 +111,7 @@ public class SearchingRepository {
     }
 
     public MutableLiveData<List<String>> getSuggestions(String query) {
-        MutableLiveData<List<String>> suggestions = new MutableLiveData<>(new ArrayList());
+        MutableLiveData<List<String>> suggestions = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getSearchingClient()

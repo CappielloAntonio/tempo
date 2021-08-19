@@ -87,7 +87,7 @@ public class SongRepository {
     }
 
     public MutableLiveData<List<Song>> getRandomSample(int number, Integer fromYear, Integer toYear) {
-        MutableLiveData<List<Song>> randomSongsSample = new MutableLiveData<>(new ArrayList<>());
+        MutableLiveData<List<Song>> randomSongsSample = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
@@ -180,7 +180,7 @@ public class SongRepository {
     }
 
     public MutableLiveData<List<Song>> getSongsByGenre(String id) {
-        MutableLiveData<List<Song>> songsByGenre = new MutableLiveData<>(new ArrayList<>());
+        MutableLiveData<List<Song>> songsByGenre = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
@@ -192,6 +192,7 @@ public class SongRepository {
                             List<Song> newSongs = new ArrayList<>(MappingUtil.mapSong(response.body().getSongsByGenre().getSongs()));
                             List<Song> songs = songsByGenre.getValue();
 
+                            if(songs == null) songs = new ArrayList<>();
                             songs.addAll(newSongs);
                             Collections.shuffle(songs);
 
@@ -212,10 +213,9 @@ public class SongRepository {
     }
 
     public MutableLiveData<List<Song>> getSongsByGenres(ArrayList<String> genresId) {
-        MutableLiveData<List<Song>> songsByGenre = new MutableLiveData<>(new ArrayList<>());
+        MutableLiveData<List<Song>> songsByGenre = new MutableLiveData<>();
 
         for (String id : genresId)
-
             App.getSubsonicClientInstance(application, false)
                     .getAlbumSongListClient()
                     .getSongsByGenre(id, 500, 0)

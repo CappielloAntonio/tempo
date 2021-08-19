@@ -18,7 +18,6 @@ public class DownloadRepository {
     private static final String TAG = "QueueRepository";
 
     private DownloadDao downloadDao;
-    private MutableLiveData<List<Download>> listLiveDownload = new MutableLiveData<>(new ArrayList<>());
 
     public DownloadRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);

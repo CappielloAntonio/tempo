@@ -31,7 +31,7 @@ public class ArtistRepository {
     }
 
     public MutableLiveData<List<Artist>> getStarredArtists() {
-        MutableLiveData<List<Artist>> starredArtists = new MutableLiveData<>(new ArrayList<>());
+        MutableLiveData<List<Artist>> starredArtists = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
@@ -54,7 +54,7 @@ public class ArtistRepository {
     }
 
     public MutableLiveData<List<Artist>> getArtists(boolean random, int size) {
-        MutableLiveData<List<Artist>> listLiveArtists = new MutableLiveData<>(new ArrayList<>());
+        MutableLiveData<List<Artist>> listLiveArtists = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
@@ -249,7 +249,7 @@ public class ArtistRepository {
     }
 
     public MutableLiveData<ArrayList<Song>> getArtistRandomSong(FragmentActivity fragmentActivity, Artist artist, int count) {
-        MutableLiveData<ArrayList<Song>> randomSongs = new MutableLiveData<>(new ArrayList());
+        MutableLiveData<ArrayList<Song>> randomSongs = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
@@ -266,6 +266,7 @@ public class ArtistRepository {
                                 for (int index = 0; index < albums.size(); index++) {
                                     albumRepository.getAlbumTracks(albums.get(index).getId()).observe(fragmentActivity, songs -> {
                                         ArrayList<Song> liveSongs = randomSongs.getValue();
+                                        if(liveSongs == null) liveSongs = new ArrayList<>();
                                         Collections.shuffle(liveSongs);
                                         liveSongs.addAll(songs);
                                         randomSongs.setValue(liveSongs);
@@ -309,6 +310,7 @@ public class ArtistRepository {
 
     private void addToMutableLiveData(MutableLiveData<List<Artist>> liveData, Artist artist) {
         List<Artist> liveArtists = liveData.getValue();
+        if(liveArtists == null) liveArtists = new ArrayList<>();
         liveArtists.add(artist);
         liveData.setValue(liveArtists);
     }

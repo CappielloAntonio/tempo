@@ -45,6 +45,7 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
             @Override
             public void onLoadMedia(List<?> media) {
                 List<Album> liveAlbum = albumList.getValue();
+                if(liveAlbum == null) liveAlbum = new ArrayList<>();
                 liveAlbum.addAll(MappingUtil.mapAlbum((List<AlbumID3>) media));
                 albumList.setValue(liveAlbum);
 

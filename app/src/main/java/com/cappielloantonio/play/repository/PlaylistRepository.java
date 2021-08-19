@@ -27,7 +27,7 @@ public class PlaylistRepository {
     }
 
     public MutableLiveData<List<Playlist>> getPlaylists(boolean random, int size) {
-        MutableLiveData<List<Playlist>> listLivePlaylists = new MutableLiveData<>(new ArrayList<>());
+        MutableLiveData<List<Playlist>> listLivePlaylists = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getPlaylistClient()
@@ -56,7 +56,7 @@ public class PlaylistRepository {
     }
 
     public MutableLiveData<List<Song>> getPlaylistSongs(String id) {
-        MutableLiveData<List<Song>> listLivePlaylistSongs = new MutableLiveData<>(new ArrayList<>());
+        MutableLiveData<List<Song>> listLivePlaylistSongs = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getPlaylistClient()

@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2814814814814815" />
         <entry key="app/src/main/res/drawable-v24/ic_shuffle.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/dialog_shape.xml" value="0.27685185185185185" />
+        <entry key="app/src/main/res/drawable/ic_arrow_back.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_close.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable/ic_done.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_download_for_offline.xml" value="0.27685185185185185" />
@@ -40,7 +41,7 @@
         <entry key="app/src/main/res/layout/item_home_discovery_placeholder.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_home_horizontal_placeholder.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_home_placeholder.xml" value="0.47191011235955055" />
-        <entry key="app/src/main/res/layout/item_home_similar_track.xml" value="0.3229166666666667" />
+        <entry key="app/src/main/res/layout/item_home_similar_track.xml" value="0.7617554858934169" />
         <entry key="app/src/main/res/layout/item_home_track.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_home_year.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_home_year_placeholder.xml" value="0.3229166666666667" />

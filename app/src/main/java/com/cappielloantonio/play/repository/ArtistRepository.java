@@ -91,6 +91,10 @@ public class ArtistRepository {
      * Metodo che mi restituisce le informazioni essenzionali dell'artista (cover, numero di album...)
      */
     public void getArtistInfo(List<Artist> artists, MutableLiveData<List<Artist>> list) {
+        List<Artist> liveArtists = list.getValue();
+        if(liveArtists == null) liveArtists = new ArrayList<>();
+        list.setValue(liveArtists);
+
         for (Artist artist : artists) {
             App.getSubsonicClientInstance(application, false)
                     .getBrowsingClient()
@@ -310,7 +314,6 @@ public class ArtistRepository {
 
     private void addToMutableLiveData(MutableLiveData<List<Artist>> liveData, Artist artist) {
         List<Artist> liveArtists = liveData.getValue();
-        if(liveArtists == null) liveArtists = new ArrayList<>();
         liveArtists.add(artist);
         liveData.setValue(liveArtists);
     }

@@ -50,7 +50,7 @@ public class Song implements Parcelable {
     public Song(Child child) {
         this.id = child.getId();
         this.title = child.getTitle();
-        this.trackNumber = child.getTrack();
+        this.trackNumber = child.getTrack() != null ? child.getTrack() : 0;
         this.discNumber = child.getDiscNumber() != null ? child.getDiscNumber() : 0;
         this.year = child.getYear() != null ? child.getYear() : 0;
         this.duration = child.getDuration();

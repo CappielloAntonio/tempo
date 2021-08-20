@@ -69,11 +69,10 @@ public class ArtistRepository {
                                 artists.addAll(MappingUtil.mapArtist(index.getArtists()));
                             }
 
-                            if(random) {
+                            if (random) {
                                 Collections.shuffle(artists);
                                 getArtistInfo(artists.subList(0, artists.size() / size > 0 ? size : artists.size()), listLiveArtists);
-                            }
-                            else {
+                            } else {
                                 listLiveArtists.setValue(artists);
                             }
                         }
@@ -92,7 +91,7 @@ public class ArtistRepository {
      */
     public void getArtistInfo(List<Artist> artists, MutableLiveData<List<Artist>> list) {
         List<Artist> liveArtists = list.getValue();
-        if(liveArtists == null) liveArtists = new ArrayList<>();
+        if (liveArtists == null) liveArtists = new ArrayList<>();
         list.setValue(liveArtists);
 
         for (Artist artist : artists) {
@@ -146,7 +145,7 @@ public class ArtistRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
-                        artistFullInfo.setValue(MappingUtil.mapArtist(response.body().getArtistInfo2()));
+                        if (response.body().getArtistInfo2() != null) artistFullInfo.setValue(MappingUtil.mapArtist(response.body().getArtistInfo2()));
                     }
 
                     @Override
@@ -270,7 +269,7 @@ public class ArtistRepository {
                                 for (int index = 0; index < albums.size(); index++) {
                                     albumRepository.getAlbumTracks(albums.get(index).getId()).observe(fragmentActivity, songs -> {
                                         ArrayList<Song> liveSongs = randomSongs.getValue();
-                                        if(liveSongs == null) liveSongs = new ArrayList<>();
+                                        if (liveSongs == null) liveSongs = new ArrayList<>();
                                         Collections.shuffle(liveSongs);
                                         liveSongs.addAll(songs);
                                         randomSongs.setValue(liveSongs);

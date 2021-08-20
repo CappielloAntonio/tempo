@@ -113,13 +113,12 @@ public class ArtistPageFragment extends Fragment {
     }
 
     private void initArtistInfo() {
-
         artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(requireActivity(), artist -> {
             if (bind != null) bind.artistPageBioSector.setVisibility(artist.getBio() != null ? View.VISIBLE : View.GONE);
             if (bind != null) bind.bioMoreTextViewClickable.setVisibility(artist.getLastfm() != null ? View.VISIBLE : View.GONE);
 
             CustomGlideRequest.Builder
-                    .from(requireContext(), null, CustomGlideRequest.ARTIST_PIC, artist.getImageUrl())
+                    .from(requireContext(), /*artistPageViewModel.getArtist().getId()*/ null, CustomGlideRequest.ARTIST_PIC, artist.getImageUrl())
                     .build()
                     .into(bind.artistBackdropImageView);
 

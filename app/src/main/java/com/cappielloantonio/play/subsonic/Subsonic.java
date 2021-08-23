@@ -1,5 +1,7 @@
 package com.cappielloantonio.play.subsonic;
 
+import android.content.Context;
+
 import com.cappielloantonio.play.subsonic.api.albumsonglist.AlbumSongListClient;
 import com.cappielloantonio.play.subsonic.api.browsing.BrowsingClient;
 import com.cappielloantonio.play.subsonic.api.mediaannotation.MediaAnnotationClient;
@@ -16,6 +18,8 @@ import java.util.Map;
 public class Subsonic {
     private static final Version API_MAX_VERSION = Version.of("1.15.0");
 
+    private final Context context;
+
     private Version apiVersion = API_MAX_VERSION;
     private SubsonicPreferences preferences;
 
@@ -28,7 +32,8 @@ public class Subsonic {
     private MediaAnnotationClient mediaAnnotationClient;
     private MediaLibraryScanningClient mediaLibraryScanningClient;
 
-    public Subsonic(SubsonicPreferences preferences) {
+    public Subsonic(Context context, SubsonicPreferences preferences) {
+        this.context = context;
         this.preferences = preferences;
     }
 
@@ -38,56 +43,56 @@ public class Subsonic {
 
     public SystemClient getSystemClient() {
         if (systemClient == null) {
-            systemClient = new SystemClient(this);
+            systemClient = new SystemClient(context, this);
         }
         return systemClient;
     }
 
     public BrowsingClient getBrowsingClient() {
         if (browsingClient == null) {
-            browsingClient = new BrowsingClient(this);
+            browsingClient = new BrowsingClient(context, this);
         }
         return browsingClient;
     }
 
     public MediaRetrievalClient getMediaRetrievalClient() {
         if (mediaRetrievalClient == null) {
-            mediaRetrievalClient = new MediaRetrievalClient(this);
+            mediaRetrievalClient = new MediaRetrievalClient(context, this);
         }
         return mediaRetrievalClient;
     }
 
     public PlaylistClient getPlaylistClient() {
         if (playlistClient == null) {
-            playlistClient = new PlaylistClient(this);
+            playlistClient = new PlaylistClient(context, this);
         }
         return playlistClient;
     }
 
     public SearchingClient getSearchingClient() {
         if (searchingClient == null) {
-            searchingClient = new SearchingClient(this);
+            searchingClient = new SearchingClient(context, this);
         }
         return searchingClient;
     }
 
     public AlbumSongListClient getAlbumSongListClient() {
         if (albumSongListClient == null) {
-            albumSongListClient = new AlbumSongListClient(this);
+            albumSongListClient = new AlbumSongListClient(context, this);
         }
         return albumSongListClient;
     }
 
     public MediaAnnotationClient getMediaAnnotationClient() {
         if (mediaAnnotationClient == null) {
-            mediaAnnotationClient = new MediaAnnotationClient(this);
+            mediaAnnotationClient = new MediaAnnotationClient(context, this);
         }
         return mediaAnnotationClient;
     }
 
     public MediaLibraryScanningClient getMediaLibraryScanningClient() {
         if (mediaLibraryScanningClient == null) {
-            mediaLibraryScanningClient = new MediaLibraryScanningClient(this);
+            mediaLibraryScanningClient = new MediaLibraryScanningClient(context, this);
         }
         return mediaLibraryScanningClient;
     }

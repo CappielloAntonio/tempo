@@ -54,6 +54,6 @@ public class App extends Application {
         preferences.setUsername(username);
         preferences.setAuthentication(password, token, salt);
 
-        return new Subsonic(preferences);
+        return new Subsonic(context, preferences);
     }
 }

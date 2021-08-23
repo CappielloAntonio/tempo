@@ -15,7 +15,7 @@ public class CacheUtil {
 
     public static Interceptor offlineInterceptor = chain -> {
         Request request = chain.request();
-        if (!false) {
+        if (!true) {
             int maxStale = 60 * 60 * 24 * 30;
             request = request.newBuilder()
                     .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)

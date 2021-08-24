@@ -2,6 +2,7 @@ package com.cappielloantonio.play.repository;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
@@ -14,7 +15,6 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.Child;
-import com.cappielloantonio.play.subsonic.models.ResponseStatus;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.util.MappingUtil;
 
@@ -27,9 +27,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SearchingRepository {
-    private RecentSearchDao recentSearchDao;
-
-    private Application application;
+    private final RecentSearchDao recentSearchDao;
+    private final Application application;
 
     public SearchingRepository(Application application) {
         this.application = application;
@@ -46,15 +45,18 @@ public class SearchingRepository {
                 .search3(query, 20, 0, 0)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
-                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
-                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
-                            List<Song> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getSearchResult3().getSongs()));
-                            searchedSongs.setValue(songs);
+                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                        List<Song> songs = new ArrayList<>();
+
+                        if(response.isSuccessful() && response.body() != null && response.body().getSearchResult3() != null) {
+                            songs.addAll(MappingUtil.mapSong(response.body().getSearchResult3().getSongs()));
                         }
+
+                        searchedSongs.setValue(songs);
                     }
 
                     @Override
-                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
 
                     }
                 });
@@ -70,15 +72,18 @@ public class SearchingRepository {
                 .search3(query, 0, 20, 0)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
-                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
-                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
-                            List<Album> albums = new ArrayList<>(MappingUtil.mapAlbum(response.body().getSearchResult3().getAlbums()));
-                            searchedAlbums.setValue(albums);
+                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                        List<Album> albums = new ArrayList<>();
+
+                        if(response.isSuccessful() && response.body() != null && response.body().getSearchResult3() != null) {
+                            albums.addAll(MappingUtil.mapAlbum(response.body().getSearchResult3().getAlbums()));
                         }
+
+                        searchedAlbums.setValue(albums);
                     }
 
                     @Override
-                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
 
                     }
                 });
@@ -94,15 +99,18 @@ public class SearchingRepository {
                 .search3(query, 0, 0, 20)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
-                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
-                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
-                            List<Artist> artists = new ArrayList<>(MappingUtil.mapArtist(response.body().getSearchResult3().getArtists()));
-                            searchedArtists.setValue(artists);
+                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                        List<Artist> artists  = new ArrayList<>();
+
+                        if(response.isSuccessful() && response.body() != null && response.body().getSearchResult3() != null) {
+                            artists.addAll(MappingUtil.mapArtist(response.body().getSearchResult3().getArtists()));
                         }
+
+                        searchedArtists.setValue(artists);
                     }
 
                     @Override
-                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
 
                     }
                 });
@@ -118,10 +126,10 @@ public class SearchingRepository {
                 .search3(query, 5, 5, 5)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
-                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
+                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         List<String> newSuggestions = new ArrayList();
 
-                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                        if (response.isSuccessful() && response.body() != null) {
                             for (ArtistID3 artistID3 : response.body().getSearchResult3().getArtists()) {
                                 newSuggestions.add(artistID3.getName());
                             }
@@ -142,7 +150,7 @@ public class SearchingRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
 
                     }
                 });
@@ -180,8 +188,8 @@ public class SearchingRepository {
     }
 
     private static class DeleteThreadSafe implements Runnable {
-        private RecentSearchDao recentSearchDao;
-        private RecentSearch recentSearch;
+        private final RecentSearchDao recentSearchDao;
+        private final RecentSearch recentSearch;
 
         public DeleteThreadSafe(RecentSearchDao recentSearchDao, RecentSearch recentSearch) {
             this.recentSearchDao = recentSearchDao;
@@ -195,8 +203,8 @@ public class SearchingRepository {
     }
 
     private static class InsertThreadSafe implements Runnable {
-        private RecentSearchDao recentSearchDao;
-        private RecentSearch recentSearch;
+        private final RecentSearchDao recentSearchDao;
+        private final RecentSearch recentSearch;
 
         public InsertThreadSafe(RecentSearchDao recentSearchDao, RecentSearch recentSearch) {
             this.recentSearchDao = recentSearchDao;
@@ -210,8 +218,8 @@ public class SearchingRepository {
     }
 
     private static class RecentThreadSafe implements Runnable {
-        private RecentSearchDao recentSearchDao;
-        private int limit;
+        private final RecentSearchDao recentSearchDao;
+        private final int limit;
         private List<String> recent = new ArrayList<>();
 
         public RecentThreadSafe(RecentSearchDao recentSearchDao, int limit) {

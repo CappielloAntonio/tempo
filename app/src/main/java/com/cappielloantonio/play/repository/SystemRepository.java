@@ -2,6 +2,8 @@ package com.cappielloantonio.play.repository;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
+
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.SystemCallback;
 import com.cappielloantonio.play.subsonic.models.ResponseStatus;
@@ -13,7 +15,7 @@ import retrofit2.Callback;
 public class SystemRepository {
     private static final String TAG = "SongRepository";
 
-    private Application application;
+    private final Application application;
 
     public SystemRepository(Application application) {
         this.application = application;
@@ -25,7 +27,7 @@ public class SystemRepository {
                 .ping()
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
-                    public void onResponse(Call<SubsonicResponse> call, retrofit2.Response<SubsonicResponse> response) {
+                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull retrofit2.Response<SubsonicResponse> response) {
                         if(response.body() != null) {
                             if (response.body().getStatus().getValue().equals(ResponseStatus.FAILED)) {
                                 callback.onError(new Exception(response.body().getError().getCode().getValue() + " - " + response.body().getError().getMessage()));
@@ -43,7 +45,7 @@ public class SystemRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
                         callback.onError(new Exception(t.getMessage()));
                     }
                 });

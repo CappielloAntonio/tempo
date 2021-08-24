@@ -42,7 +42,7 @@ public class AlbumRepository {
                 .getAlbumList2(type, size, 0, null, null)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                    public void onResponse(@NonNull Call <SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         List<Album> albums = new ArrayList<>();
 
                         if(response.isSuccessful() && response.body() != null && response.body().getAlbumList2() != null) {

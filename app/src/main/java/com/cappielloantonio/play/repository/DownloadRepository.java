@@ -3,7 +3,6 @@ package com.cappielloantonio.play.repository;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.database.AppDatabase;
@@ -17,7 +16,7 @@ import java.util.List;
 public class DownloadRepository {
     private static final String TAG = "QueueRepository";
 
-    private DownloadDao downloadDao;
+    private final DownloadDao downloadDao;
 
     public DownloadRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
@@ -42,7 +41,7 @@ public class DownloadRepository {
     }
 
     private static class GetDownloadThreadSafe implements Runnable {
-        private DownloadDao downloadDao;
+        private final DownloadDao downloadDao;
         private List<Download> downloads;
 
         public GetDownloadThreadSafe(DownloadDao downloadDao) {
@@ -70,8 +69,8 @@ public class DownloadRepository {
     }
 
     private static class InsertThreadSafe implements Runnable {
-        private DownloadDao downloadDao;
-        private Download download;
+        private final DownloadDao downloadDao;
+        private final Download download;
 
         public InsertThreadSafe(DownloadDao downloadDao, Download download) {
             this.downloadDao = downloadDao;
@@ -91,8 +90,8 @@ public class DownloadRepository {
     }
 
     private static class InsertAllThreadSafe implements Runnable {
-        private DownloadDao downloadDao;
-        private List<Download> downloads;
+        private final DownloadDao downloadDao;
+        private final List<Download> downloads;
 
         public InsertAllThreadSafe(DownloadDao downloadDao, List<Download> downloads) {
             this.downloadDao = downloadDao;
@@ -112,7 +111,7 @@ public class DownloadRepository {
     }
 
     private static class DeleteAllThreadSafe implements Runnable {
-        private DownloadDao downloadDao;
+        private final DownloadDao downloadDao;
 
         public DeleteAllThreadSafe(DownloadDao downloadDao) {
             this.downloadDao = downloadDao;
@@ -131,8 +130,8 @@ public class DownloadRepository {
     }
 
     private static class DeleteThreadSafe implements Runnable {
-        private DownloadDao downloadDao;
-        private Download download;
+        private final DownloadDao downloadDao;
+        private final Download download;
 
         public DeleteThreadSafe(DownloadDao downloadDao, Download download) {
             this.downloadDao = downloadDao;

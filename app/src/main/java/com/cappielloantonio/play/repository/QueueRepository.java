@@ -1,17 +1,14 @@
 package com.cappielloantonio.play.repository;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.QueueDao;
 import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.util.MappingUtil;
-import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.util.QueueUtil;
 
 import java.time.Instant;
@@ -21,7 +18,7 @@ import java.util.List;
 public class QueueRepository {
     private static final String TAG = "QueueRepository";
 
-    private QueueDao queueDao;
+    private final QueueDao queueDao;
 
     public QueueRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
@@ -99,7 +96,7 @@ public class QueueRepository {
     }
 
     private static class GetSongsThreadSafe implements Runnable {
-        private QueueDao queueDao;
+        private final QueueDao queueDao;
         private List<Song> songs;
 
         public GetSongsThreadSafe(QueueDao queueDao) {
@@ -117,8 +114,8 @@ public class QueueRepository {
     }
 
     private static class InsertAllThreadSafe implements Runnable {
-        private QueueDao queueDao;
-        private List<Song> songs;
+        private final QueueDao queueDao;
+        private final List<Song> songs;
 
         public InsertAllThreadSafe(QueueDao queueDao, List<Song> songs) {
             this.queueDao = queueDao;
@@ -132,8 +129,8 @@ public class QueueRepository {
     }
 
     private static class DeleteByPositionThreadSafe implements Runnable {
-        private QueueDao queueDao;
-        private int position;
+        private final QueueDao queueDao;
+        private final int position;
 
         public DeleteByPositionThreadSafe(QueueDao queueDao, int position) {
             this.queueDao = queueDao;
@@ -147,7 +144,7 @@ public class QueueRepository {
     }
 
     private static class DeleteAllThreadSafe implements Runnable {
-        private QueueDao queueDao;
+        private final QueueDao queueDao;
 
         public DeleteAllThreadSafe(QueueDao queueDao) {
             this.queueDao = queueDao;
@@ -160,7 +157,7 @@ public class QueueRepository {
     }
 
     private static class CountThreadSafe implements Runnable {
-        private QueueDao queueDao;
+        private final QueueDao queueDao;
         private int count = 0;
 
         public CountThreadSafe(QueueDao queueDao) {
@@ -178,8 +175,8 @@ public class QueueRepository {
     }
 
     private static class SetTimestampThreadSafe implements Runnable {
-        private QueueDao queueDao;
-        private String songId;
+        private final QueueDao queueDao;
+        private final String songId;
 
         public SetTimestampThreadSafe(QueueDao queueDao, String songId) {
             this.queueDao = queueDao;

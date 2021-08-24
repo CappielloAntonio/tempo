@@ -17,6 +17,7 @@ import com.cappielloantonio.play.subsonic.models.Genre;
 import com.cappielloantonio.play.subsonic.models.SimilarArtistID3;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MappingUtil {

@@ -1,11 +1,20 @@
 package com.cappielloantonio.play.ui.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.media.audiofx.AudioEffect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.ListPreference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -22,6 +31,21 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     private MainActivity activity;
     private SettingViewModel settingViewModel;
+
+    private ActivityResultLauncher<Intent> someActivityResultLauncher;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        someActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() != Activity.RESULT_OK) {
+                        findPreference("equalizer").setSummary("No equalizer available");
+                    }
+                });
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,10 +94,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 @Override
                 public void onSuccess(boolean isScanning, long count) {
                     if (isScanning) getScanStatus();
-                    else
-                        findPreference("scan_library").setSummary("Scanning: counting " + count + " tracks");
+                    else findPreference("scan_library").setSummary("Scanning: counting " + count + " tracks");
                 }
             });
+
+            return true;
+        });
+
+        findPreference("equalizer").setOnPreferenceClickListener(preference -> {
+            Intent intent = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
+            someActivityResultLauncher.launch(intent);
             return true;
         });
     }

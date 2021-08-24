@@ -29,6 +29,11 @@
             app:useSimpleSummaryProvider="true" />
 
         <Preference
+            android:key="equalizer"
+            android:title="Equalizer"
+            app:summary="Adjust audio settings" />
+
+        <Preference
             android:key="scan_library"
             android:title="Scan library" />
 

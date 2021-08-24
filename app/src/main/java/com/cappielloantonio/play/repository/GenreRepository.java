@@ -2,11 +2,11 @@ package com.cappielloantonio.play.repository;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.model.Genre;
-import com.cappielloantonio.play.subsonic.models.ResponseStatus;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.util.MappingUtil;
 
@@ -21,7 +21,7 @@ import retrofit2.Response;
 public class GenreRepository {
     private static final String TAG = "GenreRepository";
 
-    private Application application;
+    private final Application application;
 
     public GenreRepository(Application application) {
         this.application = application;
@@ -35,8 +35,8 @@ public class GenreRepository {
                 .getGenres()
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
-                    public void onResponse(Call<SubsonicResponse> call, Response<SubsonicResponse> response) {
-                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getGenres() != null) {
                             List<Genre> genreList = new ArrayList<>(MappingUtil.mapGenre(response.body().getGenres().getGenres()));
 
                             if (random) {
@@ -52,7 +52,7 @@ public class GenreRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
 
                     }
                 });

@@ -84,9 +84,6 @@ dependencies {
     // Square - Canary
     // debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
-    // Red screen of death
-    // debugImplementation 'com.melegy.redscreenofdeath:red-screen-of-death:0.1.2'
-
     // Crash Report
     debugImplementation 'com.balsikandar.android:crashreporter:1.1.0'
 }

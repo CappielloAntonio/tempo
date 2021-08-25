@@ -20,7 +20,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        // RedScreenOfDeath.init(this);
         CrashReporter.initialize(this);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());

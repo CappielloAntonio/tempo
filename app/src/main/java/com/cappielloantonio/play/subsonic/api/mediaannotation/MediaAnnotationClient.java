@@ -74,6 +74,5 @@ public class MediaAnnotationClient {
 
     private Cache getCache() {
         int cacheSize = 10 * 1024 * 1024;
-        return new Cache(context.getCacheDir(), cacheSize);
-    }
+        return context != null ? new Cache(context.getCacheDir(), cacheSize) : null;    }
 }

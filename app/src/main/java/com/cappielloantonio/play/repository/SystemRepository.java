@@ -28,7 +28,7 @@ public class SystemRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull retrofit2.Response<SubsonicResponse> response) {
-                        if(response.body() != null) {
+                        if (response.body() != null) {
                             if (response.body().getStatus().getValue().equals(ResponseStatus.FAILED)) {
                                 callback.onError(new Exception(response.body().getError().getCode().getValue() + " - " + response.body().getError().getMessage()));
                             } else if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
@@ -38,8 +38,7 @@ public class SystemRepository {
                             } else {
                                 callback.onError(new Exception("Empty response"));
                             }
-                        }
-                        else {
+                        } else {
                             callback.onError(new Exception(String.valueOf(response.code())));
                         }
                     }

@@ -6,10 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
-import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.subsonic.models.ResponseStatus;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.util.MappingUtil;
 
@@ -39,11 +37,10 @@ public class PlaylistRepository {
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getPlaylists() != null) {
                             List<Playlist> playlists = new ArrayList<>(MappingUtil.mapPlaylist(response.body().getPlaylists().getPlaylists()));
-                            if(random) {
+                            if (random) {
                                 Collections.shuffle(playlists);
                                 listLivePlaylists.setValue(playlists.subList(0, Math.min(playlists.size(), size)));
-                            }
-                            else {
+                            } else {
                                 listLivePlaylists.setValue(playlists);
                             }
                         }

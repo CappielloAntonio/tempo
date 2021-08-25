@@ -48,7 +48,7 @@ public class SearchingRepository {
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         List<Song> songs = new ArrayList<>();
 
-                        if(response.isSuccessful() && response.body() != null && response.body().getSearchResult3() != null) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSearchResult3() != null) {
                             songs.addAll(MappingUtil.mapSong(response.body().getSearchResult3().getSongs()));
                         }
 
@@ -75,7 +75,7 @@ public class SearchingRepository {
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         List<Album> albums = new ArrayList<>();
 
-                        if(response.isSuccessful() && response.body() != null && response.body().getSearchResult3() != null) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSearchResult3() != null) {
                             albums.addAll(MappingUtil.mapAlbum(response.body().getSearchResult3().getAlbums()));
                         }
 
@@ -100,9 +100,9 @@ public class SearchingRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        List<Artist> artists  = new ArrayList<>();
+                        List<Artist> artists = new ArrayList<>();
 
-                        if(response.isSuccessful() && response.body() != null && response.body().getSearchResult3() != null) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSearchResult3() != null) {
                             artists.addAll(MappingUtil.mapArtist(response.body().getSearchResult3().getArtists()));
                         }
 

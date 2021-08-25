@@ -39,7 +39,7 @@ public class ArtistRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        if(response.isSuccessful() && response.body() != null && response.body().getStarred2() != null) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getStarred2() != null) {
                             List<Artist> artists = new ArrayList<>(MappingUtil.mapArtist(response.body().getStarred2().getArtists()));
                             getArtistInfo(artists, starredArtists);
                         }
@@ -102,7 +102,7 @@ public class ArtistRepository {
                     .enqueue(new Callback<SubsonicResponse>() {
                         @Override
                         public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                            if(response.isSuccessful() && response.body() != null && response.body().getArtist() != null) {
+                            if (response.isSuccessful() && response.body() != null && response.body().getArtist() != null) {
                                 addToMutableLiveData(list, MappingUtil.mapArtistWithAlbum(response.body().getArtist()));
                             }
                         }
@@ -124,7 +124,7 @@ public class ArtistRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        if(response.isSuccessful() && response.body() != null && response.body().getArtist() != null) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getArtist() != null) {
                             artist.setValue(MappingUtil.mapArtistWithAlbum(response.body().getArtist()));
                         }
                     }
@@ -150,7 +150,7 @@ public class ArtistRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        if(response.isSuccessful() && response.body() != null && response.body().getArtistInfo2() != null) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getArtistInfo2() != null) {
                             artistFullInfo.setValue(MappingUtil.mapArtist(response.body().getArtistInfo2()));
                         }
                     }
@@ -224,7 +224,7 @@ public class ArtistRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        if(response.isSuccessful() && response.body() != null && response.body().getArtist() != null) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getArtist() != null) {
                             artist.setValue(MappingUtil.mapArtist(response.body().getArtist()));
                         }
                     }
@@ -247,7 +247,7 @@ public class ArtistRepository {
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         List<Song> songs = new ArrayList<>();
 
-                        if(response.isSuccessful() && response.body() != null && response.body().getSimilarSongs2() != null) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSimilarSongs2() != null) {
                             songs.addAll(MappingUtil.mapSong(response.body().getSimilarSongs2().getSongs()));
                         }
 
@@ -323,7 +323,7 @@ public class ArtistRepository {
 
     private void addToMutableLiveData(MutableLiveData<List<Artist>> liveData, Artist artist) {
         List<Artist> liveArtists = liveData.getValue();
-        if(liveArtists != null) liveArtists.add(artist);
+        if (liveArtists != null) liveArtists.add(artist);
         liveData.setValue(liveArtists);
     }
 }

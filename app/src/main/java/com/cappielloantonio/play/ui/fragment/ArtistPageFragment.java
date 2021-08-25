@@ -114,7 +114,9 @@ public class ArtistPageFragment extends Fragment {
 
     private void initArtistInfo() {
         artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(requireActivity(), artist -> {
-            if (bind != null) bind.artistPageBioSector.setVisibility(artist.getBio() != null ? View.VISIBLE : View.GONE);
+            String normalizedBio = MusicUtil.forceReadableString(artist.getBio());
+
+            if (bind != null) bind.artistPageBioSector.setVisibility(!normalizedBio.trim().isEmpty() ? View.VISIBLE : View.GONE);
             if (bind != null) bind.bioMoreTextViewClickable.setVisibility(artist.getLastfm() != null ? View.VISIBLE : View.GONE);
 
             CustomGlideRequest.Builder
@@ -122,7 +124,7 @@ public class ArtistPageFragment extends Fragment {
                     .build()
                     .into(bind.artistBackdropImageView);
 
-            bind.bioTextView.setText(MusicUtil.forceReadableString(artist.getBio()));
+            bind.bioTextView.setText(normalizedBio);
 
             bind.bioMoreTextViewClickable.setOnClickListener(v -> {
                 Intent intent = new Intent(Intent.ACTION_VIEW);

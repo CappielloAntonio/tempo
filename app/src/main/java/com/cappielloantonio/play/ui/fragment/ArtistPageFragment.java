@@ -38,6 +38,7 @@ import com.cappielloantonio.play.viewmodel.ArtistPageViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ArtistPageFragment extends Fragment {
     private static final String TAG = "ArtistPageFragment";
@@ -105,9 +106,9 @@ public class ArtistPageFragment extends Fragment {
 
         bind.appbar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             if ((bind.collapsingToolbar.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.collapsingToolbar))) {
-                bind.animToolbar.getNavigationIcon().setColorFilter(new BlendModeColorFilter(getResources().getColor(R.color.titleTextColor, null), BlendMode.SRC_ATOP));
+                Objects.requireNonNull(bind.animToolbar.getNavigationIcon()).setColorFilter(new BlendModeColorFilter(getResources().getColor(R.color.titleTextColor, null), BlendMode.SRC_ATOP));
             } else {
-                bind.animToolbar.getNavigationIcon().setColorFilter(new BlendModeColorFilter(getResources().getColor(R.color.white, null), BlendMode.SRC_ATOP));
+                Objects.requireNonNull(bind.animToolbar.getNavigationIcon()).setColorFilter(new BlendModeColorFilter(getResources().getColor(R.color.white, null), BlendMode.SRC_ATOP));
             }
         });
     }

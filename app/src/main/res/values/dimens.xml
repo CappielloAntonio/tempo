@@ -11,4 +11,6 @@
 
     <dimen name="notification_big_image_size">128dp</dimen>
 
+    <dimen name="radius">2dp</dimen>
+    <dimen name="dots_height">2dp</dimen>
 </resources>

@@ -57,6 +57,9 @@
         <action
             android:id="@+id/action_homeFragment_to_artistPageFragment"
             app:destination="@id/artistPageFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/libraryFragment"
@@ -87,6 +90,12 @@
         <action
             android:id="@+id/action_libraryFragment_to_playlistPageFragment"
             app:destination="@id/playlistPageFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

@@ -1,7 +1,11 @@
 package com.cappielloantonio.play.ui.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -31,9 +35,13 @@ import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MappingUtil;
+import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.HomeViewModel;
+
+import java.util.Objects;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = "CategoriesFragment";
@@ -53,6 +61,18 @@ public class HomeFragment extends Fragment {
     private TrackAdapter dowanloadedMusicAdapter;
     private SimilarTrackAdapter similarMusicAdapter;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.main_page_menu, menu);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,6 +91,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        initAppBar();
         initDiscoverSongSlideView();
         initSimilarSongView();
         initMostPlayedAlbumView();
@@ -94,6 +115,22 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         bind = null;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                activity.navController.navigate(R.id.action_homeFragment_to_searchFragment);
+                return true;
+            case R.id.action_settings:
+                activity.navController.navigate(R.id.action_homeFragment_to_settingsFragment);
+                return true;
+            default:
+                break;
+        }
+
+        return false;
     }
 
     private void init() {
@@ -139,8 +176,6 @@ public class HomeFragment extends Fragment {
             activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
         });
 
-        bind.homeSettingsImageView.setOnClickListener(v -> activity.navController.navigate(R.id.action_homeFragment_to_settingsFragment));
-
         bind.musicDiscoveryTextViewRefreshable.setOnLongClickListener(v -> {
             homeViewModel.refreshDiscoverySongSample(requireActivity());
             return true;
@@ -180,6 +215,11 @@ public class HomeFragment extends Fragment {
             homeViewModel.refreshStarredArtists(requireActivity());
             return true;
         });
+    }
+
+    private void initAppBar() {
+        activity.setSupportActionBar(bind.toolbar);
+        Objects.requireNonNull(bind.toolbar.getOverflowIcon()).setTint(requireContext().getResources().getColor(R.color.titleTextColor, null));
     }
 
     private void initDiscoverSongSlideView() {

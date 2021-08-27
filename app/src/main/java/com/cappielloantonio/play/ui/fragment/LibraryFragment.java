@@ -2,6 +2,9 @@ package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -25,6 +28,8 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.LibraryViewModel;
 
+import java.util.Objects;
+
 public class LibraryFragment extends Fragment {
     private static final String TAG = "LibraryFragment";
 
@@ -36,6 +41,18 @@ public class LibraryFragment extends Fragment {
     private ArtistAdapter artistAdapter;
     private GenreAdapter genreAdapter;
     private PlaylistAdapter playlistAdapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.main_page_menu, menu);
+    }
 
     @Nullable
     @Override
@@ -55,6 +72,7 @@ public class LibraryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        initAppBar();
         initAlbumView();
         initArtistView();
         initGenreView();
@@ -71,6 +89,22 @@ public class LibraryFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         bind = null;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                activity.navController.navigate(R.id.action_libraryFragment_to_searchFragment);
+                return true;
+            case R.id.action_settings:
+                activity.navController.navigate(R.id.action_libraryFragment_to_settingsFragment);
+                return true;
+            default:
+                break;
+        }
+
+        return false;
     }
 
     private void init() {
@@ -95,6 +129,11 @@ public class LibraryFragment extends Fragment {
             libraryViewModel.refreshPlaylistSample(requireActivity());
             return true;
         });
+    }
+
+    private void initAppBar() {
+        activity.setSupportActionBar(bind.toolbar);
+        Objects.requireNonNull(bind.toolbar.getOverflowIcon()).setTint(requireContext().getResources().getColor(R.color.titleTextColor, null));
     }
 
     private void initAlbumView() {

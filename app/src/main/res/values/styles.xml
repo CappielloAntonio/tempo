@@ -65,6 +65,15 @@
     <!-- Font di tutti i titoli di sezione.
     Prevalentemente utilizzato nel bottom_sheet_player,
     il titolo della canzone e la stringa in alto   -->
+    <style name="ToolbarTextView" parent="InterFontFamily">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:textColor">@color/titleTextColor</item>
+    </style>
+
+    <!-- Font di tutti i titoli di sezione.
+    Prevalentemente utilizzato nel bottom_sheet_player,
+    il titolo della canzone e la stringa in alto   -->
     <style name="TitleTextView" parent="InterFontFamily">
         <item name="android:textSize">26sp</item>
         <item name="android:textFontWeight">700</item>
@@ -133,5 +142,4 @@
         <item name="android:textFontWeight">700</item>
         <item name="android:textColor">@color/darkIconColor</item>
     </style>
-
 </resources>

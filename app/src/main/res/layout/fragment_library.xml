@@ -28,16 +28,15 @@
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="-4dp"
                     android:layout_marginEnd="8dp"
-                    android:background="@drawable/ic_play" />
+                    android:background="@drawable/ic_toolbar_motion_on" />
 
                 <TextView
-                    style="@style/TitleTextView"
+                    style="@style/ToolbarTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     android:text="Play" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>

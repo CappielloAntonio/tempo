@@ -3,10 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../.gradle/caches/transforms-3/cfd4e4d299e24db95f3608b5f72af22b/transformed/jetified-exoplayer-ui-2.12.2/res/drawable-anydpi-v21/exo_ic_play_circle_filled.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable-v24/ic_add.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable-v24/ic_download.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2814814814814815" />
         <entry key="app/src/main/res/drawable-v24/ic_shuffle.xml" value="0.28055555555555556" />
+        <entry key="app/src/main/res/drawable-v24/ic_toolbar_motion_on.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/bottom_nav_shape.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/dialog_shape.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable/ic_arrow_back.xml" value="0.28055555555555556" />
@@ -15,8 +17,11 @@
         <entry key="app/src/main/res/drawable/ic_download_for_offline.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable/ic_downloading.xml" value="0.2722222222222222" />
         <entry key="app/src/main/res/drawable/ic_drag_handle.xml" value="0.27685185185185185" />
+        <entry key="app/src/main/res/drawable/ic_favorites_outlined.xml" value="0.28055555555555556" />
+        <entry key="app/src/main/res/drawable/ic_feed.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_file_download.xml" value="0.2722222222222222" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2814814814814815" />
+        <entry key="app/src/main/res/drawable/ic_more_vert.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_pause.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_play.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable/ic_play_arrow_white_24dp.xml" value="0.28055555555555556" />

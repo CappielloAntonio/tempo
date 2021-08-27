@@ -104,7 +104,7 @@ public class MainActivity extends BaseActivity {
     private void initNavigation() {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         navHostFragment = (NavHostFragment) fragmentManager.findFragmentById(R.id.nav_host_fragment);
-        navController = navHostFragment.getNavController();
+        navController = Objects.requireNonNull(navHostFragment).getNavController();
 
         /*
          * In questo modo intercetto il cambio schermata tramite navbar e se il bottom sheet è aperto,
@@ -139,7 +139,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private BottomSheetBehavior.BottomSheetCallback bottomSheetCallback =
+    private final BottomSheetBehavior.BottomSheetCallback bottomSheetCallback =
             new BottomSheetBehavior.BottomSheetCallback() {
                 @Override
                 public void onStateChanged(@NonNull View view, int state) {
@@ -163,9 +163,7 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onSlide(@NonNull View view, float slideOffset) {
                     PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
-                    if (playerBottomSheetFragment == null) {
-                        return;
-                    } else {
+                    if (playerBottomSheetFragment != null) {
                         float condensedSlideOffset = Math.max(0.0f, Math.min(0.2f, slideOffset - 0.2f)) / 0.2f;
                         playerBottomSheetFragment.getPlayerHeader().setAlpha(1 - condensedSlideOffset);
                         playerBottomSheetFragment.getPlayerHeader().setVisibility(condensedSlideOffset > 0.99 ? View.GONE : View.VISIBLE);

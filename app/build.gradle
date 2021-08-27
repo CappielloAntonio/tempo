@@ -41,8 +41,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
     implementation 'androidx.preference:preference-ktx:1.1.1'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.0-alpha07'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.0-alpha07'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation "androidx.room:room-runtime:2.3.0"
     implementation "androidx.cardview:cardview:1.0.0"

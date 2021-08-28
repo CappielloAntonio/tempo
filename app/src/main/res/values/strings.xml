@@ -9,6 +9,7 @@
     <string name="library_menu_label">Library</string>
     <string name="home_menu_label">Home</string>
     <string name="search_menu_label">Search</string>
+    <string name="download_menu_label">Download</string>
     <string name="label_placeholder">--</string>
     <string name="label_dot_separator">•</string>
 

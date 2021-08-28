@@ -53,7 +53,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        activity.setBottomNavigationBarVisibility(true);
+        activity.setBottomNavigationBarVisibility(false);
     }
 
     @Override

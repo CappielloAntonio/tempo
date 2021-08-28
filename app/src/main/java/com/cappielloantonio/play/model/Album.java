@@ -52,6 +52,14 @@ public class Album implements Parcelable {
         this.songs = MappingUtil.mapSong(albumWithSongsID3.getSongs());
     }
 
+    public Album(Download download) {
+        this.id = download.getAlbumId();
+        this.title = download.getAlbumName();
+        this.artistId = download.getArtistId();
+        this.artistName = download.getArtistName();
+        this.primary = download.getPrimary();
+    }
+
     public Album(AlbumInfo info) {
         this.notes = info.getNotes();
     }

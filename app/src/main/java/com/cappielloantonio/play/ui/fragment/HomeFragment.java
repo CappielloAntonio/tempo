@@ -103,7 +103,6 @@ public class HomeFragment extends Fragment {
         initStarredArtistsView();
         initYearSongView();
         initRecentAddedAlbumView();
-        initDownloadedSongView();
     }
 
     @Override
@@ -170,12 +169,6 @@ public class HomeFragment extends Fragment {
             Bundle bundle = new Bundle();
             bundle.putString(Artist.STARRED, Artist.STARRED);
             activity.navController.navigate(R.id.action_homeFragment_to_artistListPageFragment, bundle);
-        });
-
-        bind.downloadedTracksTextViewClickable.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putString(Song.DOWNLOADED, Song.DOWNLOADED);
-            activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
         });
 
         bind.musicDiscoveryTextViewRefreshable.setOnLongClickListener(v -> {
@@ -455,28 +448,6 @@ public class HomeFragment extends Fragment {
         recentAddedAlbumSnapHelper.attachToRecyclerView(bind.recentlyAddedAlbumsRecyclerView);
     }
 
-    private void initDownloadedSongView() {
-        bind.downloadedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        bind.downloadedTracksRecyclerView.setHasFixedSize(true);
-
-        dowanloadedMusicAdapter = new TrackAdapter(activity, requireContext());
-        bind.downloadedTracksRecyclerView.setAdapter(dowanloadedMusicAdapter);
-        homeViewModel.getDownloaded(requireActivity()).observe(requireActivity(), downloads -> {
-            if (downloads == null) {
-                if (bind != null) bind.homeDownloadedTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
-                if (bind != null) bind.homeDownloadedTracksSector.setVisibility(View.GONE);
-            } else {
-                if (bind != null) bind.homeDownloadedTracksPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null) bind.homeDownloadedTracksSector.setVisibility(!downloads.isEmpty() ? View.VISIBLE : View.GONE);
-
-                dowanloadedMusicAdapter.setItems(MappingUtil.mapDownload(downloads));
-            }
-        });
-
-        CustomLinearSnapHelper downloadedSongSnapHelper = new CustomLinearSnapHelper();
-        downloadedSongSnapHelper.attachToRecyclerView(bind.downloadedTracksRecyclerView);
-    }
-
     private void setDiscoverSongSlideViewOffset(float pageOffset, float pageMargin) {
         bind.discoverSongViewPager.setPageTransformer((page, position) -> {
             float myOffset = position * -(2 * pageOffset + pageMargin);
@@ -509,7 +480,6 @@ public class HomeFragment extends Fragment {
             bind.homeLinearLayoutContainer.addView(bind.homeStarredTracksSector);
             bind.homeLinearLayoutContainer.addView(bind.homeStarredAlbumsSector);
             bind.homeLinearLayoutContainer.addView(bind.homeStarredArtistsSector);
-            bind.homeLinearLayoutContainer.addView(bind.homeDownloadedTracksSector);
             bind.homeLinearLayoutContainer.addView(bind.homeMostPlayedAlbumsSector);
             bind.homeLinearLayoutContainer.addView(bind.homeRecentlyPlayedAlbumsSector);
         }

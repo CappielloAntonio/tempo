@@ -105,14 +105,43 @@ public class MappingUtil {
         return playlist;
     }
 
-    public static ArrayList<Song> mapDownload(List<Download> downloads) {
+    public static ArrayList<Song> mapDownloadToSong(List<Download> downloads) {
         ArrayList<Song> songs = new ArrayList();
 
         for (Download download : downloads) {
-            songs.add(new Song(download));
+            Song song = new Song(download);
+            if(!songs.contains(song)) {
+                songs.add(song);
+            }
         }
 
         return songs;
+    }
+
+    public static ArrayList<Album> mapDownloadToAlbum(List<Download> downloads) {
+        ArrayList<Album> albums = new ArrayList();
+
+        for (Download download : downloads) {
+            Album album = new Album(download);
+            if(!albums.contains(album)) {
+                albums.add(album);
+            }
+        }
+
+        return albums;
+    }
+
+    public static ArrayList<Artist> mapDownloadToArtist(List<Download> downloads) {
+        ArrayList<Artist> artists = new ArrayList();
+
+        for (Download download : downloads) {
+            Artist artist = new Artist(download);
+            if(!artists.contains(artist)) {
+                artists.add(artist);
+            }
+        }
+
+        return artists;
     }
 
     public static ArrayList<Download> mapToDownload(List<Song> songs) {

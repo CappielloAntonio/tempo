@@ -9,7 +9,7 @@
         android:icon="@drawable/ic_graphic_eq"
         android:title="@string/library_menu_label" />
     <item
-        android:id="@+id/searchFragment"
-        android:icon="@drawable/ic_search"
-        android:title="@string/search_menu_label" />
+        android:id="@+id/downloadFragment"
+        android:icon="@drawable/ic_play_for_work"
+        android:title="@string/download_menu_label" />
 </menu>

@@ -25,7 +25,6 @@ public class HomeViewModel extends AndroidViewModel {
     private final SongRepository songRepository;
     private final AlbumRepository albumRepository;
     private final ArtistRepository artistRepository;
-    private final DownloadRepository downloadRepository;
 
     private final MutableLiveData<List<Song>> dicoverSongSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Song>> starredTracksSample = new MutableLiveData<>(null);
@@ -36,7 +35,6 @@ public class HomeViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Song>> starredTracks = new MutableLiveData<>(null);
     private final MutableLiveData<List<Album>> starredAlbums = new MutableLiveData<>(null);
     private final MutableLiveData<List<Artist>> starredArtists = new MutableLiveData<>(null);
-    private final MutableLiveData<List<Download>> downloadedSongSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Album>> recentlyAddedAlbumSample = new MutableLiveData<>(null);
 
     public HomeViewModel(@NonNull Application application) {
@@ -45,7 +43,6 @@ public class HomeViewModel extends AndroidViewModel {
         songRepository = new SongRepository(application);
         albumRepository = new AlbumRepository(application);
         artistRepository = new ArtistRepository(application);
-        downloadRepository = new DownloadRepository(application);
 
         songRepository.getRandomSample(10, null, null).observeForever(dicoverSongSample::postValue);
         songRepository.getStarredSongs(true, 10).observeForever(starredTracksSample::postValue);
@@ -77,11 +74,6 @@ public class HomeViewModel extends AndroidViewModel {
     public LiveData<List<Artist>> getStarredArtists(LifecycleOwner owner) {
         artistRepository.getStarredArtists().observe(owner, starredArtists::postValue);
         return starredArtists;
-    }
-
-    public LiveData<List<Download>> getDownloaded(LifecycleOwner owner) {
-        downloadRepository.getLiveDownloadSample(10).observe(owner, downloadedSongSample::postValue);
-        return downloadedSongSample;
     }
 
     public LiveData<List<Album>> getMostPlayedAlbums(LifecycleOwner owner) {

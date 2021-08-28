@@ -98,6 +98,27 @@
             app:destination="@id/searchFragment" />
     </fragment>
     <fragment
+        android:id="@+id/downloadFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.DownloadFragment"
+        android:label="DownloadFragment"
+        tools:layout="@layout/fragment_download">
+        <action
+            android:id="@+id/action_downloadFragment_to_songListPageFragment"
+            app:destination="@id/songListPageFragment" />
+        <action
+            android:id="@+id/action_downloadFragment_to_albumListPageFragment"
+            app:destination="@id/albumListPageFragment" />
+        <action
+            android:id="@+id/action_downloadFragment_to_artistListPageFragment"
+            app:destination="@id/artistListPageFragment" />
+        <action
+            android:id="@+id/action_downloadFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_downloadFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/settingsFragment"
         android:name="com.cappielloantonio.play.ui.fragment.SettingsFragment"
         android:label="SettingsFragment"

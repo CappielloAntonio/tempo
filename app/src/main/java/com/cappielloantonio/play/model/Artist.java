@@ -76,6 +76,11 @@ public class Artist implements Parcelable {
         this.name = name;
     }
 
+    public Artist(Download download) {
+        this.id = download.getArtistId();
+        this.name = download.getArtistName();
+    }
+
     public String getId() {
         return id;
     }

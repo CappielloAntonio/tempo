@@ -51,6 +51,10 @@ public class DotsIndicatorDecoration extends RecyclerView.ItemDecoration {
 
         int itemCount = (int) Math.ceil((double) parent.getAdapter().getItemCount() / 5);
 
+        if (itemCount <= 1) {
+            return;
+        }
+
         // center horizontally, calculate width and subtract half from center
         float totalLength = this.radius * 2 * itemCount;
         float paddingBetweenItems = Math.max(0, itemCount - 1) * indicatorItemPadding;

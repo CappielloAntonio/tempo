@@ -123,13 +123,13 @@ public class DownloadFragment extends Fragment {
     private void init() {
         bind.downloadedArtistTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Song.DOWNLOADED, Song.DOWNLOADED);
+            bundle.putString(Artist.DOWNLOADED, Artist.DOWNLOADED);
             activity.navController.navigate(R.id.action_downloadFragment_to_artistListPageFragment, bundle);
         });
 
         bind.downloadedAlbumTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Song.DOWNLOADED, Song.DOWNLOADED);
+            bundle.putString(Album.DOWNLOADED, Album.DOWNLOADED);
             activity.navController.navigate(R.id.action_downloadFragment_to_albumListPageFragment, bundle);
         });
 

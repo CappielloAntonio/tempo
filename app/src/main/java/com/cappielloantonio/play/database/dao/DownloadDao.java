@@ -12,11 +12,17 @@ import java.util.List;
 
 @Dao
 public interface DownloadDao {
-    @Query("SELECT * FROM download")
-    List<Download> getAll();
+    @Query("SELECT * FROM download WHERE server=:server")
+    LiveData<List<Download>> getAll(String server);
 
     @Query("SELECT * FROM download WHERE server=:server LIMIT :size")
     LiveData<List<Download>> getSample(int size, String server);
+
+    @Query("SELECT * FROM download WHERE server=:server AND artistId=:artistId")
+    LiveData<List<Download>> getAllFromArtist(String server, String artistId);
+
+    @Query("SELECT * FROM download WHERE server=:server AND albumId=:albumId")
+    LiveData<List<Download>> getAllFromAlbum(String server, String albumId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Download download);

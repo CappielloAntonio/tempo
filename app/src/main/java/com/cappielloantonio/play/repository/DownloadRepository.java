@@ -23,43 +23,20 @@ public class DownloadRepository {
         downloadDao = database.downloadDao();
     }
 
-    public List<Download> getLiveDownload() {
-        List<Download> downloads = new ArrayList<>();
-
-        GetDownloadThreadSafe getDownloads = new GetDownloadThreadSafe(downloadDao);
-        Thread thread = new Thread(getDownloads);
-        thread.start();
-
-        try {
-            thread.join();
-            downloads = getDownloads.getDownloads();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return downloads;
-    }
-
-    private static class GetDownloadThreadSafe implements Runnable {
-        private final DownloadDao downloadDao;
-        private List<Download> downloads;
-
-        public GetDownloadThreadSafe(DownloadDao downloadDao) {
-            this.downloadDao = downloadDao;
-        }
-
-        @Override
-        public void run() {
-            downloads = downloadDao.getAll();
-        }
-
-        public List<Download> getDownloads() {
-            return downloads;
-        }
+    public LiveData<List<Download>> getLiveDownload() {
+        return downloadDao.getAll(PreferenceUtil.getInstance(App.getInstance()).getServerId());
     }
 
     public LiveData<List<Download>> getLiveDownloadSample(int size) {
         return downloadDao.getSample(size, PreferenceUtil.getInstance(App.getInstance()).getServerId());
+    }
+
+    public LiveData<List<Download>> getLiveDownloadFromArtist(String artistId) {
+        return downloadDao.getAllFromArtist(PreferenceUtil.getInstance(App.getInstance()).getServerId(), artistId);
+    }
+
+    public LiveData<List<Download>> getLiveDownloadFromAlbum(String albumId) {
+        return downloadDao.getAllFromAlbum(PreferenceUtil.getInstance(App.getInstance()).getServerId(), albumId);
     }
 
     public void insert(Download download) {

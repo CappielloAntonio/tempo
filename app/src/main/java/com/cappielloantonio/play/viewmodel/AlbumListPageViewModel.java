@@ -9,16 +9,21 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.AlbumRepository;
+import com.cappielloantonio.play.repository.DownloadRepository;
+import com.cappielloantonio.play.util.MappingUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumListPageViewModel extends AndroidViewModel {
     private AlbumRepository albumRepository;
+    private DownloadRepository downloadRepository;
 
     public String title;
+    public Artist artist;
 
     private MutableLiveData<List<Album>> albumList;
 
@@ -26,29 +31,40 @@ public class AlbumListPageViewModel extends AndroidViewModel {
         super(application);
 
         albumRepository = new AlbumRepository(application);
+        downloadRepository = new DownloadRepository(application);
     }
 
     public LiveData<List<Album>> getAlbumList(FragmentActivity activity) {
         albumList = new MutableLiveData<>(new ArrayList<>());
 
         switch (title) {
-            case Song.RECENTLY_PLAYED:
+            case Album.RECENTLY_PLAYED:
                 albumRepository.getAlbums("recent", 500).observe(activity, albums -> {
                     albumList.setValue(albums);
                 });
                 break;
-            case Song.MOST_PLAYED:
+            case Album.MOST_PLAYED:
                 albumRepository.getAlbums("frequent", 500).observe(activity, albums -> {
                     albumList.setValue(albums);
                 });
                 break;
-            case Song.RECENTLY_ADDED:
+            case Album.RECENTLY_ADDED:
                 albumRepository.getAlbums("newest", 500).observe(activity, albums -> {
                     albumList.setValue(albums);
                 });
                 break;
-            case Song.STARRED:
+            case Album.STARRED:
                 albumList = albumRepository.getStarredAlbums();
+                break;
+            case Album.DOWNLOADED:
+                downloadRepository.getLiveDownload().observe(activity, downloads -> {
+                    albumList.setValue(MappingUtil.mapDownloadToAlbum(downloads));
+                });
+                break;
+            case Album.FROM_ARTIST:
+                downloadRepository.getLiveDownloadFromArtist(artist.getId()).observe(activity, downloads -> {
+                    albumList.setValue(MappingUtil.mapDownloadToAlbum(downloads));
+                });
                 break;
         }
 

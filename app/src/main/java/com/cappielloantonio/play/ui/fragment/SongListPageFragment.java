@@ -93,6 +93,10 @@ public class SongListPageFragment extends Fragment {
         } else if (getArguments().getString(Song.DOWNLOADED) != null) {
             songListPageViewModel.title = Song.DOWNLOADED;
             bind.pageTitleLabel.setText("Downloaded");
+        } else if (getArguments().getParcelable("album_object") != null) {
+            songListPageViewModel.album = getArguments().getParcelable("album_object");
+            songListPageViewModel.title = Song.FROM_ALBUM;
+            bind.pageTitleLabel.setText(songListPageViewModel.album.getTitle());
         }
     }
 
@@ -116,7 +120,7 @@ public class SongListPageFragment extends Fragment {
     }
 
     private void initButtons() {
-        songListPageViewModel.getSongList().observe(requireActivity(), songs -> {
+        songListPageViewModel.getSongList(requireActivity()).observe(requireActivity(), songs -> {
             if (bind != null) {
                 bind.songListShuffleImageView.setOnClickListener(v -> {
                     Collections.shuffle(songs);
@@ -139,6 +143,6 @@ public class SongListPageFragment extends Fragment {
 
         songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext());
         bind.songListRecyclerView.setAdapter(songHorizontalAdapter);
-        songListPageViewModel.getSongList().observe(requireActivity(), songs -> songHorizontalAdapter.setItems(songs));
+        songListPageViewModel.getSongList(requireActivity()).observe(requireActivity(), songs -> songHorizontalAdapter.setItems(songs));
     }
 }

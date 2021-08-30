@@ -20,6 +20,7 @@ public class Song implements Parcelable {
     public static final String BY_YEAR = "BY_YEAR";
     public static final String STARRED = "STARRED";
     public static final String DOWNLOADED = "DOWNLOADED";
+    public static final String FROM_ALBUM = "FROM_ALBUM";
 
     private String id;
     private String title;

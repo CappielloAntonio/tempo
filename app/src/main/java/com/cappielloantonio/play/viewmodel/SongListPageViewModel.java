@@ -4,10 +4,12 @@ import android.app.Application;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Song;
@@ -27,6 +29,9 @@ public class SongListPageViewModel extends AndroidViewModel {
     public String title;
     public Genre genre;
     public Artist artist;
+    public Album album;
+
+    private MutableLiveData<List<Song>> songList;
 
     public ArrayList<String> filters = new ArrayList<>();
     public ArrayList<String> filterNames = new ArrayList<>();
@@ -41,8 +46,8 @@ public class SongListPageViewModel extends AndroidViewModel {
         downloadRepository = new DownloadRepository(application);
     }
 
-    public LiveData<List<Song>> getSongList() {
-        MutableLiveData<List<Song>> songList = new MutableLiveData<>(new ArrayList<>());
+    public LiveData<List<Song>> getSongList(FragmentActivity activity) {
+        songList = new MutableLiveData<>(new ArrayList<>());
 
         switch (title) {
             case Song.RECENTLY_PLAYED:
@@ -70,7 +75,14 @@ public class SongListPageViewModel extends AndroidViewModel {
                 songList = songRepository.getStarredSongs(false, -1);
                 break;
             case Song.DOWNLOADED:
-                songList.setValue(MappingUtil.mapDownloadToSong(downloadRepository.getLiveDownload()));
+                downloadRepository.getLiveDownload().observe(activity, downloads -> {
+                    songList.setValue(MappingUtil.mapDownloadToSong(downloads));
+                });
+                break;
+            case Song.FROM_ALBUM:
+                downloadRepository.getLiveDownloadFromAlbum(album.getId()).observe(activity, downloads -> {
+                    songList.setValue(MappingUtil.mapDownloadToSong(downloads));
+                });
                 break;
         }
 

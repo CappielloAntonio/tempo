@@ -65,6 +65,13 @@ public class AlbumListPageFragment extends Fragment {
         } else if (getArguments().getString(Album.STARRED) != null) {
             albumListPageViewModel.title = Album.STARRED;
             bind.pageTitleLabel.setText("Starred albums");
+        } else if (getArguments().getString(Album.DOWNLOADED) != null) {
+            albumListPageViewModel.title = Album.DOWNLOADED;
+            bind.pageTitleLabel.setText("Downloaded albums");
+        } else if (getArguments().getParcelable("artist_object") != null) {
+            albumListPageViewModel.artist = getArguments().getParcelable("artist_object");
+            albumListPageViewModel.title = Album.FROM_ARTIST;
+            bind.pageTitleLabel.setText(albumListPageViewModel.artist.getName());
         }
     }
 

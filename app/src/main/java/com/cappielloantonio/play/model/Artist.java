@@ -17,6 +17,7 @@ import java.util.List;
 public class Artist implements Parcelable {
     private static final String TAG = "Artist";
 
+    public static final String DOWNLOADED = "DOWNLOADED";
     public static final String STARRED = "STARRED";
 
     private List<Genre> genres;

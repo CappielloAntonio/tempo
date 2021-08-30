@@ -107,6 +107,8 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
                 Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_artistPageFragment, bundle);
             } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.artistListPageFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_artistListPageFragment_to_artistPageFragment, bundle);
+            } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.downloadFragment) {
+                Navigation.findNavController(view).navigate(R.id.action_downloadFragment_to_albumListPageFragment, bundle);
             }
         }
 

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cappielloantonio.play.adapter.ArtistHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistListPageBinding;
 import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.ArtistListPageViewModel;
 
@@ -53,9 +54,12 @@ public class ArtistListPageFragment extends Fragment {
     }
 
     private void init() {
-        if (getArguments().getString(Album.STARRED) != null) {
-            artistListPageViewModel.title = Album.STARRED;
+        if (getArguments().getString(Artist.STARRED) != null) {
+            artistListPageViewModel.title = Artist.STARRED;
             bind.pageTitleLabel.setText("Starred artists");
+        } else if (getArguments().getString(Artist.DOWNLOADED) != null) {
+            artistListPageViewModel.title = Artist.DOWNLOADED;
+            bind.pageTitleLabel.setText("Downloaded artists");
         }
     }
 
@@ -86,6 +90,6 @@ public class ArtistListPageFragment extends Fragment {
 
         artistHorizontalAdapter = new ArtistHorizontalAdapter(requireContext());
         bind.artistListRecyclerView.setAdapter(artistHorizontalAdapter);
-        artistListPageViewModel.getArtistList().observe(requireActivity(), artists -> artistHorizontalAdapter.setItems(artists));
+        artistListPageViewModel.getArtistList(requireActivity()).observe(requireActivity(), artists -> artistHorizontalAdapter.setItems(artists));
     }
 }

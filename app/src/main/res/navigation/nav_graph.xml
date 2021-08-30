@@ -33,7 +33,6 @@
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
     </fragment>
-
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.cappielloantonio.play.ui.fragment.HomeFragment"

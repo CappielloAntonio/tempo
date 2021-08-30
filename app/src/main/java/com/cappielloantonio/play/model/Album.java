@@ -18,7 +18,9 @@ public class Album implements Parcelable {
     public static final String RECENTLY_PLAYED = "RECENTLY_PLAYED";
     public static final String MOST_PLAYED = "MOST_PLAYED";
     public static final String RECENTLY_ADDED = "RECENTLY_ADDED";
+    public static final String DOWNLOADED = "DOWNLOADED";
     public static final String STARRED = "STARRED";
+    public static final String FROM_ARTIST = "FROM_ARTIST";
 
     private String id;
     private String title;

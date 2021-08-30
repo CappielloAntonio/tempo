@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,7 +52,13 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
         Artist artist = artists.get(position);
 
         holder.artistName.setText(MusicUtil.getReadableString(artist.getName()));
-        holder.artistInfo.setText("Album count: " + String.valueOf(artist.getAlbumCount()));
+
+        if(artist.getAlbumCount() > 0) {
+            holder.artistInfo.setText("Album count: " + String.valueOf(artist.getAlbumCount()));
+        }
+        else {
+            holder.artistInfo.setVisibility(View.GONE);
+        }
 
         CustomGlideRequest.Builder
                 .from(context, artist.getId(), CustomGlideRequest.ARTIST_PIC, null)

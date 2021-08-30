@@ -15,6 +15,7 @@ import com.cappielloantonio.play.adapter.AlbumHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumListPageBinding;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.AlbumListPageViewModel;
 
 public class AlbumListPageFragment extends Fragment {
@@ -71,7 +72,7 @@ public class AlbumListPageFragment extends Fragment {
         } else if (getArguments().getParcelable("artist_object") != null) {
             albumListPageViewModel.artist = getArguments().getParcelable("artist_object");
             albumListPageViewModel.title = Album.FROM_ARTIST;
-            bind.pageTitleLabel.setText(albumListPageViewModel.artist.getName());
+            bind.pageTitleLabel.setText(MusicUtil.getReadableString(albumListPageViewModel.artist.getName()));
         }
     }
 

@@ -96,7 +96,7 @@ public class SongListPageFragment extends Fragment {
         } else if (getArguments().getParcelable("album_object") != null) {
             songListPageViewModel.album = getArguments().getParcelable("album_object");
             songListPageViewModel.title = Song.FROM_ALBUM;
-            bind.pageTitleLabel.setText(songListPageViewModel.album.getTitle());
+            bind.pageTitleLabel.setText(MusicUtil.getReadableString(songListPageViewModel.album.getTitle()));
         }
     }
 

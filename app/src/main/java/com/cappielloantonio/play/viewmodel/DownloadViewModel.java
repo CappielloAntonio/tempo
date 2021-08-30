@@ -12,13 +12,14 @@ import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.repository.AlbumRepository;
-import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.DownloadRepository;
-import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.util.MappingUtil;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class DownloadViewModel extends AndroidViewModel {
     private static final String TAG = "HomeViewModel";
@@ -36,7 +37,15 @@ public class DownloadViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Artist>> getDownloadedArtists(LifecycleOwner owner, int size) {
-        downloadRepository.getLiveDownloadSample(size).observe(owner, downloads -> downloadedArtistSample.postValue(MappingUtil.mapDownloadToArtist(downloads)));
+        downloadRepository.getLiveDownloadSample(size).observe(owner, downloads -> {
+            List<Download> unique = downloads
+                    .stream()
+                    .collect(Collectors.collectingAndThen(
+                            Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Download::getArtistName))), ArrayList::new)
+                    );
+
+            downloadedArtistSample.postValue(MappingUtil.mapDownloadToArtist(unique));
+        });
         return downloadedArtistSample;
     }
 

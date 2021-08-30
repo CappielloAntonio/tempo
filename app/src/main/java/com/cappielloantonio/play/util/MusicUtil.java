@@ -74,6 +74,16 @@ public class MusicUtil {
         return "";
     }
 
+    public static String normalizedArtistName(String string) {
+        if (string != null) {
+            if(string.toLowerCase().contains(" feat.")) return Pattern.compile(" feat.", Pattern.CASE_INSENSITIVE).split(string)[0].trim();
+            else if(string.toLowerCase().contains(" featuring")) return Pattern.compile(" featuring", Pattern.CASE_INSENSITIVE).split(string)[0].trim();
+            else return string;
+        }
+
+        return "";
+    }
+
     public static List<String> getReadableStrings(List<String> strings) {
         List<String> readableStrings = new ArrayList<>();
 

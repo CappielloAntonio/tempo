@@ -70,7 +70,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:paddingStart="8dp"
-                    android:paddingTop="8dp"
                     android:paddingEnd="8dp">
 
                     <TextView
@@ -80,7 +79,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingStart="8dp"
-                        android:paddingTop="12dp"
                         android:paddingEnd="8dp"
                         android:text="Artists" />
 
@@ -91,7 +89,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="8dp"
-                        android:paddingTop="12dp"
                         android:paddingEnd="8dp"
                         android:text="See all" />
 

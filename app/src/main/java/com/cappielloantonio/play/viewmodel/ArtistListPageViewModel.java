@@ -17,7 +17,10 @@ import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.util.MappingUtil;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class ArtistListPageViewModel extends AndroidViewModel {
     private ArtistRepository artistRepository;
@@ -43,7 +46,13 @@ public class ArtistListPageViewModel extends AndroidViewModel {
                 break;
             case Artist.DOWNLOADED:
                 downloadRepository.getLiveDownload().observe(activity, downloads -> {
-                    artistList.setValue(MappingUtil.mapDownloadToArtist(downloads));
+                    List<Download> unique = downloads
+                            .stream()
+                            .collect(Collectors.collectingAndThen(
+                                    Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Download::getArtistName))), ArrayList::new)
+                            );
+
+                    artistList.setValue(MappingUtil.mapDownloadToArtist(unique));
                 });
                 break;
         }

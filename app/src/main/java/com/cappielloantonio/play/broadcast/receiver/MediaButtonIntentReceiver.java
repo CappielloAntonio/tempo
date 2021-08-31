@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.util.Log;
 import android.view.KeyEvent;
 
@@ -41,6 +42,7 @@ public class MediaButtonIntentReceiver extends BroadcastReceiver {
 
     private static final int DOUBLE_CLICK = 400;
 
+    private static WakeLock mWakeLock = null;
     private static int mClickCounter = 0;
     private static long mLastClickTime = 0;
 
@@ -77,6 +79,8 @@ public class MediaButtonIntentReceiver extends BroadcastReceiver {
 
                     break;
             }
+
+            releaseWakeLockIfHandlerIdle();
         }
     };
 
@@ -147,6 +151,7 @@ public class MediaButtonIntentReceiver extends BroadcastReceiver {
                             }
 
                             mLastClickTime = eventTime;
+                            acquireWakeLockAndSendMessage(context, msg, delay);
                         } else {
                             startService(context, command);
                         }
@@ -173,6 +178,34 @@ public class MediaButtonIntentReceiver extends BroadcastReceiver {
             context.startService(intent);
         } catch (IllegalStateException ignored) {
             ContextCompat.startForegroundService(context, intent);
+        }
+    }
+
+    private static void acquireWakeLockAndSendMessage(Context context, Message msg, long delay) {
+        if (mWakeLock == null) {
+            Context appContext = context.getApplicationContext();
+            PowerManager pm = (PowerManager) appContext.getSystemService(Context.POWER_SERVICE);
+            mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, context.getClass().getName());
+            mWakeLock.setReferenceCounted(false);
+        }
+
+        if (DEBUG) Log.v(TAG, "Acquiring wake lock and sending " + msg.what);
+
+        mWakeLock.acquire(10000);
+        mHandler.sendMessageDelayed(msg, delay);
+    }
+
+    private static void releaseWakeLockIfHandlerIdle() {
+        if (mHandler.hasMessages(MSG_HEADSET_DOUBLE_CLICK_TIMEOUT)) {
+            if (DEBUG) Log.v(TAG, "Handler still has messages pending, not releasing wake lock");
+            return;
+        }
+
+        if (mWakeLock != null) {
+            if (DEBUG) Log.v(TAG, "Releasing wake lock");
+
+            mWakeLock.release();
+            mWakeLock = null;
         }
     }
 

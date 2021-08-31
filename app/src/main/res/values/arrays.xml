@@ -47,7 +47,7 @@
 
     <string-array name="pref_image_size_titles">
         <item>High</item>
-        <item>Normal</item>
+        <item>Medium</item>
         <item>Low</item>
     </string-array>
 

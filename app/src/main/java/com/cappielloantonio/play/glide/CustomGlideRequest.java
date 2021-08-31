@@ -3,6 +3,7 @@ package com.cappielloantonio.play.glide;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import androidx.core.content.res.ResourcesCompat;
 
@@ -50,9 +51,9 @@ public class CustomGlideRequest {
                 "&c=" + params.get("c") +
                 "&id=" + item;
 
-        if (size != -1) {
-            return url + "&size" + size;
-        }
+        if (size != -1) { url = url + "&size=" + size; }
+
+        Log.d(TAG, "createUrl() " + url);
 
         return url;
     }

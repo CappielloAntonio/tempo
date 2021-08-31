@@ -47,10 +47,12 @@ public class SearchingClient {
     }
 
     private OkHttpClient getOkHttpClient() {
+        CacheUtil cacheUtil = new CacheUtil(context);
+
         return new OkHttpClient.Builder()
                 .addInterceptor(getHttpLoggingInterceptor())
-                .addInterceptor(CacheUtil.offlineInterceptor)
-                .addNetworkInterceptor(CacheUtil.onlineInterceptor)
+                .addInterceptor(cacheUtil.offlineInterceptor)
+                .addNetworkInterceptor(cacheUtil.onlineInterceptor)
                 .cache(getCache())
                 .build();
     }

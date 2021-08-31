@@ -155,6 +155,9 @@ public class DownloadFragment extends Fragment {
                 if (bind != null) bind.downloadDownloadedArtistPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.downloadDownloadedArtistSector.setVisibility(View.GONE);
             } else {
+                if (bind != null && !artists.isEmpty()) bind.emptyDownloadLayout.setVisibility(View.GONE);
+                if (bind != null && !artists.isEmpty()) bind.fragmentDownloadNestedScrollView.setVisibility(View.VISIBLE);
+
                 if (bind != null) bind.downloadDownloadedArtistPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null) bind.downloadDownloadedArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
                 if (bind != null) bind.downloadedArtistRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(artists.size(), 5), GridLayoutManager.HORIZONTAL, false));
@@ -186,6 +189,9 @@ public class DownloadFragment extends Fragment {
                 if (bind != null) bind.downloadDownloadedAlbumPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.downloadDownloadedAlbumSector.setVisibility(View.GONE);
             } else {
+                if (bind != null && !albums.isEmpty()) bind.emptyDownloadLayout.setVisibility(View.GONE);
+                if (bind != null && !albums.isEmpty()) bind.fragmentDownloadNestedScrollView.setVisibility(View.VISIBLE);
+
                 if (bind != null) bind.downloadDownloadedAlbumPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null) bind.downloadDownloadedAlbumSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
                 if (bind != null) bind.downloadedAlbumRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
@@ -217,6 +223,9 @@ public class DownloadFragment extends Fragment {
                 if (bind != null) bind.downloadDownloadedTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.downloadDownloadedTracksSector.setVisibility(View.GONE);
             } else {
+                if (bind != null && !songs.isEmpty()) bind.emptyDownloadLayout.setVisibility(View.GONE);
+                if (bind != null && !songs.isEmpty()) bind.fragmentDownloadNestedScrollView.setVisibility(View.VISIBLE);
+
                 if (bind != null) bind.downloadDownloadedTracksPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null) bind.downloadDownloadedTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
                 if (bind != null) bind.downloadedTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(songs.size(), 5), GridLayoutManager.HORIZONTAL, false));

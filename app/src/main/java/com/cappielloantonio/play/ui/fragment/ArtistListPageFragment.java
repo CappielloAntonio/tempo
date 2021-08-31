@@ -88,7 +88,7 @@ public class ArtistListPageFragment extends Fragment {
         bind.artistListRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.artistListRecyclerView.setHasFixedSize(true);
 
-        artistHorizontalAdapter = new ArtistHorizontalAdapter(requireContext());
+        artistHorizontalAdapter = new ArtistHorizontalAdapter(requireContext(), artistListPageViewModel.title.equals(Artist.DOWNLOADED));
         bind.artistListRecyclerView.setAdapter(artistHorizontalAdapter);
         artistListPageViewModel.getArtistList(requireActivity()).observe(requireActivity(), artists -> artistHorizontalAdapter.setItems(artists));
     }

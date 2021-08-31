@@ -2,7 +2,6 @@ package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,7 +16,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
@@ -33,11 +28,13 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
     private List<Artist> artists;
     private final LayoutInflater mInflater;
     private final Context context;
+    private final boolean isDownloaded;
 
-    public ArtistHorizontalAdapter(Context context) {
+    public ArtistHorizontalAdapter(Context context, boolean isDownloaded) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.artists = new ArrayList<>();
+        this.isDownloaded = isDownloaded;
     }
 
     @NonNull
@@ -53,10 +50,9 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
 
         holder.artistName.setText(MusicUtil.getReadableString(artist.getName()));
 
-        if(artist.getAlbumCount() > 0) {
+        if (artist.getAlbumCount() > 0) {
             holder.artistInfo.setText("Album count: " + String.valueOf(artist.getAlbumCount()));
-        }
-        else {
+        } else {
             holder.artistInfo.setVisibility(View.GONE);
         }
 
@@ -114,7 +110,8 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
             if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.homeFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_artistPageFragment, bundle);
             } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.artistListPageFragment) {
-                Navigation.findNavController(view).navigate(R.id.action_artistListPageFragment_to_artistPageFragment, bundle);
+                if (!isDownloaded) Navigation.findNavController(view).navigate(R.id.action_artistListPageFragment_to_artistPageFragment, bundle);
+                else Navigation.findNavController(view).navigate(R.id.action_artistListPageFragment_to_albumListPageFragment, bundle);
             } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.downloadFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_downloadFragment_to_albumListPageFragment, bundle);
             }

@@ -105,6 +105,9 @@
             android:id="@+id/action_downloadFragment_to_songListPageFragment"
             app:destination="@id/songListPageFragment" />
         <action
+            android:id="@+id/action_downloadFragment_to_albumPageFragment"
+            app:destination="@id/albumPageFragment" />
+        <action
             android:id="@+id/action_downloadFragment_to_albumListPageFragment"
             app:destination="@id/albumListPageFragment" />
         <action
@@ -238,6 +241,9 @@
         <action
             android:id="@+id/action_artistListPageFragment_to_artistPageFragment"
             app:destination="@id/artistPageFragment" />
+        <action
+            android:id="@+id/action_artistListPageFragment_to_albumListPageFragment"
+            app:destination="@id/albumListPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/playlistPageFragment"

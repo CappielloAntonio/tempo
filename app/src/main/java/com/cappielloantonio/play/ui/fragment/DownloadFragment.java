@@ -148,7 +148,7 @@ public class DownloadFragment extends Fragment {
     private void initDownloadedArtistView() {
         bind.downloadedArtistRecyclerView.setHasFixedSize(true);
 
-        downloadedArtistAdapter = new ArtistHorizontalAdapter(requireContext());
+        downloadedArtistAdapter = new ArtistHorizontalAdapter(requireContext(), false);
         bind.downloadedArtistRecyclerView.setAdapter(downloadedArtistAdapter);
         downloadViewModel.getDownloadedArtists(requireActivity(), 20).observe(requireActivity(), artists -> {
             if (artists == null) {

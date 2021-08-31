@@ -398,7 +398,7 @@ public class HomeFragment extends Fragment {
     private void initStarredArtistsView() {
         bind.starredArtistsRecyclerView.setHasFixedSize(true);
 
-        starredArtistAdapter = new ArtistHorizontalAdapter(requireContext());
+        starredArtistAdapter = new ArtistHorizontalAdapter(requireContext(), false);
         bind.starredArtistsRecyclerView.setAdapter(starredArtistAdapter);
         homeViewModel.getStarredArtists(requireActivity()).observe(requireActivity(), artists -> {
             if (artists == null) {

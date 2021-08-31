@@ -15,6 +15,12 @@ public interface DownloadDao {
     @Query("SELECT * FROM download WHERE server=:server")
     LiveData<List<Download>> getAll(String server);
 
+    @Query("SELECT * FROM download WHERE server=:server GROUP BY artistName LIMIT :size")
+    LiveData<List<Download>> getSampleArtist(int size, String server);
+
+    @Query("SELECT * FROM download WHERE server=:server GROUP BY albumName LIMIT :size")
+    LiveData<List<Download>> getSampleAlbum(int size, String server);
+
     @Query("SELECT * FROM download WHERE server=:server LIMIT :size")
     LiveData<List<Download>> getSample(int size, String server);
 

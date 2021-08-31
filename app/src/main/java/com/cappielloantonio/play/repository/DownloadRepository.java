@@ -10,7 +10,6 @@ import com.cappielloantonio.play.database.dao.DownloadDao;
 import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DownloadRepository {
@@ -27,8 +26,11 @@ public class DownloadRepository {
         return downloadDao.getAll(PreferenceUtil.getInstance(App.getInstance()).getServerId());
     }
 
-    public LiveData<List<Download>> getLiveDownloadSample(int size) {
-        return downloadDao.getSample(size, PreferenceUtil.getInstance(App.getInstance()).getServerId());
+    public LiveData<List<Download>> getLiveDownloadSample(int size, boolean isArtist, boolean isAlbum, boolean isTrack) {
+        if (isArtist) return downloadDao.getSampleArtist(size, PreferenceUtil.getInstance(App.getInstance()).getServerId());
+        else if (isAlbum) return downloadDao.getSampleAlbum(size, PreferenceUtil.getInstance(App.getInstance()).getServerId());
+        else if (isTrack) return downloadDao.getSample(size, PreferenceUtil.getInstance(App.getInstance()).getServerId());
+        else return downloadDao.getSample(size, PreferenceUtil.getInstance(App.getInstance()).getServerId());
     }
 
     public LiveData<List<Download>> getLiveDownloadFromArtist(String artistId) {

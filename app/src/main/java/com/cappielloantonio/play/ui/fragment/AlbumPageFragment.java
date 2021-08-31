@@ -144,7 +144,7 @@ public class AlbumPageFragment extends Fragment {
 
     private void initMusicButton() {
         albumPageViewModel.getAlbumSongLiveList().observe(requireActivity(), songs -> {
-            if (bind != null) {
+            if (bind != null && !songs.isEmpty()) {
                 bind.albumPagePlayButton.setOnClickListener(v -> {
                     QueueRepository queueRepository = new QueueRepository(App.getInstance());
                     queueRepository.insertAllAndStartNew(songs);
@@ -166,6 +166,11 @@ public class AlbumPageFragment extends Fragment {
 
                     MusicPlayerRemote.openQueue(songs, 0, true);
                 });
+            }
+
+            if(bind != null && songs.isEmpty()) {
+                bind.albumPagePlayButton.setEnabled(false);
+                bind.albumPageShuffleButton.setEnabled(false);
             }
         });
     }

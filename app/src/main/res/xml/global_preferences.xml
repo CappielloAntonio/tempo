@@ -20,6 +20,15 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
+            app:defaultValue="-1"
+            app:dialogTitle="@string/image_size"
+            app:entries="@array/pref_image_size_titles"
+            app:entryValues="@array/pref_image_size_values"
+            app:key="image_size"
+            app:title="@string/image_size"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
             app:defaultValue="default"
             app:dialogTitle="@string/theme_selection"
             app:entries="@array/themeListArray"

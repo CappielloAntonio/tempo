@@ -6,6 +6,7 @@
     <string name="theme_selection">Choose theme</string>
     <string name="covers_cache">Covers cache</string>
     <string name="media_cache">Media cache</string>
+    <string name="image_size">Cover size</string>
     <string name="library_menu_label">Library</string>
     <string name="home_menu_label">Home</string>
     <string name="search_menu_label">Search</string>

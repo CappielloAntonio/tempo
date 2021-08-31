@@ -19,6 +19,7 @@ public class PreferenceUtil {
     public static final String POSITION = "position";
     public static final String PROGRESS = "progress";
     public static final String IMAGE_CACHE_SIZE = "image_cache_size";
+    public static final String IMAGE_SIZE = "image_size";
     public static final String MEDIA_CACHE_SIZE = "media_cache_size";
 
     private static PreferenceUtil sInstance;
@@ -126,5 +127,9 @@ public class PreferenceUtil {
 
     public final int getMediaCacheSize() {
         return Integer.parseInt(mPreferences.getString(MEDIA_CACHE_SIZE, "400000000"));
+    }
+
+    public final int getImageSize() {
+        return Integer.parseInt(mPreferences.getString(IMAGE_SIZE, "-1"));
     }
 }

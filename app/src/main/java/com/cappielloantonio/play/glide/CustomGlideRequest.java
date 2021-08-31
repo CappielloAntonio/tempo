@@ -2,7 +2,6 @@ package com.cappielloantonio.play.glide;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import androidx.core.content.res.ResourcesCompat;
@@ -15,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.util.MusicUtil;
+import com.cappielloantonio.play.util.PreferenceUtil;
 
 import java.util.Map;
 
@@ -38,17 +38,23 @@ public class CustomGlideRequest {
                 .centerCrop();
     }
 
-    public static String createUrl(String item) {
+    public static String createUrl(String item, int size) {
         String url = App.getSubsonicClientInstance(App.getInstance(), false).getUrl();
         Map<String, String> params = App.getSubsonicClientInstance(App.getInstance(), false).getParams();
 
-        return url + "getCoverArt" +
+        url = url + "getCoverArt" +
                 "?u=" + params.get("u") +
                 "&s=" + params.get("s") +
                 "&t=" + params.get("t") +
                 "&v=" + params.get("v") +
                 "&c=" + params.get("c") +
                 "&id=" + item;
+
+        if (size != -1) {
+            return url + "&size" + size;
+        }
+
+        return url;
     }
 
     public static class Builder {
@@ -58,13 +64,11 @@ public class CustomGlideRequest {
         private Builder(Context context, String item, String category, String custom) {
             this.requestManager = Glide.with(context);
 
-            if(item != null) {
-                this.item = createUrl(item);
-            }
-            else if(custom != null) {
+            if (item != null) {
+                this.item = createUrl(item, PreferenceUtil.getInstance(context).getImageSize());
+            } else if (custom != null) {
                 this.item = custom;
-            }
-            else {
+            } else {
                 this.item = MusicUtil.getDefaultPicPerCategory(category);
             }
 

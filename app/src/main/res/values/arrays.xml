@@ -44,4 +44,16 @@
         <item>400000000</item>
         <item>200000000</item>
     </string-array>
+
+    <string-array name="pref_image_size_titles">
+        <item>High</item>
+        <item>Normal</item>
+        <item>Low</item>
+    </string-array>
+
+    <string-array name="pref_image_size_values">
+        <item>-1</item>
+        <item>500</item>
+        <item>300</item>
+    </string-array>
 </resources>

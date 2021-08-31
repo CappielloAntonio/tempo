@@ -35,7 +35,7 @@ public class CacheUtil {
         return chain.proceed(request);
     };
 
-    private boolean isConnected(){
+    private boolean isConnected() {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
         return (netInfo != null && netInfo.isConnected());

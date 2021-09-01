@@ -10,6 +10,7 @@ import com.cappielloantonio.play.subsonic.models.AlbumInfo;
 import com.cappielloantonio.play.subsonic.models.AlbumWithSongsID3;
 import com.cappielloantonio.play.util.MappingUtil;
 
+import java.util.Date;
 import java.util.List;
 
 public class Album implements Parcelable {
@@ -32,6 +33,7 @@ public class Album implements Parcelable {
     private boolean favorite;
     private List<Song> songs;
     private String notes;
+    private Date created;
 
     public Album(AlbumID3 albumID3) {
         this.id = albumID3.getId();
@@ -41,6 +43,7 @@ public class Album implements Parcelable {
         this.artistName = albumID3.getArtist();
         this.primary = albumID3.getCoverArtId();
         this.favorite = albumID3.getStarred() != null;
+        this.created = albumID3.getCreated();
     }
 
     public Album(AlbumWithSongsID3 albumWithSongsID3) {
@@ -52,6 +55,7 @@ public class Album implements Parcelable {
         this.primary = albumWithSongsID3.getCoverArtId();
         this.favorite = albumWithSongsID3.getStarred() != null;
         this.songs = MappingUtil.mapSong(albumWithSongsID3.getSongs());
+        this.created = albumWithSongsID3.getCreated();
     }
 
     public Album(Download download) {
@@ -144,6 +148,14 @@ public class Album implements Parcelable {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
     @Override

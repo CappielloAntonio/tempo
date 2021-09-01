@@ -30,12 +30,12 @@ public class AlbumRepository {
         this.application = application;
     }
 
-    public MutableLiveData<List<Album>> getAlbums(String type, int size) {
+    public MutableLiveData<List<Album>> getAlbums(String type, int size, Integer fromYear, Integer toYear) {
         MutableLiveData<List<Album>> listLiveAlbums = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
-                .getAlbumList2(type, size, 0, null, null)
+                .getAlbumList2(type, size, 0, fromYear, toYear)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {

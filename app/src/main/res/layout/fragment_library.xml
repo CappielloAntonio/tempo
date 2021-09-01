@@ -55,6 +55,38 @@
             android:paddingBottom="@dimen/global_padding_bottom">
 
             <LinearLayout
+                android:id="@+id/library_new_releases_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="8dp">
+
+                <!--  New releases  -->
+                <TextView
+                    style="@style/HeadlineTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="New releases" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/new_releases_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:clipToPadding="false"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp" />
+            </LinearLayout>
+
+            <include
+                android:id="@+id/library_new_releases_placeholder"
+                layout="@layout/item_placeholder_horizontal"
+                android:visibility="gone" />
+
+            <LinearLayout
                 android:id="@+id/library_album_sector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

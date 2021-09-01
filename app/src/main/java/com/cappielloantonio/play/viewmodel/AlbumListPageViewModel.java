@@ -39,17 +39,17 @@ public class AlbumListPageViewModel extends AndroidViewModel {
 
         switch (title) {
             case Album.RECENTLY_PLAYED:
-                albumRepository.getAlbums("recent", 500).observe(activity, albums -> {
+                albumRepository.getAlbums("recent", 500, null, null).observe(activity, albums -> {
                     albumList.setValue(albums);
                 });
                 break;
             case Album.MOST_PLAYED:
-                albumRepository.getAlbums("frequent", 500).observe(activity, albums -> {
+                albumRepository.getAlbums("frequent", 500, null, null).observe(activity, albums -> {
                     albumList.setValue(albums);
                 });
                 break;
             case Album.RECENTLY_ADDED:
-                albumRepository.getAlbums("newest", 500).observe(activity, albums -> {
+                albumRepository.getAlbums("newest", 500, null, null).observe(activity, albums -> {
                     albumList.setValue(albums);
                 });
                 break;

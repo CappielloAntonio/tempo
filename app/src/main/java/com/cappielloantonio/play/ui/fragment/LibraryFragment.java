@@ -15,17 +15,22 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.SnapHelper;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumAdapter;
+import com.cappielloantonio.play.adapter.AlbumHorizontalAdapter;
 import com.cappielloantonio.play.adapter.ArtistAdapter;
 import com.cappielloantonio.play.adapter.GenreAdapter;
 import com.cappielloantonio.play.adapter.PlaylistAdapter;
 import com.cappielloantonio.play.databinding.FragmentLibraryBinding;
 import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
+import com.cappielloantonio.play.helper.recyclerview.DotsIndicatorDecoration;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.LibraryViewModel;
 
 import java.util.Objects;
@@ -37,6 +42,7 @@ public class LibraryFragment extends Fragment {
     private MainActivity activity;
     private LibraryViewModel libraryViewModel;
 
+    private AlbumHorizontalAdapter newRelesesAlbumAdapter;
     private AlbumAdapter albumAdapter;
     private ArtistAdapter artistAdapter;
     private GenreAdapter genreAdapter;
@@ -73,6 +79,7 @@ public class LibraryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initAppBar();
+        initNewReleasesView();
         initAlbumView();
         initArtistView();
         initGenreView();
@@ -134,6 +141,37 @@ public class LibraryFragment extends Fragment {
     private void initAppBar() {
         activity.setSupportActionBar(bind.toolbar);
         Objects.requireNonNull(bind.toolbar.getOverflowIcon()).setTint(requireContext().getResources().getColor(R.color.titleTextColor, null));
+    }
+
+    private void initNewReleasesView() {
+        bind.newReleasesRecyclerView.setHasFixedSize(true);
+
+        newRelesesAlbumAdapter = new AlbumHorizontalAdapter(requireContext());
+        bind.newReleasesRecyclerView.setAdapter(newRelesesAlbumAdapter);
+        libraryViewModel.getRecentlyReleasedAlbums(requireActivity()).observe(requireActivity(), albums -> {
+            if (albums == null) {
+                if (bind != null) bind.libraryNewReleasesPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.libraryNewReleasesSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.libraryNewReleasesPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.libraryNewReleasesSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null) bind.newReleasesRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
+
+                newRelesesAlbumAdapter.setItems(albums);
+            }
+        });
+
+        SnapHelper starredAlbumSnapHelper = new PagerSnapHelper();
+        starredAlbumSnapHelper.attachToRecyclerView(bind.newReleasesRecyclerView);
+
+        bind.newReleasesRecyclerView.addItemDecoration(
+                new DotsIndicatorDecoration(
+                        getResources().getDimensionPixelSize(R.dimen.radius),
+                        getResources().getDimensionPixelSize(R.dimen.radius) * 4,
+                        getResources().getDimensionPixelSize(R.dimen.dots_height),
+                        requireContext().getResources().getColor(R.color.titleTextColor, null),
+                        requireContext().getResources().getColor(R.color.titleTextColor, null))
+        );
     }
 
     private void initAlbumView() {

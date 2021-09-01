@@ -77,17 +77,17 @@ public class HomeViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Album>> getMostPlayedAlbums(LifecycleOwner owner) {
-        albumRepository.getAlbums("frequent", 20).observe(owner, mostPlayedAlbumSample::postValue);
+        albumRepository.getAlbums("frequent", 20, null, null).observe(owner, mostPlayedAlbumSample::postValue);
         return mostPlayedAlbumSample;
     }
 
     public LiveData<List<Album>> getMostRecentlyAddedAlbums(LifecycleOwner owner) {
-        albumRepository.getAlbums("newest", 20).observe(owner, recentlyAddedAlbumSample::postValue);
+        albumRepository.getAlbums("newest", 20, null, null).observe(owner, recentlyAddedAlbumSample::postValue);
         return recentlyAddedAlbumSample;
     }
 
     public LiveData<List<Album>> getRecentlyPlayedAlbumList(LifecycleOwner owner) {
-        albumRepository.getAlbums("recent", 20).observe(owner, recentlyPlayedAlbumSample::postValue);
+        albumRepository.getAlbums("recent", 20, null, null).observe(owner, recentlyPlayedAlbumSample::postValue);
         return recentlyPlayedAlbumSample;
     }
 
@@ -112,14 +112,14 @@ public class HomeViewModel extends AndroidViewModel {
     }
 
     public void refreshMostPlayedAlbums(LifecycleOwner owner) {
-        albumRepository.getAlbums("frequent", 20).observe(owner, mostPlayedAlbumSample::postValue);
+        albumRepository.getAlbums("frequent", 20, null, null).observe(owner, mostPlayedAlbumSample::postValue);
     }
 
     public void refreshMostRecentlyAddedAlbums(LifecycleOwner owner) {
-        albumRepository.getAlbums("newest", 20).observe(owner, recentlyAddedAlbumSample::postValue);
+        albumRepository.getAlbums("newest", 20, null, null).observe(owner, recentlyAddedAlbumSample::postValue);
     }
 
     public void refreshRecentlyPlayedAlbumList(LifecycleOwner owner) {
-        albumRepository.getAlbums("recent", 20).observe(owner, recentlyPlayedAlbumSample::postValue);
+        albumRepository.getAlbums("recent", 20, null, null).observe(owner, recentlyPlayedAlbumSample::postValue);
     }
 }

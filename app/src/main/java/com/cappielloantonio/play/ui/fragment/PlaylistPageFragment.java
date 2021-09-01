@@ -30,6 +30,7 @@ import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlaylistPageViewModel;
 
 import java.util.Collections;
+import java.util.Objects;
 
 public class PlaylistPageFragment extends Fragment {
 
@@ -112,6 +113,8 @@ public class PlaylistPageFragment extends Fragment {
         bind.playlistDurationLabel.setText("Playlist duration: " + MusicUtil.getReadableDurationString(playlistPageViewModel.getPlaylist().getDuration(), false));
 
         bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
+
+        Objects.requireNonNull(bind.animToolbar.getOverflowIcon()).setTint(requireContext().getResources().getColor(R.color.titleTextColor, null));
     }
 
     private void initMusicButton() {

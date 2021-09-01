@@ -34,6 +34,7 @@ import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.AlbumPageViewModel;
 
 import java.util.Collections;
+import java.util.Objects;
 
 public class AlbumPageFragment extends Fragment {
     private static final String TAG = "AlbumPageFragment";
@@ -122,6 +123,8 @@ public class AlbumPageFragment extends Fragment {
         bind.albumReleaseYearLabel.setText(albumPageViewModel.getAlbum().getYear() != 0 ? String.valueOf(albumPageViewModel.getAlbum().getYear()) : "");
 
         bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
+
+        Objects.requireNonNull(bind.animToolbar.getOverflowIcon()).setTint(requireContext().getResources().getColor(R.color.titleTextColor, null));
     }
 
     private void initAlbumInfoTextButton() {

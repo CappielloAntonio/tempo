@@ -20,6 +20,26 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/track_number_text_view"
+        style="@style/TrackNumberTextView"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:gravity="center"
+        android:layout_margin="2dp"
+        android:text="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/cover_image_separator"
+        android:layout_width="12dp"
+        android:layout_height="52dp"
+        app:layout_constraintEnd_toStartOf="@+id/search_result_song_title_text_view"
+        app:layout_constraintStart_toEndOf="@+id/song_cover_image_view"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
         android:id="@+id/search_result_song_title_text_view"
         style="@style/ItemTitleTextView"
         android:layout_width="0dp"
@@ -28,14 +48,13 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:marqueeRepeatLimit="marquee_forever"
-        android:paddingStart="12dp"
         android:paddingTop="10dp"
         android:paddingEnd="12dp"
         android:scrollHorizontally="true"
         android:singleLine="true"
         android:text="@string/label_placeholder"
         app:layout_constraintEnd_toStartOf="@+id/search_result_dowanload_indicator_image_view"
-        app:layout_constraintStart_toEndOf="@+id/song_cover_image_view"
+        app:layout_constraintStart_toEndOf="@+id/cover_image_separator"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
@@ -46,7 +65,7 @@
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toStartOf="@+id/search_result_dowanload_indicator_image_view"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/song_cover_image_view"
+        app:layout_constraintStart_toEndOf="@+id/cover_image_separator"
         app:layout_constraintTop_toBottomOf="@+id/search_result_song_title_text_view">
 
         <TextView
@@ -57,7 +76,6 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="1"
-            android:paddingStart="12dp"
             android:paddingEnd="4dp"
             android:text="@string/label_placeholder" />
 

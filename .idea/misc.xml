@@ -69,7 +69,7 @@
         <entry key="app/src/main/res/layout/item_horizontal_artist.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_horizontal_playlist.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_horizontal_playlist_dialog_track.xml" value="0.3229166666666667" />
-        <entry key="app/src/main/res/layout/item_horizontal_track.xml" value="4.0" />
+        <entry key="app/src/main/res/layout/item_horizontal_track.xml" value="0.5557163531114327" />
         <entry key="app/src/main/res/layout/item_library_album.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_library_genre.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_login_server.xml" value="0.25" />

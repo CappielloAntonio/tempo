@@ -336,7 +336,7 @@ public class HomeFragment extends Fragment {
     private void initStarredTracksView() {
         bind.starredTracksRecyclerView.setHasFixedSize(true);
 
-        starredSongAdapter = new SongHorizontalAdapter(activity, requireContext());
+        starredSongAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
         bind.starredTracksRecyclerView.setAdapter(starredSongAdapter);
         homeViewModel.getStarredTracks(requireActivity()).observe(requireActivity(), songs -> {
             if (songs == null) {

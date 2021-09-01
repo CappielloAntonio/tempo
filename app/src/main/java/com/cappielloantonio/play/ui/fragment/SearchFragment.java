@@ -73,7 +73,7 @@ public class SearchFragment extends Fragment {
         bind.searchResultTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.searchResultTracksRecyclerView.setHasFixedSize(true);
 
-        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext());
+        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
         bind.searchResultTracksRecyclerView.setAdapter(songHorizontalAdapter);
 
         // Albums

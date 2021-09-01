@@ -180,7 +180,7 @@ public class ArtistPageFragment extends Fragment {
     private void initTopSongsView() {
         bind.mostStreamedSongRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext());
+        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
         bind.mostStreamedSongRecyclerView.setAdapter(songHorizontalAdapter);
         artistPageViewModel.getArtistTopSongList(10).observe(requireActivity(), songs -> {
             if (bind != null) bind.artistPageTopSongsSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);

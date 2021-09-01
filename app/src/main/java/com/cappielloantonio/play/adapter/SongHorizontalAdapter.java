@@ -34,14 +34,16 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
     private final MainActivity mainActivity;
     private final Context context;
     private final LayoutInflater mInflater;
+    private final boolean isCoverVisible;
 
     private List<Song> songs;
 
-    public SongHorizontalAdapter(MainActivity mainActivity, Context context) {
+    public SongHorizontalAdapter(MainActivity mainActivity, Context context, boolean isCoverVisible) {
         this.mainActivity = mainActivity;
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.songs = new ArrayList<>();
+        this.isCoverVisible = isCoverVisible;
     }
 
     @NonNull
@@ -58,6 +60,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         holder.songTitle.setText(MusicUtil.getReadableString(song.getTitle()));
         holder.songArtist.setText(MusicUtil.getReadableString(song.getArtistName()));
         holder.songDuration.setText(MusicUtil.getReadableDurationString(song.getDuration(), false));
+        holder.trackNumber.setText(String.valueOf(song.getTrackNumber()));
 
         if (DownloadUtil.getDownloadTracker(context).isDownloaded(song)) {
             holder.downloadIndicator.setVisibility(View.VISIBLE);
@@ -65,11 +68,15 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
             holder.downloadIndicator.setVisibility(View.GONE);
         }
 
-        CustomGlideRequest.Builder
+        if(isCoverVisible) CustomGlideRequest.Builder
                 .from(context, song.getPrimary(), CustomGlideRequest.SONG_PIC, null)
                 .build()
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.cover);
+
+        if(isCoverVisible) holder.trackNumber.setVisibility(View.INVISIBLE);
+
+        if(!isCoverVisible) holder.cover.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -90,7 +97,9 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         TextView songTitle;
         TextView songArtist;
         TextView songDuration;
+        TextView trackNumber;
         View downloadIndicator;
+        View coverSeparator;
         ImageView more;
         ImageView cover;
 
@@ -100,9 +109,11 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
             songTitle = itemView.findViewById(R.id.search_result_song_title_text_view);
             songArtist = itemView.findViewById(R.id.album_artist_text_view);
             songDuration = itemView.findViewById(R.id.search_result_song_duration_text_view);
+            trackNumber = itemView.findViewById(R.id.track_number_text_view);
             downloadIndicator = itemView.findViewById(R.id.search_result_dowanload_indicator_image_view);
             more = itemView.findViewById(R.id.search_result_song_more_button);
             cover = itemView.findViewById(R.id.song_cover_image_view);
+            coverSeparator = itemView.findViewById(R.id.cover_image_separator);
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);

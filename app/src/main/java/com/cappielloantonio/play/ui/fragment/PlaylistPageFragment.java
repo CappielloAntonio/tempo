@@ -154,7 +154,7 @@ public class PlaylistPageFragment extends Fragment {
         bind.songRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.songRecyclerView.setHasFixedSize(true);
 
-        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext());
+        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
         bind.songRecyclerView.setAdapter(songHorizontalAdapter);
 
         playlistPageViewModel.getPlaylistSongLiveList().observe(requireActivity(), songs -> {

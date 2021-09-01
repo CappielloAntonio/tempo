@@ -216,7 +216,7 @@ public class DownloadFragment extends Fragment {
     private void initDownloadedSongView() {
         bind.downloadedTracksRecyclerView.setHasFixedSize(true);
 
-        downloadedTrackAdapter = new SongHorizontalAdapter(activity, requireContext());
+        downloadedTrackAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
         bind.downloadedTracksRecyclerView.setAdapter(downloadedTrackAdapter);
         downloadViewModel.getDownloadedTracks(requireActivity(), 20).observe(requireActivity(), songs -> {
             if (songs == null) {

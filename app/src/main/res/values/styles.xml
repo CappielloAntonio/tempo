@@ -136,4 +136,11 @@
         <item name="android:textFontWeight">700</item>
         <item name="android:textColor">@color/darkIconColor</item>
     </style>
+
+    <!-- Font utilizzato nel conteggio delle canzoni nella visualizzazione per album  -->
+    <style name="TrackNumberTextView" parent="InterFontFamily">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:textColor">@color/titleTextColor</item>
+    </style>
 </resources>

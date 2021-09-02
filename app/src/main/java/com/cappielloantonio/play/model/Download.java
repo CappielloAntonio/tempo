@@ -31,6 +31,9 @@ public class Download {
     @ColumnInfo(name = "artistName")
     private String artistName;
 
+    @ColumnInfo(name = "trackNumber")
+    private int trackNumber;
+
     @ColumnInfo(name = "primary")
     private String primary;
 
@@ -40,13 +43,14 @@ public class Download {
     @ColumnInfo(name = "server")
     private String server;
 
-    public Download(String songID, String title, String albumId, String albumName, String artistId, String artistName, String primary, long duration, String server) {
+    public Download(@NonNull String songID, String title, String albumId, String albumName, String artistId, String artistName, int trackNumber, String primary, long duration, String server) {
         this.songID = songID;
         this.title = title;
         this.albumId = albumId;
         this.albumName = albumName;
         this.artistId = artistId;
         this.artistName = artistName;
+        this.trackNumber = trackNumber;
         this.primary = primary;
         this.duration = duration;
         this.server = server;
@@ -59,16 +63,18 @@ public class Download {
         this.albumName = song.getAlbumName();
         this.artistId = song.getArtistId();
         this.artistName = MusicUtil.normalizedArtistName(song.getArtistName());
+        this.trackNumber = song.getTrackNumber();
         this.primary = song.getPrimary();
         this.duration = song.getDuration();
         this.server = PreferenceUtil.getInstance(App.getInstance()).getServerId();
     }
 
+    @NonNull
     public String getSongID() {
         return songID;
     }
 
-    public void setSongID(String songID) {
+    public void setSongID(@NonNull String songID) {
         this.songID = songID;
     }
 
@@ -110,6 +116,14 @@ public class Download {
 
     public void setArtistName(String artistName) {
         this.artistName = artistName;
+    }
+
+    public int getTrackNumber() {
+        return trackNumber;
+    }
+
+    public void setTrackNumber(int trackNumber) {
+        this.trackNumber = trackNumber;
     }
 
     public String getPrimary() {

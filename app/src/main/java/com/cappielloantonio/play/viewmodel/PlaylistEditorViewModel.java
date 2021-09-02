@@ -20,7 +20,7 @@ import java.util.Objects;
 public class PlaylistEditorViewModel extends AndroidViewModel {
     private static final String TAG = "PlaylistEditorViewModel";
 
-    private PlaylistRepository playlistRepository;
+    private final PlaylistRepository playlistRepository;
 
     private Song toAdd;
     private Playlist toEdit;
@@ -88,8 +88,10 @@ public class PlaylistEditorViewModel extends AndroidViewModel {
         List<Song> songs = songLiveList.getValue();
         ArrayList<String> ids = new ArrayList<>();
 
-        for (Song song : songs) {
-            ids.add(song.getId());
+        if (songs != null && !songs.isEmpty()) {
+            for (Song song : songs) {
+                ids.add(song.getId());
+            }
         }
 
         return ids;

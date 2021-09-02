@@ -5,25 +5,18 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
-import com.cappielloantonio.play.repository.SongRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ArtistPageViewModel extends AndroidViewModel {
-    private AlbumRepository albumRepository;
-    private ArtistRepository artistRepository;
-
-    private LiveData<List<Song>> songList = new MutableLiveData<>();
-    private LiveData<List<Album>> albumList = new MutableLiveData<>();
-    private LiveData<Artist> artistInfo = new MutableLiveData<>();
+    private final AlbumRepository albumRepository;
+    private final ArtistRepository artistRepository;
 
     private Artist artist;
 
@@ -35,18 +28,15 @@ public class ArtistPageViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Album>> getAlbumList() {
-        albumList = albumRepository.getArtistAlbums(artist.getId());
-        return albumList;
+        return albumRepository.getArtistAlbums(artist.getId());
     }
 
     public LiveData<Artist> getArtistInfo(String id) {
-        artistInfo = artistRepository.getArtistFullInfo(id);
-        return artistInfo;
+        return artistRepository.getArtistFullInfo(id);
     }
 
     public LiveData<List<Song>> getArtistTopSongList(int count) {
-        songList = artistRepository.getTopSongs(artist.getName(), count);
-        return songList;
+        return artistRepository.getTopSongs(artist.getName(), count);
     }
 
     public Artist getArtist() {

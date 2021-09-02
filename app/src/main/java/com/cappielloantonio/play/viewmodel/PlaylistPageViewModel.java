@@ -13,7 +13,7 @@ import com.cappielloantonio.play.repository.PlaylistRepository;
 import java.util.List;
 
 public class PlaylistPageViewModel extends AndroidViewModel {
-    private PlaylistRepository playlistRepository;
+    private final PlaylistRepository playlistRepository;
 
     private Playlist playlist;
 

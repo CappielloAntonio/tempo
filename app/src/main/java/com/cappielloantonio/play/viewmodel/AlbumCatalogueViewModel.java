@@ -11,9 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
-import com.cappielloantonio.play.subsonic.models.ResponseStatus;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.util.MappingUtil;
 
@@ -24,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class AlbumCatalogueViewModel extends AndroidViewModel {
-    private MutableLiveData<List<Album>> albumList = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<List<Album>> albumList = new MutableLiveData<>(new ArrayList<>());
 
     private int page = 0;
 
@@ -45,7 +43,7 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
             @Override
             public void onLoadMedia(List<?> media) {
                 List<Album> liveAlbum = albumList.getValue();
-                if(liveAlbum == null) liveAlbum = new ArrayList<>();
+                if (liveAlbum == null) liveAlbum = new ArrayList<>();
                 liveAlbum.addAll(MappingUtil.mapAlbum((List<AlbumID3>) media));
                 albumList.setValue(liveAlbum);
 
@@ -63,8 +61,8 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
                 .getAlbumList2("alphabeticalByName", size, offset, null, null)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
-                    public void onResponse(Call<SubsonicResponse> call, retrofit2.Response<SubsonicResponse> response) {
-                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull retrofit2.Response<SubsonicResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getAlbumList2() != null) {
                             List<AlbumID3> albumList = new ArrayList<>();
                             albumList.addAll(response.body().getAlbumList2().getAlbums());
                             callback.onLoadMedia(albumList);
@@ -72,7 +70,7 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
                     }
 
                     @Override
-                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
                         callback.onError(new Exception(t.getMessage()));
                     }
                 });

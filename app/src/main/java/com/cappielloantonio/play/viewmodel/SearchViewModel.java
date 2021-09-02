@@ -5,18 +5,12 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.RecentSearch;
 import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.repository.AlbumRepository;
-import com.cappielloantonio.play.repository.ArtistRepository;
-import com.cappielloantonio.play.repository.GenreRepository;
 import com.cappielloantonio.play.repository.SearchingRepository;
-import com.cappielloantonio.play.repository.SongRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +20,7 @@ public class SearchViewModel extends AndroidViewModel {
 
     private String query = "";
 
-    private SearchingRepository searchingRepository;
-
-    private LiveData<List<Song>> searchSong = new MutableLiveData<>(new ArrayList<>());
-    private LiveData<List<Album>> searchAlbum = new MutableLiveData<>(new ArrayList<>());
-    private LiveData<List<Artist>> searchArtist = new MutableLiveData<>(new ArrayList<>());
+    private final SearchingRepository searchingRepository;
 
     public SearchViewModel(@NonNull Application application) {
         super(application);
@@ -51,18 +41,15 @@ public class SearchViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Song>> searchSong(String title) {
-        searchSong = searchingRepository.getSearchedSongs(title);
-        return searchSong;
+        return searchingRepository.getSearchedSongs(title);
     }
 
     public LiveData<List<Album>> searchAlbum(String name) {
-        searchAlbum = searchingRepository.getSearchedAlbums(name);
-        return searchAlbum;
+        return searchingRepository.getSearchedAlbums(name);
     }
 
     public LiveData<List<Artist>> searchArtist(String name) {
-        searchArtist = searchingRepository.getSearchedArtists(name);
-        return searchArtist;
+        return searchingRepository.getSearchedArtists(name);
     }
 
     public void insertNewSearch(String search) {

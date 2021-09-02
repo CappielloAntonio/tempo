@@ -16,9 +16,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class PlaylistChooserViewModel extends AndroidViewModel {
-    private PlaylistRepository playlistRepository;
+    private final PlaylistRepository playlistRepository;
 
-    private MutableLiveData<List<Playlist>> playlists;
+    private final MutableLiveData<List<Playlist>> playlists = new MutableLiveData<>(null);
     private Song toAdd;
 
     public PlaylistChooserViewModel(@NonNull Application application) {
@@ -26,7 +26,8 @@ public class PlaylistChooserViewModel extends AndroidViewModel {
 
         playlistRepository = new PlaylistRepository(application);
 
-        playlists = playlistRepository.getPlaylists(false, -1);
+        playlistRepository.getPlaylists(false, -1).observeForever(playlists::postValue);
+
     }
 
     public LiveData<List<Playlist>> getPlaylistList() {

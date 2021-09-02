@@ -21,8 +21,8 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class ArtistListPageViewModel extends AndroidViewModel {
-    private ArtistRepository artistRepository;
-    private DownloadRepository downloadRepository;
+    private final ArtistRepository artistRepository;
+    private final DownloadRepository downloadRepository;
 
     public String title;
 

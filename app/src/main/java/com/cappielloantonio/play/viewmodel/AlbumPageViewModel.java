@@ -14,16 +14,14 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.DownloadRepository;
-import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.util.MappingUtil;
-import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.List;
 
 public class AlbumPageViewModel extends AndroidViewModel {
-    private AlbumRepository albumRepository;
-    private ArtistRepository artistRepository;
-    private DownloadRepository downloadRepository;
+    private final AlbumRepository albumRepository;
+    private final ArtistRepository artistRepository;
+    private final DownloadRepository downloadRepository;
 
     private MutableLiveData<List<Song>> songLiveList = new MutableLiveData<>();
 
@@ -39,7 +37,7 @@ public class AlbumPageViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Song>> getAlbumSongLiveList(FragmentActivity activity) {
-        if(isOffline) {
+        if (isOffline) {
             downloadRepository.getLiveDownloadFromAlbum(album.getId()).observe(activity, downloads -> songLiveList.postValue(MappingUtil.mapDownloadToSong(downloads)));
         } else {
             songLiveList = albumRepository.getAlbumTracks(album.getId());

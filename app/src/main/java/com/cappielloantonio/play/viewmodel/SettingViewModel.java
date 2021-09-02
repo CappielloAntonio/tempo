@@ -6,14 +6,12 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.cappielloantonio.play.interfaces.ScanCallback;
-import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.ScanRepository;
-import com.cappielloantonio.play.repository.SongRepository;
 
 public class SettingViewModel extends AndroidViewModel {
     private static final String TAG = "SettingViewModel";
 
-    private ScanRepository scanRepository;
+    private final ScanRepository scanRepository;
 
     public SettingViewModel(@NonNull Application application) {
         super(application);

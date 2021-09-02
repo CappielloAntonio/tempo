@@ -17,10 +17,10 @@ import java.util.List;
 public class PlayerBottomSheetViewModel extends AndroidViewModel {
     private static final String TAG = "PlayerBottomSheetViewModel";
 
-    private SongRepository songRepository;
-    private QueueRepository queueRepository;
+    private final SongRepository songRepository;
+    private final QueueRepository queueRepository;
 
-    private LiveData<List<Queue>> queueSong;
+    private final LiveData<List<Queue>> queueSong;
 
     public PlayerBottomSheetViewModel(@NonNull Application application) {
         super(application);
@@ -43,12 +43,14 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     public void setFavorite() {
         Song song = MusicPlayerRemote.getCurrentSong();
 
-        if (song.isFavorite()) {
-            songRepository.unstar(song.getId());
-            song.setFavorite(false);
-        } else {
-            songRepository.star(song.getId());
-            song.setFavorite(true);
+        if (song != null) {
+            if (song.isFavorite()) {
+                songRepository.unstar(song.getId());
+                song.setFavorite(false);
+            } else {
+                songRepository.star(song.getId());
+                song.setFavorite(true);
+            }
         }
     }
 

@@ -10,10 +10,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.IndexID3;
-import com.cappielloantonio.play.subsonic.models.ResponseStatus;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.util.MappingUtil;
 
@@ -24,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class ArtistCatalogueViewModel extends AndroidViewModel {
-    private MutableLiveData<List<Artist>> artistList = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<List<Artist>> artistList = new MutableLiveData<>(new ArrayList<>());
 
     public ArtistCatalogueViewModel(@NonNull Application application) {
         super(application);
@@ -40,8 +38,8 @@ public class ArtistCatalogueViewModel extends AndroidViewModel {
                 .getArtists()
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
-                    public void onResponse(Call<SubsonicResponse> call, retrofit2.Response<SubsonicResponse> response) {
-                        if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull retrofit2.Response<SubsonicResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getArtists() != null) {
                             List<ArtistID3> artists = new ArrayList<>();
 
                             for (IndexID3 index : response.body().getArtists().getIndices()) {
@@ -53,7 +51,7 @@ public class ArtistCatalogueViewModel extends AndroidViewModel {
                     }
 
                     @Override
-                    public void onFailure(Call<SubsonicResponse> call, Throwable t) {
+                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
 
                     }
                 });

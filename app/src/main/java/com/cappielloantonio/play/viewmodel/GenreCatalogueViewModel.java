@@ -12,9 +12,7 @@ import com.cappielloantonio.play.repository.GenreRepository;
 import java.util.List;
 
 public class GenreCatalogueViewModel extends AndroidViewModel {
-    private GenreRepository genreRepository;
-
-    private LiveData<List<Genre>> genreList;
+    private final GenreRepository genreRepository;
 
     public GenreCatalogueViewModel(@NonNull Application application) {
         super(application);

@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SongListPageViewModel extends AndroidViewModel {
-    private SongRepository songRepository;
-    private ArtistRepository artistRepository;
-    private DownloadRepository downloadRepository;
+    private final SongRepository songRepository;
+    private final ArtistRepository artistRepository;
+    private final DownloadRepository downloadRepository;
 
     public String title;
     public Genre genre;

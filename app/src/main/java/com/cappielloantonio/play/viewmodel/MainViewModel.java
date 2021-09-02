@@ -10,7 +10,7 @@ import com.cappielloantonio.play.repository.QueueRepository;
 public class MainViewModel extends AndroidViewModel {
     private static final String TAG = "SearchViewModel";
 
-    private Application application;
+    private final Application application;
 
     public MainViewModel(@NonNull Application application) {
         super(application);

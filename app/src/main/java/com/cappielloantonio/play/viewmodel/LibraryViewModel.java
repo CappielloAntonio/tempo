@@ -18,7 +18,6 @@ import com.cappielloantonio.play.repository.GenreRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
 
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 

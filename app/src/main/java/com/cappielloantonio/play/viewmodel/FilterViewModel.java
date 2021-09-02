@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FilterViewModel extends AndroidViewModel {
-    private GenreRepository genreRepository;
+    private final GenreRepository genreRepository;
 
-    private ArrayList<String> selectedFiltersID = new ArrayList<>();
-    private ArrayList<String> selectedFilters = new ArrayList<>();
+    private final ArrayList<String> selectedFiltersID = new ArrayList<>();
+    private final ArrayList<String> selectedFilters = new ArrayList<>();
 
     public FilterViewModel(@NonNull Application application) {
         super(application);

@@ -14,9 +14,9 @@ import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 
 public class SongBottomSheetViewModel extends AndroidViewModel {
-    private SongRepository songRepository;
-    private AlbumRepository albumRepository;
-    private ArtistRepository artistRepository;
+    private final SongRepository songRepository;
+    private final AlbumRepository albumRepository;
+    private final ArtistRepository artistRepository;
 
     private Song song;
 

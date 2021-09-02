@@ -93,7 +93,7 @@ public class AlbumPageFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_download_album:
-                albumPageViewModel.getAlbumSongLiveList().observe(requireActivity(), songs -> {
+                albumPageViewModel.getAlbumSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
                     DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(songs);
                 });
                 return true;
@@ -106,6 +106,7 @@ public class AlbumPageFragment extends Fragment {
 
     private void init() {
         albumPageViewModel.setAlbum(getArguments().getParcelable("album_object"));
+        albumPageViewModel.setOffline(getArguments().getBoolean("is_offline"));
     }
 
     private void initAppBar() {
@@ -146,7 +147,7 @@ public class AlbumPageFragment extends Fragment {
     }
 
     private void initMusicButton() {
-        albumPageViewModel.getAlbumSongLiveList().observe(requireActivity(), songs -> {
+        albumPageViewModel.getAlbumSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
             if (bind != null && !songs.isEmpty()) {
                 bind.albumPagePlayButton.setOnClickListener(v -> {
                     QueueRepository queueRepository = new QueueRepository(App.getInstance());
@@ -193,7 +194,7 @@ public class AlbumPageFragment extends Fragment {
         songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), false);
         bind.songRecyclerView.setAdapter(songHorizontalAdapter);
 
-        albumPageViewModel.getAlbumSongLiveList().observe(requireActivity(), songs -> {
+        albumPageViewModel.getAlbumSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
             songHorizontalAdapter.setItems(songs);
         });
     }

@@ -101,7 +101,10 @@ public class AlbumListPageFragment extends Fragment {
         bind.albumListRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.albumListRecyclerView.setHasFixedSize(true);
 
-        albumHorizontalAdapter = new AlbumHorizontalAdapter(requireContext());
+        albumHorizontalAdapter = new AlbumHorizontalAdapter(requireContext(),
+                (albumListPageViewModel.title.equals(Album.DOWNLOADED) || albumListPageViewModel.title.equals(Album.FROM_ARTIST))
+        );
+
         bind.albumListRecyclerView.setAdapter(albumHorizontalAdapter);
         albumListPageViewModel.getAlbumList(requireActivity()).observe(requireActivity(), albums -> albumHorizontalAdapter.setItems(albums));
     }

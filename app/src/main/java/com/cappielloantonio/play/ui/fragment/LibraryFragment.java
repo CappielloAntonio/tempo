@@ -146,7 +146,7 @@ public class LibraryFragment extends Fragment {
     private void initNewReleasesView() {
         bind.newReleasesRecyclerView.setHasFixedSize(true);
 
-        newRelesesAlbumAdapter = new AlbumHorizontalAdapter(requireContext());
+        newRelesesAlbumAdapter = new AlbumHorizontalAdapter(requireContext(), false);
         bind.newReleasesRecyclerView.setAdapter(newRelesesAlbumAdapter);
         libraryViewModel.getRecentlyReleasedAlbums(requireActivity()).observe(requireActivity(), albums -> {
             if (albums == null) {

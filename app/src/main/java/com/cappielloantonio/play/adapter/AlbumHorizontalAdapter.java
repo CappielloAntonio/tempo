@@ -28,11 +28,13 @@ public class AlbumHorizontalAdapter extends RecyclerView.Adapter<AlbumHorizontal
     private List<Album> albums;
     private final LayoutInflater mInflater;
     private final Context context;
+    private final boolean isOffline;
 
-    public AlbumHorizontalAdapter(Context context) {
+    public AlbumHorizontalAdapter(Context context, boolean isOffline) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.albums = new ArrayList<>();
+        this.isOffline = isOffline;
     }
 
     @NonNull
@@ -96,6 +98,7 @@ public class AlbumHorizontalAdapter extends RecyclerView.Adapter<AlbumHorizontal
         public void onClick(View view) {
             Bundle bundle = new Bundle();
             bundle.putParcelable("album_object", albums.get(getBindingAdapterPosition()));
+            bundle.putBoolean("is_offline", isOffline);
 
             if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.homeFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_albumPageFragment, bundle);

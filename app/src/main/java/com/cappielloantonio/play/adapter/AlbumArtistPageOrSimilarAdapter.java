@@ -91,6 +91,7 @@ public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumA
         public void onClick(View view) {
             Bundle bundle = new Bundle();
             bundle.putParcelable("album_object", albums.get(getBindingAdapterPosition()));
+            bundle.putBoolean("is_offline", false);
             Navigation.findNavController(view).navigate(R.id.albumPageFragment, bundle);
         }
 

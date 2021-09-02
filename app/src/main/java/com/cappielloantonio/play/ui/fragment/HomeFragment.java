@@ -367,7 +367,7 @@ public class HomeFragment extends Fragment {
     private void initStarredAlbumsView() {
         bind.starredAlbumsRecyclerView.setHasFixedSize(true);
 
-        starredAlbumAdapter = new AlbumHorizontalAdapter(requireContext());
+        starredAlbumAdapter = new AlbumHorizontalAdapter(requireContext(), false);
         bind.starredAlbumsRecyclerView.setAdapter(starredAlbumAdapter);
         homeViewModel.getStarredAlbums(requireActivity()).observe(requireActivity(), albums -> {
             if (albums == null) {

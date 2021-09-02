@@ -182,7 +182,7 @@ public class DownloadFragment extends Fragment {
     private void initDownloadedAlbumView() {
         bind.downloadedAlbumRecyclerView.setHasFixedSize(true);
 
-        downloadedAlbumAdapter = new AlbumHorizontalAdapter(requireContext());
+        downloadedAlbumAdapter = new AlbumHorizontalAdapter(requireContext(), true);
         bind.downloadedAlbumRecyclerView.setAdapter(downloadedAlbumAdapter);
         downloadViewModel.getDownloadedAlbums(requireActivity(), 20).observe(requireActivity(), albums -> {
             if (albums == null) {

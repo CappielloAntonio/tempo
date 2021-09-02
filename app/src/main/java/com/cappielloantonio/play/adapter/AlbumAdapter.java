@@ -93,6 +93,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         public void onClick(View view) {
             Bundle bundle = new Bundle();
             bundle.putParcelable("album_object", albums.get(getBindingAdapterPosition()));
+            bundle.putBoolean("is_offline", false);
 
             if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.searchFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_searchFragment_to_albumPageFragment, bundle);

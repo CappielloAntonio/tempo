@@ -94,7 +94,7 @@ public class AlbumPageFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_download_album:
                 albumPageViewModel.getAlbumSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
-                    DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(songs);
+                    DownloadUtil.getDownloadTracker(requireContext()).download(songs);
                 });
                 return true;
             default:

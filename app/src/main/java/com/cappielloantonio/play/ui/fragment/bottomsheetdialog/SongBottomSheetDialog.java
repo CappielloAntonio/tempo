@@ -54,7 +54,6 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         songBottomSheetViewModel.setSong(song);
 
         init(view);
-        initDownloadedUI(view.findViewById(R.id.download_text_view));
 
         return view;
     }
@@ -149,9 +148,17 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
         TextView download = view.findViewById(R.id.download_text_view);
         download.setOnClickListener(v -> {
-            DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(Arrays.asList(song));
+            DownloadUtil.getDownloadTracker(requireContext()).download(Arrays.asList(song));
             dismissBottomSheet();
         });
+
+        TextView remove = view.findViewById(R.id.remove_text_view);
+        remove.setOnClickListener(v -> {
+            DownloadUtil.getDownloadTracker(requireContext()).remove(Arrays.asList(song));
+            dismissBottomSheet();
+        });
+
+        initDownloadUI(download, remove);
 
         TextView addToPlaylist = view.findViewById(R.id.add_to_playlist_text_view);
         addToPlaylist.setOnClickListener(v -> {
@@ -203,11 +210,13 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         dismiss();
     }
 
-    private void initDownloadedUI(TextView download) {
+    private void initDownloadUI(TextView download, TextView remove) {
         if (DownloadUtil.getDownloadTracker(requireContext()).isDownloaded(song)) {
-            download.setText("Remove");
+            download.setVisibility(View.GONE);
+            remove.setVisibility(View.VISIBLE);
         } else {
-            download.setText("Download");
+            download.setVisibility(View.VISIBLE);
+            remove.setVisibility(View.GONE);
         }
     }
 }

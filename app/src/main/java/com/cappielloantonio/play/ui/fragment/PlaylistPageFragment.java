@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.ui.fragment;
 
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -85,7 +83,7 @@ public class PlaylistPageFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_download_playlist:
-                DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(playlistPageViewModel.getPlaylistSongLiveList().getValue());
+                DownloadUtil.getDownloadTracker(requireContext()).download(Objects.requireNonNull(playlistPageViewModel.getPlaylistSongLiveList().getValue()));
                 return true;
             default:
                 break;
@@ -160,8 +158,6 @@ public class PlaylistPageFragment extends Fragment {
         songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
         bind.songRecyclerView.setAdapter(songHorizontalAdapter);
 
-        playlistPageViewModel.getPlaylistSongLiveList().observe(requireActivity(), songs -> {
-            songHorizontalAdapter.setItems(songs);
-        });
+        playlistPageViewModel.getPlaylistSongLiveList().observe(requireActivity(), songs -> songHorizontalAdapter.setItems(songs));
     }
 }

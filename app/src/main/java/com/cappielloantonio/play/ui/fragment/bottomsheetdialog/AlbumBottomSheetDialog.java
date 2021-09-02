@@ -1,7 +1,6 @@
 package com.cappielloantonio.play.ui.fragment.bottomsheetdialog;
 
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +25,6 @@ import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.ui.fragment.dialog.RatingDialog;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.AlbumBottomSheetViewModel;
@@ -126,43 +124,49 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
         });
 
         TextView playNext = view.findViewById(R.id.play_next_text_view);
-        playNext.setOnClickListener(v -> {
-            albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
-                MusicPlayerRemote.playNext(songs);
-                ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
-                dismissBottomSheet();
-            });
-        });
+        playNext.setOnClickListener(v -> albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
+            MusicPlayerRemote.playNext(songs);
+            ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
+            dismissBottomSheet();
+        }));
 
         TextView addToQueue = view.findViewById(R.id.add_to_queue_text_view);
-        addToQueue.setOnClickListener(v -> {
-            albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
-                MusicPlayerRemote.enqueue(songs);
-                dismissBottomSheet();
-            });
-        });
+        addToQueue.setOnClickListener(v -> albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
+            MusicPlayerRemote.enqueue(songs);
+            dismissBottomSheet();
+        }));
 
-        TextView download = view.findViewById(R.id.download_text_view);
-        download.setOnClickListener(v -> {
-            albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
-                DownloadUtil.getDownloadTracker(requireContext()).toggleDownload(songs);
+        TextView downloadAll = view.findViewById(R.id.download_all_text_view);
+        TextView removeAll = view.findViewById(R.id.remove_all_text_view);
+
+        albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
+
+            downloadAll.setOnClickListener(v -> {
+                DownloadUtil.getDownloadTracker(requireContext()).download(songs);
                 dismissBottomSheet();
             });
+
+            if (DownloadUtil.getDownloadTracker(requireContext()).isDownloaded(songs)) {
+                removeAll.setOnClickListener(v -> {
+                    DownloadUtil.getDownloadTracker(requireContext()).remove(songs);
+                    dismissBottomSheet();
+                });
+            } else {
+                removeAll.setVisibility(View.GONE);
+            }
         });
 
         TextView goToArtist = view.findViewById(R.id.go_to_artist_text_view);
-        goToArtist.setOnClickListener(v -> {
-            albumBottomSheetViewModel.getArtist().observe(requireActivity(), artist -> {
-                if (artist != null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("artist_object", artist);
-                    NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
-                } else
-                    Toast.makeText(requireContext(), "Error retrieving artist", Toast.LENGTH_SHORT).show();
+        goToArtist.setOnClickListener(v -> albumBottomSheetViewModel.getArtist().observe(requireActivity(), artist -> {
+            if (artist != null) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("artist_object", artist);
+                NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
+            } else
+                Toast.makeText(requireContext(), "Error retrieving artist", Toast.LENGTH_SHORT).show();
 
-                dismissBottomSheet();
-            });
-        });
+            dismissBottomSheet();
+        }));
     }
 
     @Override

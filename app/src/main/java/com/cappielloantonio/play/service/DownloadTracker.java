@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.cappielloantonio.play.App;
+import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.util.MappingUtil;
@@ -68,12 +69,39 @@ public class DownloadTracker {
         return download != null && download.state != Download.STATE_FAILED;
     }
 
+    public boolean isDownloaded(List<Song> songs) {
+        for (Song song : songs) {
+            MediaItem mediaItem = MusicUtil.getMediaItemFromSong(song);
+            @Nullable Download download = downloads.get(checkNotNull(mediaItem.playbackProperties).uri);
+
+            if(download != null && download.state != Download.STATE_FAILED) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     @Nullable
     public DownloadRequest getDownloadRequest(String id, Uri uri) {
         return new DownloadRequest.Builder(id, uri).build();
     }
 
-    public void toggleDownload(List<Song> songs) {
+    public void download(List<Song> songs) {
+        DownloadRepository downloadRepository = new DownloadRepository(App.getInstance());
+
+        for (Song song : songs) {
+            if(isDownloaded(song)) {
+                continue;
+            }
+
+            MediaItem mediaItem = MusicUtil.getMediaItemFromSong(song);
+            DownloadService.sendAddDownload(context, DownloaderService.class, getDownloadRequest(song.getId(), checkNotNull(mediaItem.playbackProperties).uri), false);
+            downloadRepository.insert(MappingUtil.mapToDownload(song));
+        }
+    }
+
+    public void remove(List<Song> songs) {
         DownloadRepository downloadRepository = new DownloadRepository(App.getInstance());
 
         for (Song song : songs) {
@@ -84,9 +112,6 @@ public class DownloadTracker {
             if (download != null && download.state != Download.STATE_FAILED) {
                 DownloadService.sendRemoveDownload(context, DownloaderService.class, download.request.id, false);
                 downloadRepository.delete(MappingUtil.mapToDownload(song));
-            } else {
-                DownloadService.sendAddDownload(context, DownloaderService.class, getDownloadRequest(song.getId(), mediaItem.playbackProperties.uri), false);
-                downloadRepository.insert(MappingUtil.mapToDownload(song));
             }
         }
     }

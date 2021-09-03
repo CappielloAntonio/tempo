@@ -147,8 +147,7 @@ public class MainActivity extends BaseActivity {
                         case BottomSheetBehavior.STATE_COLLAPSED:
                         case BottomSheetBehavior.STATE_SETTLING:
                             PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
-                            if (playerBottomSheetFragment != null)
-                                playerBottomSheetFragment.scrollOnTop();
+                            if (playerBottomSheetFragment != null) playerBottomSheetFragment.scrollOnTop();
                             break;
                         case BottomSheetBehavior.STATE_DRAGGING:
                         case BottomSheetBehavior.STATE_EXPANDED:

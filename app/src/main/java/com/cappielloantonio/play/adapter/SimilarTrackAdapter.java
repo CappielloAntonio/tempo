@@ -28,7 +28,6 @@ import com.cappielloantonio.play.util.MusicUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapter.ViewHolder> {
     private static final String TAG = "SimilarTrackAdapter";
 
@@ -75,7 +74,7 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView textTitle;
         ImageView cover;
 
@@ -86,6 +85,7 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
             cover = itemView.findViewById(R.id.track_cover_image_view);
 
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
@@ -112,6 +112,14 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
                     MusicPlayerRemote.enqueue((List<Song>) media);
                 }
             });
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("song_object", songs.get(getBindingAdapterPosition()));
+            Navigation.findNavController(view).navigate(R.id.songBottomSheetDialog, bundle);
+            return true;
         }
     }
 }

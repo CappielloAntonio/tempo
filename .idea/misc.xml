@@ -40,6 +40,7 @@
         <entry key="app/src/main/res/drawable/ic_star.xml" value="0.2722222222222222" />
         <entry key="app/src/main/res/drawable/ui_empty_list.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3229166666666667" />
+        <entry key="app/src/main/res/layout/bottom_sheet_album_dialog.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/bottom_sheet_song_dialog.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/layout/dialog_playlist_chooser.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/dialog_playlist_creator.xml" value="0.3229166666666667" />

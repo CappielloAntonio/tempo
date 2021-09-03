@@ -87,17 +87,18 @@ public class DownloadTracker {
         return new DownloadRequest.Builder(id, uri).build();
     }
 
-    public void download(List<Song> songs) {
+    public void download(List<Song> songs, String playlistId, String playlistName) {
         DownloadRepository downloadRepository = new DownloadRepository(App.getInstance());
 
         for (Song song : songs) {
             if(isDownloaded(song)) {
+                downloadRepository.insert(MappingUtil.mapToDownload(song, playlistId, playlistName));
                 continue;
             }
 
             MediaItem mediaItem = MusicUtil.getMediaItemFromSong(song);
             DownloadService.sendAddDownload(context, DownloaderService.class, getDownloadRequest(song.getId(), checkNotNull(mediaItem.playbackProperties).uri), false);
-            downloadRepository.insert(MappingUtil.mapToDownload(song));
+            downloadRepository.insert(MappingUtil.mapToDownload(song, playlistId, playlistName));
         }
     }
 
@@ -111,7 +112,7 @@ public class DownloadTracker {
 
             if (download != null && download.state != Download.STATE_FAILED) {
                 DownloadService.sendRemoveDownload(context, DownloaderService.class, download.request.id, false);
-                downloadRepository.delete(MappingUtil.mapToDownload(song));
+                downloadRepository.delete(MappingUtil.mapToDownload(song, null, null));
             }
         }
     }

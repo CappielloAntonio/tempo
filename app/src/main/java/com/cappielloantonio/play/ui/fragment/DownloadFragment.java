@@ -12,35 +12,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.SnapHelper;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.adapter.AlbumAdapter;
 import com.cappielloantonio.play.adapter.AlbumHorizontalAdapter;
-import com.cappielloantonio.play.adapter.ArtistAdapter;
 import com.cappielloantonio.play.adapter.ArtistHorizontalAdapter;
-import com.cappielloantonio.play.adapter.DiscoverSongAdapter;
-import com.cappielloantonio.play.adapter.SimilarTrackAdapter;
+import com.cappielloantonio.play.adapter.PlaylistAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
-import com.cappielloantonio.play.adapter.TrackAdapter;
-import com.cappielloantonio.play.adapter.YearAdapter;
 import com.cappielloantonio.play.databinding.FragmentDownloadBinding;
-import com.cappielloantonio.play.databinding.FragmentHomeBinding;
-import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.play.helper.recyclerview.DotsIndicatorDecoration;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.DownloadViewModel;
-import com.cappielloantonio.play.viewmodel.HomeViewModel;
 
 import java.util.Objects;
 
@@ -54,6 +46,7 @@ public class DownloadFragment extends Fragment {
     private ArtistHorizontalAdapter downloadedArtistAdapter;
     private AlbumHorizontalAdapter downloadedAlbumAdapter;
     private SongHorizontalAdapter downloadedTrackAdapter;
+    private PlaylistAdapter playlistAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,6 +82,8 @@ public class DownloadFragment extends Fragment {
         initDownloadedArtistView();
         initDownloadedAlbumView();
         initDownloadedSongView();
+        initDownloadedPlaylistSlideView();
+        initPlaceholder();
     }
 
     @Override
@@ -138,6 +133,12 @@ public class DownloadFragment extends Fragment {
             bundle.putString(Song.DOWNLOADED, Song.DOWNLOADED);
             activity.navController.navigate(R.id.action_downloadFragment_to_songListPageFragment, bundle);
         });
+
+        bind.downloadedPlaylistTextViewClickable.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(Playlist.DOWNLOADED, Playlist.DOWNLOADED);
+            activity.navController.navigate(R.id.action_downloadFragment_to_playlistCatalogueFragment, bundle);
+        });
     }
 
     private void initAppBar() {
@@ -155,12 +156,10 @@ public class DownloadFragment extends Fragment {
                 if (bind != null) bind.downloadDownloadedArtistPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.downloadDownloadedArtistSector.setVisibility(View.GONE);
             } else {
-                if (bind != null && !artists.isEmpty()) bind.emptyDownloadLayout.setVisibility(View.GONE);
-                if (bind != null && !artists.isEmpty()) bind.fragmentDownloadNestedScrollView.setVisibility(View.VISIBLE);
-
                 if (bind != null) bind.downloadDownloadedArtistPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null) bind.downloadDownloadedArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
-                if (bind != null) bind.downloadedArtistRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(artists.size(), 5), GridLayoutManager.HORIZONTAL, false));
+                if (bind != null)
+                    bind.downloadedArtistRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(artists.size(), 5), GridLayoutManager.HORIZONTAL, false));
 
                 downloadedArtistAdapter.setItems(artists);
             }
@@ -189,12 +188,10 @@ public class DownloadFragment extends Fragment {
                 if (bind != null) bind.downloadDownloadedAlbumPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.downloadDownloadedAlbumSector.setVisibility(View.GONE);
             } else {
-                if (bind != null && !albums.isEmpty()) bind.emptyDownloadLayout.setVisibility(View.GONE);
-                if (bind != null && !albums.isEmpty()) bind.fragmentDownloadNestedScrollView.setVisibility(View.VISIBLE);
-
                 if (bind != null) bind.downloadDownloadedAlbumPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null) bind.downloadDownloadedAlbumSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
-                if (bind != null) bind.downloadedAlbumRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
+                if (bind != null)
+                    bind.downloadedAlbumRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
 
                 downloadedAlbumAdapter.setItems(albums);
             }
@@ -223,12 +220,10 @@ public class DownloadFragment extends Fragment {
                 if (bind != null) bind.downloadDownloadedTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.downloadDownloadedTracksSector.setVisibility(View.GONE);
             } else {
-                if (bind != null && !songs.isEmpty()) bind.emptyDownloadLayout.setVisibility(View.GONE);
-                if (bind != null && !songs.isEmpty()) bind.fragmentDownloadNestedScrollView.setVisibility(View.VISIBLE);
-
                 if (bind != null) bind.downloadDownloadedTracksPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null) bind.downloadDownloadedTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
-                if (bind != null) bind.downloadedTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(songs.size(), 5), GridLayoutManager.HORIZONTAL, false));
+                if (bind != null)
+                    bind.downloadedTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(songs.size(), 5), GridLayoutManager.HORIZONTAL, false));
 
                 downloadedTrackAdapter.setItems(songs);
             }
@@ -245,5 +240,61 @@ public class DownloadFragment extends Fragment {
                         requireContext().getResources().getColor(R.color.titleTextColor, null),
                         requireContext().getResources().getColor(R.color.titleTextColor, null))
         );
+    }
+
+    private void initDownloadedPlaylistSlideView() {
+        bind.downloadedPlaylistViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+
+        playlistAdapter = new PlaylistAdapter(activity, requireContext(), true);
+        bind.downloadedPlaylistViewPager.setAdapter(playlistAdapter);
+        bind.downloadedPlaylistViewPager.setOffscreenPageLimit(3);
+        downloadViewModel.getDownloadedPlaylists(requireActivity(), 5).observe(requireActivity(), playlists -> {
+            if (playlists == null) {
+                if (bind != null) bind.downloadDownloadedPlaylistPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.downloadDownloadedPlaylistSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.downloadDownloadedPlaylistPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.downloadDownloadedPlaylistSector.setVisibility(!playlists.isEmpty() ? View.VISIBLE : View.GONE);
+
+                playlistAdapter.setItems(playlists);
+            }
+        });
+
+        setSlideViewOffset(20, 16);
+    }
+
+    private void setSlideViewOffset(float pageOffset, float pageMargin) {
+        bind.downloadedPlaylistViewPager.setPageTransformer((page, position) -> {
+            float myOffset = position * -(2 * pageOffset + pageMargin);
+            if (bind.downloadedPlaylistViewPager.getOrientation() == ViewPager2.ORIENTATION_HORIZONTAL) {
+                if (ViewCompat.getLayoutDirection(bind.downloadedPlaylistViewPager) == ViewCompat.LAYOUT_DIRECTION_RTL) {
+                    page.setTranslationX(-myOffset);
+                } else {
+                    page.setTranslationX(myOffset);
+                }
+            } else {
+                page.setTranslationY(myOffset);
+            }
+        });
+    }
+
+    private void initPlaceholder() {
+        FragmentActivity requiredActivity = getActivity();
+
+        if (requiredActivity != null) {
+            downloadViewModel.getDownloadedTracks(requiredActivity, 20).observe(requiredActivity, songs ->
+                    downloadViewModel.getDownloadedAlbums(requiredActivity, 20).observe(requiredActivity, albums ->
+                            downloadViewModel.getDownloadedArtists(requiredActivity, 20).observe(requiredActivity, artists -> {
+                                if ((songs != null && !songs.isEmpty()) || (albums != null && !albums.isEmpty()) || (artists != null && !artists.isEmpty())) {
+                                    if (bind != null) bind.emptyDownloadLayout.setVisibility(View.GONE);
+                                    if (bind != null) bind.fragmentDownloadNestedScrollView.setVisibility(View.VISIBLE);
+                                } else {
+                                    if (bind != null) bind.emptyDownloadLayout.setVisibility(View.VISIBLE);
+                                    if (bind != null) bind.fragmentDownloadNestedScrollView.setVisibility(View.GONE);
+                                }
+                            })
+                    )
+            );
+        }
     }
 }

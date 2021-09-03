@@ -23,6 +23,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.PlaylistCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlaylistCatalogueBinding;
+import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.PlaylistCatalogueViewModel;
 
@@ -39,8 +41,6 @@ public class PlaylistCatalogueFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-        initData();
     }
 
     @Override
@@ -49,7 +49,9 @@ public class PlaylistCatalogueFragment extends Fragment {
 
         bind = FragmentPlaylistCatalogueBinding.inflate(inflater, container, false);
         View view = bind.getRoot();
+        playlistCatalogueViewModel = new ViewModelProvider(requireActivity()).get(PlaylistCatalogueViewModel.class);
 
+        init();
         initAppBar();
         initPlaylistCatalogueView();
 
@@ -68,8 +70,12 @@ public class PlaylistCatalogueFragment extends Fragment {
         bind = null;
     }
 
-    private void initData() {
-        playlistCatalogueViewModel = new ViewModelProvider(requireActivity()).get(PlaylistCatalogueViewModel.class);
+    private void init() {
+        if (getArguments().getString(Playlist.ALL) != null) {
+            playlistCatalogueViewModel.setType(Playlist.ALL);
+        } else if (getArguments().getString(Playlist.DOWNLOADED) != null) {
+            playlistCatalogueViewModel.setType(Playlist.DOWNLOADED);
+        }
     }
 
     private void initAppBar() {
@@ -100,9 +106,9 @@ public class PlaylistCatalogueFragment extends Fragment {
         bind.playlistCatalogueRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.playlistCatalogueRecyclerView.setHasFixedSize(true);
 
-        playlistCatalogueAdapter = new PlaylistCatalogueAdapter(activity, requireContext());
+        playlistCatalogueAdapter = new PlaylistCatalogueAdapter(activity, requireContext(), playlistCatalogueViewModel.getType().equals(Playlist.DOWNLOADED));
         bind.playlistCatalogueRecyclerView.setAdapter(playlistCatalogueAdapter);
-        playlistCatalogueViewModel.getPlaylistList().observe(requireActivity(), playlist -> {
+        playlistCatalogueViewModel.getPlaylistList(requireActivity()).observe(requireActivity(), playlist -> {
             playlistCatalogueAdapter.setItems(playlist);
         });
 

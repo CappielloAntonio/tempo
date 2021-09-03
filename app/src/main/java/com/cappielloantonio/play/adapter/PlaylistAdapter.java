@@ -2,7 +2,6 @@ package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Playlist;
@@ -23,6 +21,7 @@ import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
     private static final String TAG = "PlaylistAdapter";
@@ -30,14 +29,16 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     private final MainActivity activity;
     private final Context context;
     private final LayoutInflater mInflater;
+    private final boolean isDownloaded;
 
     private List<Playlist> playlists;
 
-    public PlaylistAdapter(MainActivity activity, Context context) {
+    public PlaylistAdapter(MainActivity activity, Context context, boolean isDownloaded) {
         this.activity = activity;
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.playlists = new ArrayList<>();
+        this.isDownloaded = isDownloaded;
     }
 
     @NonNull
@@ -58,6 +59,8 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
                 .from(context, playlist.getPrimary(), CustomGlideRequest.PLAYLIST_PIC, null)
                 .build()
                 .into(holder.cover);
+
+        if (isDownloaded) holder.textPlaylistSongCount.setVisibility(View.GONE);
     }
 
     @Override
@@ -87,14 +90,21 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             cover = itemView.findViewById(R.id.playlist_cover_image_view);
 
             itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
+            if (!isDownloaded) itemView.setOnLongClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
             Bundle bundle = new Bundle();
             bundle.putParcelable("playlist_object", playlists.get(getBindingAdapterPosition()));
-            Navigation.findNavController(view).navigate(R.id.action_libraryFragment_to_playlistPageFragment, bundle);
+
+            if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.libraryFragment) {
+                bundle.putBoolean("is_offline", false);
+                Navigation.findNavController(view).navigate(R.id.action_libraryFragment_to_playlistPageFragment, bundle);
+            } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.downloadFragment) {
+                bundle.putBoolean("is_offline", true);
+                Navigation.findNavController(view).navigate(R.id.action_downloadFragment_to_playlistPageFragment, bundle);
+            }
         }
 
         @Override

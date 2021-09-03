@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.util.MappingUtil;
@@ -24,6 +25,7 @@ public class DownloadViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Artist>> downloadedArtistSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Album>> downloadedAlbumSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Song>> downloadedTrackSample = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Playlist>> downloadedPlaylistSample = new MutableLiveData<>(null);
 
     public DownloadViewModel(@NonNull Application application) {
         super(application);
@@ -32,17 +34,22 @@ public class DownloadViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Artist>> getDownloadedArtists(LifecycleOwner owner, int size) {
-        downloadRepository.getLiveDownloadSample(size, true, false, false).observe(owner, downloads -> downloadedArtistSample.postValue(MappingUtil.mapDownloadToArtist(downloads)));
+        downloadRepository.getLiveDownloadSample(size, true, false, false, false).observe(owner, downloads -> downloadedArtistSample.postValue(MappingUtil.mapDownloadToArtist(downloads)));
         return downloadedArtistSample;
     }
 
     public LiveData<List<Album>> getDownloadedAlbums(LifecycleOwner owner, int size) {
-        downloadRepository.getLiveDownloadSample(size, false, true, false).observe(owner, downloads -> downloadedAlbumSample.postValue(MappingUtil.mapDownloadToAlbum(downloads)));
+        downloadRepository.getLiveDownloadSample(size, false, true, false, false).observe(owner, downloads -> downloadedAlbumSample.postValue(MappingUtil.mapDownloadToAlbum(downloads)));
         return downloadedAlbumSample;
     }
 
     public LiveData<List<Song>> getDownloadedTracks(LifecycleOwner owner, int size) {
-        downloadRepository.getLiveDownloadSample(size, false, false, true).observe(owner, downloads -> downloadedTrackSample.postValue(MappingUtil.mapDownloadToSong(downloads)));
+        downloadRepository.getLiveDownloadSample(size, false, false, true, false).observe(owner, downloads -> downloadedTrackSample.postValue(MappingUtil.mapDownloadToSong(downloads)));
         return downloadedTrackSample;
+    }
+
+    public LiveData<List<Playlist>> getDownloadedPlaylists(LifecycleOwner owner, int size) {
+        downloadRepository.getLiveDownloadSample(size, false, false, false, true).observe(owner, downloads -> downloadedPlaylistSample.postValue(MappingUtil.mapDownloadToPlaylist(downloads)));
+        return downloadedPlaylistSample;
     }
 }

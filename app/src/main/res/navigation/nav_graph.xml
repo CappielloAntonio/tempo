@@ -119,6 +119,12 @@
         <action
             android:id="@+id/action_downloadFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_downloadFragment_to_playlistPageFragment"
+            app:destination="@id/playlistPageFragment" />
+        <action
+            android:id="@+id/action_downloadFragment_to_playlistCatalogueFragment"
+            app:destination="@id/playlistCatalogueFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

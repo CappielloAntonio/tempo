@@ -35,6 +35,9 @@ public class PlaylistCatalogueAdapter extends RecyclerView.Adapter<PlaylistCatal
     private final LayoutInflater mInflater;
     private final MainActivity activity;
     private final Context context;
+    private final boolean isOffline;
+
+
     private final Filter filtering = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -69,11 +72,12 @@ public class PlaylistCatalogueAdapter extends RecyclerView.Adapter<PlaylistCatal
     private List<Playlist> playlists;
     private List<Playlist> playlistsFull;
 
-    public PlaylistCatalogueAdapter(MainActivity activity, Context context) {
+    public PlaylistCatalogueAdapter(MainActivity activity, Context context, boolean isOffline) {
         this.activity = activity;
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.playlists = new ArrayList<>();
+        this.isOffline = isOffline;
     }
 
     @NonNull
@@ -133,6 +137,8 @@ public class PlaylistCatalogueAdapter extends RecyclerView.Adapter<PlaylistCatal
         public void onClick(View view) {
             Bundle bundle = new Bundle();
             bundle.putParcelable("playlist_object", playlists.get(getBindingAdapterPosition()));
+            bundle.putBoolean("is_offline", isOffline);
+
             Navigation.findNavController(view).navigate(R.id.action_playlistCatalogueFragment_to_playlistPageFragment, bundle);
 
             InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);

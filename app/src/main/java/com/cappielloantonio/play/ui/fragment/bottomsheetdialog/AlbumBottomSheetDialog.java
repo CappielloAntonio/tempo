@@ -140,9 +140,8 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
         TextView removeAll = view.findViewById(R.id.remove_all_text_view);
 
         albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
-
             downloadAll.setOnClickListener(v -> {
-                DownloadUtil.getDownloadTracker(requireContext()).download(songs);
+                DownloadUtil.getDownloadTracker(requireContext()).download(songs, null, null);
                 dismissBottomSheet();
             });
 

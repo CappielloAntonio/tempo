@@ -28,6 +28,7 @@ import com.cappielloantonio.play.adapter.PlaylistAdapter;
 import com.cappielloantonio.play.databinding.FragmentLibraryBinding;
 import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.play.helper.recyclerview.DotsIndicatorDecoration;
+import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.UIUtil;
@@ -118,7 +119,11 @@ public class LibraryFragment extends Fragment {
         bind.albumCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_albumCatalogueFragment));
         bind.artistCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_artistCatalogueFragment));
         bind.genreCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_genreCatalogueFragment));
-        bind.playlistCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_playlistCatalogueFragment));
+        bind.playlistCatalogueTextViewClickable.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(Playlist.ALL, Playlist.ALL);
+            activity.navController.navigate(R.id.action_libraryFragment_to_playlistCatalogueFragment, bundle);
+        });
 
         bind.albumCatalogueSampleTextViewRefreshable.setOnLongClickListener(view -> {
             libraryViewModel.refreshAlbumSample(requireActivity());
@@ -249,7 +254,7 @@ public class LibraryFragment extends Fragment {
     private void initPlaylistSlideView() {
         bind.playlistViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
-        playlistAdapter = new PlaylistAdapter(activity, requireContext());
+        playlistAdapter = new PlaylistAdapter(activity, requireContext(), false);
         bind.playlistViewPager.setAdapter(playlistAdapter);
         bind.playlistViewPager.setOffscreenPageLimit(3);
         libraryViewModel.getPlaylistSample().observe(requireActivity(), playlists -> {

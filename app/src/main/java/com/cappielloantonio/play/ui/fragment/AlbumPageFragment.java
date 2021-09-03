@@ -91,14 +91,11 @@ public class AlbumPageFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_download_album:
-                albumPageViewModel.getAlbumSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
-                    DownloadUtil.getDownloadTracker(requireContext()).download(songs);
-                });
-                return true;
-            default:
-                break;
+        if (item.getItemId() == R.id.action_download_album) {
+            albumPageViewModel.getAlbumSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
+                DownloadUtil.getDownloadTracker(requireContext()).download(songs, null, null);
+            });
+            return true;
         }
 
         return false;

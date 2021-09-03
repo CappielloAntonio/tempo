@@ -1,5 +1,6 @@
 package com.cappielloantonio.play.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -81,12 +82,13 @@ public class PlaylistPageFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_download_playlist:
-                DownloadUtil.getDownloadTracker(requireContext()).download(Objects.requireNonNull(playlistPageViewModel.getPlaylistSongLiveList().getValue()));
-                return true;
-            default:
-                break;
+        if (item.getItemId() == R.id.action_download_playlist) {
+            playlistPageViewModel.getPlaylistSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
+                if (getContext() != null) {
+                    DownloadUtil.getDownloadTracker(requireContext()).download(songs, playlistPageViewModel.getPlaylist().getId(), playlistPageViewModel.getPlaylist().getName());
+                }
+            });
+            return true;
         }
 
         return false;
@@ -94,6 +96,7 @@ public class PlaylistPageFragment extends Fragment {
 
     private void init() {
         playlistPageViewModel.setPlaylist(getArguments().getParcelable("playlist_object"));
+        playlistPageViewModel.setOffline(getArguments().getBoolean("is_offline"));
     }
 
     private void initAppBar() {
@@ -110,13 +113,18 @@ public class PlaylistPageFragment extends Fragment {
         bind.playlistSongCountLabel.setText("Song count: " + playlistPageViewModel.getPlaylist().getSongCount());
         bind.playlistDurationLabel.setText("Playlist duration: " + MusicUtil.getReadableDurationString(playlistPageViewModel.getPlaylist().getDuration(), false));
 
+        if (playlistPageViewModel.isOffline()) {
+            bind.playlistSongCountLabel.setVisibility(View.GONE);
+            bind.playlistDurationLabel.setVisibility(View.GONE);
+        }
+
         bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
 
         Objects.requireNonNull(bind.animToolbar.getOverflowIcon()).setTint(requireContext().getResources().getColor(R.color.titleTextColor, null));
     }
 
     private void initMusicButton() {
-        playlistPageViewModel.getPlaylistSongLiveList().observe(requireActivity(), songs -> {
+        playlistPageViewModel.getPlaylistSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
             if (bind != null) {
                 bind.playlistPagePlayButton.setOnClickListener(v -> {
                     QueueRepository queueRepository = new QueueRepository(App.getInstance());
@@ -158,6 +166,6 @@ public class PlaylistPageFragment extends Fragment {
         songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
         bind.songRecyclerView.setAdapter(songHorizontalAdapter);
 
-        playlistPageViewModel.getPlaylistSongLiveList().observe(requireActivity(), songs -> songHorizontalAdapter.setItems(songs));
+        playlistPageViewModel.getPlaylistSongLiveList(requireActivity()).observe(requireActivity(), songs -> songHorizontalAdapter.setItems(songs));
     }
 }

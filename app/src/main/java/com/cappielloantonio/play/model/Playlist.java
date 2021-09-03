@@ -4,6 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Playlist implements Parcelable {
+    public static final String ALL = "ALL";
+    public static final String DOWNLOADED = "DOWNLOADED";
+
     private String id;
     private String name;
     private String primary;
@@ -18,6 +21,11 @@ public class Playlist implements Parcelable {
         this.blurHash = playlist.getCoverArtId();
         this.songCount = playlist.getSongCount();
         this.duration = playlist.getDuration();
+    }
+
+    public Playlist(String id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public String getId() {

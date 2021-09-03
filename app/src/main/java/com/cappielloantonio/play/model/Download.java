@@ -9,11 +9,16 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
+import java.util.UUID;
+
 @Entity(tableName = "download")
 public class Download {
     @NonNull
     @PrimaryKey
     @ColumnInfo(name = "id")
+    private String id;
+
+    @ColumnInfo(name = "songId")
     private String songID;
 
     @ColumnInfo(name = "title")
@@ -43,7 +48,14 @@ public class Download {
     @ColumnInfo(name = "server")
     private String server;
 
-    public Download(@NonNull String songID, String title, String albumId, String albumName, String artistId, String artistName, int trackNumber, String primary, long duration, String server) {
+    @ColumnInfo(name = "playlistId")
+    private String playlistId;
+
+    @ColumnInfo(name = "playlistName")
+    private String playlistName;
+
+    public Download(@NonNull String id, String songID, String title, String albumId, String albumName, String artistId, String artistName, int trackNumber, String primary, long duration, String server, String playlistId, String playlistName) {
+        this.id = id;
         this.songID = songID;
         this.title = title;
         this.albumId = albumId;
@@ -54,9 +66,12 @@ public class Download {
         this.primary = primary;
         this.duration = duration;
         this.server = server;
+        this.playlistId = playlistId;
+        this.playlistName = playlistName;
     }
 
-    public Download(Song song) {
+    public Download(Song song, String playlistId, String playlistName) {
+        this.id = UUID.randomUUID().toString();
         this.songID = song.getId();
         this.title = song.getTitle();
         this.albumId = song.getAlbumId();
@@ -67,14 +82,24 @@ public class Download {
         this.primary = song.getPrimary();
         this.duration = song.getDuration();
         this.server = PreferenceUtil.getInstance(App.getInstance()).getServerId();
+        this.playlistId = playlistId;
+        this.playlistName = playlistName;
     }
 
     @NonNull
+    public String getId() {
+        return id;
+    }
+
+    public void setId(@NonNull String id) {
+        this.id = id;
+    }
+
     public String getSongID() {
         return songID;
     }
 
-    public void setSongID(@NonNull String songID) {
+    public void setSongID(String songID) {
         this.songID = songID;
     }
 
@@ -148,5 +173,21 @@ public class Download {
 
     public void setServer(String server) {
         this.server = server;
+    }
+
+    public String getPlaylistId() {
+        return playlistId;
+    }
+
+    public void setPlaylistId(String playlistId) {
+        this.playlistId = playlistId;
+    }
+
+    public String getPlaylistName() {
+        return playlistName;
+    }
+
+    public void setPlaylistName(String playlistName) {
+        this.playlistName = playlistName;
     }
 }

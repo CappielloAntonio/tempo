@@ -148,7 +148,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
         TextView download = view.findViewById(R.id.download_text_view);
         download.setOnClickListener(v -> {
-            DownloadUtil.getDownloadTracker(requireContext()).download(Arrays.asList(song));
+            DownloadUtil.getDownloadTracker(requireContext()).download(Arrays.asList(song), null, null);
             dismissBottomSheet();
         });
 

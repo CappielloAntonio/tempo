@@ -19,6 +19,7 @@ import com.cappielloantonio.play.subsonic.models.SimilarArtistID3;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MappingUtil {
     public static ArrayList<Song> mapSong(List<Child> children) {
@@ -144,18 +145,28 @@ public class MappingUtil {
         return artists;
     }
 
+    public static ArrayList<Playlist> mapDownloadToPlaylist(List<Download> downloads) {
+        ArrayList<Playlist> playlists = new ArrayList();
+
+        for (Download download : downloads) {
+            playlists.add(new Playlist(download.getPlaylistId(), download.getPlaylistName()));
+        }
+
+        return playlists;
+    }
+
     public static ArrayList<Download> mapToDownload(List<Song> songs) {
         ArrayList<Download> downloads = new ArrayList();
 
         for (Song song : songs) {
-            downloads.add(new Download(song));
+            downloads.add(new Download(song, null, null));
         }
 
         return downloads;
     }
 
-    public static Download mapToDownload(Song song) {
-        return new Download(song);
+    public static Download mapToDownload(Song song, String playlistId, String playlistName) {
+        return new Download(song, playlistId, playlistName);
     }
 
     public static ArrayList<com.cappielloantonio.play.model.Genre> mapGenre(List<Genre> genreList) {

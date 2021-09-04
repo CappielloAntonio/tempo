@@ -121,16 +121,14 @@ public class AlbumPageFragment extends Fragment {
     }
 
     private void initAlbumInfoTextButton() {
-        bind.albumArtistLabel.setOnClickListener(v -> {
-            albumPageViewModel.getArtist().observe(requireActivity(), artist -> {
-                if (artist != null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("artist_object", artist);
-                    activity.navController.navigate(R.id.action_albumPageFragment_to_artistPageFragment, bundle);
-                } else
-                    Toast.makeText(requireContext(), "Error retrieving artist", Toast.LENGTH_SHORT).show();
-            });
-        });
+        bind.albumArtistLabel.setOnClickListener(v -> albumPageViewModel.getArtist().observe(requireActivity(), artist -> {
+            if (artist != null) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("artist_object", artist);
+                activity.navController.navigate(R.id.action_albumPageFragment_to_artistPageFragment, bundle);
+            } else
+                Toast.makeText(requireContext(), "Error retrieving artist", Toast.LENGTH_SHORT).show();
+        }));
     }
 
     private void initMusicButton() {
@@ -181,8 +179,6 @@ public class AlbumPageFragment extends Fragment {
         songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), false);
         bind.songRecyclerView.setAdapter(songHorizontalAdapter);
 
-        albumPageViewModel.getAlbumSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
-            songHorizontalAdapter.setItems(songs);
-        });
+        albumPageViewModel.getAlbumSongLiveList(requireActivity()).observe(requireActivity(), songs -> songHorizontalAdapter.setItems(songs));
     }
 }

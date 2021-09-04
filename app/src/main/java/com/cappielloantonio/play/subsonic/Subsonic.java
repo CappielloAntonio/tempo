@@ -20,8 +20,8 @@ public class Subsonic {
 
     private final Context context;
 
-    private Version apiVersion = API_MAX_VERSION;
-    private SubsonicPreferences preferences;
+    private final Version apiVersion = API_MAX_VERSION;
+    private final SubsonicPreferences preferences;
 
     private SystemClient systemClient;
     private BrowsingClient browsingClient;

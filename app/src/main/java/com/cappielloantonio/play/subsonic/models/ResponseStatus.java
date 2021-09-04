@@ -8,7 +8,7 @@ public class ResponseStatus {
     public static String OK = "ok";
     public static String FAILED = "failed";
 
-    private String value;
+    private final String value;
 
     public ResponseStatus(@Attribute String value) {
         this.value = value;

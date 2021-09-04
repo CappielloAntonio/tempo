@@ -36,7 +36,7 @@ public class PodcastChannel {
      */
     public List<PodcastEpisode> getEpisodes() {
         if (episodes == null) {
-            episodes = new ArrayList<PodcastEpisode>();
+            episodes = new ArrayList<>();
         }
         return this.episodes;
     }

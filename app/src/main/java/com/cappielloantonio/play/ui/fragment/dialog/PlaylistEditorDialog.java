@@ -108,9 +108,7 @@ public class PlaylistEditorDialog extends DialogFragment {
         playlistDialogSongHorizontalAdapter = new PlaylistDialogSongHorizontalAdapter(requireContext());
         bind.playlistSongRecyclerView.setAdapter(playlistDialogSongHorizontalAdapter);
 
-        playlistEditorViewModel.getPlaylistSongLiveList().observe(requireActivity(), songs -> {
-            playlistDialogSongHorizontalAdapter.setItems(songs);
-        });
+        playlistEditorViewModel.getPlaylistSongLiveList().observe(requireActivity(), songs -> playlistDialogSongHorizontalAdapter.setItems(songs));
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
             int originalPosition = -1;
@@ -118,7 +116,7 @@ public class PlaylistEditorDialog extends DialogFragment {
             int toPosition = -1;
 
             @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 if (originalPosition == -1)
                     originalPosition = viewHolder.getBindingAdapterPosition();
 
@@ -147,16 +145,16 @@ public class PlaylistEditorDialog extends DialogFragment {
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 playlistEditorViewModel.removeFromPlaylistSongLiveList(viewHolder.getBindingAdapterPosition());
-                bind.playlistSongRecyclerView.getAdapter().notifyItemRemoved(viewHolder.getBindingAdapterPosition());
+                Objects.requireNonNull(bind.playlistSongRecyclerView.getAdapter()).notifyItemRemoved(viewHolder.getBindingAdapterPosition());
             }
         }
         ).attachToRecyclerView(bind.playlistSongRecyclerView);
     }
 
     private boolean validateInput() {
-        playlistName = bind.playlistNameTextView.getText().toString().trim();
+        playlistName = Objects.requireNonNull(bind.playlistNameTextView.getText()).toString().trim();
 
         if (TextUtils.isEmpty(playlistName)) {
             bind.playlistNameTextView.setError("Required");

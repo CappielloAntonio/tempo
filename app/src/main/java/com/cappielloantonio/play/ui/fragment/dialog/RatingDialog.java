@@ -32,9 +32,7 @@ public class RatingDialog extends DialogFragment {
         builder.setView(bind.getRoot())
                 .setTitle("Rate")
                 .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel())
-                .setPositiveButton("Save", (dialog, id) -> {
-                    ratingViewModel.rate((int) bind.ratingBar.getRating());
-                });
+                .setPositiveButton("Save", (dialog, id) -> ratingViewModel.rate((int) bind.ratingBar.getRating()));
 
         return builder.create();
     }

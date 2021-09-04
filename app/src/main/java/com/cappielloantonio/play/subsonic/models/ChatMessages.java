@@ -28,7 +28,7 @@ public class ChatMessages {
      */
     public List<ChatMessage> getChatMessages() {
         if (chatMessages == null) {
-            chatMessages = new ArrayList<ChatMessage>();
+            chatMessages = new ArrayList<>();
         }
         return this.chatMessages;
     }

@@ -28,7 +28,7 @@ public class InternetRadioStations {
      */
     public List<InternetRadioStation> getInternetRadioStations() {
         if (internetRadioStations == null) {
-            internetRadioStations = new ArrayList<InternetRadioStation>();
+            internetRadioStations = new ArrayList<>();
         }
         return this.internetRadioStations;
     }

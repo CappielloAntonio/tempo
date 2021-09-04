@@ -20,9 +20,7 @@ public class Artist implements Parcelable {
     public static final String DOWNLOADED = "DOWNLOADED";
     public static final String STARRED = "STARRED";
 
-    private List<Genre> genres;
     private List<Album> albums;
-    private List<Song> songs;
     private List<Artist> similarArtists;
 
     private String id;
@@ -222,9 +220,7 @@ public class Artist implements Parcelable {
     }
 
     protected Artist(Parcel in) {
-        this.genres = new ArrayList<>();
         this.albums = new ArrayList<>();
-        this.songs = new ArrayList<>();
         this.id = in.readString();
         this.name = in.readString();
         this.primary = in.readString();

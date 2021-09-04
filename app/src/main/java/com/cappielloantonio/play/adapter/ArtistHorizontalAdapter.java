@@ -95,10 +95,7 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
 
-            more.setOnClickListener(v -> {
-                openMore(v);
-            });
-
+            more.setOnClickListener(this::openMore);
             artistName.setSelected(true);
         }
 

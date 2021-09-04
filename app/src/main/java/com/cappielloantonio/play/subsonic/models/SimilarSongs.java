@@ -28,7 +28,7 @@ public class SimilarSongs {
      */
     public List<Child> getSongs() {
         if (songs == null) {
-            songs = new ArrayList<Child>();
+            songs = new ArrayList<>();
         }
         return this.songs;
     }

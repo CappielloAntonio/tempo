@@ -107,9 +107,7 @@ public class ArtistCatalogueFragment extends Fragment {
         artistAdapter = new ArtistCatalogueAdapter(activity, requireContext());
         artistAdapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
         bind.artistCatalogueRecyclerView.setAdapter(artistAdapter);
-        artistCatalogueViewModel.getArtistList().observe(requireActivity(), artistList -> {
-            artistAdapter.setItems(artistList);
-        });
+        artistCatalogueViewModel.getArtistList().observe(requireActivity(), artistList -> artistAdapter.setItems(artistList));
 
         bind.artistCatalogueRecyclerView.setOnTouchListener((v, event) -> {
             hideKeyboard(v);

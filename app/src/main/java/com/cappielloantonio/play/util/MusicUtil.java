@@ -9,11 +9,9 @@ import com.cappielloantonio.play.model.Song;
 import com.google.android.exoplayer2.MediaItem;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MusicUtil {
@@ -76,8 +74,8 @@ public class MusicUtil {
 
     public static String normalizedArtistName(String string) {
         if (string != null) {
-            if(string.toLowerCase().contains(" feat.")) return Pattern.compile(" feat.", Pattern.CASE_INSENSITIVE).split(string)[0].trim();
-            else if(string.toLowerCase().contains(" featuring")) return Pattern.compile(" featuring", Pattern.CASE_INSENSITIVE).split(string)[0].trim();
+            if (string.toLowerCase().contains(" feat.")) return Pattern.compile(" feat.", Pattern.CASE_INSENSITIVE).split(string)[0].trim();
+            else if (string.toLowerCase().contains(" featuring")) return Pattern.compile(" featuring", Pattern.CASE_INSENSITIVE).split(string)[0].trim();
             else return string;
         }
 

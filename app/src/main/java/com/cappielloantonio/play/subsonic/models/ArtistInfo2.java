@@ -1,7 +1,6 @@
 package com.cappielloantonio.play.subsonic.models;
 
 import com.tickaroo.tikxml.annotation.Element;
-import com.tickaroo.tikxml.annotation.ElementNameMatcher;
 import com.tickaroo.tikxml.annotation.Xml;
 
 import java.util.ArrayList;

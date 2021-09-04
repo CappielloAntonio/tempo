@@ -114,6 +114,7 @@ public class Server implements Parcelable {
         return serverId.hashCode();
     }
 
+    @NonNull
     @Override
     public String toString() {
         return serverId;

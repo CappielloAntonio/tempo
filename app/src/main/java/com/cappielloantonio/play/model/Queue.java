@@ -1,13 +1,11 @@
 package com.cappielloantonio.play.model;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "queue")
 public class Queue {
-    @NonNull
     @PrimaryKey
     @ColumnInfo(name = "track_order")
     private int trackOrder;

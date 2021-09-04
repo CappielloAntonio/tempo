@@ -28,7 +28,7 @@ public class Podcasts {
      */
     public List<PodcastChannel> getChannels() {
         if (channels == null) {
-            channels = new ArrayList<PodcastChannel>();
+            channels = new ArrayList<>();
         }
         return this.channels;
     }

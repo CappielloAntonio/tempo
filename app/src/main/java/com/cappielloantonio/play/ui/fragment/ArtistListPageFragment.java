@@ -70,9 +70,7 @@ public class ArtistListPageFragment extends Fragment {
             activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        bind.toolbar.setNavigationOnClickListener(v -> {
-            activity.navController.navigateUp();
-        });
+        bind.toolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
 
         bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             if ((bind.artistInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.toolbar))) {

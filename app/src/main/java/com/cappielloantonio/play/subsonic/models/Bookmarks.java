@@ -28,7 +28,7 @@ public class Bookmarks {
      */
     public List<Bookmark> getBookmarks() {
         if (bookmarks == null) {
-            bookmarks = new ArrayList<Bookmark>();
+            bookmarks = new ArrayList<>();
         }
         return this.bookmarks;
     }

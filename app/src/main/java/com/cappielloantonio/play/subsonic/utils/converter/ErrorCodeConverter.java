@@ -6,7 +6,7 @@ import com.tickaroo.tikxml.TypeConverter;
 public class ErrorCodeConverter implements TypeConverter<ErrorCode> {
     @Override
     public ErrorCode read(String value) throws Exception {
-        return new ErrorCode(Integer.valueOf(value));
+        return new ErrorCode(Integer.parseInt(value));
     }
 
     @Override

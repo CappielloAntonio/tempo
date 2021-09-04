@@ -31,7 +31,7 @@ public class VideoInfo {
      */
     public List<Captions> getCaptions() {
         if (captions == null) {
-            captions = new ArrayList<Captions>();
+            captions = new ArrayList<>();
         }
         return this.captions;
     }
@@ -58,7 +58,7 @@ public class VideoInfo {
      */
     public List<AudioTrack> getAudioTracks() {
         if (audioTracks == null) {
-            audioTracks = new ArrayList<AudioTrack>();
+            audioTracks = new ArrayList<>();
         }
         return this.audioTracks;
     }
@@ -85,7 +85,7 @@ public class VideoInfo {
      */
     public List<VideoConversion> getConversions() {
         if (conversions == null) {
-            conversions = new ArrayList<VideoConversion>();
+            conversions = new ArrayList<>();
         }
         return this.conversions;
     }

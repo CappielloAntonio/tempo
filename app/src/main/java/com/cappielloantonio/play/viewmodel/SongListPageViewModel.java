@@ -75,14 +75,10 @@ public class SongListPageViewModel extends AndroidViewModel {
                 songList = songRepository.getStarredSongs(false, -1);
                 break;
             case Song.DOWNLOADED:
-                downloadRepository.getLiveDownload().observe(activity, downloads -> {
-                    songList.setValue(MappingUtil.mapDownloadToSong(downloads));
-                });
+                downloadRepository.getLiveDownload().observe(activity, downloads -> songList.setValue(MappingUtil.mapDownloadToSong(downloads)));
                 break;
             case Song.FROM_ALBUM:
-                downloadRepository.getLiveDownloadFromAlbum(album.getId()).observe(activity, downloads -> {
-                    songList.setValue(MappingUtil.mapDownloadToSong(downloads));
-                });
+                downloadRepository.getLiveDownloadFromAlbum(album.getId()).observe(activity, downloads -> songList.setValue(MappingUtil.mapDownloadToSong(downloads)));
                 break;
         }
 

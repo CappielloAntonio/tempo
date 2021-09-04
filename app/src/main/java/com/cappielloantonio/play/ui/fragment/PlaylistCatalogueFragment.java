@@ -107,9 +107,7 @@ public class PlaylistCatalogueFragment extends Fragment {
 
         playlistCatalogueAdapter = new PlaylistCatalogueAdapter(activity, requireContext(), playlistCatalogueViewModel.getType().equals(Playlist.DOWNLOADED));
         bind.playlistCatalogueRecyclerView.setAdapter(playlistCatalogueAdapter);
-        playlistCatalogueViewModel.getPlaylistList(requireActivity()).observe(requireActivity(), playlist -> {
-            playlistCatalogueAdapter.setItems(playlist);
-        });
+        playlistCatalogueViewModel.getPlaylistList(requireActivity()).observe(requireActivity(), playlist -> playlistCatalogueAdapter.setItems(playlist));
 
         bind.playlistCatalogueRecyclerView.setOnTouchListener((v, event) -> {
             hideKeyboard(v);

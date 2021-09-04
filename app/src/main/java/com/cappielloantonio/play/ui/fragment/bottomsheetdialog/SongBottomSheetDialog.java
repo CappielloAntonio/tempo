@@ -33,6 +33,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class SongBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
@@ -146,13 +147,13 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
         TextView download = view.findViewById(R.id.download_text_view);
         download.setOnClickListener(v -> {
-            DownloadUtil.getDownloadTracker(requireContext()).download(Arrays.asList(song), null, null);
+            DownloadUtil.getDownloadTracker(requireContext()).download(Collections.singletonList(song), null, null);
             dismissBottomSheet();
         });
 
         TextView remove = view.findViewById(R.id.remove_text_view);
         remove.setOnClickListener(v -> {
-            DownloadUtil.getDownloadTracker(requireContext()).remove(Arrays.asList(song));
+            DownloadUtil.getDownloadTracker(requireContext()).remove(Collections.singletonList(song));
             dismissBottomSheet();
         });
 
@@ -171,32 +172,28 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         });
 
         TextView goToAlbum = view.findViewById(R.id.go_to_album_text_view);
-        goToAlbum.setOnClickListener(v -> {
-            songBottomSheetViewModel.getAlbum().observe(requireActivity(), album -> {
-                if (album != null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("album_object", album);
-                    NavHostFragment.findNavController(this).navigate(R.id.albumPageFragment, bundle);
-                } else
-                    Toast.makeText(requireContext(), "Error retrieving album", Toast.LENGTH_SHORT).show();
+        goToAlbum.setOnClickListener(v -> songBottomSheetViewModel.getAlbum().observe(requireActivity(), album -> {
+            if (album != null) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("album_object", album);
+                NavHostFragment.findNavController(this).navigate(R.id.albumPageFragment, bundle);
+            } else
+                Toast.makeText(requireContext(), "Error retrieving album", Toast.LENGTH_SHORT).show();
 
-                dismissBottomSheet();
-            });
-        });
+            dismissBottomSheet();
+        }));
 
         TextView goToArtist = view.findViewById(R.id.go_to_artist_text_view);
-        goToArtist.setOnClickListener(v -> {
-            songBottomSheetViewModel.getArtist().observe(requireActivity(), artist -> {
-                if (artist != null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("artist_object", artist);
-                    NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
-                } else
-                    Toast.makeText(requireContext(), "Error retrieving artist", Toast.LENGTH_SHORT).show();
+        goToArtist.setOnClickListener(v -> songBottomSheetViewModel.getArtist().observe(requireActivity(), artist -> {
+            if (artist != null) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("artist_object", artist);
+                NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
+            } else
+                Toast.makeText(requireContext(), "Error retrieving artist", Toast.LENGTH_SHORT).show();
 
-                dismissBottomSheet();
-            });
-        });
+            dismissBottomSheet();
+        }));
     }
 
     @Override

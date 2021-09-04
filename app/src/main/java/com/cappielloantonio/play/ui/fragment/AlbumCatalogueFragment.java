@@ -107,9 +107,7 @@ public class AlbumCatalogueFragment extends Fragment {
         albumAdapter = new AlbumCatalogueAdapter(activity, requireContext());
         albumAdapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
         bind.albumCatalogueRecyclerView.setAdapter(albumAdapter);
-        albumCatalogueViewModel.getAlbumList().observe(requireActivity(), albums -> {
-            albumAdapter.setItems(albums);
-        });
+        albumCatalogueViewModel.getAlbumList().observe(requireActivity(), albums -> albumAdapter.setItems(albums));
 
         bind.albumCatalogueRecyclerView.setOnTouchListener((v, event) -> {
             hideKeyboard(v);

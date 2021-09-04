@@ -28,7 +28,7 @@ public class ArtistInfo extends ArtistInfoBase {
      */
     public List<Artist> getSimilarArtists() {
         if (similarArtists == null) {
-            similarArtists = new ArrayList<Artist>();
+            similarArtists = new ArrayList<>();
         }
         return this.similarArtists;
     }

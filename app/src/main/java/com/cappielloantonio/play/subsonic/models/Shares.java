@@ -28,7 +28,7 @@ public class Shares {
      */
     public List<Share> getShares() {
         if (shares == null) {
-            shares = new ArrayList<Share>();
+            shares = new ArrayList<>();
         }
         return this.shares;
     }

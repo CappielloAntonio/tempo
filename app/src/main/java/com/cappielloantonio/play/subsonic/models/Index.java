@@ -29,7 +29,7 @@ public class Index {
      */
     public List<Artist> getArtists() {
         if (artists == null) {
-            artists = new ArrayList<Artist>();
+            artists = new ArrayList<>();
         }
         return this.artists;
     }

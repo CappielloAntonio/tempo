@@ -32,7 +32,7 @@ public class Indexes {
      */
     public List<Artist> getShortcuts() {
         if (shortcuts == null) {
-            shortcuts = new ArrayList<Artist>();
+            shortcuts = new ArrayList<>();
         }
         return this.shortcuts;
     }
@@ -59,7 +59,7 @@ public class Indexes {
      */
     public List<Index> getIndices() {
         if (indices == null) {
-            indices = new ArrayList<Index>();
+            indices = new ArrayList<>();
         }
         return this.indices;
     }
@@ -86,7 +86,7 @@ public class Indexes {
      */
     public List<Child> getchildren() {
         if (children == null) {
-            children = new ArrayList<Child>();
+            children = new ArrayList<>();
         }
         return this.children;
     }

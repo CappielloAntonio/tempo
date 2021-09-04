@@ -2,7 +2,6 @@ package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -68,15 +66,15 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
             holder.downloadIndicator.setVisibility(View.GONE);
         }
 
-        if(isCoverVisible) CustomGlideRequest.Builder
+        if (isCoverVisible) CustomGlideRequest.Builder
                 .from(context, song.getPrimary(), CustomGlideRequest.SONG_PIC, null)
                 .build()
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.cover);
 
-        if(isCoverVisible) holder.trackNumber.setVisibility(View.INVISIBLE);
+        if (isCoverVisible) holder.trackNumber.setVisibility(View.INVISIBLE);
 
-        if(!isCoverVisible) holder.cover.setVisibility(View.INVISIBLE);
+        if (!isCoverVisible) holder.cover.setVisibility(View.INVISIBLE);
     }
 
     @Override

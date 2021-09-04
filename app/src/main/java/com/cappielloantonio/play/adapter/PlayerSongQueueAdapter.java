@@ -1,7 +1,6 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

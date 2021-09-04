@@ -36,7 +36,7 @@ public class Directory {
      */
     public List<Child> getchildren() {
         if (children == null) {
-            children = new ArrayList<Child>();
+            children = new ArrayList<>();
         }
         return this.children;
     }

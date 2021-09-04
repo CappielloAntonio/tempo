@@ -30,7 +30,7 @@ public class Starred {
      */
     public List<Artist> getArtists() {
         if (artists == null) {
-            artists = new ArrayList<Artist>();
+            artists = new ArrayList<>();
         }
         return this.artists;
     }
@@ -57,7 +57,7 @@ public class Starred {
      */
     public List<Child> getAlbums() {
         if (albums == null) {
-            albums = new ArrayList<Child>();
+            albums = new ArrayList<>();
         }
         return this.albums;
     }
@@ -84,7 +84,7 @@ public class Starred {
      */
     public List<Child> getSongs() {
         if (songs == null) {
-            songs = new ArrayList<Child>();
+            songs = new ArrayList<>();
         }
         return this.songs;
     }

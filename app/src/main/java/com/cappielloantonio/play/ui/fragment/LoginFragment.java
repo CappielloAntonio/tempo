@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.ui.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,9 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.ServerAdapter;
@@ -24,8 +21,6 @@ import com.cappielloantonio.play.databinding.FragmentLoginBinding;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.fragment.dialog.ServerSignupDialog;
 import com.cappielloantonio.play.viewmodel.LoginViewModel;
-
-import java.util.Collections;
 
 public class LoginFragment extends Fragment {
     private static final String TAG = "LoginFragment";
@@ -88,12 +83,11 @@ public class LoginFragment extends Fragment {
         serverAdapter = new ServerAdapter(activity, requireContext());
         bind.serverListRecyclerView.setAdapter(serverAdapter);
         loginViewModel.getServerList().observe(requireActivity(), servers -> {
-            if(servers.size() > 0) {
+            if (servers.size() > 0) {
                 if (bind != null) bind.noServerAddedTextView.setVisibility(View.GONE);
                 if (bind != null) bind.serverListRecyclerView.setVisibility(View.VISIBLE);
                 serverAdapter.setItems(servers);
-            }
-            else {
+            } else {
                 if (bind != null) bind.noServerAddedTextView.setVisibility(View.VISIBLE);
                 if (bind != null) bind.serverListRecyclerView.setVisibility(View.GONE);
             }
@@ -102,13 +96,10 @@ public class LoginFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_add:
-                ServerSignupDialog dialog = new ServerSignupDialog();
-                dialog.show(activity.getSupportFragmentManager(), null);
-                return true;
-            default:
-                break;
+        if (item.getItemId() == R.id.action_add) {
+            ServerSignupDialog dialog = new ServerSignupDialog();
+            dialog.show(activity.getSupportFragmentManager(), null);
+            return true;
         }
 
         return false;

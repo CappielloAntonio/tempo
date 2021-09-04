@@ -28,7 +28,7 @@ public class Users {
      */
     public List<User> getUsers() {
         if (users == null) {
-            users = new ArrayList<User>();
+            users = new ArrayList<>();
         }
         return this.users;
     }

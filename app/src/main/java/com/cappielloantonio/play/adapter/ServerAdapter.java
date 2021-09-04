@@ -9,15 +9,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.interfaces.SystemCallback;
 import com.cappielloantonio.play.model.Server;
-import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.SystemRepository;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.fragment.dialog.ServerSignupDialog;
@@ -25,7 +22,6 @@ import com.cappielloantonio.play.util.PreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder> {
     private static final String TAG = "ServerAdapter";

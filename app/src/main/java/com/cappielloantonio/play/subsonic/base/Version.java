@@ -1,5 +1,7 @@
 package com.cappielloantonio.play.subsonic.base;
 
+import androidx.annotation.NonNull;
+
 public class Version implements Comparable<Version> {
 
     private static final String VERSION_PATTERN = "[0-9]+(\\.[0-9]+)*";
@@ -49,6 +51,7 @@ public class Version implements Comparable<Version> {
         return 0;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return versionString;

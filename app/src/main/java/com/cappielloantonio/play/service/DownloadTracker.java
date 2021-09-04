@@ -1,5 +1,7 @@
 package com.cappielloantonio.play.service;
 
+import static com.google.android.exoplayer2.util.Assertions.checkNotNull;
+
 import android.content.Context;
 import android.net.Uri;
 
@@ -7,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.cappielloantonio.play.App;
-import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.util.MappingUtil;
@@ -28,8 +29,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArraySet;
-
-import static com.google.android.exoplayer2.util.Assertions.checkNotNull;
 
 public class DownloadTracker {
 
@@ -74,7 +73,7 @@ public class DownloadTracker {
             MediaItem mediaItem = MusicUtil.getMediaItemFromSong(song);
             @Nullable Download download = downloads.get(checkNotNull(mediaItem.playbackProperties).uri);
 
-            if(download != null && download.state != Download.STATE_FAILED) {
+            if (download != null && download.state != Download.STATE_FAILED) {
                 return true;
             }
         }
@@ -91,7 +90,7 @@ public class DownloadTracker {
         DownloadRepository downloadRepository = new DownloadRepository(App.getInstance());
 
         for (Song song : songs) {
-            if(isDownloaded(song)) {
+            if (isDownloaded(song)) {
                 downloadRepository.insert(MappingUtil.mapToDownload(song, playlistId, playlistName));
                 continue;
             }

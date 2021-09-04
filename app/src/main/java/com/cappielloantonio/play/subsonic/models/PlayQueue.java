@@ -34,7 +34,7 @@ public class PlayQueue {
      */
     public List<Child> getEntries() {
         if (entries == null) {
-            entries = new ArrayList<Child>();
+            entries = new ArrayList<>();
         }
         return this.entries;
     }

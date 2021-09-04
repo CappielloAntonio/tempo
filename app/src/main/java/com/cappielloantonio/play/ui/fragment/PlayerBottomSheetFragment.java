@@ -37,6 +37,7 @@ import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 
 import java.util.Collections;
+import java.util.Objects;
 
 public class PlayerBottomSheetFragment extends Fragment implements MusicServiceEventListener, MusicProgressViewUpdateHelper.Callback {
     private static final String TAG = "PlayerBottomSheetFragment";
@@ -166,7 +167,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
             int toPosition = -1;
 
             @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 if (originalPosition == -1)
                     originalPosition = viewHolder.getBindingAdapterPosition();
 
@@ -185,7 +186,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
                  */
 
                 Collections.swap(playerSongQueueAdapter.getItems(), fromPosition, toPosition);
-                recyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
+                Objects.requireNonNull(recyclerView.getAdapter()).notifyItemMoved(fromPosition, toPosition);
 
                 return false;
             }
@@ -212,7 +213,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
                 if (!(viewHolder.getBindingAdapterPosition() == MusicPlayerRemote.getPosition()) && !(MusicPlayerRemote.getPlayingQueue().size() <= 1)) {
                     MusicPlayerRemote.removeFromQueue(viewHolder.getBindingAdapterPosition());
                     playerBottomSheetViewModel.removeSong(viewHolder.getBindingAdapterPosition());
-                    bodyBind.playerQueueRecyclerView.getAdapter().notifyItemRemoved(viewHolder.getBindingAdapterPosition());
+                    Objects.requireNonNull(bodyBind.playerQueueRecyclerView.getAdapter()).notifyItemRemoved(viewHolder.getBindingAdapterPosition());
                     bodyBind.playerSongCoverViewPager.setCurrentItem(MusicPlayerRemote.getPosition(), false);
                 } else {
                     bodyBind.playerQueueRecyclerView.getAdapter().notifyDataSetChanged();
@@ -271,11 +272,6 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     private void setViewPageDelayed(int position) {
-        /*bodyBind.playerSongCoverViewPager.post(() -> {
-            int restoredPosition = PreferenceManager.getDefaultSharedPreferences(requireContext()).getInt(PreferenceUtil.POSITION, -1);
-            bodyBind.playerSongCoverViewPager.setCurrentItem(restoredPosition, true);
-        });*/
-
         final Handler handler = new Handler();
         final Runnable r = () -> {
             if (bind != null) bodyBind.playerSongCoverViewPager.setCurrentItem(position, false);
@@ -308,7 +304,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     public View getPlayerHeader() {
-        return getView().findViewById(R.id.player_header_layout);
+        return requireView().findViewById(R.id.player_header_layout);
     }
 
     public void scrollOnTop() {
@@ -322,7 +318,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
     @Override
     public void onServiceConnected() {
-        setSongInfo(MusicPlayerRemote.getCurrentSong());
+        setSongInfo(Objects.requireNonNull(MusicPlayerRemote.getCurrentSong()));
         updatePlayPauseState();
     }
 
@@ -339,7 +335,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     @Override
     public void onPlayMetadataChanged() {
         setViewPageDelayed(MusicPlayerRemote.getPosition());
-        setSongInfo(MusicPlayerRemote.getCurrentSong());
+        setSongInfo(Objects.requireNonNull(MusicPlayerRemote.getCurrentSong()));
     }
 
     @Override

@@ -22,12 +22,32 @@ public class Genre implements Parcelable {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getSongCount() {
         return songCount;
+    }
+
+    public void setSongCount(int songCount) {
+        this.songCount = songCount;
+    }
+
+    public int getAlbumCount() {
+        return albumCount;
+    }
+
+    public void setAlbumCount(int albumCount) {
+        this.albumCount = albumCount;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,20 +8,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.repository.QueueRepository;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
-import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
@@ -32,8 +23,8 @@ public class PlaylistDialogSongHorizontalAdapter extends RecyclerView.Adapter<Pl
     private static final String TAG = "PlaylistDialogSongHorizontalAdapter";
 
     private List<Song> songs;
-    private LayoutInflater mInflater;
-    private Context context;
+    private final LayoutInflater mInflater;
+    private final Context context;
 
     public PlaylistDialogSongHorizontalAdapter(Context context) {
         this.context = context;
@@ -81,7 +72,7 @@ public class PlaylistDialogSongHorizontalAdapter extends RecyclerView.Adapter<Pl
         return songs.get(id);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView songTitle;
         TextView songArtist;
         TextView songDuration;

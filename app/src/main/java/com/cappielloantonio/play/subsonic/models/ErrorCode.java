@@ -11,7 +11,7 @@ public class ErrorCode {
     public static int TRIAL_PERIOD_OVER = 60;
     public static int DATA_NOT_FOUND = 70;
 
-    private int value;
+    private final int value;
 
     public ErrorCode(int value) {
         this.value = value;

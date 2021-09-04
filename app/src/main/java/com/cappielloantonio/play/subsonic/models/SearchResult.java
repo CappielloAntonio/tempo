@@ -30,7 +30,7 @@ public class SearchResult {
      */
     public List<Child> getMatches() {
         if (matches == null) {
-            matches = new ArrayList<Child>();
+            matches = new ArrayList<>();
         }
         return this.matches;
     }

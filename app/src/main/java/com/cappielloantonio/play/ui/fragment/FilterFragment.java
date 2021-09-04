@@ -1,7 +1,6 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,9 +76,7 @@ public class FilterFragment extends Fragment {
             activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        bind.toolbar.setNavigationOnClickListener(v -> {
-            activity.navController.navigateUp();
-        });
+        bind.toolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
 
 
         bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {

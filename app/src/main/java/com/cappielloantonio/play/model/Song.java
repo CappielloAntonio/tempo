@@ -3,6 +3,8 @@ package com.cappielloantonio.play.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 import com.cappielloantonio.play.subsonic.models.Child;
 
 import java.time.Instant;
@@ -296,6 +298,7 @@ public class Song implements Parcelable {
         return id.hashCode();
     }
 
+    @NonNull
     @Override
     public String toString() {
         return id;

@@ -28,7 +28,7 @@ public class NowPlaying {
      */
     public List<NowPlayingEntry> getEntries() {
         if (entries == null) {
-            entries = new ArrayList<NowPlayingEntry>();
+            entries = new ArrayList<>();
         }
         return this.entries;
     }

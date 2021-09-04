@@ -17,9 +17,7 @@ import com.cappielloantonio.play.subsonic.models.Genre;
 import com.cappielloantonio.play.subsonic.models.SimilarArtistID3;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MappingUtil {
     public static ArrayList<Song> mapSong(List<Child> children) {
@@ -111,7 +109,7 @@ public class MappingUtil {
 
         for (Download download : downloads) {
             Song song = new Song(download);
-            if(!songs.contains(song)) {
+            if (!songs.contains(song)) {
                 songs.add(song);
             }
         }
@@ -124,7 +122,7 @@ public class MappingUtil {
 
         for (Download download : downloads) {
             Album album = new Album(download);
-            if(!albums.contains(album)) {
+            if (!albums.contains(album)) {
                 albums.add(album);
             }
         }
@@ -137,7 +135,7 @@ public class MappingUtil {
 
         for (Download download : downloads) {
             Artist artist = new Artist(download);
-            if(!artists.contains(artist)) {
+            if (!artists.contains(artist)) {
                 artists.add(artist);
             }
         }

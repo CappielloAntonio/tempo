@@ -46,7 +46,7 @@ public class User {
      */
     public List<Integer> getFolders() {
         if (folders == null) {
-            folders = new ArrayList<Integer>();
+            folders = new ArrayList<>();
         }
         return this.folders;
     }

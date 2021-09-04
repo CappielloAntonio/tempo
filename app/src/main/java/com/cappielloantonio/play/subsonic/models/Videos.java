@@ -28,7 +28,7 @@ public class Videos {
      */
     public List<Child> getVideos() {
         if (videos == null) {
-            videos = new ArrayList<Child>();
+            videos = new ArrayList<>();
         }
         return this.videos;
     }

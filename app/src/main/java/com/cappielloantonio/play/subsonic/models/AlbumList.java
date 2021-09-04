@@ -28,7 +28,7 @@ public class AlbumList {
      */
     public List<Child> getAlbums() {
         if (albums == null) {
-            albums = new ArrayList<Child>();
+            albums = new ArrayList<>();
         }
         return this.albums;
     }

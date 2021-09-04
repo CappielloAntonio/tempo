@@ -8,7 +8,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.DownloadRepository;
@@ -36,8 +35,7 @@ public class PlaylistPageViewModel extends AndroidViewModel {
     public LiveData<List<Song>> getPlaylistSongLiveList(FragmentActivity activity) {
         if (isOffline) {
             downloadRepository.getLiveDownloadFromPlaylist(playlist.getId()).observe(activity, downloads -> playlistSongLiveList.postValue(MappingUtil.mapDownloadToSong(downloads)));
-        }
-        else {
+        } else {
             playlistSongLiveList = playlistRepository.getPlaylistSongs(playlist.getId());
         }
 

@@ -64,5 +64,6 @@ public class SearchingClient {
 
     private Cache getCache() {
         int cacheSize = 10 * 1024 * 1024;
-        return context != null ? new Cache(context.getCacheDir(), cacheSize) : null;    }
+        return context != null ? new Cache(context.getCacheDir(), cacheSize) : null;
+    }
 }

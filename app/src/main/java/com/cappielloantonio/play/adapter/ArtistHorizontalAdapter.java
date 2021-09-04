@@ -51,7 +51,7 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
         holder.artistName.setText(MusicUtil.getReadableString(artist.getName()));
 
         if (artist.getAlbumCount() > 0) {
-            holder.artistInfo.setText("Album count: " + String.valueOf(artist.getAlbumCount()));
+            holder.artistInfo.setText("Album count: " + artist.getAlbumCount());
         } else {
             holder.artistInfo.setVisibility(View.GONE);
         }

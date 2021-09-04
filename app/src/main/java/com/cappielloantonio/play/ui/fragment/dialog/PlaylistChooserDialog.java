@@ -90,13 +90,15 @@ public class PlaylistChooserDialog extends DialogFragment {
         bind.playlistDialogRecyclerView.setAdapter(playlistHorizontalAdapter);
 
         playlistChooserViewModel.getPlaylistList().observe(requireActivity(), playlists -> {
-            if (playlists.size() > 0) {
-                if (bind != null) bind.noPlaylistsCreatedTextView.setVisibility(View.GONE);
-                if (bind != null) bind.playlistDialogRecyclerView.setVisibility(View.VISIBLE);
-                playlistHorizontalAdapter.setItems(playlists);
-            } else {
-                if (bind != null) bind.noPlaylistsCreatedTextView.setVisibility(View.VISIBLE);
-                if (bind != null) bind.playlistDialogRecyclerView.setVisibility(View.GONE);
+            if(playlists != null) {
+                if (playlists.size() > 0) {
+                    if (bind != null) bind.noPlaylistsCreatedTextView.setVisibility(View.GONE);
+                    if (bind != null) bind.playlistDialogRecyclerView.setVisibility(View.VISIBLE);
+                    playlistHorizontalAdapter.setItems(playlists);
+                } else {
+                    if (bind != null) bind.noPlaylistsCreatedTextView.setVisibility(View.VISIBLE);
+                    if (bind != null) bind.playlistDialogRecyclerView.setVisibility(View.GONE);
+                }
             }
         });
     }

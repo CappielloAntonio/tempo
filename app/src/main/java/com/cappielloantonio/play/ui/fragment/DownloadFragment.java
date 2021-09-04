@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -279,22 +278,14 @@ public class DownloadFragment extends Fragment {
     }
 
     private void initPlaceholder() {
-        FragmentActivity requiredActivity = getActivity();
-
-        if (requiredActivity != null) {
-            downloadViewModel.getDownloadedTracks(requiredActivity, 20).observe(requiredActivity, songs ->
-                    downloadViewModel.getDownloadedAlbums(requiredActivity, 20).observe(requiredActivity, albums ->
-                            downloadViewModel.getDownloadedArtists(requiredActivity, 20).observe(requiredActivity, artists -> {
-                                if ((songs != null && !songs.isEmpty()) || (albums != null && !albums.isEmpty()) || (artists != null && !artists.isEmpty())) {
-                                    if (bind != null) bind.emptyDownloadLayout.setVisibility(View.GONE);
-                                    if (bind != null) bind.fragmentDownloadNestedScrollView.setVisibility(View.VISIBLE);
-                                } else {
-                                    if (bind != null) bind.emptyDownloadLayout.setVisibility(View.VISIBLE);
-                                    if (bind != null) bind.fragmentDownloadNestedScrollView.setVisibility(View.GONE);
-                                }
-                            })
-                    )
-            );
-        }
+        downloadViewModel.getDownloadedTracks(requireActivity(), 20).observe(requireActivity(), songs -> {
+            if ((songs != null && !songs.isEmpty())) {
+                if (bind != null) bind.emptyDownloadLayout.setVisibility(View.GONE);
+                if (bind != null) bind.fragmentDownloadNestedScrollView.setVisibility(View.VISIBLE);
+            } else {
+                if (bind != null) bind.emptyDownloadLayout.setVisibility(View.VISIBLE);
+                if (bind != null) bind.fragmentDownloadNestedScrollView.setVisibility(View.GONE);
+            }
+        });
     }
 }

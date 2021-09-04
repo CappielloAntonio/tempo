@@ -84,7 +84,7 @@ public class PlaylistPageFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_download_playlist) {
             playlistPageViewModel.getPlaylistSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
-                if (getContext() != null) {
+                if (isVisible() && getActivity() != null) {
                     DownloadUtil.getDownloadTracker(requireContext()).download(songs, playlistPageViewModel.getPlaylist().getId(), playlistPageViewModel.getPlaylist().getName());
                 }
             });

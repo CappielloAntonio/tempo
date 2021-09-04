@@ -101,6 +101,7 @@
     <string name="menu_home_label">Home</string>
     <string name="menu_library_label">Library</string>
     <string name="menu_search_button">Search</string>
+    <string name="menu_settings_button">Settings</string>
     <string name="player_bottom_sheet_title">Now playing</string>
     <string name="playing_notification_description">The playing notification provides actions for play/pause etc.</string>
     <string name="playing_notification_name">Playing Notification</string>
@@ -170,5 +171,4 @@
     <string name="song_list_page_title">Songs</string>
     <string name="song_list_page_top">\'s top tracks</string>
     <string name="song_list_page_year">\"Year \"</string>
-    <string name="menu_settings_button">Settings</string>
 </resources>

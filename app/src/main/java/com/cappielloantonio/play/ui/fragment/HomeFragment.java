@@ -55,7 +55,6 @@ public class HomeFragment extends Fragment {
     private SongHorizontalAdapter starredSongAdapter;
     private AlbumHorizontalAdapter starredAlbumAdapter;
     private ArtistHorizontalAdapter starredArtistAdapter;
-    private TrackAdapter dowanloadedMusicAdapter;
     private SimilarTrackAdapter similarMusicAdapter;
 
     @Override

@@ -3,6 +3,7 @@ package com.cappielloantonio.play.repository;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.SystemCallback;
@@ -11,6 +12,7 @@ import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SystemRepository {
     private static final String TAG = "SongRepository";
@@ -48,5 +50,28 @@ public class SystemRepository {
                         callback.onError(new Exception(t.getMessage()));
                     }
                 });
+    }
+
+    public MutableLiveData<Boolean> ping() {
+        MutableLiveData<Boolean> pingResult = new MutableLiveData<>();
+
+        App.getSubsonicClientInstance(application, false)
+                .getSystemClient()
+                .ping()
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            pingResult.postValue(true);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                        pingResult.postValue(false);
+                    }
+                });
+
+        return pingResult;
     }
 }

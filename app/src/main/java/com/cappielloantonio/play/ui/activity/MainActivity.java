@@ -3,6 +3,7 @@ package com.cappielloantonio.play.ui.activity;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,8 @@ import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.base.BaseActivity;
 import com.cappielloantonio.play.ui.fragment.PlayerBottomSheetFragment;
+import com.cappielloantonio.play.ui.fragment.dialog.PlaylistEditorDialog;
+import com.cappielloantonio.play.ui.fragment.dialog.ServerUnreachableDialog;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.MainViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -56,6 +59,12 @@ public class MainActivity extends BaseActivity {
         connectivityStatusReceiverManager(true);
 
         init();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        pingServer();
     }
 
     @Override
@@ -187,6 +196,8 @@ public class MainActivity extends BaseActivity {
             navController.navigate(R.id.action_landingFragment_to_loginFragment);
         } else if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.settingsFragment) {
             navController.navigate(R.id.action_settingsFragment_to_loginFragment);
+        } else if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.homeFragment) {
+            navController.navigate(R.id.action_homeFragment_to_loginFragment);
         }
     }
 
@@ -233,6 +244,17 @@ public class MainActivity extends BaseActivity {
             registerReceiver(connectivityStatusBroadcastReceiver, filter);
         } else {
             unregisterReceiver(connectivityStatusBroadcastReceiver);
+        }
+    }
+
+    private void pingServer() {
+        if (PreferenceUtil.getInstance(this).getToken() != null) {
+            mainViewModel.ping().observe(this, isPingSuccessfull -> {
+                if(!isPingSuccessfull) {
+                    ServerUnreachableDialog dialog = new ServerUnreachableDialog();
+                    dialog.show(getSupportFragmentManager(), null);
+                }
+            });
         }
     }
 }

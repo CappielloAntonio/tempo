@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/landingFragment">
-
     <fragment
         android:id="@+id/landingFragment"
         android:name="com.cappielloantonio.play.ui.fragment.LandingFragment"
@@ -21,7 +20,6 @@
             app:popUpTo="@id/landingFragment"
             app:popUpToInclusive="true" />
     </fragment>
-
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.cappielloantonio.play.ui.fragment.LoginFragment"
@@ -38,6 +36,11 @@
         android:name="com.cappielloantonio.play.ui.fragment.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_homeFragment_to_songListPageFragment"
             app:destination="@id/songListPageFragment" />

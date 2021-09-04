@@ -3,7 +3,6 @@ package com.cappielloantonio.play.subsonic.api.mediaannotation;
 import android.content.Context;
 import android.util.Log;
 
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.subsonic.Subsonic;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.subsonic.utils.CacheUtil;
@@ -20,14 +19,13 @@ public class MediaAnnotationClient {
 
     private final Context context;
     private final Subsonic subsonic;
-    private Retrofit retrofit;
     private final MediaAnnotationService mediaAnnotationService;
 
     public MediaAnnotationClient(Context context, Subsonic subsonic) {
         this.context = context;
         this.subsonic = subsonic;
 
-        this.retrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(subsonic.getUrl())
                 .addConverterFactory(TikXmlConverterFactory.create())
                 .client(getOkHttpClient())
@@ -76,5 +74,6 @@ public class MediaAnnotationClient {
 
     private Cache getCache() {
         int cacheSize = 10 * 1024 * 1024;
-        return context != null ? new Cache(context.getCacheDir(), cacheSize) : null;    }
+        return context != null ? new Cache(context.getCacheDir(), cacheSize) : null;
+    }
 }

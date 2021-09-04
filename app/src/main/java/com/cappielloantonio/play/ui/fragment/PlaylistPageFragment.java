@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.ui.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -95,8 +94,8 @@ public class PlaylistPageFragment extends Fragment {
     }
 
     private void init() {
-        playlistPageViewModel.setPlaylist(getArguments().getParcelable("playlist_object"));
-        playlistPageViewModel.setOffline(getArguments().getBoolean("is_offline"));
+        playlistPageViewModel.setPlaylist(requireArguments().getParcelable("playlist_object"));
+        playlistPageViewModel.setOffline(requireArguments().getBoolean("is_offline"));
     }
 
     private void initAppBar() {

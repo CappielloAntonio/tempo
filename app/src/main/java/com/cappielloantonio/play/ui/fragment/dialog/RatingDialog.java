@@ -2,7 +2,6 @@ package com.cappielloantonio.play.ui.fragment.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
@@ -12,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.DialogRatingBinding;
-import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.RatingViewModel;
 
 import java.util.Objects;
@@ -57,14 +55,12 @@ public class RatingDialog extends DialogFragment {
     }
 
     private void setElementInfo() {
-        if (getArguments() != null) {
-            if (getArguments().getParcelable("song_object") != null) {
-                ratingViewModel.setSong(getArguments().getParcelable("song_object"));
-            } else if (getArguments().getParcelable("album_object") != null) {
-                ratingViewModel.setAlbum(getArguments().getParcelable("album_object"));
-            } else if (getArguments().getParcelable("artist_object") != null) {
-                ratingViewModel.setArtist(getArguments().getParcelable("artist_object"));
-            }
+        if (requireArguments().getParcelable("song_object") != null) {
+            ratingViewModel.setSong(requireArguments().getParcelable("song_object"));
+        } else if (requireArguments().getParcelable("album_object") != null) {
+            ratingViewModel.setAlbum(requireArguments().getParcelable("album_object"));
+        } else if (requireArguments().getParcelable("artist_object") != null) {
+            ratingViewModel.setArtist(requireArguments().getParcelable("artist_object"));
         }
     }
 

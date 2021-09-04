@@ -59,11 +59,7 @@ public class PlaylistChooserDialog extends DialogFragment {
     }
 
     private void setSongInfo() {
-        if (getArguments() != null) {
-            playlistChooserViewModel.setSongToAdd(getArguments().getParcelable("song_object"));
-        } else {
-            playlistChooserViewModel.setSongToAdd(null);
-        }
+        playlistChooserViewModel.setSongToAdd(requireArguments().getParcelable("song_object"));
     }
 
     private void setButtonAction() {
@@ -90,7 +86,7 @@ public class PlaylistChooserDialog extends DialogFragment {
         bind.playlistDialogRecyclerView.setAdapter(playlistHorizontalAdapter);
 
         playlistChooserViewModel.getPlaylistList().observe(requireActivity(), playlists -> {
-            if(playlists != null) {
+            if (playlists != null) {
                 if (playlists.size() > 0) {
                     if (bind != null) bind.noPlaylistsCreatedTextView.setVisibility(View.GONE);
                     if (bind != null) bind.playlistDialogRecyclerView.setVisibility(View.VISIBLE);

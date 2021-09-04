@@ -45,7 +45,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet_album_dialog, container, false);
 
-        album = this.getArguments().getParcelable("album_object");
+        album = this.requireArguments().getParcelable("album_object");
 
         albumBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(AlbumBottomSheetViewModel.class);
         albumBottomSheetViewModel.setAlbum(album);

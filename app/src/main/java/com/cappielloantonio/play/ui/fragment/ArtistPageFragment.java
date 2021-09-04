@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -84,7 +83,7 @@ public class ArtistPageFragment extends Fragment {
     }
 
     private void init() {
-        artistPageViewModel.setArtist(getArguments().getParcelable("artist_object"));
+        artistPageViewModel.setArtist(requireArguments().getParcelable("artist_object"));
 
         bind.mostStreamedSongTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();

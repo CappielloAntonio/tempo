@@ -1,7 +1,6 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,40 +60,40 @@ public class SongListPageFragment extends Fragment {
     }
 
     private void init() {
-        if (getArguments().getString(Song.RECENTLY_PLAYED) != null) {
+        if (requireArguments().getString(Song.RECENTLY_PLAYED) != null) {
             songListPageViewModel.title = Song.RECENTLY_PLAYED;
             bind.pageTitleLabel.setText("Recently played tracks");
-        } else if (getArguments().getString(Song.MOST_PLAYED) != null) {
+        } else if (requireArguments().getString(Song.MOST_PLAYED) != null) {
             songListPageViewModel.title = Song.MOST_PLAYED;
             bind.pageTitleLabel.setText("Most played tracks");
-        } else if (getArguments().getString(Song.RECENTLY_ADDED) != null) {
+        } else if (requireArguments().getString(Song.RECENTLY_ADDED) != null) {
             songListPageViewModel.title = Song.RECENTLY_ADDED;
             bind.pageTitleLabel.setText("Recently added tracks");
-        } else if (getArguments().getString(Song.BY_GENRE) != null) {
+        } else if (requireArguments().getString(Song.BY_GENRE) != null) {
             songListPageViewModel.title = Song.BY_GENRE;
-            songListPageViewModel.genre = getArguments().getParcelable("genre_object");
+            songListPageViewModel.genre = requireArguments().getParcelable("genre_object");
             bind.pageTitleLabel.setText(MusicUtil.getReadableString(songListPageViewModel.genre.getName()) + ": all tracks");
-        } else if (getArguments().getString(Song.BY_ARTIST) != null) {
+        } else if (requireArguments().getString(Song.BY_ARTIST) != null) {
             songListPageViewModel.title = Song.BY_ARTIST;
-            songListPageViewModel.artist = getArguments().getParcelable("artist_object");
+            songListPageViewModel.artist = requireArguments().getParcelable("artist_object");
             bind.pageTitleLabel.setText(MusicUtil.getReadableString(songListPageViewModel.artist.getName()) + "'s top tracks");
-        } else if (getArguments().getString(Song.BY_GENRES) != null) {
+        } else if (requireArguments().getString(Song.BY_GENRES) != null) {
             songListPageViewModel.title = Song.BY_GENRES;
-            songListPageViewModel.filters = getArguments().getStringArrayList("filters_list");
-            songListPageViewModel.filterNames = getArguments().getStringArrayList("filter_name_list");
+            songListPageViewModel.filters = requireArguments().getStringArrayList("filters_list");
+            songListPageViewModel.filterNames = requireArguments().getStringArrayList("filter_name_list");
             bind.pageTitleLabel.setText(songListPageViewModel.getFiltersTitle());
-        } else if (getArguments().getString(Song.BY_YEAR) != null) {
+        } else if (requireArguments().getString(Song.BY_YEAR) != null) {
             songListPageViewModel.title = Song.BY_YEAR;
-            songListPageViewModel.year = getArguments().getInt("year_object");
+            songListPageViewModel.year = requireArguments().getInt("year_object");
             bind.pageTitleLabel.setText("Year " + songListPageViewModel.year);
-        } else if (getArguments().getString(Song.STARRED) != null) {
+        } else if (requireArguments().getString(Song.STARRED) != null) {
             songListPageViewModel.title = Song.STARRED;
             bind.pageTitleLabel.setText("Starred tracks");
-        } else if (getArguments().getString(Song.DOWNLOADED) != null) {
+        } else if (requireArguments().getString(Song.DOWNLOADED) != null) {
             songListPageViewModel.title = Song.DOWNLOADED;
             bind.pageTitleLabel.setText("Downloaded");
-        } else if (getArguments().getParcelable("album_object") != null) {
-            songListPageViewModel.album = getArguments().getParcelable("album_object");
+        } else if (requireArguments().getParcelable("album_object") != null) {
+            songListPageViewModel.album = requireArguments().getParcelable("album_object");
             songListPageViewModel.title = Song.FROM_ALBUM;
             bind.pageTitleLabel.setText(MusicUtil.getReadableString(songListPageViewModel.album.getTitle()));
         }

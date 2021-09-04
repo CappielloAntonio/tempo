@@ -2,7 +2,6 @@ package com.cappielloantonio.play.ui.fragment.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.PlaylistDialogSongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.DialogPlaylistEditorBinding;
-import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlaylistEditorViewModel;
 
@@ -67,22 +65,16 @@ public class PlaylistEditorDialog extends DialogFragment {
     }
 
     private void setParameterInfo() {
-        if (getArguments() != null) {
-            if (getArguments().getParcelable("song_object") != null) {
-                playlistEditorViewModel.setSongToAdd(getArguments().getParcelable("song_object"));
-                playlistEditorViewModel.setPlaylistToEdit(null);
-            }
-            else if (getArguments().getParcelable("playlist_object") != null) {
-                playlistEditorViewModel.setSongToAdd(null);
-                playlistEditorViewModel.setPlaylistToEdit(getArguments().getParcelable("playlist_object"));
-
-                if (playlistEditorViewModel.getPlaylistToEdit() != null) {
-                    bind.playlistNameTextView.setText(MusicUtil.getReadableString(playlistEditorViewModel.getPlaylistToEdit().getName()));
-                }
-            }
-        } else {
-            playlistEditorViewModel.setSongToAdd(null);
+        if (requireArguments().getParcelable("song_object") != null) {
+            playlistEditorViewModel.setSongToAdd(requireArguments().getParcelable("song_object"));
             playlistEditorViewModel.setPlaylistToEdit(null);
+        } else if (requireArguments().getParcelable("playlist_object") != null) {
+            playlistEditorViewModel.setSongToAdd(null);
+            playlistEditorViewModel.setPlaylistToEdit(requireArguments().getParcelable("playlist_object"));
+
+            if (playlistEditorViewModel.getPlaylistToEdit() != null) {
+                bind.playlistNameTextView.setText(MusicUtil.getReadableString(playlistEditorViewModel.getPlaylistToEdit().getName()));
+            }
         }
     }
 

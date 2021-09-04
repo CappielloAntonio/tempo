@@ -54,23 +54,23 @@ public class AlbumListPageFragment extends Fragment {
     }
 
     private void init() {
-        if (getArguments().getString(Album.RECENTLY_PLAYED) != null) {
+        if (requireArguments().getString(Album.RECENTLY_PLAYED) != null) {
             albumListPageViewModel.title = Album.RECENTLY_PLAYED;
             bind.pageTitleLabel.setText("Recently played albums");
-        } else if (getArguments().getString(Album.MOST_PLAYED) != null) {
+        } else if (requireArguments().getString(Album.MOST_PLAYED) != null) {
             albumListPageViewModel.title = Album.MOST_PLAYED;
             bind.pageTitleLabel.setText("Most played albums");
-        } else if (getArguments().getString(Album.RECENTLY_ADDED) != null) {
+        } else if (requireArguments().getString(Album.RECENTLY_ADDED) != null) {
             albumListPageViewModel.title = Album.RECENTLY_ADDED;
             bind.pageTitleLabel.setText("Recently added albums");
-        } else if (getArguments().getString(Album.STARRED) != null) {
+        } else if (requireArguments().getString(Album.STARRED) != null) {
             albumListPageViewModel.title = Album.STARRED;
             bind.pageTitleLabel.setText("Starred albums");
-        } else if (getArguments().getString(Album.DOWNLOADED) != null) {
+        } else if (requireArguments().getString(Album.DOWNLOADED) != null) {
             albumListPageViewModel.title = Album.DOWNLOADED;
             bind.pageTitleLabel.setText("Downloaded albums");
-        } else if (getArguments().getParcelable("artist_object") != null) {
-            albumListPageViewModel.artist = getArguments().getParcelable("artist_object");
+        } else if (requireArguments().getParcelable("artist_object") != null) {
+            albumListPageViewModel.artist = requireArguments().getParcelable("artist_object");
             albumListPageViewModel.title = Album.FROM_ARTIST;
             bind.pageTitleLabel.setText(MusicUtil.getReadableString(albumListPageViewModel.artist.getName()));
         }

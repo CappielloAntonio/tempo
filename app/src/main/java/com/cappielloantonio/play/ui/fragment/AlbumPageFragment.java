@@ -1,9 +1,6 @@
 package com.cappielloantonio.play.ui.fragment;
 
-import android.graphics.BlendMode;
-import android.graphics.BlendModeColorFilter;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.adapter.AlbumArtistPageOrSimilarAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
@@ -91,7 +86,7 @@ public class AlbumPageFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_download_album) {
             albumPageViewModel.getAlbumSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
-                if(isVisible() && getActivity() != null) {
+                if (isVisible() && getActivity() != null) {
                     DownloadUtil.getDownloadTracker(requireContext()).download(songs, null, null);
                 }
             });
@@ -102,8 +97,8 @@ public class AlbumPageFragment extends Fragment {
     }
 
     private void init() {
-        albumPageViewModel.setAlbum(getArguments().getParcelable("album_object"));
-        albumPageViewModel.setOffline(getArguments().getBoolean("is_offline"));
+        albumPageViewModel.setAlbum(requireArguments().getParcelable("album_object"));
+        albumPageViewModel.setOffline(requireArguments().getBoolean("is_offline"));
     }
 
     private void initAppBar() {
@@ -164,7 +159,7 @@ public class AlbumPageFragment extends Fragment {
                 });
             }
 
-            if(bind != null && songs.isEmpty()) {
+            if (bind != null && songs.isEmpty()) {
                 bind.albumPagePlayButton.setEnabled(false);
                 bind.albumPageShuffleButton.setEnabled(false);
             }

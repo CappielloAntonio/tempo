@@ -53,7 +53,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         Playlist playlist = playlists.get(position);
 
         holder.textPlaylistName.setText(MusicUtil.getReadableString(playlist.getName()));
-        holder.textPlaylistSongCount.setText(R.string.playlist_info_song_count + playlist.getSongCount());
+        holder.textPlaylistSongCount.setText(context.getString(R.string.playlist_info_song_count, playlist.getSongCount()));
 
         CustomGlideRequest.Builder
                 .from(context, playlist.getPrimary(), CustomGlideRequest.PLAYLIST_PIC, null)

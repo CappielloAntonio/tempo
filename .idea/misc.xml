@@ -49,6 +49,7 @@
         <entry key="app/src/main/res/layout/dialog_playlist_editor.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/dialog_rating.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/dialog_server_signup.xml" value="0.3229166666666667" />
+        <entry key="app/src/main/res/layout/dialog_server_unreachable.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/fragment_album_catalogue.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/fragment_album_list_page.xml" value="0.225" />
         <entry key="app/src/main/res/layout/fragment_album_page.xml" value="0.2769409038238702" />

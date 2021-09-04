@@ -21,6 +21,7 @@ import java.util.List;
 public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHorizontalAdapter.ViewHolder> {
     private static final String TAG = "PlaylistHorizontalAdapter";
 
+    private final Context context;
     private final LayoutInflater mInflater;
 
     private final PlaylistChooserViewModel playlistChooserViewModel;
@@ -29,6 +30,7 @@ public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHori
     private List<Playlist> playlists;
 
     public PlaylistHorizontalAdapter(Context context, PlaylistChooserViewModel playlistChooserViewModel, PlaylistChooserDialog playlistChooserDialog) {
+        this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.playlists = new ArrayList<>();
 
@@ -48,7 +50,7 @@ public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHori
         Playlist playlist = playlists.get(position);
 
         holder.playlistTitle.setText(MusicUtil.getReadableString(playlist.getName()));
-        holder.playlistTrackCount.setText(playlist.getSongCount() + R.string.playlist_counted_tracks);
+        holder.playlistTrackCount.setText(context.getString(R.string.playlist_counted_tracks, playlist.getSongCount()));
         holder.playlistDuration.setText(MusicUtil.getReadableDurationString(playlist.getDuration(), false));
     }
 

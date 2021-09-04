@@ -73,11 +73,11 @@ public class SongListPageFragment extends Fragment {
         } else if (requireArguments().getString(Song.BY_GENRE) != null) {
             songListPageViewModel.title = Song.BY_GENRE;
             songListPageViewModel.genre = requireArguments().getParcelable("genre_object");
-            bind.pageTitleLabel.setText(MusicUtil.getReadableString(songListPageViewModel.genre.getName()) + getString(R.string.song_list_page_all));
+            bind.pageTitleLabel.setText(getString(R.string.song_list_page_all, MusicUtil.getReadableString(songListPageViewModel.genre.getName())));
         } else if (requireArguments().getString(Song.BY_ARTIST) != null) {
             songListPageViewModel.title = Song.BY_ARTIST;
             songListPageViewModel.artist = requireArguments().getParcelable("artist_object");
-            bind.pageTitleLabel.setText(MusicUtil.getReadableString(songListPageViewModel.artist.getName()) + getString(R.string.song_list_page_top));
+            bind.pageTitleLabel.setText(getString(R.string.song_list_page_top, MusicUtil.getReadableString(songListPageViewModel.artist.getName())));
         } else if (requireArguments().getString(Song.BY_GENRES) != null) {
             songListPageViewModel.title = Song.BY_GENRES;
             songListPageViewModel.filters = requireArguments().getStringArrayList("filters_list");
@@ -86,7 +86,7 @@ public class SongListPageFragment extends Fragment {
         } else if (requireArguments().getString(Song.BY_YEAR) != null) {
             songListPageViewModel.title = Song.BY_YEAR;
             songListPageViewModel.year = requireArguments().getInt("year_object");
-            bind.pageTitleLabel.setText(getString(R.string.song_list_page_year) + songListPageViewModel.year);
+            bind.pageTitleLabel.setText(getString(R.string.song_list_page_year, songListPageViewModel.year));
         } else if (requireArguments().getString(Song.STARRED) != null) {
             songListPageViewModel.title = Song.STARRED;
             bind.pageTitleLabel.setText(R.string.song_list_page_starred);

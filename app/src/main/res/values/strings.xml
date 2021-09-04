@@ -173,6 +173,7 @@
     <string name="song_list_page_year">Year %1$d</string>
     <string name="server_unreachable_dialog_negative_button">Cancel</string>
     <string name="server_unreachable_dialog_neutral_button">Go to login</string>
-    <string name="server_unreachable_dialog_positive_button">OK</string>
+    <string name="server_unreachable_dialog_positive_button">Continue anyway</string>
     <string name="server_unreachable_dialog_title">Server unreachable</string>
+    <string name="server_unreachable_dialog_summary">The requested server is unavailable. Please contact your support and describe your issue.</string>
 </resources>

@@ -91,9 +91,9 @@ public class AlbumCatalogueFragment extends Fragment {
 
         bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             if ((bind.albumInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.toolbar))) {
-                bind.toolbar.setTitle("Albums");
+                bind.toolbar.setTitle(R.string.album_catalogue_title);
             } else {
-                bind.toolbar.setTitle("");
+                bind.toolbar.setTitle(R.string.empty_string);
             }
         });
     }

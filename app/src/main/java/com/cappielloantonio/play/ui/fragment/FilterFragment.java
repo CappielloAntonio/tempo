@@ -64,7 +64,7 @@ public class FilterFragment extends Fragment {
             if (filterViewModel.getFilters().size() > 1)
                 activity.navController.navigate(R.id.action_filterFragment_to_songListPageFragment, bundle);
             else
-                Toast.makeText(requireContext(), "Select two or more filters", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), getString(R.string.filter_info_selection), Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -81,9 +81,9 @@ public class FilterFragment extends Fragment {
 
         bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             if ((bind.genreFilterInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.toolbar))) {
-                bind.toolbar.setTitle("Filter");
+                bind.toolbar.setTitle(R.string.filter_title);
             } else {
-                bind.toolbar.setTitle("");
+                bind.toolbar.setTitle(R.string.empty_string);
             }
         });
     }

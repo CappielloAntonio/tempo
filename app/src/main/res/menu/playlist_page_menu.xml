@@ -5,6 +5,6 @@
         android:id="@+id/action_download_playlist"
         android:icon="@drawable/ic_file_download"
         android:iconTint="@color/titleTextColor"
-        android:title="Download all"
+        android:title="@string/menu_download_all_button"
         app:showAsAction="never" />
 </menu>

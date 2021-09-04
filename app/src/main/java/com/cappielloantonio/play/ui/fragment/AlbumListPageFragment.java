@@ -1,5 +1,6 @@
 package com.cappielloantonio.play.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumListPageBinding;
 import com.cappielloantonio.play.model.Album;
@@ -56,19 +58,19 @@ public class AlbumListPageFragment extends Fragment {
     private void init() {
         if (requireArguments().getString(Album.RECENTLY_PLAYED) != null) {
             albumListPageViewModel.title = Album.RECENTLY_PLAYED;
-            bind.pageTitleLabel.setText("Recently played albums");
+            bind.pageTitleLabel.setText(R.string.album_list_page_recently_played);
         } else if (requireArguments().getString(Album.MOST_PLAYED) != null) {
             albumListPageViewModel.title = Album.MOST_PLAYED;
-            bind.pageTitleLabel.setText("Most played albums");
+            bind.pageTitleLabel.setText(R.string.album_list_page_most_played);
         } else if (requireArguments().getString(Album.RECENTLY_ADDED) != null) {
             albumListPageViewModel.title = Album.RECENTLY_ADDED;
-            bind.pageTitleLabel.setText("Recently added albums");
+            bind.pageTitleLabel.setText(R.string.album_list_page_recently_added);
         } else if (requireArguments().getString(Album.STARRED) != null) {
             albumListPageViewModel.title = Album.STARRED;
-            bind.pageTitleLabel.setText("Starred albums");
+            bind.pageTitleLabel.setText(R.string.album_list_page_starred);
         } else if (requireArguments().getString(Album.DOWNLOADED) != null) {
             albumListPageViewModel.title = Album.DOWNLOADED;
-            bind.pageTitleLabel.setText("Downloaded albums");
+            bind.pageTitleLabel.setText(R.string.album_list_page_downloaded);
         } else if (requireArguments().getParcelable("artist_object") != null) {
             albumListPageViewModel.artist = requireArguments().getParcelable("artist_object");
             albumListPageViewModel.title = Album.FROM_ARTIST;
@@ -88,9 +90,9 @@ public class AlbumListPageFragment extends Fragment {
 
         bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             if ((bind.albumInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.toolbar))) {
-                bind.toolbar.setTitle("Albums");
+                bind.toolbar.setTitle(R.string.album_list_page_title);
             } else {
-                bind.toolbar.setTitle("");
+                bind.toolbar.setTitle(R.string.empty_string);
             }
         });
     }

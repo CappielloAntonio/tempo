@@ -98,7 +98,7 @@
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="Instant mix"
+            android:text="@string/album_bottom_sheet_instant_mix"
             android:textColor="@color/titleTextColor"
             android:textFontWeight="700"
             android:textSize="14sp" />
@@ -114,7 +114,7 @@
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="Riproduzione casuale"
+            android:text="@string/album_bottom_sheet_shuffle"
             android:textColor="@color/titleTextColor"
             android:textFontWeight="700"
             android:textSize="14sp" />
@@ -130,7 +130,7 @@
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="Riproduci dopo"
+            android:text="@string/album_bottom_sheet_play_next"
             android:textColor="@color/titleTextColor"
             android:textFontWeight="700"
             android:textSize="14sp" />
@@ -146,7 +146,7 @@
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="Aggiungi alla coda"
+            android:text="@string/album_bottom_sheet_add_to_queue"
             android:textColor="@color/titleTextColor"
             android:textFontWeight="700"
             android:textSize="14sp" />
@@ -162,7 +162,7 @@
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="Scarica tutte"
+            android:text="@string/album_bottom_sheet_download_all"
             android:textColor="@color/titleTextColor"
             android:textFontWeight="700"
             android:textSize="14sp" />
@@ -178,7 +178,7 @@
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="Rimuovi tutte"
+            android:text="@string/album_bottom_sheet_remove_all"
             android:textColor="@color/titleTextColor"
             android:textFontWeight="700"
             android:textSize="14sp" />
@@ -194,7 +194,7 @@
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="Vai all'artista"
+            android:text="@string/album_bottom_sheet_go_to_artist"
             android:textColor="@color/titleTextColor"
             android:textFontWeight="700"
             android:textSize="14sp" />

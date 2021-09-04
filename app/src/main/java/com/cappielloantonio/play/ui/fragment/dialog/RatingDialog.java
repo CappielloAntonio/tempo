@@ -30,9 +30,9 @@ public class RatingDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppTheme_AlertDialog);
 
         builder.setView(bind.getRoot())
-                .setTitle("Rate")
-                .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel())
-                .setPositiveButton("Save", (dialog, id) -> ratingViewModel.rate((int) bind.ratingBar.getRating()));
+                .setTitle(R.string.rating_dialog_title)
+                .setNegativeButton(R.string.rating_dialog_negative_button, (dialog, id) -> dialog.cancel())
+                .setPositiveButton(R.string.rating_dialog_positive_button, (dialog, id) -> ratingViewModel.rate((int) bind.ratingBar.getRating()));
 
         return builder.create();
     }

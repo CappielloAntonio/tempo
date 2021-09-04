@@ -39,7 +39,7 @@
                     android:paddingTop="16dp"
                     android:paddingEnd="16dp"
                     android:paddingBottom="24dp"
-                    android:text="Browse Genres"
+                    android:text="@string/genre_catalogue_title_expanded"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 

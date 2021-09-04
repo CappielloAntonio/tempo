@@ -70,7 +70,7 @@
                     android:layout_marginBottom="8dp"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    android:text="Music discovery" />
+                    android:text="@string/home_title_music_discovery" />
 
                 <!--  slideview  -->
                 <androidx.viewpager2.widget.ViewPager2
@@ -101,7 +101,7 @@
                     android:paddingStart="16dp"
                     android:paddingTop="20dp"
                     android:paddingEnd="16dp"
-                    android:text="Start mix from a song you liked"
+                    android:text="@string/home_subtitle_made_for_you"
                     android:textAllCaps="true" />
 
                 <TextView
@@ -111,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    android:text="Made for you" />
+                    android:text="@string/home_title_made_for_you" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/similar_tracks_recycler_view"
@@ -157,7 +157,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="Most played" />
+                        android:text="@string/home_title_most_played" />
 
 
                     <TextView
@@ -168,7 +168,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="See all" />
+                        android:text="@string/home_title_most_played_see_all_button" />
 
                 </LinearLayout>
 
@@ -215,7 +215,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="Last played" />
+                        android:text="@string/home_title_last_played" />
 
 
                     <TextView
@@ -226,7 +226,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="See all" />
+                        android:text="@string/home_title_last_played_see_all_button" />
 
                 </LinearLayout>
 
@@ -263,7 +263,7 @@
                     android:paddingStart="16dp"
                     android:paddingTop="20dp"
                     android:paddingEnd="16dp"
-                    android:text="Flashback" />
+                    android:text="@string/home_title_flashback" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/years_recycler_view"
@@ -308,7 +308,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="★ Starred tracks" />
+                        android:text="@string/home_title_starred_tracks" />
 
 
                     <TextView
@@ -319,7 +319,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="See all" />
+                        android:text="@string/home_title_starred_tracks_see_all_button" />
 
                 </LinearLayout>
 
@@ -363,7 +363,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="★ Starred albums" />
+                        android:text="@string/home_title_starred_albums" />
 
 
                     <TextView
@@ -374,7 +374,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="See all" />
+                        android:text="@string/home_title_starred_albums_see_all_button" />
 
                 </LinearLayout>
 
@@ -418,7 +418,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="★ Starred artists" />
+                        android:text="@string/home_title_starred_artists" />
 
 
                     <TextView
@@ -429,7 +429,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="See all" />
+                        android:text="@string/home_title_starred_artists_see_all_button" />
 
                 </LinearLayout>
 
@@ -474,7 +474,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="Recently added" />
+                        android:text="@string/home_title_recently_added" />
 
 
                     <TextView
@@ -485,7 +485,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="See all" />
+                        android:text="@string/home_title_recently_added_see_all_button" />
 
                 </LinearLayout>
 

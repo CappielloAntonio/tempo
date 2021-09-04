@@ -40,11 +40,11 @@ public class PlaylistEditorDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppTheme_AlertDialog);
 
         builder.setView(bind.getRoot())
-                .setTitle("Create playlist")
-                .setPositiveButton("Save", (dialog, id) -> {
+                .setTitle(R.string.playlist_editor_dialog_title)
+                .setPositiveButton(R.string.playlist_editor_dialog_positive_button, (dialog, id) -> {
                 })
-                .setNeutralButton("Delete", (dialog, id) -> dialog.cancel())
-                .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
+                .setNeutralButton(R.string.playlist_editor_dialog_neutral_button, (dialog, id) -> dialog.cancel())
+                .setNegativeButton(R.string.playlist_editor_dialog_negative_button, (dialog, id) -> dialog.cancel());
 
         return builder.create();
     }
@@ -157,7 +157,7 @@ public class PlaylistEditorDialog extends DialogFragment {
         playlistName = Objects.requireNonNull(bind.playlistNameTextView.getText()).toString().trim();
 
         if (TextUtils.isEmpty(playlistName)) {
-            bind.playlistNameTextView.setError("Required");
+            bind.playlistNameTextView.setError(getString(R.string.error_required));
             return false;
         }
 

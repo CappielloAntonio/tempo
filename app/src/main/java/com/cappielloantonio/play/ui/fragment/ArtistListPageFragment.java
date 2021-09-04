@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.ArtistHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistListPageBinding;
 import com.cappielloantonio.play.model.Artist;
@@ -55,10 +56,10 @@ public class ArtistListPageFragment extends Fragment {
     private void init() {
         if (requireArguments().getString(Artist.STARRED) != null) {
             artistListPageViewModel.title = Artist.STARRED;
-            bind.pageTitleLabel.setText("Starred artists");
+            bind.pageTitleLabel.setText(R.string.artist_list_page_starred);
         } else if (requireArguments().getString(Artist.DOWNLOADED) != null) {
             artistListPageViewModel.title = Artist.DOWNLOADED;
-            bind.pageTitleLabel.setText("Downloaded artists");
+            bind.pageTitleLabel.setText(R.string.artist_list_page_downloaded);
         }
     }
 
@@ -74,9 +75,9 @@ public class ArtistListPageFragment extends Fragment {
 
         bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             if ((bind.artistInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.toolbar))) {
-                bind.toolbar.setTitle("Artists");
+                bind.toolbar.setTitle(R.string.artist_list_page_title);
             } else {
-                bind.toolbar.setTitle("");
+                bind.toolbar.setTitle(R.string.empty_string);
             }
         });
     }

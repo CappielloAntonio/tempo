@@ -85,7 +85,7 @@
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="Instant mix"
+            android:text="@string/artist_bottom_sheet_instant_mix"
             android:textColor="@color/titleTextColor"
             android:textFontWeight="700"
             android:textSize="14sp" />
@@ -101,7 +101,7 @@
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="Riproduzione casuale"
+            android:text="@string/artist_bottom_sheet_shuffle"
             android:textColor="@color/titleTextColor"
             android:textFontWeight="700"
             android:textSize="14sp" />

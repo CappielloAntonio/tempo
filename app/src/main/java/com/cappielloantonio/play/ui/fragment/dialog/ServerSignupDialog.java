@@ -56,12 +56,12 @@ public class ServerSignupDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppTheme_AlertDialog);
 
         builder.setView(bind.getRoot())
-                .setTitle("Add server")
-                .setNeutralButton("Delete", (dialog, id) -> {
+                .setTitle(R.string.server_signup_dialog_title)
+                .setNeutralButton(R.string.server_signup_dialog_neutral_button, (dialog, id) -> {
                 })
-                .setPositiveButton("Save", (dialog, id) -> {
+                .setPositiveButton(R.string.server_signup_dialog_positive_button, (dialog, id) -> {
                 })
-                .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
+                .setNegativeButton(R.string.server_signup_dialog_negative_button, (dialog, id) -> dialog.cancel());
 
         return builder.create();
     }
@@ -119,17 +119,17 @@ public class ServerSignupDialog extends DialogFragment {
         directAccess = bind.directAccessCheckbox.isChecked();
 
         if (TextUtils.isEmpty(serverName)) {
-            bind.serverNameTextView.setError("Required");
+            bind.serverNameTextView.setError(getString(R.string.error_required));
             return false;
         }
 
         if (TextUtils.isEmpty(username)) {
-            bind.usernameTextView.setError("Required");
+            bind.usernameTextView.setError(getString(R.string.error_required));
             return false;
         }
 
         if (TextUtils.isEmpty(server)) {
-            bind.serverTextView.setError("Required");
+            bind.serverTextView.setError(getString(R.string.error_required));
             return false;
         }
 

@@ -84,7 +84,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/buttonBackgroundColor"
                     android:padding="10dp"
-                    android:text="Shuffle"
+                    android:text="@string/artist_page_shuffle_button"
                     android:textAllCaps="false"
                     app:icon="@drawable/ic_shuffle"
                     app:iconGravity="textStart"
@@ -101,7 +101,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/buttonBackgroundColor"
                     android:padding="10dp"
-                    android:text="Radio"
+                    android:text="@string/artist_page_radio_button"
                     android:textAllCaps="false"
                     app:icon="@drawable/ic_feed"
                     app:iconGravity="textStart"
@@ -135,7 +135,7 @@
                         android:layout_weight="1"
                         android:paddingStart="16dp"
                         android:paddingEnd="8dp"
-                        android:text="Biography" />
+                        android:text="@string/artist_page_title_biography_section" />
 
                     <TextView
                         android:id="@+id/bio_more_text_view_clickable"
@@ -143,7 +143,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingEnd="16dp"
-                        android:text="More" />
+                        android:text="@string/artist_page_title_biography_more_button" />
                 </LinearLayout>
 
                 <TextView
@@ -177,7 +177,7 @@
                         android:layout_weight="1"
                         android:paddingStart="16dp"
                         android:paddingEnd="8dp"
-                        android:text="Most Streamed Songs" />
+                        android:text="@string/artist_page_title_most_streamed_song_section" />
 
                     <TextView
                         android:id="@+id/most_streamed_song_text_view_clickable"
@@ -185,7 +185,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingEnd="16dp"
-                        android:text="See all" />
+                        android:text="@string/artist_page_title_most_streamed_song_see_all_button" />
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -211,7 +211,7 @@
                     android:paddingStart="16dp"
                     android:paddingTop="8dp"
                     android:paddingEnd="20dp"
-                    android:text="Albums" />
+                    android:text="@string/artist_page_title_album_section" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/albums_recycler_view"
@@ -239,7 +239,7 @@
                     android:paddingStart="16dp"
                     android:paddingTop="8dp"
                     android:paddingEnd="20dp"
-                    android:text="More like this" />
+                    android:text="@string/artist_page_title_album_more_like_this_button" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/similar_artists_recycler_view"

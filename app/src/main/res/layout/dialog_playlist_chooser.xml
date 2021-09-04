@@ -12,7 +12,7 @@
         android:paddingTop="16dp"
         android:paddingEnd="16dp"
         android:gravity="center"
-        android:text="No playlists created"
+        android:text="@string/playlist_chooser_dialog_empty"
         android:clipToPadding="false"
         android:visibility="gone"/>
 

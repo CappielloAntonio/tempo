@@ -145,7 +145,7 @@ public class ArtistPageFragment extends Fragment {
                     MusicPlayerRemote.openQueue(songs, 0, true);
                     activity.isBottomSheetInPeek(true);
                 } else {
-                    Toast.makeText(requireContext(), "Error retrieving artist's songs", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_tracks), Toast.LENGTH_SHORT).show();
                 }
             });
         });
@@ -155,7 +155,7 @@ public class ArtistPageFragment extends Fragment {
             artistRepository.getInstantMix(artistPageViewModel.getArtist(), 20, new MediaCallback() {
                 @Override
                 public void onError(Exception exception) {
-                    Log.e(TAG, "onError: " + exception.getMessage());
+                    Log.e(TAG, "onError() " + exception.getMessage());
                 }
 
                 @Override
@@ -169,7 +169,7 @@ public class ArtistPageFragment extends Fragment {
 
                         MusicPlayerRemote.openQueue((List<Song>) media, 0, true);
                     } else {
-                        Toast.makeText(requireContext(), "Error retrieving artist's radio", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_radio), Toast.LENGTH_SHORT).show();
                     }
                 }
             });

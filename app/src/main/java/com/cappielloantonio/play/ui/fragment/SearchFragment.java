@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumAdapter;
 import com.cappielloantonio.play.adapter.ArtistAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
@@ -129,7 +130,7 @@ public class SearchFragment extends Fragment {
                 searchView.collapse();
                 search(query);
             } else {
-                Toast.makeText(requireContext(), "Enter at least three characters", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), getString(R.string.search_info_minimum_characters), Toast.LENGTH_SHORT).show();
             }
         });
 

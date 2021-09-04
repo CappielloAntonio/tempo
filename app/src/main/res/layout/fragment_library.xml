@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    android:text="New releases" />
+                    android:text="@string/library_title_new_releases" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/new_releases_recycler_view"
@@ -110,7 +110,7 @@
                         android:layout_weight="1"
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp"
-                        android:text="Albums" />
+                        android:text="@string/library_title_album" />
 
 
                     <TextView
@@ -120,7 +120,7 @@
                         android:layout_height="wrap_content"
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp"
-                        android:text="See all" />
+                        android:text="@string/library_title_album_see_all_button" />
 
                 </LinearLayout>
 
@@ -168,7 +168,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="Artists" />
+                        android:text="@string/library_title_artist" />
 
 
                     <TextView
@@ -179,7 +179,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="See all" />
+                        android:text="@string/library_title_artist_see_all_button" />
 
                 </LinearLayout>
 
@@ -227,7 +227,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="Genres" />
+                        android:text="@string/library_title_genre" />
 
 
                     <TextView
@@ -238,7 +238,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="See all" />
+                        android:text="@string/library_title_genre_see_all_button" />
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -284,7 +284,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="Playlists" />
+                        android:text="@string/library_title_playlist" />
 
 
                     <TextView
@@ -295,7 +295,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="See all" />
+                        android:text="@string/library_title_playlist_see_all_button" />
 
                 </LinearLayout>
 

@@ -109,8 +109,8 @@ public class PlaylistPageFragment extends Fragment {
         bind.animToolbar.setTitle(MusicUtil.getReadableString(playlistPageViewModel.getPlaylist().getName()));
 
         bind.playlistNameLabel.setText(MusicUtil.getReadableString(playlistPageViewModel.getPlaylist().getName()));
-        bind.playlistSongCountLabel.setText("Song count: " + playlistPageViewModel.getPlaylist().getSongCount());
-        bind.playlistDurationLabel.setText("Playlist duration: " + MusicUtil.getReadableDurationString(playlistPageViewModel.getPlaylist().getDuration(), false));
+        bind.playlistSongCountLabel.setText(getString(R.string.playlist_song_count) + playlistPageViewModel.getPlaylist().getSongCount());
+        bind.playlistDurationLabel.setText(getString(R.string.playlist_duration) + MusicUtil.getReadableDurationString(playlistPageViewModel.getPlaylist().getDuration(), false));
 
         if (playlistPageViewModel.isOffline()) {
             bind.playlistSongCountLabel.setVisibility(View.GONE);

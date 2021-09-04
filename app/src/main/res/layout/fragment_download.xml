@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="12dp"
-            android:text="No downloads yet!" />
+            android:text="@string/download_info_empty_title" />
 
         <TextView
             android:id="@+id/subtitle_download_screen"
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="56dp"
             android:paddingEnd="56dp"
-            android:text="Once you download a song, you'll find it here" />
+            android:text="@string/download_info_empty_subtitle" />
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -115,7 +115,7 @@
                         android:layout_weight="1"
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp"
-                        android:text="Artists" />
+                        android:text="@string/download_title_artist_section" />
 
 
                     <TextView
@@ -125,7 +125,7 @@
                         android:layout_height="wrap_content"
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp"
-                        android:text="See all" />
+                        android:text="@string/download_title_artist_see_all_button" />
 
                 </LinearLayout>
 
@@ -170,7 +170,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="Albums" />
+                        android:text="@string/download_title_album_section" />
 
 
                     <TextView
@@ -181,7 +181,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="See all" />
+                        android:text="@string/download_title_album_see_all" />
 
                 </LinearLayout>
 
@@ -226,7 +226,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="Tracks" />
+                        android:text="@string/download_title_tracks_section" />
 
 
                     <TextView
@@ -237,7 +237,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="See all" />
+                        android:text="@string/download_title_tracks_see_all_button" />
 
                 </LinearLayout>
 
@@ -282,7 +282,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="Playlists" />
+                        android:text="@string/download_title_playlist_section" />
 
 
                     <TextView
@@ -293,7 +293,7 @@
                         android:paddingStart="8dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
-                        android:text="See all" />
+                        android:text="@string/download_title_playlist_see_all_button" />
 
                 </LinearLayout>
 

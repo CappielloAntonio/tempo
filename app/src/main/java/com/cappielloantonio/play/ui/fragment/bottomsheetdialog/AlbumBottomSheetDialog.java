@@ -83,7 +83,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
             albumRepository.getInstantMix(album, 20, new MediaCallback() {
                 @Override
                 public void onError(Exception exception) {
-                    Log.e(TAG, "onError: " + exception.getMessage());
+                    Log.e(TAG, "onError() " + exception.getMessage());
 
                     dismissBottomSheet();
                 }
@@ -99,7 +99,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
                         MusicPlayerRemote.openQueue((List<Song>) media, 0, true);
                     } else {
-                        Toast.makeText(requireContext(), "Error retrieving album's radio", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireContext(), getString(R.string.album_error_retrieving_radio), Toast.LENGTH_SHORT).show();
                     }
 
                     dismissBottomSheet();
@@ -162,7 +162,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
                 bundle.putParcelable("artist_object", artist);
                 NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
             } else
-                Toast.makeText(requireContext(), "Error retrieving artist", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), getString(R.string.album_error_retrieving_artist), Toast.LENGTH_SHORT).show();
 
             dismissBottomSheet();
         }));

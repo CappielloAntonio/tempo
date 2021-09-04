@@ -104,7 +104,7 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
             songRepository.getInstantMix(songs.get(getBindingAdapterPosition()), 20, new MediaCallback() {
                 @Override
                 public void onError(Exception exception) {
-                    Log.e(TAG, "onError: " + exception.getMessage());
+                    Log.e(TAG, "onError() " + exception.getMessage());
                 }
 
                 @Override

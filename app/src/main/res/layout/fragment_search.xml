@@ -65,7 +65,7 @@
                     android:paddingStart="16dp"
                     android:paddingTop="20dp"
                     android:paddingEnd="16dp"
-                    android:text="Songs" />
+                    android:text="@string/search_title_song" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/search_result_tracks_recycler_view"
@@ -94,7 +94,7 @@
                     android:paddingStart="16dp"
                     android:paddingTop="20dp"
                     android:paddingEnd="16dp"
-                    android:text="Albums" />
+                    android:text="@string/search_title_album" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/search_result_album_recycler_view"
@@ -125,7 +125,7 @@
                     android:paddingStart="16dp"
                     android:paddingTop="20dp"
                     android:paddingEnd="16dp"
-                    android:text="Artists" />
+                    android:text="@string/search_title_artist" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/search_result_artist_recycler_view"

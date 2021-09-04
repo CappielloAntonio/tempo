@@ -22,7 +22,7 @@
             android:id="@+id/playlist_name_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Playlist Name"
+            android:hint="@string/playlist_editor_dialog_hint_name"
             android:inputType="textNoSuggestions"
             android:textCursorDrawable="@null" />
     </com.google.android.material.textfield.TextInputLayout>

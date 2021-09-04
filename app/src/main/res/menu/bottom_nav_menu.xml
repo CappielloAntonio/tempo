@@ -3,13 +3,13 @@
     <item
         android:id="@+id/homeFragment"
         android:icon="@drawable/ic_home"
-        android:title="@string/home_menu_label" />
+        android:title="@string/menu_home_label" />
     <item
         android:id="@+id/libraryFragment"
         android:icon="@drawable/ic_graphic_eq"
-        android:title="@string/library_menu_label" />
+        android:title="@string/menu_library_label" />
     <item
         android:id="@+id/downloadFragment"
         android:icon="@drawable/ic_play_for_work"
-        android:title="@string/download_menu_label" />
+        android:title="@string/menu_download_label" />
 </menu>

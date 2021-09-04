@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.App;
+import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentSongListPageBinding;
 import com.cappielloantonio.play.model.Song;
@@ -62,21 +63,21 @@ public class SongListPageFragment extends Fragment {
     private void init() {
         if (requireArguments().getString(Song.RECENTLY_PLAYED) != null) {
             songListPageViewModel.title = Song.RECENTLY_PLAYED;
-            bind.pageTitleLabel.setText("Recently played tracks");
+            bind.pageTitleLabel.setText(R.string.song_list_page_recently_played);
         } else if (requireArguments().getString(Song.MOST_PLAYED) != null) {
             songListPageViewModel.title = Song.MOST_PLAYED;
-            bind.pageTitleLabel.setText("Most played tracks");
+            bind.pageTitleLabel.setText(R.string.song_list_page_most_played);
         } else if (requireArguments().getString(Song.RECENTLY_ADDED) != null) {
             songListPageViewModel.title = Song.RECENTLY_ADDED;
-            bind.pageTitleLabel.setText("Recently added tracks");
+            bind.pageTitleLabel.setText(R.string.song_list_page_recently_added);
         } else if (requireArguments().getString(Song.BY_GENRE) != null) {
             songListPageViewModel.title = Song.BY_GENRE;
             songListPageViewModel.genre = requireArguments().getParcelable("genre_object");
-            bind.pageTitleLabel.setText(MusicUtil.getReadableString(songListPageViewModel.genre.getName()) + ": all tracks");
+            bind.pageTitleLabel.setText(MusicUtil.getReadableString(songListPageViewModel.genre.getName()) + getString(R.string.song_list_page_all));
         } else if (requireArguments().getString(Song.BY_ARTIST) != null) {
             songListPageViewModel.title = Song.BY_ARTIST;
             songListPageViewModel.artist = requireArguments().getParcelable("artist_object");
-            bind.pageTitleLabel.setText(MusicUtil.getReadableString(songListPageViewModel.artist.getName()) + "'s top tracks");
+            bind.pageTitleLabel.setText(MusicUtil.getReadableString(songListPageViewModel.artist.getName()) + getString(R.string.song_list_page_top));
         } else if (requireArguments().getString(Song.BY_GENRES) != null) {
             songListPageViewModel.title = Song.BY_GENRES;
             songListPageViewModel.filters = requireArguments().getStringArrayList("filters_list");
@@ -85,13 +86,13 @@ public class SongListPageFragment extends Fragment {
         } else if (requireArguments().getString(Song.BY_YEAR) != null) {
             songListPageViewModel.title = Song.BY_YEAR;
             songListPageViewModel.year = requireArguments().getInt("year_object");
-            bind.pageTitleLabel.setText("Year " + songListPageViewModel.year);
+            bind.pageTitleLabel.setText(getString(R.string.song_list_page_year) + songListPageViewModel.year);
         } else if (requireArguments().getString(Song.STARRED) != null) {
             songListPageViewModel.title = Song.STARRED;
-            bind.pageTitleLabel.setText("Starred tracks");
+            bind.pageTitleLabel.setText(R.string.song_list_page_starred);
         } else if (requireArguments().getString(Song.DOWNLOADED) != null) {
             songListPageViewModel.title = Song.DOWNLOADED;
-            bind.pageTitleLabel.setText("Downloaded");
+            bind.pageTitleLabel.setText(R.string.song_list_page_downloaded);
         } else if (requireArguments().getParcelable("album_object") != null) {
             songListPageViewModel.album = requireArguments().getParcelable("album_object");
             songListPageViewModel.title = Song.FROM_ALBUM;
@@ -111,9 +112,9 @@ public class SongListPageFragment extends Fragment {
 
         bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             if ((bind.albumInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.toolbar))) {
-                bind.toolbar.setTitle("Songs");
+                bind.toolbar.setTitle(R.string.song_list_page_title);
             } else {
-                bind.toolbar.setTitle("");
+                bind.toolbar.setTitle(R.string.empty_string);
             }
         });
     }

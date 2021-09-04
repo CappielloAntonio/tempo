@@ -35,10 +35,10 @@ public class PlaylistChooserDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppTheme_AlertDialog);
 
         builder.setView(bind.getRoot())
-                .setTitle("Add to a playlist")
-                .setNeutralButton("Create", (dialog, id) -> {
+                .setTitle(R.string.playlist_chooser_dialog_title)
+                .setNeutralButton(R.string.playlist_chooser_dialog_neutral_button, (dialog, id) -> {
                 })
-                .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
+                .setNegativeButton(R.string.playlist_chooser_dialog_negative_button, (dialog, id) -> dialog.cancel());
 
         return builder.create();
     }

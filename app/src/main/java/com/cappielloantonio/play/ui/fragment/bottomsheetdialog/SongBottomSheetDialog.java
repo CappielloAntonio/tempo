@@ -106,7 +106,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
             songRepository.getInstantMix(song, 20, new MediaCallback() {
                 @Override
                 public void onError(Exception exception) {
-                    Log.e(TAG, "onError: " + exception.getMessage());
+                    Log.e(TAG, "onError() " + exception.getMessage());
                 }
 
                 @Override
@@ -177,7 +177,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
                 bundle.putParcelable("album_object", album);
                 NavHostFragment.findNavController(this).navigate(R.id.albumPageFragment, bundle);
             } else
-                Toast.makeText(requireContext(), "Error retrieving album", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), getString(R.string.song_bottom_sheet_error_retrieving_album), Toast.LENGTH_SHORT).show();
 
             dismissBottomSheet();
         }));
@@ -189,7 +189,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
                 bundle.putParcelable("artist_object", artist);
                 NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
             } else
-                Toast.makeText(requireContext(), "Error retrieving artist", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), getString(R.string.song_bottom_sheet_error_retrieving_artist), Toast.LENGTH_SHORT).show();
 
             dismissBottomSheet();
         }));

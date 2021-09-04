@@ -36,7 +36,7 @@
                     android:paddingTop="16dp"
                     android:paddingEnd="16dp"
                     android:paddingBottom="24dp"
-                    android:text="Subsonic servers"
+                    android:text="@string/login_title_expanded"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="parent" />
@@ -52,7 +52,7 @@
             android:paddingTop="16dp"
             android:paddingEnd="16dp"
             android:gravity="center"
-            android:text="No server added"
+            android:text="@string/login_empty"
             android:clipToPadding="false"
             android:paddingBottom="@dimen/global_padding_bottom"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"

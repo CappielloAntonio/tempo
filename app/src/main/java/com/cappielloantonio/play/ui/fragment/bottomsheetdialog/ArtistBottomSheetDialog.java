@@ -77,7 +77,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
             artistRepository.getInstantMix(artist, 20, new MediaCallback() {
                 @Override
                 public void onError(Exception exception) {
-                    Log.e(TAG, "onError: " + exception.getMessage());
+                    Log.e(TAG, "onError() " + exception.getMessage());
 
                     dismissBottomSheet();
                 }
@@ -93,7 +93,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
 
                         MusicPlayerRemote.openQueue((List<Song>) media, 0, true);
                     } else {
-                        Toast.makeText(requireContext(), "Error retrieving artist's radio", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_radio), Toast.LENGTH_SHORT).show();
                     }
 
                     dismissBottomSheet();
@@ -112,7 +112,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
                     MusicPlayerRemote.openQueue(songs, 0, true);
                     ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
                 } else {
-                    Toast.makeText(requireContext(), "Error retrieving artist's songs", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_tracks), Toast.LENGTH_SHORT).show();
                 }
 
                 dismissBottomSheet();

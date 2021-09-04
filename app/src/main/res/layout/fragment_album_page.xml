@@ -120,7 +120,7 @@
                         android:layout_weight="1"
                         android:backgroundTint="@color/buttonBackgroundColor"
                         android:padding="10dp"
-                        android:text="Play"
+                        android:text="@string/album_page_play_button"
                         android:textAllCaps="false"
                         app:icon="@drawable/ic_play"
                         app:iconGravity="textStart"
@@ -137,7 +137,7 @@
                         android:layout_weight="1"
                         android:backgroundTint="@color/buttonBackgroundColor"
                         android:padding="10dp"
-                        android:text="Shuffle"
+                        android:text="@string/album_page_shuffle_button"
                         android:textAllCaps="false"
                         app:icon="@drawable/ic_shuffle"
                         app:iconGravity="textStart"
@@ -199,7 +199,7 @@
                         android:paddingStart="16dp"
                         android:paddingTop="32dp"
                         android:paddingEnd="20dp"
-                        android:text="More like this" />
+                        android:text="@string/album_page_extra_info_button" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/similar_albums_recycler_view"

@@ -127,7 +127,7 @@ public class AlbumPageFragment extends Fragment {
                 bundle.putParcelable("artist_object", artist);
                 activity.navController.navigate(R.id.action_albumPageFragment_to_artistPageFragment, bundle);
             } else
-                Toast.makeText(requireContext(), "Error retrieving artist", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), getString(R.string.album_error_retrieving_artist), Toast.LENGTH_SHORT).show();
         }));
     }
 

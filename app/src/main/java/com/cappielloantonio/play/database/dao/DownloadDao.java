@@ -30,7 +30,7 @@ public interface DownloadDao {
     @Query("SELECT * FROM download WHERE server=:server AND artistId=:artistId")
     LiveData<List<Download>> getAllFromArtist(String server, String artistId);
 
-    @Query("SELECT * FROM download WHERE server=:server AND albumId=:albumId")
+    @Query("SELECT * FROM download WHERE server=:server AND albumId=:albumId ORDER BY trackNumber ASC")
     LiveData<List<Download>> getAllFromAlbum(String server, String albumId);
 
     @Query("SELECT * FROM download WHERE server=:server AND playlistId=:playlistId")

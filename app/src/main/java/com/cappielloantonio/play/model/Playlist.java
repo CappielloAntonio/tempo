@@ -3,6 +3,8 @@ package com.cappielloantonio.play.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 public class Playlist implements Parcelable {
     public static final String ALL = "ALL";
     public static final String DOWNLOADED = "DOWNLOADED";
@@ -66,6 +68,7 @@ public class Playlist implements Parcelable {
         return id.hashCode();
     }
 
+    @NonNull
     @Override
     public String toString() {
         return id;

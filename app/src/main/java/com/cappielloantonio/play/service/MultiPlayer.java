@@ -133,7 +133,7 @@ public class MultiPlayer implements Playback {
         String uri = MusicUtil.getSongFileUri(song);
         MediaItem mediaItem = exoPlayer.getCurrentMediaItem();
 
-        if (mediaItem != null && mediaItem.playbackProperties.uri.toString().equals(uri)) {
+        if (mediaItem != null && mediaItem.playbackProperties != null && mediaItem.playbackProperties.uri.toString().equals(uri)) {
             return;
         }
 

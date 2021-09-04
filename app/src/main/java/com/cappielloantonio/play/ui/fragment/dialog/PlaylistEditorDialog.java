@@ -124,7 +124,7 @@ public class PlaylistEditorDialog extends DialogFragment {
                 toPosition = target.getBindingAdapterPosition();
 
                 Collections.swap(playlistDialogSongHorizontalAdapter.getItems(), fromPosition, toPosition);
-                recyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
+                Objects.requireNonNull(recyclerView.getAdapter()).notifyItemMoved(fromPosition, toPosition);
 
                 return false;
             }

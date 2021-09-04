@@ -32,8 +32,8 @@ public class MusicUtil {
     }
 
     public static String getReadableDurationString(long duration, boolean millis) {
-        long minutes = 0;
-        long seconds = 0;
+        long minutes;
+        long seconds;
 
         if (millis) {
             minutes = (duration / 1000) / 60;

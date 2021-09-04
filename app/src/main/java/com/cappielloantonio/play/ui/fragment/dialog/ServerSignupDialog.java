@@ -112,10 +112,10 @@ public class ServerSignupDialog extends DialogFragment {
     }
 
     private boolean validateInput() {
-        serverName = bind.serverNameTextView.getText().toString().trim();
-        username = bind.usernameTextView.getText().toString().trim();
-        password = bind.passwordTextView.getText().toString();
-        server = bind.serverTextView.getText().toString().trim();
+        serverName = Objects.requireNonNull(bind.serverNameTextView.getText()).toString().trim();
+        username = Objects.requireNonNull(bind.usernameTextView.getText()).toString().trim();
+        password = Objects.requireNonNull(bind.passwordTextView.getText()).toString();
+        server = Objects.requireNonNull(bind.serverTextView.getText()).toString().trim();
         directAccess = bind.directAccessCheckbox.isChecked();
 
         if (TextUtils.isEmpty(serverName)) {

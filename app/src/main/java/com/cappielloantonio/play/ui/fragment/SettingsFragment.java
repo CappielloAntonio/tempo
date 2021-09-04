@@ -19,7 +19,6 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.helper.ThemeHelper;
 import com.cappielloantonio.play.interfaces.ScanCallback;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.SettingViewModel;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
@@ -36,7 +35,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         someActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
-                result -> { });
+                result -> {
+                });
     }
 
     @Override
@@ -62,19 +62,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
     public void onResume() {
         super.onResume();
-
-        findPreference("logout").setOnPreferenceClickListener(preference -> {
-            PreferenceUtil.getInstance(requireContext()).setUser(null);
-            PreferenceUtil.getInstance(requireContext()).setServer(null);
-            PreferenceUtil.getInstance(requireContext()).setPassword(null);
-            PreferenceUtil.getInstance(requireContext()).setToken(null);
-            PreferenceUtil.getInstance(requireContext()).setSalt(null);
-            PreferenceUtil.getInstance(requireContext()).setServerId(null);
-
-            activity.quit();
-
-            return true;
-        });
 
         findPreference("scan_library").setOnPreferenceClickListener(preference -> {
             settingViewModel.launchScan(new ScanCallback() {

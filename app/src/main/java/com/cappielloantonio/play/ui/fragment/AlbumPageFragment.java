@@ -44,7 +44,6 @@ public class AlbumPageFragment extends Fragment {
     private AlbumPageViewModel albumPageViewModel;
 
     private SongHorizontalAdapter songHorizontalAdapter;
-    private AlbumArtistPageOrSimilarAdapter albumArtistPageOrSimilarAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,7 +69,6 @@ public class AlbumPageFragment extends Fragment {
         initAppBar();
         initAlbumInfoTextButton();
         initMusicButton();
-        initSimilarAlbumsView();
         initBackCover();
         initSongsView();
 
@@ -138,11 +136,6 @@ public class AlbumPageFragment extends Fragment {
                     Toast.makeText(requireContext(), "Error retrieving artist", Toast.LENGTH_SHORT).show();
             });
         });
-
-        /*albumPageViewModel.getAlbumInfo().observe(requireActivity(), album -> {
-            if (bind != null) bind.albumBioLabel.setVisibility(album.getNotes() != null ? View.VISIBLE : View.GONE);
-            bind.albumBioLabel.setText(album.getNotes());
-        });*/
     }
 
     private void initMusicButton() {
@@ -196,9 +189,5 @@ public class AlbumPageFragment extends Fragment {
         albumPageViewModel.getAlbumSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
             songHorizontalAdapter.setItems(songs);
         });
-    }
-
-    private void initSimilarAlbumsView() {
-
     }
 }

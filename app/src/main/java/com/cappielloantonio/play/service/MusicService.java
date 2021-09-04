@@ -183,10 +183,10 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
                             if (!playlistSongs.isEmpty()) {
                                 openQueue(playlistSongs, 0, true);
                             } else {
-                                Toast.makeText(getApplicationContext(), R.string.playlist_is_empty, Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), R.string.exo_info_empty_playlist, Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            Toast.makeText(getApplicationContext(), R.string.playlist_is_empty, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), R.string.exo_info_empty_playlist, Toast.LENGTH_LONG).show();
                         }
                         break;
                     case ACTION_REWIND:

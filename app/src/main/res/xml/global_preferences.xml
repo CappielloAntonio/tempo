@@ -1,40 +1,40 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory app:title="@string/general_header">
+    <PreferenceCategory app:title="@string/settings_title_general">
         <ListPreference
             app:defaultValue="400000000"
-            app:dialogTitle="@string/covers_cache"
+            app:dialogTitle="@string/settings_covers_cache"
             app:entries="@array/pref_cache_size_titles"
             app:entryValues="@array/pref_cache_size_values"
             app:key="image_cache_size"
-            app:title="@string/covers_cache"
+            app:title="@string/settings_covers_cache"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
             app:defaultValue="400000000"
-            app:dialogTitle="@string/media_cache"
+            app:dialogTitle="@string/settings_media_cache"
             app:entries="@array/pref_media_cache_size_titles"
             app:entryValues="@array/pref_media_cache_size_values"
             app:key="media_cache_size"
-            app:title="@string/media_cache"
+            app:title="@string/settings_media_cache"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
             app:defaultValue="-1"
-            app:dialogTitle="@string/image_size"
+            app:dialogTitle="@string/settings_image_size"
             app:entries="@array/pref_image_size_titles"
             app:entryValues="@array/pref_image_size_values"
             app:key="image_size"
-            app:title="@string/image_size"
+            app:title="@string/settings_image_size"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
             app:defaultValue="default"
-            app:dialogTitle="@string/theme_selection"
+            app:dialogTitle="@string/settings_theme"
             app:entries="@array/themeListArray"
             app:entryValues="@array/themeEntryArray"
             app:key="themePref"
-            app:title="@string/theme_selection"
+            app:title="@string/settings_theme"
             app:useSimpleSummaryProvider="true" />
 
         <Preference
@@ -52,22 +52,22 @@
         
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/about_header">
+    <PreferenceCategory app:title="@string/settings_about_title">
         <Preference
             app:selectable="false"
-            app:summary="@string/summary_about" />
+            app:summary="@string/settings_about_summary" />
 
         <Preference
-            app:summary="@string/app_version"
-            app:title="@string/title_version" />
+            app:summary="@string/settings_version_summary"
+            app:title="@string/settings_version_title" />
 
         <!-- preference opens url in browser -->
         <Preference
-            app:summary="@string/development"
-            app:title="@string/github_page">
+            app:summary="@string/settings_github_summary"
+            app:title="@string/settings_github_title">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="@string/github_url" />
+                android:data="@string/settings_github_link" />
         </Preference>
 
     </PreferenceCategory>

@@ -90,9 +90,9 @@ public class PlayingNotification {
                             bitmap = BitmapFactory.decodeResource(service.getResources(), R.drawable.default_album_art);
                         }
 
-                        NotificationCompat.Action playPauseAction = new NotificationCompat.Action(playButtonResId, service.getString(R.string.action_play_pause), retrievePlaybackAction(ACTION_TOGGLE));
-                        NotificationCompat.Action previousAction = new NotificationCompat.Action(R.drawable.ic_skip_previous_white_24dp, service.getString(R.string.action_previous), retrievePlaybackAction(ACTION_REWIND));
-                        NotificationCompat.Action nextAction = new NotificationCompat.Action(R.drawable.ic_skip_next_white_24dp, service.getString(R.string.action_next), retrievePlaybackAction(ACTION_SKIP));
+                        NotificationCompat.Action playPauseAction = new NotificationCompat.Action(playButtonResId, service.getString(R.string.exo_action_play_pause), retrievePlaybackAction(ACTION_TOGGLE));
+                        NotificationCompat.Action previousAction = new NotificationCompat.Action(R.drawable.ic_skip_previous_white_24dp, service.getString(R.string.exo_action_previous), retrievePlaybackAction(ACTION_REWIND));
+                        NotificationCompat.Action nextAction = new NotificationCompat.Action(R.drawable.ic_skip_next_white_24dp, service.getString(R.string.exo_action_next), retrievePlaybackAction(ACTION_SKIP));
 
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(service, NOTIFICATION_CHANNEL_ID)
                                 .setSmallIcon(R.drawable.ic_notification)

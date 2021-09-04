@@ -85,7 +85,7 @@ public class MultiPlayer implements Playback {
         @Override
         public void onPlayerError(ExoPlaybackException error) {
             Log.i(TAG, String.format("onPlayerError: %s", error.getMessage()));
-            Toast.makeText(context, context.getResources().getString(R.string.unplayable_file), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getResources().getString(R.string.exo_info_unplayable_file), Toast.LENGTH_SHORT).show();
 
             exoPlayer.clearMediaItems();
             exoPlayer.prepare();

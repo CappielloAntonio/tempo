@@ -114,10 +114,10 @@ public class BaseActivity extends AppCompatActivity implements MusicServiceEvent
 
     private void showBatteryOptimizationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.battery_optimizations_message)
-                .setTitle(R.string.battery_optimizations_title)
-                .setNegativeButton(R.string.ignore, null)
-                .setPositiveButton(R.string.disable, (dialog, id) -> openPowerSettings())
+        builder.setMessage(R.string.activity_battery_optimizations_summary)
+                .setTitle(R.string.activity_battery_optimizations_title)
+                .setNegativeButton(R.string.activity_negative_button, null)
+                .setPositiveButton(R.string.activity_neutral_button, (dialog, id) -> openPowerSettings())
                 .show();
     }
 

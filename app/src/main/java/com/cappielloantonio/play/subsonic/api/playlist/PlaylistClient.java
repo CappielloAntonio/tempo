@@ -64,7 +64,7 @@ public class PlaylistClient {
     }
 
     private OkHttpClient getOkHttpClient() {
-        CacheUtil cacheUtil = new CacheUtil(context);
+        CacheUtil cacheUtil = new CacheUtil(context, 0, 60 * 60 * 24 * 30);
 
         return new OkHttpClient.Builder()
                 .addInterceptor(getHttpLoggingInterceptor())

@@ -122,7 +122,7 @@ public class BrowsingClient {
     }
 
     private OkHttpClient getOkHttpClient() {
-        CacheUtil cacheUtil = new CacheUtil(context);
+        CacheUtil cacheUtil = new CacheUtil(context, 60, 60 * 60 * 24 * 30);
 
         return new OkHttpClient.Builder()
                 .addInterceptor(getHttpLoggingInterceptor())

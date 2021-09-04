@@ -114,15 +114,12 @@ public class HomeFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                activity.navController.navigate(R.id.action_homeFragment_to_searchFragment);
-                return true;
-            case R.id.action_settings:
-                activity.navController.navigate(R.id.action_homeFragment_to_settingsFragment);
-                return true;
-            default:
-                break;
+        if (item.getItemId() == R.id.action_search) {
+            activity.navController.navigate(R.id.action_homeFragment_to_searchFragment);
+            return true;
+        } else if (item.getItemId() == R.id.action_settings) {
+            activity.navController.navigate(R.id.action_homeFragment_to_settingsFragment);
+            return true;
         }
 
         return false;

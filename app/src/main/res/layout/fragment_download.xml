@@ -37,7 +37,8 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
-                    android:text="Play" />
+                    android:text="@string/app_name" />
+                android:text="@string/app_name" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -81,8 +82,8 @@
         android:id="@+id/fragment_download_nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:visibility="gone">
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:id="@+id/download_linear_layout_container"
@@ -114,6 +115,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingStart="8dp"
+                        android:paddingTop="8dp"
                         android:paddingEnd="8dp"
                         android:text="@string/download_title_artist_section" />
 
@@ -124,6 +126,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="8dp"
+                        android:paddingTop="8dp"
                         android:paddingEnd="8dp"
                         android:text="@string/download_title_artist_see_all_button" />
 

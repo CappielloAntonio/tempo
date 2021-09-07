@@ -21,6 +21,10 @@ public class PreferenceUtil {
     public static final String IMAGE_CACHE_SIZE = "image_cache_size";
     public static final String IMAGE_SIZE = "image_size";
     public static final String MEDIA_CACHE_SIZE = "media_cache_size";
+    public static final String MAX_BITRATE_WIFI = "max_bitrate_wifi";
+    public static final String MAX_BITRATE_MOBILE = "max_bitrate_mobile";
+    public static final String AUDIO_TRANSCODE_FORMAT = "audio_transcode_format";
+    public static final String WIFI_ONLY = "wifi_only";
 
     private static PreferenceUtil sInstance;
     private final SharedPreferences mPreferences;
@@ -42,7 +46,7 @@ public class PreferenceUtil {
     }
 
     public String getServer() {
-        return mPreferences.getString(SERVER, "https://jellyfin.org");
+        return mPreferences.getString(SERVER, "");
     }
 
     public void setServer(String server) {
@@ -131,5 +135,21 @@ public class PreferenceUtil {
 
     public final int getImageSize() {
         return Integer.parseInt(mPreferences.getString(IMAGE_SIZE, "-1"));
+    }
+
+    public final String getMaxBitrateWifi() {
+        return mPreferences.getString(MAX_BITRATE_WIFI, "0");
+    }
+
+    public final String getMaxBitrateMobile() {
+        return mPreferences.getString(MAX_BITRATE_MOBILE, "0");
+    }
+
+    public final String getAudioTranscodeFormat() {
+        return mPreferences.getString(AUDIO_TRANSCODE_FORMAT, "raw");
+    }
+
+    public final boolean isWifiOnly() {
+        return mPreferences.getBoolean(WIFI_ONLY, false);
     }
 }

@@ -1,6 +1,8 @@
 package com.cappielloantonio.play.util;
 
+import android.content.Context;
 import android.text.Html;
+import android.util.Log;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
@@ -17,18 +19,34 @@ import java.util.regex.Pattern;
 public class MusicUtil {
     private static final String TAG = "MusicUtil";
 
-    public static String getSongFileUri(Song song) {
-        String url = App.getSubsonicClientInstance(App.getInstance(), false).getUrl();
-
+    public static String getSongStreamUri(Context context, Song song) {
         Map<String, String> params = App.getSubsonicClientInstance(App.getInstance(), false).getParams();
 
-        return url + "stream" +
+        return App.getSubsonicClientInstance(App.getInstance(), false).getUrl() +
+                "stream" +
+                "?u=" + params.get("u") +
+                "&s=" + params.get("s") +
+                "&t=" + params.get("t") +
+                "&v=" + params.get("v") +
+                "&c=" + params.get("c") +
+                "&id=" + song.getId() +
+                "&maxBitRate=" + PreferenceUtil.getInstance(context).getMaxBitrateWifi() +
+                "&format=" + PreferenceUtil.getInstance(context).getAudioTranscodeFormat();
+    }
+
+    public static MediaItem getSongDownloadItem(Song song) {
+        Map<String, String> params = App.getSubsonicClientInstance(App.getInstance(), false).getParams();
+
+        String uri = App.getSubsonicClientInstance(App.getInstance(), false).getUrl() +
+                "stream" +
                 "?u=" + params.get("u") +
                 "&s=" + params.get("s") +
                 "&t=" + params.get("t") +
                 "&v=" + params.get("v") +
                 "&c=" + params.get("c") +
                 "&id=" + song.getId();
+
+        return MediaItem.fromUri(uri);
     }
 
     public static String getReadableDurationString(long duration, boolean millis) {
@@ -109,10 +127,5 @@ public class MusicUtil {
             default:
                 return R.drawable.default_album_art;
         }
-    }
-
-    public static MediaItem getMediaItemFromSong(Song song) {
-        String uri = MusicUtil.getSongFileUri(song);
-        return MediaItem.fromUri(uri);
     }
 }

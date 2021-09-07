@@ -31,11 +31,44 @@
         <ListPreference
             app:defaultValue="default"
             app:dialogTitle="@string/settings_theme"
-            app:entries="@array/themeListArray"
-            app:entryValues="@array/themeEntryArray"
-            app:key="themePref"
+            app:entries="@array/theme_list_titles"
+            app:entryValues="@array/theme_list_values"
+            app:key="theme"
             app:title="@string/settings_theme"
             app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="0"
+            app:dialogTitle="@string/settings_max_bitrate_wifi"
+            app:entries="@array/max_bitrate_wifi_list_titles"
+            app:entryValues="@array/max_bitrate_wifi_list_values"
+            app:key="max_bitrate_wifi"
+            app:title="@string/settings_max_bitrate_wifi"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="0"
+            app:dialogTitle="@string/settings_max_bitrate_mobile"
+            app:entries="@array/max_bitrate_mobile_list_titles"
+            app:entryValues="@array/max_bitrate_mobile_list_values"
+            app:key="max_bitrate_mobile"
+            app:title="@string/settings_max_bitrate_mobile"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="raw"
+            app:dialogTitle="@string/settings_audio_transcode_format"
+            app:entries="@array/audio_transcode_format_list_titles"
+            app:entryValues="@array/audio_transcode_format_list_values"
+            app:key="audio_transcode_format"
+            app:title="@string/settings_audio_transcode_format"
+            app:useSimpleSummaryProvider="true" />
+
+        <CheckBoxPreference
+            android:title="@string/settings_wifi_only_title"
+            android:defaultValue="false"
+            android:summary="@string/settings_wifi_only_summary"
+            android:key="wifi_only" />
 
         <Preference
             android:key="equalizer"
@@ -49,7 +82,6 @@
         <Preference
             android:key="logout"
             android:title="Log out" />
-        
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_about_title">

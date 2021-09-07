@@ -1,13 +1,10 @@
 <resources>
-    <!-- Reply Preference -->
-
-    <string-array name="themeListArray">
+    <string-array name="theme_list_titles">
         <item>Light</item>
         <item>Dark</item>
         <item>System default</item>
     </string-array>
-
-    <string-array name="themeEntryArray">
+    <string-array name="theme_list_values">
         <item>light</item>
         <item>dark</item>
         <item>default</item>
@@ -20,7 +17,6 @@
         <item>400MB</item>
         <item>200MB</item>
     </string-array>
-
     <string-array name="pref_cache_size_values">
         <item>4000000000</item>
         <item>2000000000</item>
@@ -36,7 +32,6 @@
         <item>400MB</item>
         <item>200MB</item>
     </string-array>
-
     <string-array name="pref_media_cache_size_values">
         <item>4000000000</item>
         <item>2000000000</item>
@@ -50,10 +45,82 @@
         <item>Medium</item>
         <item>Low</item>
     </string-array>
-
     <string-array name="pref_image_size_values">
         <item>-1</item>
         <item>500</item>
         <item>300</item>
+    </string-array>
+
+    <string-array name="max_bitrate_wifi_list_titles">
+        <item>Original</item>
+        <item>32</item>
+        <item>48</item>
+        <item>64</item>
+        <item>80</item>
+        <item>96</item>
+        <item>112</item>
+        <item>128</item>
+        <item>160</item>
+        <item>192</item>
+        <item>256</item>
+        <item>320</item>
+    </string-array>
+    <string-array name="max_bitrate_wifi_list_values">
+        <item>0</item>
+        <item>32</item>
+        <item>48</item>
+        <item>64</item>
+        <item>80</item>
+        <item>96</item>
+        <item>112</item>
+        <item>128</item>
+        <item>160</item>
+        <item>192</item>
+        <item>256</item>
+        <item>320</item>
+    </string-array>
+
+    <string-array name="max_bitrate_mobile_list_titles">
+        <item>Original</item>
+        <item>32</item>
+        <item>48</item>
+        <item>64</item>
+        <item>80</item>
+        <item>96</item>
+        <item>112</item>
+        <item>128</item>
+        <item>160</item>
+        <item>192</item>
+        <item>256</item>
+        <item>320</item>
+    </string-array>
+    <string-array name="max_bitrate_mobile_list_values">
+        <item>0</item>
+        <item>32</item>
+        <item>48</item>
+        <item>64</item>
+        <item>80</item>
+        <item>96</item>
+        <item>112</item>
+        <item>128</item>
+        <item>160</item>
+        <item>192</item>
+        <item>256</item>
+        <item>320</item>
+    </string-array>
+
+    <string-array name="audio_transcode_format_list_titles">
+        <item>Original</item>
+        <item>Opus</item>
+        <item>AAC</item>
+        <item>Mp3</item>
+        <item>Flac</item>
+    </string-array>
+    <string-array name="audio_transcode_format_list_values">
+        <item>raw</item>
+        <item>opus</item>
+        <item>aac</item>
+        <item>mp3</item>
+        <item>flac</item>
     </string-array>
 </resources>

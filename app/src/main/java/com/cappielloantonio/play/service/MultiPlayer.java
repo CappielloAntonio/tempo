@@ -130,7 +130,7 @@ public class MultiPlayer implements Playback {
 
     @Override
     public void setDataSource(Song song) {
-        String uri = MusicUtil.getSongFileUri(song);
+        String uri = MusicUtil.getSongStreamUri(context, song);
         MediaItem mediaItem = exoPlayer.getCurrentMediaItem();
 
         if (mediaItem != null && mediaItem.playbackProperties != null && mediaItem.playbackProperties.uri.toString().equals(uri)) {
@@ -138,7 +138,7 @@ public class MultiPlayer implements Playback {
         }
 
         exoPlayer.clearMediaItems();
-        appendDataSource(MusicUtil.getSongFileUri(song));
+        appendDataSource(MusicUtil.getSongStreamUri(context, song));
         exoPlayer.seekTo(0, 0);
     }
 
@@ -149,7 +149,7 @@ public class MultiPlayer implements Playback {
             exoPlayer.removeMediaItem(1);
         }
 
-        appendDataSource(MusicUtil.getSongFileUri(song));
+        appendDataSource(MusicUtil.getSongStreamUri(context, song));
     }
 
     private void appendDataSource(String path) {

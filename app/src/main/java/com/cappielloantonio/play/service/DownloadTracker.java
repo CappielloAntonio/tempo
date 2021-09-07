@@ -63,14 +63,14 @@ public class DownloadTracker {
     }
 
     public boolean isDownloaded(Song song) {
-        MediaItem mediaItem = MusicUtil.getMediaItemFromSong(song);
+        MediaItem mediaItem = MusicUtil.getSongDownloadItem(song);
         @Nullable Download download = downloads.get(checkNotNull(mediaItem.playbackProperties).uri);
         return download != null && download.state != Download.STATE_FAILED;
     }
 
     public boolean isDownloaded(List<Song> songs) {
         for (Song song : songs) {
-            MediaItem mediaItem = MusicUtil.getMediaItemFromSong(song);
+            MediaItem mediaItem = MusicUtil.getSongDownloadItem(song);
             @Nullable Download download = downloads.get(checkNotNull(mediaItem.playbackProperties).uri);
 
             if (download != null && download.state != Download.STATE_FAILED) {
@@ -95,7 +95,7 @@ public class DownloadTracker {
                 continue;
             }
 
-            MediaItem mediaItem = MusicUtil.getMediaItemFromSong(song);
+            MediaItem mediaItem = MusicUtil.getSongDownloadItem(song);
             DownloadService.sendAddDownload(context, DownloaderService.class, getDownloadRequest(song.getId(), checkNotNull(mediaItem.playbackProperties).uri), false);
             downloadRepository.insert(MappingUtil.mapToDownload(song, playlistId, playlistName));
         }
@@ -105,7 +105,7 @@ public class DownloadTracker {
         DownloadRepository downloadRepository = new DownloadRepository(App.getInstance());
 
         for (Song song : songs) {
-            MediaItem mediaItem = MusicUtil.getMediaItemFromSong(song);
+            MediaItem mediaItem = MusicUtil.getSongDownloadItem(song);
 
             @Nullable Download download = downloads.get(checkNotNull(mediaItem.playbackProperties).uri);
 

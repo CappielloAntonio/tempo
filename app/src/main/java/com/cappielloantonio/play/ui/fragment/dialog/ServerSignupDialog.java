@@ -81,14 +81,16 @@ public class ServerSignupDialog extends DialogFragment {
     }
 
     private void setServerInfo() {
-        loginViewModel.setServerToEdit(requireArguments().getParcelable("server_object"));
+        if (getArguments() != null) {
+            loginViewModel.setServerToEdit(requireArguments().getParcelable("server_object"));
 
-        if (loginViewModel.getServerToEdit() != null) {
-            bind.serverNameTextView.setText(loginViewModel.getServerToEdit().getServerName());
-            bind.usernameTextView.setText(loginViewModel.getServerToEdit().getUsername());
-            bind.passwordTextView.setText("");
-            bind.serverTextView.setText(loginViewModel.getServerToEdit().getAddress());
-            bind.directAccessCheckbox.setChecked(false);
+            if (loginViewModel.getServerToEdit() != null) {
+                bind.serverNameTextView.setText(loginViewModel.getServerToEdit().getServerName());
+                bind.usernameTextView.setText(loginViewModel.getServerToEdit().getUsername());
+                bind.passwordTextView.setText("");
+                bind.serverTextView.setText(loginViewModel.getServerToEdit().getAddress());
+                bind.directAccessCheckbox.setChecked(false);
+            }
         }
     }
 

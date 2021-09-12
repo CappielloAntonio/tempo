@@ -23,7 +23,8 @@ public class PreferenceUtil {
     public static final String MEDIA_CACHE_SIZE = "media_cache_size";
     public static final String MAX_BITRATE_WIFI = "max_bitrate_wifi";
     public static final String MAX_BITRATE_MOBILE = "max_bitrate_mobile";
-    public static final String AUDIO_TRANSCODE_FORMAT = "audio_transcode_format";
+    public static final String AUDIO_TRANSCODE_FORMAT_WIFI = "audio_transcode_format_wifi";
+    public static final String AUDIO_TRANSCODE_FORMAT_MOBILE = "audio_transcode_format_mobile";
     public static final String WIFI_ONLY = "wifi_only";
 
     private static PreferenceUtil sInstance;
@@ -145,8 +146,12 @@ public class PreferenceUtil {
         return mPreferences.getString(MAX_BITRATE_MOBILE, "0");
     }
 
-    public final String getAudioTranscodeFormat() {
-        return mPreferences.getString(AUDIO_TRANSCODE_FORMAT, "raw");
+    public final String getAudioTranscodeFormatWifi() {
+        return mPreferences.getString(AUDIO_TRANSCODE_FORMAT_WIFI, "raw");
+    }
+
+    public final String getAudioTranscodeFormatMobile() {
+        return mPreferences.getString(AUDIO_TRANSCODE_FORMAT_MOBILE, "raw");
     }
 
     public final boolean isWifiOnly() {

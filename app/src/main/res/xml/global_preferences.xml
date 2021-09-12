@@ -57,11 +57,20 @@
 
         <ListPreference
             app:defaultValue="raw"
-            app:dialogTitle="@string/settings_audio_transcode_format"
-            app:entries="@array/audio_transcode_format_list_titles"
-            app:entryValues="@array/audio_transcode_format_list_values"
-            app:key="audio_transcode_format"
-            app:title="@string/settings_audio_transcode_format"
+            app:dialogTitle="@string/settings_audio_transcode_format_wifi"
+            app:entries="@array/audio_transcode_format_wifi_list_titles"
+            app:entryValues="@array/audio_transcode_format_wifi_list_values"
+            app:key="audio_transcode_format_wifi"
+            app:title="@string/settings_audio_transcode_format_wifi"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="raw"
+            app:dialogTitle="@string/settings_audio_transcode_format_mobile"
+            app:entries="@array/audio_transcode_format_mobile_list_titles"
+            app:entryValues="@array/audio_transcode_format_mobile_list_values"
+            app:key="audio_transcode_format_mobile"
+            app:title="@string/settings_audio_transcode_format_mobile"
             app:useSimpleSummaryProvider="true" />
 
         <CheckBoxPreference

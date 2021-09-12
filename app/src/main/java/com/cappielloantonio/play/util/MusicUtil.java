@@ -2,7 +2,6 @@ package com.cappielloantonio.play.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.text.Html;
 import android.util.Log;
 
@@ -22,9 +21,11 @@ public class MusicUtil {
     private static final String TAG = "MusicUtil";
 
     public static String getSongStreamUri(Context context, Song song) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
         Map<String, String> params = App.getSubsonicClientInstance(App.getInstance(), false).getParams();
 
-        return App.getSubsonicClientInstance(App.getInstance(), false).getUrl() +
+        String uri = App.getSubsonicClientInstance(App.getInstance(), false).getUrl() +
                 "stream" +
                 "?u=" + params.get("u") +
                 "&s=" + params.get("s") +
@@ -32,8 +33,12 @@ public class MusicUtil {
                 "&v=" + params.get("v") +
                 "&c=" + params.get("c") +
                 "&id=" + song.getId() +
-                "&maxBitRate=" + getBitratePreference(context) +
-                "&format=" + getFormatPreference(context);
+                "&maxBitRate=" + getBitratePreference(context, connectivityManager.getActiveNetworkInfo().getType()) +
+                "&format=" + getTranscodingFormatPreference(context, connectivityManager.getActiveNetworkInfo().getType());
+
+        Log.d(TAG, "getSongStreamUri(): " + uri);
+
+        return uri;
     }
 
     public static MediaItem getSongDownloadItem(Song song) {
@@ -131,10 +136,8 @@ public class MusicUtil {
         }
     }
 
-    private static String getBitratePreference(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        switch (connectivityManager.getActiveNetworkInfo().getType()) {
+    private static String getBitratePreference(Context context, int connectionType) {
+        switch (connectionType) {
             case ConnectivityManager.TYPE_WIFI:
                 return PreferenceUtil.getInstance(context).getMaxBitrateWifi();
             case ConnectivityManager.TYPE_MOBILE:
@@ -144,7 +147,14 @@ public class MusicUtil {
         }
     }
 
-    private static String getFormatPreference(Context context) {
-        return PreferenceUtil.getInstance(context).getAudioTranscodeFormat();
+    private static String getTranscodingFormatPreference(Context context, int connectionType) {
+        switch (connectionType) {
+            case ConnectivityManager.TYPE_WIFI:
+                return PreferenceUtil.getInstance(context).getAudioTranscodeFormatWifi();
+            case ConnectivityManager.TYPE_MOBILE:
+                return PreferenceUtil.getInstance(context).getAudioTranscodeFormatMobile();
+            default:
+                return PreferenceUtil.getInstance(context).getAudioTranscodeFormatWifi();
+        }
     }
 }

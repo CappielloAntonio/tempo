@@ -109,14 +109,29 @@
         <item>320</item>
     </string-array>
 
-    <string-array name="audio_transcode_format_list_titles">
+    <string-array name="audio_transcode_format_wifi_list_titles">
         <item>Original</item>
         <item>Opus</item>
         <item>AAC</item>
         <item>Mp3</item>
         <item>Flac</item>
     </string-array>
-    <string-array name="audio_transcode_format_list_values">
+    <string-array name="audio_transcode_format_wifi_list_values">
+        <item>raw</item>
+        <item>opus</item>
+        <item>aac</item>
+        <item>mp3</item>
+        <item>flac</item>
+    </string-array>
+
+    <string-array name="audio_transcode_format_mobile_list_titles">
+        <item>Original</item>
+        <item>Opus</item>
+        <item>AAC</item>
+        <item>Mp3</item>
+        <item>Flac</item>
+    </string-array>
+    <string-array name="audio_transcode_format_mobile_list_values">
         <item>raw</item>
         <item>opus</item>
         <item>aac</item>

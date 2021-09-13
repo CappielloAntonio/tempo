@@ -162,4 +162,10 @@ public class PreferenceUtil {
     public final boolean isDataSavingMode() {
         return mPreferences.getBoolean(DATA_SAVING_MODE, false);
     }
+
+    public void setDataSavingMode(Boolean isDataSavingModeEnabled) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(DATA_SAVING_MODE, isDataSavingModeEnabled);
+        editor.apply();
+    }
 }

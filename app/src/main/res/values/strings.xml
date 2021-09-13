@@ -184,4 +184,9 @@
     <string name="server_unreachable_dialog_positive_button">Continue anyway</string>
     <string name="server_unreachable_dialog_title">Server unreachable</string>
     <string name="server_unreachable_dialog_summary">The requested server is unavailable. Please contact your support and describe your issue.</string>
+    <string name="connection_alert_dialog_title">Wi-Fi not connected</string>
+    <string name="connection_alert_dialog_positive_button">Continue anyway</string>
+    <string name="connection_alert_dialog_neutral_button">Enable data saver</string>
+    <string name="connection_alert_dialog_negative_button">Cancel</string>
+    <string name="connection_alert_dialog_summary">Access to the Subsonic server on connections other than WiFi has been restricted. To prevent this alert dialod from reappearing, disable the connection check in the app settings.</string>
 </resources>

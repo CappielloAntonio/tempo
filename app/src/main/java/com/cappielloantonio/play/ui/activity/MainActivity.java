@@ -1,9 +1,9 @@
 package com.cappielloantonio.play.ui.activity;
 
+import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -22,7 +22,7 @@ import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.base.BaseActivity;
 import com.cappielloantonio.play.ui.fragment.PlayerBottomSheetFragment;
-import com.cappielloantonio.play.ui.fragment.dialog.PlaylistEditorDialog;
+import com.cappielloantonio.play.ui.fragment.dialog.ConnectionAlertDialog;
 import com.cappielloantonio.play.ui.fragment.dialog.ServerUnreachableDialog;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.MainViewModel;
@@ -59,6 +59,7 @@ public class MainActivity extends BaseActivity {
         connectivityStatusReceiverManager(true);
 
         init();
+        checkConnectionType();
     }
 
     @Override
@@ -250,11 +251,21 @@ public class MainActivity extends BaseActivity {
     private void pingServer() {
         if (PreferenceUtil.getInstance(this).getToken() != null) {
             mainViewModel.ping().observe(this, isPingSuccessfull -> {
-                if(!isPingSuccessfull) {
+                if (!isPingSuccessfull) {
                     ServerUnreachableDialog dialog = new ServerUnreachableDialog();
                     dialog.show(getSupportFragmentManager(), null);
                 }
             });
+        }
+    }
+
+    private void checkConnectionType() {
+        if (PreferenceUtil.getInstance(this).isWifiOnly()) {
+            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (connectivityManager.getActiveNetworkInfo().getType() != ConnectivityManager.TYPE_WIFI) {
+                ConnectionAlertDialog dialog = new ConnectionAlertDialog();
+                dialog.show(getSupportFragmentManager(), null);
+            }
         }
     }
 }

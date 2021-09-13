@@ -161,7 +161,7 @@
     <string name="settings_github_link">https://github.com/CappielloAntonio/play-for-subsonic</string>
     <string name="settings_github_summary">Follow the development</string>
     <string name="settings_github_title">Github</string>
-    <string name="settings_image_size">Set max image resolution for resized artiwork</string>
+    <string name="settings_image_size">Set image resolution</string>
     <string name="settings_logout_title">Log out</string>
     <string name="settings_max_bitrate_wifi">Bitrate in Wi-Fi</string>
     <string name="settings_max_bitrate_mobile">Bitrate in mobile</string>

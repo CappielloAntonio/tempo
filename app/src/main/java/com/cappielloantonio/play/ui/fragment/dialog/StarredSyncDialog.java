@@ -2,6 +2,7 @@ package com.cappielloantonio.play.ui.fragment.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +48,7 @@ public class StarredSyncDialog extends DialogFragment {
     public void onStart() {
         super.onStart();
 
-        setButtonAction();
+        setButtonAction(requireContext());
     }
 
     @Override
@@ -56,14 +57,14 @@ public class StarredSyncDialog extends DialogFragment {
         bind = null;
     }
 
-    private void setButtonAction() {
+    private void setButtonAction(Context context) {
         ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent, null));
         ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorAccent, null));
 
         ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
             starredSyncViewModel.getStarredTracks(requireActivity()).observe(requireActivity(), songs -> {
                 if (songs != null) {
-                    DownloadUtil.getDownloadTracker(requireContext()).download(songs, null, null);
+                    DownloadUtil.getDownloadTracker(context).download(songs, null, null);
                 }
             });
 

@@ -13,6 +13,7 @@ import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.util.DownloadUtil;
+import com.cappielloantonio.play.util.PreferenceUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -53,7 +54,10 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
             } else {
                 songRepository.star(song.getId());
                 song.setFavorite(true);
-                DownloadUtil.getDownloadTracker(context).download(Collections.singletonList(song), null, null);
+
+                if(PreferenceUtil.getInstance(context).isStarredSyncEnabled()) {
+                    DownloadUtil.getDownloadTracker(context).download(Collections.singletonList(song), null, null);
+                }
             }
         }
     }

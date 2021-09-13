@@ -79,6 +79,12 @@
             android:summary="@string/settings_wifi_only_summary"
             android:key="wifi_only" />
 
+        <CheckBoxPreference
+            android:title="@string/settings_data_saving_mode_title"
+            android:defaultValue="false"
+            android:summary="@string/settings_data_saving_mode_summary"
+            android:key="data_saving_mode" />
+
         <Preference
             android:key="equalizer"
             android:title="Equalizer"

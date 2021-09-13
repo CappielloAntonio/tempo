@@ -26,6 +26,7 @@ public class PreferenceUtil {
     public static final String AUDIO_TRANSCODE_FORMAT_WIFI = "audio_transcode_format_wifi";
     public static final String AUDIO_TRANSCODE_FORMAT_MOBILE = "audio_transcode_format_mobile";
     public static final String WIFI_ONLY = "wifi_only";
+    public static final String DATA_SAVING_MODE = "data_saving_mode";
 
     private static PreferenceUtil sInstance;
     private final SharedPreferences mPreferences;
@@ -156,5 +157,9 @@ public class PreferenceUtil {
 
     public final boolean isWifiOnly() {
         return mPreferences.getBoolean(WIFI_ONLY, false);
+    }
+
+    public final boolean isDataSavingMode() {
+        return mPreferences.getBoolean(DATA_SAVING_MODE, false);
     }
 }

@@ -51,7 +51,9 @@ public class CustomGlideRequest {
                 "&c=" + params.get("c") +
                 "&id=" + item;
 
-        if (size != -1) { url = url + "&size=" + size; }
+        if (size != -1) {
+            url = url + "&size=" + size;
+        }
 
         Log.d(TAG, "createUrl() " + url);
 
@@ -65,9 +67,11 @@ public class CustomGlideRequest {
         private Builder(Context context, String item, String category, String custom) {
             this.requestManager = Glide.with(context);
 
-            if (item != null) {
+            if (PreferenceUtil.getInstance(context).isDataSavingMode()) {
+                this.item = MusicUtil.getDefaultPicPerCategory(category);
+            } else if (item != null && !PreferenceUtil.getInstance(context).isDataSavingMode()) {
                 this.item = createUrl(item, PreferenceUtil.getInstance(context).getImageSize());
-            } else if (custom != null) {
+            } else if (custom != null && !PreferenceUtil.getInstance(context).isDataSavingMode()) {
                 this.item = custom;
             } else {
                 this.item = MusicUtil.getDefaultPicPerCategory(category);

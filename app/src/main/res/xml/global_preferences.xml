@@ -2,7 +2,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory app:title="@string/settings_title_general">
         <ListPreference
-            app:defaultValue="400000000"
+            app:defaultValue="default"
+            app:dialogTitle="@string/settings_theme"
+            app:entries="@array/theme_list_titles"
+            app:entryValues="@array/theme_list_values"
+            app:key="theme"
+            app:title="@string/settings_theme"
+            app:useSimpleSummaryProvider="true" />
+
+        <Preference
+            android:key="equalizer"
+            android:title="@string/settings_equalizer_title"
+            android:summary="@string/settings_equalizer_summary" />
+
+        <Preference
+            android:key="scan_library"
+            android:title="@string/settings_scan_title" />
+
+        <Preference
+            android:key="logout"
+            android:title="@string/settings_logout_title"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/settings_title_data">
+        <ListPreference
+            app:defaultValue="200000000"
             app:dialogTitle="@string/settings_covers_cache"
             app:entries="@array/pref_cache_size_titles"
             app:entryValues="@array/pref_cache_size_values"
@@ -11,7 +35,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:defaultValue="400000000"
+            app:defaultValue="200000000"
             app:dialogTitle="@string/settings_media_cache"
             app:entries="@array/pref_media_cache_size_titles"
             app:entryValues="@array/pref_media_cache_size_values"
@@ -28,15 +52,26 @@
             app:title="@string/settings_image_size"
             app:useSimpleSummaryProvider="true" />
 
-        <ListPreference
-            app:defaultValue="default"
-            app:dialogTitle="@string/settings_theme"
-            app:entries="@array/theme_list_titles"
-            app:entryValues="@array/theme_list_values"
-            app:key="theme"
-            app:title="@string/settings_theme"
-            app:useSimpleSummaryProvider="true" />
+        <SwitchPreference
+            android:title="@string/settings_sync_starred_tracks_for_offline_use_title"
+            android:defaultValue="false"
+            android:summary="@string/settings_sync_starred_tracks_for_offline_use_summary"
+            android:key="sync_starred_tracks_for_offline_use" />
 
+        <SwitchPreference
+            android:title="@string/settings_wifi_only_title"
+            android:defaultValue="false"
+            android:summary="@string/settings_wifi_only_summary"
+            android:key="wifi_only" />
+
+        <SwitchPreference
+            android:title="@string/settings_data_saving_mode_title"
+            android:defaultValue="false"
+            android:summary="@string/settings_data_saving_mode_summary"
+            android:key="data_saving_mode" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/settings_title_transcoding">
         <ListPreference
             app:defaultValue="0"
             app:dialogTitle="@string/settings_max_bitrate_wifi"
@@ -72,37 +107,6 @@
             app:key="audio_transcode_format_mobile"
             app:title="@string/settings_audio_transcode_format_mobile"
             app:useSimpleSummaryProvider="true" />
-
-        <CheckBoxPreference
-            android:title="@string/settings_wifi_only_title"
-            android:defaultValue="false"
-            android:summary="@string/settings_wifi_only_summary"
-            android:key="wifi_only" />
-
-        <CheckBoxPreference
-            android:title="@string/settings_data_saving_mode_title"
-            android:defaultValue="false"
-            android:summary="@string/settings_data_saving_mode_summary"
-            android:key="data_saving_mode" />
-
-        <CheckBoxPreference
-            android:title="@string/settings_sync_starred_tracks_for_offline_use_title"
-            android:defaultValue="false"
-            android:summary="@string/settings_sync_starred_tracks_for_offline_use_summary"
-            android:key="sync_starred_tracks_for_offline_use" />
-
-        <Preference
-            android:key="equalizer"
-            android:title="@string/settings_equalizer_title"
-            android:summary="@string/settings_equalizer_summary" />
-
-        <Preference
-            android:key="scan_library"
-            android:title="@string/settings_scan_title" />
-
-        <Preference
-            android:key="logout"
-            android:title="@string/settings_logout_title"/>
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_about_title">

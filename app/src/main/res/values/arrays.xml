@@ -45,17 +45,17 @@
 
     <string-array name="max_bitrate_wifi_list_titles">
         <item>Original</item>
-        <item>32</item>
-        <item>48</item>
-        <item>64</item>
-        <item>80</item>
-        <item>96</item>
-        <item>112</item>
-        <item>128</item>
-        <item>160</item>
-        <item>192</item>
-        <item>256</item>
-        <item>320</item>
+        <item>32 kbps</item>
+        <item>48 kbps</item>
+        <item>64 kbps</item>
+        <item>80 kbps</item>
+        <item>96 kbps</item>
+        <item>112 kbps</item>
+        <item>128 kbps</item>
+        <item>160 kbps</item>
+        <item>192 kbps</item>
+        <item>256 kbps</item>
+        <item>320 kbps</item>
     </string-array>
     <string-array name="max_bitrate_wifi_list_values">
         <item>0</item>
@@ -74,17 +74,17 @@
 
     <string-array name="max_bitrate_mobile_list_titles">
         <item>Original</item>
-        <item>32</item>
-        <item>48</item>
-        <item>64</item>
-        <item>80</item>
-        <item>96</item>
-        <item>112</item>
-        <item>128</item>
-        <item>160</item>
-        <item>192</item>
-        <item>256</item>
-        <item>320</item>
+        <item>32 kbps</item>
+        <item>48 kbps</item>
+        <item>64 kbps</item>
+        <item>80 kbps</item>
+        <item>96 kbps</item>
+        <item>112 kbps</item>
+        <item>128 kbps</item>
+        <item>160 kbps</item>
+        <item>192 kbps</item>
+        <item>256 kbps</item>
+        <item>320 kbps</item>
     </string-array>
     <string-array name="max_bitrate_mobile_list_values">
         <item>0</item>

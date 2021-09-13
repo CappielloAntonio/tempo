@@ -72,6 +72,10 @@
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_title_transcoding">
+        <Preference
+            app:selectable="false"
+            app:summary="@string/settings_summary_transcoding" />
+
         <ListPreference
             app:defaultValue="raw"
             app:dialogTitle="@string/settings_audio_transcode_format_wifi"

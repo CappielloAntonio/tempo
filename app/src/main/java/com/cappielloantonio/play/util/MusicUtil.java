@@ -137,6 +137,10 @@ public class MusicUtil {
     }
 
     private static String getBitratePreference(Context context, int connectionType) {
+        String audioTranscodeFormat = getTranscodingFormatPreference(context, connectionType);
+
+        if(audioTranscodeFormat.equals("0")) return "0";
+
         switch (connectionType) {
             case ConnectivityManager.TYPE_WIFI:
                 return PreferenceUtil.getInstance(context).getMaxBitrateWifi();

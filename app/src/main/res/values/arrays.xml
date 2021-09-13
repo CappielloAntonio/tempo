@@ -102,7 +102,7 @@
     </string-array>
 
     <string-array name="audio_transcode_format_wifi_list_titles">
-        <item>Original</item>
+        <item>Direct play</item>
         <item>Opus</item>
         <item>AAC</item>
         <item>Mp3</item>
@@ -117,7 +117,7 @@
     </string-array>
 
     <string-array name="audio_transcode_format_mobile_list_titles">
-        <item>Original</item>
+        <item>Direct play</item>
         <item>Opus</item>
         <item>AAC</item>
         <item>Mp3</item>

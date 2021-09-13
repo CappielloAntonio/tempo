@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -12,6 +13,9 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.util.DownloadUtil;
+
+import java.util.Collections;
 
 public class SongBottomSheetViewModel extends AndroidViewModel {
     private final SongRepository songRepository;
@@ -36,13 +40,14 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
         this.song = song;
     }
 
-    public void setFavorite() {
+    public void setFavorite(Context context) {
         if (song.isFavorite()) {
             songRepository.unstar(song.getId());
             song.setFavorite(false);
         } else {
             songRepository.star(song.getId());
             song.setFavorite(true);
+            DownloadUtil.getDownloadTracker(context).download(Collections.singletonList(song), null, null);
         }
     }
 

@@ -27,6 +27,7 @@ public class PreferenceUtil {
     public static final String AUDIO_TRANSCODE_FORMAT_MOBILE = "audio_transcode_format_mobile";
     public static final String WIFI_ONLY = "wifi_only";
     public static final String DATA_SAVING_MODE = "data_saving_mode";
+    public static final String SYNC_STARRED_TRACKS_FOR_OFFLINE_USE = "sync_starred_tracks_for_offline_use";
 
     private static PreferenceUtil sInstance;
     private final SharedPreferences mPreferences;
@@ -166,6 +167,16 @@ public class PreferenceUtil {
     public void setDataSavingMode(Boolean isDataSavingModeEnabled) {
         final SharedPreferences.Editor editor = mPreferences.edit();
         editor.putBoolean(DATA_SAVING_MODE, isDataSavingModeEnabled);
+        editor.apply();
+    }
+
+    public final boolean isStarredSyncEnabled() {
+        return mPreferences.getBoolean(SYNC_STARRED_TRACKS_FOR_OFFLINE_USE, false);
+    }
+
+    public void setStarredSyncEnabled(Boolean isStarredSyncEnabled) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(SYNC_STARRED_TRACKS_FOR_OFFLINE_USE, isStarredSyncEnabled);
         editor.apply();
     }
 }

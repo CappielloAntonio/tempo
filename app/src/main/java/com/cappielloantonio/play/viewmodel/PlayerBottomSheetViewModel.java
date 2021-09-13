@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -11,7 +12,9 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
+import com.cappielloantonio.play.util.DownloadUtil;
 
+import java.util.Collections;
 import java.util.List;
 
 public class PlayerBottomSheetViewModel extends AndroidViewModel {
@@ -40,7 +43,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     }
 
 
-    public void setFavorite() {
+    public void setFavorite(Context context) {
         Song song = MusicPlayerRemote.getCurrentSong();
 
         if (song != null) {
@@ -50,6 +53,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
             } else {
                 songRepository.star(song.getId());
                 song.setFavorite(true);
+                DownloadUtil.getDownloadTracker(context).download(Collections.singletonList(song), null, null);
             }
         }
     }

@@ -224,7 +224,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     private void initFavoriteButtonClick() {
-        bodyBind.buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite());
+        bodyBind.buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite(requireContext() ));
         bodyBind.buttonFavorite.setOnLongClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putParcelable("song_object", playerBottomSheetViewModel.getCurrentSong());

@@ -19,6 +19,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.helper.ThemeHelper;
 import com.cappielloantonio.play.interfaces.ScanCallback;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.ui.fragment.dialog.StarredSyncDialog;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.SettingViewModel;
 
@@ -97,6 +98,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         findPreference("equalizer").setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
             someActivityResultLauncher.launch(intent);
+            return true;
+        });
+
+        findPreference("sync_starred_tracks_for_offline_use").setOnPreferenceChangeListener((preference, newValue) -> {
+            if (newValue instanceof Boolean) {
+                if ((Boolean) newValue) {
+                    StarredSyncDialog dialog = new StarredSyncDialog();
+                    dialog.show(activity.getSupportFragmentManager(), null);
+                }
+            }
             return true;
         });
     }

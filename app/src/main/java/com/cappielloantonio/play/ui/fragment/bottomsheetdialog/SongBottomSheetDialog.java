@@ -75,7 +75,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         ToggleButton favoriteToggle = view.findViewById(R.id.button_favorite);
         favoriteToggle.setChecked(songBottomSheetViewModel.getSong().isFavorite());
         favoriteToggle.setOnClickListener(v -> {
-            songBottomSheetViewModel.setFavorite();
+            songBottomSheetViewModel.setFavorite(requireContext());
             dismissBottomSheet();
         });
         favoriteToggle.setOnLongClickListener(v -> {

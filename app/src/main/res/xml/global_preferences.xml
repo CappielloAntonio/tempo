@@ -85,18 +85,24 @@
             android:summary="@string/settings_data_saving_mode_summary"
             android:key="data_saving_mode" />
 
+        <CheckBoxPreference
+            android:title="@string/settings_sync_starred_tracks_for_offline_use_title"
+            android:defaultValue="false"
+            android:summary="@string/settings_sync_starred_tracks_for_offline_use_summary"
+            android:key="sync_starred_tracks_for_offline_use" />
+
         <Preference
             android:key="equalizer"
-            android:title="Equalizer"
-            app:summary="Adjust audio settings" />
+            android:title="@string/settings_equalizer_title"
+            android:summary="@string/settings_equalizer_summary" />
 
         <Preference
             android:key="scan_library"
-            android:title="Scan library" />
+            android:title="@string/settings_scan_title" />
 
         <Preference
             android:key="logout"
-            android:title="Log out" />
+            android:title="@string/settings_logout_title"/>
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_about_title">
@@ -108,7 +114,6 @@
             app:summary="@string/settings_version_summary"
             app:title="@string/settings_version_title" />
 
-        <!-- preference opens url in browser -->
         <Preference
             app:summary="@string/settings_github_summary"
             app:title="@string/settings_github_title">
@@ -116,6 +121,5 @@
                 android:action="android.intent.action.VIEW"
                 android:data="@string/settings_github_link" />
         </Preference>
-
     </PreferenceCategory>
 </PreferenceScreen>

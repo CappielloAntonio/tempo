@@ -24,8 +24,8 @@
         style="@style/TrackNumberTextView"
         android:layout_width="52dp"
         android:layout_height="52dp"
-        android:gravity="center"
         android:layout_margin="2dp"
+        android:gravity="center"
         android:text="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
         android:layout_height="52dp"
         app:layout_constraintEnd_toStartOf="@+id/search_result_song_title_text_view"
         app:layout_constraintStart_toEndOf="@+id/song_cover_image_view"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/search_result_song_title_text_view"
@@ -57,45 +57,22 @@
         app:layout_constraintStart_toEndOf="@+id/cover_image_separator"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/search_result_song_subtitle_text_view"
+        style="@style/ItemSubtitleTextView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"
         android:paddingEnd="12dp"
-        app:layout_constrainedWidth="true"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="@string/label_placeholder"
         app:layout_constraintEnd_toStartOf="@+id/search_result_dowanload_indicator_image_view"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/cover_image_separator"
-        app:layout_constraintTop_toBottomOf="@+id/search_result_song_title_text_view">
-
-        <TextView
-            android:id="@+id/album_artist_text_view"
-            style="@style/ItemSubtitleTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:paddingEnd="4dp"
-            android:text="@string/label_placeholder" />
-
-        <TextView
-            android:id="@+id/queue_separator_text_view"
-            style="@style/ItemSubtitleTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/label_dot_separator" />
-
-        <TextView
-            android:id="@+id/search_result_song_duration_text_view"
-            style="@style/ItemSubtitleTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:paddingStart="4dp"
-            android:paddingEnd="12dp"
-            android:text="@string/label_placeholder" />
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/search_result_song_title_text_view" />
 
     <ImageView
         android:id="@+id/search_result_dowanload_indicator_image_view"

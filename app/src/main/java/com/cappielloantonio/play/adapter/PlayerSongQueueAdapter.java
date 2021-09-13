@@ -21,9 +21,6 @@ import com.cappielloantonio.play.util.MusicUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Adapter per i brani ritrovati nella ricerca
- */
 public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueueAdapter.ViewHolder> {
     private static final String TAG = "SongResultSearchAdapter";
 
@@ -52,7 +49,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
         Song song = songs.get(position);
 
         holder.songTitle.setText(MusicUtil.getReadableString(song.getTitle()));
-        holder.songArtist.setText(MusicUtil.getReadableString(song.getArtistName()));
+        holder.songSubtitle.setText(context.getString(R.string.song_subtitle_formatter, MusicUtil.getReadableString(song.getArtistName()), MusicUtil.getReadableDurationString(song.getDuration(), false)));
 
         CustomGlideRequest.Builder
                 .from(context, song.getPrimary(), CustomGlideRequest.SONG_PIC, null)
@@ -62,7 +59,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
 
         if (position < MusicPlayerRemote.getPosition()) {
             holder.songTitle.setTextColor(context.getResources().getColor(R.color.songToPlayTextColor, null));
-            holder.songArtist.setTextColor(context.getResources().getColor(R.color.songToPlayTextColor, null));
+            holder.songSubtitle.setTextColor(context.getResources().getColor(R.color.songToPlayTextColor, null));
         }
     }
 
@@ -86,19 +83,20 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView songTitle;
-        TextView songArtist;
+        TextView songSubtitle;
         ImageView cover;
 
         ViewHolder(View itemView) {
             super(itemView);
 
             songTitle = itemView.findViewById(R.id.queue_song_title_text_view);
-            songArtist = itemView.findViewById(R.id.queue_song_artist_text_view);
+            songSubtitle = itemView.findViewById(R.id.queue_song_subtitle_text_view);
             cover = itemView.findViewById(R.id.queue_song_cover_image_view);
 
             itemView.setOnClickListener(this);
 
             songTitle.setSelected(true);
+            songSubtitle.setSelected(true);
         }
 
         @Override

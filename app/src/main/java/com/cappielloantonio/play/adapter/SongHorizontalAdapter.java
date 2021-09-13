@@ -56,8 +56,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         Song song = songs.get(position);
 
         holder.songTitle.setText(MusicUtil.getReadableString(song.getTitle()));
-        holder.songArtist.setText(MusicUtil.getReadableString(song.getArtistName()));
-        holder.songDuration.setText(MusicUtil.getReadableDurationString(song.getDuration(), false));
+        holder.songSubtitle.setText(context.getString(R.string.song_subtitle_formatter, MusicUtil.getReadableString(song.getArtistName()), MusicUtil.getReadableDurationString(song.getDuration(), false)));
         holder.trackNumber.setText(String.valueOf(song.getTrackNumber()));
 
         if (DownloadUtil.getDownloadTracker(context).isDownloaded(song)) {
@@ -93,8 +92,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView songTitle;
-        TextView songArtist;
-        TextView songDuration;
+        TextView songSubtitle;
         TextView trackNumber;
         View downloadIndicator;
         View coverSeparator;
@@ -105,8 +103,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
             super(itemView);
 
             songTitle = itemView.findViewById(R.id.search_result_song_title_text_view);
-            songArtist = itemView.findViewById(R.id.album_artist_text_view);
-            songDuration = itemView.findViewById(R.id.search_result_song_duration_text_view);
+            songSubtitle = itemView.findViewById(R.id.search_result_song_subtitle_text_view);
             trackNumber = itemView.findViewById(R.id.track_number_text_view);
             downloadIndicator = itemView.findViewById(R.id.search_result_dowanload_indicator_image_view);
             more = itemView.findViewById(R.id.search_result_song_more_button);
@@ -119,6 +116,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
             more.setOnClickListener(this::openMore);
 
             songTitle.setSelected(true);
+            songSubtitle.setSelected(true);
         }
 
         @Override

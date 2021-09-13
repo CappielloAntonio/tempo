@@ -83,7 +83,7 @@
         <entry key="app/src/main/res/layout/item_horizontal_artist.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_horizontal_playlist.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_horizontal_playlist_dialog_track.xml" value="0.3229166666666667" />
-        <entry key="app/src/main/res/layout/item_horizontal_track.xml" value="0.5557163531114327" />
+        <entry key="app/src/main/res/layout/item_horizontal_track.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_library_album.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_library_artist.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_library_artist_page_or_similar_album.xml" value="0.3229166666666667" />
@@ -100,7 +100,7 @@
         <entry key="app/src/main/res/layout/item_placeholder_horizontal.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_placeholder_year.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_player_now_playing_song.xml" value="0.3229166666666667" />
-        <entry key="app/src/main/res/layout/item_player_queue_song.xml" value="0.3229166666666667" />
+        <entry key="app/src/main/res/layout/item_player_queue_song.xml" value="0.1" />
         <entry key="app/src/main/res/layout/player_body_bottom_sheet.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/player_header_bottom_sheet.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.3229166666666667" />

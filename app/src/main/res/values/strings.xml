@@ -189,4 +189,10 @@
     <string name="connection_alert_dialog_neutral_button">Enable data saver</string>
     <string name="connection_alert_dialog_negative_button">Cancel</string>
     <string name="connection_alert_dialog_summary">Access to the Subsonic server on connections other than WiFi has been restricted. To prevent this alert dialod from reappearing, disable the connection check in the app settings.</string>
+    <string name="settings_sync_starred_tracks_for_offline_use_title">Sync starred tracks for offline use</string>
+    <string name="settings_sync_starred_tracks_for_offline_use_summary">If enabled, the starred songs will be downloaded for offline use. Attention: the songs will be downloaded in their original format. Standard data rates may apply.</string>
+    <string name="settings_equalizer_title">Equalizer</string>
+    <string name="settings_equalizer_summary">Adjust audio settings</string>
+    <string name="settings_scan_title">Scan library</string>
+    <string name="settings_logout_title">Log out</string>
 </resources>

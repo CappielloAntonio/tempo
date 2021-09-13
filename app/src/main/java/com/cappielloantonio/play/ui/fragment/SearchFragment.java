@@ -32,9 +32,9 @@ public class SearchFragment extends Fragment {
     private MainActivity activity;
     private SearchViewModel searchViewModel;
 
-    private SongHorizontalAdapter songHorizontalAdapter;
-    private AlbumAdapter albumAdapter;
     private ArtistAdapter artistAdapter;
+    private AlbumAdapter albumAdapter;
+    private SongHorizontalAdapter songHorizontalAdapter;
 
     @Nullable
     @Override
@@ -70,12 +70,15 @@ public class SearchFragment extends Fragment {
     }
 
     private void initSearchResultView() {
-        // Songs
-        bind.searchResultTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        bind.searchResultTracksRecyclerView.setHasFixedSize(true);
+        // Artists
+        bind.searchResultArtistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        bind.searchResultArtistRecyclerView.setHasFixedSize(true);
 
-        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
-        bind.searchResultTracksRecyclerView.setAdapter(songHorizontalAdapter);
+        artistAdapter = new ArtistAdapter(requireContext());
+        bind.searchResultArtistRecyclerView.setAdapter(artistAdapter);
+
+        CustomLinearSnapHelper artistSnapHelper = new CustomLinearSnapHelper();
+        artistSnapHelper.attachToRecyclerView(bind.searchResultArtistRecyclerView);
 
         // Albums
         bind.searchResultAlbumRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -87,15 +90,12 @@ public class SearchFragment extends Fragment {
         CustomLinearSnapHelper albumSnapHelper = new CustomLinearSnapHelper();
         albumSnapHelper.attachToRecyclerView(bind.searchResultAlbumRecyclerView);
 
-        // Artists
-        bind.searchResultArtistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        bind.searchResultArtistRecyclerView.setHasFixedSize(true);
+        // Songs
+        bind.searchResultTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        bind.searchResultTracksRecyclerView.setHasFixedSize(true);
 
-        artistAdapter = new ArtistAdapter(requireContext());
-        bind.searchResultArtistRecyclerView.setAdapter(artistAdapter);
-
-        CustomLinearSnapHelper artistSnapHelper = new CustomLinearSnapHelper();
-        artistSnapHelper.attachToRecyclerView(bind.searchResultArtistRecyclerView);
+        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
+        bind.searchResultTracksRecyclerView.setAdapter(songHorizontalAdapter);
     }
 
     private void initSearchView() {
@@ -161,20 +161,22 @@ public class SearchFragment extends Fragment {
     }
 
     private void performSearch(String query) {
-        searchViewModel.searchSong(query).observe(requireActivity(), songs -> {
+        searchViewModel.searchArtist(query).observe(requireActivity(), artists -> {
             if (bind != null)
-                bind.searchSongSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
-            songHorizontalAdapter.setItems(songs);
+                bind.searchArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+            artistAdapter.setItems(artists);
         });
+
         searchViewModel.searchAlbum(query).observe(requireActivity(), albums -> {
             if (bind != null)
                 bind.searchAlbumSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
             albumAdapter.setItems(albums);
         });
-        searchViewModel.searchArtist(query).observe(requireActivity(), artists -> {
+
+        searchViewModel.searchSong(query).observe(requireActivity(), songs -> {
             if (bind != null)
-                bind.searchArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
-            artistAdapter.setItems(artists);
+                bind.searchSongSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+            songHorizontalAdapter.setItems(songs);
         });
 
         bind.searchResultLayout.setVisibility(View.VISIBLE);

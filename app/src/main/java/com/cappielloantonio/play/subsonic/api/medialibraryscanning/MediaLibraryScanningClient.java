@@ -50,7 +50,6 @@ public class MediaLibraryScanningClient {
         return new OkHttpClient.Builder()
                 .addInterceptor(getHttpLoggingInterceptor())
                 .addInterceptor(cacheUtil.offlineInterceptor)
-                .addNetworkInterceptor(cacheUtil.onlineInterceptor)
                 .cache(getCache())
                 .build();
     }

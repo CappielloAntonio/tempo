@@ -29,8 +29,11 @@ public class ConnectionAlertDialog extends DialogFragment {
         builder.setView(bind.getRoot())
                 .setTitle(R.string.connection_alert_dialog_title)
                 .setPositiveButton(R.string.connection_alert_dialog_positive_button, (dialog, id) -> dialog.cancel())
-                .setNeutralButton(R.string.connection_alert_dialog_neutral_button, (dialog, id) -> { })
                 .setNegativeButton(R.string.connection_alert_dialog_negative_button, (dialog, id) -> dialog.cancel());
+
+        if(!PreferenceUtil.getInstance(requireContext()).isDataSavingMode()) {
+            builder.setNeutralButton(R.string.connection_alert_dialog_neutral_button, (dialog, id) -> { });
+        }
 
         return builder.create();
     }

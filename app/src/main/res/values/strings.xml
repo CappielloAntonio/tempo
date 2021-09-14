@@ -44,7 +44,7 @@
     <string name="artist_page_title_most_streamed_song_see_all_button">See all</string>
     <string name="connection_alert_dialog_negative_button">Cancel</string>
     <string name="connection_alert_dialog_neutral_button">Enable data saver</string>
-    <string name="connection_alert_dialog_positive_button">Continue anyway</string>
+    <string name="connection_alert_dialog_positive_button">Ok</string>
     <string name="connection_alert_dialog_title">Wi-Fi not connected</string>
     <string name="connection_alert_dialog_summary">Access to the Subsonic server on connections other than Wi-Fi has been restricted. To prevent this alert dialod from reappearing, disable the connection check in the app settings.</string>
     <string name="download_info_empty_subtitle">Once you download a song, you\'ll find it here</string>

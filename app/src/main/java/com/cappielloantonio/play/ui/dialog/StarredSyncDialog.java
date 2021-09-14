@@ -1,23 +1,19 @@
-package com.cappielloantonio.play.ui.fragment.dialog;
+package com.cappielloantonio.play.ui.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.DialogConnectionAlertBinding;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
-import com.cappielloantonio.play.util.UIUtil;
-import com.cappielloantonio.play.viewmodel.HomeViewModel;
 import com.cappielloantonio.play.viewmodel.StarredSyncViewModel;
 
 import java.util.Objects;

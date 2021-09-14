@@ -19,7 +19,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.ui.fragment.dialog.PlaylistEditorDialog;
+import com.cappielloantonio.play.ui.dialog.PlaylistEditorDialog;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;

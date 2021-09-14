@@ -19,7 +19,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.helper.ThemeHelper;
 import com.cappielloantonio.play.interfaces.ScanCallback;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.ui.fragment.dialog.StarredSyncDialog;
+import com.cappielloantonio.play.ui.dialog.StarredSyncDialog;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.SettingViewModel;
 

@@ -17,7 +17,7 @@ import com.cappielloantonio.play.interfaces.SystemCallback;
 import com.cappielloantonio.play.model.Server;
 import com.cappielloantonio.play.repository.SystemRepository;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.ui.fragment.dialog.ServerSignupDialog;
+import com.cappielloantonio.play.ui.dialog.ServerSignupDialog;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
 import java.util.ArrayList;

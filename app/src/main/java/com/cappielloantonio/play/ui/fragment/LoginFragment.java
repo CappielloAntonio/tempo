@@ -19,7 +19,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.ServerAdapter;
 import com.cappielloantonio.play.databinding.FragmentLoginBinding;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.ui.fragment.dialog.ServerSignupDialog;
+import com.cappielloantonio.play.ui.dialog.ServerSignupDialog;
 import com.cappielloantonio.play.viewmodel.LoginViewModel;
 
 public class LoginFragment extends Fragment {

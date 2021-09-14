@@ -1,4 +1,4 @@
-package com.cappielloantonio.play.ui.fragment.dialog;
+package com.cappielloantonio.play.ui.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

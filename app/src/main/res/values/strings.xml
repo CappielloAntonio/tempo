@@ -117,7 +117,7 @@
     <string name="playlist_chooser_dialog_neutral_button">Create</string>
     <string name="playlist_chooser_dialog_title">Add to a playlist</string>
     <string name="playlist_counted_tracks">%1$d tracks</string>
-    <string name="playlist_duration">Playlist duration: %1$s</string>
+    <string name="playlist_duration">Duration  •  %1$s</string>
     <string name="playlist_editor_dialog_hint_name">Playlist Name</string>
     <string name="playlist_editor_dialog_negative_button">Cancel</string>
     <string name="playlist_editor_dialog_neutral_button">Delete</string>
@@ -126,7 +126,7 @@
     <string name="playlist_info_song_count">Song count: %1$d</string>
     <string name="playlist_page_play_button">Play</string>
     <string name="playlist_page_shuffle_button">Shuffle</string>
-    <string name="playlist_song_count">Song count: %1$d</string>
+    <string name="playlist_song_count">Playlist  •  %1$d songs</string>
     <string name="rating_dialog_negative_button">Cancel</string>
     <string name="rating_dialog_positive_button">Save</string>
     <string name="rating_dialog_title">Rate</string>

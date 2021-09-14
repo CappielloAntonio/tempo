@@ -108,8 +108,7 @@ public class PlayingNotification {
                                 .addAction(playPauseAction)
                                 .addAction(nextAction);
 
-                        builder.setStyle(new MediaStyle().setMediaSession(service.getMediaSession().getSessionToken()).setShowActionsInCompactView(0, 1, 2))
-                                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+                        builder.setStyle(new MediaStyle().setMediaSession(service.getMediaSession().getSessionToken()).setShowActionsInCompactView(0, 1, 2)).setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
 
                         // notification has been stopped before loading was finished
                         if (stopped) return;
@@ -159,7 +158,7 @@ public class PlayingNotification {
     private void createNotificationChannel() {
         NotificationChannel notificationChannel = notificationManager.getNotificationChannel(NOTIFICATION_CHANNEL_ID);
         if (notificationChannel == null) {
-            notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, service.getString(R.string.playing_notification_name), NotificationManager.IMPORTANCE_LOW);
+            notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, service.getString(R.string.playing_notification_name), NotificationManager.IMPORTANCE_DEFAULT);
             notificationChannel.setDescription(service.getString(R.string.playing_notification_description));
             notificationChannel.enableLights(false);
             notificationChannel.enableVibration(false);

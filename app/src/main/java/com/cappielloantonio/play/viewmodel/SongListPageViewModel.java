@@ -27,6 +27,7 @@ public class SongListPageViewModel extends AndroidViewModel {
     private final DownloadRepository downloadRepository;
 
     public String title;
+    public String toolbarTitle;
     public Genre genre;
     public Artist artist;
     public Album album;
@@ -50,15 +51,6 @@ public class SongListPageViewModel extends AndroidViewModel {
         songList = new MutableLiveData<>(new ArrayList<>());
 
         switch (title) {
-            case Song.RECENTLY_PLAYED:
-                // songList = songRepository.getListLiveRecentlyPlayedSampleSong(100);
-                break;
-            case Song.MOST_PLAYED:
-                // songList = songRepository.getListLiveMostPlayedSampleSong(100);
-                break;
-            case Song.RECENTLY_ADDED:
-                // songList = songRepository.getListLiveRecentlyAddedSampleSong(100);
-                break;
             case Song.BY_GENRE:
                 songList = songRepository.getSongsByGenre(genre.getId());
                 break;

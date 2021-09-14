@@ -63,39 +63,49 @@ public class SongListPageFragment extends Fragment {
     private void init() {
         if (requireArguments().getString(Song.RECENTLY_PLAYED) != null) {
             songListPageViewModel.title = Song.RECENTLY_PLAYED;
+            songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_recently_played);
             bind.pageTitleLabel.setText(R.string.song_list_page_recently_played);
         } else if (requireArguments().getString(Song.MOST_PLAYED) != null) {
             songListPageViewModel.title = Song.MOST_PLAYED;
+            songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_most_played);
             bind.pageTitleLabel.setText(R.string.song_list_page_most_played);
         } else if (requireArguments().getString(Song.RECENTLY_ADDED) != null) {
             songListPageViewModel.title = Song.RECENTLY_ADDED;
+            songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_recently_added);
             bind.pageTitleLabel.setText(R.string.song_list_page_recently_added);
         } else if (requireArguments().getString(Song.BY_GENRE) != null) {
             songListPageViewModel.title = Song.BY_GENRE;
             songListPageViewModel.genre = requireArguments().getParcelable("genre_object");
-            bind.pageTitleLabel.setText(getString(R.string.song_list_page_all, MusicUtil.getReadableString(songListPageViewModel.genre.getName())));
+            songListPageViewModel.toolbarTitle = MusicUtil.getReadableString(songListPageViewModel.genre.getName());
+            bind.pageTitleLabel.setText(MusicUtil.getReadableString(songListPageViewModel.genre.getName()));
         } else if (requireArguments().getString(Song.BY_ARTIST) != null) {
             songListPageViewModel.title = Song.BY_ARTIST;
             songListPageViewModel.artist = requireArguments().getParcelable("artist_object");
+            songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_top, MusicUtil.getReadableString(songListPageViewModel.artist.getName()));
             bind.pageTitleLabel.setText(getString(R.string.song_list_page_top, MusicUtil.getReadableString(songListPageViewModel.artist.getName())));
         } else if (requireArguments().getString(Song.BY_GENRES) != null) {
             songListPageViewModel.title = Song.BY_GENRES;
             songListPageViewModel.filters = requireArguments().getStringArrayList("filters_list");
             songListPageViewModel.filterNames = requireArguments().getStringArrayList("filter_name_list");
+            songListPageViewModel.toolbarTitle = songListPageViewModel.getFiltersTitle();
             bind.pageTitleLabel.setText(songListPageViewModel.getFiltersTitle());
         } else if (requireArguments().getString(Song.BY_YEAR) != null) {
             songListPageViewModel.title = Song.BY_YEAR;
             songListPageViewModel.year = requireArguments().getInt("year_object");
+            songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_year, songListPageViewModel.year);
             bind.pageTitleLabel.setText(getString(R.string.song_list_page_year, songListPageViewModel.year));
         } else if (requireArguments().getString(Song.STARRED) != null) {
             songListPageViewModel.title = Song.STARRED;
+            songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_starred);
             bind.pageTitleLabel.setText(R.string.song_list_page_starred);
         } else if (requireArguments().getString(Song.DOWNLOADED) != null) {
             songListPageViewModel.title = Song.DOWNLOADED;
-            bind.pageTitleLabel.setText(R.string.song_list_page_downloaded);
+            songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_downloaded);
+            bind.pageTitleLabel.setText(getString(R.string.song_list_page_downloaded));
         } else if (requireArguments().getParcelable("album_object") != null) {
             songListPageViewModel.album = requireArguments().getParcelable("album_object");
             songListPageViewModel.title = Song.FROM_ALBUM;
+            songListPageViewModel.toolbarTitle = MusicUtil.getReadableString(songListPageViewModel.album.getTitle());
             bind.pageTitleLabel.setText(MusicUtil.getReadableString(songListPageViewModel.album.getTitle()));
         }
     }
@@ -112,7 +122,7 @@ public class SongListPageFragment extends Fragment {
 
         bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             if ((bind.albumInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.toolbar))) {
-                bind.toolbar.setTitle(R.string.song_list_page_title);
+                bind.toolbar.setTitle(songListPageViewModel.toolbarTitle);
             } else {
                 bind.toolbar.setTitle(R.string.empty_string);
             }

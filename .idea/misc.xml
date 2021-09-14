@@ -99,8 +99,8 @@
         <entry key="app/src/main/res/layout/item_library_similar_artist.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_login_server.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_placehoder_discovery.xml" value="0.3229166666666667" />
-        <entry key="app/src/main/res/layout/item_placeholder_album.xml" value="0.8" />
-        <entry key="app/src/main/res/layout/item_placeholder_genre.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_placeholder_album.xml" value="0.4855156431054461" />
+        <entry key="app/src/main/res/layout/item_placeholder_genre.xml" value="0.38796296296296295" />
         <entry key="app/src/main/res/layout/item_placeholder_horizontal.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_placeholder_year.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_player_now_playing_song.xml" value="0.3229166666666667" />

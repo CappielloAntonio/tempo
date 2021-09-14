@@ -187,7 +187,6 @@
     <string name="song_bottom_sheet_play_next">Play next</string>
     <string name="song_bottom_sheet_rate">Rate</string>
     <string name="song_bottom_sheet_remove">Remove</string>
-    <string name="song_list_page_all">%1$s: all tracks</string>
     <string name="song_list_page_downloaded">Downloaded</string>
     <string name="song_list_page_most_played">Most played tracks</string>
     <string name="song_list_page_recently_added">Recently added tracks</string>

@@ -96,12 +96,11 @@ public class MultiPlayer implements Playback {
         this.context = context;
         setSimpleCache(context);
 
-        // Create a read-only cache data source factory using the download cache.
         DataSource.Factory cacheDataSourceFactory = new CacheDataSource.Factory()
                 .setCache(simpleCache)
                 .setCache(DownloadUtil.getDownloadCache(context))
-                .setUpstreamDataSourceFactory(DownloadUtil.getHttpDataSourceFactory(context))
-                .setCacheWriteDataSinkFactory(null); // Disable writing.
+                .setUpstreamDataSourceFactory(DownloadUtil.getHttpDataSourceFactory(context));
+                // .setCacheWriteDataSinkFactory(null); // Disable writing.
 
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .setUsage(C.USAGE_MEDIA)

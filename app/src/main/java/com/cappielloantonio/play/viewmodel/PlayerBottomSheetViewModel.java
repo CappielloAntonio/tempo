@@ -7,8 +7,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
@@ -22,6 +24,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     private static final String TAG = "PlayerBottomSheetViewModel";
 
     private final SongRepository songRepository;
+    private final ArtistRepository artistRepository;
     private final QueueRepository queueRepository;
 
     private final LiveData<List<Queue>> queueSong;
@@ -30,6 +33,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         super(application);
 
         songRepository = new SongRepository(application);
+        artistRepository = new ArtistRepository(application);
         queueRepository = new QueueRepository(application);
 
         queueSong = queueRepository.getLiveQueue();
@@ -43,9 +47,8 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         return MusicPlayerRemote.getCurrentSong();
     }
 
-
     public void setFavorite(Context context) {
-        Song song = MusicPlayerRemote.getCurrentSong();
+        Song song = getCurrentSong();
 
         if (song != null) {
             if (song.isFavorite()) {
@@ -68,5 +71,10 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
 
     public void removeSong(int position) {
         queueRepository.deleteByPosition(position);
+    }
+
+    public LiveData<Artist> getArtist() {
+        Song song = getCurrentSong();
+        return artistRepository.getArtist(song.getArtistId());
     }
 }

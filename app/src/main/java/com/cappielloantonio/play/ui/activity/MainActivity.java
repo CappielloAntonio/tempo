@@ -230,10 +230,14 @@ public class MainActivity extends BaseActivity {
         goToLogin();
     }
 
+    public void collapseBottomSheet() {
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    }
+
     @Override
     public void onBackPressed() {
         if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED)
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            collapseBottomSheet();
         else
             super.onBackPressed();
     }

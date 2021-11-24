@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -77,6 +78,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         initQueueRecyclerView();
         initFavoriteButtonClick();
         initMusicCommandButton();
+        initArtistLabelButton();
 
         return view;
     }
@@ -247,6 +249,15 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         });
 
         headerBind.playerHeaderNextSongButton.setOnClickListener(v -> MusicPlayerRemote.playNextSong());
+    }
+
+    private void initArtistLabelButton() {
+        bodyBind.playerArtistNameLabel.setOnClickListener(view -> playerBottomSheetViewModel.getArtist().observe(requireActivity(), artist -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("artist_object", artist);
+            NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
+            activity.collapseBottomSheet();
+        }));
     }
 
     private void initSeekBar() {

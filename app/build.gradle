@@ -43,14 +43,14 @@ dependencies {
 
     // AndroidX
     implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
     implementation 'androidx.preference:preference-ktx:1.1.1'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'androidx.room:room-runtime:2.4.0-beta01'
+    implementation 'androidx.room:room-runtime:2.4.0-beta02'
     implementation "androidx.cardview:cardview:1.0.0"
 
     // Android Material
@@ -68,11 +68,11 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.12.2'
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
-    annotationProcessor 'androidx.room:room-compiler:2.4.0-beta01'
+    annotationProcessor 'androidx.room:room-compiler:2.4.0-beta02'
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3'
     implementation 'com.tickaroo.tikxml:retrofit-converter:0.8.15'
 
     // XMLParser

@@ -14,12 +14,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlaylistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
@@ -28,6 +30,7 @@ import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlaylistPageViewModel;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class PlaylistPageFragment extends Fragment {
@@ -151,11 +154,39 @@ public class PlaylistPageFragment extends Fragment {
     }
 
     private void initBackCover() {
-        CustomGlideRequest.Builder
-                .from(requireContext(), playlistPageViewModel.getPlaylist().getPrimary(), CustomGlideRequest.PLAYLIST_PIC, null)
-                .build()
-                .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
-                .into(bind.playlistCoverImageView);
+        playlistPageViewModel.getPlaylistSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
+            if (bind != null) {
+                Collections.shuffle(songs);
+
+                // Pic top-left
+                CustomGlideRequest.Builder
+                        .from(requireContext(), songs.size() > 0 ? songs.get(0).getPrimary() : playlistPageViewModel.getPlaylist().getPrimary(), CustomGlideRequest.PLAYLIST_PIC, null)
+                        .build()
+                        .transform(new GranularRoundedCorners(CustomGlideRequest.CORNER_RADIUS, 0, 0, 0))
+                        .into(bind.playlistCoverImageViewTopLeft);
+
+                // Pic top-right
+                CustomGlideRequest.Builder
+                        .from(requireContext(), songs.size() > 1 ? songs.get(1).getPrimary() : playlistPageViewModel.getPlaylist().getPrimary(), CustomGlideRequest.PLAYLIST_PIC, null)
+                        .build()
+                        .transform(new GranularRoundedCorners(0, CustomGlideRequest.CORNER_RADIUS, 0, 0))
+                        .into(bind.playlistCoverImageViewTopRight);
+
+                // Pic bottom-left
+                CustomGlideRequest.Builder
+                        .from(requireContext(), songs.size() > 2 ? songs.get(2).getPrimary() : playlistPageViewModel.getPlaylist().getPrimary(), CustomGlideRequest.PLAYLIST_PIC, null)
+                        .build()
+                        .transform(new GranularRoundedCorners(0, 0, 0, CustomGlideRequest.CORNER_RADIUS))
+                        .into(bind.playlistCoverImageViewBottomLeft);
+
+                // Pic bottom-right
+                CustomGlideRequest.Builder
+                        .from(requireContext(), songs.size() > 3 ? songs.get(3).getPrimary() : playlistPageViewModel.getPlaylist().getPrimary(), CustomGlideRequest.PLAYLIST_PIC, null)
+                        .build()
+                        .transform(new GranularRoundedCorners(0, 0, CustomGlideRequest.CORNER_RADIUS, 0))
+                        .into(bind.playlistCoverImageViewBottomRight);
+            }
+        });
     }
 
     private void initSongsView() {
@@ -166,5 +197,9 @@ public class PlaylistPageFragment extends Fragment {
         bind.songRecyclerView.setAdapter(songHorizontalAdapter);
 
         playlistPageViewModel.getPlaylistSongLiveList(requireActivity()).observe(requireActivity(), songs -> songHorizontalAdapter.setItems(songs));
+    }
+
+    private String getPlaylistCornerCover(List<Song> songs, int corner) {
+        return songs.size() > corner ? songs.get(corner).getPrimary() : null;
     }
 }

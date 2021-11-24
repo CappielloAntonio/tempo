@@ -32,17 +32,48 @@
                 android:paddingTop="8dp">
 
                 <ImageView
-                    android:id="@+id/playlist_cover_image_view"
+                    android:id="@+id/playlist_cover_image_view_top_left"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_marginLeft="64dp"
+                    android:layout_marginStart="64dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginRight="64dp"
+                    app:layout_constraintDimensionRatio="H,1:1"
+                    app:layout_constraintEnd_toStartOf="@id/playlist_cover_image_view_top_right"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/playlist_cover_image_view_top_right"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="64dp"
+                    app:layout_constraintDimensionRatio="H,1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/playlist_cover_image_view_top_left"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/playlist_cover_image_view_bottom_left"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="64dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintDimensionRatio="H,1:1"
+                    app:layout_constraintEnd_toStartOf="@id/playlist_cover_image_view_bottom_right"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/playlist_cover_image_view_top_left" />
+
+                <ImageView
+                    android:id="@+id/playlist_cover_image_view_bottom_right"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="64dp"
                     android:layout_marginBottom="8dp"
                     app:layout_constraintDimensionRatio="H,1:1"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toEndOf="@id/playlist_cover_image_view_bottom_left"
+                    app:layout_constraintTop_toTopOf="@id/playlist_cover_image_view_bottom_left" />
 
                 <TextView
                     android:id="@+id/playlist_name_label"
@@ -59,7 +90,7 @@
                     android:textAlignment="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/playlist_cover_image_view" />
+                    app:layout_constraintTop_toBottomOf="@+id/playlist_cover_image_view_bottom_left" />
 
                 <TextView
                     android:id="@+id/playlist_song_count_label"

@@ -57,4 +57,18 @@ public class PlaylistPageViewModel extends AndroidViewModel {
     public boolean isOffline() {
         return isOffline;
     }
+
+    public LiveData<Boolean> isPinned(FragmentActivity activity) {
+        MutableLiveData<Boolean> isPinnedLive = new MutableLiveData<>();
+        playlistRepository.getPinnedPlaylists().observe(activity, playlists -> isPinnedLive.postValue(playlists.contains(playlist)));
+        return isPinnedLive;
+    }
+
+    public void setPinned(boolean isNowPinned) {
+        if(isNowPinned) {
+            playlistRepository.insert(playlist);
+        } else {
+            playlistRepository.delete(playlist);
+        }
+    }
 }

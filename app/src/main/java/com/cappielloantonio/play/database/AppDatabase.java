@@ -8,18 +8,20 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.cappielloantonio.play.database.dao.DownloadDao;
+import com.cappielloantonio.play.database.dao.PlaylistDao;
 import com.cappielloantonio.play.database.dao.QueueDao;
 import com.cappielloantonio.play.database.dao.RecentSearchDao;
 import com.cappielloantonio.play.database.dao.ServerDao;
 import com.cappielloantonio.play.model.Download;
+import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.RecentSearch;
 import com.cappielloantonio.play.model.Server;
 
 @SuppressLint("RestrictedApi")
 @Database(
-        version = 23,
-        entities = {Queue.class, Server.class, RecentSearch.class, Download.class}
+        version = 24,
+        entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Playlist.class}
         // autoMigrations = { @AutoMigration(from = 23, to = 24) }
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -44,4 +46,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract RecentSearchDao recentSearchDao();
 
     public abstract DownloadDao downloadDao();
+
+    public abstract PlaylistDao playlistDao();
 }

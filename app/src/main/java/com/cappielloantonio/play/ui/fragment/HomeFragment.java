@@ -478,4 +478,8 @@ public class HomeFragment extends Fragment {
             bind.homeLinearLayoutContainer.addView(bind.homeRecentlyPlayedAlbumsSector);
         }
     }
+
+    public void addPinnedPlaylistsView() {
+
+    }
 }

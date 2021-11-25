@@ -3,10 +3,15 @@ package com.cappielloantonio.play.repository;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
+import com.cappielloantonio.play.database.AppDatabase;
+import com.cappielloantonio.play.database.dao.PlaylistDao;
+import com.cappielloantonio.play.database.dao.ServerDao;
 import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.model.Server;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.util.MappingUtil;
@@ -21,9 +26,13 @@ import retrofit2.Response;
 
 public class PlaylistRepository {
     private final Application application;
+    private final PlaylistDao playlistDao;
 
     public PlaylistRepository(Application application) {
         this.application = application;
+
+        AppDatabase database = AppDatabase.getInstance(application);
+        this.playlistDao = database.playlistDao();
     }
 
     public MutableLiveData<List<Playlist>> getPlaylists(boolean random, int size) {
@@ -143,5 +152,51 @@ public class PlaylistRepository {
 
                     }
                 });
+    }
+
+    public LiveData<List<Playlist>> getPinnedPlaylists() {
+        return playlistDao.getAll();
+    }
+
+    public void insert(Playlist playlist) {
+        InsertThreadSafe insert = new InsertThreadSafe(playlistDao, playlist);
+        Thread thread = new Thread(insert);
+        thread.start();
+    }
+
+    public void delete(Playlist playlist) {
+        DeleteThreadSafe delete = new DeleteThreadSafe(playlistDao, playlist);
+        Thread thread = new Thread(delete);
+        thread.start();
+    }
+
+    private static class InsertThreadSafe implements Runnable {
+        private final PlaylistDao playlistDao;
+        private final Playlist playlist;
+
+        public InsertThreadSafe(PlaylistDao playlistDao, Playlist playlist) {
+            this.playlistDao = playlistDao;
+            this.playlist = playlist;
+        }
+
+        @Override
+        public void run() {
+            playlistDao.insert(playlist);
+        }
+    }
+
+    private static class DeleteThreadSafe implements Runnable {
+        private final PlaylistDao playlistDao;
+        private final Playlist playlist;
+
+        public DeleteThreadSafe(PlaylistDao playlistDao, Playlist playlist) {
+            this.playlistDao = playlistDao;
+            this.playlist = playlist;
+        }
+
+        @Override
+        public void run() {
+            playlistDao.delete(playlist);
+        }
     }
 }

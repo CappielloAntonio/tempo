@@ -4,16 +4,34 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "playlist")
 public class Playlist implements Parcelable {
     public static final String ALL = "ALL";
     public static final String DOWNLOADED = "DOWNLOADED";
 
+    @NonNull
+    @PrimaryKey
+    @ColumnInfo(name = "id")
     private String id;
+
+    @ColumnInfo(name = "playlist_name")
     private String name;
+
+    @Ignore
     private String primary;
+
+    @Ignore
     private String blurHash;
+
+    @Ignore
     private int songCount;
+
+    @Ignore
     private long duration;
 
     public Playlist(com.cappielloantonio.play.subsonic.models.Playlist playlist) {
@@ -25,11 +43,12 @@ public class Playlist implements Parcelable {
         this.duration = playlist.getDuration();
     }
 
-    public Playlist(String id, String name) {
+    public Playlist(@NonNull String id, String name) {
         this.id = id;
         this.name = name;
     }
 
+    @NonNull
     public String getId() {
         return id;
     }

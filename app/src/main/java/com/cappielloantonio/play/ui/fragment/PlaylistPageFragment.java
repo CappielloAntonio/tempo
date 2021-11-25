@@ -20,7 +20,6 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlaylistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
@@ -29,7 +28,6 @@ import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlaylistPageViewModel;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 public class PlaylistPageFragment extends Fragment {
@@ -50,6 +48,7 @@ public class PlaylistPageFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.playlist_page_menu, menu);
+        initMenuOption(menu);
     }
 
     @Override
@@ -90,6 +89,12 @@ public class PlaylistPageFragment extends Fragment {
                 }
             });
             return true;
+        } else if (item.getItemId() == R.id.action_pin_playlist) {
+            playlistPageViewModel.setPinned(true);
+            return true;
+        } else if (item.getItemId() == R.id.action_unpin_playlist) {
+            playlistPageViewModel.setPinned(false);
+            return true;
         }
 
         return false;
@@ -98,6 +103,13 @@ public class PlaylistPageFragment extends Fragment {
     private void init() {
         playlistPageViewModel.setPlaylist(requireArguments().getParcelable("playlist_object"));
         playlistPageViewModel.setOffline(requireArguments().getBoolean("is_offline"));
+    }
+
+    private void initMenuOption(Menu menu) {
+        playlistPageViewModel.isPinned(requireActivity()).observe(requireActivity(), isPinned -> {
+            menu.findItem(R.id.action_unpin_playlist).setVisible(isPinned);
+            menu.findItem(R.id.action_pin_playlist).setVisible(!isPinned);
+        });
     }
 
     private void initAppBar() {

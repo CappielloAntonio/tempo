@@ -3,7 +3,6 @@ package com.cappielloantonio.play.viewmodel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
@@ -17,11 +16,9 @@ import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
 import com.cappielloantonio.play.repository.SongRepository;
-import com.cappielloantonio.play.util.MappingUtil;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
-import java.util.TreeSet;
 
 public class HomeViewModel extends AndroidViewModel {
     private static final String TAG = "HomeViewModel";
@@ -98,8 +95,12 @@ public class HomeViewModel extends AndroidViewModel {
         return recentlyPlayedAlbumSample;
     }
 
-    public LiveData<List<Playlist>> getPinnedPlaylistList(LifecycleOwner owner) {
-        playlistRepository.getPinnedPlaylists().observe(owner, pinnedPlaylists::postValue);
+    public LiveData<List<Playlist>> getPinnedPlaylistList(LifecycleOwner owner, int maxNumber, boolean random) {
+        playlistRepository.getPinnedPlaylists().observe(owner, playlists -> {
+            if (random) Collections.shuffle(playlists);
+            List<Playlist> subPlaylist = playlists.subList(0, Math.min(maxNumber, playlists.size()));
+            pinnedPlaylists.postValue(subPlaylist);
+        });
         return pinnedPlaylists;
     }
 

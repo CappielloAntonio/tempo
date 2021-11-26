@@ -484,7 +484,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void initPinnedPlaylistsView() {
-        homeViewModel.getPinnedPlaylistList(requireActivity()).observe(requireActivity(), playlists -> {
+        homeViewModel.getPinnedPlaylistList(requireActivity(), 5, true).observe(requireActivity(), playlists -> {
             if (bind != null && playlists != null) {
                 for (Playlist playlist : playlists) {
                     int playlistViewHashCode = playlist.getId().hashCode();

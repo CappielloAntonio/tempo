@@ -3,6 +3,7 @@ package com.cappielloantonio.play.viewmodel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
@@ -10,12 +11,17 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
+import com.cappielloantonio.play.repository.PlaylistRepository;
 import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.util.MappingUtil;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.TreeSet;
 
 public class HomeViewModel extends AndroidViewModel {
     private static final String TAG = "HomeViewModel";
@@ -23,6 +29,7 @@ public class HomeViewModel extends AndroidViewModel {
     private final SongRepository songRepository;
     private final AlbumRepository albumRepository;
     private final ArtistRepository artistRepository;
+    private final PlaylistRepository playlistRepository;
 
     private final MutableLiveData<List<Song>> dicoverSongSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Song>> starredTracksSample = new MutableLiveData<>(null);
@@ -34,6 +41,7 @@ public class HomeViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Album>> starredAlbums = new MutableLiveData<>(null);
     private final MutableLiveData<List<Artist>> starredArtists = new MutableLiveData<>(null);
     private final MutableLiveData<List<Album>> recentlyAddedAlbumSample = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Playlist>> pinnedPlaylists = new MutableLiveData<>(null);
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
@@ -41,6 +49,7 @@ public class HomeViewModel extends AndroidViewModel {
         songRepository = new SongRepository(application);
         albumRepository = new AlbumRepository(application);
         artistRepository = new ArtistRepository(application);
+        playlistRepository = new PlaylistRepository(application);
 
         songRepository.getRandomSample(10, null, null).observeForever(dicoverSongSample::postValue);
         songRepository.getStarredSongs(true, 10).observeForever(starredTracksSample::postValue);
@@ -87,6 +96,15 @@ public class HomeViewModel extends AndroidViewModel {
     public LiveData<List<Album>> getRecentlyPlayedAlbumList(LifecycleOwner owner) {
         albumRepository.getAlbums("recent", 20, null, null).observe(owner, recentlyPlayedAlbumSample::postValue);
         return recentlyPlayedAlbumSample;
+    }
+
+    public LiveData<List<Playlist>> getPinnedPlaylistList(LifecycleOwner owner) {
+        playlistRepository.getPinnedPlaylists().observe(owner, pinnedPlaylists::postValue);
+        return pinnedPlaylists;
+    }
+
+    public LiveData<List<Song>> getPlaylistSongLiveList(String playlistId) {
+        return playlistRepository.getPlaylistSongs(playlistId);
     }
 
     public void refreshDiscoverySongSample(LifecycleOwner owner) {

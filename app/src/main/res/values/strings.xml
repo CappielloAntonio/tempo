@@ -68,6 +68,7 @@
     <string name="filter_info_selection">Select two or more filters</string>
     <string name="filter_title">Filter</string>
     <string name="filter_title_expanded">Filter Genres</string>
+    <string name="generic_playlist_see_all_button">See all</string>
     <string name="genre_catalogue_title">Genre Catalogue</string>
     <string name="genre_catalogue_title_expanded">Browse Genres</string>
     <string name="home_subtitle_made_for_you">Start mix from a song you liked</string>

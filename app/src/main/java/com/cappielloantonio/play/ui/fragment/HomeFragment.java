@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -26,15 +28,16 @@ import com.cappielloantonio.play.adapter.ArtistHorizontalAdapter;
 import com.cappielloantonio.play.adapter.DiscoverSongAdapter;
 import com.cappielloantonio.play.adapter.SimilarTrackAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
-import com.cappielloantonio.play.adapter.TrackAdapter;
 import com.cappielloantonio.play.adapter.YearAdapter;
 import com.cappielloantonio.play.databinding.FragmentHomeBinding;
 import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.play.helper.recyclerview.DotsIndicatorDecoration;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.HomeViewModel;
 
@@ -97,6 +100,7 @@ public class HomeFragment extends Fragment {
         initStarredArtistsView();
         initYearSongView();
         initRecentAddedAlbumView();
+        initPinnedPlaylistsView();
     }
 
     @Override
@@ -479,7 +483,59 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    public void addPinnedPlaylistsView() {
+    public void initPinnedPlaylistsView() {
+        homeViewModel.getPinnedPlaylistList(requireActivity()).observe(requireActivity(), playlists -> {
+            if (bind != null && playlists != null) {
+                for (Playlist playlist : playlists) {
+                    int playlistViewHashCode = playlist.getId().hashCode();
+                    if (requireView().findViewById(playlistViewHashCode) == null) {
+                        View genericPlaylistView = activity.getLayoutInflater().inflate(R.layout.generic_playlist_sector, null);
+                        genericPlaylistView.setId(playlistViewHashCode);
+                        genericPlaylistView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
+                        TextView genericPlaylistTitleTextView = genericPlaylistView.findViewById(R.id.generic_playlist_title_text_view);
+                        TextView genericPlaylistCickableTextView = genericPlaylistView.findViewById(R.id.generic_playlist_text_view_clickable);
+                        RecyclerView genericPlaylistRecyclerView = genericPlaylistView.findViewById(R.id.generic_playlist_recycler_view);
+
+                        genericPlaylistTitleTextView.setText(MusicUtil.getReadableString(playlist.getName()));
+                        genericPlaylistRecyclerView.setHasFixedSize(true);
+
+                        SongHorizontalAdapter trackAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
+                        genericPlaylistRecyclerView.setAdapter(trackAdapter);
+
+                        homeViewModel.getPlaylistSongLiveList(playlist.getId()).observe(requireActivity(), songs -> {
+                            if (songs.size() > 0) {
+                                int songsNumber = Math.min(20, songs.size());
+
+                                genericPlaylistRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(songsNumber, 5), GridLayoutManager.HORIZONTAL, false));
+                                trackAdapter.setItems(songs.subList(0, songsNumber));
+                            }
+                        });
+
+                        genericPlaylistCickableTextView.setOnClickListener(view -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelable("playlist_object", playlist);
+                            bundle.putBoolean("is_offline", false);
+                            activity.navController.navigate(R.id.action_homeFragment_to_playlistPageFragment, bundle);
+                        });
+
+                        SnapHelper genericPlaylistSnapHelper = new PagerSnapHelper();
+                        genericPlaylistSnapHelper.attachToRecyclerView(genericPlaylistRecyclerView);
+
+                        genericPlaylistRecyclerView.addItemDecoration(
+                                new DotsIndicatorDecoration(
+                                        getResources().getDimensionPixelSize(R.dimen.radius),
+                                        getResources().getDimensionPixelSize(R.dimen.radius) * 4,
+                                        getResources().getDimensionPixelSize(R.dimen.dots_height),
+                                        requireContext().getResources().getColor(R.color.titleTextColor, null),
+                                        requireContext().getResources().getColor(R.color.titleTextColor, null))
+                        );
+
+
+                        bind.homeLinearLayoutContainer.addView(genericPlaylistView);
+                    }
+                }
+            }
+        });
     }
 }

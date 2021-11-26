@@ -27,6 +27,10 @@ import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.PlaylistCatalogueViewModel;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class PlaylistCatalogueFragment extends Fragment {
     private static final String TAG = "GenreCatalogueFragment";
 
@@ -107,7 +111,32 @@ public class PlaylistCatalogueFragment extends Fragment {
 
         playlistCatalogueAdapter = new PlaylistCatalogueAdapter(activity, requireContext(), playlistCatalogueViewModel.getType().equals(Playlist.DOWNLOADED));
         bind.playlistCatalogueRecyclerView.setAdapter(playlistCatalogueAdapter);
-        playlistCatalogueViewModel.getPlaylistList(requireActivity()).observe(requireActivity(), playlist -> playlistCatalogueAdapter.setItems(playlist));
+        playlistCatalogueViewModel.getPlaylistList(requireActivity()).observe(requireActivity(), playlists -> {
+            playlistCatalogueViewModel.getPinnedPlaylistList(requireActivity()).observe(requireActivity(), pinnedPlaylists -> {
+                List<Playlist> sortedList = new ArrayList<>();
+                List<Playlist> unsortedList = new ArrayList<>(playlists);
+
+                List<Playlist> pinnedPlaylistsVerified = new ArrayList<>();
+                List<Playlist> pinnedPlaylistsNotFound = new ArrayList<>();
+
+                if(unsortedList.size() > 0) {
+                    for(Playlist pinnedPlaylist: pinnedPlaylists) {
+                        if(playlists.contains(pinnedPlaylist)) {
+                            pinnedPlaylistsVerified.add(pinnedPlaylist);
+                        } else {
+                            pinnedPlaylistsNotFound.add(pinnedPlaylist);
+                        }
+                    }
+
+                    unsortedList.removeAll(pinnedPlaylistsVerified);
+                    sortedList.addAll(pinnedPlaylistsVerified);
+                    sortedList.addAll(unsortedList);
+                }
+
+                playlistCatalogueAdapter.setItems(sortedList);
+                playlistCatalogueViewModel.unpinPlaylist(pinnedPlaylistsNotFound);
+            });
+        });
 
         bind.playlistCatalogueRecyclerView.setOnTouchListener((v, event) -> {
             hideKeyboard(v);

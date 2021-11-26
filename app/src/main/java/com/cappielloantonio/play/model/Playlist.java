@@ -22,16 +22,16 @@ public class Playlist implements Parcelable {
     @ColumnInfo(name = "playlist_name")
     private String name;
 
-    @Ignore
+    @ColumnInfo(name = "primary")
     private String primary;
 
     @Ignore
     private String blurHash;
 
-    @Ignore
+    @ColumnInfo(name = "song_count")
     private int songCount;
 
-    @Ignore
+    @ColumnInfo(name = "playlist_duration")
     private long duration;
 
     public Playlist(com.cappielloantonio.play.subsonic.models.Playlist playlist) {
@@ -43,9 +43,18 @@ public class Playlist implements Parcelable {
         this.duration = playlist.getDuration();
     }
 
-    public Playlist(@NonNull String id, String name) {
+    @Ignore
+    public Playlist(String id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Playlist(@NonNull String id, String name, String primary, int songCount, long duration) {
+        this.id = id;
+        this.name = name;
+        this.primary = primary;
+        this.songCount = songCount;
+        this.duration = duration;
     }
 
     @NonNull

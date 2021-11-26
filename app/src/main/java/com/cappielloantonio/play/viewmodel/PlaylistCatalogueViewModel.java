@@ -23,6 +23,7 @@ public class PlaylistCatalogueViewModel extends AndroidViewModel {
     private String type;
 
     private MutableLiveData<List<Playlist>> playlistList;
+    private MutableLiveData<List<Playlist>> pinnedPlaylistList;
 
     public PlaylistCatalogueViewModel(@NonNull Application application) {
         super(application);
@@ -46,6 +47,20 @@ public class PlaylistCatalogueViewModel extends AndroidViewModel {
         playlistRepository.getPlaylists(false, -1);
 
         return playlistList;
+    }
+
+    public LiveData<List<Playlist>> getPinnedPlaylistList(FragmentActivity activity) {
+        pinnedPlaylistList = new MutableLiveData<>(new ArrayList<>());
+        playlistRepository.getPinnedPlaylists().observe(activity, playlists -> pinnedPlaylistList.postValue(playlists));
+        return pinnedPlaylistList;
+    }
+
+    public void unpinPlaylist(List<Playlist> playlists) {
+        if(type.equals(Playlist.ALL)) {
+            for(Playlist playlist: playlists) {
+                playlistRepository.delete(playlist);
+            }
+        }
     }
 
     public void setType(String type) {

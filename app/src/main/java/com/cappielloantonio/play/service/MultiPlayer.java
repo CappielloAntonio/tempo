@@ -8,9 +8,9 @@ import android.widget.Toast;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.interfaces.Playback;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.util.CacheUtil;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MusicUtil;
-import com.cappielloantonio.play.util.PreferenceUtil;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -18,22 +18,18 @@ import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.audio.AudioAttributes;
-import com.google.android.exoplayer2.database.ExoDatabaseProvider;
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource;
-import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor;
 import com.google.android.exoplayer2.upstream.cache.SimpleCache;
-
-import java.io.File;
 
 public class MultiPlayer implements Playback {
     public static final String TAG = MultiPlayer.class.getSimpleName();
 
     private final Context context;
     private final SimpleExoPlayer exoPlayer;
+    private final SimpleCache simpleCache;
 
-    private SimpleCache simpleCache;
     private PlaybackCallbacks callbacks;
 
     private final ExoPlayer.EventListener eventListener = new ExoPlayer.EventListener() {
@@ -94,21 +90,26 @@ public class MultiPlayer implements Playback {
 
     public MultiPlayer(Context context) {
         this.context = context;
-        setSimpleCache(context);
+        this.simpleCache = CacheUtil.getCache(context);
+
+        DataSource.Factory downloadDataSourceFactory = new CacheDataSource.Factory()
+                .setCache(DownloadUtil.getDownloadCache(context))
+                .setUpstreamDataSourceFactory(DownloadUtil.getHttpDataSourceFactory())
+                .setCacheWriteDataSinkFactory(null); // Disable writing.
 
         DataSource.Factory cacheDataSourceFactory = new CacheDataSource.Factory()
                 .setCache(simpleCache)
-                .setCache(DownloadUtil.getDownloadCache(context))
-                .setUpstreamDataSourceFactory(DownloadUtil.getHttpDataSourceFactory(context));
-                // .setCacheWriteDataSinkFactory(null); // Disable writing.
+                .setUpstreamDataSourceFactory(CacheUtil.getHttpDataSourceFactory());
 
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .setUsage(C.USAGE_MEDIA)
                 .setContentType(C.CONTENT_TYPE_MUSIC)
                 .build();
 
+        /* TODO: Capire come affiancare due media source factory */
         exoPlayer = new SimpleExoPlayer.Builder(context)
                 .setMediaSourceFactory(new DefaultMediaSourceFactory(cacheDataSourceFactory))
+                .setMediaSourceFactory(new DefaultMediaSourceFactory(downloadDataSourceFactory))
                 .setAudioAttributes(audioAttributes, true)
                 .setHandleAudioBecomingNoisy(true)
                 .setWakeMode(C.WAKE_MODE_NETWORK)
@@ -116,15 +117,6 @@ public class MultiPlayer implements Playback {
 
         exoPlayer.addListener(eventListener);
         exoPlayer.prepare();
-    }
-
-    private void setSimpleCache(Context context) {
-        long cacheSize = PreferenceUtil.getInstance(context).getMediaCacheSize();
-        LeastRecentlyUsedCacheEvictor recentlyUsedCache = new LeastRecentlyUsedCacheEvictor(cacheSize);
-        ExoDatabaseProvider databaseProvider = new ExoDatabaseProvider(context);
-
-        File cacheDirectory = new File(context.getCacheDir(), "exoplayer");
-        simpleCache = new SimpleCache(cacheDirectory, recentlyUsedCache, databaseProvider);
     }
 
     @Override

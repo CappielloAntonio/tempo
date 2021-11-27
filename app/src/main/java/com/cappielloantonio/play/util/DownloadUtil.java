@@ -39,7 +39,7 @@ public final class DownloadUtil {
     private static DownloadTracker downloadTracker;
     private static DownloadNotificationHelper downloadNotificationHelper;
 
-    public static synchronized HttpDataSource.Factory getHttpDataSourceFactory(Context context) {
+    public static synchronized HttpDataSource.Factory getHttpDataSourceFactory() {
         if (httpDataSourceFactory == null) {
             CookieManager cookieManager = new CookieManager();
             cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ORIGINAL_SERVER);
@@ -71,6 +71,7 @@ public final class DownloadUtil {
             File downloadContentDirectory = new File(getDownloadDirectory(context), DOWNLOAD_CONTENT_DIRECTORY);
             downloadCache = new SimpleCache(downloadContentDirectory, new NoOpCacheEvictor(), getDatabaseProvider(context));
         }
+
         return downloadCache;
     }
 
@@ -79,8 +80,8 @@ public final class DownloadUtil {
             DefaultDownloadIndex downloadIndex = new DefaultDownloadIndex(getDatabaseProvider(context));
             upgradeActionFile(context, DOWNLOAD_ACTION_FILE, downloadIndex, false);
             upgradeActionFile(context, DOWNLOAD_TRACKER_ACTION_FILE, downloadIndex, true);
-            downloadManager = new DownloadManager(context, getDatabaseProvider(context), getDownloadCache(context), getHttpDataSourceFactory(context), Executors.newFixedThreadPool(6));
-            downloadTracker = new DownloadTracker(context, getHttpDataSourceFactory(context), downloadManager);
+            downloadManager = new DownloadManager(context, getDatabaseProvider(context), getDownloadCache(context), getHttpDataSourceFactory(), Executors.newFixedThreadPool(6));
+            downloadTracker = new DownloadTracker(context, getHttpDataSourceFactory(), downloadManager);
         }
     }
 

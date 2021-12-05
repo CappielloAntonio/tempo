@@ -20,7 +20,7 @@ import com.cappielloantonio.play.model.Server;
 
 @SuppressLint("RestrictedApi")
 @Database(
-        version = 25,
+        version = 26,
         entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Playlist.class}
         // autoMigrations = { @AutoMigration(from = 23, to = 24) }
 )

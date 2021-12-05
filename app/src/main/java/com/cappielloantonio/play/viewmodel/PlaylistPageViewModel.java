@@ -8,11 +8,13 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
 import com.cappielloantonio.play.util.MappingUtil;
+import com.cappielloantonio.play.util.PreferenceUtil;
 
 import java.util.List;
 
@@ -48,6 +50,7 @@ public class PlaylistPageViewModel extends AndroidViewModel {
 
     public void setPlaylist(Playlist playlist) {
         this.playlist = playlist;
+        this.playlist.setServer(PreferenceUtil.getInstance(App.getInstance()).getServerId());
     }
 
     public void setOffline(boolean offline) {
@@ -60,7 +63,7 @@ public class PlaylistPageViewModel extends AndroidViewModel {
 
     public LiveData<Boolean> isPinned(FragmentActivity activity) {
         MutableLiveData<Boolean> isPinnedLive = new MutableLiveData<>();
-        playlistRepository.getPinnedPlaylists().observe(activity, playlists -> isPinnedLive.postValue(playlists.contains(playlist)));
+        playlistRepository.getPinnedPlaylists(PreferenceUtil.getInstance(App.getInstance()).getServerId()).observe(activity, playlists -> isPinnedLive.postValue(playlists.contains(playlist)));
         return isPinnedLive;
     }
 

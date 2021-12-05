@@ -8,6 +8,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Playlist;
@@ -16,6 +17,7 @@ import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
 import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.util.PreferenceUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -96,7 +98,7 @@ public class HomeViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Playlist>> getPinnedPlaylistList(LifecycleOwner owner, int maxNumber, boolean random) {
-        playlistRepository.getPinnedPlaylists().observe(owner, playlists -> {
+        playlistRepository.getPinnedPlaylists(PreferenceUtil.getInstance(App.getInstance()).getServerId()).observe(owner, playlists -> {
             if (random) Collections.shuffle(playlists);
             List<Playlist> subPlaylist = playlists.subList(0, Math.min(maxNumber, playlists.size()));
             pinnedPlaylists.postValue(subPlaylist);

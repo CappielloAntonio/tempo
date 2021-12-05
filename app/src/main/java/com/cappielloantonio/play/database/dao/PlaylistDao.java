@@ -13,8 +13,8 @@ import java.util.List;
 
 @Dao
 public interface PlaylistDao {
-    @Query("SELECT * FROM playlist")
-    LiveData<List<Playlist>> getAll();
+    @Query("SELECT * FROM playlist WHERE server=:serverId")
+    LiveData<List<Playlist>> getAll(String serverId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Playlist playlist);

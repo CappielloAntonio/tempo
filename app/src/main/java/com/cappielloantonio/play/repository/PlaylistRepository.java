@@ -154,8 +154,8 @@ public class PlaylistRepository {
                 });
     }
 
-    public LiveData<List<Playlist>> getPinnedPlaylists() {
-        return playlistDao.getAll();
+    public LiveData<List<Playlist>> getPinnedPlaylists(String serverId) {
+        return playlistDao.getAll(serverId);
     }
 
     public void insert(Playlist playlist) {

@@ -8,10 +8,12 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
 import com.cappielloantonio.play.util.MappingUtil;
+import com.cappielloantonio.play.util.PreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +53,7 @@ public class PlaylistCatalogueViewModel extends AndroidViewModel {
 
     public LiveData<List<Playlist>> getPinnedPlaylistList(FragmentActivity activity) {
         pinnedPlaylistList = new MutableLiveData<>(new ArrayList<>());
-        playlistRepository.getPinnedPlaylists().observe(activity, playlists -> pinnedPlaylistList.postValue(playlists));
+        playlistRepository.getPinnedPlaylists(PreferenceUtil.getInstance(App.getInstance()).getServerId()).observe(activity, playlists -> pinnedPlaylistList.postValue(playlists));
         return pinnedPlaylistList;
     }
 

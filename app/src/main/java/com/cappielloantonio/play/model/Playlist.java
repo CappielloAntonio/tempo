@@ -34,6 +34,9 @@ public class Playlist implements Parcelable {
     @ColumnInfo(name = "playlist_duration")
     private long duration;
 
+    @ColumnInfo(name = "server")
+    private String server;
+
     public Playlist(com.cappielloantonio.play.subsonic.models.Playlist playlist) {
         this.id = playlist.getId();
         this.name = playlist.getName();
@@ -49,12 +52,13 @@ public class Playlist implements Parcelable {
         this.name = name;
     }
 
-    public Playlist(@NonNull String id, String name, String primary, int songCount, long duration) {
+    public Playlist(@NonNull String id, String name, String primary, int songCount, long duration, String server) {
         this.id = id;
         this.name = name;
         this.primary = primary;
         this.songCount = songCount;
         this.duration = duration;
+        this.server = server;
     }
 
     @NonNull
@@ -80,6 +84,14 @@ public class Playlist implements Parcelable {
 
     public long getDuration() {
         return duration;
+    }
+
+    public String getServer() {
+        return server;
+    }
+
+    public void setServer(String server) {
+        this.server = server;
     }
 
     @Override

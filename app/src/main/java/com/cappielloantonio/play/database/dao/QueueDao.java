@@ -21,7 +21,7 @@ public interface QueueDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<Queue> songQueueObject);
 
-    @Query("DELETE FROM queue WHERE queue.track_order = :position")
+    @Query("DELETE FROM queue WHERE queue.track_order=:position")
     void deleteByPosition(int position);
 
     @Query("DELETE FROM queue")

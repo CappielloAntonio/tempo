@@ -50,7 +50,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'androidx.room:room-runtime:2.4.0-beta02'
+    implementation 'androidx.room:room-runtime:2.4.0-rc01'
     implementation "androidx.cardview:cardview:1.0.0"
 
     // Android Material
@@ -68,7 +68,7 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.12.2'
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
-    annotationProcessor 'androidx.room:room-compiler:2.4.0-beta02'
+    annotationProcessor 'androidx.room:room-compiler:2.4.0-rc01'
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'

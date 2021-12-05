@@ -52,8 +52,8 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
                 .from(
                         context,
                         artist.getId(),
-                        // CustomGlideRequest.ARTIST_PIC,
-                        artist.getImageUrl(),
+                        CustomGlideRequest.ARTIST_PIC,
+                        // artist.getImageUrl()
                         null
                 )
                 .build()

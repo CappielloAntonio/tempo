@@ -58,9 +58,10 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
 
         CustomGlideRequest.Builder
                 .from(
-                        context, artist.getId(),
-                        // CustomGlideRequest.ARTIST_PIC,
-                        artist.getImageUrl(),
+                        context,
+                        artist.getId(),
+                        CustomGlideRequest.ARTIST_PIC,
+                        // artist.getImageUrl()
                         null
                 )
                 .build()

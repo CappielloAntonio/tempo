@@ -123,8 +123,8 @@ public class ArtistPageFragment extends Fragment {
                     .from(
                             requireContext(),
                             artistPageViewModel.getArtist().getId(),
-                            // CustomGlideRequest.ARTIST_PIC,
-                            artist.getImageUrl(),
+                            CustomGlideRequest.ARTIST_PIC,
+                            // artist.getImageUrl()
                             null
                     )
                     .build()

@@ -69,10 +69,10 @@ public class CustomGlideRequest {
 
             if (PreferenceUtil.getInstance(context).isDataSavingMode()) {
                 this.item = MusicUtil.getDefaultPicPerCategory(category);
-            } else if (item != null && !PreferenceUtil.getInstance(context).isDataSavingMode()) {
-                this.item = createUrl(item, PreferenceUtil.getInstance(context).getImageSize());
             } else if (custom != null && !PreferenceUtil.getInstance(context).isDataSavingMode()) {
                 this.item = custom;
+            } else if (item != null && !PreferenceUtil.getInstance(context).isDataSavingMode()) {
+                this.item = createUrl(item, PreferenceUtil.getInstance(context).getImageSize());
             } else {
                 this.item = MusicUtil.getDefaultPicPerCategory(category);
             }

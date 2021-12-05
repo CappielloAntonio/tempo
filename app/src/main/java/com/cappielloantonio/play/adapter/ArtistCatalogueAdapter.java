@@ -90,8 +90,8 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
                 .from(
                         context,
                         artist.getId(),
-                        // CustomGlideRequest.ARTIST_PIC,
-                        artist.getImageUrl(),
+                        CustomGlideRequest.ARTIST_PIC,
+                        // artist.getImageUrl()
                         null
                 )
                 .build()

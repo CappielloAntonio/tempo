@@ -120,7 +120,13 @@ public class ArtistPageFragment extends Fragment {
             if (bind != null) bind.bioMoreTextViewClickable.setVisibility(artist.getLastfm() != null ? View.VISIBLE : View.GONE);
 
             CustomGlideRequest.Builder
-                    .from(requireContext(), artistPageViewModel.getArtist().getId(), CustomGlideRequest.ARTIST_PIC, /*artist.getImageUrl()*/ null)
+                    .from(
+                            requireContext(),
+                            artistPageViewModel.getArtist().getId(),
+                            // CustomGlideRequest.ARTIST_PIC,
+                            artist.getImageUrl(),
+                            null
+                    )
                     .build()
                     .into(bind.artistBackdropImageView);
 

@@ -15,6 +15,7 @@ import com.cappielloantonio.play.util.MappingUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -57,7 +58,7 @@ public class AlbumRepository {
         return listLiveAlbums;
     }
 
-    public MutableLiveData<List<Album>> getStarredAlbums() {
+    public MutableLiveData<List<Album>> getStarredAlbums(boolean random, int size) {
         MutableLiveData<List<Album>> starredAlbums = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
@@ -66,13 +67,16 @@ public class AlbumRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        List<Album> albums = new ArrayList<>();
-
                         if (response.isSuccessful() && response.body() != null && response.body().getStarred2() != null) {
-                            albums.addAll(MappingUtil.mapAlbum(response.body().getStarred2().getAlbums()));
-                        }
+                            List<Album> albums = new ArrayList<>(MappingUtil.mapAlbum(response.body().getStarred2().getAlbums()));
 
-                        starredAlbums.setValue(albums);
+                            if (!random) {
+                                starredAlbums.setValue(albums);
+                            } else {
+                                Collections.shuffle(albums);
+                                starredAlbums.setValue(albums.subList(0, Math.min(size, albums.size())));
+                            }
+                        }
                     }
 
                     @Override

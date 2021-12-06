@@ -68,17 +68,17 @@ public class HomeViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Song>> getStarredTracks(LifecycleOwner owner) {
-        songRepository.getStarredSongs(false, -1).observe(owner, starredTracks::postValue);
+        songRepository.getStarredSongs(true, 20).observe(owner, starredTracks::postValue);
         return starredTracks;
     }
 
     public LiveData<List<Album>> getStarredAlbums(LifecycleOwner owner) {
-        albumRepository.getStarredAlbums().observe(owner, starredAlbums::postValue);
+        albumRepository.getStarredAlbums(true, 20).observe(owner, starredAlbums::postValue);
         return starredAlbums;
     }
 
     public LiveData<List<Artist>> getStarredArtists(LifecycleOwner owner) {
-        artistRepository.getStarredArtists().observe(owner, starredArtists::postValue);
+        artistRepository.getStarredArtists(true, 20).observe(owner, starredArtists::postValue);
         return starredArtists;
     }
 
@@ -119,15 +119,15 @@ public class HomeViewModel extends AndroidViewModel {
     }
 
     public void refreshStarredTracks(LifecycleOwner owner) {
-        songRepository.getStarredSongs(false, -1).observe(owner, starredTracks::postValue);
+        songRepository.getStarredSongs(true, 20).observe(owner, starredTracks::postValue);
     }
 
     public void refreshStarredAlbums(LifecycleOwner owner) {
-        albumRepository.getStarredAlbums().observe(owner, starredAlbums::postValue);
+        albumRepository.getStarredAlbums(true, 20).observe(owner, starredAlbums::postValue);
     }
 
     public void refreshStarredArtists(LifecycleOwner owner) {
-        artistRepository.getStarredArtists().observe(owner, starredArtists::postValue);
+        artistRepository.getStarredArtists(true, 20).observe(owner, starredArtists::postValue);
     }
 
     public void refreshMostPlayedAlbums(LifecycleOwner owner) {

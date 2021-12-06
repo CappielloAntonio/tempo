@@ -47,7 +47,7 @@ public class AlbumListPageViewModel extends AndroidViewModel {
                 albumRepository.getAlbums("newest", 500, null, null).observe(activity, albums -> albumList.setValue(albums));
                 break;
             case Album.STARRED:
-                albumList = albumRepository.getStarredAlbums();
+                albumList = albumRepository.getStarredAlbums(false, -1);
                 break;
             case Album.DOWNLOADED:
                 downloadRepository.getLiveDownload().observe(activity, downloads -> albumList.setValue(MappingUtil.mapDownloadToAlbum(downloads)));

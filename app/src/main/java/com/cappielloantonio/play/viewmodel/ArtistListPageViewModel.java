@@ -40,7 +40,7 @@ public class ArtistListPageViewModel extends AndroidViewModel {
 
         switch (title) {
             case Artist.STARRED:
-                artistList = artistRepository.getStarredArtists();
+                artistList = artistRepository.getStarredArtists(false, -1);
                 break;
             case Artist.DOWNLOADED:
                 downloadRepository.getLiveDownload().observe(activity, downloads -> {

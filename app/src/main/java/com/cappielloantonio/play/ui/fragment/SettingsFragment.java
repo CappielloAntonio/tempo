@@ -3,6 +3,7 @@ package com.cappielloantonio.play.ui.fragment;
 import android.content.Intent;
 import android.media.audiofx.AudioEffect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,8 +116,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.global_preferences, rootKey);
-
-        ListPreference themePreference = findPreference("themePref");
+        ListPreference themePreference = findPreference("theme");
         if (themePreference != null) {
             themePreference.setOnPreferenceChangeListener(
                     (preference, newValue) -> {

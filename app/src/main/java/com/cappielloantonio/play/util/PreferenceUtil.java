@@ -11,6 +11,7 @@ public class PreferenceUtil {
     private static final String TAG = "PreferenceUtil";
 
     public static final String SERVER = "server";
+    public static final String THEME = "theme";
     public static final String USER = "user";
     public static final String PASSWORD = "password";
     public static final String TOKEN = "token";
@@ -45,7 +46,7 @@ public class PreferenceUtil {
     }
 
     public String getTheme() {
-        return mPreferences.getString("themePref", ThemeHelper.DEFAULT_MODE);
+        return mPreferences.getString(THEME, ThemeHelper.DEFAULT_MODE);
     }
 
     public String getServer() {

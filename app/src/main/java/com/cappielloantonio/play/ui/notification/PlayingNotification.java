@@ -1,5 +1,10 @@
 package com.cappielloantonio.play.ui.notification;
 
+import static android.content.Context.NOTIFICATION_SERVICE;
+import static com.cappielloantonio.play.service.MusicService.ACTION_REWIND;
+import static com.cappielloantonio.play.service.MusicService.ACTION_SKIP;
+import static com.cappielloantonio.play.service.MusicService.ACTION_TOGGLE;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -22,11 +27,6 @@ import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.service.MusicService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-
-import static android.content.Context.NOTIFICATION_SERVICE;
-import static com.cappielloantonio.play.service.MusicService.ACTION_REWIND;
-import static com.cappielloantonio.play.service.MusicService.ACTION_SKIP;
-import static com.cappielloantonio.play.service.MusicService.ACTION_TOGGLE;
 
 public class PlayingNotification {
 

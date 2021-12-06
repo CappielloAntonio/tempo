@@ -67,15 +67,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         super.onResume();
 
         findPreference("logout").setOnPreferenceClickListener(preference -> {
-            PreferenceUtil.getInstance(requireContext()).setUser(null);
-            PreferenceUtil.getInstance(requireContext()).setServer(null);
-            PreferenceUtil.getInstance(requireContext()).setPassword(null);
-            PreferenceUtil.getInstance(requireContext()).setToken(null);
-            PreferenceUtil.getInstance(requireContext()).setSalt(null);
-            PreferenceUtil.getInstance(requireContext()).setServerId(null);
-
             activity.quit();
-
             return true;
         });
 

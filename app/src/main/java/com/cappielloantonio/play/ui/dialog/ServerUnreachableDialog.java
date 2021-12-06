@@ -57,7 +57,7 @@ public class ServerUnreachableDialog extends DialogFragment {
             MainActivity activity = (MainActivity) getActivity();
 
             if (activity != null) {
-                activity.goToLogin();
+                activity.quit();
             }
 
             Objects.requireNonNull(getDialog()).dismiss();

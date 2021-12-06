@@ -188,8 +188,11 @@ public class MainActivity extends BaseActivity {
         playerBottomSheetFragment.scrollPager(song, 0, false);
     }
 
-    // NAVIGATION
-    public void goToLogin() {
+    public void collapseBottomSheet() {
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    }
+
+    private void goToLogin() {
         setBottomNavigationBarVisibility(false);
         setBottomSheetVisibility(false);
 
@@ -202,7 +205,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void goToHome() {
+    private void goToHome() {
         bottomNavigationView.setVisibility(View.VISIBLE);
 
         if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.landingFragment) {
@@ -217,21 +220,30 @@ public class MainActivity extends BaseActivity {
         goToHome();
     }
 
-    public void clearViewModel() {
-        this.getViewModelStore().clear();
-    }
-
     public void quit() {
-        QueueRepository queueRepository = new QueueRepository(App.getInstance());
-        queueRepository.deleteAll();
-
-        MusicPlayerRemote.quitPlaying();
-        clearViewModel();
+        resetUserSession();
+        resetMusicSession();
+        resetViewModel();
         goToLogin();
     }
 
-    public void collapseBottomSheet() {
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    private void resetUserSession() {
+        PreferenceUtil.getInstance(this).setUser(null);
+        PreferenceUtil.getInstance(this).setServer(null);
+        PreferenceUtil.getInstance(this).setPassword(null);
+        PreferenceUtil.getInstance(this).setToken(null);
+        PreferenceUtil.getInstance(this).setSalt(null);
+        PreferenceUtil.getInstance(this).setServerId(null);
+    }
+
+    private void resetMusicSession() {
+        QueueRepository queueRepository = new QueueRepository(App.getInstance());
+        queueRepository.deleteAll();
+        MusicPlayerRemote.quitPlaying();
+    }
+
+    private void resetViewModel() {
+        this.getViewModelStore().clear();
     }
 
     @Override

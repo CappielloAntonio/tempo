@@ -74,6 +74,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
         playerBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(PlayerBottomSheetViewModel.class);
 
+        init();
         initQueueSlideView();
         initQueueRecyclerView();
         initFavoriteButtonClick();
@@ -118,6 +119,15 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         headerBind = null;
         bodyBind = null;
         bind = null;
+    }
+
+    private void init() {
+        bodyBind.playerMoveDownBottomSheet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.collapseBottomSheet();
+            }
+        });
     }
 
     private void initQueueSlideView() {

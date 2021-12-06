@@ -16,6 +16,8 @@
         <entry key="app/src/main/res/drawable/bottom_nav_shape.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/dialog_shape.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable/ic_arrow_back.xml" value="0.28055555555555556" />
+        <entry key="app/src/main/res/drawable/ic_bottom_sheet_down.xml" value="0.4425925925925926" />
+        <entry key="app/src/main/res/drawable/ic_check_circle.xml" value="0.4425925925925926" />
         <entry key="app/src/main/res/drawable/ic_close.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable/ic_done.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_download_for_offline.xml" value="0.27685185185185185" />

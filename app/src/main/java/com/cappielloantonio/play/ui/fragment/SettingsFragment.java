@@ -116,7 +116,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.global_preferences, rootKey);
-        ListPreference themePreference = findPreference("theme");
+        ListPreference themePreference = findPreference(PreferenceUtil.THEME);
         if (themePreference != null) {
             themePreference.setOnPreferenceChangeListener(
                     (preference, newValue) -> {

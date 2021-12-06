@@ -23,7 +23,7 @@ public class App extends Application {
         CrashReporter.initialize(this);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String themePref = sharedPreferences.getString("theme", ThemeHelper.DEFAULT_MODE);
+        String themePref = sharedPreferences.getString(PreferenceUtil.THEME, ThemeHelper.DEFAULT_MODE);
         ThemeHelper.applyTheme(themePref);
     }
 

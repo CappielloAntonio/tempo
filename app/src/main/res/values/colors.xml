@@ -41,4 +41,7 @@
     <color name="starBackgroundTintColor">#f0f0f0</color>
 
     <color name="placeholderColor">#F1F3F4</color>
+
+    <color name="iconLightGradientColor">#4A00FF</color>
+    <color name="iconDarkGradientColor">#000000</color>
 </resources>

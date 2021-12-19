@@ -33,8 +33,8 @@
                     android:layout_height="32dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="8dp"
-                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                    android:background="@drawable/ic_bottom_sheet_down" />
+                    android:background="@drawable/ic_bottom_sheet_down"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless" />
 
                 <TextView
                     style="@style/ToolbarTextView"
@@ -51,8 +51,8 @@
         android:id="@+id/player_song_cover_view_pager"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -63,8 +63,8 @@
         android:id="@+id/player_big_timer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="12dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/player_song_cover_view_pager">
@@ -148,13 +148,77 @@
         app:layout_constraintTop_toBottomOf="@+id/player_song_title_label" />
 
     <View
-        android:id="@+id/player_divider"
+        android:id="@+id/player_divider_top"
         style="@style/Divider"
         android:layout_marginStart="18dp"
         android:layout_marginEnd="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/player_artist_name_label" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/player_song_lyrics_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player_divider_top">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true">
+
+            <TextView
+                android:id="@+id/player_song_lyrics_label"
+                style="@style/HeadlineTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:text="@string/player_song_lyrics_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+
+            <TextView
+                android:id="@+id/player_song_lyrics_label_clickable"
+                style="@style/SubheadTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:paddingEnd="20dp"
+                android:text="@string/player_show_lyrics_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/player_song_lyrics_label"/>
+
+            <TextView
+                android:id="@+id/player_song_lyrics_text_view"
+                style="@style/SubheadTextView"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/player_song_lyrics_label"/>
+
+            <View
+                android:id="@+id/player_divider_bottom"
+                style="@style/Divider"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/player_song_lyrics_text_view" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/player_queue_recycler_view"
@@ -165,5 +229,5 @@
         android:paddingBottom="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player_divider" />
+        app:layout_constraintTop_toBottomOf="@+id/player_song_lyrics_cardview" />
 </androidx.constraintlayout.widget.ConstraintLayout>

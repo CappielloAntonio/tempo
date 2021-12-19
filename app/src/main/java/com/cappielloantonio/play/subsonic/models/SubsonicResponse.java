@@ -30,6 +30,7 @@ public class SubsonicResponse {
     private InternetRadioStations internetRadioStations;
     private NewestPodcasts newestPodcasts;
     private Podcasts podcasts;
+    @Element(name = "lyrics")
     private Lyrics lyrics;
     @Element(name = "songsByGenre")
     private Songs songsByGenre;

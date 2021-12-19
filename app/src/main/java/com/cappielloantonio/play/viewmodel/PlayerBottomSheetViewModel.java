@@ -5,7 +5,9 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Queue;
@@ -27,6 +29,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     private final ArtistRepository artistRepository;
     private final QueueRepository queueRepository;
 
+    private final MutableLiveData<String> songLyrics = new MutableLiveData<>(null);
     private final LiveData<List<Queue>> queueSong;
 
     public PlayerBottomSheetViewModel(@NonNull Application application) {
@@ -76,5 +79,13 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     public LiveData<Artist> getArtist() {
         Song song = getCurrentSong();
         return artistRepository.getArtist(song.getArtistId());
+    }
+
+    public LiveData<String> getLyrics() {
+        return songLyrics;
+    }
+
+    public void refreshSongLyrics(LifecycleOwner owner, Song song) {
+        songRepository.getSongLyrics(song).observe(owner, songLyrics::postValue);
     }
 }

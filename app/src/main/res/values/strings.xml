@@ -111,6 +111,9 @@
     <string name="menu_settings_button">Settings</string>
     <string name="menu_unpin_button">Unpin</string>
     <string name="player_bottom_sheet_title">Now playing</string>
+    <string name="player_hide_lyrics_button">Hide</string>
+    <string name="player_show_lyrics_button">Show</string>
+    <string name="player_song_lyrics_label">Lyrics</string>
     <string name="playing_notification_description">The playing notification provides actions for play/pause etc.</string>
     <string name="playing_notification_name">Playing Notification</string>
     <string name="playlist_catalogue_title">Playlist Catalogue</string>

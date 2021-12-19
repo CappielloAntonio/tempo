@@ -1,11 +1,12 @@
 package com.cappielloantonio.play.subsonic.models;
 
 import com.tickaroo.tikxml.annotation.Attribute;
+import com.tickaroo.tikxml.annotation.TextContent;
 import com.tickaroo.tikxml.annotation.Xml;
 
-@Xml
+@Xml(name = "lyrics")
 public class Lyrics {
-    @Attribute(name = "value")
+    @TextContent
     protected String content;
     @Attribute
     protected String artist;

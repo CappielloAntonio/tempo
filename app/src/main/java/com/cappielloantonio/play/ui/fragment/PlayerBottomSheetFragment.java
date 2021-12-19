@@ -75,6 +75,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         playerBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(PlayerBottomSheetViewModel.class);
 
         init();
+        initLyricsView();
         initQueueSlideView();
         initQueueRecyclerView();
         initFavoriteButtonClick();
@@ -122,10 +123,25 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     private void init() {
-        bodyBind.playerMoveDownBottomSheet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                activity.collapseBottomSheet();
+        bodyBind.playerMoveDownBottomSheet.setOnClickListener(view -> activity.collapseBottomSheet());
+    }
+
+    private void initLyricsView() {
+        playerBottomSheetViewModel.getLyrics().observe(requireActivity(), lyrics -> {
+            if (lyrics != null && !lyrics.trim().equals("")) {
+                bodyBind.playerSongLyricsCardview.setVisibility(View.VISIBLE);
+            } else {
+                bodyBind.playerSongLyricsCardview.setVisibility(View.GONE);
+            }
+
+            bodyBind.playerSongLyricsTextView.setText(MusicUtil.getReadableString(lyrics));
+        });
+
+        bodyBind.playerSongLyricsLabelClickable.setOnClickListener(view -> {
+            if (bodyBind.playerSongLyricsTextView.getVisibility() == View.INVISIBLE || bodyBind.playerSongLyricsTextView.getVisibility() == View.GONE) {
+                setLyricsTextViewVisibility(true);
+            } else {
+                setLyricsTextViewVisibility(false);
             }
         });
     }
@@ -236,7 +252,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     private void initFavoriteButtonClick() {
-        bodyBind.buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite(requireContext() ));
+        bodyBind.buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite(requireContext()));
         bodyBind.buttonFavorite.setOnLongClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putParcelable("song_object", playerBottomSheetViewModel.getCurrentSong());
@@ -301,6 +317,9 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     private void setSongInfo(Song song) {
+        setLyricsTextViewVisibility(false);
+        playerBottomSheetViewModel.refreshSongLyrics(requireActivity(), song);
+
         bodyBind.playerSongTitleLabel.setText(MusicUtil.getReadableString(song.getTitle()));
         bodyBind.playerArtistNameLabel.setText(MusicUtil.getReadableString(song.getArtistName()));
 
@@ -314,6 +333,16 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
                 .into(headerBind.playerHeaderSongCoverImage);
 
         bodyBind.buttonFavorite.setChecked(song.isFavorite());
+    }
+
+    private void setLyricsTextViewVisibility(boolean isVisible) {
+        if(isVisible) {
+            bodyBind.playerSongLyricsTextView.setVisibility(View.VISIBLE);
+            bodyBind.playerSongLyricsLabelClickable.setText(R.string.player_hide_lyrics_button);
+        } else {
+            bodyBind.playerSongLyricsTextView.setVisibility(View.GONE);
+            bodyBind.playerSongLyricsLabelClickable.setText(R.string.player_show_lyrics_button);
+        }
     }
 
     protected void updatePlayPauseState() {

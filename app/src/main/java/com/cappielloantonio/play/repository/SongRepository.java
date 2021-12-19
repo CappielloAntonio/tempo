@@ -264,4 +264,27 @@ public class SongRepository {
 
         return song;
     }
+
+    public MutableLiveData<String> getSongLyrics(Song song) {
+        MutableLiveData<String> lyrics = new MutableLiveData<>(null);
+
+        App.getSubsonicClientInstance(application, false)
+                .getMediaRetrievalClient()
+                .getLyrics(song.getArtistName(), song.getTitle())
+                .enqueue(new Callback<SubsonicResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getLyrics() != null) {
+                            lyrics.setValue(response.body().getLyrics().getContent());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+
+                    }
+                });
+
+        return lyrics;
+    }
 }

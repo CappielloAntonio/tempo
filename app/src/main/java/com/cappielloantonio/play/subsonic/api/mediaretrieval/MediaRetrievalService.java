@@ -15,4 +15,7 @@ public interface MediaRetrievalService {
 
     @GET("download")
     Call<SubsonicResponse> download(@QueryMap Map<String, String> params, @Query("id") String id);
+
+    @GET("getLyrics")
+    Call<SubsonicResponse> getLyrics(@QueryMap Map<String, String> params, @Query("artist") String artist, @Query("title") String title);
 }

@@ -44,6 +44,11 @@ public class MediaRetrievalClient {
         return mediaRetrievalService.download(subsonic.getParams(), id);
     }
 
+    public Call<SubsonicResponse> getLyrics(String artist, String title) {
+        Log.d(TAG, "getLyrics()");
+        return mediaRetrievalService.getLyrics(subsonic.getParams(), artist, title);
+    }
+
     private OkHttpClient getOkHttpClient() {
         CacheUtil cacheUtil = new CacheUtil(context, 60, 60 * 60 * 24 * 30);
 

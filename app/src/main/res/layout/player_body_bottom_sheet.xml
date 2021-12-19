@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
     android:clipChildren="false">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -161,6 +162,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:backgroundTint="@color/colorPrimary"
         app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -181,7 +183,7 @@
                 android:paddingEnd="24dp"
                 android:text="@string/player_song_lyrics_label"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <TextView
@@ -192,27 +194,27 @@
                 android:paddingStart="8dp"
                 android:paddingEnd="20dp"
                 android:text="@string/player_show_lyrics_button"
+                app:layout_constraintBottom_toBottomOf="@+id/player_song_lyrics_label"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="@+id/player_song_lyrics_label"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/player_song_lyrics_text_view"
                 style="@style/SubheadTextView"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="24dp"
                 android:paddingEnd="24dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/player_song_lyrics_label"/>
+                app:layout_constraintTop_toBottomOf="@+id/player_song_lyrics_label" />
 
             <View
                 android:id="@+id/player_divider_bottom"
                 style="@style/Divider"
-                android:layout_marginTop="12dp"
                 android:layout_marginStart="18dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

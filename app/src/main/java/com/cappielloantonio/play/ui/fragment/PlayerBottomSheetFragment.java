@@ -335,7 +335,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         bodyBind.buttonFavorite.setChecked(song.isFavorite());
     }
 
-    private void setLyricsTextViewVisibility(boolean isVisible) {
+    public void setLyricsTextViewVisibility(boolean isVisible) {
         if(isVisible) {
             bodyBind.playerSongLyricsTextView.setVisibility(View.VISIBLE);
             bodyBind.playerSongLyricsLabelClickable.setText(R.string.player_hide_lyrics_button);

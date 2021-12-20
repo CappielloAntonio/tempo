@@ -1,8 +1,10 @@
 package com.cappielloantonio.play.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
@@ -34,7 +36,6 @@ import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.dialog.RatingDialog;
 import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
-import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 
 import java.util.Collections;
@@ -49,7 +50,6 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     private MainActivity activity;
     private PlayerBottomSheetViewModel playerBottomSheetViewModel;
 
-    private PlayerNowPlayingSongAdapter playerNowPlayingSongAdapter;
     private PlayerSongQueueAdapter playerSongQueueAdapter;
 
     private MusicProgressViewUpdateHelper progressViewUpdateHelper;
@@ -75,8 +75,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         playerBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(PlayerBottomSheetViewModel.class);
 
         init();
-        initLyricsView();
-        initQueueSlideView();
+        initCoverLyricsSlideView();
         initQueueRecyclerView();
         initFavoriteButtonClick();
         initMusicCommandUnfoldButton();
@@ -127,59 +126,9 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         bodyBind.playerMoveDownBottomSheet.setOnClickListener(view -> activity.collapseBottomSheet());
     }
 
-    private void initLyricsView() {
-        /*playerBottomSheetViewModel.getLyrics().observe(requireActivity(), lyrics -> {
-            if (lyrics != null && !lyrics.trim().equals("")) {
-                bodyBind.playerSongLyricsCardview.setVisibility(View.VISIBLE);
-            } else {
-                bodyBind.playerSongLyricsCardview.setVisibility(View.GONE);
-            }
-
-            bodyBind.playerSongLyricsTextView.setText(MusicUtil.getReadableString(lyrics));
-        });
-
-        bodyBind.playerSongLyricsLabelClickable.setOnClickListener(view -> {
-            if (bodyBind.playerSongLyricsTextView.getVisibility() == View.INVISIBLE || bodyBind.playerSongLyricsTextView.getVisibility() == View.GONE) {
-                setLyricsTextViewVisibility(true);
-            } else {
-                setLyricsTextViewVisibility(false);
-            }
-        });*/
-    }
-
-    private void initQueueSlideView() {
+    private void initCoverLyricsSlideView() {
         bodyBind.playerSongCoverViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-
-        playerNowPlayingSongAdapter = new PlayerNowPlayingSongAdapter(requireContext());
-        bodyBind.playerSongCoverViewPager.setAdapter(playerNowPlayingSongAdapter);
-        playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), queue -> playerNowPlayingSongAdapter.setItems(MappingUtil.mapQueue(queue)));
-
-        bodyBind.playerSongCoverViewPager.setOffscreenPageLimit(3);
-        bodyBind.playerSongCoverViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            // 0 = IDLE
-            // 1 = DRAGGING
-            // 2 = SETTLING
-            // -1 = NEW
-            int pageState = -1;
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                super.onPageScrollStateChanged(state);
-                pageState = state;
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-
-                if (pageState != -1) {
-                    MusicPlayerRemote.playSongAt(position);
-                    pageState = -1;
-                }
-            }
-        });
-
-        setViewPageDelayed(PreferenceUtil.getInstance(requireContext()).getPosition());
+        bodyBind.playerSongCoverViewPager.setAdapter(new PlayerNowPlayingSongAdapter(this));
     }
 
     private void initQueueRecyclerView() {
@@ -326,17 +275,8 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         });
     }
 
-    private void setViewPageDelayed(int position) {
-        final Handler handler = new Handler();
-        final Runnable r = () -> {
-            if (bind != null) bodyBind.playerSongCoverViewPager.setCurrentItem(position, false);
-        };
-        handler.postDelayed(r, 100);
-    }
-
-    private void setSongInfo(Song song) {
-        // setLyricsTextViewVisibility(false);
-        playerBottomSheetViewModel.refreshSongLyrics(requireActivity(), song);
+    public void setSongInfo(Song song) {
+        playerBottomSheetViewModel.refreshSongInfo(requireActivity(), song);
 
         bodyBind.playerSongTitleLabel.setText(MusicUtil.getReadableString(song.getTitle()));
         bodyBind.playerArtistNameLabel.setText(MusicUtil.getReadableString(song.getArtistName()));
@@ -354,7 +294,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     public void setPlayerCommandViewVisibility(boolean isVisible) {
-        if(isVisible) {
+        if (isVisible) {
             bodyBind.playerCommandCardview.setVisibility(View.VISIBLE);
         } else {
             bodyBind.playerCommandCardview.setVisibility(View.GONE);
@@ -377,11 +317,6 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         bind.playerNestedScrollView.fullScroll(ScrollView.FOCUS_UP);
     }
 
-    public void scrollPager(Song song, int page, boolean smoothScroll) {
-        bodyBind.playerSongCoverViewPager.setCurrentItem(page, smoothScroll);
-        setSongInfo(song);
-    }
-
     @Override
     public void onServiceConnected() {
         setSongInfo(Objects.requireNonNull(MusicPlayerRemote.getCurrentSong()));
@@ -400,7 +335,6 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
     @Override
     public void onPlayMetadataChanged() {
-        setViewPageDelayed(MusicPlayerRemote.getPosition());
         setSongInfo(Objects.requireNonNull(MusicPlayerRemote.getCurrentSong()));
     }
 

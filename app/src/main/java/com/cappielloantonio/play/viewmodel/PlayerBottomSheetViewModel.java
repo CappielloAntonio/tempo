@@ -29,7 +29,9 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     private final ArtistRepository artistRepository;
     private final QueueRepository queueRepository;
 
-    private final MutableLiveData<String> songLyrics = new MutableLiveData<>(null);
+    private final MutableLiveData<String> lyricsLiveData = new MutableLiveData<>(null);
+    private final MutableLiveData<Song> songLiveData = new MutableLiveData<>(null);
+
     private final LiveData<List<Queue>> queueSong;
 
     public PlayerBottomSheetViewModel(@NonNull Application application) {
@@ -81,11 +83,17 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         return artistRepository.getArtist(song.getArtistId());
     }
 
-    public LiveData<String> getLyrics() {
-        return songLyrics;
+    public LiveData<Song> getLiveSong() {
+        return songLiveData;
     }
 
-    public void refreshSongLyrics(LifecycleOwner owner, Song song) {
-        songRepository.getSongLyrics(song).observe(owner, songLyrics::postValue);
+    public LiveData<String> getLiveLyrics() {
+        return lyricsLiveData;
     }
+
+    public void refreshSongInfo(LifecycleOwner owner, Song song) {
+        songLiveData.postValue(song);
+        songRepository.getSongLyrics(song).observe(owner, lyricsLiveData::postValue);
+    }
+
 }

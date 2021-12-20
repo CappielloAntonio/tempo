@@ -129,6 +129,12 @@
         <item name="android:textColor">@color/titleTextColor</item>
     </style>
 
+    <style name="LyricsTextView" parent="InterFontFamily">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:textColor">@color/titleTextColor</item>
+    </style>
+
     <!-- Font dei pulsanti vari presenti nell'applicazione -->
     <style name="MainButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:fontFamily">@font/inter</item>

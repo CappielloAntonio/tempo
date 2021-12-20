@@ -114,6 +114,7 @@
     <string name="player_hide_lyrics_button">Hide</string>
     <string name="player_show_lyrics_button">Show</string>
     <string name="player_song_lyrics_label">Lyrics</string>
+    <string name="player_song_lyrics_none_available_label">No lyrics available</string>
     <string name="playing_notification_description">The playing notification provides actions for play/pause etc.</string>
     <string name="playing_notification_name">Playing Notification</string>
     <string name="playlist_catalogue_title">Playlist Catalogue</string>

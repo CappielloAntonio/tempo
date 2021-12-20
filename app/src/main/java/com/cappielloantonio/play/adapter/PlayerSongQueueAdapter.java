@@ -101,7 +101,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
 
         @Override
         public void onClick(View view) {
-            playerBottomSheetFragment.scrollPager(songs.get(getBindingAdapterPosition()), getBindingAdapterPosition(), false);
+            playerBottomSheetFragment.setSongInfo(songs.get(getBindingAdapterPosition()));
             MusicPlayerRemote.openQueue(songs, getBindingAdapterPosition(), true);
         }
     }

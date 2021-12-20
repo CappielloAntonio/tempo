@@ -188,7 +188,7 @@ public class MainActivity extends BaseActivity {
         PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
         if (playerBottomSheetFragment == null) return;
 
-        playerBottomSheetFragment.scrollPager(song, 0, false);
+        playerBottomSheetFragment.setSongInfo(song);
     }
 
     public void collapseBottomSheet() {

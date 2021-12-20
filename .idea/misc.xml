@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../.gradle/caches/transforms-3/20796fa5f04d2ad22571c8f80fdd27bd/transformed/jetified-exoplayer-ui-2.12.2/res/drawable-anydpi-v21/exo_ic_skip_previous.xml" value="0.5484375" />
         <entry key="../../.gradle/caches/transforms-3/cfd4e4d299e24db95f3608b5f72af22b/transformed/jetified-exoplayer-ui-2.12.2/res/drawable-anydpi-v21/exo_ic_play_circle_filled.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable-anydpi/ic_api_notification.xml" value="0.44351851851851853" />
         <entry key="app/src/main/res/drawable-v24/ic_add.xml" value="0.27685185185185185" />
@@ -14,6 +15,7 @@
         <entry key="app/src/main/res/drawable-v24/ic_toolbar_motion_on.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/bottom_nav_selector.xml" value="0.36203703703703705" />
         <entry key="app/src/main/res/drawable/bottom_nav_shape.xml" value="0.28055555555555556" />
+        <entry key="app/src/main/res/drawable/button_favorite_selector.xml" value="0.46296296296296297" />
         <entry key="app/src/main/res/drawable/dialog_shape.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable/ic_arrow_back.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_bottom_sheet_down.xml" value="0.4425925925925926" />
@@ -42,9 +44,11 @@
         <entry key="app/src/main/res/drawable/ic_shuffle.xml" value="0.2722222222222222" />
         <entry key="app/src/main/res/drawable/ic_skip_next.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_skip_next_white_24dp.xml" value="0.28055555555555556" />
+        <entry key="app/src/main/res/drawable/ic_skip_previous.xml" value="0.5484375" />
         <entry key="app/src/main/res/drawable/ic_skip_previous_white_24dp.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_star.xml" value="0.2722222222222222" />
         <entry key="app/src/main/res/drawable/ic_toolbar_motion_on.xml" value="0.30625" />
+        <entry key="app/src/main/res/drawable/ic_unfold.xml" value="0.5484375" />
         <entry key="app/src/main/res/drawable/ui_empty_list.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/bottom_sheet_album_dialog.xml" value="0.3229166666666667" />
@@ -109,6 +113,7 @@
         <entry key="app/src/main/res/layout/item_player_now_playing_song.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_player_queue_song.xml" value="0.1" />
         <entry key="app/src/main/res/layout/player_body_bottom_sheet.xml" value="0.528125" />
+        <entry key="app/src/main/res/layout/player_body_new_bottom_sheet.xml" value="0.528125" />
         <entry key="app/src/main/res/layout/player_header_bottom_sheet.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/menu/login_page_menu.xml" value="0.3229166666666667" />

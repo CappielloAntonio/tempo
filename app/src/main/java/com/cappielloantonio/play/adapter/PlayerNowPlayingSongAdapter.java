@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerNowPlayingSongAdapter extends RecyclerView.Adapter<PlayerNowPlayingSongAdapter.ViewHolder> {
-    private static final String TAG = "DiscoverSongAdapter";
+    private static final String TAG = "PlayerNowPlayingSongAdapter";
 
     private final LayoutInflater inflater;
     private final Context context;

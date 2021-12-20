@@ -159,7 +159,7 @@ public class MainActivity extends BaseActivity {
                             PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
                             if (playerBottomSheetFragment != null) {
                                 playerBottomSheetFragment.scrollOnTop();
-                                playerBottomSheetFragment.setLyricsTextViewVisibility(false);
+                                playerBottomSheetFragment.setPlayerCommandViewVisibility(false);
                             }
                             break;
                         case BottomSheetBehavior.STATE_DRAGGING:

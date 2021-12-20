@@ -79,6 +79,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         initQueueSlideView();
         initQueueRecyclerView();
         initFavoriteButtonClick();
+        initMusicCommandUnfoldButton();
         initMusicCommandButton();
         initArtistLabelButton();
 
@@ -127,7 +128,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     private void initLyricsView() {
-        playerBottomSheetViewModel.getLyrics().observe(requireActivity(), lyrics -> {
+        /*playerBottomSheetViewModel.getLyrics().observe(requireActivity(), lyrics -> {
             if (lyrics != null && !lyrics.trim().equals("")) {
                 bodyBind.playerSongLyricsCardview.setVisibility(View.VISIBLE);
             } else {
@@ -143,7 +144,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
             } else {
                 setLyricsTextViewVisibility(false);
             }
-        });
+        });*/
     }
 
     private void initQueueSlideView() {
@@ -265,7 +266,18 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         });
     }
 
+    private void initMusicCommandUnfoldButton() {
+        bodyBind.playerCommandUnfoldButton.setOnClickListener(view -> {
+            if (bodyBind.playerCommandCardview.getVisibility() == View.INVISIBLE || bodyBind.playerCommandCardview.getVisibility() == View.GONE) {
+                setPlayerCommandViewVisibility(true);
+            } else {
+                setPlayerCommandViewVisibility(false);
+            }
+        });
+    }
+
     private void initMusicCommandButton() {
+        // Header
         headerBind.playerHeaderButton.setOnClickListener(v -> {
             if (MusicPlayerRemote.isPlaying()) {
                 MusicPlayerRemote.pauseSong();
@@ -275,6 +287,18 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         });
 
         headerBind.playerHeaderNextSongButton.setOnClickListener(v -> MusicPlayerRemote.playNextSong());
+
+        // Body
+        bodyBind.playerBigPlayPauseButton.setOnClickListener(v -> {
+            if (MusicPlayerRemote.isPlaying()) {
+                MusicPlayerRemote.pauseSong();
+            } else {
+                MusicPlayerRemote.resumePlaying();
+            }
+        });
+
+        bodyBind.playerBigNextButton.setOnClickListener(v -> MusicPlayerRemote.playNextSong());
+        bodyBind.playerBigPreviousButton.setOnClickListener(v -> MusicPlayerRemote.playPreviousSong());
     }
 
     private void initArtistLabelButton() {
@@ -317,7 +341,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     private void setSongInfo(Song song) {
-        setLyricsTextViewVisibility(false);
+        // setLyricsTextViewVisibility(false);
         playerBottomSheetViewModel.refreshSongLyrics(requireActivity(), song);
 
         bodyBind.playerSongTitleLabel.setText(MusicUtil.getReadableString(song.getTitle()));
@@ -335,13 +359,11 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         bodyBind.buttonFavorite.setChecked(song.isFavorite());
     }
 
-    public void setLyricsTextViewVisibility(boolean isVisible) {
+    public void setPlayerCommandViewVisibility(boolean isVisible) {
         if(isVisible) {
-            bodyBind.playerSongLyricsTextView.setVisibility(View.VISIBLE);
-            bodyBind.playerSongLyricsLabelClickable.setText(R.string.player_hide_lyrics_button);
+            bodyBind.playerCommandCardview.setVisibility(View.VISIBLE);
         } else {
-            bodyBind.playerSongLyricsTextView.setVisibility(View.GONE);
-            bodyBind.playerSongLyricsLabelClickable.setText(R.string.player_show_lyrics_button);
+            bodyBind.playerCommandCardview.setVisibility(View.GONE);
         }
     }
 

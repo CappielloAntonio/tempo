@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -148,66 +149,95 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/player_song_title_label" />
 
-    <View
-        android:id="@+id/player_divider_top"
-        style="@style/Divider"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player_artist_name_label" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/player_song_lyrics_cardview"
+    <LinearLayout
+        android:id="@+id/player_music_command_sector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player_artist_name_label">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:background="@color/dividerColor"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp" />
+
+        <ImageButton
+            android:id="@+id/player_command_unfold_button"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="@drawable/ic_unfold"
+            android:scaleType="fitCenter"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:background="@color/dividerColor"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp" />
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/player_command_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:backgroundTint="@color/colorPrimary"
+        android:visibility="gone"
         app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player_divider_top">
+        app:layout_constraintTop_toBottomOf="@+id/player_music_command_sector">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:clipChildren="false">
 
-            <TextView
-                android:id="@+id/player_song_lyrics_label"
-                style="@style/HeadlineTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
-                android:text="@string/player_song_lyrics_label"
+            <ImageButton
+                android:id="@+id/player_big_previous_button"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="24dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/player_big_play_pause_button"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_skip_previous" />
+
+            <ToggleButton
+                android:id="@+id/player_big_play_pause_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/button_play_pause_selector"
+                android:checked="true"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:text=""
+                android:textOff=""
+                android:textOn=""
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
-            <TextView
-                android:id="@+id/player_song_lyrics_label_clickable"
-                style="@style/SubheadTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="8dp"
-                android:paddingEnd="20dp"
-                android:text="@string/player_show_lyrics_button"
-                app:layout_constraintBottom_toBottomOf="@+id/player_song_lyrics_label"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/player_song_lyrics_text_view"
-                style="@style/SubheadTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/player_song_lyrics_label" />
+            <ImageButton
+                android:id="@+id/player_big_next_button"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="24dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/player_big_play_pause_button"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_skip_next" />
 
             <View
                 android:id="@+id/player_divider_bottom"
@@ -217,7 +247,7 @@
                 android:layout_marginEnd="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/player_song_lyrics_text_view" />
+                app:layout_constraintTop_toBottomOf="@+id/player_big_play_pause_button" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -230,5 +260,5 @@
         android:paddingBottom="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player_song_lyrics_cardview" />
+        app:layout_constraintTop_toBottomOf="@+id/player_command_cardview" />
 </androidx.constraintlayout.widget.ConstraintLayout>

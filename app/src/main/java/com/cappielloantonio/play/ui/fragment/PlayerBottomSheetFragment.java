@@ -267,9 +267,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     private void initMusicCommandUnfoldButton() {
-        bodyBind.playerCommandUnfoldButton.setOnClickListener(view -> {
-            setPlayerCommandViewVisibility(bodyBind.playerCommandCardview.getVisibility() == View.INVISIBLE || bodyBind.playerCommandCardview.getVisibility() == View.GONE);
-        });
+        bodyBind.playerCommandUnfoldButton.setOnClickListener(view -> setPlayerCommandViewVisibility(bodyBind.playerCommandCardview.getVisibility() == View.INVISIBLE || bodyBind.playerCommandCardview.getVisibility() == View.GONE));
     }
 
     private void initMusicCommandButton() {

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/player_body_bottom_sheet_layout"
     android:layout_width="match_parent"
@@ -159,27 +158,27 @@
         <View
             android:layout_width="0dp"
             android:layout_height="0.5dp"
-            android:layout_weight="1"
             android:layout_gravity="center_vertical"
-            android:background="@color/dividerColor"
             android:layout_marginStart="18dp"
-            android:layout_marginEnd="18dp" />
+            android:layout_marginEnd="18dp"
+            android:layout_weight="1"
+            android:background="@color/dividerColor" />
 
         <ImageButton
             android:id="@+id/player_command_unfold_button"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:background="@drawable/ic_unfold"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter" />
 
         <View
             android:layout_width="0dp"
             android:layout_height="0.5dp"
-            android:layout_weight="1"
             android:layout_gravity="center_vertical"
-            android:background="@color/dividerColor"
             android:layout_marginStart="18dp"
-            android:layout_marginEnd="18dp" />
+            android:layout_marginEnd="18dp"
+            android:layout_weight="1"
+            android:background="@color/dividerColor" />
     </LinearLayout>
 
     <androidx.cardview.widget.CardView

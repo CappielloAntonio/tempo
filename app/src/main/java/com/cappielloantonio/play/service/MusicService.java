@@ -237,23 +237,27 @@ public class MusicService extends Service implements Playback.PlaybackCallbacks 
     }
 
     private void restoreState() {
-        QueueRepository queueRepository = new QueueRepository(App.getInstance());
-        List<Song> restoredQueue = queueRepository.getSongs();
+        try {
+            QueueRepository queueRepository = new QueueRepository(App.getInstance());
+            List<Song> restoredQueue = queueRepository.getSongs();
 
-        int restoredPosition = PreferenceUtil.getInstance(getApplicationContext()).getPosition();
-        int restoredPositionInTrack = PreferenceUtil.getInstance(getApplicationContext()).getProgress();
+            int restoredPosition = PreferenceUtil.getInstance(getApplicationContext()).getPosition();
+            int restoredPositionInTrack = PreferenceUtil.getInstance(getApplicationContext()).getProgress();
 
-        if (restoredQueue.size() > 0 && restoredPosition != -1) {
-            this.playingQueue = restoredQueue;
+            if (restoredQueue.size() > 0 && restoredPosition != -1) {
+                this.playingQueue = restoredQueue;
 
-            position = restoredPosition;
-            openCurrent();
+                position = restoredPosition;
+                openCurrent();
 
-            if (restoredPositionInTrack > 0) seek(restoredPositionInTrack);
+                if (restoredPositionInTrack > 0) seek(restoredPositionInTrack);
 
-            notHandledMetaChangedForCurrentTrack = true;
-            handleChangeInternal(META_CHANGED);
-            handleChangeInternal(QUEUE_CHANGED);
+                notHandledMetaChangedForCurrentTrack = true;
+                handleChangeInternal(META_CHANGED);
+                handleChangeInternal(QUEUE_CHANGED);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

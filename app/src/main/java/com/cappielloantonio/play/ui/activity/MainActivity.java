@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
@@ -97,15 +98,19 @@ public class MainActivity extends BaseActivity {
         /*
          * All'apertura mostro il bottom sheet solo se in coda c'è qualcosa
          */
-        isBottomSheetInPeek(mainViewModel.isQueueLoaded());
+        setBottomSheetInPeek(mainViewModel.isQueueLoaded());
     }
 
-    public void isBottomSheetInPeek(Boolean isVisible) {
+    public void setBottomSheetInPeek(Boolean isVisible) {
         if (isVisible) {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         } else {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         }
+    }
+
+    public void setBottomSheetDraggableState(Boolean isDraggable) {
+        bottomSheetBehavior.setDraggable(isDraggable);
     }
 
     private void initNavigation() {
@@ -150,20 +155,26 @@ public class MainActivity extends BaseActivity {
             new BottomSheetBehavior.BottomSheetCallback() {
                 @Override
                 public void onStateChanged(@NonNull View view, int state) {
+                    PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
+
                     switch (state) {
                         case BottomSheetBehavior.STATE_HIDDEN:
                             MusicPlayerRemote.quitPlaying();
                             break;
                         case BottomSheetBehavior.STATE_COLLAPSED:
+                            if (playerBottomSheetFragment != null) {
+                                playerBottomSheetFragment.goBackToFirstPage();
+                            }
                         case BottomSheetBehavior.STATE_SETTLING:
-                            PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
                             if (playerBottomSheetFragment != null) {
                                 playerBottomSheetFragment.scrollOnTop();
-                                // playerBottomSheetFragment.setPlayerCommandViewVisibility(false);
                             }
                             break;
-                        case BottomSheetBehavior.STATE_DRAGGING:
                         case BottomSheetBehavior.STATE_EXPANDED:
+                            if (playerBottomSheetFragment != null) {
+                                setBottomSheetDraggableState(playerBottomSheetFragment.isViewPagerInFirstPage());
+                            }
+                        case BottomSheetBehavior.STATE_DRAGGING:
                         case BottomSheetBehavior.STATE_HALF_EXPANDED:
                             break;
                     }
@@ -219,7 +230,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void goFromLogin() {
-        isBottomSheetInPeek(mainViewModel.isQueueLoaded());
+        setBottomSheetInPeek(mainViewModel.isQueueLoaded());
         goToHome();
     }
 

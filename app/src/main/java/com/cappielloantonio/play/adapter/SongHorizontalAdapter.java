@@ -124,7 +124,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
             QueueRepository queueRepository = new QueueRepository(App.getInstance());
             queueRepository.insertAllAndStartNew(songs);
 
-            mainActivity.isBottomSheetInPeek(true);
+            mainActivity.setBottomSheetInPeek(true);
             mainActivity.setBottomSheetMusicInfo(songs.get(getBindingAdapterPosition()));
 
             MusicPlayerRemote.openQueue(songs, getBindingAdapterPosition(), true);

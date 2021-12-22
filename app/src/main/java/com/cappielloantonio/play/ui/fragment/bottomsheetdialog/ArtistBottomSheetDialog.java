@@ -88,7 +88,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
                         QueueRepository queueRepository = new QueueRepository(App.getInstance());
                         queueRepository.insertAllAndStartNew((ArrayList<Song>) media);
 
-                        ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
+                        ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
                         ((MainActivity) requireActivity()).setBottomSheetMusicInfo((Song) media.get(0));
 
                         MusicPlayerRemote.openQueue((List<Song>) media, 0, true);
@@ -110,7 +110,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
                     queueRepository.insertAllAndStartNew(songs);
 
                     MusicPlayerRemote.openQueue(songs, 0, true);
-                    ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
+                    ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_tracks), Toast.LENGTH_SHORT).show();
                 }

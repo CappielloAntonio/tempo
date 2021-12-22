@@ -126,6 +126,19 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     private void initCoverLyricsSlideView() {
         bodyBind.playerSongCoverViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
         bodyBind.playerSongCoverViewPager.setAdapter(new PlayerNowPlayingSongAdapter(this));
+
+        bodyBind.playerSongCoverViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+
+                if (position == 0) {
+                    activity.setBottomSheetDraggableState(true);
+                } else if (position == 1) {
+                    activity.setBottomSheetDraggableState(false);
+                }
+            }
+        });
     }
 
     private void initQueueRecyclerView() {
@@ -213,7 +226,13 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     private void initMusicCommandUnfoldButton() {
-        bodyBind.playerCommandUnfoldButton.setOnClickListener(view -> setPlayerCommandViewVisibility(bodyBind.playerCommandCardview.getVisibility() == View.INVISIBLE || bodyBind.playerCommandCardview.getVisibility() == View.GONE));
+        bodyBind.playerCommandUnfoldButton.setOnClickListener(view -> {
+            if (bodyBind.playerCommandCardview.getVisibility() == View.INVISIBLE || bodyBind.playerCommandCardview.getVisibility() == View.GONE) {
+                bodyBind.playerCommandCardview.setVisibility(View.VISIBLE);
+            } else {
+                bodyBind.playerCommandCardview.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void initMusicCommandButton() {
@@ -290,14 +309,6 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         bodyBind.buttonFavorite.setChecked(song.isFavorite());
     }
 
-    public void setPlayerCommandViewVisibility(boolean isVisible) {
-        if (isVisible) {
-            bodyBind.playerCommandCardview.setVisibility(View.VISIBLE);
-        } else {
-            bodyBind.playerCommandCardview.setVisibility(View.GONE);
-        }
-    }
-
     protected void updatePlayPauseState() {
         headerBind.playerHeaderButton.setChecked(!MusicPlayerRemote.isPlaying());
         bodyBind.playerBigPlayPauseButton.setChecked(!MusicPlayerRemote.isPlaying());
@@ -313,6 +324,14 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
     public void scrollOnTop() {
         bind.playerNestedScrollView.fullScroll(ScrollView.FOCUS_UP);
+    }
+
+    public void goBackToFirstPage() {
+        bodyBind.playerSongCoverViewPager.setCurrentItem(0);
+    }
+
+    public boolean isViewPagerInFirstPage() {
+        return bodyBind.playerSongCoverViewPager.getCurrentItem() == 0;
     }
 
     @Override

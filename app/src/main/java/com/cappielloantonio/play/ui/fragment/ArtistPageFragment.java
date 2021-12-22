@@ -149,7 +149,7 @@ public class ArtistPageFragment extends Fragment {
                     queueRepository.insertAllAndStartNew(songs);
 
                     MusicPlayerRemote.openQueue(songs, 0, true);
-                    activity.isBottomSheetInPeek(true);
+                    activity.setBottomSheetInPeek(true);
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_tracks), Toast.LENGTH_SHORT).show();
                 }
@@ -170,7 +170,7 @@ public class ArtistPageFragment extends Fragment {
                         QueueRepository queueRepository = new QueueRepository(App.getInstance());
                         queueRepository.insertAllAndStartNew((ArrayList<Song>) media);
 
-                        activity.isBottomSheetInPeek(true);
+                        activity.setBottomSheetInPeek(true);
                         activity.setBottomSheetMusicInfo((Song) media.get(0));
 
                         MusicPlayerRemote.openQueue((List<Song>) media, 0, true);

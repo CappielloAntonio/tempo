@@ -94,7 +94,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
                         QueueRepository queueRepository = new QueueRepository(App.getInstance());
                         queueRepository.insertAllAndStartNew((ArrayList<Song>) media);
 
-                        ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
+                        ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
                         ((MainActivity) requireActivity()).setBottomSheetMusicInfo((Song) media.get(0));
 
                         MusicPlayerRemote.openQueue((List<Song>) media, 0, true);
@@ -117,7 +117,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
                 queueRepository.insertAllAndStartNew(songs);
 
                 MusicPlayerRemote.openQueue(songs, 0, true);
-                ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
+                ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
 
                 dismissBottomSheet();
             });
@@ -126,7 +126,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
         TextView playNext = view.findViewById(R.id.play_next_text_view);
         playNext.setOnClickListener(v -> albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
             MusicPlayerRemote.playNext(songs);
-            ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
+            ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
             dismissBottomSheet();
         }));
 

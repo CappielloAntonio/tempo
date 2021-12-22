@@ -138,7 +138,7 @@ public class SongListPageFragment extends Fragment {
                     QueueRepository queueRepository = new QueueRepository(App.getInstance());
                     queueRepository.insertAllAndStartNew(songs);
 
-                    activity.isBottomSheetInPeek(true);
+                    activity.setBottomSheetInPeek(true);
                     activity.setBottomSheetMusicInfo(songs.get(0));
 
                     MusicPlayerRemote.openQueue(songs, 0, true);

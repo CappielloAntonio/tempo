@@ -99,7 +99,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
             QueueRepository queueRepository = new QueueRepository(App.getInstance());
             queueRepository.insertAllAndStartNew(opener);
 
-            ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
+            ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
             ((MainActivity) requireActivity()).setBottomSheetMusicInfo(song);
 
             SongRepository songRepository = new SongRepository(App.getInstance());
@@ -121,14 +121,14 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         TextView playNext = view.findViewById(R.id.play_next_text_view);
         playNext.setOnClickListener(v -> {
             MusicPlayerRemote.playNext(song);
-            ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
+            ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
             dismissBottomSheet();
         });
 
         TextView addToQueue = view.findViewById(R.id.add_to_queue_text_view);
         addToQueue.setOnClickListener(v -> {
             MusicPlayerRemote.enqueue(song);
-            ((MainActivity) requireActivity()).isBottomSheetInPeek(true);
+            ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
             dismissBottomSheet();
         });
 

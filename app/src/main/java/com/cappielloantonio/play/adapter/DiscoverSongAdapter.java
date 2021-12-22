@@ -102,7 +102,7 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
             QueueRepository queueRepository = new QueueRepository(App.getInstance());
             queueRepository.insertAllAndStartNew(opener);
 
-            activity.isBottomSheetInPeek(true);
+            activity.setBottomSheetInPeek(true);
             activity.setBottomSheetMusicInfo(songs.get(getBindingAdapterPosition()));
 
             SongRepository songRepository = new SongRepository(App.getInstance());

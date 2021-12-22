@@ -97,7 +97,7 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
             QueueRepository queueRepository = new QueueRepository(App.getInstance());
             queueRepository.insertAllAndStartNew(opener);
 
-            mainActivity.isBottomSheetInPeek(true);
+            mainActivity.setBottomSheetInPeek(true);
             mainActivity.setBottomSheetMusicInfo(songs.get(getBindingAdapterPosition()));
 
             SongRepository songRepository = new SongRepository(App.getInstance());

@@ -186,7 +186,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorPrimary"
-        android:visibility="gone"
         app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -204,22 +203,22 @@
                 android:layout_marginEnd="24dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/player_big_play_pause_button"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/player_big_play_pause_button"
+                app:layout_constraintBottom_toBottomOf="@+id/player_big_play_pause_button"
                 app:srcCompat="@drawable/ic_skip_previous" />
 
             <ToggleButton
                 android:id="@+id/player_big_play_pause_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:layout_marginTop="4dp"
                 android:background="@drawable/button_play_pause_selector"
                 android:checked="true"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:text=""
                 android:textOff=""
                 android:textOn=""
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -231,17 +230,17 @@
                 android:layout_marginStart="24dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/player_big_play_pause_button"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/player_big_play_pause_button"
+                app:layout_constraintBottom_toBottomOf="@+id/player_big_play_pause_button"
                 app:srcCompat="@drawable/ic_skip_next" />
 
             <View
                 android:id="@+id/player_divider_bottom"
                 style="@style/Divider"
                 android:layout_marginStart="18dp"
-                android:layout_marginTop="12dp"
                 android:layout_marginEnd="18dp"
+                android:layout_marginTop="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/player_big_play_pause_button" />

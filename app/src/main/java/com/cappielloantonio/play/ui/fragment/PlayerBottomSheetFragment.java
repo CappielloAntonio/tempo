@@ -300,6 +300,7 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
     protected void updatePlayPauseState() {
         headerBind.playerHeaderButton.setChecked(!MusicPlayerRemote.isPlaying());
+        bodyBind.playerBigPlayPauseButton.setChecked(!MusicPlayerRemote.isPlaying());
     }
 
     private void setUpMusicControllers() {

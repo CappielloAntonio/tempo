@@ -163,6 +163,7 @@ public class MainActivity extends BaseActivity {
                             break;
                         case BottomSheetBehavior.STATE_COLLAPSED:
                             if (playerBottomSheetFragment != null) {
+                                playerBottomSheetFragment.scrollOnTop();
                                 playerBottomSheetFragment.goBackToFirstPage();
                             }
                         case BottomSheetBehavior.STATE_SETTLING:
@@ -172,6 +173,7 @@ public class MainActivity extends BaseActivity {
                             break;
                         case BottomSheetBehavior.STATE_EXPANDED:
                             if (playerBottomSheetFragment != null) {
+                                playerBottomSheetFragment.scrollOnTop();
                                 setBottomSheetDraggableState(playerBottomSheetFragment.isViewPagerInFirstPage());
                             }
                         case BottomSheetBehavior.STATE_DRAGGING:

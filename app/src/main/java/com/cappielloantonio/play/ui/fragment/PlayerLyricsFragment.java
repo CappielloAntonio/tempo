@@ -29,9 +29,14 @@ public class PlayerLyricsFragment extends Fragment {
         View view = bind.getRoot();
         playerBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(PlayerBottomSheetViewModel.class);
 
-        initLyrics();
-
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        initLyrics();
     }
 
     @Override

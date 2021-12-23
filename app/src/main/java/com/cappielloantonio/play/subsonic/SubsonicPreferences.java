@@ -7,7 +7,7 @@ import java.util.UUID;
 public class SubsonicPreferences {
     private String serverUrl;
     private String username;
-    private String clientName = "Play for Subsonic";
+    private String clientName = "Play";
     private SubsonicAuthentication authentication;
 
     public String getServerUrl() {

@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
@@ -16,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.session.MediaBrowser;
+import androidx.media3.session.SessionToken;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.App;
@@ -29,10 +32,12 @@ import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.ArtistRepository;
-import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.service.MediaManager;
+import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.ArtistPageViewModel;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +53,8 @@ public class ArtistPageFragment extends Fragment {
     private SongHorizontalAdapter songHorizontalAdapter;
     private AlbumArtistPageOrSimilarAdapter albumArtistPageOrSimilarAdapter;
     private ArtistSimilarAdapter artistSimilarAdapter;
+
+    private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,7 +79,16 @@ public class ArtistPageFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        initializeMediaBrowser();
+        setMediaBrowserListenableFuture();
         activity.setBottomNavigationBarVisibility(false);
+    }
+
+    @Override
+    public void onStop() {
+        releaseMediaBrowser();
+        super.onStop();
     }
 
     @Override
@@ -144,10 +160,7 @@ public class ArtistPageFragment extends Fragment {
             ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
             artistRepository.getArtistRandomSong(requireActivity(), artistPageViewModel.getArtist(), 20).observe(requireActivity(), songs -> {
                 if (songs.size() > 0) {
-                    QueueRepository queueRepository = new QueueRepository(App.getInstance());
-                    queueRepository.insertAllAndStartNew(songs);
-
-                    // MusicPlayerRemote.openQueue(songs, 0, true);
+                    MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
                     activity.setBottomSheetInPeek(true);
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_tracks), Toast.LENGTH_SHORT).show();
@@ -166,13 +179,8 @@ public class ArtistPageFragment extends Fragment {
                 @Override
                 public void onLoadMedia(List<?> media) {
                     if (media.size() > 0) {
-                        QueueRepository queueRepository = new QueueRepository(App.getInstance());
-                        queueRepository.insertAllAndStartNew((ArrayList<Song>) media);
-
+                        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), (ArrayList<Song>) media, 0);
                         activity.setBottomSheetInPeek(true);
-                        // activity.setBottomSheetMusicInfo((Song) media.get(0));
-
-                        // MusicPlayerRemote.openQueue((List<Song>) media, 0, true);
                     } else {
                         Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_radio), Toast.LENGTH_SHORT).show();
                     }
@@ -219,5 +227,18 @@ public class ArtistPageFragment extends Fragment {
 
         CustomLinearSnapHelper similarArtistSnapHelper = new CustomLinearSnapHelper();
         similarArtistSnapHelper.attachToRecyclerView(bind.similarArtistsRecyclerView);
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    private void initializeMediaBrowser() {
+        mediaBrowserListenableFuture = new MediaBrowser.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
+    }
+
+    private void releaseMediaBrowser() {
+        MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
+    }
+
+    private void setMediaBrowserListenableFuture() {
+        songHorizontalAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
     }
 }

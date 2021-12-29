@@ -1,26 +1,26 @@
 package com.cappielloantonio.play.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 
-import com.cappielloantonio.play.service.DownloadTracker;
-import com.google.android.exoplayer2.database.DatabaseProvider;
-import com.google.android.exoplayer2.database.ExoDatabaseProvider;
-import com.google.android.exoplayer2.offline.ActionFileUpgradeUtil;
-import com.google.android.exoplayer2.offline.DefaultDownloadIndex;
-import com.google.android.exoplayer2.offline.DownloadManager;
-import com.google.android.exoplayer2.ui.DownloadNotificationHelper;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-import com.google.android.exoplayer2.upstream.HttpDataSource;
-import com.google.android.exoplayer2.upstream.cache.Cache;
-import com.google.android.exoplayer2.upstream.cache.NoOpCacheEvictor;
-import com.google.android.exoplayer2.upstream.cache.SimpleCache;
-import com.google.android.exoplayer2.util.Log;
+import androidx.media3.database.DatabaseProvider;
+import androidx.media3.database.ExoDatabaseProvider;
+import androidx.media3.datasource.HttpDataSource;
+import androidx.media3.datasource.cache.Cache;
+import androidx.media3.datasource.cache.NoOpCacheEvictor;
+import androidx.media3.datasource.cache.SimpleCache;
+import androidx.media3.exoplayer.offline.ActionFileUpgradeUtil;
+import androidx.media3.exoplayer.offline.DefaultDownloadIndex;
+import androidx.media3.exoplayer.offline.DownloadManager;
+import androidx.media3.exoplayer.offline.DownloadNotificationHelper;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.util.Map;
 import java.util.concurrent.Executors;
 
 public final class DownloadUtil {
@@ -36,7 +36,6 @@ public final class DownloadUtil {
     private static File downloadDirectory;
     private static Cache downloadCache;
     private static DownloadManager downloadManager;
-    private static DownloadTracker downloadTracker;
     private static DownloadNotificationHelper downloadNotificationHelper;
 
     public static synchronized HttpDataSource.Factory getHttpDataSourceFactory() {
@@ -44,11 +43,22 @@ public final class DownloadUtil {
             CookieManager cookieManager = new CookieManager();
             cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ORIGINAL_SERVER);
             CookieHandler.setDefault(cookieManager);
-            httpDataSourceFactory = new DefaultHttpDataSourceFactory();
+            httpDataSourceFactory = new HttpDataSource.Factory() {
+                @Override
+                public HttpDataSource createDataSource() {
+                    return null;
+                }
+
+                @Override
+                public HttpDataSource.Factory setDefaultRequestProperties(Map<String, String> defaultRequestProperties) {
+                    return null;
+                }
+            };
         }
         return httpDataSourceFactory;
     }
 
+    @SuppressLint("UnsafeOptInUsageError")
     public static synchronized DownloadNotificationHelper getDownloadNotificationHelper(Context context) {
         if (downloadNotificationHelper == null) {
             downloadNotificationHelper = new DownloadNotificationHelper(context, DOWNLOAD_NOTIFICATION_CHANNEL_ID);
@@ -61,11 +71,7 @@ public final class DownloadUtil {
         return downloadManager;
     }
 
-    public static synchronized DownloadTracker getDownloadTracker(Context context) {
-        ensureDownloadManagerInitialized(context);
-        return downloadTracker;
-    }
-
+    @SuppressLint("UnsafeOptInUsageError")
     public static synchronized Cache getDownloadCache(Context context) {
         if (downloadCache == null) {
             File downloadContentDirectory = new File(getDownloadDirectory(context), DOWNLOAD_CONTENT_DIRECTORY);
@@ -75,16 +81,17 @@ public final class DownloadUtil {
         return downloadCache;
     }
 
+    @SuppressLint("UnsafeOptInUsageError")
     private static synchronized void ensureDownloadManagerInitialized(Context context) {
         if (downloadManager == null) {
             DefaultDownloadIndex downloadIndex = new DefaultDownloadIndex(getDatabaseProvider(context));
             upgradeActionFile(context, DOWNLOAD_ACTION_FILE, downloadIndex, false);
             upgradeActionFile(context, DOWNLOAD_TRACKER_ACTION_FILE, downloadIndex, true);
             downloadManager = new DownloadManager(context, getDatabaseProvider(context), getDownloadCache(context), getHttpDataSourceFactory(), Executors.newFixedThreadPool(6));
-            downloadTracker = new DownloadTracker(context, getHttpDataSourceFactory(), downloadManager);
         }
     }
 
+    @SuppressLint("UnsafeOptInUsageError")
     private static synchronized void upgradeActionFile(Context context, String fileName, DefaultDownloadIndex downloadIndex, boolean addNewDownloadsAsCompleted) {
         try {
             ActionFileUpgradeUtil.upgradeAndDelete(new File(getDownloadDirectory(context), fileName), null, downloadIndex, true, addNewDownloadsAsCompleted);
@@ -93,6 +100,7 @@ public final class DownloadUtil {
         }
     }
 
+    @SuppressLint("UnsafeOptInUsageError")
     private static synchronized DatabaseProvider getDatabaseProvider(Context context) {
         if (databaseProvider == null) {
             databaseProvider = new ExoDatabaseProvider(context);

@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +21,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.MediaMetadata;
 import androidx.media3.common.Player;
+import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.MediaController;
+import androidx.media3.session.SessionToken;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,10 +36,12 @@ import com.cappielloantonio.play.adapter.PlayerNowPlayingSongAdapter;
 import com.cappielloantonio.play.adapter.PlayerSongQueueAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlayerBottomSheetBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.dialog.RatingDialog;
 import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 
 import java.util.Collections;
@@ -57,6 +62,7 @@ public class PlayerBottomSheetFragment extends Fragment {
 
     private MainActivity activity;
     private PlayerBottomSheetViewModel playerBottomSheetViewModel;
+    private ListenableFuture<MediaController> mediaControllerListenableFuture;
 
     private PlayerSongQueueAdapter playerSongQueueAdapter;
 
@@ -86,15 +92,17 @@ public class PlayerBottomSheetFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
 
+        initializeMediaController();
         bindMediaController();
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        releaseMediaController();
+        super.onStop();
     }
 
     @Override
@@ -119,10 +127,20 @@ public class PlayerBottomSheetFragment extends Fragment {
     }
 
     @SuppressLint("UnsafeOptInUsageError")
+    private void initializeMediaController() {
+        mediaControllerListenableFuture = new MediaController.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
+    }
+
+    private void releaseMediaController() {
+        MediaController.releaseFuture(mediaControllerListenableFuture);
+    }
+
+
+    @SuppressLint("UnsafeOptInUsageError")
     private void bindMediaController() {
-        activity.mediaControllerListenableFuture.addListener(() -> {
+        mediaControllerListenableFuture.addListener(() -> {
             try {
-                MediaController mediaController = activity.mediaControllerListenableFuture.get();
+                MediaController mediaController = mediaControllerListenableFuture.get();
 
                 bind.playerBodyLayout.setPlayer(mediaController);
 
@@ -139,7 +157,7 @@ public class PlayerBottomSheetFragment extends Fragment {
         setContentDuration(mediaController.getContentDuration());
         setPlayingState(mediaController.isPlaying());
         setHeaderMediaController();
-        setHeaderNextButtonState(mediaController.hasNextMediaItem());
+        // setHeaderNextButtonState(mediaController.hasNextMediaItem());
 
         mediaController.addListener(new Player.Listener() {
             @Override
@@ -155,7 +173,12 @@ public class PlayerBottomSheetFragment extends Fragment {
 
             @Override
             public void onMediaItemTransition(@Nullable MediaItem mediaItem, int reason) {
-                setHeaderNextButtonState(mediaController.hasNextMediaItem());
+                // setHeaderNextButtonState(mediaController.hasNextMediaItem());
+            }
+
+            @Override
+            public void onPlaylistMetadataChanged(MediaMetadata mediaMetadata) {
+                // setHeaderNextButtonState(mediaController.hasNextMediaItem());
             }
         });
     }

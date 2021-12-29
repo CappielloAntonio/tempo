@@ -40,6 +40,7 @@ import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.dialog.RatingDialog;
 import com.cappielloantonio.play.util.MappingUtil;
+import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
@@ -184,11 +185,11 @@ public class PlayerBottomSheetFragment extends Fragment {
     }
 
     private void setMetadata(MediaMetadata mediaMetadata) {
-        bind.playerHeaderLayout.playerHeaderSongTitleLabel.setText(mediaMetadata.title);
-        bind.playerHeaderLayout.playerHeaderSongArtistLabel.setText(mediaMetadata.artist);
+        bind.playerHeaderLayout.playerHeaderSongTitleLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.title)));
+        bind.playerHeaderLayout.playerHeaderSongArtistLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.artist)));
 
-        playerSongTitleLabel.setText(mediaMetadata.title);
-        playerArtistNameLabel.setText(mediaMetadata.artist);
+        playerSongTitleLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.title)));
+        playerArtistNameLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.artist)));
 
         CustomGlideRequest.Builder
                 .from(requireContext(), mediaMetadata.extras != null ? mediaMetadata.extras.getString("id") : null, CustomGlideRequest.SONG_PIC, null)

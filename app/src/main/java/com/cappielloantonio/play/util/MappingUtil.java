@@ -193,6 +193,7 @@ public class MappingUtil {
                 .setMediaId(song.getId())
                 .setMediaMetadata(
                         new MediaMetadata.Builder()
+                                .setMediaUri(MusicUtil.getSongStreamUri(context, song))
                                 .setTitle(song.getTitle())
                                 .setTrackNumber(song.getTrackNumber())
                                 .setDiscNumber(song.getDiscNumber())
@@ -202,7 +203,6 @@ public class MappingUtil {
                                 .setExtras(bundle)
                                 .build()
                 )
-                .setUri(MusicUtil.getSongStreamUri(context, song))
                 .build();
     }
 
@@ -210,28 +210,7 @@ public class MappingUtil {
         ArrayList<MediaItem> mediaItems = new ArrayList();
 
         for (Song song : songs) {
-            Bundle bundle = new Bundle();
-            bundle.putString("id", song.getId());
-            bundle.putString("albumId", song.getAlbumId());
-            bundle.putString("artistId", song.getArtistId());
-
-            MediaItem item = new MediaItem.Builder()
-                    .setMediaId(song.getId())
-                    .setMediaMetadata(
-                            new MediaMetadata.Builder()
-                                    .setTitle(song.getTitle())
-                                    .setTrackNumber(song.getTrackNumber())
-                                    .setDiscNumber(song.getDiscNumber())
-                                    .setReleaseYear(song.getYear())
-                                    .setAlbumTitle(song.getAlbumName())
-                                    .setArtist(song.getArtistName())
-                                    .setExtras(bundle)
-                                    .build()
-                    )
-                    .setUri(MusicUtil.getSongStreamUri(context, song))
-                    .build();
-
-            mediaItems.add(item);
+            mediaItems.add(mapMediaItem(context, song));
         }
 
         return mediaItems;

@@ -1,5 +1,7 @@
 package com.cappielloantonio.play.ui.fragment;
 
+import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,19 +15,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.session.MediaBrowser;
+import androidx.media3.session.SessionToken;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.service.MediaManager;
+import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.AlbumPageViewModel;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -38,6 +42,8 @@ public class AlbumPageFragment extends Fragment {
     private AlbumPageViewModel albumPageViewModel;
 
     private SongHorizontalAdapter songHorizontalAdapter;
+
+    private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,7 +78,15 @@ public class AlbumPageFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        initializeMediaBrowser();
         activity.setBottomNavigationBarVisibility(false);
+    }
+
+    @Override
+    public void onStop() {
+        releaseMediaBrowser();
+        super.onStop();
     }
 
     @Override
@@ -134,25 +148,14 @@ public class AlbumPageFragment extends Fragment {
         albumPageViewModel.getAlbumSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
             if (bind != null && !songs.isEmpty()) {
                 bind.albumPagePlayButton.setOnClickListener(v -> {
-                    QueueRepository queueRepository = new QueueRepository(App.getInstance());
-                    queueRepository.insertAllAndStartNew(songs);
-
+                    MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
                     activity.setBottomSheetInPeek(true);
-                    // activity.setBottomSheetMusicInfo(songs.get(0));
-
-                    // MusicPlayerRemote.openQueue(songs, 0, true);
                 });
 
                 bind.albumPageShuffleButton.setOnClickListener(v -> {
                     Collections.shuffle(songs);
-
-                    QueueRepository queueRepository = new QueueRepository(App.getInstance());
-                    queueRepository.insertAllAndStartNew(songs);
-
+                    MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
                     activity.setBottomSheetInPeek(true);
-                    // activity.setBottomSheetMusicInfo(songs.get(0));
-
-                    // MusicPlayerRemote.openQueue(songs, 0, true);
                 });
             }
 
@@ -179,5 +182,14 @@ public class AlbumPageFragment extends Fragment {
         bind.songRecyclerView.setAdapter(songHorizontalAdapter);
 
         albumPageViewModel.getAlbumSongLiveList(requireActivity()).observe(requireActivity(), songs -> songHorizontalAdapter.setItems(songs));
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    private void initializeMediaBrowser() {
+        mediaBrowserListenableFuture = new MediaBrowser.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
+    }
+
+    private void releaseMediaBrowser() {
+        MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
     }
 }

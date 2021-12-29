@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,7 +45,7 @@ import com.cappielloantonio.play.viewmodel.HomeViewModel;
 import java.util.Objects;
 
 public class HomeFragment extends Fragment {
-    private static final String TAG = "CategoriesFragment";
+    private static final String TAG = "HomeFragment";
 
     private FragmentHomeBinding bind;
     private MainActivity activity;
@@ -106,8 +107,21 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
         activity.setBottomNavigationBarVisibility(true);
         activity.setBottomSheetVisibility(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        setMediaBrowserListenableFuture();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     @Override
@@ -212,6 +226,12 @@ public class HomeFragment extends Fragment {
         Objects.requireNonNull(bind.toolbar.getOverflowIcon()).setTint(requireContext().getResources().getColor(R.color.titleTextColor, null));
     }
 
+    private void setMediaBrowserListenableFuture() {
+        discoverSongAdapter.setMediaBrowserListenableFuture(activity.getMediaBrowserListenableFuture());
+        similarMusicAdapter.setMediaBrowserListenableFuture(activity.getMediaBrowserListenableFuture());
+        starredSongAdapter.setMediaBrowserListenableFuture(activity.getMediaBrowserListenableFuture());
+    }
+
     private void initDiscoverSongSlideView() {
         bind.discoverSongViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
@@ -230,6 +250,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        bind.discoverSongViewPager.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: " + view.toString());
+            }
+        });
+
         setDiscoverSongSlideViewOffset(20, 16);
     }
 
@@ -237,7 +264,7 @@ public class HomeFragment extends Fragment {
         bind.similarTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.similarTracksRecyclerView.setHasFixedSize(true);
 
-        similarMusicAdapter = new SimilarTrackAdapter(activity, requireContext());
+        similarMusicAdapter = new SimilarTrackAdapter(requireContext());
         bind.similarTracksRecyclerView.setAdapter(similarMusicAdapter);
         homeViewModel.getStarredTracksSample().observe(requireActivity(), songs -> {
             if (songs == null) {

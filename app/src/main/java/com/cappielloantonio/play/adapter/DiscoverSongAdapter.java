@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.media3.session.MediaBrowser;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.App;
@@ -19,8 +20,10 @@ import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,7 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
     private final LayoutInflater inflater;
     private final Context context;
     private final MainActivity activity;
+    private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
     private List<Song> songs;
 
@@ -77,6 +81,10 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
         notifyDataSetChanged();
     }
 
+    public void setMediaBrowserListenableFuture(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture) {
+        this.mediaBrowserListenableFuture = mediaBrowserListenableFuture;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textTitle;
         TextView textAlbum;
@@ -94,15 +102,7 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
 
         @Override
         public void onClick(View view) {
-            List<Song> opener = new ArrayList<>();
-            opener.add(songs.get(getBindingAdapterPosition()));
-            // MusicPlayerRemote.openQueue(opener, 0, true);
-
-            QueueRepository queueRepository = new QueueRepository(App.getInstance());
-            queueRepository.insertAllAndStartNew(opener);
-
-            activity.setBottomSheetInPeek(true);
-            // activity.setBottomSheetMusicInfo(songs.get(getBindingAdapterPosition()));
+            MediaManager.startQueue(mediaBrowserListenableFuture, context, songs.get(getBindingAdapterPosition()));
 
             SongRepository songRepository = new SongRepository(App.getInstance());
             songRepository.getInstantMix(songs.get(getBindingAdapterPosition()), 20, new MediaCallback() {
@@ -113,7 +113,7 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
 
                 @Override
                 public void onLoadMedia(List<?> media) {
-                    //MusicPlayerRemote.enqueue((List<Song>) media);
+                    MediaManager.enqueue(mediaBrowserListenableFuture, context, (List<Song>) media, songs.size());
                 }
             });
         }

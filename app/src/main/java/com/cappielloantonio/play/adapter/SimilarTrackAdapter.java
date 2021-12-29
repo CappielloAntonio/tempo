@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,18 +10,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.media3.session.MediaController;
+import androidx.media3.session.MediaBrowser;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.util.MappingUtil;
+import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.util.MusicUtil;
-import com.google.common.util.concurrent.MoreExecutors;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +31,13 @@ import java.util.List;
 public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapter.ViewHolder> {
     private static final String TAG = "SimilarTrackAdapter";
 
-    private final MainActivity mainActivity;
     private final Context context;
     private final LayoutInflater mInflater;
 
+    private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
     private List<Song> songs;
 
-    public SimilarTrackAdapter(MainActivity mainActivity, Context context) {
-        this.mainActivity = mainActivity;
+    public SimilarTrackAdapter(Context context) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.songs = new ArrayList<>();
@@ -68,12 +68,19 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
         return songs.size();
     }
 
+    public Song getItem(int position) {
+        return songs.get(position);
+    }
+
     public void setItems(List<Song> songs) {
         this.songs = songs;
         notifyDataSetChanged();
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
+    public void setMediaBrowserListenableFuture(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture) {
+        this.mediaBrowserListenableFuture = mediaBrowserListenableFuture;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView textTitle;
         ImageView cover;
@@ -90,31 +97,9 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
 
         @Override
         public void onClick(View view) {
-            // List<Song> opener = new ArrayList<>();
-            // opener.add(songs.get(getBindingAdapterPosition()));
-            // MusicPlayerRemote.openQueue(opener, 0, true);
+            MediaManager.startQueue(mediaBrowserListenableFuture, context, songs.get(getBindingAdapterPosition()));
 
-            // MediaManager.startQueue(mainActivity.getMediaControllerInstance(), MappingUtil.mapMediaItem(context, opener), opener);
-
-            mainActivity.mediaControllerListenableFuture.addListener(() -> {
-                try {
-                    if (mainActivity.mediaControllerListenableFuture.isDone()) {
-                        MediaController mediaController = mainActivity.mediaControllerListenableFuture.get();
-
-                        mediaController.setMediaItem(MappingUtil.mapMediaItem(context, songs.get(getBindingAdapterPosition())));
-                    }
-                } catch (Exception e) {
-                    Log.e(TAG, e.getMessage());
-                }
-            }, MoreExecutors.directExecutor());
-
-            // QueueRepository queueRepository = new QueueRepository(App.getInstance());
-            // queueRepository.insertAllAndStartNew(opener);
-
-            mainActivity.setBottomSheetInPeek(true);
-            // mainActivity.setBottomSheetMusicInfo(songs.get(getBindingAdapterPosition()));
-
-            /*SongRepository songRepository = new SongRepository(App.getInstance());
+            SongRepository songRepository = new SongRepository(App.getInstance());
             songRepository.getInstantMix(songs.get(getBindingAdapterPosition()), 20, new MediaCallback() {
                 @Override
                 public void onError(Exception exception) {
@@ -123,10 +108,9 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
 
                 @Override
                 public void onLoadMedia(List<?> media) {
-                    // MusicPlayerRemote.enqueue((List<Song>) media);
-                    MediaManager.enqueue(mainActivity.getMediaControllerInstance(), MappingUtil.mapMediaItem(context, (List<Song>) media), (List<Song>) media);
+                    MediaManager.enqueue(mediaBrowserListenableFuture, context, (List<Song>) media, songs.size());
                 }
-            });*/
+            });
         }
 
         @Override

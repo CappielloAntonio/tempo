@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.media3.session.MediaBrowser;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,9 +19,11 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MusicUtil;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +36,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
     private final LayoutInflater mInflater;
     private final boolean isCoverVisible;
 
+    private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
     private List<Song> songs;
 
     public SongHorizontalAdapter(MainActivity mainActivity, Context context, boolean isCoverVisible) {
@@ -85,6 +89,10 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         notifyDataSetChanged();
     }
 
+    public void setMediaBrowserListenableFuture(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture) {
+        this.mediaBrowserListenableFuture = mediaBrowserListenableFuture;
+    }
+
     public Song getItem(int id) {
         return songs.get(id);
     }
@@ -120,13 +128,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
 
         @Override
         public void onClick(View view) {
-            QueueRepository queueRepository = new QueueRepository(App.getInstance());
-            queueRepository.insertAllAndStartNew(songs);
-
-            mainActivity.setBottomSheetInPeek(true);
-            // mainActivity.setBottomSheetMusicInfo(songs.get(getBindingAdapterPosition()));
-
-            // MusicPlayerRemote.openQueue(songs, getBindingAdapterPosition(), true);
+            MediaManager.startQueue(mediaBrowserListenableFuture, context, songs, getBindingAdapterPosition());
         }
 
         @Override

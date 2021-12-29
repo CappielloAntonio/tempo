@@ -5,7 +5,9 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.database.AppDatabase;
+import com.cappielloantonio.play.database.dao.DownloadDao;
 import com.cappielloantonio.play.database.dao.QueueDao;
+import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.util.MappingUtil;
@@ -44,6 +46,12 @@ public class QueueRepository {
         }
 
         return songs;
+    }
+
+    public void insertAll(List<Song> songs) {
+        InsertAllThreadSafe insertAll = new InsertAllThreadSafe(queueDao, songs);
+        Thread thread = new Thread(insertAll);
+        thread.start();
     }
 
     public void insertAllAndStartNew(List<Song> songs) {

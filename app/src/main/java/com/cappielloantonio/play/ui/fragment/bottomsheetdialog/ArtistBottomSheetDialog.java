@@ -22,7 +22,6 @@ import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.ArtistBottomSheetViewModel;
@@ -89,9 +88,9 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
                         queueRepository.insertAllAndStartNew((ArrayList<Song>) media);
 
                         ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
-                        ((MainActivity) requireActivity()).setBottomSheetMusicInfo((Song) media.get(0));
+                        // ((MainActivity) requireActivity()).setBottomSheetMusicInfo((Song) media.get(0));
 
-                        MusicPlayerRemote.openQueue((List<Song>) media, 0, true);
+                        // MusicPlayerRemote.openQueue((List<Song>) media, 0, true);
                     } else {
                         Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_radio), Toast.LENGTH_SHORT).show();
                     }
@@ -109,7 +108,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
                     QueueRepository queueRepository = new QueueRepository(App.getInstance());
                     queueRepository.insertAllAndStartNew(songs);
 
-                    MusicPlayerRemote.openQueue(songs, 0, true);
+                    // MusicPlayerRemote.openQueue(songs, 0, true);
                     ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_tracks), Toast.LENGTH_SHORT).show();

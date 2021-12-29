@@ -18,7 +18,6 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MusicUtil;
@@ -59,11 +58,11 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         holder.songSubtitle.setText(context.getString(R.string.song_subtitle_formatter, MusicUtil.getReadableString(song.getArtistName()), MusicUtil.getReadableDurationString(song.getDuration(), false)));
         holder.trackNumber.setText(String.valueOf(song.getTrackNumber()));
 
-        if (DownloadUtil.getDownloadTracker(context).isDownloaded(song)) {
+        /*if (DownloadUtil.getDownloadTracker(context).isDownloaded(song)) {
             holder.downloadIndicator.setVisibility(View.VISIBLE);
         } else {
             holder.downloadIndicator.setVisibility(View.GONE);
-        }
+        }*/
 
         if (isCoverVisible) CustomGlideRequest.Builder
                 .from(context, song.getPrimary(), CustomGlideRequest.SONG_PIC, null)
@@ -125,9 +124,9 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
             queueRepository.insertAllAndStartNew(songs);
 
             mainActivity.setBottomSheetInPeek(true);
-            mainActivity.setBottomSheetMusicInfo(songs.get(getBindingAdapterPosition()));
+            // mainActivity.setBottomSheetMusicInfo(songs.get(getBindingAdapterPosition()));
 
-            MusicPlayerRemote.openQueue(songs, getBindingAdapterPosition(), true);
+            // MusicPlayerRemote.openQueue(songs, getBindingAdapterPosition(), true);
         }
 
         @Override

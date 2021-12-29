@@ -17,7 +17,6 @@ import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentSongListPageBinding;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.SongListPageViewModel;
@@ -139,9 +138,9 @@ public class SongListPageFragment extends Fragment {
                     queueRepository.insertAllAndStartNew(songs);
 
                     activity.setBottomSheetInPeek(true);
-                    activity.setBottomSheetMusicInfo(songs.get(0));
+                    // activity.setBottomSheetMusicInfo(songs.get(0));
 
-                    MusicPlayerRemote.openQueue(songs, 0, true);
+                    // MusicPlayerRemote.openQueue(songs, 0, true);
                 });
             }
         });

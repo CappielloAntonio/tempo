@@ -22,7 +22,6 @@ import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.repository.QueueRepository;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MusicUtil;
@@ -87,7 +86,7 @@ public class AlbumPageFragment extends Fragment {
         if (item.getItemId() == R.id.action_download_album) {
             albumPageViewModel.getAlbumSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
                 if (isVisible() && getActivity() != null) {
-                    DownloadUtil.getDownloadTracker(requireContext()).download(songs, null, null);
+                    // DownloadUtil.getDownloadTracker(requireContext()).download(songs, null, null);
                 }
             });
             return true;
@@ -139,9 +138,9 @@ public class AlbumPageFragment extends Fragment {
                     queueRepository.insertAllAndStartNew(songs);
 
                     activity.setBottomSheetInPeek(true);
-                    activity.setBottomSheetMusicInfo(songs.get(0));
+                    // activity.setBottomSheetMusicInfo(songs.get(0));
 
-                    MusicPlayerRemote.openQueue(songs, 0, true);
+                    // MusicPlayerRemote.openQueue(songs, 0, true);
                 });
 
                 bind.albumPageShuffleButton.setOnClickListener(v -> {
@@ -151,9 +150,9 @@ public class AlbumPageFragment extends Fragment {
                     queueRepository.insertAllAndStartNew(songs);
 
                     activity.setBottomSheetInPeek(true);
-                    activity.setBottomSheetMusicInfo(songs.get(0));
+                    // activity.setBottomSheetMusicInfo(songs.get(0));
 
-                    MusicPlayerRemote.openQueue(songs, 0, true);
+                    // MusicPlayerRemote.openQueue(songs, 0, true);
                 });
             }
 

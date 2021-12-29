@@ -23,7 +23,6 @@ import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MusicUtil;
@@ -95,9 +94,9 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
                         queueRepository.insertAllAndStartNew((ArrayList<Song>) media);
 
                         ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
-                        ((MainActivity) requireActivity()).setBottomSheetMusicInfo((Song) media.get(0));
+                        // ((MainActivity) requireActivity()).setBottomSheetMusicInfo((Song) media.get(0));
 
-                        MusicPlayerRemote.openQueue((List<Song>) media, 0, true);
+                        // MusicPlayerRemote.openQueue((List<Song>) media, 0, true);
                     } else {
                         Toast.makeText(requireContext(), getString(R.string.album_error_retrieving_radio), Toast.LENGTH_SHORT).show();
                     }
@@ -116,7 +115,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
                 QueueRepository queueRepository = new QueueRepository(App.getInstance());
                 queueRepository.insertAllAndStartNew(songs);
 
-                MusicPlayerRemote.openQueue(songs, 0, true);
+                // MusicPlayerRemote.openQueue(songs, 0, true);
                 ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
 
                 dismissBottomSheet();
@@ -125,14 +124,14 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
         TextView playNext = view.findViewById(R.id.play_next_text_view);
         playNext.setOnClickListener(v -> albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
-            MusicPlayerRemote.playNext(songs);
+            // MusicPlayerRemote.playNext(songs);
             ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
             dismissBottomSheet();
         }));
 
         TextView addToQueue = view.findViewById(R.id.add_to_queue_text_view);
         addToQueue.setOnClickListener(v -> albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
-            MusicPlayerRemote.enqueue(songs);
+            // MusicPlayerRemote.enqueue(songs);
             dismissBottomSheet();
         }));
 
@@ -141,18 +140,18 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
         albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
             downloadAll.setOnClickListener(v -> {
-                DownloadUtil.getDownloadTracker(requireContext()).download(songs, null, null);
+                // DownloadUtil.getDownloadTracker(requireContext()).download(songs, null, null);
                 dismissBottomSheet();
             });
 
-            if (DownloadUtil.getDownloadTracker(requireContext()).isDownloaded(songs)) {
+            /*if (DownloadUtil.getDownloadTracker(requireContext()).isDownloaded(songs)) {
                 removeAll.setOnClickListener(v -> {
                     DownloadUtil.getDownloadTracker(requireContext()).remove(songs);
                     dismissBottomSheet();
                 });
             } else {
                 removeAll.setVisibility(View.GONE);
-            }
+            }*/
         });
 
         TextView goToArtist = view.findViewById(R.id.go_to_artist_text_view);

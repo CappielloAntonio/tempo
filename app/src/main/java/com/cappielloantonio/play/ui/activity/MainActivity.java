@@ -12,15 +12,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.broadcast.receiver.ConnectivityStatusBroadcastReceiver;
 import com.cappielloantonio.play.databinding.ActivityMainBinding;
-import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.base.BaseActivity;
 import com.cappielloantonio.play.ui.dialog.ConnectionAlertDialog;
 import com.cappielloantonio.play.ui.dialog.ServerUnreachableDialog;
@@ -74,6 +71,14 @@ public class MainActivity extends BaseActivity {
         super.onDestroy();
         connectivityStatusReceiverManager(false);
         bind = null;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED)
+            collapseBottomSheet();
+        else
+            super.onBackPressed();
     }
 
     public void init() {
@@ -159,7 +164,7 @@ public class MainActivity extends BaseActivity {
 
                     switch (state) {
                         case BottomSheetBehavior.STATE_HIDDEN:
-                            MusicPlayerRemote.quitPlaying();
+                            resetMusicSession();
                             break;
                         case BottomSheetBehavior.STATE_COLLAPSED:
                             if (playerBottomSheetFragment != null) {
@@ -192,17 +197,6 @@ public class MainActivity extends BaseActivity {
                     }
                 }
             };
-
-    /*
-     * Scroll on top del bottom sheet quando chiudo
-     * In questo modo non mi ritrovo al posto dell'header una parte centrale del player
-     */
-    public void setBottomSheetMusicInfo(Song song) {
-        PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
-        if (playerBottomSheetFragment == null) return;
-
-        playerBottomSheetFragment.setSongInfo(song);
-    }
 
     public void collapseBottomSheet() {
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -255,19 +249,11 @@ public class MainActivity extends BaseActivity {
     private void resetMusicSession() {
         QueueRepository queueRepository = new QueueRepository(App.getInstance());
         queueRepository.deleteAll();
-        MusicPlayerRemote.quitPlaying();
+        // MusicPlayerRemote.quitPlaying();
     }
 
     private void resetViewModel() {
         this.getViewModelStore().clear();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED)
-            collapseBottomSheet();
-        else
-            super.onBackPressed();
     }
 
     // CONNECTION

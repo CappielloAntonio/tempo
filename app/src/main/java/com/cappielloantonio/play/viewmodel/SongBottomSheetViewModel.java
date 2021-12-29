@@ -51,7 +51,7 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
             song.setFavorite(true);
 
             if(PreferenceUtil.getInstance(context).isStarredSyncEnabled()) {
-                DownloadUtil.getDownloadTracker(context).download(Collections.singletonList(song), null, null);
+                // DownloadUtil.getDownloadTracker(context).download(Collections.singletonList(song), null, null);
             }
         }
     }

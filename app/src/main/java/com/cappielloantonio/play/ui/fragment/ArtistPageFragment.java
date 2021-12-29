@@ -30,7 +30,6 @@ import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.ArtistPageViewModel;
@@ -148,7 +147,7 @@ public class ArtistPageFragment extends Fragment {
                     QueueRepository queueRepository = new QueueRepository(App.getInstance());
                     queueRepository.insertAllAndStartNew(songs);
 
-                    MusicPlayerRemote.openQueue(songs, 0, true);
+                    // MusicPlayerRemote.openQueue(songs, 0, true);
                     activity.setBottomSheetInPeek(true);
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_tracks), Toast.LENGTH_SHORT).show();
@@ -171,9 +170,9 @@ public class ArtistPageFragment extends Fragment {
                         queueRepository.insertAllAndStartNew((ArrayList<Song>) media);
 
                         activity.setBottomSheetInPeek(true);
-                        activity.setBottomSheetMusicInfo((Song) media.get(0));
+                        // activity.setBottomSheetMusicInfo((Song) media.get(0));
 
-                        MusicPlayerRemote.openQueue((List<Song>) media, 0, true);
+                        // MusicPlayerRemote.openQueue((List<Song>) media, 0, true);
                     } else {
                         Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_radio), Toast.LENGTH_SHORT).show();
                     }

@@ -8,18 +8,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.media3.session.MediaBrowser;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.fragment.PlayerBottomSheetFragment;
+import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.MoreExecutors;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueueAdapter.ViewHolder> {
     private static final String TAG = "SongResultSearchAdapter";
@@ -57,10 +61,10 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.cover);
 
-        if (position < MusicPlayerRemote.getPosition()) {
+        /* if (position < MusicPlayerRemote.getPosition()) {
             holder.songTitle.setTextColor(context.getResources().getColor(R.color.songToPlayTextColor, null));
             holder.songSubtitle.setTextColor(context.getResources().getColor(R.color.songToPlayTextColor, null));
-        }
+        } */
     }
 
     @Override
@@ -101,8 +105,8 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
 
         @Override
         public void onClick(View view) {
-            playerBottomSheetFragment.setSongInfo(songs.get(getBindingAdapterPosition()));
-            MusicPlayerRemote.openQueue(songs, getBindingAdapterPosition(), true);
+            // playerBottomSheetFragment.setSongInfo(songs.get(getBindingAdapterPosition()));
+            // MusicPlayerRemote.openQueue(songs, getBindingAdapterPosition(), true);
         }
     }
 }

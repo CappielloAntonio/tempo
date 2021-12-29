@@ -1,16 +1,26 @@
 package com.cappielloantonio.play.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ScrollView;
-import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.MediaItem;
+import androidx.media3.common.MediaMetadata;
+import androidx.media3.common.Player;
+import androidx.media3.session.MediaController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,40 +32,37 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.PlayerNowPlayingSongAdapter;
 import com.cappielloantonio.play.adapter.PlayerSongQueueAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlayerBottomSheetBinding;
-import com.cappielloantonio.play.databinding.PlayerBodyBottomSheetBinding;
-import com.cappielloantonio.play.databinding.PlayerHeaderBottomSheetBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.helper.MusicProgressViewUpdateHelper;
-import com.cappielloantonio.play.interfaces.MusicServiceEventListener;
-import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.dialog.RatingDialog;
 import com.cappielloantonio.play.util.MappingUtil;
-import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
+import com.google.common.util.concurrent.MoreExecutors;
 
 import java.util.Collections;
 import java.util.Objects;
 
-public class PlayerBottomSheetFragment extends Fragment implements MusicServiceEventListener, MusicProgressViewUpdateHelper.Callback {
+public class PlayerBottomSheetFragment extends Fragment {
     private static final String TAG = "PlayerBottomSheetFragment";
 
     private FragmentPlayerBottomSheetBinding bind;
-    private PlayerHeaderBottomSheetBinding headerBind;
-    private PlayerBodyBottomSheetBinding bodyBind;
+    private ImageView playerMoveDownBottomSheet;
+    private ViewPager2 playerSongCoverViewPager;
+    private RecyclerView playerQueueRecyclerView;
+    private ToggleButton buttonFavorite;
+    private ImageButton playerCommandUnfoldButton;
+    private CardView playerCommandCardview;
+    private TextView playerSongTitleLabel;
+    private TextView playerArtistNameLabel;
+
     private MainActivity activity;
     private PlayerBottomSheetViewModel playerBottomSheetViewModel;
 
     private PlayerSongQueueAdapter playerSongQueueAdapter;
 
-    private MusicProgressViewUpdateHelper progressViewUpdateHelper;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        progressViewUpdateHelper = new MusicProgressViewUpdateHelper(this);
     }
 
     @Nullable
@@ -66,9 +73,6 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         bind = FragmentPlayerBottomSheetBinding.inflate(inflater, container, false);
         View view = bind.getRoot();
 
-        headerBind = bind.playerHeaderLayout;
-        bodyBind = bind.playerBodyLayout;
-
         playerBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(PlayerBottomSheetViewModel.class);
 
         init();
@@ -76,58 +80,131 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
         initQueueRecyclerView();
         initFavoriteButtonClick();
         initMusicCommandUnfoldButton();
-        initMusicCommandButton();
         initArtistLabelButton();
 
         return view;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        activity.addMusicServiceEventListener(this);
-        setUpMusicControllers();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
 
-        progressViewUpdateHelper.start();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        progressViewUpdateHelper.stop();
+        bindMediaController();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-        activity.removeMusicServiceEventListener(this);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        headerBind = null;
-        bodyBind = null;
         bind = null;
     }
 
+    @SuppressLint("UnsafeOptInUsageError")
     private void init() {
-        bodyBind.playerMoveDownBottomSheet.setOnClickListener(view -> activity.collapseBottomSheet());
+        playerMoveDownBottomSheet = bind.getRoot().findViewById(R.id.player_move_down_bottom_sheet);
+        playerSongCoverViewPager = bind.getRoot().findViewById(R.id.player_song_cover_view_pager);
+        playerQueueRecyclerView = bind.getRoot().findViewById(R.id.player_queue_recycler_view);
+        buttonFavorite = bind.getRoot().findViewById(R.id.button_favorite);
+        playerCommandUnfoldButton = bind.getRoot().findViewById(R.id.player_command_unfold_button);
+        playerCommandCardview = bind.getRoot().findViewById(R.id.player_command_cardview);
+        playerSongTitleLabel = bind.getRoot().findViewById(R.id.player_song_title_label);
+        playerArtistNameLabel = bind.getRoot().findViewById(R.id.player_artist_name_label);
+
+        playerMoveDownBottomSheet.setOnClickListener(view -> activity.collapseBottomSheet());
+        bind.playerBodyLayout.setProgressUpdateListener((position, bufferedPosition) -> bind.playerHeaderLayout.playerHeaderSeekBar.setProgress((int) (position / 1000), true));
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    private void bindMediaController() {
+        activity.mediaControllerListenableFuture.addListener(() -> {
+            try {
+                MediaController mediaController = activity.mediaControllerListenableFuture.get();
+
+                bind.playerBodyLayout.setPlayer(mediaController);
+
+                setMediaControllerListener(mediaController);
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage());
+            }
+        }, MoreExecutors.directExecutor());
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    private void setMediaControllerListener(MediaController mediaController) {
+        setMetadata(mediaController.getMediaMetadata());
+        setContentDuration(mediaController.getContentDuration());
+        setPlayingState(mediaController.isPlaying());
+        setHeaderMediaController();
+        setHeaderNextButtonState(mediaController.hasNextMediaItem());
+
+        mediaController.addListener(new Player.Listener() {
+            @Override
+            public void onMediaMetadataChanged(@NonNull MediaMetadata mediaMetadata) {
+                setMetadata(mediaMetadata);
+                setContentDuration(mediaController.getContentDuration());
+            }
+
+            @Override
+            public void onIsPlayingChanged(boolean isPlaying) {
+                setPlayingState(isPlaying);
+            }
+
+            @Override
+            public void onMediaItemTransition(@Nullable MediaItem mediaItem, int reason) {
+                setHeaderNextButtonState(mediaController.hasNextMediaItem());
+            }
+        });
+    }
+
+    private void setMetadata(MediaMetadata mediaMetadata) {
+        bind.playerHeaderLayout.playerHeaderSongTitleLabel.setText(mediaMetadata.title);
+        bind.playerHeaderLayout.playerHeaderSongArtistLabel.setText(mediaMetadata.artist);
+
+        playerSongTitleLabel.setText(mediaMetadata.title);
+        playerArtistNameLabel.setText(mediaMetadata.artist);
+
+        CustomGlideRequest.Builder
+                .from(requireContext(), mediaMetadata.extras != null ? mediaMetadata.extras.getString("id") : null, CustomGlideRequest.SONG_PIC, null)
+                .build()
+                .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
+                .into(bind.playerHeaderLayout.playerHeaderSongCoverImage);
+    }
+
+    private void setContentDuration(long duration) {
+        bind.playerHeaderLayout.playerHeaderSeekBar.setMax((int) (duration / 1000));
+    }
+
+    private void setPlayingState(boolean isPlaying) {
+        bind.playerHeaderLayout.playerHeaderButton.setChecked(isPlaying);
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    private void setHeaderMediaController() {
+        bind.playerHeaderLayout.playerHeaderButton.setOnClickListener(view -> {
+            if (bind.playerHeaderLayout.playerHeaderButton.isChecked()) {
+                bind.getRoot().findViewById(R.id.exo_play).performClick();
+            } else {
+                bind.getRoot().findViewById(R.id.exo_pause).performClick();
+            }
+        });
+
+        bind.playerHeaderLayout.playerHeaderNextSongButton.setOnClickListener(view -> bind.getRoot().findViewById(R.id.exo_next).performClick());
+    }
+
+    private void setHeaderNextButtonState(boolean isEnabled) {
+        bind.playerHeaderLayout.playerHeaderNextSongButton.setEnabled(isEnabled);
+        bind.playerHeaderLayout.playerHeaderNextSongButton.setAlpha(isEnabled ? (float) 1.0 : (float) 0.3);
     }
 
     private void initCoverLyricsSlideView() {
-        bodyBind.playerSongCoverViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-        bodyBind.playerSongCoverViewPager.setAdapter(new PlayerNowPlayingSongAdapter(this));
+        playerSongCoverViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        playerSongCoverViewPager.setAdapter(new PlayerNowPlayingSongAdapter(this));
 
-        bodyBind.playerSongCoverViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        playerSongCoverViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
@@ -142,11 +219,11 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     private void initQueueRecyclerView() {
-        bodyBind.playerQueueRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        bodyBind.playerQueueRecyclerView.setHasFixedSize(true);
+        playerQueueRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        playerQueueRecyclerView.setHasFixedSize(true);
 
         playerSongQueueAdapter = new PlayerSongQueueAdapter(requireContext(), this);
-        bodyBind.playerQueueRecyclerView.setAdapter(playerSongQueueAdapter);
+        playerQueueRecyclerView.setAdapter(playerSongQueueAdapter);
         playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), queue -> playerSongQueueAdapter.setItems(MappingUtil.mapQueue(queue)));
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
@@ -187,9 +264,9 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
                  * Qui vado a riscivere tutta la table Queue, quando teoricamente potrei solo swappare l'ordine degli elementi interessati
                  * Nel caso la coda contenesse parecchi brani, potrebbero verificarsi rallentamenti pesanti
                  */
-                playerBottomSheetViewModel.orderSongAfterSwap(playerSongQueueAdapter.getItems());
-                MusicPlayerRemote.moveSong(originalPosition, toPosition);
-                bodyBind.playerSongCoverViewPager.setCurrentItem(MusicPlayerRemote.getPosition(), false);
+                // playerBottomSheetViewModel.orderSongAfterSwap(playerSongQueueAdapter.getItems());
+                // MusicPlayerRemote.moveSong(originalPosition, toPosition);
+                // playerSongCoverViewPager.setCurrentItem(MusicPlayerRemote.getPosition(), false);
 
                 originalPosition = -1;
                 fromPosition = -1;
@@ -198,22 +275,22 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                if (!(viewHolder.getBindingAdapterPosition() == MusicPlayerRemote.getPosition()) && !(MusicPlayerRemote.getPlayingQueue().size() <= 1)) {
+                /*if (!(viewHolder.getBindingAdapterPosition() == MusicPlayerRemote.getPosition()) && !(MusicPlayerRemote.getPlayingQueue().size() <= 1)) {
                     MusicPlayerRemote.removeFromQueue(viewHolder.getBindingAdapterPosition());
                     playerBottomSheetViewModel.removeSong(viewHolder.getBindingAdapterPosition());
-                    Objects.requireNonNull(bodyBind.playerQueueRecyclerView.getAdapter()).notifyItemRemoved(viewHolder.getBindingAdapterPosition());
-                    bodyBind.playerSongCoverViewPager.setCurrentItem(MusicPlayerRemote.getPosition(), false);
+                    Objects.requireNonNull(playerQueueRecyclerView.getAdapter()).notifyItemRemoved(viewHolder.getBindingAdapterPosition());
+                    playerSongCoverViewPager.setCurrentItem(MusicPlayerRemote.getPosition(), false);
                 } else {
-                    bodyBind.playerQueueRecyclerView.getAdapter().notifyDataSetChanged();
-                }
+                    playerQueueRecyclerView.getAdapter().notifyDataSetChanged();
+                }*/
             }
         }
-        ).attachToRecyclerView(bodyBind.playerQueueRecyclerView);
+        ).attachToRecyclerView(playerQueueRecyclerView);
     }
 
     private void initFavoriteButtonClick() {
-        bodyBind.buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite(requireContext()));
-        bodyBind.buttonFavorite.setOnLongClickListener(v -> {
+        buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite(requireContext()));
+        buttonFavorite.setOnLongClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putParcelable("song_object", playerBottomSheetViewModel.getCurrentSong());
 
@@ -226,96 +303,22 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     private void initMusicCommandUnfoldButton() {
-        bodyBind.playerCommandUnfoldButton.setOnClickListener(view -> {
-            if (bodyBind.playerCommandCardview.getVisibility() == View.INVISIBLE || bodyBind.playerCommandCardview.getVisibility() == View.GONE) {
-                bodyBind.playerCommandCardview.setVisibility(View.VISIBLE);
+        playerCommandUnfoldButton.setOnClickListener(view -> {
+            if (playerCommandCardview.getVisibility() == View.INVISIBLE || playerCommandCardview.getVisibility() == View.GONE) {
+                playerCommandCardview.setVisibility(View.VISIBLE);
             } else {
-                bodyBind.playerCommandCardview.setVisibility(View.GONE);
+                playerCommandCardview.setVisibility(View.GONE);
             }
         });
-    }
-
-    private void initMusicCommandButton() {
-        // Header
-        headerBind.playerHeaderButton.setOnClickListener(v -> {
-            if (MusicPlayerRemote.isPlaying()) {
-                MusicPlayerRemote.pauseSong();
-            } else {
-                MusicPlayerRemote.resumePlaying();
-            }
-        });
-
-        headerBind.playerHeaderNextSongButton.setOnClickListener(v -> MusicPlayerRemote.playNextSong());
-
-        // Body
-        bodyBind.playerBigPlayPauseButton.setOnClickListener(v -> {
-            if (MusicPlayerRemote.isPlaying()) {
-                MusicPlayerRemote.pauseSong();
-            } else {
-                MusicPlayerRemote.resumePlaying();
-            }
-        });
-
-        bodyBind.playerBigNextButton.setOnClickListener(v -> MusicPlayerRemote.playNextSong());
-        bodyBind.playerBigPreviousButton.setOnClickListener(v -> MusicPlayerRemote.playPreviousSong());
     }
 
     private void initArtistLabelButton() {
-        bodyBind.playerArtistNameLabel.setOnClickListener(view -> playerBottomSheetViewModel.getArtist().observe(requireActivity(), artist -> {
+        playerArtistNameLabel.setOnClickListener(view -> playerBottomSheetViewModel.getArtist().observe(requireActivity(), artist -> {
             Bundle bundle = new Bundle();
             bundle.putParcelable("artist_object", artist);
             NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
             activity.collapseBottomSheet();
         }));
-    }
-
-    private void initSeekBar() {
-        bodyBind.playerBigSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser) {
-                    MusicPlayerRemote.seekTo(progress);
-                    onUpdateProgressViews(MusicPlayerRemote.getSongProgressMillis(), MusicPlayerRemote.getSongDurationMillis());
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-    }
-
-    public void setSongInfo(Song song) {
-        playerBottomSheetViewModel.refreshSongInfo(requireActivity(), song);
-
-        bodyBind.playerSongTitleLabel.setText(MusicUtil.getReadableString(song.getTitle()));
-        bodyBind.playerArtistNameLabel.setText(MusicUtil.getReadableString(song.getArtistName()));
-
-        headerBind.playerHeaderSongTitleLabel.setText(MusicUtil.getReadableString(song.getTitle()));
-        headerBind.playerHeaderSongArtistLabel.setText(MusicUtil.getReadableString(song.getArtistName()));
-
-        CustomGlideRequest.Builder
-                .from(requireContext(), song.getPrimary(), CustomGlideRequest.SONG_PIC, null)
-                .build()
-                .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
-                .into(headerBind.playerHeaderSongCoverImage);
-
-        bodyBind.buttonFavorite.setChecked(song.isFavorite());
-    }
-
-    protected void updatePlayPauseState() {
-        headerBind.playerHeaderButton.setChecked(!MusicPlayerRemote.isPlaying());
-        bodyBind.playerBigPlayPauseButton.setChecked(!MusicPlayerRemote.isPlaying());
-    }
-
-    private void setUpMusicControllers() {
-        initSeekBar();
     }
 
     public View getPlayerHeader() {
@@ -327,53 +330,10 @@ public class PlayerBottomSheetFragment extends Fragment implements MusicServiceE
     }
 
     public void goBackToFirstPage() {
-        bodyBind.playerSongCoverViewPager.setCurrentItem(0);
+        playerSongCoverViewPager.setCurrentItem(0);
     }
 
     public boolean isViewPagerInFirstPage() {
-        return bodyBind.playerSongCoverViewPager.getCurrentItem() == 0;
-    }
-
-    @Override
-    public void onServiceConnected() {
-        setSongInfo(Objects.requireNonNull(MusicPlayerRemote.getCurrentSong()));
-        updatePlayPauseState();
-    }
-
-    @Override
-    public void onServiceDisconnected() {
-
-    }
-
-    @Override
-    public void onQueueChanged() {
-
-    }
-
-    @Override
-    public void onPlayMetadataChanged() {
-        setSongInfo(Objects.requireNonNull(MusicPlayerRemote.getCurrentSong()));
-    }
-
-    @Override
-    public void onPlayStateChanged() {
-        updatePlayPauseState();
-    }
-
-    @Override
-    public void onRepeatModeChanged() {
-
-    }
-
-    @Override
-    public void onUpdateProgressViews(int progress, int total) {
-        headerBind.playerHeaderSeekBar.setMax(total);
-        headerBind.playerHeaderSeekBar.setProgress(progress);
-
-        bodyBind.playerBigSeekBar.setMax(total);
-        bodyBind.playerBigSeekBar.setProgress(progress);
-
-        bodyBind.playerBigSongTimeIn.setText(MusicUtil.getReadableDurationString(progress, true));
-        bodyBind.playerBigSongDuration.setText(MusicUtil.getReadableDurationString(total, true));
+        return playerSongCoverViewPager.getCurrentItem() == 0;
     }
 }

@@ -22,7 +22,6 @@ import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.dialog.PlaylistChooserDialog;
 import com.cappielloantonio.play.ui.dialog.RatingDialog;
@@ -94,13 +93,13 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         playRadio.setOnClickListener(v -> {
             List<Song> opener = new ArrayList<>();
             opener.add(song);
-            MusicPlayerRemote.openQueue(opener, 0, true);
+            // MusicPlayerRemote.openQueue(opener, 0, true);
 
             QueueRepository queueRepository = new QueueRepository(App.getInstance());
             queueRepository.insertAllAndStartNew(opener);
 
             ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
-            ((MainActivity) requireActivity()).setBottomSheetMusicInfo(song);
+            // ((MainActivity) requireActivity()).setBottomSheetMusicInfo(song);
 
             SongRepository songRepository = new SongRepository(App.getInstance());
             songRepository.getInstantMix(song, 20, new MediaCallback() {
@@ -111,7 +110,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
                 @Override
                 public void onLoadMedia(List<?> media) {
-                    MusicPlayerRemote.enqueue((List<Song>) media);
+                    // MusicPlayerRemote.enqueue((List<Song>) media);
                 }
             });
 
@@ -120,14 +119,14 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
         TextView playNext = view.findViewById(R.id.play_next_text_view);
         playNext.setOnClickListener(v -> {
-            MusicPlayerRemote.playNext(song);
+            // MusicPlayerRemote.playNext(song);
             ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
             dismissBottomSheet();
         });
 
         TextView addToQueue = view.findViewById(R.id.add_to_queue_text_view);
         addToQueue.setOnClickListener(v -> {
-            MusicPlayerRemote.enqueue(song);
+            // MusicPlayerRemote.enqueue(song);
             ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
             dismissBottomSheet();
         });
@@ -146,13 +145,13 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
         TextView download = view.findViewById(R.id.download_text_view);
         download.setOnClickListener(v -> {
-            DownloadUtil.getDownloadTracker(requireContext()).download(Collections.singletonList(song), null, null);
+            // DownloadUtil.getDownloadTracker(requireContext()).download(Collections.singletonList(song), null, null);
             dismissBottomSheet();
         });
 
         TextView remove = view.findViewById(R.id.remove_text_view);
         remove.setOnClickListener(v -> {
-            DownloadUtil.getDownloadTracker(requireContext()).remove(Collections.singletonList(song));
+            // DownloadUtil.getDownloadTracker(requireContext()).remove(Collections.singletonList(song));
             dismissBottomSheet();
         });
 
@@ -205,12 +204,12 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
     }
 
     private void initDownloadUI(TextView download, TextView remove) {
-        if (DownloadUtil.getDownloadTracker(requireContext()).isDownloaded(song)) {
+        /*if (DownloadUtil.getDownloadTracker(requireContext()).isDownloaded(song)) {
             download.setVisibility(View.GONE);
             remove.setVisibility(View.VISIBLE);
         } else {
             download.setVisibility(View.VISIBLE);
             remove.setVisibility(View.GONE);
-        }
+        }*/
     }
 }

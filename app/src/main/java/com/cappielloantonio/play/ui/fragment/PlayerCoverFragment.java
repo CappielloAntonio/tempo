@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,13 +13,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.MediaMetadata;
 import androidx.media3.common.Player;
-import androidx.media3.session.MediaController;
+import androidx.media3.session.MediaBrowser;
+import androidx.media3.session.SessionToken;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.databinding.FragmentPlayerCoverBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 
 public class PlayerCoverFragment extends Fragment {
@@ -27,12 +30,10 @@ public class PlayerCoverFragment extends Fragment {
     private FragmentPlayerCoverBinding bind;
     private PlayerBottomSheetViewModel playerBottomSheetViewModel;
 
-    private MainActivity activity;
+    private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        activity = (MainActivity) requireActivity();
-
         bind = FragmentPlayerCoverBinding.inflate(inflater, container, false);
         View view = bind.getRoot();
 
@@ -42,10 +43,16 @@ public class PlayerCoverFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
+    public void onStart() {
+        super.onStart();
+        initializeBrowser();
         bindMediaController();
+    }
+
+    @Override
+    public void onStop() {
+        releaseBrowser();
+        super.onStop();
     }
 
     @Override
@@ -54,12 +61,21 @@ public class PlayerCoverFragment extends Fragment {
         bind = null;
     }
 
-    private void bindMediaController() {
-        activity.mediaControllerListenableFuture.addListener(() -> {
-            try {
-                MediaController mediaController = activity.mediaControllerListenableFuture.get();
+    @SuppressLint("UnsafeOptInUsageError")
+    private void initializeBrowser() {
+        mediaBrowserListenableFuture = new MediaBrowser.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
+    }
 
-                setMediaControllerListener(mediaController);
+    private void releaseBrowser() {
+        MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
+    }
+
+    private void bindMediaController() {
+        mediaBrowserListenableFuture.addListener(() -> {
+            try {
+                MediaBrowser mediaBrowseri = mediaBrowserListenableFuture.get();
+
+                setMediaBrowserListener(mediaBrowseri);
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage());
             }
@@ -67,10 +83,10 @@ public class PlayerCoverFragment extends Fragment {
     }
 
     @SuppressLint("UnsafeOptInUsageError")
-    private void setMediaControllerListener(MediaController mediaController) {
-        setCover(mediaController.getMediaMetadata());
+    private void setMediaBrowserListener(MediaBrowser mediaBrowser) {
+        setCover(mediaBrowser.getMediaMetadata());
 
-        mediaController.addListener(new Player.Listener() {
+        mediaBrowser.addListener(new Player.Listener() {
             @Override
             public void onMediaMetadataChanged(@NonNull MediaMetadata mediaMetadata) {
                 setCover(mediaMetadata);

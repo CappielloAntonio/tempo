@@ -1,5 +1,11 @@
 package com.cappielloantonio.play.util;
 
+import android.content.Context;
+import android.os.Bundle;
+
+import androidx.media3.common.MediaItem;
+import androidx.media3.common.MediaMetadata;
+
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Download;
@@ -175,5 +181,59 @@ public class MappingUtil {
         }
 
         return genres;
+    }
+
+    public static MediaItem mapMediaItem(Context context, Song song) {
+        Bundle bundle = new Bundle();
+        bundle.putString("id", song.getId());
+        bundle.putString("albumId", song.getAlbumId());
+        bundle.putString("artistId", song.getArtistId());
+
+        return new MediaItem.Builder()
+                .setMediaId(song.getId())
+                .setMediaMetadata(
+                        new MediaMetadata.Builder()
+                                .setTitle(song.getTitle())
+                                .setTrackNumber(song.getTrackNumber())
+                                .setDiscNumber(song.getDiscNumber())
+                                .setReleaseYear(song.getYear())
+                                .setAlbumTitle(song.getAlbumName())
+                                .setArtist(song.getArtistName())
+                                .setExtras(bundle)
+                                .build()
+                )
+                .setUri(MusicUtil.getSongStreamUri(context, song))
+                .build();
+    }
+
+    public static ArrayList<MediaItem> mapMediaItems(Context context, List<Song> songs) {
+        ArrayList<MediaItem> mediaItems = new ArrayList();
+
+        for (Song song : songs) {
+            Bundle bundle = new Bundle();
+            bundle.putString("id", song.getId());
+            bundle.putString("albumId", song.getAlbumId());
+            bundle.putString("artistId", song.getArtistId());
+
+            MediaItem item = new MediaItem.Builder()
+                    .setMediaId(song.getId())
+                    .setMediaMetadata(
+                            new MediaMetadata.Builder()
+                                    .setTitle(song.getTitle())
+                                    .setTrackNumber(song.getTrackNumber())
+                                    .setDiscNumber(song.getDiscNumber())
+                                    .setReleaseYear(song.getYear())
+                                    .setAlbumTitle(song.getAlbumName())
+                                    .setArtist(song.getArtistName())
+                                    .setExtras(bundle)
+                                    .build()
+                    )
+                    .setUri(MusicUtil.getSongStreamUri(context, song))
+                    .build();
+
+            mediaItems.add(item);
+        }
+
+        return mediaItems;
     }
 }

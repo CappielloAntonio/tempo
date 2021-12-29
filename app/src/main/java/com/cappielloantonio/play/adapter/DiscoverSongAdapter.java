@@ -103,6 +103,7 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
         @Override
         public void onClick(View view) {
             MediaManager.startQueue(mediaBrowserListenableFuture, context, songs.get(getBindingAdapterPosition()));
+            activity.setBottomSheetInPeek(true);
 
             SongRepository songRepository = new SongRepository(App.getInstance());
             songRepository.getInstantMix(songs.get(getBindingAdapterPosition()), 20, new MediaCallback() {

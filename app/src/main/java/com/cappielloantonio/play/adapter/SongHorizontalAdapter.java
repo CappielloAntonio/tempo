@@ -129,6 +129,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         @Override
         public void onClick(View view) {
             MediaManager.startQueue(mediaBrowserListenableFuture, context, songs, getBindingAdapterPosition());
+            mainActivity.setBottomSheetInPeek(true);
         }
 
         @Override

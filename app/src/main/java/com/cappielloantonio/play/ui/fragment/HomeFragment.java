@@ -264,7 +264,7 @@ public class HomeFragment extends Fragment {
         bind.similarTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.similarTracksRecyclerView.setHasFixedSize(true);
 
-        similarMusicAdapter = new SimilarTrackAdapter(requireContext());
+        similarMusicAdapter = new SimilarTrackAdapter(activity, requireContext());
         bind.similarTracksRecyclerView.setAdapter(similarMusicAdapter);
         homeViewModel.getStarredTracksSample().observe(requireActivity(), songs -> {
             if (songs == null) {

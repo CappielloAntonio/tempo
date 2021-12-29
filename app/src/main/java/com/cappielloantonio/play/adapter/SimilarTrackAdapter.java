@@ -22,6 +22,7 @@ import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.service.MediaManager;
+import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -31,13 +32,15 @@ import java.util.List;
 public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapter.ViewHolder> {
     private static final String TAG = "SimilarTrackAdapter";
 
+    private final MainActivity activity;
     private final Context context;
     private final LayoutInflater mInflater;
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
     private List<Song> songs;
 
-    public SimilarTrackAdapter(Context context) {
+    public SimilarTrackAdapter(MainActivity activity, Context context) {
+        this.activity = activity;
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.songs = new ArrayList<>();
@@ -98,6 +101,7 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
         @Override
         public void onClick(View view) {
             MediaManager.startQueue(mediaBrowserListenableFuture, context, songs.get(getBindingAdapterPosition()));
+            activity.setBottomSheetInPeek(true);
 
             SongRepository songRepository = new SongRepository(App.getInstance());
             songRepository.getInstantMix(songs.get(getBindingAdapterPosition()), 20, new MediaCallback() {

@@ -1,14 +1,20 @@
 package com.cappielloantonio.play.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.MediaMetadata;
+import androidx.media3.common.PlaybackParameters;
+import androidx.media3.common.Player;
+import androidx.media3.common.TracksInfo;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -26,8 +32,10 @@ import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.MainViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.common.util.concurrent.MoreExecutors;
 
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
@@ -56,13 +64,13 @@ public class MainActivity extends BaseActivity {
         connectivityStatusBroadcastReceiver = new ConnectivityStatusBroadcastReceiver(this);
         connectivityStatusReceiverManager(true);
 
-        init();
         checkConnectionType();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        init();
         pingServer();
     }
 
@@ -95,15 +103,19 @@ public class MainActivity extends BaseActivity {
     }
 
     // BOTTOM SHEET/NAVIGATION
+    @SuppressLint("UnsafeOptInUsageError")
     private void initBottomSheet() {
         bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.player_bottom_sheet));
         bottomSheetBehavior.addBottomSheetCallback(bottomSheetCallback);
         fragmentManager.beginTransaction().replace(R.id.player_bottom_sheet, new PlayerBottomSheetFragment(), "PlayerBottomSheet").commit();
 
-        /*
-         * All'apertura mostro il bottom sheet solo se in coda c'è qualcosa
-         */
-        setBottomSheetInPeek(mainViewModel.isQueueLoaded());
+        getMediaBrowserListenableFuture().addListener(() -> {
+            try {
+                setBottomSheetInPeek(getMediaBrowserListenableFuture().get().getMediaItemCount() > 0);
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        }, MoreExecutors.directExecutor());
     }
 
     public void setBottomSheetInPeek(Boolean isVisible) {

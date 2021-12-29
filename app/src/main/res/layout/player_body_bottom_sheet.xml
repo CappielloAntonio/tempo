@@ -65,41 +65,42 @@
         android:id="@+id/player_big_timer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="22dp"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/player_big_song_time_in"
+            android:id="@+id/exo_position"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginLeft="24dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:paddingTop="4dp"
             android:text="@string/label_placeholder"
             android:textColor="@color/titleTextColor"
             android:textSize="12sp" />
 
-        <SeekBar
-            android:id="@+id/player_big_seek_bar"
+        <androidx.media3.ui.DefaultTimeBar
+            android:id="@id/exo_progress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
             android:layout_weight="1"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:progressBackgroundTint="@color/colorAccentLight" />
+            app:bar_height="2dp"
+            app:buffered_color="@color/seekBarBufferedColor"
+            app:played_color="@color/seekBarPlayedColor"
+            app:scrubber_color="@color/seekBarPlayedColor"
+            app:scrubber_dragged_size="8dp"
+            app:unplayed_color="@color/seekBarUnPlayedColor" />
 
         <TextView
-            android:id="@+id/player_big_song_duration"
+            android:id="@+id/exo_duration"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
             android:layout_marginRight="24dp"
-            android:layout_marginBottom="10dp"
+            android:paddingTop="4dp"
             android:text="@string/label_placeholder"
             android:textColor="@color/titleTextColor"
             android:textSize="12sp" />
@@ -185,60 +186,67 @@
         android:visibility="gone"
         app:cardElevation="0dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipChildren="false">
+            android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/player_big_previous_button"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginEnd="24dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/player_big_play_pause_button"
-                app:layout_constraintEnd_toStartOf="@+id/player_big_play_pause_button"
-                app:layout_constraintTop_toTopOf="@+id/player_big_play_pause_button"
-                app:srcCompat="@drawable/ic_skip_previous" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <ToggleButton
-                android:id="@+id/player_big_play_pause_button"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/button_play_pause_selector"
-                android:checked="true"
-                android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                android:text=""
-                android:textOff=""
-                android:textOn=""
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <ImageButton
+                    android:id="@+id/exo_prev"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="24dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/ic_skip_previous" />
 
-            <ImageButton
-                android:id="@+id/player_big_next_button"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginStart="24dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/player_big_play_pause_button"
-                app:layout_constraintStart_toEndOf="@+id/player_big_play_pause_button"
-                app:layout_constraintTop_toTopOf="@+id/player_big_play_pause_button"
-                app:srcCompat="@drawable/ic_skip_next" />
+                <ImageButton
+                    android:id="@id/exo_play"
+                    style="@style/ExoMediaButton.Play"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="4dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_play" />
+
+                <ImageButton
+                    android:id="@id/exo_pause"
+                    style="@style/ExoMediaButton.Pause"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="4dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_pause" />
+
+                <ImageButton
+                    android:id="@+id/exo_next"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="4dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/ic_skip_next" />
+            </LinearLayout>
 
             <View
                 android:id="@+id/player_divider_bottom"
                 style="@style/Divider"
                 android:layout_marginStart="18dp"
                 android:layout_marginTop="12dp"
-                android:layout_marginEnd="18dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/player_big_play_pause_button" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_marginEnd="18dp" />
+
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView

@@ -36,5 +36,9 @@
     <color name="starBackgroundTintColor">#1D1D1D</color>
 
     <color name="placeholderColor">#1D1D1D</color>
+
+    <color name="seekBarPlayedColor">#7C00BB</color>
+    <color name="seekBarUnPlayedColor">#4C2A5D</color>
+    <color name="seekBarBufferedColor">#533364</color>
 </resources>
 

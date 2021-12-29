@@ -11,20 +11,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <androidx.media3.ui.PlayerControlView
+            android:id="@+id/player_body_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:controller_layout_id="@layout/player_body_bottom_sheet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:show_timeout="0"/>
+
         <include
             android:id="@+id/player_header_layout"
             layout="@layout/player_header_bottom_sheet"
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottom_sheet_peek_height"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <include
-            android:id="@+id/player_body_layout"
-            layout="@layout/player_body_bottom_sheet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

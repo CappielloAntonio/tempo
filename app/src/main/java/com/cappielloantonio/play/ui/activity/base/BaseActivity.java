@@ -3,28 +3,34 @@ package com.cappielloantonio.play.ui.activity.base;
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.media3.session.MediaController;
+import androidx.media3.common.MediaItem;
+import androidx.media3.common.MediaMetadata;
+import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.service.MediaService;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.MoreExecutors;
+
+import java.util.concurrent.ExecutionException;
 
 public class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
 
-    public SessionToken sessionToken;
-    public ListenableFuture<MediaController> mediaControllerListenableFuture;
+    private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
     @Override
     protected void onStart() {
         super.onStart();
-        initializeMediaController();
+        initializeBrowser();
     }
 
     @Override
@@ -35,8 +41,8 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
+        releaseBrowser();
         super.onStop();
-        releaseMediaController();
     }
 
     private void checkBatteryOptimization() {
@@ -68,12 +74,15 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @SuppressLint("UnsafeOptInUsageError")
-    private void initializeMediaController() {
-        sessionToken = new SessionToken(this, new ComponentName(this, MediaService.class));
-        mediaControllerListenableFuture = new MediaController.Builder(this, sessionToken).buildAsync();
+    private void initializeBrowser() {
+        mediaBrowserListenableFuture = new MediaBrowser.Builder(this, new SessionToken(this, new ComponentName(this, MediaService.class))).buildAsync();
     }
 
-    private void releaseMediaController() {
-        MediaController.releaseFuture(mediaControllerListenableFuture);
+    private void releaseBrowser() {
+        MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
+    }
+
+    public ListenableFuture<MediaBrowser> getMediaBrowserListenableFuture() {
+        return mediaBrowserListenableFuture;
     }
 }

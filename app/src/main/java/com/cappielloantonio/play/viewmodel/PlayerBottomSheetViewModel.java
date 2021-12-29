@@ -15,7 +15,6 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
-import com.cappielloantonio.play.service.MusicPlayerRemote;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
@@ -49,7 +48,8 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     }
 
     public Song getCurrentSong() {
-        return MusicPlayerRemote.getCurrentSong();
+        // return MusicPlayerRemote.getCurrentSong();
+        return null;
     }
 
     public void setFavorite(Context context) {
@@ -64,7 +64,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
                 song.setFavorite(true);
 
                 if(PreferenceUtil.getInstance(context).isStarredSyncEnabled()) {
-                    DownloadUtil.getDownloadTracker(context).download(Collections.singletonList(song), null, null);
+                    // DownloadUtil.getDownloadTracker(context).download(Collections.singletonList(song), null, null);
                 }
             }
         }

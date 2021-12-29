@@ -84,6 +84,12 @@ public class AlbumPageFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        setMediaBrowserListenableFuture();
+    }
+
+    @Override
     public void onStop() {
         releaseMediaBrowser();
         super.onStop();
@@ -191,5 +197,9 @@ public class AlbumPageFragment extends Fragment {
 
     private void releaseMediaBrowser() {
         MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
+    }
+
+    private void setMediaBrowserListenableFuture() {
+        songHorizontalAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
     }
 }

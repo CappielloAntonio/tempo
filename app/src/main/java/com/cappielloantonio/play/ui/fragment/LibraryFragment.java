@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.session.MediaBrowser;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -33,6 +34,7 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.LibraryViewModel;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.Objects;
 
@@ -48,6 +50,8 @@ public class LibraryFragment extends Fragment {
     private ArtistAdapter artistAdapter;
     private GenreAdapter genreAdapter;
     private PlaylistAdapter playlistAdapter;
+
+    private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -157,7 +161,8 @@ public class LibraryFragment extends Fragment {
             } else {
                 if (bind != null) bind.libraryNewReleasesPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null) bind.libraryNewReleasesSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
-                if (bind != null) bind.newReleasesRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
+                if (bind != null)
+                    bind.newReleasesRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
 
                 newRelesesAlbumAdapter.setItems(albums);
             }

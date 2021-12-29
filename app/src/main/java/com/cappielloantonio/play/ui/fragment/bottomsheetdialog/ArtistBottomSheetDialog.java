@@ -1,5 +1,7 @@
 package com.cappielloantonio.play.ui.fragment.bottomsheetdialog;
 
+import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +14,8 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.session.MediaBrowser;
+import androidx.media3.session.SessionToken;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.App;
@@ -22,10 +26,13 @@ import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.service.MediaManager;
+import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.ArtistBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +42,8 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
 
     private ArtistBottomSheetViewModel artistBottomSheetViewModel;
     private Artist artist;
+
+    private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
     @Nullable
     @Override
@@ -49,6 +58,19 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
         init(view);
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        initializeMediaBrowser();
+    }
+
+    @Override
+    public void onStop() {
+        releaseMediaBrowser();
+        super.onStop();
     }
 
     private void init(View view) {
@@ -84,13 +106,10 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
                 @Override
                 public void onLoadMedia(List<?> media) {
                     if (media.size() > 0) {
-                        QueueRepository queueRepository = new QueueRepository(App.getInstance());
-                        queueRepository.insertAllAndStartNew((ArrayList<Song>) media);
-
+                        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), (ArrayList<Song>) media, 0);
                         ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
-                        // ((MainActivity) requireActivity()).setBottomSheetMusicInfo((Song) media.get(0));
 
-                        // MusicPlayerRemote.openQueue((List<Song>) media, 0, true);
+                        dismissBottomSheet();
                     } else {
                         Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_radio), Toast.LENGTH_SHORT).show();
                     }
@@ -105,11 +124,10 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
             ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
             artistRepository.getArtistRandomSong(requireActivity(), artist, 20).observe(requireActivity(), songs -> {
                 if (songs.size() > 0) {
-                    QueueRepository queueRepository = new QueueRepository(App.getInstance());
-                    queueRepository.insertAllAndStartNew(songs);
-
-                    // MusicPlayerRemote.openQueue(songs, 0, true);
+                    MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
                     ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
+
+                    dismissBottomSheet();
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_tracks), Toast.LENGTH_SHORT).show();
                 }
@@ -126,5 +144,14 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
 
     private void dismissBottomSheet() {
         dismiss();
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    private void initializeMediaBrowser() {
+        mediaBrowserListenableFuture = new MediaBrowser.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
+    }
+
+    private void releaseMediaBrowser() {
+        MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
     }
 }

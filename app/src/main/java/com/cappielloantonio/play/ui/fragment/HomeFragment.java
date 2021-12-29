@@ -1,5 +1,7 @@
 package com.cappielloantonio.play.ui.fragment;
 
+import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +17,8 @@ import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.session.MediaBrowser;
+import androidx.media3.session.SessionToken;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -37,10 +41,12 @@ import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.HomeViewModel;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.Objects;
 
@@ -60,6 +66,8 @@ public class HomeFragment extends Fragment {
     private AlbumHorizontalAdapter starredAlbumAdapter;
     private ArtistHorizontalAdapter starredArtistAdapter;
     private SimilarTrackAdapter similarMusicAdapter;
+
+    private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -108,6 +116,7 @@ public class HomeFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+        initializeMediaBrowser();
         activity.setBottomNavigationBarVisibility(true);
         activity.setBottomSheetVisibility(true);
     }
@@ -120,8 +129,9 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onStop() {
+        releaseMediaBrowser();
+        super.onStop();
     }
 
     @Override
@@ -142,6 +152,16 @@ public class HomeFragment extends Fragment {
 
         return false;
     }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    private void initializeMediaBrowser() {
+        mediaBrowserListenableFuture = new MediaBrowser.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
+    }
+
+    private void releaseMediaBrowser() {
+        MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
+    }
+
 
     private void init() {
         bind.recentlyAddedAlbumsTextViewClickable.setOnClickListener(v -> {
@@ -227,9 +247,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void setMediaBrowserListenableFuture() {
-        discoverSongAdapter.setMediaBrowserListenableFuture(activity.getMediaBrowserListenableFuture());
-        similarMusicAdapter.setMediaBrowserListenableFuture(activity.getMediaBrowserListenableFuture());
-        starredSongAdapter.setMediaBrowserListenableFuture(activity.getMediaBrowserListenableFuture());
+        discoverSongAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
+        similarMusicAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
+        starredSongAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
     }
 
     private void initDiscoverSongSlideView() {
@@ -247,13 +267,6 @@ public class HomeFragment extends Fragment {
                 if (bind != null) bind.homeDiscoverSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
 
                 discoverSongAdapter.setItems(songs);
-            }
-        });
-
-        bind.discoverSongViewPager.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: " + view.toString());
             }
         });
 

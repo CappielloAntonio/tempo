@@ -112,7 +112,7 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
 
                 @Override
                 public void onLoadMedia(List<?> media) {
-                    MediaManager.enqueue(mediaBrowserListenableFuture, context, (List<Song>) media, songs.size());
+                    MediaManager.enqueue(mediaBrowserListenableFuture, context, (List<Song>) media, false);
                 }
             });
         }

@@ -24,11 +24,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".service.MusicService" android:enabled="true"/>
-        <service android:name=".service.DownloaderService" android:exported="false">
+        <service
+            android:name=".service.MediaService"
+            android:exported="true">
             <intent-filter>
-                <action android:name="com.google.android.exoplayer.downloadService.action.RESTART"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="androidx.media3.session.MediaLibraryService" />
+                <action android:name="androidx.media3.session.MediaBrowserService" />
             </intent-filter>
         </service>
     </application>

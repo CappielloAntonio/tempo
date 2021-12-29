@@ -1,15 +1,18 @@
 package com.cappielloantonio.play.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.text.Html;
 import android.util.Log;
+
+import androidx.media3.common.MediaItem;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Song;
-import com.google.android.exoplayer2.MediaItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +23,7 @@ import java.util.regex.Pattern;
 public class MusicUtil {
     private static final String TAG = "MusicUtil";
 
-    public static String getSongStreamUri(Context context, Song song) {
+    public static Uri getSongStreamUri(Context context, Song song) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         Map<String, String> params = App.getSubsonicClientInstance(App.getInstance(), false).getParams();
@@ -38,9 +41,10 @@ public class MusicUtil {
 
         Log.d(TAG, "getSongStreamUri(): " + uri);
 
-        return uri;
+        return Uri.parse(uri);
     }
 
+    @SuppressLint("UnsafeOptInUsageError")
     public static MediaItem getSongDownloadItem(Song song) {
         Map<String, String> params = App.getSubsonicClientInstance(App.getInstance(), false).getParams();
 
@@ -139,7 +143,7 @@ public class MusicUtil {
     private static String getBitratePreference(Context context, int connectionType) {
         String audioTranscodeFormat = getTranscodingFormatPreference(context, connectionType);
 
-        if(audioTranscodeFormat.equals("0")) return "0";
+        if (audioTranscodeFormat.equals("0")) return "0";
 
         switch (connectionType) {
             case ConnectivityManager.TYPE_WIFI:

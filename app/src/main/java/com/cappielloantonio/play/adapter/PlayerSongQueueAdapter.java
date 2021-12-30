@@ -8,14 +8,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.media3.common.MediaItem;
 import androidx.media3.session.MediaBrowser;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.interfaces.MediaIndexCallback;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.ui.fragment.PlayerBottomSheetFragment;

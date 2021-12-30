@@ -8,14 +8,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.media3.common.MediaItem;
+import androidx.media3.session.MediaBrowser;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.interfaces.MediaIndexCallback;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.ui.fragment.PlayerBottomSheetFragment;
 import com.cappielloantonio.play.util.MusicUtil;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +32,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
     private final PlayerBottomSheetFragment playerBottomSheetFragment;
     private final Context context;
 
+    private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
     private List<Song> songs;
 
     public PlayerSongQueueAdapter(Context context, PlayerBottomSheetFragment playerBottomSheetFragment) {
@@ -56,10 +62,12 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.cover);
 
-        /* if (position < MusicPlayerRemote.getPosition()) {
-            holder.songTitle.setTextColor(context.getResources().getColor(R.color.songToPlayTextColor, null));
-            holder.songSubtitle.setTextColor(context.getResources().getColor(R.color.songToPlayTextColor, null));
-        } */
+        MediaManager.getCurrentIndex(mediaBrowserListenableFuture, index -> {
+            if (position < index) {
+                holder.songTitle.setTextColor(context.getResources().getColor(R.color.songToPlayTextColor, null));
+                holder.songSubtitle.setTextColor(context.getResources().getColor(R.color.songToPlayTextColor, null));
+            }
+        });
     }
 
     @Override
@@ -74,6 +82,10 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
     public void setItems(List<Song> songs) {
         this.songs = songs;
         notifyDataSetChanged();
+    }
+
+    public void setMediaBrowserListenableFuture(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture) {
+        this.mediaBrowserListenableFuture = mediaBrowserListenableFuture;
     }
 
     public Song getItem(int id) {
@@ -100,8 +112,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
 
         @Override
         public void onClick(View view) {
-            // playerBottomSheetFragment.setSongInfo(songs.get(getBindingAdapterPosition()));
-            // MusicPlayerRemote.openQueue(songs, getBindingAdapterPosition(), true);
+            MediaManager.startQueue(mediaBrowserListenableFuture, context, songs, getBindingAdapterPosition());
         }
     }
 }

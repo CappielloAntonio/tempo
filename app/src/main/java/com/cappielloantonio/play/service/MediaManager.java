@@ -7,6 +7,7 @@ import androidx.media3.common.MediaItem;
 import androidx.media3.session.MediaBrowser;
 
 import com.cappielloantonio.play.App;
+import com.cappielloantonio.play.interfaces.MediaIndexCallback;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.util.MappingUtil;
@@ -232,6 +233,20 @@ public class MediaManager {
                         } else {
                             removeDatabase(songs, -1);
                         }
+                    }
+                } catch (ExecutionException | InterruptedException e) {
+                    Log.e(TAG, e.getMessage());
+                }
+            }, MoreExecutors.directExecutor());
+        }
+    }
+
+    public static void getCurrentIndex(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, MediaIndexCallback callback) {
+        if (mediaBrowserListenableFuture != null) {
+            mediaBrowserListenableFuture.addListener(() -> {
+                try {
+                    if (mediaBrowserListenableFuture.isDone()) {
+                        callback.onRecovery(mediaBrowserListenableFuture.get().getCurrentMediaItemIndex());
                     }
                 } catch (ExecutionException | InterruptedException e) {
                     Log.e(TAG, e.getMessage());

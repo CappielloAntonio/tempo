@@ -100,6 +100,12 @@ public class PlayerBottomSheetFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        setMediaBrowserListenableFuture();
+    }
+
+    @Override
     public void onStop() {
         releaseMediaBrowser();
         super.onStop();
@@ -135,6 +141,9 @@ public class PlayerBottomSheetFragment extends Fragment {
         MediaController.releaseFuture(mediaBrowserListenableFuture);
     }
 
+    private void setMediaBrowserListenableFuture() {
+        playerSongQueueAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
+    }
 
     @SuppressLint("UnsafeOptInUsageError")
     private void bindMediaController() {

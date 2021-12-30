@@ -100,6 +100,20 @@ public class MappingUtil {
         return songs;
     }
 
+    public static Queue mapSongToQueue(Song song) {
+        return new Queue(song.getId(), song.getTitle(), song.getAlbumId(), song.getAlbumName(), song.getArtistId(), song.getArtistName(), song.getPrimary(), song.getDuration(), 0);
+    }
+
+    public static List<Queue> mapSongsToQueue(List<Song> songs) {
+        List<Queue> queue = new ArrayList<>();
+
+        for (Song song : songs) {
+            queue.add(mapSongToQueue(song));
+        }
+
+        return queue;
+    }
+
     public static ArrayList<Playlist> mapPlaylist(List<com.cappielloantonio.play.subsonic.models.Playlist> playlists) {
         ArrayList<Playlist> playlist = new ArrayList();
 

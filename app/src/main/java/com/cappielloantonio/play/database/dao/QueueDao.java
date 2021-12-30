@@ -36,4 +36,7 @@ public interface QueueDao {
 
     @Query("UPDATE queue SET last_play=:timestamp WHERE id=:id")
     void setLastPlay(String id, long timestamp);
+
+    @Query("SELECT track_order FROM queue ORDER BY last_play DESC LIMIT 1")
+    int getLastPlay();
 }

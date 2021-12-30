@@ -3,6 +3,7 @@ package com.cappielloantonio.play.service;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.media3.common.MediaItem;
 import androidx.media3.session.MediaBrowser;
 
 import com.cappielloantonio.play.App;
@@ -44,6 +45,7 @@ public class MediaManager {
                     if (mediaBrowserListenableFuture.isDone()) {
                         mediaBrowserListenableFuture.get().clearMediaItems();
                         mediaBrowserListenableFuture.get().setMediaItems(MappingUtil.mapMediaItems(context, songs));
+                        mediaBrowserListenableFuture.get().seekTo(getQueueRepository().getLastPlayedSongIndex(), 0);
                         mediaBrowserListenableFuture.get().prepare();
                     }
                 } catch (ExecutionException | InterruptedException e) {
@@ -236,6 +238,10 @@ public class MediaManager {
                 }
             }, MoreExecutors.directExecutor());
         }
+    }
+
+    public static void timestamp(MediaItem mediaItem) {
+        if (mediaItem != null) getQueueRepository().setTimestamp(mediaItem.mediaId);
     }
 
     private static QueueRepository getQueueRepository() {

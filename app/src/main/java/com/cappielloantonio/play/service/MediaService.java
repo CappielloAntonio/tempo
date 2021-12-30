@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.media3.common.AudioAttributes;
 import androidx.media3.common.C;
 import androidx.media3.common.MediaItem;
+import androidx.media3.common.Player;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.session.MediaLibraryService;
 import androidx.media3.session.MediaSession;
@@ -26,6 +27,7 @@ public class MediaService extends MediaLibraryService {
     public void onCreate() {
         super.onCreate();
         initializePlayer();
+        initializePlayerListener();
     }
 
     @Override
@@ -72,5 +74,15 @@ public class MediaService extends MediaLibraryService {
                     .setMediaMetadata(mediaItem.mediaMetadata)
                     .build();
         }
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    private void initializePlayerListener() {
+        player.addListener(new Player.Listener() {
+            @Override
+            public void onMediaItemTransition(@Nullable MediaItem mediaItem, int reason) {
+                MediaManager.timestamp(mediaItem);
+            }
+        });
     }
 }

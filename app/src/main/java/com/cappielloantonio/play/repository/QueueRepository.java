@@ -128,10 +128,27 @@ public class QueueRepository {
         return count;
     }
 
-    public void setTimestamp(Song song) {
-        SetTimestampThreadSafe delete = new SetTimestampThreadSafe(queueDao, song.getId());
-        Thread thread = new Thread(delete);
+    public void setTimestamp(String id) {
+        SetTimestampThreadSafe timestamp = new SetTimestampThreadSafe(queueDao, id);
+        Thread thread = new Thread(timestamp);
         thread.start();
+    }
+
+    public int getLastPlayedSongIndex() {
+        int index = 0;
+
+        GetLastPlayedSongThreadSafe getLastPlayedSongThreadSafe = new GetLastPlayedSongThreadSafe(queueDao);
+        Thread thread = new Thread(getLastPlayedSongThreadSafe);
+        thread.start();
+
+        try {
+            thread.join();
+            index = getLastPlayedSongThreadSafe.getIndex();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return index;
     }
 
     private static class GetSongsThreadSafe implements Runnable {
@@ -225,6 +242,24 @@ public class QueueRepository {
         @Override
         public void run() {
             queueDao.setLastPlay(songId, Instant.now().toEpochMilli());
+        }
+    }
+
+    private static class GetLastPlayedSongThreadSafe implements Runnable {
+        private final QueueDao queueDao;
+        private int index;
+
+        public GetLastPlayedSongThreadSafe(QueueDao queueDao) {
+            this.queueDao = queueDao;
+        }
+
+        @Override
+        public void run() {
+            index = queueDao.getLastPlay();
+        }
+
+        public int getIndex() {
+            return index;
         }
     }
 }

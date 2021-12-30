@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.media3.session.MediaBrowser;
-import androidx.media3.session.MediaController;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.model.Song;
@@ -99,6 +98,8 @@ public class MediaManager {
                         mediaBrowserListenableFuture.get().prepare();
                         mediaBrowserListenableFuture.get().seekTo(startIndex, 0);
                         mediaBrowserListenableFuture.get().play();
+
+                        enqueueDatabase(songs, true, 0);
                     }
                 } catch (ExecutionException | InterruptedException e) {
                     Log.e(TAG, e.getMessage());
@@ -116,6 +117,8 @@ public class MediaManager {
                         mediaBrowserListenableFuture.get().setMediaItem(MappingUtil.mapMediaItem(context, song));
                         mediaBrowserListenableFuture.get().prepare();
                         mediaBrowserListenableFuture.get().play();
+
+                        enqueueDatabase(song, true, 0);
                     }
                 } catch (ExecutionException | InterruptedException e) {
                     Log.e(TAG, e.getMessage());
@@ -130,10 +133,14 @@ public class MediaManager {
                 try {
                     if (mediaBrowserListenableFuture.isDone()) {
                         if (playImmediatelyAfter) {
-                            mediaBrowserListenableFuture.get().addMediaItems(mediaBrowserListenableFuture.get().getCurrentMediaItemIndex(), MappingUtil.mapMediaItems(context, songs));
+                            enqueueDatabase(songs, false, mediaBrowserListenableFuture.get().getNextMediaItemIndex());
+                            mediaBrowserListenableFuture.get().addMediaItems(mediaBrowserListenableFuture.get().getNextMediaItemIndex(), MappingUtil.mapMediaItems(context, songs));
                         } else {
+                            enqueueDatabase(songs, false, mediaBrowserListenableFuture.get().getMediaItemCount());
                             mediaBrowserListenableFuture.get().addMediaItems(MappingUtil.mapMediaItems(context, songs));
                         }
+
+
                     }
                 } catch (ExecutionException | InterruptedException e) {
                     Log.e(TAG, e.getMessage());
@@ -148,9 +155,45 @@ public class MediaManager {
                 try {
                     if (mediaBrowserListenableFuture.isDone()) {
                         if (playImmediatelyAfter) {
-                            mediaBrowserListenableFuture.get().addMediaItem(mediaBrowserListenableFuture.get().getCurrentMediaItemIndex(), MappingUtil.mapMediaItem(context, song));
+                            enqueueDatabase(song, false, mediaBrowserListenableFuture.get().getNextMediaItemIndex());
+                            mediaBrowserListenableFuture.get().addMediaItem(mediaBrowserListenableFuture.get().getNextMediaItemIndex(), MappingUtil.mapMediaItem(context, song));
                         } else {
+                            enqueueDatabase(song, false, mediaBrowserListenableFuture.get().getMediaItemCount());
                             mediaBrowserListenableFuture.get().addMediaItem(MappingUtil.mapMediaItem(context, song));
+                        }
+                    }
+                } catch (ExecutionException | InterruptedException e) {
+                    Log.e(TAG, e.getMessage());
+                }
+            }, MoreExecutors.directExecutor());
+        }
+    }
+
+    public static void swap(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, List<Song> songs, int from, int to) {
+        if (mediaBrowserListenableFuture != null) {
+            mediaBrowserListenableFuture.addListener(() -> {
+                try {
+                    if (mediaBrowserListenableFuture.isDone()) {
+                        mediaBrowserListenableFuture.get().moveMediaItem(from, to);
+                        swapDatabase(songs);
+                    }
+                } catch (ExecutionException | InterruptedException e) {
+                    Log.e(TAG, e.getMessage());
+                }
+            }, MoreExecutors.directExecutor());
+        }
+    }
+
+    public static void remove(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, List<Song> songs, int toRemove) {
+        if (mediaBrowserListenableFuture != null) {
+            mediaBrowserListenableFuture.addListener(() -> {
+                try {
+                    if (mediaBrowserListenableFuture.isDone()) {
+                        if (mediaBrowserListenableFuture.get().getMediaItemCount() > 1 && mediaBrowserListenableFuture.get().getCurrentMediaItemIndex() != toRemove) {
+                            mediaBrowserListenableFuture.get().removeMediaItem(toRemove);
+                            removeDatabase(songs, toRemove);
+                        } else {
+                            removeDatabase(songs, -1);
                         }
                     }
                 } catch (ExecutionException | InterruptedException e) {
@@ -164,7 +207,22 @@ public class MediaManager {
         return new QueueRepository(App.getInstance());
     }
 
-    private static int getCurrentMediaIndex(MediaController mediaController) {
-        return mediaController.getCurrentMediaItemIndex();
+    private static void enqueueDatabase(List<Song> songs, boolean reset, int afterIndex) {
+        getQueueRepository().insertAll(songs, reset, afterIndex);
+    }
+
+    private static void enqueueDatabase(Song song, boolean reset, int afterIndex) {
+        getQueueRepository().insert(song, reset, afterIndex);
+    }
+
+    private static void swapDatabase(List<Song> songs) {
+        getQueueRepository().insertAll(songs, true, 0);
+    }
+
+    private static void removeDatabase(List<Song> songs, int toRemove) {
+        if (toRemove != -1) {
+            songs.remove(toRemove);
+            getQueueRepository().insertAll(songs, true, 0);
+        }
     }
 }

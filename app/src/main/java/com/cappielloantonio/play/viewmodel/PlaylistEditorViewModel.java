@@ -31,8 +31,6 @@ public class PlaylistEditorViewModel extends AndroidViewModel {
         super(application);
 
         playlistRepository = new PlaylistRepository(application);
-
-        Log.d(TAG, "PlaylistEditorViewModel()");
     }
 
     public void createPlaylist(String name) {

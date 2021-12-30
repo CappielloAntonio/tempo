@@ -15,10 +15,8 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
-import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
-import java.util.Collections;
 import java.util.List;
 
 public class PlayerBottomSheetViewModel extends AndroidViewModel {
@@ -31,20 +29,16 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     private final MutableLiveData<String> lyricsLiveData = new MutableLiveData<>(null);
     private final MutableLiveData<Song> songLiveData = new MutableLiveData<>(null);
 
-    private final LiveData<List<Queue>> queueSong;
-
     public PlayerBottomSheetViewModel(@NonNull Application application) {
         super(application);
 
         songRepository = new SongRepository(application);
         artistRepository = new ArtistRepository(application);
         queueRepository = new QueueRepository(application);
-
-        queueSong = queueRepository.getLiveQueue();
     }
 
     public LiveData<List<Queue>> getQueueSong() {
-        return queueSong;
+        return queueRepository.getLiveQueue();
     }
 
     public Song getCurrentSong() {
@@ -63,19 +57,11 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
                 songRepository.star(song.getId());
                 song.setFavorite(true);
 
-                if(PreferenceUtil.getInstance(context).isStarredSyncEnabled()) {
+                if (PreferenceUtil.getInstance(context).isStarredSyncEnabled()) {
                     // DownloadUtil.getDownloadTracker(context).download(Collections.singletonList(song), null, null);
                 }
             }
         }
-    }
-
-    public void orderSongAfterSwap(List<Song> songs) {
-        queueRepository.insertAllAndStartNew(songs);
-    }
-
-    public void removeSong(int position) {
-        queueRepository.deleteByPosition(position);
     }
 
     public LiveData<Artist> getArtist() {

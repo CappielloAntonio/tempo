@@ -26,7 +26,7 @@ public interface QueueDao {
     void insertAll(List<Queue> songQueueObjects);
 
     @Query("DELETE FROM queue WHERE queue.track_order=:position")
-    void deleteByPosition(int position);
+    void delete(int position);
 
     @Query("DELETE FROM queue")
     void deleteAll();

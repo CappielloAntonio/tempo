@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "queue")
 public class Queue {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @ColumnInfo(name = "track_order")
     private int trackOrder;
 
@@ -37,7 +37,8 @@ public class Queue {
     @ColumnInfo(name = "last_play")
     private long lastPlay;
 
-    public Queue(String songID, String title, String albumId, String albumName, String artistId, String artistName, String primary, long duration, long lastPlay) {
+    public Queue(int trackOrder, String songID, String title, String albumId, String albumName, String artistId, String artistName, String primary, long duration, long lastPlay) {
+        this.trackOrder = trackOrder;
         this.songID = songID;
         this.title = title;
         this.albumId = albumId;

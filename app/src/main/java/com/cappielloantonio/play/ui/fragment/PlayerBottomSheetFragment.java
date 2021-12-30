@@ -18,7 +18,6 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.media3.common.MediaItem;
 import androidx.media3.common.MediaMetadata;
 import androidx.media3.common.Player;
 import androidx.media3.session.MediaBrowser;
@@ -36,6 +35,7 @@ import com.cappielloantonio.play.adapter.PlayerNowPlayingSongAdapter;
 import com.cappielloantonio.play.adapter.PlayerSongQueueAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlayerBottomSheetBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.dialog.RatingDialog;
@@ -46,7 +46,6 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 
 import java.util.Collections;
-import java.util.Objects;
 
 public class PlayerBottomSheetFragment extends Fragment {
     private static final String TAG = "PlayerBottomSheetFragment";
@@ -63,7 +62,7 @@ public class PlayerBottomSheetFragment extends Fragment {
 
     private MainActivity activity;
     private PlayerBottomSheetViewModel playerBottomSheetViewModel;
-    private ListenableFuture<MediaController> mediaControllerListenableFuture;
+    private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
     private PlayerSongQueueAdapter playerSongQueueAdapter;
 
@@ -96,13 +95,13 @@ public class PlayerBottomSheetFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        initializeMediaController();
+        initializeMediaBrowser();
         bindMediaController();
     }
 
     @Override
     public void onStop() {
-        releaseMediaController();
+        releaseMediaBrowser();
         super.onStop();
     }
 
@@ -128,24 +127,24 @@ public class PlayerBottomSheetFragment extends Fragment {
     }
 
     @SuppressLint("UnsafeOptInUsageError")
-    private void initializeMediaController() {
-        mediaControllerListenableFuture = new MediaController.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
+    private void initializeMediaBrowser() {
+        mediaBrowserListenableFuture = new MediaBrowser.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
     }
 
-    private void releaseMediaController() {
-        MediaController.releaseFuture(mediaControllerListenableFuture);
+    private void releaseMediaBrowser() {
+        MediaController.releaseFuture(mediaBrowserListenableFuture);
     }
 
 
     @SuppressLint("UnsafeOptInUsageError")
     private void bindMediaController() {
-        mediaControllerListenableFuture.addListener(() -> {
+        mediaBrowserListenableFuture.addListener(() -> {
             try {
-                MediaController mediaController = mediaControllerListenableFuture.get();
+                MediaBrowser mediaBrowser = mediaBrowserListenableFuture.get();
 
-                bind.playerBodyLayout.setPlayer(mediaController);
+                bind.playerBodyLayout.setPlayer(mediaBrowser);
 
-                setMediaControllerListener(mediaController);
+                setMediaControllerListener(mediaBrowser);
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage());
             }
@@ -153,18 +152,18 @@ public class PlayerBottomSheetFragment extends Fragment {
     }
 
     @SuppressLint("UnsafeOptInUsageError")
-    private void setMediaControllerListener(MediaController mediaController) {
-        setMetadata(mediaController.getMediaMetadata());
-        setContentDuration(mediaController.getContentDuration());
-        setPlayingState(mediaController.isPlaying());
+    private void setMediaControllerListener(MediaBrowser mediaBrowser) {
+        setMetadata(mediaBrowser.getMediaMetadata());
+        setContentDuration(mediaBrowser.getContentDuration());
+        setPlayingState(mediaBrowser.isPlaying());
         setHeaderMediaController();
-        setHeaderNextButtonState(mediaController.hasNextMediaItem());
+        setHeaderNextButtonState(mediaBrowser.hasNextMediaItem());
 
-        mediaController.addListener(new Player.Listener() {
+        mediaBrowser.addListener(new Player.Listener() {
             @Override
             public void onMediaMetadataChanged(@NonNull MediaMetadata mediaMetadata) {
                 setMetadata(mediaMetadata);
-                setContentDuration(mediaController.getContentDuration());
+                setContentDuration(mediaBrowser.getContentDuration());
             }
 
             @Override
@@ -175,7 +174,7 @@ public class PlayerBottomSheetFragment extends Fragment {
             //TODO: Temporary solution. Too many events are caught in this way.
             @Override
             public void onEvents(Player player, Player.Events events) {
-                setHeaderNextButtonState(mediaController.hasNextMediaItem());
+                setHeaderNextButtonState(mediaBrowser.hasNextMediaItem());
             }
         });
     }
@@ -244,7 +243,11 @@ public class PlayerBottomSheetFragment extends Fragment {
 
         playerSongQueueAdapter = new PlayerSongQueueAdapter(requireContext(), this);
         playerQueueRecyclerView.setAdapter(playerSongQueueAdapter);
-        playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), queue -> playerSongQueueAdapter.setItems(MappingUtil.mapQueue(queue)));
+        playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), queue -> {
+            if (queue != null) {
+                playerSongQueueAdapter.setItems(MappingUtil.mapQueue(queue));
+            }
+        });
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
             int originalPosition = -1;
@@ -253,8 +256,9 @@ public class PlayerBottomSheetFragment extends Fragment {
 
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                if (originalPosition == -1)
+                if (originalPosition == -1) {
                     originalPosition = viewHolder.getBindingAdapterPosition();
+                }
 
                 fromPosition = viewHolder.getBindingAdapterPosition();
                 toPosition = target.getBindingAdapterPosition();
@@ -271,7 +275,7 @@ public class PlayerBottomSheetFragment extends Fragment {
                  */
 
                 Collections.swap(playerSongQueueAdapter.getItems(), fromPosition, toPosition);
-                Objects.requireNonNull(recyclerView.getAdapter()).notifyItemMoved(fromPosition, toPosition);
+                recyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
 
                 return false;
             }
@@ -280,13 +284,9 @@ public class PlayerBottomSheetFragment extends Fragment {
             public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
                 super.clearView(recyclerView, viewHolder);
 
-                /*
-                 * Qui vado a riscivere tutta la table Queue, quando teoricamente potrei solo swappare l'ordine degli elementi interessati
-                 * Nel caso la coda contenesse parecchi brani, potrebbero verificarsi rallentamenti pesanti
-                 */
-                // playerBottomSheetViewModel.orderSongAfterSwap(playerSongQueueAdapter.getItems());
-                // MusicPlayerRemote.moveSong(originalPosition, toPosition);
-                // playerSongCoverViewPager.setCurrentItem(MusicPlayerRemote.getPosition(), false);
+                if (originalPosition != -1 && fromPosition != -1 && toPosition != -1) {
+                    MediaManager.swap(mediaBrowserListenableFuture, playerSongQueueAdapter.getItems(), originalPosition, toPosition);
+                }
 
                 originalPosition = -1;
                 fromPosition = -1;
@@ -295,17 +295,10 @@ public class PlayerBottomSheetFragment extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                /*if (!(viewHolder.getBindingAdapterPosition() == MusicPlayerRemote.getPosition()) && !(MusicPlayerRemote.getPlayingQueue().size() <= 1)) {
-                    MusicPlayerRemote.removeFromQueue(viewHolder.getBindingAdapterPosition());
-                    playerBottomSheetViewModel.removeSong(viewHolder.getBindingAdapterPosition());
-                    Objects.requireNonNull(playerQueueRecyclerView.getAdapter()).notifyItemRemoved(viewHolder.getBindingAdapterPosition());
-                    playerSongCoverViewPager.setCurrentItem(MusicPlayerRemote.getPosition(), false);
-                } else {
-                    playerQueueRecyclerView.getAdapter().notifyDataSetChanged();
-                }*/
+                MediaManager.remove(mediaBrowserListenableFuture, playerSongQueueAdapter.getItems(), viewHolder.getBindingAdapterPosition());
+                viewHolder.getBindingAdapter().notifyDataSetChanged();
             }
-        }
-        ).attachToRecyclerView(playerQueueRecyclerView);
+        }).attachToRecyclerView(playerQueueRecyclerView);
     }
 
     private void initFavoriteButtonClick() {

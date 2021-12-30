@@ -45,46 +45,19 @@ public class QueueRepository {
         return songs;
     }
 
-    public void insert(Song song, boolean reset) {
+    public void insert(Song song, boolean reset, int afterIndex) {
         try {
-            if(reset) {
-                Thread delete = new Thread(new DeleteAllThreadSafe(queueDao));
-                delete.start();
-                delete.join();
+            List<Song> songs = new ArrayList<>();
+
+            if (!reset) {
+                GetSongsThreadSafe getSongsThreadSafe = new GetSongsThreadSafe(queueDao);
+                Thread getSongsThread = new Thread(getSongsThreadSafe);
+                getSongsThread.start();
+                getSongsThread.join();
+
+                songs = getSongsThreadSafe.getSongs();
             }
 
-            Thread insert = new Thread(new InsertThreadSafe(queueDao, song));
-            insert.start();
-            insert.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void insertAll(List<Song> songs, boolean reset) {
-        try {
-            if(reset) {
-                Thread delete = new Thread(new DeleteAllThreadSafe(queueDao));
-                delete.start();
-                delete.join();
-            }
-
-            Thread insertAll = new Thread(new InsertAllThreadSafe(queueDao, songs));
-            insertAll.start();
-            insertAll.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void insertImmediatelyAfter(Song song, int afterIndex) {
-        try {
-            GetSongsThreadSafe getSongsThreadSafe = new GetSongsThreadSafe(queueDao);
-            Thread getSongsThread = new Thread(getSongsThreadSafe);
-            getSongsThread.start();
-            getSongsThread.join();
-
-            List<Song> songs = getSongsThreadSafe.getSongs();
             songs.add(afterIndex, song);
 
             Thread delete = new Thread(new DeleteAllThreadSafe(queueDao));
@@ -99,14 +72,19 @@ public class QueueRepository {
         }
     }
 
-    public void insertAllImmediatelyAfter(List<Song> toAdd, int afterIndex) {
+    public void insertAll(List<Song> toAdd, boolean reset, int afterIndex) {
         try {
-            GetSongsThreadSafe getSongsThreadSafe = new GetSongsThreadSafe(queueDao);
-            Thread getSongsThread = new Thread(getSongsThreadSafe);
-            getSongsThread.start();
-            getSongsThread.join();
+            List<Song> songs = new ArrayList<>();
 
-            List<Song> songs = getSongsThreadSafe.getSongs();
+            if (!reset) {
+                GetSongsThreadSafe getSongsThreadSafe = new GetSongsThreadSafe(queueDao);
+                Thread getSongsThread = new Thread(getSongsThreadSafe);
+                getSongsThread.start();
+                getSongsThread.join();
+
+                songs = getSongsThreadSafe.getSongs();
+            }
+
             songs.addAll(afterIndex, toAdd);
 
             Thread delete = new Thread(new DeleteAllThreadSafe(queueDao));
@@ -121,8 +99,8 @@ public class QueueRepository {
         }
     }
 
-    public void deleteByPosition(int position) {
-        DeleteByPositionThreadSafe delete = new DeleteByPositionThreadSafe(queueDao, position);
+    public void delete(int position) {
+        DeleteThreadSafe delete = new DeleteThreadSafe(queueDao, position);
         Thread thread = new Thread(delete);
         thread.start();
     }
@@ -174,21 +152,6 @@ public class QueueRepository {
         }
     }
 
-    private static class InsertThreadSafe implements Runnable {
-        private final QueueDao queueDao;
-        private final Song song;
-
-        public InsertThreadSafe(QueueDao queueDao, Song song) {
-            this.queueDao = queueDao;
-            this.song = song;
-        }
-
-        @Override
-        public void run() {
-            queueDao.insert(MappingUtil.mapSongToQueue(song));
-        }
-    }
-
     private static class InsertAllThreadSafe implements Runnable {
         private final QueueDao queueDao;
         private final List<Song> songs;
@@ -204,18 +167,18 @@ public class QueueRepository {
         }
     }
 
-    private static class DeleteByPositionThreadSafe implements Runnable {
+    private static class DeleteThreadSafe implements Runnable {
         private final QueueDao queueDao;
         private final int position;
 
-        public DeleteByPositionThreadSafe(QueueDao queueDao, int position) {
+        public DeleteThreadSafe(QueueDao queueDao, int position) {
             this.queueDao = queueDao;
             this.position = position;
         }
 
         @Override
         public void run() {
-            queueDao.deleteByPosition(position);
+            queueDao.delete(position);
         }
     }
 

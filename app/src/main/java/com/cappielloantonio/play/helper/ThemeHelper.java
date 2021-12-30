@@ -14,8 +14,6 @@ public class ThemeHelper {
     public static final String DEFAULT_MODE = "default";
 
     public static void applyTheme(@NonNull String themePref) {
-        Log.i(TAG, "+++ applyTheme: " + themePref);
-
         switch (themePref) {
             case LIGHT_MODE: {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);

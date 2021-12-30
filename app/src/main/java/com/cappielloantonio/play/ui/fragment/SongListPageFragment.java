@@ -1,5 +1,7 @@
 package com.cappielloantonio.play.ui.fragment;
 
+import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,17 +11,20 @@ import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.session.MediaBrowser;
+import androidx.media3.session.SessionToken;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentSongListPageBinding;
 import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.service.MediaManager;
+import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.SongListPageViewModel;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.Collections;
 
@@ -30,6 +35,8 @@ public class SongListPageFragment extends Fragment {
     private SongListPageViewModel songListPageViewModel;
 
     private SongHorizontalAdapter songHorizontalAdapter;
+
+    private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,7 +57,20 @@ public class SongListPageFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        initializeMediaBrowser();
         activity.setBottomNavigationBarVisibility(false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setMediaBrowserListenableFuture();
+    }
+
+    @Override
+    public void onStop() {
+        releaseMediaBrowser();
+        super.onStop();
     }
 
     @Override
@@ -133,14 +153,8 @@ public class SongListPageFragment extends Fragment {
             if (bind != null) {
                 bind.songListShuffleImageView.setOnClickListener(v -> {
                     Collections.shuffle(songs);
-
-                    QueueRepository queueRepository = new QueueRepository(App.getInstance());
-                    queueRepository.insertAllAndStartNew(songs);
-
+                    MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
                     activity.setBottomSheetInPeek(true);
-                    // activity.setBottomSheetMusicInfo(songs.get(0));
-
-                    // MusicPlayerRemote.openQueue(songs, 0, true);
                 });
             }
         });
@@ -153,5 +167,18 @@ public class SongListPageFragment extends Fragment {
         songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
         bind.songListRecyclerView.setAdapter(songHorizontalAdapter);
         songListPageViewModel.getSongList(requireActivity()).observe(requireActivity(), songs -> songHorizontalAdapter.setItems(songs));
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    private void initializeMediaBrowser() {
+        mediaBrowserListenableFuture = new MediaBrowser.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
+    }
+
+    private void releaseMediaBrowser() {
+        MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
+    }
+
+    private void setMediaBrowserListenableFuture() {
+        songHorizontalAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
     }
 }

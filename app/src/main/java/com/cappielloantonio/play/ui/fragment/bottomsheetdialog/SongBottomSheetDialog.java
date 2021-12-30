@@ -129,7 +129,6 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
         TextView playNext = view.findViewById(R.id.play_next_text_view);
         playNext.setOnClickListener(v -> {
-            // MusicPlayerRemote.playNext(song);
             MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), song, true);
             ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
             dismissBottomSheet();
@@ -137,7 +136,6 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
         TextView addToQueue = view.findViewById(R.id.add_to_queue_text_view);
         addToQueue.setOnClickListener(v -> {
-            // MusicPlayerRemote.enqueue(song);
             MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), song, false);
             ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
             dismissBottomSheet();

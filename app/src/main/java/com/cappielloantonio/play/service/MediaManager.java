@@ -170,7 +170,7 @@ public class MediaManager {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
                     if (mediaBrowserListenableFuture.isDone()) {
-                        if (playImmediatelyAfter) {
+                        if (playImmediatelyAfter  && mediaBrowserListenableFuture.get().getNextMediaItemIndex() != -1) {
                             enqueueDatabase(songs, false, mediaBrowserListenableFuture.get().getNextMediaItemIndex());
                             mediaBrowserListenableFuture.get().addMediaItems(mediaBrowserListenableFuture.get().getNextMediaItemIndex(), MappingUtil.mapMediaItems(context, songs));
                         } else {
@@ -192,7 +192,7 @@ public class MediaManager {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
                     if (mediaBrowserListenableFuture.isDone()) {
-                        if (playImmediatelyAfter) {
+                        if (playImmediatelyAfter && mediaBrowserListenableFuture.get().getNextMediaItemIndex() != -1) {
                             enqueueDatabase(song, false, mediaBrowserListenableFuture.get().getNextMediaItemIndex());
                             mediaBrowserListenableFuture.get().addMediaItem(mediaBrowserListenableFuture.get().getNextMediaItemIndex(), MappingUtil.mapMediaItem(context, song));
                         } else {

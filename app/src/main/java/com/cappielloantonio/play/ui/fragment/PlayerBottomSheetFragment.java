@@ -97,11 +97,6 @@ public class PlayerBottomSheetFragment extends Fragment {
 
         initializeMediaBrowser();
         bindMediaController();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         setMediaBrowserListenableFuture();
     }
 

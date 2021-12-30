@@ -59,13 +59,14 @@ public class MainActivity extends BaseActivity {
         connectivityStatusBroadcastReceiver = new ConnectivityStatusBroadcastReceiver(this);
         connectivityStatusReceiverManager(true);
 
+        init();
         checkConnectionType();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        init();
+        initServiceContent();
     }
 
     @Override
@@ -94,7 +95,6 @@ public class MainActivity extends BaseActivity {
 
         initBottomSheet();
         initNavigation();
-        initServiceContent();
 
         if (PreferenceUtil.getInstance(this).getToken() != null) {
             goFromLogin();

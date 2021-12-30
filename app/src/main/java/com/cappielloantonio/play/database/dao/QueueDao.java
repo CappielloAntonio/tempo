@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.cappielloantonio.play.model.Queue;
+import com.cappielloantonio.play.model.Server;
 
 import java.util.List;
 
@@ -19,7 +20,10 @@ public interface QueueDao {
     List<Queue> getAllSimple();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(List<Queue> songQueueObject);
+    void insert(Queue songQueueObject);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<Queue> songQueueObjects);
 
     @Query("DELETE FROM queue WHERE queue.track_order=:position")
     void deleteByPosition(int position);

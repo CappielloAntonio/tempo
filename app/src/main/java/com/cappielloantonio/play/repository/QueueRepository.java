@@ -5,13 +5,10 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.database.AppDatabase;
-import com.cappielloantonio.play.database.dao.DownloadDao;
 import com.cappielloantonio.play.database.dao.QueueDao;
-import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.util.MappingUtil;
-import com.cappielloantonio.play.util.QueueUtil;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -48,19 +45,75 @@ public class QueueRepository {
         return songs;
     }
 
-    public void insertAll(List<Song> songs) {
-        InsertAllThreadSafe insertAll = new InsertAllThreadSafe(queueDao, songs);
-        Thread thread = new Thread(insertAll);
-        thread.start();
+    public void insert(Song song, boolean reset) {
+        try {
+            if(reset) {
+                Thread delete = new Thread(new DeleteAllThreadSafe(queueDao));
+                delete.start();
+                delete.join();
+            }
+
+            Thread insert = new Thread(new InsertThreadSafe(queueDao, song));
+            insert.start();
+            insert.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void insertAllAndStartNew(List<Song> songs) {
+    public void insertAll(List<Song> songs, boolean reset) {
         try {
-            final Thread delete = new Thread(new DeleteAllThreadSafe(queueDao));
-            final Thread insertAll = new Thread(new InsertAllThreadSafe(queueDao, songs));
+            if(reset) {
+                Thread delete = new Thread(new DeleteAllThreadSafe(queueDao));
+                delete.start();
+                delete.join();
+            }
 
+            Thread insertAll = new Thread(new InsertAllThreadSafe(queueDao, songs));
+            insertAll.start();
+            insertAll.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertImmediatelyAfter(Song song, int afterIndex) {
+        try {
+            GetSongsThreadSafe getSongsThreadSafe = new GetSongsThreadSafe(queueDao);
+            Thread getSongsThread = new Thread(getSongsThreadSafe);
+            getSongsThread.start();
+            getSongsThread.join();
+
+            List<Song> songs = getSongsThreadSafe.getSongs();
+            songs.add(afterIndex, song);
+
+            Thread delete = new Thread(new DeleteAllThreadSafe(queueDao));
             delete.start();
             delete.join();
+
+            Thread insertAll = new Thread(new InsertAllThreadSafe(queueDao, songs));
+            insertAll.start();
+            insertAll.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertAllImmediatelyAfter(List<Song> toAdd, int afterIndex) {
+        try {
+            GetSongsThreadSafe getSongsThreadSafe = new GetSongsThreadSafe(queueDao);
+            Thread getSongsThread = new Thread(getSongsThreadSafe);
+            getSongsThread.start();
+            getSongsThread.join();
+
+            List<Song> songs = getSongsThreadSafe.getSongs();
+            songs.addAll(afterIndex, toAdd);
+
+            Thread delete = new Thread(new DeleteAllThreadSafe(queueDao));
+            delete.start();
+            delete.join();
+
+            Thread insertAll = new Thread(new InsertAllThreadSafe(queueDao, songs));
             insertAll.start();
             insertAll.join();
         } catch (InterruptedException e) {
@@ -121,6 +174,21 @@ public class QueueRepository {
         }
     }
 
+    private static class InsertThreadSafe implements Runnable {
+        private final QueueDao queueDao;
+        private final Song song;
+
+        public InsertThreadSafe(QueueDao queueDao, Song song) {
+            this.queueDao = queueDao;
+            this.song = song;
+        }
+
+        @Override
+        public void run() {
+            queueDao.insert(MappingUtil.mapSongToQueue(song));
+        }
+    }
+
     private static class InsertAllThreadSafe implements Runnable {
         private final QueueDao queueDao;
         private final List<Song> songs;
@@ -132,7 +200,7 @@ public class QueueRepository {
 
         @Override
         public void run() {
-            queueDao.insertAll(QueueUtil.getQueueElementsFromSongs(songs));
+            queueDao.insertAll(MappingUtil.mapSongsToQueue(songs));
         }
     }
 

@@ -158,7 +158,7 @@ public class PlayerBottomSheetFragment extends Fragment {
         setContentDuration(mediaController.getContentDuration());
         setPlayingState(mediaController.isPlaying());
         setHeaderMediaController();
-        // setHeaderNextButtonState(mediaController.hasNextMediaItem());
+        setHeaderNextButtonState(mediaController.hasNextMediaItem());
 
         mediaController.addListener(new Player.Listener() {
             @Override
@@ -172,14 +172,10 @@ public class PlayerBottomSheetFragment extends Fragment {
                 setPlayingState(isPlaying);
             }
 
+            //TODO: Temporary solution. Too many events are caught in this way.
             @Override
-            public void onMediaItemTransition(@Nullable MediaItem mediaItem, int reason) {
-                // setHeaderNextButtonState(mediaController.hasNextMediaItem());
-            }
-
-            @Override
-            public void onPlaylistMetadataChanged(MediaMetadata mediaMetadata) {
-                // setHeaderNextButtonState(mediaController.hasNextMediaItem());
+            public void onEvents(Player player, Player.Events events) {
+                setHeaderNextButtonState(mediaController.hasNextMediaItem());
             }
         });
     }

@@ -103,7 +103,6 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
                 @Override
                 public void onError(Exception exception) {
                     Log.e(TAG, "onError() " + exception.getMessage());
-
                     dismissBottomSheet();
                 }
 
@@ -175,8 +174,9 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("artist_object", artist);
                 NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
-            } else
+            } else {
                 Toast.makeText(requireContext(), getString(R.string.album_error_retrieving_artist), Toast.LENGTH_SHORT).show();
+            }
 
             dismissBottomSheet();
         }));

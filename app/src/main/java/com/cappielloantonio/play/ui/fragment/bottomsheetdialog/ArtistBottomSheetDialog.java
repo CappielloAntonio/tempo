@@ -98,7 +98,6 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
                 @Override
                 public void onError(Exception exception) {
                     Log.e(TAG, "onError() " + exception.getMessage());
-
                     dismissBottomSheet();
                 }
 
@@ -107,8 +106,6 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
                     if (media.size() > 0) {
                         MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), (ArrayList<Song>) media, 0);
                         ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
-
-                        dismissBottomSheet();
                     } else {
                         Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_radio), Toast.LENGTH_SHORT).show();
                     }

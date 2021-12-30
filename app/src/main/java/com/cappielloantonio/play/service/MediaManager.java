@@ -18,6 +18,41 @@ import java.util.concurrent.ExecutionException;
 public class MediaManager {
     private static final String TAG = "MediaManager";
 
+    public static void check(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context) {
+        if (mediaBrowserListenableFuture != null) {
+            mediaBrowserListenableFuture.addListener(() -> {
+                try {
+                    if (mediaBrowserListenableFuture.isDone()) {
+                        if (mediaBrowserListenableFuture.get().getMediaItemCount() < 1) {
+                            List<Song> songs = getQueueRepository().getSongs();
+                            if (songs.size() >= 1) {
+                                init(mediaBrowserListenableFuture, context, songs);
+                            }
+                        }
+                    }
+                } catch (ExecutionException | InterruptedException e) {
+                    Log.e(TAG, e.getMessage());
+                }
+            }, MoreExecutors.directExecutor());
+        }
+    }
+
+    public static void init(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, List<Song> songs) {
+        if (mediaBrowserListenableFuture != null) {
+            mediaBrowserListenableFuture.addListener(() -> {
+                try {
+                    if (mediaBrowserListenableFuture.isDone()) {
+                        mediaBrowserListenableFuture.get().clearMediaItems();
+                        mediaBrowserListenableFuture.get().setMediaItems(MappingUtil.mapMediaItems(context, songs));
+                        mediaBrowserListenableFuture.get().prepare();
+                    }
+                } catch (ExecutionException | InterruptedException e) {
+                    Log.e(TAG, e.getMessage());
+                }
+            }, MoreExecutors.directExecutor());
+        }
+    }
+
     public static void prepare(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {

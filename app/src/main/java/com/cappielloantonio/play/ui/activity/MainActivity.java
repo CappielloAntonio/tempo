@@ -5,16 +5,11 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.media3.common.MediaMetadata;
-import androidx.media3.common.PlaybackParameters;
-import androidx.media3.common.Player;
-import androidx.media3.common.TracksInfo;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -24,6 +19,8 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.broadcast.receiver.ConnectivityStatusBroadcastReceiver;
 import com.cappielloantonio.play.databinding.ActivityMainBinding;
 import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.service.MediaManager;
+import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.base.BaseActivity;
 import com.cappielloantonio.play.ui.dialog.ConnectionAlertDialog;
 import com.cappielloantonio.play.ui.dialog.ServerUnreachableDialog;
@@ -32,10 +29,8 @@ import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.MainViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.common.util.concurrent.MoreExecutors;
 
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
@@ -68,9 +63,14 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        init();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        init();
         pingServer();
     }
 
@@ -94,6 +94,7 @@ public class MainActivity extends BaseActivity {
 
         initBottomSheet();
         initNavigation();
+        initServiceContent();
 
         if (PreferenceUtil.getInstance(this).getToken() != null) {
             goFromLogin();
@@ -109,13 +110,7 @@ public class MainActivity extends BaseActivity {
         bottomSheetBehavior.addBottomSheetCallback(bottomSheetCallback);
         fragmentManager.beginTransaction().replace(R.id.player_bottom_sheet, new PlayerBottomSheetFragment(), "PlayerBottomSheet").commit();
 
-        getMediaBrowserListenableFuture().addListener(() -> {
-            try {
-                setBottomSheetInPeek(getMediaBrowserListenableFuture().get().getMediaItemCount() > 0);
-            } catch (ExecutionException | InterruptedException e) {
-                e.printStackTrace();
-            }
-        }, MoreExecutors.directExecutor());
+        setBottomSheetInPeek(mainViewModel.isQueueLoaded());
     }
 
     public void setBottomSheetInPeek(Boolean isVisible) {
@@ -126,46 +121,20 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void setBottomSheetDraggableState(Boolean isDraggable) {
-        bottomSheetBehavior.setDraggable(isDraggable);
-    }
-
-    private void initNavigation() {
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
-        navHostFragment = (NavHostFragment) fragmentManager.findFragmentById(R.id.nav_host_fragment);
-        navController = Objects.requireNonNull(navHostFragment).getNavController();
-
-        /*
-         * In questo modo intercetto il cambio schermata tramite navbar e se il bottom sheet è aperto,
-         * lo chiudo
-         */
-        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED && (
-                    destination.getId() == R.id.homeFragment ||
-                            destination.getId() == R.id.libraryFragment ||
-                            destination.getId() == R.id.searchFragment ||
-                            destination.getId() == R.id.settingsFragment)
-            ) {
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            }
-        });
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
-    }
-
-    public void setBottomNavigationBarVisibility(boolean visibility) {
-        if (visibility) {
-            bottomNavigationView.setVisibility(View.VISIBLE);
-        } else {
-            bottomNavigationView.setVisibility(View.GONE);
-        }
-    }
-
     public void setBottomSheetVisibility(boolean visibility) {
         if (visibility) {
             findViewById(R.id.player_bottom_sheet).setVisibility(View.VISIBLE);
         } else {
             findViewById(R.id.player_bottom_sheet).setVisibility(View.GONE);
         }
+    }
+
+    public void collapseBottomSheet() {
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    }
+
+    public void setBottomSheetDraggableState(Boolean isDraggable) {
+        bottomSheetBehavior.setDraggable(isDraggable);
     }
 
     private final BottomSheetBehavior.BottomSheetCallback bottomSheetCallback =
@@ -210,8 +179,39 @@ public class MainActivity extends BaseActivity {
                 }
             };
 
-    public void collapseBottomSheet() {
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    private void initNavigation() {
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        navHostFragment = (NavHostFragment) fragmentManager.findFragmentById(R.id.nav_host_fragment);
+        navController = Objects.requireNonNull(navHostFragment).getNavController();
+
+        /*
+         * In questo modo intercetto il cambio schermata tramite navbar e se il bottom sheet è aperto,
+         * lo chiudo
+         */
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED && (
+                    destination.getId() == R.id.homeFragment ||
+                            destination.getId() == R.id.libraryFragment ||
+                            destination.getId() == R.id.searchFragment ||
+                            destination.getId() == R.id.settingsFragment)
+            ) {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
+
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+    }
+
+    public void setBottomNavigationBarVisibility(boolean visibility) {
+        if (visibility) {
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        } else {
+            bottomNavigationView.setVisibility(View.GONE);
+        }
+    }
+
+    private void initServiceContent() {
+        MediaManager.check(getMediaBrowserListenableFuture(), this);
     }
 
     private void goToLogin() {

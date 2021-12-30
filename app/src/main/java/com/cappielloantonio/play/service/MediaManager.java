@@ -255,7 +255,7 @@ public class MediaManager {
         }
     }
 
-    public static void timestamp(MediaItem mediaItem) {
+    public static void setLastPlayedTimestamp(MediaItem mediaItem) {
         if (mediaItem != null) getQueueRepository().setTimestamp(mediaItem.mediaId);
     }
 

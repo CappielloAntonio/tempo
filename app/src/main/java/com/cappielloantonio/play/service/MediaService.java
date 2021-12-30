@@ -81,7 +81,7 @@ public class MediaService extends MediaLibraryService {
         player.addListener(new Player.Listener() {
             @Override
             public void onMediaItemTransition(@Nullable MediaItem mediaItem, int reason) {
-                MediaManager.timestamp(mediaItem);
+                MediaManager.setLastPlayedTimestamp(mediaItem);
             }
         });
     }

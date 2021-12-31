@@ -1,0 +1,372 @@
+package com.cappielloantonio.play.service;
+
+import static androidx.media3.common.util.Assertions.checkNotNull;
+import static androidx.media3.common.util.Assertions.checkStateNotNull;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+import androidx.media3.common.DrmInitData;
+import androidx.media3.common.Format;
+import androidx.media3.common.MediaItem;
+import androidx.media3.common.TrackGroup;
+import androidx.media3.common.TrackGroupArray;
+import androidx.media3.common.util.Log;
+import androidx.media3.common.util.Util;
+import androidx.media3.datasource.HttpDataSource;
+import androidx.media3.exoplayer.RenderersFactory;
+import androidx.media3.exoplayer.drm.DrmSession;
+import androidx.media3.exoplayer.drm.DrmSessionEventListener;
+import androidx.media3.exoplayer.drm.OfflineLicenseHelper;
+import androidx.media3.exoplayer.offline.Download;
+import androidx.media3.exoplayer.offline.DownloadCursor;
+import androidx.media3.exoplayer.offline.DownloadHelper;
+import androidx.media3.exoplayer.offline.DownloadIndex;
+import androidx.media3.exoplayer.offline.DownloadManager;
+import androidx.media3.exoplayer.offline.DownloadRequest;
+import androidx.media3.exoplayer.offline.DownloadService;
+import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
+import androidx.media3.exoplayer.trackselection.MappingTrackSelector;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
+
+public class DownloaderTracker {
+    public interface Listener {
+        void onDownloadsChanged();
+    }
+
+    private static final String TAG = "DownloadTracker";
+
+    private final Context context;
+    private final HttpDataSource.Factory httpDataSourceFactory;
+    private final CopyOnWriteArraySet<Listener> listeners;
+    private final HashMap<Uri, Download> downloads;
+    private final DownloadIndex downloadIndex;
+    private final DefaultTrackSelector.Parameters trackSelectorParameters;
+
+    @Nullable
+    private StartDownloadDialogHelper startDownloadDialogHelper;
+
+    @SuppressLint("UnsafeOptInUsageError")
+    public DownloaderTracker(Context context, HttpDataSource.Factory httpDataSourceFactory, DownloadManager downloadManager) {
+        this.context = context.getApplicationContext();
+        this.httpDataSourceFactory = httpDataSourceFactory;
+
+        listeners = new CopyOnWriteArraySet<>();
+        downloads = new HashMap<>();
+        downloadIndex = downloadManager.getDownloadIndex();
+        trackSelectorParameters = DownloadHelper.getDefaultTrackSelectorParameters(context);
+
+        downloadManager.addListener(new DownloadManagerListener());
+        loadDownloads();
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    public void addListener(Listener listener) {
+        checkNotNull(listener);
+        listeners.add(listener);
+    }
+
+    public void removeListener(Listener listener) {
+        listeners.remove(listener);
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    public boolean isDownloaded(MediaItem mediaItem) {
+        @Nullable Download download = downloads.get(checkNotNull(mediaItem.localConfiguration).uri);
+        return download != null && download.state != Download.STATE_FAILED;
+    }
+
+    @Nullable
+    public DownloadRequest getDownloadRequest(Uri uri) {
+        @Nullable Download download = downloads.get(uri);
+        return download != null && download.state != Download.STATE_FAILED ? download.request : null;
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    public void toggleDownload(FragmentManager fragmentManager, MediaItem mediaItem, RenderersFactory renderersFactory) {
+        @Nullable Download download = downloads.get(checkNotNull(mediaItem.localConfiguration).uri);
+        if (download != null && download.state != Download.STATE_FAILED) {
+            androidx.media3.exoplayer.offline.DownloadService.sendRemoveDownload(context, DownloaderService.class, download.request.id, false);
+        } else {
+            if (startDownloadDialogHelper != null) {
+                startDownloadDialogHelper.release();
+            }
+            startDownloadDialogHelper = new StartDownloadDialogHelper(fragmentManager, DownloadHelper.forMediaItem(context, mediaItem, renderersFactory, httpDataSourceFactory), mediaItem);
+        }
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    private void loadDownloads() {
+        try (DownloadCursor loadedDownloads = downloadIndex.getDownloads()) {
+            while (loadedDownloads.moveToNext()) {
+                Download download = loadedDownloads.getDownload();
+                downloads.put(download.request.uri, download);
+            }
+        } catch (IOException e) {
+            Log.w(TAG, "Failed to query downloads", e);
+        }
+    }
+
+    private class DownloadManagerListener implements DownloadManager.Listener {
+        @Override
+        public void onDownloadChanged(DownloadManager downloadManager, Download download, @Nullable Exception finalException) {
+            downloads.put(download.request.uri, download);
+            for (Listener listener : listeners) {
+                listener.onDownloadsChanged();
+            }
+        }
+
+        @Override
+        public void onDownloadRemoved(DownloadManager downloadManager, Download download) {
+            downloads.remove(download.request.uri);
+            for (Listener listener : listeners) {
+                listener.onDownloadsChanged();
+            }
+        }
+    }
+
+    private final class StartDownloadDialogHelper implements DownloadHelper.Callback, DialogInterface.OnClickListener, DialogInterface.OnDismissListener {
+        private final FragmentManager fragmentManager;
+        private final DownloadHelper downloadHelper;
+        private final MediaItem mediaItem;
+
+        private TrackSelectionDialog trackSelectionDialog;
+        private MappingTrackSelector.MappedTrackInfo mappedTrackInfo;
+        private WidevineOfflineLicenseFetchTask widevineOfflineLicenseFetchTask;
+        @Nullable
+        private byte[] keySetId;
+
+        @SuppressLint("UnsafeOptInUsageError")
+        public StartDownloadDialogHelper(FragmentManager fragmentManager, DownloadHelper downloadHelper, MediaItem mediaItem) {
+            this.fragmentManager = fragmentManager;
+            this.downloadHelper = downloadHelper;
+            this.mediaItem = mediaItem;
+            downloadHelper.prepare(this);
+        }
+
+        public void release() {
+            downloadHelper.release();
+            if (trackSelectionDialog != null) {
+                trackSelectionDialog.dismiss();
+            }
+            if (widevineOfflineLicenseFetchTask != null) {
+                widevineOfflineLicenseFetchTask.cancel(false);
+            }
+        }
+
+        @SuppressLint("UnsafeOptInUsageError")
+        @Override
+        public void onPrepared(DownloadHelper helper) {
+            @Nullable Format format = getFirstFormatWithDrmInitData(helper);
+            if (format == null) {
+                onDownloadPrepared(helper);
+                return;
+            }
+
+            // The content is DRM protected. We need to acquire an offline license.
+            if (Util.SDK_INT < 18) {
+                Toast.makeText(context, R.string.error_drm_unsupported_before_api_18, Toast.LENGTH_LONG).show();
+                Log.e(TAG, "Downloading DRM protected content is not supported on API versions below 18");
+                return;
+            }
+
+            if (!hasSchemaData(format.drmInitData)) {
+                Toast.makeText(context, R.string.download_start_error_offline_license, Toast.LENGTH_LONG).show();
+                Log.e(TAG, "Downloading content where DRM scheme data is not located in the manifest is not supported");
+                return;
+            }
+
+            widevineOfflineLicenseFetchTask = new WidevineOfflineLicenseFetchTask(format, mediaItem.localConfiguration.drmConfiguration, httpDataSourceFactory, this, helper);
+            widevineOfflineLicenseFetchTask.execute();
+        }
+
+        @SuppressLint("UnsafeOptInUsageError")
+        @Override
+        public void onPrepareError(DownloadHelper helper, IOException e) {
+            boolean isLiveContent = e instanceof DownloadHelper.LiveContentUnsupportedException;
+            int toastStringId = isLiveContent ? R.string.download_live_unsupported : R.string.download_start_error;
+            String logMessage = isLiveContent ? "Downloading live content unsupported" : "Failed to start download";
+            Toast.makeText(context, toastStringId, Toast.LENGTH_LONG).show();
+            Log.e(TAG, logMessage, e);
+        }
+
+        // DialogInterface.OnClickListener implementation.
+
+        @SuppressLint("UnsafeOptInUsageError")
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            for (int periodIndex = 0; periodIndex < downloadHelper.getPeriodCount(); periodIndex++) {
+                downloadHelper.clearTrackSelections(periodIndex);
+                for (int i = 0; i < mappedTrackInfo.getRendererCount(); i++) {
+                    if (!trackSelectionDialog.getIsDisabled(i)) {
+                        downloadHelper.addTrackSelectionForSingleRenderer(periodIndex, i, trackSelectorParameters, trackSelectionDialog.getOverrides(i));
+                    }
+                }
+            }
+
+            DownloadRequest downloadRequest = buildDownloadRequest();
+
+            if (downloadRequest.streamKeys.isEmpty()) {
+                // All tracks were deselected in the dialog. Don't start the download.
+                return;
+            }
+            startDownload(downloadRequest);
+        }
+
+        // DialogInterface.OnDismissListener implementation.
+
+        @SuppressLint("UnsafeOptInUsageError")
+        @Override
+        public void onDismiss(DialogInterface dialogInterface) {
+            trackSelectionDialog = null;
+            downloadHelper.release();
+        }
+
+        // Internal methods.
+
+        /**
+         * Returns the first {@link Format} with a non-null {@link Format#drmInitData} found in the
+         * content's tracks, or null if none is found.
+         */
+        @SuppressLint("UnsafeOptInUsageError")
+        @Nullable
+        private Format getFirstFormatWithDrmInitData(DownloadHelper helper) {
+            for (int periodIndex = 0; periodIndex < helper.getPeriodCount(); periodIndex++) {
+                MappingTrackSelector.MappedTrackInfo mappedTrackInfo = helper.getMappedTrackInfo(periodIndex);
+                for (int rendererIndex = 0;
+                     rendererIndex < mappedTrackInfo.getRendererCount();
+                     rendererIndex++) {
+                    TrackGroupArray trackGroups = mappedTrackInfo.getTrackGroups(rendererIndex);
+                    for (int trackGroupIndex = 0; trackGroupIndex < trackGroups.length; trackGroupIndex++) {
+                        TrackGroup trackGroup = trackGroups.get(trackGroupIndex);
+                        for (int formatIndex = 0; formatIndex < trackGroup.length; formatIndex++) {
+                            Format format = trackGroup.getFormat(formatIndex);
+                            if (format.drmInitData != null) {
+                                return format;
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        private void onOfflineLicenseFetched(DownloadHelper helper, byte[] keySetId) {
+            this.keySetId = keySetId;
+            onDownloadPrepared(helper);
+        }
+
+        private void onOfflineLicenseFetchedError(DrmSession.DrmSessionException e) {
+            Toast.makeText(context, R.string.download_start_error_offline_license, Toast.LENGTH_LONG)
+                    .show();
+            Log.e(TAG, "Failed to fetch offline DRM license", e);
+        }
+
+        @SuppressLint("UnsafeOptInUsageError")
+        private void onDownloadPrepared(DownloadHelper helper) {
+            if (helper.getPeriodCount() == 0) {
+                Log.d(TAG, "No periods found. Downloading entire stream.");
+                startDownload();
+                downloadHelper.release();
+                return;
+            }
+
+            mappedTrackInfo = downloadHelper.getMappedTrackInfo(/* periodIndex= */ 0);
+
+            if (!TrackSelectionDialog.willHaveContent(mappedTrackInfo)) {
+                Log.d(TAG, "No dialog content. Downloading entire stream.");
+                startDownload();
+                downloadHelper.release();
+                return;
+            }
+
+            trackSelectionDialog = TrackSelectionDialog.createForMappedTrackInfoAndParameters(R.string.exo_download_description, mappedTrackInfo, trackSelectorParameters, false, true, this, this);
+
+            trackSelectionDialog.show(fragmentManager, null);
+        }
+
+        /**
+         * Returns whether any the {@link DrmInitData.SchemeData} contained in {@code drmInitData} has
+         * non-null {@link DrmInitData.SchemeData#data}.
+         */
+        @SuppressLint("UnsafeOptInUsageError")
+        private boolean hasSchemaData(DrmInitData drmInitData) {
+            for (int i = 0; i < drmInitData.schemeDataCount; i++) {
+                if (drmInitData.get(i).hasData()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private void startDownload() {
+            startDownload(buildDownloadRequest());
+        }
+
+        @SuppressLint("UnsafeOptInUsageError")
+        private void startDownload(DownloadRequest downloadRequest) {
+            DownloadService.sendAddDownload(context, DownloaderService.class, downloadRequest, false);
+        }
+
+        @SuppressLint("UnsafeOptInUsageError")
+        private DownloadRequest buildDownloadRequest() {
+            return downloadHelper.getDownloadRequest(Util.getUtf8Bytes(checkNotNull(mediaItem.mediaMetadata.title.toString()))).copyWithKeySetId(keySetId);
+        }
+    }
+
+    private static final class WidevineOfflineLicenseFetchTask extends AsyncTask<Void, Void, Void> {
+        private final Format format;
+        private final MediaItem.DrmConfiguration drmConfiguration;
+        private final HttpDataSource.Factory httpDataSourceFactory;
+        private final StartDownloadDialogHelper dialogHelper;
+        private final DownloadHelper downloadHelper;
+
+        @Nullable
+        private byte[] keySetId;
+        @Nullable
+        private DrmSession.DrmSessionException drmSessionException;
+
+        public WidevineOfflineLicenseFetchTask(Format format, MediaItem.DrmConfiguration drmConfiguration, HttpDataSource.Factory httpDataSourceFactory, StartDownloadDialogHelper dialogHelper, DownloadHelper downloadHelper) {
+            this.format = format;
+            this.drmConfiguration = drmConfiguration;
+            this.httpDataSourceFactory = httpDataSourceFactory;
+            this.dialogHelper = dialogHelper;
+            this.downloadHelper = downloadHelper;
+        }
+
+        @SuppressLint("UnsafeOptInUsageError")
+        @Override
+        protected Void doInBackground(Void... voids) {
+            OfflineLicenseHelper offlineLicenseHelper = OfflineLicenseHelper.newWidevineInstance(drmConfiguration.licenseUri.toString(), drmConfiguration.forceDefaultLicenseUri, httpDataSourceFactory, drmConfiguration.licenseRequestHeaders, new DrmSessionEventListener.EventDispatcher());
+
+            try {
+                keySetId = offlineLicenseHelper.downloadLicense(format);
+            } catch (DrmSession.DrmSessionException e) {
+                drmSessionException = e;
+            } finally {
+                offlineLicenseHelper.release();
+            }
+
+            return null;
+        }
+
+        @SuppressLint("UnsafeOptInUsageError")
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (drmSessionException != null) {
+                dialogHelper.onOfflineLicenseFetchedError(drmSessionException);
+            } else {
+                dialogHelper.onOfflineLicenseFetched(downloadHelper, checkStateNotNull(keySetId));
+            }
+        }
+    }
+}

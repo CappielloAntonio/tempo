@@ -9,6 +9,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Song;
@@ -27,7 +28,10 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     private final QueueRepository queueRepository;
 
     private final MutableLiveData<String> lyricsLiveData = new MutableLiveData<>(null);
-    private final MutableLiveData<Song> songLiveData = new MutableLiveData<>(null);
+
+    private final MutableLiveData<Song> liveSong = new MutableLiveData<>(null);
+    private final MutableLiveData<Album> liveAlbum = new MutableLiveData<>(null);
+    private final MutableLiveData<Artist> liveArtist = new MutableLiveData<>(null);
 
     public PlayerBottomSheetViewModel(@NonNull Application application) {
         super(application);
@@ -46,9 +50,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         return null;
     }
 
-    public void setFavorite(Context context) {
-        Song song = getCurrentSong();
-
+    public void setFavorite(Context context, Song song) {
         if (song != null) {
             if (song.isFavorite()) {
                 songRepository.unstar(song.getId());
@@ -64,22 +66,28 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         }
     }
 
-    public LiveData<Artist> getArtist() {
-        Song song = getCurrentSong();
-        return artistRepository.getArtist(song.getArtistId());
-    }
-
-    public LiveData<Song> getLiveSong() {
-        return songLiveData;
-    }
-
     public LiveData<String> getLiveLyrics() {
         return lyricsLiveData;
     }
 
     public void refreshSongInfo(LifecycleOwner owner, Song song) {
-        songLiveData.postValue(song);
+        // songLiveData.postValue(song);
         songRepository.getSongLyrics(song).observe(owner, lyricsLiveData::postValue);
     }
 
+    public LiveData<Song> getLiveSong() {
+        return liveSong;
+    }
+
+    public void setLiveSong(LifecycleOwner owner, String songId) {
+        songRepository.getSong(songId).observe(owner, liveSong::postValue);
+    }
+
+    public LiveData<Artist> getLiveArtist() {
+        return liveArtist;
+    }
+
+    public void setLiveArtist(LifecycleOwner owner, String ArtistId) {
+        artistRepository.getArtist(ArtistId).observe(owner, liveArtist::postValue);
+    }
 }

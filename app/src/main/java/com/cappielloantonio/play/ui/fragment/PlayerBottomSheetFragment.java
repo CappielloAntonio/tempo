@@ -84,7 +84,7 @@ public class PlayerBottomSheetFragment extends Fragment {
         init();
         initCoverLyricsSlideView();
         initQueueRecyclerView();
-        initFavoriteButtonClick();
+        initMediaListenable();
         initMusicCommandUnfoldButton();
         initArtistLabelButton();
 
@@ -184,14 +184,17 @@ public class PlayerBottomSheetFragment extends Fragment {
     }
 
     private void setMetadata(MediaMetadata mediaMetadata) {
+        if (mediaMetadata.extras != null) playerBottomSheetViewModel.setLiveSong(requireActivity(), mediaMetadata.extras.getString("id"));
+        if (mediaMetadata.extras != null) playerBottomSheetViewModel.setLiveArtist(requireActivity(), mediaMetadata.extras.getString("artistId"));
+
         bind.playerHeaderLayout.playerHeaderSongTitleLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.title)));
         bind.playerHeaderLayout.playerHeaderSongArtistLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.artist)));
 
         playerSongTitleLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.title)));
         playerArtistNameLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.artist)));
 
-        CustomGlideRequest.Builder
-                .from(requireContext(), mediaMetadata.extras != null ? mediaMetadata.extras.getString("id") : null, CustomGlideRequest.SONG_PIC, null)
+        if (mediaMetadata.extras != null) CustomGlideRequest.Builder
+                .from(requireContext(), mediaMetadata.extras.getString("id"), CustomGlideRequest.SONG_PIC, null)
                 .build()
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(bind.playerHeaderLayout.playerHeaderSongCoverImage);
@@ -305,17 +308,26 @@ public class PlayerBottomSheetFragment extends Fragment {
         }).attachToRecyclerView(playerQueueRecyclerView);
     }
 
-    private void initFavoriteButtonClick() {
-        buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite(requireContext()));
-        buttonFavorite.setOnLongClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("song_object", playerBottomSheetViewModel.getCurrentSong());
+    private void initMediaListenable() {
+        playerBottomSheetViewModel.getLiveSong().observe(requireActivity(), song -> {
+            if (song != null) {
+                buttonFavorite.setChecked(song.isFavorite());
 
-            RatingDialog dialog = new RatingDialog();
-            dialog.setArguments(bundle);
-            dialog.show(requireActivity().getSupportFragmentManager(), null);
+                buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite(requireContext(), song));
 
-            return true;
+                buttonFavorite.setOnLongClickListener(v -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("song_object", song);
+
+                    RatingDialog dialog = new RatingDialog();
+                    dialog.setArguments(bundle);
+                    dialog.show(requireActivity().getSupportFragmentManager(), null);
+
+                    return true;
+                });
+
+                playerBottomSheetViewModel.refreshSongInfo(requireActivity(), song);
+            }
         });
     }
 
@@ -330,7 +342,7 @@ public class PlayerBottomSheetFragment extends Fragment {
     }
 
     private void initArtistLabelButton() {
-        playerArtistNameLabel.setOnClickListener(view -> playerBottomSheetViewModel.getArtist().observe(requireActivity(), artist -> {
+        playerArtistNameLabel.setOnClickListener(view -> playerBottomSheetViewModel.getLiveArtist().observe(requireActivity(), artist -> {
             Bundle bundle = new Bundle();
             bundle.putParcelable("artist_object", artist);
             NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);

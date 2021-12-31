@@ -20,6 +20,22 @@ import java.util.concurrent.ExecutionException;
 public class MediaManager {
     private static final String TAG = "MediaManager";
 
+    public static void quit(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture) {
+        if (mediaBrowserListenableFuture != null) {
+            mediaBrowserListenableFuture.addListener(() -> {
+                try {
+                    if (mediaBrowserListenableFuture.isDone()) {
+                        if (mediaBrowserListenableFuture.get().isPlaying()) {
+                            mediaBrowserListenableFuture.get().pause();
+                        }
+                    }
+                } catch (ExecutionException | InterruptedException e) {
+                    Log.e(TAG, e.getMessage());
+                }
+            }, MoreExecutors.directExecutor());
+        }
+    }
+
     public static void check(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
@@ -136,7 +152,6 @@ public class MediaManager {
                         mediaBrowserListenableFuture.get().prepare();
                         mediaBrowserListenableFuture.get().seekTo(startIndex, 0);
                         mediaBrowserListenableFuture.get().play();
-
                         enqueueDatabase(songs, true, 0);
                     }
                 } catch (ExecutionException | InterruptedException e) {
@@ -155,7 +170,6 @@ public class MediaManager {
                         mediaBrowserListenableFuture.get().setMediaItem(MappingUtil.mapMediaItem(context, song));
                         mediaBrowserListenableFuture.get().prepare();
                         mediaBrowserListenableFuture.get().play();
-
                         enqueueDatabase(song, true, 0);
                     }
                 } catch (ExecutionException | InterruptedException e) {
@@ -170,15 +184,13 @@ public class MediaManager {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
                     if (mediaBrowserListenableFuture.isDone()) {
-                        if (playImmediatelyAfter  && mediaBrowserListenableFuture.get().getNextMediaItemIndex() != -1) {
+                        if (playImmediatelyAfter && mediaBrowserListenableFuture.get().getNextMediaItemIndex() != -1) {
                             enqueueDatabase(songs, false, mediaBrowserListenableFuture.get().getNextMediaItemIndex());
                             mediaBrowserListenableFuture.get().addMediaItems(mediaBrowserListenableFuture.get().getNextMediaItemIndex(), MappingUtil.mapMediaItems(context, songs));
                         } else {
                             enqueueDatabase(songs, false, mediaBrowserListenableFuture.get().getMediaItemCount());
                             mediaBrowserListenableFuture.get().addMediaItems(MappingUtil.mapMediaItems(context, songs));
                         }
-
-
                     }
                 } catch (ExecutionException | InterruptedException e) {
                     Log.e(TAG, e.getMessage());

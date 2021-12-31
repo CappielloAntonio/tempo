@@ -10,6 +10,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.Player;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -29,8 +30,10 @@ import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.MainViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.common.util.concurrent.MoreExecutors;
 
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
@@ -66,7 +69,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        initServiceContent();
+        initService();
     }
 
     @Override
@@ -149,8 +152,8 @@ public class MainActivity extends BaseActivity {
                             break;
                         case BottomSheetBehavior.STATE_COLLAPSED:
                             if (playerBottomSheetFragment != null) {
-                                playerBottomSheetFragment.scrollOnTop();
                                 playerBottomSheetFragment.goBackToFirstPage();
+                                playerBottomSheetFragment.scrollOnTop();
                             }
                         case BottomSheetBehavior.STATE_SETTLING:
                             if (playerBottomSheetFragment != null) {
@@ -210,8 +213,24 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void initServiceContent() {
+    @SuppressLint("UnsafeOptInUsageError")
+    private void initService() {
         MediaManager.check(getMediaBrowserListenableFuture(), this);
+
+        getMediaBrowserListenableFuture().addListener(() -> {
+            try {
+                getMediaBrowserListenableFuture().get().addListener(new Player.Listener() {
+                    @Override
+                    public void onIsPlayingChanged(boolean isPlaying) {
+                        if (isPlaying && bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
+                            setBottomSheetInPeek(true);
+                        }
+                    }
+                });
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        }, MoreExecutors.directExecutor());
     }
 
     private void goToLogin() {
@@ -259,9 +278,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void resetMusicSession() {
-        QueueRepository queueRepository = new QueueRepository(App.getInstance());
-        queueRepository.deleteAll();
-        // MusicPlayerRemote.quitPlaying();
+        MediaManager.quit(getMediaBrowserListenableFuture());
     }
 
     private void resetViewModel() {

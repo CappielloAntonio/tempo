@@ -231,15 +231,6 @@ public class MappingUtil {
         return mediaItems;
     }
 
-    public static MediaItem markPlaylistMediaItem(MediaItem mediaItem, String playlistId, String playlistName) {
-        if (mediaItem.mediaMetadata.extras != null) {
-            mediaItem.mediaMetadata.extras.putString("playlistId", playlistId);
-            mediaItem.mediaMetadata.extras.putString("playlistName", playlistName);
-        }
-
-        return mediaItem;
-    }
-
     public static ArrayList<MediaItem> markPlaylistMediaItems(ArrayList<MediaItem> mediaItems, String playlistId, String playlistName) {
         ArrayList<MediaItem> toReturn = new ArrayList();
 
@@ -248,5 +239,14 @@ public class MappingUtil {
         }
 
         return toReturn;
+    }
+
+    private static MediaItem markPlaylistMediaItem(MediaItem mediaItem, String playlistId, String playlistName) {
+        if (mediaItem.mediaMetadata.extras != null) {
+            mediaItem.mediaMetadata.extras.putString("playlistId", playlistId);
+            mediaItem.mediaMetadata.extras.putString("playlistName", playlistName);
+        }
+
+        return mediaItem;
     }
 }

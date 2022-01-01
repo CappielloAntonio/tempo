@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.DialogConnectionAlertBinding;
 import com.cappielloantonio.play.util.DownloadUtil;
+import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.StarredSyncViewModel;
 
@@ -34,8 +35,10 @@ public class StarredSyncDialog extends DialogFragment {
 
         builder.setView(bind.getRoot())
                 .setTitle(R.string.starred_sync_dialog_title)
-                .setPositiveButton(R.string.starred_sync_dialog_positive_button, (dialog, id) -> { })
-                .setNegativeButton(R.string.starred_sync_dialog_negative_button, (dialog, id) -> { });
+                .setPositiveButton(R.string.starred_sync_dialog_positive_button, (dialog, id) -> {
+                })
+                .setNegativeButton(R.string.starred_sync_dialog_negative_button, (dialog, id) -> {
+                });
 
         return builder.create();
     }
@@ -60,7 +63,7 @@ public class StarredSyncDialog extends DialogFragment {
         ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
             starredSyncViewModel.getStarredTracks(requireActivity()).observe(requireActivity(), songs -> {
                 if (songs != null) {
-                    // DownloadUtil.getDownloadTracker(context).download(songs, null, null);
+                    DownloadUtil.getDownloadTracker(context).download(MappingUtil.mapMediaItems(context, songs, false));
                 }
             });
 

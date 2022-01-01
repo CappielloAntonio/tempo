@@ -49,6 +49,7 @@
     <string name="connection_alert_dialog_summary">Access to the Subsonic server on connections other than Wi-Fi has been restricted. To prevent this alert dialod from reappearing, disable the connection check in the app settings.</string>
     <string name="download_info_empty_subtitle">Once you download a song, you\'ll find it here</string>
     <string name="download_info_empty_title">No downloads yet!</string>
+    <string name="download_start_error">Failed to start download</string>
     <string name="download_title_album_section">Albums</string>
     <string name="download_title_album_see_all">See all</string>
     <string name="download_title_artist_section">Artists</string>

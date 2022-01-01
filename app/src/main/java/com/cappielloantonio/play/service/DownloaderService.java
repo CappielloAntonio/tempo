@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.media3.common.util.NotificationUtil;
 import androidx.media3.common.util.Util;
@@ -30,6 +31,7 @@ public class DownloaderService extends androidx.media3.exoplayer.offline.Downloa
         super(FOREGROUND_NOTIFICATION_ID, DEFAULT_FOREGROUND_NOTIFICATION_UPDATE_INTERVAL, DownloadUtil.DOWNLOAD_NOTIFICATION_CHANNEL_ID, R.string.exo_download_notification_channel_name, 0);
     }
 
+    @NonNull
     @Override
     protected DownloadManager getDownloadManager() {
         DownloadManager downloadManager = DownloadUtil.getDownloadManager(this);
@@ -38,16 +40,17 @@ public class DownloaderService extends androidx.media3.exoplayer.offline.Downloa
         return downloadManager;
     }
 
+    @NonNull
     @Override
     protected Scheduler getScheduler() {
         return new PlatformScheduler(this, JOB_ID);
     }
 
+    @NonNull
     @Override
-    protected Notification getForegroundNotification(List<Download> downloads, @Requirements.RequirementFlags int notMetRequirements) {
+    protected Notification getForegroundNotification(@NonNull List<Download> downloads, @Requirements.RequirementFlags int notMetRequirements) {
         return DownloadUtil.getDownloadNotificationHelper(this).buildProgressNotification(this, R.drawable.ic_download, null, null, downloads, notMetRequirements);
     }
-
 
     private static final class TerminalStateNotificationHelper implements DownloadManager.Listener {
         private final Context context;
@@ -63,7 +66,7 @@ public class DownloaderService extends androidx.media3.exoplayer.offline.Downloa
 
         @SuppressLint("UnsafeOptInUsageError")
         @Override
-        public void onDownloadChanged(DownloadManager downloadManager, Download download, @Nullable Exception finalException) {
+        public void onDownloadChanged(@NonNull DownloadManager downloadManager, Download download, @Nullable Exception finalException) {
             Notification notification;
 
             if (download.state == Download.STATE_COMPLETED) {

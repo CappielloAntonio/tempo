@@ -9,11 +9,15 @@ import androidx.media3.common.AudioAttributes;
 import androidx.media3.common.C;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.Player;
+import androidx.media3.datasource.DataSource;
 import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
+import androidx.media3.exoplayer.source.MediaSourceFactory;
 import androidx.media3.session.MediaLibraryService;
 import androidx.media3.session.MediaSession;
 
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.DownloadUtil;
 
 public class MediaService extends MediaLibraryService {
     private static final String TAG = "MediaService";
@@ -21,11 +25,14 @@ public class MediaService extends MediaLibraryService {
     public static final int REQUEST_CODE = 432;
 
     private ExoPlayer player;
+    private DataSource.Factory dataSourceFactory;
+    private MediaSourceFactory mediaSourceFactory;
     private MediaLibrarySession mediaLibrarySession;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        initializeMediaSource();
         initializePlayer();
         initializePlayerListener();
     }
@@ -43,8 +50,15 @@ public class MediaService extends MediaLibraryService {
     }
 
     @SuppressLint("UnsafeOptInUsageError")
+    private void initializeMediaSource() {
+        dataSourceFactory = DownloadUtil.getDataSourceFactory(this);
+        mediaSourceFactory = new DefaultMediaSourceFactory(dataSourceFactory);
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
     private void initializePlayer() {
         player = new ExoPlayer.Builder(this)
+                .setMediaSourceFactory(mediaSourceFactory)
                 .setAudioAttributes(AudioAttributes.DEFAULT, true)
                 .setHandleAudioBecomingNoisy(true)
                 .setWakeMode(C.WAKE_MODE_NETWORK)

@@ -197,7 +197,7 @@ public class MappingUtil {
         return genres;
     }
 
-    public static MediaItem mapMediaItem(Context context, Song song) {
+    public static MediaItem mapMediaItem(Context context, Song song, boolean isForStreaming) {
         Bundle bundle = new Bundle();
         bundle.putString("id", song.getId());
         bundle.putString("albumId", song.getAlbumId());
@@ -207,7 +207,7 @@ public class MappingUtil {
                 .setMediaId(song.getId())
                 .setMediaMetadata(
                         new MediaMetadata.Builder()
-                                .setMediaUri(MusicUtil.getSongStreamUri(context, song))
+                                .setMediaUri(isForStreaming ? MusicUtil.getSongStreamUri(context, song) : MusicUtil.getSongDownloadUri(song))
                                 .setTitle(MusicUtil.getReadableString(song.getTitle()))
                                 .setTrackNumber(song.getTrackNumber())
                                 .setDiscNumber(song.getDiscNumber())
@@ -217,14 +217,15 @@ public class MappingUtil {
                                 .setExtras(bundle)
                                 .build()
                 )
+                .setUri(isForStreaming ? MusicUtil.getSongStreamUri(context, song) : MusicUtil.getSongDownloadUri(song))
                 .build();
     }
 
-    public static ArrayList<MediaItem> mapMediaItems(Context context, List<Song> songs) {
+    public static ArrayList<MediaItem> mapMediaItems(Context context, List<Song> songs, boolean isForStreaming) {
         ArrayList<MediaItem> mediaItems = new ArrayList();
 
         for (Song song : songs) {
-            mediaItems.add(mapMediaItem(context, song));
+            mediaItems.add(mapMediaItem(context, song, isForStreaming));
         }
 
         return mediaItems;

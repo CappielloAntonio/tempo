@@ -19,6 +19,8 @@ import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.DownloadUtil;
+import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -59,11 +61,11 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         holder.songSubtitle.setText(context.getString(R.string.song_subtitle_formatter, MusicUtil.getReadableString(song.getArtistName()), MusicUtil.getReadableDurationString(song.getDuration(), false)));
         holder.trackNumber.setText(String.valueOf(song.getTrackNumber()));
 
-        /*if (DownloadUtil.getDownloadTracker(context).isDownloaded(song)) {
+        if (DownloadUtil.getDownloadTracker(context).isDownloaded(MappingUtil.mapMediaItem(context, song, false))) {
             holder.downloadIndicator.setVisibility(View.VISIBLE);
         } else {
             holder.downloadIndicator.setVisibility(View.GONE);
-        }*/
+        }
 
         if (isCoverVisible) CustomGlideRequest.Builder
                 .from(context, song.getPrimary(), CustomGlideRequest.SONG_PIC, null)

@@ -6,7 +6,6 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.preference.Preference;
 
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
@@ -15,9 +14,8 @@ import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.util.DownloadUtil;
+import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
-
-import java.util.Collections;
 
 public class SongBottomSheetViewModel extends AndroidViewModel {
     private final SongRepository songRepository;
@@ -50,8 +48,8 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
             songRepository.star(song.getId());
             song.setFavorite(true);
 
-            if(PreferenceUtil.getInstance(context).isStarredSyncEnabled()) {
-                // DownloadUtil.getDownloadTracker(context).download(Collections.singletonList(song), null, null);
+            if (PreferenceUtil.getInstance(context).isStarredSyncEnabled()) {
+                DownloadUtil.getDownloadTracker(context).download(MappingUtil.mapMediaItem(context, song, false));
             }
         }
     }

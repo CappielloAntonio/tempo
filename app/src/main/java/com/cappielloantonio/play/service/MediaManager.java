@@ -61,7 +61,7 @@ public class MediaManager {
                 try {
                     if (mediaBrowserListenableFuture.isDone()) {
                         mediaBrowserListenableFuture.get().clearMediaItems();
-                        mediaBrowserListenableFuture.get().setMediaItems(MappingUtil.mapMediaItems(context, songs));
+                        mediaBrowserListenableFuture.get().setMediaItems(MappingUtil.mapMediaItems(context, songs, true));
                         mediaBrowserListenableFuture.get().seekTo(getQueueRepository().getLastPlayedSongIndex(), 0);
                         mediaBrowserListenableFuture.get().prepare();
                     }
@@ -148,7 +148,7 @@ public class MediaManager {
                 try {
                     if (mediaBrowserListenableFuture.isDone()) {
                         mediaBrowserListenableFuture.get().clearMediaItems();
-                        mediaBrowserListenableFuture.get().setMediaItems(MappingUtil.mapMediaItems(context, songs));
+                        mediaBrowserListenableFuture.get().setMediaItems(MappingUtil.mapMediaItems(context, songs, true));
                         mediaBrowserListenableFuture.get().prepare();
                         mediaBrowserListenableFuture.get().seekTo(startIndex, 0);
                         mediaBrowserListenableFuture.get().play();
@@ -167,7 +167,7 @@ public class MediaManager {
                 try {
                     if (mediaBrowserListenableFuture.isDone()) {
                         mediaBrowserListenableFuture.get().clearMediaItems();
-                        mediaBrowserListenableFuture.get().setMediaItem(MappingUtil.mapMediaItem(context, song));
+                        mediaBrowserListenableFuture.get().setMediaItem(MappingUtil.mapMediaItem(context, song, true));
                         mediaBrowserListenableFuture.get().prepare();
                         mediaBrowserListenableFuture.get().play();
                         enqueueDatabase(song, true, 0);
@@ -186,10 +186,10 @@ public class MediaManager {
                     if (mediaBrowserListenableFuture.isDone()) {
                         if (playImmediatelyAfter && mediaBrowserListenableFuture.get().getNextMediaItemIndex() != -1) {
                             enqueueDatabase(songs, false, mediaBrowserListenableFuture.get().getNextMediaItemIndex());
-                            mediaBrowserListenableFuture.get().addMediaItems(mediaBrowserListenableFuture.get().getNextMediaItemIndex(), MappingUtil.mapMediaItems(context, songs));
+                            mediaBrowserListenableFuture.get().addMediaItems(mediaBrowserListenableFuture.get().getNextMediaItemIndex(), MappingUtil.mapMediaItems(context, songs, true));
                         } else {
                             enqueueDatabase(songs, false, mediaBrowserListenableFuture.get().getMediaItemCount());
-                            mediaBrowserListenableFuture.get().addMediaItems(MappingUtil.mapMediaItems(context, songs));
+                            mediaBrowserListenableFuture.get().addMediaItems(MappingUtil.mapMediaItems(context, songs, true));
                         }
                     }
                 } catch (ExecutionException | InterruptedException e) {
@@ -206,10 +206,10 @@ public class MediaManager {
                     if (mediaBrowserListenableFuture.isDone()) {
                         if (playImmediatelyAfter && mediaBrowserListenableFuture.get().getNextMediaItemIndex() != -1) {
                             enqueueDatabase(song, false, mediaBrowserListenableFuture.get().getNextMediaItemIndex());
-                            mediaBrowserListenableFuture.get().addMediaItem(mediaBrowserListenableFuture.get().getNextMediaItemIndex(), MappingUtil.mapMediaItem(context, song));
+                            mediaBrowserListenableFuture.get().addMediaItem(mediaBrowserListenableFuture.get().getNextMediaItemIndex(), MappingUtil.mapMediaItem(context, song, true));
                         } else {
                             enqueueDatabase(song, false, mediaBrowserListenableFuture.get().getMediaItemCount());
-                            mediaBrowserListenableFuture.get().addMediaItem(MappingUtil.mapMediaItem(context, song));
+                            mediaBrowserListenableFuture.get().addMediaItem(MappingUtil.mapMediaItem(context, song, true));
                         }
                     }
                 } catch (ExecutionException | InterruptedException e) {

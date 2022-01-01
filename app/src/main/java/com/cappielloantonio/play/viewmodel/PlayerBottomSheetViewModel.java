@@ -16,6 +16,8 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.util.DownloadUtil;
+import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
 import java.util.List;
@@ -45,11 +47,6 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         return queueRepository.getLiveQueue();
     }
 
-    public Song getCurrentSong() {
-        // return MusicPlayerRemote.getCurrentSong();
-        return null;
-    }
-
     public void setFavorite(Context context, Song song) {
         if (song != null) {
             if (song.isFavorite()) {
@@ -60,7 +57,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
                 song.setFavorite(true);
 
                 if (PreferenceUtil.getInstance(context).isStarredSyncEnabled()) {
-                    // DownloadUtil.getDownloadTracker(context).download(Collections.singletonList(song), null, null);
+                    DownloadUtil.getDownloadTracker(context).download(MappingUtil.mapMediaItem(context, song, false));
                 }
             }
         }
@@ -71,7 +68,6 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     }
 
     public void refreshSongInfo(LifecycleOwner owner, Song song) {
-        // songLiveData.postValue(song);
         songRepository.getSongLyrics(song).observe(owner, lyricsLiveData::postValue);
     }
 

@@ -14,8 +14,6 @@ import androidx.media3.datasource.cache.Cache;
 import androidx.media3.datasource.cache.CacheDataSource;
 import androidx.media3.datasource.cache.NoOpCacheEvictor;
 import androidx.media3.datasource.cache.SimpleCache;
-import androidx.media3.exoplayer.DefaultRenderersFactory;
-import androidx.media3.exoplayer.RenderersFactory;
 import androidx.media3.exoplayer.offline.ActionFileUpgradeUtil;
 import androidx.media3.exoplayer.offline.DefaultDownloadIndex;
 import androidx.media3.exoplayer.offline.DownloadManager;
@@ -48,26 +46,7 @@ public final class DownloadUtil {
     private static DownloaderTracker downloaderTracker;
     private static DownloadNotificationHelper downloadNotificationHelper;
 
-    /**
-     * Returns whether extension renderers should be used.
-     */
-    public static boolean useExtensionRenderers() {
-        return false;
-    }
-
-    @SuppressLint("UnsafeOptInUsageError")
-    public static RenderersFactory buildRenderersFactory(Context context, boolean preferExtensionRenderer) {
-        @DefaultRenderersFactory.ExtensionRendererMode
-        int extensionRendererMode = useExtensionRenderers()
-                ? (preferExtensionRenderer
-                ? DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER
-                : DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
-                : DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF;
-
-        return new DefaultRenderersFactory(context.getApplicationContext()).setExtensionRendererMode(extensionRendererMode);
-    }
-
-    public static synchronized HttpDataSource.Factory getHttpDataSourceFactory(Context context) {
+    public static synchronized HttpDataSource.Factory getHttpDataSourceFactory() {
         if (httpDataSourceFactory == null) {
             CookieManager cookieManager = new CookieManager();
             cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ORIGINAL_SERVER);
@@ -81,7 +60,7 @@ public final class DownloadUtil {
     public static synchronized DataSource.Factory getDataSourceFactory(Context context) {
         if (dataSourceFactory == null) {
             context = context.getApplicationContext();
-            DefaultDataSource.Factory upstreamFactory = new DefaultDataSource.Factory(context, getHttpDataSourceFactory(context));
+            DefaultDataSource.Factory upstreamFactory = new DefaultDataSource.Factory(context, getHttpDataSourceFactory());
             dataSourceFactory = buildReadOnlyCacheDataSource(upstreamFactory, getDownloadCache(context));
         }
 
@@ -113,6 +92,7 @@ public final class DownloadUtil {
             File downloadContentDirectory = new File(getDownloadDirectory(context), DOWNLOAD_CONTENT_DIRECTORY);
             downloadCache = new SimpleCache(downloadContentDirectory, new NoOpCacheEvictor(), getDatabaseProvider(context));
         }
+
         return downloadCache;
     }
 
@@ -120,10 +100,10 @@ public final class DownloadUtil {
     private static synchronized void ensureDownloadManagerInitialized(Context context) {
         if (downloadManager == null) {
             DefaultDownloadIndex downloadIndex = new DefaultDownloadIndex(getDatabaseProvider(context));
-            upgradeActionFile(context, DOWNLOAD_ACTION_FILE, downloadIndex, /* addNewDownloadsAsCompleted= */ false);
+            upgradeActionFile(context, DOWNLOAD_ACTION_FILE, downloadIndex, false);
             upgradeActionFile(context, DOWNLOAD_TRACKER_ACTION_FILE, downloadIndex, true);
-            downloadManager = new DownloadManager(context, getDatabaseProvider(context), getDownloadCache(context), getHttpDataSourceFactory(context), Executors.newFixedThreadPool(/* nThreads= */ 6));
-            downloaderTracker = new DownloaderTracker(context, getHttpDataSourceFactory(context), downloadManager);
+            downloadManager = new DownloadManager(context, getDatabaseProvider(context), getDownloadCache(context), getHttpDataSourceFactory(), Executors.newFixedThreadPool(6));
+            downloaderTracker = new DownloaderTracker(context, downloadManager);
         }
     }
 
@@ -141,12 +121,13 @@ public final class DownloadUtil {
         if (databaseProvider == null) {
             databaseProvider = new StandaloneDatabaseProvider(context);
         }
+
         return databaseProvider;
     }
 
     private static synchronized File getDownloadDirectory(Context context) {
         if (downloadDirectory == null) {
-            downloadDirectory = context.getExternalFilesDir(/* type= */ null);
+            downloadDirectory = context.getExternalFilesDir(null);
             if (downloadDirectory == null) {
                 downloadDirectory = context.getFilesDir();
             }

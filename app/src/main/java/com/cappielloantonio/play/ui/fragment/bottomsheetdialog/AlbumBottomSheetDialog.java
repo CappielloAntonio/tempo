@@ -14,6 +14,7 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.MediaItem;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
 import androidx.navigation.fragment.NavHostFragment;
@@ -29,6 +30,8 @@ import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.DownloadUtil;
+import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.AlbumBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -153,19 +156,21 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
         TextView removeAll = view.findViewById(R.id.remove_all_text_view);
 
         albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
+            List<MediaItem> mediaItems = MappingUtil.mapMediaItems(requireContext(), songs, false);
+
             downloadAll.setOnClickListener(v -> {
-                // DownloadUtil.getDownloadTracker(requireContext()).download(songs, null, null);
+                DownloadUtil.getDownloadTracker(requireContext()).download(mediaItems);
                 dismissBottomSheet();
             });
 
-            /*if (DownloadUtil.getDownloadTracker(requireContext()).isDownloaded(songs)) {
+            if (DownloadUtil.getDownloadTracker(requireContext()).areDownloaded(mediaItems)) {
                 removeAll.setOnClickListener(v -> {
-                    DownloadUtil.getDownloadTracker(requireContext()).remove(songs);
+                    DownloadUtil.getDownloadTracker(requireContext()).remove(mediaItems);
                     dismissBottomSheet();
                 });
             } else {
                 removeAll.setVisibility(View.GONE);
-            }*/
+            }
         });
 
         TextView goToArtist = view.findViewById(R.id.go_to_artist_text_view);

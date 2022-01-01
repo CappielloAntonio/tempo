@@ -3,34 +3,41 @@ package com.cappielloantonio.play.ui.activity.base;
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.media3.common.MediaItem;
-import androidx.media3.common.MediaMetadata;
+import androidx.media3.exoplayer.offline.DownloadService;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
 
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.service.DownloaderService;
+import com.cappielloantonio.play.service.DownloaderTracker;
 import com.cappielloantonio.play.service.MediaService;
+import com.cappielloantonio.play.util.DownloadUtil;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.MoreExecutors;
 
-import java.util.concurrent.ExecutionException;
-
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity implements DownloaderTracker.Listener {
     private static final String TAG = "BaseActivity";
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
+    private DownloaderTracker downloaderTracker;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initializeDownloader();
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
         initializeBrowser();
+        addDownloadListener();
     }
 
     @Override
@@ -42,7 +49,14 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         releaseBrowser();
+        removeDownloadListener();
         super.onStop();
+    }
+
+    @Override
+    public void onDownloadsChanged() {
+        // TODO Notificare all'item scaricato che lo stato di download è cambiato
+        // sampleAdapter.notifyDataSetChanged();
     }
 
     private void checkBatteryOptimization() {
@@ -84,5 +98,24 @@ public class BaseActivity extends AppCompatActivity {
 
     public ListenableFuture<MediaBrowser> getMediaBrowserListenableFuture() {
         return mediaBrowserListenableFuture;
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    private void initializeDownloader() {
+        downloaderTracker = DownloadUtil.getDownloadTracker(this);
+
+        try {
+            DownloadService.start(this, DownloaderService.class);
+        } catch (IllegalStateException e) {
+            DownloadService.startForeground(this, DownloaderService.class);
+        }
+    }
+
+    private void addDownloadListener() {
+        downloaderTracker.addListener(this);
+    }
+
+    private void removeDownloadListener() {
+        downloaderTracker.removeListener(this);
     }
 }

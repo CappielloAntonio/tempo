@@ -30,6 +30,8 @@ import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.dialog.PlaylistChooserDialog;
 import com.cappielloantonio.play.ui.dialog.RatingDialog;
+import com.cappielloantonio.play.util.DownloadUtil;
+import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.SongBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -155,13 +157,13 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
         TextView download = view.findViewById(R.id.download_text_view);
         download.setOnClickListener(v -> {
-            // DownloadUtil.getDownloadTracker(requireContext()).download(Collections.singletonList(song), null, null);
+            DownloadUtil.getDownloadTracker(requireContext()).download(MappingUtil.mapMediaItem(requireContext(), song, false));
             dismissBottomSheet();
         });
 
         TextView remove = view.findViewById(R.id.remove_text_view);
         remove.setOnClickListener(v -> {
-            // DownloadUtil.getDownloadTracker(requireContext()).remove(Collections.singletonList(song));
+            DownloadUtil.getDownloadTracker(requireContext()).remove(MappingUtil.mapMediaItem(requireContext(), song, false));
             dismissBottomSheet();
         });
 
@@ -214,13 +216,13 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
     }
 
     private void initDownloadUI(TextView download, TextView remove) {
-        /*if (DownloadUtil.getDownloadTracker(requireContext()).isDownloaded(song)) {
+        if (DownloadUtil.getDownloadTracker(requireContext()).isDownloaded(MappingUtil.mapMediaItem(requireContext(), song, false))) {
             download.setVisibility(View.GONE);
             remove.setVisibility(View.VISIBLE);
         } else {
             download.setVisibility(View.VISIBLE);
             remove.setVisibility(View.GONE);
-        }*/
+        }
     }
 
     @SuppressLint("UnsafeOptInUsageError")

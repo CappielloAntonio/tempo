@@ -19,16 +19,13 @@ import androidx.media3.session.SessionToken;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlaylistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlaylistPageViewModel;
 import com.google.common.util.concurrent.ListenableFuture;

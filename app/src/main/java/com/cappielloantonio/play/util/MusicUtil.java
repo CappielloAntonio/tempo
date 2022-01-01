@@ -7,8 +7,6 @@ import android.net.Uri;
 import android.text.Html;
 import android.util.Log;
 
-import androidx.media3.common.MediaItem;
-
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
@@ -45,7 +43,7 @@ public class MusicUtil {
     }
 
     @SuppressLint("UnsafeOptInUsageError")
-    public static MediaItem getSongDownloadItem(Song song) {
+    public static Uri getSongDownloadUri(Song song) {
         Map<String, String> params = App.getSubsonicClientInstance(App.getInstance(), false).getParams();
 
         String uri = App.getSubsonicClientInstance(App.getInstance(), false).getUrl() +
@@ -57,7 +55,9 @@ public class MusicUtil {
                 "&c=" + params.get("c") +
                 "&id=" + song.getId();
 
-        return MediaItem.fromUri(uri);
+        Log.d(TAG, "getSongDownloadUri(): " + uri);
+
+        return Uri.parse(uri);
     }
 
     public static String getReadableDurationString(long duration, boolean millis) {

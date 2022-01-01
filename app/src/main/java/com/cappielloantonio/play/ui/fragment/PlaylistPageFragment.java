@@ -26,6 +26,8 @@ import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.DownloadUtil;
+import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlaylistPageViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -104,7 +106,13 @@ public class PlaylistPageFragment extends Fragment {
         if (item.getItemId() == R.id.action_download_playlist) {
             playlistPageViewModel.getPlaylistSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
                 if (isVisible() && getActivity() != null) {
-                    // DownloadUtil.getDownloadTracker(requireContext()).download(songs, playlistPageViewModel.getPlaylist().getId(), playlistPageViewModel.getPlaylist().getName());
+                    DownloadUtil.getDownloadTracker(requireContext()).download(
+                            MappingUtil.markPlaylistMediaItems(
+                                    MappingUtil.mapMediaItems(requireContext(), songs, false),
+                                    playlistPageViewModel.getPlaylist().getId(),
+                                    playlistPageViewModel.getPlaylist().getName()
+                            )
+                    );
                 }
             });
             return true;

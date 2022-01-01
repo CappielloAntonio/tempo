@@ -197,7 +197,7 @@ public class MappingUtil {
         return genres;
     }
 
-    public static MediaItem mapMediaItem(Context context, Song song, boolean isForStreaming) {
+    public static MediaItem mapMediaItem(Context context, Song song, boolean stream) {
         Bundle bundle = new Bundle();
         bundle.putString("id", song.getId());
         bundle.putString("albumId", song.getAlbumId());
@@ -207,7 +207,7 @@ public class MappingUtil {
                 .setMediaId(song.getId())
                 .setMediaMetadata(
                         new MediaMetadata.Builder()
-                                .setMediaUri(isForStreaming ? MusicUtil.getSongStreamUri(context, song) : MusicUtil.getSongDownloadUri(song))
+                                .setMediaUri(stream ? MusicUtil.getSongStreamUri(context, song) : MusicUtil.getSongDownloadUri(song))
                                 .setTitle(MusicUtil.getReadableString(song.getTitle()))
                                 .setTrackNumber(song.getTrackNumber())
                                 .setDiscNumber(song.getDiscNumber())
@@ -217,17 +217,36 @@ public class MappingUtil {
                                 .setExtras(bundle)
                                 .build()
                 )
-                .setUri(isForStreaming ? MusicUtil.getSongStreamUri(context, song) : MusicUtil.getSongDownloadUri(song))
+                .setUri(stream ? MusicUtil.getSongStreamUri(context, song) : MusicUtil.getSongDownloadUri(song))
                 .build();
     }
 
-    public static ArrayList<MediaItem> mapMediaItems(Context context, List<Song> songs, boolean isForStreaming) {
+    public static ArrayList<MediaItem> mapMediaItems(Context context, List<Song> songs, boolean stream) {
         ArrayList<MediaItem> mediaItems = new ArrayList();
 
         for (Song song : songs) {
-            mediaItems.add(mapMediaItem(context, song, isForStreaming));
+            mediaItems.add(mapMediaItem(context, song, stream));
         }
 
         return mediaItems;
+    }
+
+    public static MediaItem markPlaylistMediaItem(MediaItem mediaItem, String playlistId, String playlistName) {
+        if (mediaItem.mediaMetadata.extras != null) {
+            mediaItem.mediaMetadata.extras.putString("playlistId", playlistId);
+            mediaItem.mediaMetadata.extras.putString("playlistName", playlistName);
+        }
+
+        return mediaItem;
+    }
+
+    public static ArrayList<MediaItem> markPlaylistMediaItems(ArrayList<MediaItem> mediaItems, String playlistId, String playlistName) {
+        ArrayList<MediaItem> toReturn = new ArrayList();
+
+        for(MediaItem mediaItem: mediaItems) {
+            toReturn.add(markPlaylistMediaItem(mediaItem, playlistId, playlistName));
+        }
+
+        return toReturn;
     }
 }

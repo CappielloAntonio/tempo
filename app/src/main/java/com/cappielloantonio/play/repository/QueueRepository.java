@@ -134,8 +134,8 @@ public class QueueRepository {
         thread.start();
     }
 
-    public void setPlayingChangedTimestamp(String id, long ms) {
-        SetPlayingChangedTimestampThreadSafe timestamp = new SetPlayingChangedTimestampThreadSafe(queueDao, id, ms);
+    public void setPlayingPausedTimestamp(String id, long ms) {
+        SetPlayingPausedTimestampThreadSafe timestamp = new SetPlayingPausedTimestampThreadSafe(queueDao, id, ms);
         Thread thread = new Thread(timestamp);
         thread.start();
     }
@@ -268,12 +268,12 @@ public class QueueRepository {
         }
     }
 
-    private static class SetPlayingChangedTimestampThreadSafe implements Runnable {
+    private static class SetPlayingPausedTimestampThreadSafe implements Runnable {
         private final QueueDao queueDao;
         private final String songId;
         private final long ms;
 
-        public SetPlayingChangedTimestampThreadSafe(QueueDao queueDao, String songId, long ms) {
+        public SetPlayingPausedTimestampThreadSafe(QueueDao queueDao, String songId, long ms) {
             this.queueDao = queueDao;
             this.songId = songId;
             this.ms = ms;

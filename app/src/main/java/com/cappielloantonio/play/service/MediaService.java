@@ -3,7 +3,6 @@ package com.cappielloantonio.play.service;
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.media3.common.AudioAttributes;
@@ -102,7 +101,7 @@ public class MediaService extends MediaLibraryService {
             @Override
             public void onIsPlayingChanged(boolean isPlaying) {
                 if(isPlaying) {
-                    MediaManager.setPlayingChangedTimestamp(player.getCurrentMediaItem(), player.getCurrentPosition());
+                    MediaManager.setPlayingPausedTimestamp(player.getCurrentMediaItem(), player.getCurrentPosition());
                 }
             }
         });

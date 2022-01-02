@@ -25,6 +25,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.service.MediaManager;
@@ -157,15 +158,16 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
         albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
             List<MediaItem> mediaItems = MappingUtil.mapMediaItems(requireContext(), songs, false);
+            List<Download> downloads = MappingUtil.mapDownload(songs);
 
             downloadAll.setOnClickListener(v -> {
-                DownloadUtil.getDownloadTracker(requireContext()).download(mediaItems);
+                DownloadUtil.getDownloadTracker(requireContext()).download(mediaItems, downloads);
                 dismissBottomSheet();
             });
 
             if (DownloadUtil.getDownloadTracker(requireContext()).areDownloaded(mediaItems)) {
                 removeAll.setOnClickListener(v -> {
-                    DownloadUtil.getDownloadTracker(requireContext()).remove(mediaItems);
+                    DownloadUtil.getDownloadTracker(requireContext()).remove(mediaItems, downloads);
                     dismissBottomSheet();
                 });
             } else {

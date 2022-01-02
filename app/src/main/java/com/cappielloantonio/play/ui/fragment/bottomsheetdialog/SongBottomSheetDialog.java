@@ -157,13 +157,19 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
         TextView download = view.findViewById(R.id.download_text_view);
         download.setOnClickListener(v -> {
-            DownloadUtil.getDownloadTracker(requireContext()).download(MappingUtil.mapMediaItem(requireContext(), song, false));
+            DownloadUtil.getDownloadTracker(requireContext()).download(
+                    MappingUtil.mapMediaItem(requireContext(), song, false),
+                    MappingUtil.mapDownload(song, null, null)
+            );
             dismissBottomSheet();
         });
 
         TextView remove = view.findViewById(R.id.remove_text_view);
         remove.setOnClickListener(v -> {
-            DownloadUtil.getDownloadTracker(requireContext()).remove(MappingUtil.mapMediaItem(requireContext(), song, false));
+            DownloadUtil.getDownloadTracker(requireContext()).remove(
+                    MappingUtil.mapMediaItem(requireContext(), song, false),
+                    MappingUtil.mapDownload(song, null, null)
+            );
             dismissBottomSheet();
         });
 

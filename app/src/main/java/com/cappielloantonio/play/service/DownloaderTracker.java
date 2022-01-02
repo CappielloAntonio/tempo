@@ -18,6 +18,11 @@ import androidx.media3.exoplayer.offline.DownloadManager;
 import androidx.media3.exoplayer.offline.DownloadRequest;
 import androidx.media3.exoplayer.offline.DownloadService;
 
+import com.cappielloantonio.play.App;
+import com.cappielloantonio.play.repository.DownloadRepository;
+import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.util.MappingUtil;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -81,24 +86,26 @@ public class DownloaderTracker {
     }
 
     @SuppressLint("UnsafeOptInUsageError")
-    public void download(MediaItem mediaItem) {
+    public void download(MediaItem mediaItem, com.cappielloantonio.play.model.Download download) {
         DownloadService.sendAddDownload(context, DownloaderService.class, buildDownloadRequest(mediaItem), false);
+        downloadDatabase(download);
     }
 
-    public void download(List<MediaItem> mediaItems) {
-        for (MediaItem mediaItem : mediaItems) {
-            download(mediaItem);
+    public void download(List<MediaItem> mediaItems, List<com.cappielloantonio.play.model.Download> downloads) {
+        for (int counter = 0; counter < mediaItems.size(); counter++) {
+            download(mediaItems.get(counter), downloads.get(counter));
         }
     }
 
     @SuppressLint("UnsafeOptInUsageError")
-    public void remove(MediaItem mediaItem) {
+    public void remove(MediaItem mediaItem, com.cappielloantonio.play.model.Download download) {
         DownloadService.sendRemoveDownload(context, DownloaderService.class, buildDownloadRequest(mediaItem).id, false);
+        removeDatabase(download);
     }
 
-    public void remove(List<MediaItem> mediaItems) {
-        for (MediaItem mediaItem : mediaItems) {
-            remove(mediaItem);
+    public void remove(List<MediaItem> mediaItems, List<com.cappielloantonio.play.model.Download> downloads) {
+        for (int counter = 0; counter < mediaItems.size(); counter++) {
+            remove(mediaItems.get(counter), downloads.get(counter));
         }
     }
 
@@ -130,5 +137,17 @@ public class DownloaderTracker {
                 listener.onDownloadsChanged();
             }
         }
+    }
+
+    private static DownloadRepository getDownloadRepository() {
+        return new DownloadRepository(App.getInstance());
+    }
+
+    private static void downloadDatabase(com.cappielloantonio.play.model.Download download) {
+        getDownloadRepository().insert(download);
+    }
+
+    private static void removeDatabase(com.cappielloantonio.play.model.Download download) {
+        getDownloadRepository().delete(download);
     }
 }

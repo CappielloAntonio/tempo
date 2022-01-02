@@ -111,7 +111,8 @@ public class PlaylistPageFragment extends Fragment {
                                     MappingUtil.mapMediaItems(requireContext(), songs, false),
                                     playlistPageViewModel.getPlaylist().getId(),
                                     playlistPageViewModel.getPlaylist().getName()
-                            )
+                            ),
+                            MappingUtil.mapDownload(songs)
                     );
                 }
             });

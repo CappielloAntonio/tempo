@@ -108,7 +108,10 @@ public class AlbumPageFragment extends Fragment {
         if (item.getItemId() == R.id.action_download_album) {
             albumPageViewModel.getAlbumSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
                 if (isVisible() && getActivity() != null) {
-                    DownloadUtil.getDownloadTracker(requireContext()).download(MappingUtil.mapMediaItems(requireContext(), songs, false));
+                    DownloadUtil.getDownloadTracker(requireContext()).download(
+                            MappingUtil.mapMediaItems(requireContext(), songs, false),
+                            MappingUtil.mapDownload(songs)
+                    );
                 }
             });
             return true;

@@ -63,7 +63,10 @@ public class StarredSyncDialog extends DialogFragment {
         ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
             starredSyncViewModel.getStarredTracks(requireActivity()).observe(requireActivity(), songs -> {
                 if (songs != null) {
-                    DownloadUtil.getDownloadTracker(context).download(MappingUtil.mapMediaItems(context, songs, false));
+                    DownloadUtil.getDownloadTracker(context).download(
+                            MappingUtil.mapMediaItems(context, songs, false),
+                            MappingUtil.mapDownload(songs)
+                    );
                 }
             });
 

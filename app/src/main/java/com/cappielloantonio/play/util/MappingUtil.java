@@ -173,7 +173,7 @@ public class MappingUtil {
         return playlists;
     }
 
-    public static ArrayList<Download> mapToDownload(List<Song> songs) {
+    public static ArrayList<Download> mapDownload(List<Song> songs) {
         ArrayList<Download> downloads = new ArrayList();
 
         for (Song song : songs) {
@@ -183,7 +183,7 @@ public class MappingUtil {
         return downloads;
     }
 
-    public static Download mapToDownload(Song song, String playlistId, String playlistName) {
+    public static Download mapDownload(Song song, String playlistId, String playlistName) {
         return new Download(song, playlistId, playlistName);
     }
 

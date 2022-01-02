@@ -57,7 +57,10 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
                 song.setFavorite(true);
 
                 if (PreferenceUtil.getInstance(context).isStarredSyncEnabled()) {
-                    DownloadUtil.getDownloadTracker(context).download(MappingUtil.mapMediaItem(context, song, false));
+                    DownloadUtil.getDownloadTracker(context).download(
+                            MappingUtil.mapMediaItem(context, song, false),
+                            MappingUtil.mapDownload(song, null, null)
+                    );
                 }
             }
         }

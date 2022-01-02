@@ -16,16 +16,16 @@ import androidx.media3.session.SessionToken;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.service.DownloaderService;
-import com.cappielloantonio.play.service.DownloaderTracker;
+import com.cappielloantonio.play.service.DownloaderManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.google.common.util.concurrent.ListenableFuture;
 
-public class BaseActivity extends AppCompatActivity implements DownloaderTracker.Listener {
+public class BaseActivity extends AppCompatActivity implements DownloaderManager.Listener {
     private static final String TAG = "BaseActivity";
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
-    private DownloaderTracker downloaderTracker;
+    private DownloaderManager downloaderManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,7 +102,7 @@ public class BaseActivity extends AppCompatActivity implements DownloaderTracker
 
     @SuppressLint("UnsafeOptInUsageError")
     private void initializeDownloader() {
-        downloaderTracker = DownloadUtil.getDownloadTracker(this);
+        downloaderManager = DownloadUtil.getDownloadTracker(this);
 
         try {
             DownloadService.start(this, DownloaderService.class);
@@ -112,10 +112,10 @@ public class BaseActivity extends AppCompatActivity implements DownloaderTracker
     }
 
     private void addDownloadListener() {
-        downloaderTracker.addListener(this);
+        downloaderManager.addListener(this);
     }
 
     private void removeDownloadListener() {
-        downloaderTracker.removeListener(this);
+        downloaderManager.removeListener(this);
     }
 }

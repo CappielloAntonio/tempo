@@ -19,7 +19,7 @@ import androidx.media3.exoplayer.offline.DefaultDownloadIndex;
 import androidx.media3.exoplayer.offline.DownloadManager;
 import androidx.media3.exoplayer.offline.DownloadNotificationHelper;
 
-import com.cappielloantonio.play.service.DownloaderTracker;
+import com.cappielloantonio.play.service.DownloaderManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +43,7 @@ public final class DownloadUtil {
     private static File downloadDirectory;
     private static Cache downloadCache;
     private static DownloadManager downloadManager;
-    private static DownloaderTracker downloaderTracker;
+    private static DownloaderManager downloaderManager;
     private static DownloadNotificationHelper downloadNotificationHelper;
 
     public static synchronized HttpDataSource.Factory getHttpDataSourceFactory() {
@@ -81,9 +81,9 @@ public final class DownloadUtil {
         return downloadManager;
     }
 
-    public static synchronized DownloaderTracker getDownloadTracker(Context context) {
+    public static synchronized DownloaderManager getDownloadTracker(Context context) {
         ensureDownloadManagerInitialized(context);
-        return downloaderTracker;
+        return downloaderManager;
     }
 
     @SuppressLint("UnsafeOptInUsageError")
@@ -103,7 +103,7 @@ public final class DownloadUtil {
             upgradeActionFile(context, DOWNLOAD_ACTION_FILE, downloadIndex, false);
             upgradeActionFile(context, DOWNLOAD_TRACKER_ACTION_FILE, downloadIndex, true);
             downloadManager = new DownloadManager(context, getDatabaseProvider(context), getDownloadCache(context), getHttpDataSourceFactory(), Executors.newFixedThreadPool(6));
-            downloaderTracker = new DownloaderTracker(context, downloadManager);
+            downloaderManager = new DownloaderManager(context, downloadManager);
         }
     }
 

@@ -18,6 +18,7 @@ import androidx.media3.session.MediaSession;
 
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.DownloadUtil;
+import com.google.android.gms.cast.framework.CastContext;
 
 public class MediaService extends MediaLibraryService {
     private static final String TAG = "MediaService";

@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-public class DownloaderTracker {
+public class DownloaderManager {
     private static final String TAG = "DownloadTracker";
 
     private final Context context;
@@ -41,7 +41,7 @@ public class DownloaderTracker {
     }
 
     @SuppressLint("UnsafeOptInUsageError")
-    public DownloaderTracker(Context context, DownloadManager downloadManager) {
+    public DownloaderManager(Context context, DownloadManager downloadManager) {
         this.context = context.getApplicationContext();
 
         listeners = new CopyOnWriteArraySet<>();

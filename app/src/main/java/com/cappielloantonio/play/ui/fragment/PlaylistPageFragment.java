@@ -107,12 +107,8 @@ public class PlaylistPageFragment extends Fragment {
             playlistPageViewModel.getPlaylistSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
                 if (isVisible() && getActivity() != null) {
                     DownloadUtil.getDownloadTracker(requireContext()).download(
-                            MappingUtil.markPlaylistMediaItems(
-                                    MappingUtil.mapMediaItems(requireContext(), songs, false),
-                                    playlistPageViewModel.getPlaylist().getId(),
-                                    playlistPageViewModel.getPlaylist().getName()
-                            ),
-                            MappingUtil.mapDownload(songs)
+                            MappingUtil.mapMediaItems(requireContext(), songs, false),
+                            MappingUtil.mapDownload(songs, playlistPageViewModel.getPlaylist().getId(), playlistPageViewModel.getPlaylist().getName())
                     );
                 }
             });

@@ -67,6 +67,11 @@ public class DownloaderTracker {
         return DownloadHelper.forMediaItem(context, mediaItem).getDownloadRequest(Util.getUtf8Bytes(checkNotNull(mediaItem.mediaId)));
     }
 
+    public boolean isDownloaded(Uri uri) {
+        @Nullable Download download = downloads.get(uri);
+        return download != null && download.state != Download.STATE_FAILED;
+    }
+
     @SuppressLint("UnsafeOptInUsageError")
     public boolean isDownloaded(MediaItem mediaItem) {
         @Nullable Download download = downloads.get(checkNotNull(mediaItem.localConfiguration).uri);

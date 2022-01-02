@@ -158,7 +158,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
         albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
             List<MediaItem> mediaItems = MappingUtil.mapMediaItems(requireContext(), songs, false);
-            List<Download> downloads = MappingUtil.mapDownload(songs);
+            List<Download> downloads = MappingUtil.mapDownload(songs, null, null);
 
             downloadAll.setOnClickListener(v -> {
                 DownloadUtil.getDownloadTracker(requireContext()).download(mediaItems, downloads);

@@ -110,7 +110,7 @@ public class AlbumPageFragment extends Fragment {
                 if (isVisible() && getActivity() != null) {
                     DownloadUtil.getDownloadTracker(requireContext()).download(
                             MappingUtil.mapMediaItems(requireContext(), songs, false),
-                            MappingUtil.mapDownload(songs)
+                            MappingUtil.mapDownload(songs, null, null)
                     );
                 }
             });

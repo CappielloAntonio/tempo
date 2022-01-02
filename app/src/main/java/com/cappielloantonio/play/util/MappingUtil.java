@@ -173,11 +173,11 @@ public class MappingUtil {
         return playlists;
     }
 
-    public static ArrayList<Download> mapDownload(List<Song> songs) {
+    public static ArrayList<Download> mapDownload(List<Song> songs, String playlistId, String playlistName) {
         ArrayList<Download> downloads = new ArrayList();
 
         for (Song song : songs) {
-            downloads.add(new Download(song, null, null));
+            downloads.add(new Download(song, playlistId, playlistName));
         }
 
         return downloads;
@@ -198,6 +198,8 @@ public class MappingUtil {
     }
 
     public static MediaItem mapMediaItem(Context context, Song song, boolean stream) {
+        boolean isDownloaded = DownloadUtil.getDownloadTracker(context).isDownloaded(MusicUtil.getSongDownloadUri(song));
+
         Bundle bundle = new Bundle();
         bundle.putString("id", song.getId());
         bundle.putString("albumId", song.getAlbumId());
@@ -207,7 +209,7 @@ public class MappingUtil {
                 .setMediaId(song.getId())
                 .setMediaMetadata(
                         new MediaMetadata.Builder()
-                                .setMediaUri(stream ? MusicUtil.getSongStreamUri(context, song) : MusicUtil.getSongDownloadUri(song))
+                                .setMediaUri(stream && !isDownloaded ? MusicUtil.getSongStreamUri(context, song) : MusicUtil.getSongDownloadUri(song))
                                 .setTitle(MusicUtil.getReadableString(song.getTitle()))
                                 .setTrackNumber(song.getTrackNumber())
                                 .setDiscNumber(song.getDiscNumber())
@@ -217,7 +219,7 @@ public class MappingUtil {
                                 .setExtras(bundle)
                                 .build()
                 )
-                .setUri(stream ? MusicUtil.getSongStreamUri(context, song) : MusicUtil.getSongDownloadUri(song))
+                .setUri(stream && !isDownloaded ? MusicUtil.getSongStreamUri(context, song) : MusicUtil.getSongDownloadUri(song))
                 .build();
     }
 
@@ -229,24 +231,5 @@ public class MappingUtil {
         }
 
         return mediaItems;
-    }
-
-    public static ArrayList<MediaItem> markPlaylistMediaItems(ArrayList<MediaItem> mediaItems, String playlistId, String playlistName) {
-        ArrayList<MediaItem> toReturn = new ArrayList();
-
-        for(MediaItem mediaItem: mediaItems) {
-            toReturn.add(markPlaylistMediaItem(mediaItem, playlistId, playlistName));
-        }
-
-        return toReturn;
-    }
-
-    private static MediaItem markPlaylistMediaItem(MediaItem mediaItem, String playlistId, String playlistName) {
-        if (mediaItem.mediaMetadata.extras != null) {
-            mediaItem.mediaMetadata.extras.putString("playlistId", playlistId);
-            mediaItem.mediaMetadata.extras.putString("playlistName", playlistName);
-        }
-
-        return mediaItem;
     }
 }

@@ -65,7 +65,7 @@ public class StarredSyncDialog extends DialogFragment {
                 if (songs != null) {
                     DownloadUtil.getDownloadTracker(context).download(
                             MappingUtil.mapMediaItems(context, songs, false),
-                            MappingUtil.mapDownload(songs)
+                            MappingUtil.mapDownload(songs, null, null)
                     );
                 }
             });

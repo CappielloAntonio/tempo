@@ -27,15 +27,13 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
     private static final String TAG = "SongResultSearchAdapter";
 
     private final LayoutInflater mInflater;
-    private final PlayerBottomSheetFragment playerBottomSheetFragment;
     private final Context context;
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
     private List<Song> songs;
 
-    public PlayerSongQueueAdapter(Context context, PlayerBottomSheetFragment playerBottomSheetFragment) {
+    public PlayerSongQueueAdapter(Context context) {
         this.context = context;
-        this.playerBottomSheetFragment = playerBottomSheetFragment;
         this.mInflater = LayoutInflater.from(context);
         this.songs = new ArrayList<>();
     }

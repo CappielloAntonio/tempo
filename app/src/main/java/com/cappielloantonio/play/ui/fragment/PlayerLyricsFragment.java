@@ -11,19 +11,19 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.databinding.FragmentPlayerLyricsBinding;
+import com.cappielloantonio.play.databinding.InnerFragmentPlayerLyricsBinding;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 
 public class PlayerLyricsFragment extends Fragment {
     private static final String TAG = "PlayerLyricsFragment";
 
-    private FragmentPlayerLyricsBinding bind;
+    private InnerFragmentPlayerLyricsBinding bind;
     private PlayerBottomSheetViewModel playerBottomSheetViewModel;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        bind = FragmentPlayerLyricsBinding.inflate(inflater, container, false);
+        bind = InnerFragmentPlayerLyricsBinding.inflate(inflater, container, false);
         View view = bind.getRoot();
         playerBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(PlayerBottomSheetViewModel.class);
 

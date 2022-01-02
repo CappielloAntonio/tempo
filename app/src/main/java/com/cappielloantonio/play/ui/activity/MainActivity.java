@@ -152,18 +152,18 @@ public class MainActivity extends BaseActivity {
                             break;
                         case BottomSheetBehavior.STATE_COLLAPSED:
                             if (playerBottomSheetFragment != null) {
-                                playerBottomSheetFragment.goBackToFirstPage();
-                                playerBottomSheetFragment.scrollOnTop();
+                                // playerBottomSheetFragment.goBackToFirstPage();
+                                // playerBottomSheetFragment.scrollOnTop();
                             }
                         case BottomSheetBehavior.STATE_SETTLING:
                             if (playerBottomSheetFragment != null) {
-                                playerBottomSheetFragment.scrollOnTop();
+                                // playerBottomSheetFragment.scrollOnTop();
                             }
                             break;
                         case BottomSheetBehavior.STATE_EXPANDED:
                             if (playerBottomSheetFragment != null) {
-                                playerBottomSheetFragment.scrollOnTop();
-                                setBottomSheetDraggableState(playerBottomSheetFragment.isViewPagerInFirstPage());
+                                // playerBottomSheetFragment.scrollOnTop();
+                                // setBottomSheetDraggableState(playerBottomSheetFragment.isViewPagerInFirstPage());
                             }
                         case BottomSheetBehavior.STATE_DRAGGING:
                         case BottomSheetBehavior.STATE_HALF_EXPANDED:

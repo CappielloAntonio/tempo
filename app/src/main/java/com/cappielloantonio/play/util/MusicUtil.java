@@ -33,9 +33,13 @@ public class MusicUtil {
                 "&t=" + params.get("t") +
                 "&v=" + params.get("v") +
                 "&c=" + params.get("c") +
-                "&id=" + song.getId() +
-                "&maxBitRate=" + getBitratePreference(context, connectivityManager.getActiveNetworkInfo().getType()) +
-                "&format=" + getTranscodingFormatPreference(context, connectivityManager.getActiveNetworkInfo().getType());
+                "&id=" + song.getId();
+
+        if(connectivityManager.getActiveNetworkInfo() != null) {
+            uri = uri + "&maxBitRate="
+                    + getBitratePreference(context, connectivityManager.getActiveNetworkInfo().getType()) + "&format="
+                    + getTranscodingFormatPreference(context, connectivityManager.getActiveNetworkInfo().getType());
+        }
 
         Log.d(TAG, "getSongStreamUri(): " + uri);
 

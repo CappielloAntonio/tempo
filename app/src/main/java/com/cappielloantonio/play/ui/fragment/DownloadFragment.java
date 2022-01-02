@@ -1,5 +1,7 @@
 package com.cappielloantonio.play.ui.fragment;
 
+import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.session.MediaBrowser;
+import androidx.media3.session.SessionToken;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.SnapHelper;
@@ -29,9 +33,11 @@ import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.DownloadViewModel;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.Objects;
 
@@ -46,6 +52,8 @@ public class DownloadFragment extends Fragment {
     private AlbumHorizontalAdapter downloadedAlbumAdapter;
     private SongHorizontalAdapter downloadedTrackAdapter;
     private PlaylistAdapter playlistAdapter;
+
+    private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,8 +96,23 @@ public class DownloadFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        initializeMediaBrowser();
         activity.setBottomNavigationBarVisibility(true);
         activity.setBottomSheetVisibility(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        setMediaBrowserListenableFuture();
+    }
+
+    @Override
+    public void onStop() {
+        releaseMediaBrowser();
+        super.onStop();
     }
 
     @Override
@@ -284,5 +307,18 @@ public class DownloadFragment extends Fragment {
                 if (bind != null) bind.fragmentDownloadNestedScrollView.setVisibility(View.GONE);
             }
         });
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    private void initializeMediaBrowser() {
+        mediaBrowserListenableFuture = new MediaBrowser.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
+    }
+
+    private void releaseMediaBrowser() {
+        MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
+    }
+
+    private void setMediaBrowserListenableFuture() {
+        downloadedTrackAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
     }
 }

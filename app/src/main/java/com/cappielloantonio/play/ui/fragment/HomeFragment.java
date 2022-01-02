@@ -153,16 +153,6 @@ public class HomeFragment extends Fragment {
         return false;
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
-    private void initializeMediaBrowser() {
-        mediaBrowserListenableFuture = new MediaBrowser.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
-    }
-
-    private void releaseMediaBrowser() {
-        MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
-    }
-
-
     private void init() {
         bind.recentlyAddedAlbumsTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
@@ -244,12 +234,6 @@ public class HomeFragment extends Fragment {
     private void initAppBar() {
         activity.setSupportActionBar(bind.toolbar);
         Objects.requireNonNull(bind.toolbar.getOverflowIcon()).setTint(requireContext().getResources().getColor(R.color.titleTextColor, null));
-    }
-
-    private void setMediaBrowserListenableFuture() {
-        discoverSongAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
-        similarMusicAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
-        starredSongAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
     }
 
     private void initDiscoverSongSlideView() {
@@ -541,6 +525,7 @@ public class HomeFragment extends Fragment {
                         genericPlaylistRecyclerView.setHasFixedSize(true);
 
                         SongHorizontalAdapter trackAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
+                        trackAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
                         genericPlaylistRecyclerView.setAdapter(trackAdapter);
 
                         homeViewModel.getPlaylistSongLiveList(playlist.getId()).observe(requireActivity(), songs -> {
@@ -577,5 +562,20 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    private void initializeMediaBrowser() {
+        mediaBrowserListenableFuture = new MediaBrowser.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
+    }
+
+    private void releaseMediaBrowser() {
+        MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
+    }
+
+    private void setMediaBrowserListenableFuture() {
+        discoverSongAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
+        similarMusicAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
+        starredSongAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
     }
 }

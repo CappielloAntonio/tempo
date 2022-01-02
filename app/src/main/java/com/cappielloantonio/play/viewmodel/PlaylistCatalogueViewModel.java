@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -34,15 +35,15 @@ public class PlaylistCatalogueViewModel extends AndroidViewModel {
         downloadRepository = new DownloadRepository(application);
     }
 
-    public LiveData<List<Playlist>> getPlaylistList(FragmentActivity activity) {
+    public LiveData<List<Playlist>> getPlaylistList(LifecycleOwner owner) {
         playlistList = new MutableLiveData<>(new ArrayList<>());
 
         switch (type) {
             case Playlist.ALL:
-                playlistRepository.getPlaylists(false, -1).observe(activity, playlists -> playlistList.postValue(playlists));
+                playlistRepository.getPlaylists(false, -1).observe(owner, playlists -> playlistList.postValue(playlists));
                 break;
             case Playlist.DOWNLOADED:
-                downloadRepository.getLivePlaylist().observe(activity, downloads -> playlistList.setValue(MappingUtil.mapDownloadToPlaylist(downloads)));
+                downloadRepository.getLivePlaylist().observe(owner, downloads -> playlistList.setValue(MappingUtil.mapDownloadToPlaylist(downloads)));
                 break;
         }
 
@@ -51,9 +52,9 @@ public class PlaylistCatalogueViewModel extends AndroidViewModel {
         return playlistList;
     }
 
-    public LiveData<List<Playlist>> getPinnedPlaylistList(FragmentActivity activity) {
+    public LiveData<List<Playlist>> getPinnedPlaylistList(LifecycleOwner owner) {
         pinnedPlaylistList = new MutableLiveData<>(new ArrayList<>());
-        playlistRepository.getPinnedPlaylists(PreferenceUtil.getInstance(App.getInstance()).getServerId()).observe(activity, playlists -> pinnedPlaylistList.postValue(playlists));
+        playlistRepository.getPinnedPlaylists(PreferenceUtil.getInstance(App.getInstance()).getServerId()).observe(owner, playlists -> pinnedPlaylistList.postValue(playlists));
         return pinnedPlaylistList;
     }
 

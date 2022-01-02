@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -35,7 +36,7 @@ public class ArtistListPageViewModel extends AndroidViewModel {
         downloadRepository = new DownloadRepository(application);
     }
 
-    public LiveData<List<Artist>> getArtistList(FragmentActivity activity) {
+    public LiveData<List<Artist>> getArtistList(LifecycleOwner owner) {
         artistList = new MutableLiveData<>(new ArrayList<>());
 
         switch (title) {
@@ -43,7 +44,7 @@ public class ArtistListPageViewModel extends AndroidViewModel {
                 artistList = artistRepository.getStarredArtists(false, -1);
                 break;
             case Artist.DOWNLOADED:
-                downloadRepository.getLiveDownload().observe(activity, downloads -> {
+                downloadRepository.getLiveDownload().observe(owner, downloads -> {
                     List<Download> unique = downloads
                             .stream()
                             .collect(Collectors.collectingAndThen(

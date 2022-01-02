@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -36,9 +37,9 @@ public class AlbumPageViewModel extends AndroidViewModel {
         downloadRepository = new DownloadRepository(application);
     }
 
-    public LiveData<List<Song>> getAlbumSongLiveList(FragmentActivity activity) {
+    public LiveData<List<Song>> getAlbumSongLiveList(LifecycleOwner owner) {
         if (isOffline) {
-            downloadRepository.getLiveDownloadFromAlbum(album.getId()).observe(activity, downloads -> songLiveList.postValue(MappingUtil.mapDownloadToSong(downloads)));
+            downloadRepository.getLiveDownloadFromAlbum(album.getId()).observe(owner, downloads -> songLiveList.postValue(MappingUtil.mapDownloadToSong(downloads)));
         } else {
             songLiveList = albumRepository.getAlbumTracks(album.getId());
         }

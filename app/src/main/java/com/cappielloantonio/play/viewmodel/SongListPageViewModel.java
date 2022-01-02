@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -47,7 +48,7 @@ public class SongListPageViewModel extends AndroidViewModel {
         downloadRepository = new DownloadRepository(application);
     }
 
-    public LiveData<List<Song>> getSongList(FragmentActivity activity) {
+    public LiveData<List<Song>> getSongList(LifecycleOwner owner) {
         songList = new MutableLiveData<>(new ArrayList<>());
 
         switch (title) {
@@ -67,10 +68,10 @@ public class SongListPageViewModel extends AndroidViewModel {
                 songList = songRepository.getStarredSongs(false, -1);
                 break;
             case Song.DOWNLOADED:
-                downloadRepository.getLiveDownload().observe(activity, downloads -> songList.setValue(MappingUtil.mapDownloadToSong(downloads)));
+                downloadRepository.getLiveDownload().observe(owner, downloads -> songList.setValue(MappingUtil.mapDownloadToSong(downloads)));
                 break;
             case Song.FROM_ALBUM:
-                downloadRepository.getLiveDownloadFromAlbum(album.getId()).observe(activity, downloads -> songList.setValue(MappingUtil.mapDownloadToSong(downloads)));
+                downloadRepository.getLiveDownloadFromAlbum(album.getId()).observe(owner, downloads -> songList.setValue(MappingUtil.mapDownloadToSong(downloads)));
                 break;
         }
 

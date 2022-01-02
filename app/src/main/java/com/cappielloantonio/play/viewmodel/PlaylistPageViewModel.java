@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -34,9 +35,9 @@ public class PlaylistPageViewModel extends AndroidViewModel {
         downloadRepository = new DownloadRepository(application);
     }
 
-    public LiveData<List<Song>> getPlaylistSongLiveList(FragmentActivity activity) {
+    public LiveData<List<Song>> getPlaylistSongLiveList(LifecycleOwner owner) {
         if (isOffline) {
-            downloadRepository.getLiveDownloadFromPlaylist(playlist.getId()).observe(activity, downloads -> playlistSongLiveList.postValue(MappingUtil.mapDownloadToSong(downloads)));
+            downloadRepository.getLiveDownloadFromPlaylist(playlist.getId()).observe(owner, downloads -> playlistSongLiveList.postValue(MappingUtil.mapDownloadToSong(downloads)));
         } else {
             playlistSongLiveList = playlistRepository.getPlaylistSongs(playlist.getId());
         }
@@ -61,9 +62,9 @@ public class PlaylistPageViewModel extends AndroidViewModel {
         return isOffline;
     }
 
-    public LiveData<Boolean> isPinned(FragmentActivity activity) {
+    public LiveData<Boolean> isPinned(LifecycleOwner owner) {
         MutableLiveData<Boolean> isPinnedLive = new MutableLiveData<>();
-        playlistRepository.getPinnedPlaylists(PreferenceUtil.getInstance(App.getInstance()).getServerId()).observe(activity, playlists -> isPinnedLive.postValue(playlists.contains(playlist)));
+        playlistRepository.getPinnedPlaylists(PreferenceUtil.getInstance(App.getInstance()).getServerId()).observe(owner, playlists -> isPinnedLive.postValue(playlists.contains(playlist)));
         return isPinnedLive;
     }
 

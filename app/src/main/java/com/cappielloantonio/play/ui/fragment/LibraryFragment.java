@@ -51,8 +51,6 @@ public class LibraryFragment extends Fragment {
     private GenreAdapter genreAdapter;
     private PlaylistAdapter playlistAdapter;
 
-    private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

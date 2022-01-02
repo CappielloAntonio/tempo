@@ -128,8 +128,14 @@ public class QueueRepository {
         return count;
     }
 
-    public void setTimestamp(String id) {
-        SetTimestampThreadSafe timestamp = new SetTimestampThreadSafe(queueDao, id);
+    public void setLastPlayedTimestamp(String id) {
+        SetLastPlayedTimestampThreadSafe timestamp = new SetLastPlayedTimestampThreadSafe(queueDao, id);
+        Thread thread = new Thread(timestamp);
+        thread.start();
+    }
+
+    public void setPlayingChangedTimestamp(String id, long ms) {
+        SetPlayingChangedTimestampThreadSafe timestamp = new SetPlayingChangedTimestampThreadSafe(queueDao, id, ms);
         Thread thread = new Thread(timestamp);
         thread.start();
     }
@@ -149,6 +155,23 @@ public class QueueRepository {
         }
 
         return index;
+    }
+
+    public long getLastPlayedSongTimestamp() {
+        long timestamp = 0;
+
+        GetLastPlayedSongTimestampThreadSafe getLastPlayedSongTimestampThreadSafe = new GetLastPlayedSongTimestampThreadSafe(queueDao);
+        Thread thread = new Thread(getLastPlayedSongTimestampThreadSafe);
+        thread.start();
+
+        try {
+            thread.join();
+            timestamp = getLastPlayedSongTimestampThreadSafe.getTimestamp();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return timestamp;
     }
 
     private static class GetSongsThreadSafe implements Runnable {
@@ -230,11 +253,11 @@ public class QueueRepository {
         }
     }
 
-    private static class SetTimestampThreadSafe implements Runnable {
+    private static class SetLastPlayedTimestampThreadSafe implements Runnable {
         private final QueueDao queueDao;
         private final String songId;
 
-        public SetTimestampThreadSafe(QueueDao queueDao, String songId) {
+        public SetLastPlayedTimestampThreadSafe(QueueDao queueDao, String songId) {
             this.queueDao = queueDao;
             this.songId = songId;
         }
@@ -242,6 +265,23 @@ public class QueueRepository {
         @Override
         public void run() {
             queueDao.setLastPlay(songId, Instant.now().toEpochMilli());
+        }
+    }
+
+    private static class SetPlayingChangedTimestampThreadSafe implements Runnable {
+        private final QueueDao queueDao;
+        private final String songId;
+        private final long ms;
+
+        public SetPlayingChangedTimestampThreadSafe(QueueDao queueDao, String songId, long ms) {
+            this.queueDao = queueDao;
+            this.songId = songId;
+            this.ms = ms;
+        }
+
+        @Override
+        public void run() {
+            queueDao.setPlayingChanged(songId, ms);
         }
     }
 
@@ -260,6 +300,24 @@ public class QueueRepository {
 
         public int getIndex() {
             return index;
+        }
+    }
+
+    private static class GetLastPlayedSongTimestampThreadSafe implements Runnable {
+        private final QueueDao queueDao;
+        private long timestamp;
+
+        public GetLastPlayedSongTimestampThreadSafe(QueueDao queueDao) {
+            this.queueDao = queueDao;
+        }
+
+        @Override
+        public void run() {
+            timestamp = queueDao.getLastPlayedTimestamp();
+        }
+
+        public long getTimestamp() {
+            return timestamp;
         }
     }
 }

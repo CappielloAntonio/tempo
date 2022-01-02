@@ -3,6 +3,7 @@ package com.cappielloantonio.play.service;
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.media3.common.AudioAttributes;
@@ -18,7 +19,6 @@ import androidx.media3.session.MediaSession;
 
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.DownloadUtil;
-import com.google.android.gms.cast.framework.CastContext;
 
 public class MediaService extends MediaLibraryService {
     private static final String TAG = "MediaService";
@@ -97,6 +97,13 @@ public class MediaService extends MediaLibraryService {
             @Override
             public void onMediaItemTransition(@Nullable MediaItem mediaItem, int reason) {
                 MediaManager.setLastPlayedTimestamp(mediaItem);
+            }
+
+            @Override
+            public void onIsPlayingChanged(boolean isPlaying) {
+                if(isPlaying) {
+                    MediaManager.setPlayingChangedTimestamp(player.getCurrentMediaItem(), player.getCurrentPosition());
+                }
             }
         });
     }

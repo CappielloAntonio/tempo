@@ -62,7 +62,7 @@ public class MediaManager {
                     if (mediaBrowserListenableFuture.isDone()) {
                         mediaBrowserListenableFuture.get().clearMediaItems();
                         mediaBrowserListenableFuture.get().setMediaItems(MappingUtil.mapMediaItems(context, songs, true));
-                        mediaBrowserListenableFuture.get().seekTo(getQueueRepository().getLastPlayedSongIndex(), 0);
+                        mediaBrowserListenableFuture.get().seekTo(getQueueRepository().getLastPlayedSongIndex(), getQueueRepository().getLastPlayedSongTimestamp());
                         mediaBrowserListenableFuture.get().prepare();
                     }
                 } catch (ExecutionException | InterruptedException e) {
@@ -268,7 +268,11 @@ public class MediaManager {
     }
 
     public static void setLastPlayedTimestamp(MediaItem mediaItem) {
-        if (mediaItem != null) getQueueRepository().setTimestamp(mediaItem.mediaId);
+        if (mediaItem != null) getQueueRepository().setLastPlayedTimestamp(mediaItem.mediaId);
+    }
+
+    public static void setPlayingChangedTimestamp(MediaItem mediaItem, long ms) {
+        if (mediaItem != null) getQueueRepository().setPlayingChangedTimestamp(mediaItem.mediaId, ms);
     }
 
     private static QueueRepository getQueueRepository() {

@@ -34,10 +34,13 @@ public class Queue {
     @ColumnInfo(name = "duration")
     private long duration;
 
-    @ColumnInfo(name = "last_play")
+    @ColumnInfo(name = "last_play",defaultValue = "0")
     private long lastPlay;
 
-    public Queue(int trackOrder, String songID, String title, String albumId, String albumName, String artistId, String artistName, String primary, long duration, long lastPlay) {
+    @ColumnInfo(name = "playing_changed", defaultValue = "0")
+    private long playingChanged;
+
+    public Queue(int trackOrder, String songID, String title, String albumId, String albumName, String artistId, String artistName, String primary, long duration, long lastPlay, long playingChanged) {
         this.trackOrder = trackOrder;
         this.songID = songID;
         this.title = title;
@@ -48,6 +51,7 @@ public class Queue {
         this.primary = primary;
         this.duration = duration;
         this.lastPlay = lastPlay;
+        this.playingChanged = playingChanged;
     }
 
     public int getTrackOrder() {
@@ -128,5 +132,13 @@ public class Queue {
 
     public void setLastPlay(long lastPlay) {
         this.lastPlay = lastPlay;
+    }
+
+    public long getPlayingChanged() {
+        return playingChanged;
+    }
+
+    public void setPlayingChanged(long playingChanged) {
+        this.playingChanged = playingChanged;
     }
 }

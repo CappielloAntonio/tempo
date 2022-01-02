@@ -3,6 +3,7 @@ package com.cappielloantonio.play.database;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
+import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -20,9 +21,9 @@ import com.cappielloantonio.play.model.Server;
 
 @SuppressLint("RestrictedApi")
 @Database(
-        version = 29,
-        entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Playlist.class}
-        // autoMigrations = { @AutoMigration(from = 23, to = 24) }
+        version = 30,
+        entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Playlist.class},
+        autoMigrations = { @AutoMigration(from = 29, to = 30) }
 )
 public abstract class AppDatabase extends RoomDatabase {
     private static final String TAG = "AppDatabase";

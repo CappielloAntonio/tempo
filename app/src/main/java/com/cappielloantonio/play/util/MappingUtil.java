@@ -101,7 +101,7 @@ public class MappingUtil {
     }
 
     public static Queue mapSongToQueue(Song song, int trackOrder) {
-        return new Queue(trackOrder, song.getId(), song.getTitle(), song.getAlbumId(), song.getAlbumName(), song.getArtistId(), song.getArtistName(), song.getPrimary(), song.getDuration(), 0);
+        return new Queue(trackOrder, song.getId(), song.getTitle(), song.getAlbumId(), song.getAlbumName(), song.getArtistId(), song.getArtistName(), song.getPrimary(), song.getDuration(), 0, 0);
     }
 
     public static List<Queue> mapSongsToQueue(List<Song> songs) {

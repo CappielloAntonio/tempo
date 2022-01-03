@@ -24,7 +24,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.adapter.PlayerNowPlayingSongAdapter;
+import com.cappielloantonio.play.ui.fragment.pager.PlayerControllerHorizontalPager;
 import com.cappielloantonio.play.databinding.InnerFragmentPlayerControllerBinding;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
@@ -146,7 +146,7 @@ public class PlayerControllerFragment extends Fragment {
 
     private void initCoverLyricsSlideView() {
         playerSongCoverViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-        playerSongCoverViewPager.setAdapter(new PlayerNowPlayingSongAdapter(this));
+        playerSongCoverViewPager.setAdapter(new PlayerControllerHorizontalPager(this));
 
         playerSongCoverViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override

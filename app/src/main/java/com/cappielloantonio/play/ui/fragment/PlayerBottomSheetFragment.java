@@ -7,15 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.MediaMetadata;
@@ -23,31 +17,18 @@ import androidx.media3.common.Player;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.MediaController;
 import androidx.media3.session.SessionToken;
-import androidx.media3.ui.PlayerControlView;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.adapter.PlayerBodyAdapter;
-import com.cappielloantonio.play.adapter.PlayerNowPlayingSongAdapter;
-import com.cappielloantonio.play.adapter.PlayerSongQueueAdapter;
+import com.cappielloantonio.play.ui.fragment.pager.PlayerControllerVerticalPager;
 import com.cappielloantonio.play.databinding.FragmentPlayerBottomSheetBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
-import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.ui.dialog.RatingDialog;
-import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
-
-import java.util.Collections;
 
 public class PlayerBottomSheetFragment extends Fragment {
     private static final String TAG = "PlayerBottomSheetFragment";
@@ -99,7 +80,7 @@ public class PlayerBottomSheetFragment extends Fragment {
 
     private void initViewPager() {
         bind.playerBodyLayout.playerBodyBottomSheetViewPager.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
-        bind.playerBodyLayout.playerBodyBottomSheetViewPager.setAdapter(new PlayerBodyAdapter(this));
+        bind.playerBodyLayout.playerBodyBottomSheetViewPager.setAdapter(new PlayerControllerVerticalPager(this));
     }
 
     @SuppressLint("UnsafeOptInUsageError")

@@ -1,4 +1,4 @@
-package com.cappielloantonio.play.adapter;
+package com.cappielloantonio.play.ui.fragment.pager;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -7,10 +7,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.cappielloantonio.play.ui.fragment.PlayerCoverFragment;
 import com.cappielloantonio.play.ui.fragment.PlayerLyricsFragment;
 
-public class PlayerNowPlayingSongAdapter extends FragmentStateAdapter {
-    private static final String TAG = "PlayerNowPlayingSongInfoAdapter";
+public class PlayerControllerHorizontalPager extends FragmentStateAdapter {
+    private static final String TAG = "PlayerControllerHorizontalPager";
 
-    public PlayerNowPlayingSongAdapter(@NonNull Fragment fragment) {
+    public PlayerControllerHorizontalPager(@NonNull Fragment fragment) {
         super(fragment);
     }
 

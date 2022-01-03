@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/now_playing_song_controller_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
-        app:elevation="0dp">
+        app:elevation="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -45,206 +47,205 @@
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/player_song_cover_view_pager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toTopOf="@id/player_song_title_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbar" />
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/player_song_cover_view_pager"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="H,1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageButton
+        android:id="@+id/button_rating"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/player_song_title_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/player_song_title_label"
+        app:srcCompat="@drawable/ic_grade" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <LinearLayout
-        android:id="@+id/player_big_timer"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/player_song_title_label"
+        style="@style/TitleTextView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:text="@string/label_placeholder"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/player_artist_name_label"
+        app:layout_constraintEnd_toStartOf="@+id/button_favorite"
+        app:layout_constraintStart_toEndOf="@+id/button_rating" />
 
-        <TextView
-            android:id="@+id/exo_position"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginLeft="24dp"
-            android:paddingTop="4dp"
-            android:text="@string/label_placeholder"
-            android:textColor="@color/titleTextColor"
-            android:textSize="12sp" />
-
-        <androidx.media3.ui.DefaultTimeBar
-            android:id="@id/exo_progress"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_weight="1"
-            app:bar_height="2dp"
-            app:buffered_color="@color/seekBarBufferedColor"
-            app:played_color="@color/seekBarPlayedColor"
-            app:scrubber_color="@color/seekBarPlayedColor"
-            app:scrubber_dragged_size="8dp"
-            app:unplayed_color="@color/seekBarUnPlayedColor" />
-
-        <TextView
-            android:id="@+id/exo_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginRight="24dp"
-            android:paddingTop="4dp"
-            android:text="@string/label_placeholder"
-            android:textColor="@color/titleTextColor"
-            android:textSize="12sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/player_song_title_label"
-            style="@style/TitleTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_weight="1"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
-            android:text="@string/label_placeholder" />
-
-        <ToggleButton
-            android:id="@+id/button_favorite"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:background="@drawable/button_favorite_selector"
-            android:checked="false"
-            android:foreground="?android:attr/selectableItemBackgroundBorderless"
-            android:text=""
-            android:textOff=""
-            android:textOn="" />
-    </LinearLayout>
+    <ToggleButton
+        android:id="@+id/button_favorite"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/button_favorite_selector"
+        android:checked="false"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        android:text=""
+        android:textOff=""
+        android:textOn=""
+        app:layout_constraintBottom_toBottomOf="@+id/player_song_title_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/player_song_title_label" />
 
     <TextView
         android:id="@+id/player_artist_name_label"
         style="@style/SubheadTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
-        android:paddingBottom="12dp"
-        android:text="@string/label_placeholder" />
+        android:text="@string/label_placeholder"
+        app:layout_constraintBottom_toTopOf="@+id/exo_progress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/player_music_command_sector"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/exo_position"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_gravity="center"
+        android:layout_marginLeft="24dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:text="@string/label_placeholder"
+        android:textColor="@color/titleTextColor"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/exo_progress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/exo_progress" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0.5dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="18dp"
-            android:layout_weight="1"
-            android:background="@color/dividerColor" />
-
-        <ImageButton
-            android:id="@+id/player_command_unfold_button"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:background="@drawable/ic_unfold"
-            android:scaleType="fitCenter" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0.5dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="18dp"
-            android:layout_weight="1"
-            android:background="@color/dividerColor" />
-    </LinearLayout>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/player_command_cardview"
-        android:layout_width="match_parent"
+    <androidx.media3.ui.DefaultTimeBar
+        android:id="@id/exo_progress"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimary"
-        android:visibility="visible"
-        app:cardElevation="0dp">
+        android:layout_gravity="center"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="12dp"
+        android:layout_weight="1"
+        app:bar_height="2dp"
+        app:buffered_color="@color/seekBarBufferedColor"
+        app:layout_constraintBottom_toTopOf="@+id/player_play_pause_placeholder_view"
+        app:layout_constraintEnd_toStartOf="@+id/exo_duration"
+        app:layout_constraintStart_toEndOf="@+id/exo_position"
+        app:played_color="@color/seekBarPlayedColor"
+        app:scrubber_color="@color/seekBarPlayedColor"
+        app:scrubber_dragged_size="8dp"
+        app:unplayed_color="@color/seekBarUnPlayedColor" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <TextView
+        android:id="@+id/exo_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginRight="24dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:text="@string/label_placeholder"
+        android:textColor="@color/titleTextColor"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/exo_progress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/exo_progress" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipChildren="false"
-                android:gravity="center"
-                android:orientation="horizontal">
+    <View
+        android:id="@+id/player_play_pause_placeholder_view"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-                <ImageButton
-                    android:id="@+id/exo_prev"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="24dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/ic_skip_previous" />
+    <ImageButton
+        android:id="@+id/exo_shuffle"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/exo_prev"
+        app:layout_constraintEnd_toStartOf="@+id/exo_prev"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/exo_prev"
+        app:srcCompat="@drawable/ic_shuffle" />
 
-                <ImageButton
-                    android:id="@id/exo_play"
-                    style="@style/ExoMediaButton.Play"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="4dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_play" />
+    <ImageButton
+        android:id="@+id/exo_prev"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/player_play_pause_placeholder_view"
+        app:layout_constraintEnd_toStartOf="@+id/player_play_pause_placeholder_view"
+        app:layout_constraintStart_toEndOf="@id/exo_shuffle"
+        app:layout_constraintTop_toTopOf="@+id/player_play_pause_placeholder_view"
+        app:srcCompat="@drawable/ic_skip_previous" />
 
-                <ImageButton
-                    android:id="@id/exo_pause"
-                    style="@style/ExoMediaButton.Pause"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="4dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_pause" />
+    <ImageButton
+        android:id="@id/exo_play"
+        style="@style/ExoMediaButton.Play"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_play_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-                <ImageButton
-                    android:id="@+id/exo_next"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="4dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/ic_skip_next" />
-            </LinearLayout>
+    <ImageButton
+        android:id="@id/exo_pause"
+        style="@style/ExoMediaButton.Pause"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_pause_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-            <View
-                android:id="@+id/player_divider_bottom"
-                style="@style/Divider"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="18dp" />
+    <ImageButton
+        android:id="@+id/exo_next"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/player_play_pause_placeholder_view"
+        app:layout_constraintEnd_toStartOf="@id/exo_repeat_toggle"
+        app:layout_constraintStart_toEndOf="@+id/player_play_pause_placeholder_view"
+        app:layout_constraintTop_toTopOf="@+id/player_play_pause_placeholder_view"
+        app:srcCompat="@drawable/ic_skip_next" />
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-</LinearLayout>
+    <ImageButton
+        android:id="@+id/exo_repeat_toggle"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/exo_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/exo_next"
+        app:layout_constraintTop_toTopOf="@+id/exo_next"
+        app:srcCompat="@drawable/ic_repeat" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

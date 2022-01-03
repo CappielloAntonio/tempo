@@ -7,7 +7,6 @@
         style="@style/LyricsTextView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="16dp"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"/>
 </androidx.core.widget.NestedScrollView>

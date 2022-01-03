@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.MediaMetadata;
@@ -40,9 +39,8 @@ public class PlayerControllerFragment extends Fragment {
     private InnerFragmentPlayerControllerBinding bind;
     private ImageView playerMoveDownBottomSheet;
     private ViewPager2 playerSongCoverViewPager;
+    private ImageButton buttonRating;
     private ToggleButton buttonFavorite;
-    private ImageButton playerCommandUnfoldButton;
-    private CardView playerCommandCardview;
     private TextView playerSongTitleLabel;
     private TextView playerArtistNameLabel;
 
@@ -62,7 +60,6 @@ public class PlayerControllerFragment extends Fragment {
         init();
         initCoverLyricsSlideView();
         initMediaListenable();
-        initMusicCommandUnfoldButton();
         initArtistLabelButton();
 
         return view;
@@ -93,8 +90,7 @@ public class PlayerControllerFragment extends Fragment {
         playerMoveDownBottomSheet = bind.getRoot().findViewById(R.id.player_move_down_bottom_sheet);
         playerSongCoverViewPager = bind.getRoot().findViewById(R.id.player_song_cover_view_pager);
         buttonFavorite = bind.getRoot().findViewById(R.id.button_favorite);
-        playerCommandUnfoldButton = bind.getRoot().findViewById(R.id.player_command_unfold_button);
-        playerCommandCardview = bind.getRoot().findViewById(R.id.player_command_cardview);
+        buttonRating = bind.getRoot().findViewById(R.id.button_rating);
         playerSongTitleLabel = bind.getRoot().findViewById(R.id.player_song_title_label);
         playerArtistNameLabel = bind.getRoot().findViewById(R.id.player_artist_name_label);
 
@@ -167,28 +163,16 @@ public class PlayerControllerFragment extends Fragment {
 
                 buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite(requireContext(), song));
 
-                buttonFavorite.setOnLongClickListener(v -> {
+                buttonRating.setOnClickListener(v -> {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("song_object", song);
 
                     RatingDialog dialog = new RatingDialog();
                     dialog.setArguments(bundle);
                     dialog.show(requireActivity().getSupportFragmentManager(), null);
-
-                    return true;
                 });
 
                 playerBottomSheetViewModel.refreshSongInfo(requireActivity(), song);
-            }
-        });
-    }
-
-    private void initMusicCommandUnfoldButton() {
-        playerCommandUnfoldButton.setOnClickListener(view -> {
-            if (playerCommandCardview.getVisibility() == View.INVISIBLE || playerCommandCardview.getVisibility() == View.GONE) {
-                playerCommandCardview.setVisibility(View.VISIBLE);
-            } else {
-                playerCommandCardview.setVisibility(View.GONE);
             }
         });
     }

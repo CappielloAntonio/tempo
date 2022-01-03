@@ -39,6 +39,7 @@ public class PlayerBottomSheetFragment extends Fragment {
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
     // TODO: Collegare la seekbar all'exo_progress
+    // TODO: Fare in modo che quando sto vedendo il testo e il bottomsheet si abbassa, devo tornare alla prima pagina
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

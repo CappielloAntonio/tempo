@@ -137,9 +137,6 @@ public class PlayerControllerFragment extends Fragment {
     }
 
     private void setMetadata(MediaMetadata mediaMetadata) {
-        if (mediaMetadata.extras != null) playerBottomSheetViewModel.setLiveSong(requireActivity(), mediaMetadata.extras.getString("id"));
-        if (mediaMetadata.extras != null) playerBottomSheetViewModel.setLiveArtist(requireActivity(), mediaMetadata.extras.getString("artistId"));
-
         playerSongTitleLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.title)));
         playerArtistNameLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.artist)));
     }

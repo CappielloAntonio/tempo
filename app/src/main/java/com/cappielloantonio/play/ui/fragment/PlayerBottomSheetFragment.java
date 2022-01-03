@@ -21,10 +21,10 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.ui.fragment.pager.PlayerControllerVerticalPager;
 import com.cappielloantonio.play.databinding.FragmentPlayerBottomSheetBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.service.MediaService;
+import com.cappielloantonio.play.ui.fragment.pager.PlayerControllerVerticalPager;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -39,7 +39,6 @@ public class PlayerBottomSheetFragment extends Fragment {
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
     // TODO: Collegare la seekbar all'exo_progress
-    // TODO: Fare in modo che quando sto vedendo il testo e il bottomsheet si abbassa, devo tornare alla prima pagina
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -126,7 +125,6 @@ public class PlayerBottomSheetFragment extends Fragment {
                 setPlayingState(isPlaying);
             }
 
-            //TODO: Temporary solution. Too many events are caught in this way.
             @Override
             public void onEvents(Player player, Player.Events events) {
                 setHeaderNextButtonState(mediaBrowser.hasNextMediaItem());

@@ -52,10 +52,17 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@id/player_song_title_label"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appbar" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.60" />
 
     <ImageButton
         android:id="@+id/button_rating"
@@ -81,9 +88,9 @@
         android:paddingEnd="24dp"
         android:text="@string/label_placeholder"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/player_artist_name_label"
         app:layout_constraintEnd_toStartOf="@+id/button_favorite"
-        app:layout_constraintStart_toEndOf="@+id/button_rating" />
+        app:layout_constraintStart_toEndOf="@+id/button_rating"
+        app:layout_constraintTop_toBottomOf="@+id/guideline" />
 
     <ToggleButton
         android:id="@+id/button_favorite"
@@ -110,39 +117,36 @@
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
         android:text="@string/label_placeholder"
-        app:layout_constraintBottom_toTopOf="@+id/exo_progress"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player_song_title_label" />
 
     <TextView
         android:id="@+id/exo_position"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
         android:paddingTop="4dp"
         android:paddingBottom="4dp"
         android:text="@string/label_placeholder"
         android:textColor="@color/titleTextColor"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/exo_progress"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/exo_progress" />
+        app:layout_constraintTop_toBottomOf="@+id/exo_progress" />
 
     <androidx.media3.ui.DefaultTimeBar
         android:id="@id/exo_progress"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginBottom="12dp"
-        android:layout_weight="1"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
         app:bar_height="2dp"
         app:buffered_color="@color/seekBarBufferedColor"
-        app:layout_constraintBottom_toTopOf="@+id/player_play_pause_placeholder_view"
         app:layout_constraintEnd_toStartOf="@+id/exo_duration"
         app:layout_constraintStart_toEndOf="@+id/exo_position"
+        app:layout_constraintTop_toBottomOf="@+id/player_artist_name_label"
         app:played_color="@color/seekBarPlayedColor"
         app:scrubber_color="@color/seekBarPlayedColor"
         app:scrubber_dragged_size="8dp"
@@ -153,30 +157,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginRight="24dp"
+        android:layout_marginEnd="24dp"
         android:paddingTop="4dp"
         android:paddingBottom="4dp"
         android:text="@string/label_placeholder"
         android:textColor="@color/titleTextColor"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/exo_progress"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/exo_progress" />
+        app:layout_constraintTop_toBottomOf="@+id/exo_progress" />
 
     <View
         android:id="@+id/player_play_pause_placeholder_view"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exo_duration" />
 
     <ImageButton
         android:id="@+id/exo_shuffle"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="24dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@+id/exo_prev"
@@ -200,28 +203,28 @@
     <ImageButton
         android:id="@id/exo_play"
         style="@style/ExoMediaButton.Play"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginBottom="24dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="4dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_play_circle"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exo_duration" />
 
     <ImageButton
         android:id="@id/exo_pause"
         style="@style/ExoMediaButton.Pause"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginBottom="24dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="4dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_pause_circle"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exo_duration" />
 
     <ImageButton
         android:id="@+id/exo_next"
@@ -239,7 +242,7 @@
         android:id="@+id/exo_repeat_toggle"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="24dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@+id/exo_next"
@@ -248,4 +251,56 @@
         app:layout_constraintTop_toTopOf="@+id/exo_next"
         app:srcCompat="@drawable/ic_repeat" />
 
+    <LinearLayout
+        android:id="@+id/player_button_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player_play_pause_placeholder_view">
+
+
+        <ImageButton
+            android:id="@+id/button_download"
+            android:layout_width="0dp"
+            android:layout_height="22dp"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_file_download" />
+
+        <ImageButton
+            android:id="@+id/button_playlist"
+            android:layout_width="0dp"
+            android:layout_height="22dp"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_playlist_add" />
+
+        <ImageButton
+            android:id="@+id/button_mix"
+            android:layout_width="0dp"
+            android:layout_height="22dp"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_mix_from_here" />
+
+        <ImageButton
+            android:id="@+id/button_lyrics"
+            android:layout_width="0dp"
+            android:layout_height="22dp"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_lyrics" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

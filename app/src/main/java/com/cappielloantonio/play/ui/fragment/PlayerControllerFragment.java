@@ -22,16 +22,26 @@ import androidx.media3.session.SessionToken;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.InnerFragmentPlayerControllerBinding;
+import com.cappielloantonio.play.interfaces.MediaCallback;
+import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.ui.dialog.PlaylistChooserDialog;
 import com.cappielloantonio.play.ui.dialog.RatingDialog;
 import com.cappielloantonio.play.ui.fragment.pager.PlayerControllerHorizontalPager;
+import com.cappielloantonio.play.util.DownloadUtil;
+import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
+
+import java.util.List;
 
 public class PlayerControllerFragment extends Fragment {
     private static final String TAG = "PlayerCoverFragment";
@@ -43,6 +53,10 @@ public class PlayerControllerFragment extends Fragment {
     private ToggleButton buttonFavorite;
     private TextView playerSongTitleLabel;
     private TextView playerArtistNameLabel;
+    private ImageButton buttonDownload;
+    private ImageButton buttonAddToPlaylist;
+    private ImageButton buttonStartMix;
+    private ImageButton buttonLyrics;
 
     private MainActivity activity;
     private PlayerBottomSheetViewModel playerBottomSheetViewModel;
@@ -61,6 +75,7 @@ public class PlayerControllerFragment extends Fragment {
         initCoverLyricsSlideView();
         initMediaListenable();
         initArtistLabelButton();
+        initButtonRow();
 
         return view;
     }
@@ -93,6 +108,11 @@ public class PlayerControllerFragment extends Fragment {
         buttonRating = bind.getRoot().findViewById(R.id.button_rating);
         playerSongTitleLabel = bind.getRoot().findViewById(R.id.player_song_title_label);
         playerArtistNameLabel = bind.getRoot().findViewById(R.id.player_artist_name_label);
+
+        buttonDownload = bind.getRoot().findViewById(R.id.button_download);
+        buttonAddToPlaylist = bind.getRoot().findViewById(R.id.button_playlist);
+        buttonStartMix = bind.getRoot().findViewById(R.id.button_mix);
+        buttonLyrics = bind.getRoot().findViewById(R.id.button_lyrics);
 
         playerMoveDownBottomSheet.setOnClickListener(view -> activity.collapseBottomSheet());
     }
@@ -188,6 +208,47 @@ public class PlayerControllerFragment extends Fragment {
                 });
             }
         });
+    }
+
+    private void initButtonRow() {
+        playerBottomSheetViewModel.getLiveSong().observe(requireActivity(), song -> {
+            if (song != null) {
+                buttonDownload.setOnClickListener(view -> DownloadUtil
+                        .getDownloadTracker(requireContext())
+                        .download(
+                                MappingUtil.mapMediaItem(requireContext(), song, false),
+                                MappingUtil.mapDownload(song, null, null)
+                        ));
+
+                buttonAddToPlaylist.setOnClickListener(view -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("song_object", song);
+
+                    PlaylistChooserDialog dialog = new PlaylistChooserDialog();
+                    dialog.setArguments(bundle);
+                    dialog.show(requireActivity().getSupportFragmentManager(), null);
+                });
+
+                buttonStartMix.setOnClickListener(view -> {
+                    MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), song);
+
+                    SongRepository songRepository = new SongRepository(App.getInstance());
+                    songRepository.getInstantMix(song, 20, new MediaCallback() {
+                        @Override
+                        public void onError(Exception exception) {
+                            Log.e(TAG, "onError() " + exception.getMessage());
+                        }
+
+                        @Override
+                        public void onLoadMedia(List<?> media) {
+                            MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), (List<Song>) media, true);
+                        }
+                    });
+                });
+            }
+        });
+
+        buttonLyrics.setOnClickListener(view -> playerSongCoverViewPager.setCurrentItem(1, true));
     }
 
     public void goBackToFirstPage() {

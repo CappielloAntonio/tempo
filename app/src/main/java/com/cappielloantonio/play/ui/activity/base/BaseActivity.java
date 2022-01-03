@@ -15,13 +15,13 @@ import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.service.DownloaderService;
 import com.cappielloantonio.play.service.DownloaderManager;
+import com.cappielloantonio.play.service.DownloaderService;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.google.common.util.concurrent.ListenableFuture;
 
-public class BaseActivity extends AppCompatActivity implements DownloaderManager.Listener {
+public class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
@@ -37,7 +37,6 @@ public class BaseActivity extends AppCompatActivity implements DownloaderManager
     protected void onStart() {
         super.onStart();
         initializeBrowser();
-        addDownloadListener();
     }
 
     @Override
@@ -49,14 +48,7 @@ public class BaseActivity extends AppCompatActivity implements DownloaderManager
     @Override
     protected void onStop() {
         releaseBrowser();
-        removeDownloadListener();
         super.onStop();
-    }
-
-    @Override
-    public void onDownloadsChanged() {
-        // TODO Notificare all'item scaricato che lo stato di download è cambiato
-        // sampleAdapter.notifyDataSetChanged();
     }
 
     private void checkBatteryOptimization() {
@@ -109,13 +101,5 @@ public class BaseActivity extends AppCompatActivity implements DownloaderManager
         } catch (IllegalStateException e) {
             DownloadService.startForeground(this, DownloaderService.class);
         }
-    }
-
-    private void addDownloadListener() {
-        downloaderManager.addListener(this);
-    }
-
-    private void removeDownloadListener() {
-        downloaderManager.removeListener(this);
     }
 }

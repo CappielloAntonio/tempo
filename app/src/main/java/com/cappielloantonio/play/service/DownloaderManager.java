@@ -32,34 +32,17 @@ public class DownloaderManager {
     private static final String TAG = "DownloadTracker";
 
     private final Context context;
-    private final CopyOnWriteArraySet<Listener> listeners;
     private final HashMap<Uri, Download> downloads;
     private final DownloadIndex downloadIndex;
-
-    public interface Listener {
-        void onDownloadsChanged();
-    }
 
     @SuppressLint("UnsafeOptInUsageError")
     public DownloaderManager(Context context, DownloadManager downloadManager) {
         this.context = context.getApplicationContext();
 
-        listeners = new CopyOnWriteArraySet<>();
         downloads = new HashMap<>();
         downloadIndex = downloadManager.getDownloadIndex();
 
-        downloadManager.addListener(new DownloadManagerListener());
         loadDownloads();
-    }
-
-    @SuppressLint("UnsafeOptInUsageError")
-    public void addListener(Listener listener) {
-        checkNotNull(listener);
-        listeners.add(listener);
-    }
-
-    public void removeListener(Listener listener) {
-        listeners.remove(listener);
     }
 
     @SuppressLint("UnsafeOptInUsageError")
@@ -123,24 +106,6 @@ public class DownloaderManager {
             }
         } catch (IOException e) {
             Log.w(TAG, "Failed to query downloads", e);
-        }
-    }
-
-    private class DownloadManagerListener implements DownloadManager.Listener {
-        @Override
-        public void onDownloadChanged(DownloadManager downloadManager, Download download, @Nullable Exception finalException) {
-            downloads.put(download.request.uri, download);
-            for (Listener listener : listeners) {
-                listener.onDownloadsChanged();
-            }
-        }
-
-        @Override
-        public void onDownloadRemoved(DownloadManager downloadManager, Download download) {
-            downloads.remove(download.request.uri);
-            for (Listener listener : listeners) {
-                listener.onDownloadsChanged();
-            }
         }
     }
 

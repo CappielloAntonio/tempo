@@ -15,13 +15,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.broadcast.receiver.ConnectivityStatusBroadcastReceiver;
 import com.cappielloantonio.play.databinding.ActivityMainBinding;
-import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.service.MediaManager;
-import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.base.BaseActivity;
 import com.cappielloantonio.play.ui.dialog.ConnectionAlertDialog;
 import com.cappielloantonio.play.ui.dialog.ServerUnreachableDialog;
@@ -152,19 +149,10 @@ public class MainActivity extends BaseActivity {
                             break;
                         case BottomSheetBehavior.STATE_COLLAPSED:
                             if (playerBottomSheetFragment != null) {
-                                // playerBottomSheetFragment.goBackToFirstPage();
-                                // playerBottomSheetFragment.scrollOnTop();
+                                playerBottomSheetFragment.goBackToFirstPage();
                             }
                         case BottomSheetBehavior.STATE_SETTLING:
-                            if (playerBottomSheetFragment != null) {
-                                // playerBottomSheetFragment.scrollOnTop();
-                            }
-                            break;
                         case BottomSheetBehavior.STATE_EXPANDED:
-                            if (playerBottomSheetFragment != null) {
-                                // playerBottomSheetFragment.scrollOnTop();
-                                // setBottomSheetDraggableState(playerBottomSheetFragment.isViewPagerInFirstPage());
-                            }
                         case BottomSheetBehavior.STATE_DRAGGING:
                         case BottomSheetBehavior.STATE_HALF_EXPANDED:
                             break;

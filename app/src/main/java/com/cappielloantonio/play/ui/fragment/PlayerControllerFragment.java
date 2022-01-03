@@ -24,11 +24,11 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.ui.fragment.pager.PlayerControllerHorizontalPager;
 import com.cappielloantonio.play.databinding.InnerFragmentPlayerControllerBinding;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.dialog.RatingDialog;
+import com.cappielloantonio.play.ui.fragment.pager.PlayerControllerHorizontalPager;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -87,6 +87,7 @@ public class PlayerControllerFragment extends Fragment {
         bind = null;
     }
 
+
     @SuppressLint("UnsafeOptInUsageError")
     private void init() {
         playerMoveDownBottomSheet = bind.getRoot().findViewById(R.id.player_move_down_bottom_sheet);
@@ -115,7 +116,7 @@ public class PlayerControllerFragment extends Fragment {
             try {
                 MediaBrowser mediaBrowser = mediaBrowserListenableFuture.get();
 
-                bind.playerControlBodyLayout.setPlayer(mediaBrowser);
+                bind.nowPlayingSongControllerView.setPlayer(mediaBrowser);
 
                 setMediaControllerListener(mediaBrowser);
             } catch (Exception e) {
@@ -199,5 +200,9 @@ public class PlayerControllerFragment extends Fragment {
             NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
             activity.collapseBottomSheet();
         }));
+    }
+
+    public void goBackToFirstPage() {
+        playerSongCoverViewPager.setCurrentItem(0, false);
     }
 }

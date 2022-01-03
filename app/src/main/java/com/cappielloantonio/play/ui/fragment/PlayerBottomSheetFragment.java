@@ -177,4 +177,12 @@ public class PlayerBottomSheetFragment extends Fragment {
     public View getPlayerHeader() {
         return requireView().findViewById(R.id.player_header_layout);
     }
+
+    public void goBackToFirstPage() {
+        bind.playerBodyLayout.playerBodyBottomSheetViewPager.setCurrentItem(0, false);
+
+        PlayerControllerVerticalPager playerControllerVerticalPager = (PlayerControllerVerticalPager) bind.playerBodyLayout.playerBodyBottomSheetViewPager.getAdapter();
+        PlayerControllerFragment playerControllerFragment = (PlayerControllerFragment) playerControllerVerticalPager.getRegisteredFragment(0);
+        playerControllerFragment.goBackToFirstPage();
+    }
 }

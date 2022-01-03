@@ -7,11 +7,17 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.cappielloantonio.play.ui.fragment.PlayerControllerFragment;
 import com.cappielloantonio.play.ui.fragment.PlayerQueueFragment;
 
+import java.util.HashMap;
+
 public class PlayerControllerVerticalPager extends FragmentStateAdapter {
     private static final String TAG = "PlayerControllerVerticalPager";
 
+    private final HashMap<Integer, Fragment> maps;
+
     public PlayerControllerVerticalPager(@NonNull Fragment fragment) {
         super(fragment);
+
+        this.maps = new HashMap<>();
     }
 
     @NonNull
@@ -19,16 +25,26 @@ public class PlayerControllerVerticalPager extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new PlayerControllerFragment();
+                Fragment playerControllerFragment = new PlayerControllerFragment();
+                maps.put(position, playerControllerFragment);
+                return playerControllerFragment;
             case 1:
-                return new PlayerQueueFragment();
+                Fragment playerQueueFragment = new PlayerQueueFragment();
+                maps.put(position, playerQueueFragment);
+                return playerQueueFragment;
         }
 
-        return new PlayerControllerFragment();
+        Fragment playerControllerFragment = new PlayerControllerFragment();
+        maps.put(position, playerControllerFragment);
+        return playerControllerFragment;
     }
 
     @Override
     public int getItemCount() {
         return 2;
+    }
+
+    public Fragment getRegisteredFragment(int position) {
+        return maps.get(position);
     }
 }

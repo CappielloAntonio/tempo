@@ -178,12 +178,16 @@ public class PlayerControllerFragment extends Fragment {
     }
 
     private void initArtistLabelButton() {
-        playerArtistNameLabel.setOnClickListener(view -> playerBottomSheetViewModel.getLiveArtist().observe(requireActivity(), artist -> {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("artist_object", artist);
-            NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
-            activity.collapseBottomSheet();
-        }));
+        playerBottomSheetViewModel.getLiveArtist().observe(requireActivity(), artist -> {
+            if (artist != null) {
+                playerArtistNameLabel.setOnClickListener(view -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("artist_object", artist);
+                    NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
+                    activity.collapseBottomSheet();
+                });
+            }
+        });
     }
 
     public void goBackToFirstPage() {

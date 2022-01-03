@@ -43,7 +43,6 @@ public class PlayerQueueFragment extends Fragment {
 
         playerBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(PlayerBottomSheetViewModel.class);
 
-        init();
         initQueueRecyclerView();
 
         return view;
@@ -71,11 +70,6 @@ public class PlayerQueueFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         bind = null;
-    }
-
-    @SuppressLint("UnsafeOptInUsageError")
-    private void init() {
-
     }
 
     @SuppressLint("UnsafeOptInUsageError")

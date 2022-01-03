@@ -2,7 +2,7 @@
 <androidx.media3.ui.PlayerControlView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/player_control_body_layout"
+    android:id="@+id/now_playing_song_controller_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:controller_layout_id="@layout/inner_fragment_player_controller_layout"

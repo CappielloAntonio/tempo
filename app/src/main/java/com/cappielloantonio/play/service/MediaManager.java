@@ -306,6 +306,4 @@ public class MediaManager {
             getQueueRepository().insertAll(songs, true, 0);
         }
     }
-
-
 }

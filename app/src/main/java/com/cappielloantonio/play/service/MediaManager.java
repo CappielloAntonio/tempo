@@ -10,6 +10,7 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.MediaIndexCallback;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.util.MappingUtil;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
@@ -275,8 +276,16 @@ public class MediaManager {
         if (mediaItem != null) getQueueRepository().setPlayingPausedTimestamp(mediaItem.mediaId, ms);
     }
 
+    public static void scrobble(MediaItem mediaItem) {
+        if (mediaItem != null) getSongRepository().scrobble(mediaItem.mediaMetadata.extras.getString("id"));
+    }
+
     private static QueueRepository getQueueRepository() {
         return new QueueRepository(App.getInstance());
+    }
+
+    private static SongRepository getSongRepository() {
+        return new SongRepository(App.getInstance());
     }
 
     private static void enqueueDatabase(List<Song> songs, boolean reset, int afterIndex) {
@@ -297,4 +306,6 @@ public class MediaManager {
             getQueueRepository().insertAll(songs, true, 0);
         }
     }
+
+
 }

@@ -11,6 +11,8 @@ import androidx.media3.common.MediaItem;
 import androidx.media3.common.Player;
 import androidx.media3.datasource.DataSource;
 import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.analytics.AnalyticsListener;
+import androidx.media3.exoplayer.analytics.PlaybackStatsListener;
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
 import androidx.media3.exoplayer.source.MediaSourceFactory;
 import androidx.media3.session.MediaLibraryService;
@@ -96,6 +98,7 @@ public class MediaService extends MediaLibraryService {
             @Override
             public void onMediaItemTransition(@Nullable MediaItem mediaItem, int reason) {
                 MediaManager.setLastPlayedTimestamp(mediaItem);
+                MediaManager.scrobble(mediaItem);
             }
 
             @Override

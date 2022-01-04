@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:orientation="vertical"
-        android:paddingTop="4dp"
+        android:paddingTop="8dp"
         android:paddingBottom="@dimen/global_padding_bottom" />
 
 </com.cappielloantonio.play.helper.recyclerview.NestedScrollableHost>

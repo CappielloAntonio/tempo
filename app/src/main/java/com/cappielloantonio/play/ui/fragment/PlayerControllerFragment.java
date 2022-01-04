@@ -156,6 +156,9 @@ public class PlayerControllerFragment extends Fragment {
     private void setMetadata(MediaMetadata mediaMetadata) {
         playerSongTitleLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.title)));
         playerArtistNameLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.artist)));
+
+        playerSongTitleLabel.setSelected(true);
+        playerArtistNameLabel.setSelected(true);
     }
 
     private void initCoverLyricsSlideView() {

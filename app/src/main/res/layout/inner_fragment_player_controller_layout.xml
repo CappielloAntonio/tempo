@@ -51,7 +51,6 @@
         android:id="@+id/player_song_cover_view_pager"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toTopOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,23 +68,25 @@
         android:layout_width="26dp"
         android:layout_height="26dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@+id/player_song_title_label"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/player_song_title_label"
-        app:srcCompat="@drawable/ic_grade" />
+        app:srcCompat="@drawable/ic_rating" />
 
     <TextView
         android:id="@+id/player_song_title_label"
         style="@style/TitleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:layout_weight="1"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:singleLine="true"
         android:text="@string/label_placeholder"
         android:textAlignment="center"
         app:layout_constraintEnd_toStartOf="@+id/button_favorite"
@@ -96,7 +97,6 @@
         android:id="@+id/button_favorite"
         android:layout_width="26dp"
         android:layout_height="26dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/button_favorite_selector"
         android:checked="false"
@@ -114,8 +114,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
+        android:singleLine="true"
         android:text="@string/label_placeholder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -133,15 +136,16 @@
         android:textColor="@color/titleTextColor"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exo_progress" />
+        app:layout_constraintTop_toTopOf="@+id/exo_progress"
+        app:layout_constraintBottom_toBottomOf="@+id/exo_progress"/>
 
     <androidx.media3.ui.DefaultTimeBar
         android:id="@id/exo_progress"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="4dp"
         app:bar_height="2dp"
         app:buffered_color="@color/seekBarBufferedColor"
         app:layout_constraintEnd_toStartOf="@+id/exo_duration"
@@ -164,21 +168,22 @@
         android:textColor="@color/titleTextColor"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exo_progress" />
+        app:layout_constraintTop_toTopOf="@+id/exo_progress"
+        app:layout_constraintBottom_toBottomOf="@+id/exo_progress" />
 
     <View
         android:id="@+id/player_play_pause_placeholder_view"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exo_duration" />
+        app:layout_constraintTop_toBottomOf="@+id/exo_progress" />
 
     <ImageButton
         android:id="@+id/exo_shuffle"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginStart="24dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="fitCenter"
@@ -205,26 +210,26 @@
         style="@style/ExoMediaButton.Play"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="12dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_play_circle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exo_duration" />
+        app:layout_constraintTop_toBottomOf="@+id/exo_progress" />
 
     <ImageButton
         android:id="@id/exo_pause"
         style="@style/ExoMediaButton.Pause"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="12dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_pause_circle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exo_duration" />
+        app:layout_constraintTop_toBottomOf="@+id/exo_progress" />
 
     <ImageButton
         android:id="@+id/exo_next"
@@ -240,8 +245,8 @@
 
     <ImageButton
         android:id="@+id/exo_repeat_toggle"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginEnd="24dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="fitCenter"

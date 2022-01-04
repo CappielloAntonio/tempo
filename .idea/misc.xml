@@ -48,6 +48,7 @@
         <entry key="app/src/main/res/drawable/ic_playlist_add.xml" value="0.28703703703703703" />
         <entry key="app/src/main/res/drawable/ic_queue_music.xml" value="0.28703703703703703" />
         <entry key="app/src/main/res/drawable/ic_radio.xml" value="0.28703703703703703" />
+        <entry key="app/src/main/res/drawable/ic_rating.xml" value="0.28703703703703703" />
         <entry key="app/src/main/res/drawable/ic_refresh.xml" value="0.18958333333333333" />
         <entry key="app/src/main/res/drawable/ic_repeat.xml" value="0.28703703703703703" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.27685185185185185" />
@@ -99,7 +100,7 @@
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/fragment_song_list_page.xml" value="0.225" />
         <entry key="app/src/main/res/layout/inner_fragment_player_controller.xml" value="0.3229166666666667" />
-        <entry key="app/src/main/res/layout/inner_fragment_player_controller_layout.xml" value="0.5160462130937099" />
+        <entry key="app/src/main/res/layout/inner_fragment_player_controller_layout.xml" value="0.48638132295719844" />
         <entry key="app/src/main/res/layout/inner_fragment_player_cover.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/inner_fragment_player_lyrics.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/inner_fragment_player_queue.xml" value="0.3229166666666667" />

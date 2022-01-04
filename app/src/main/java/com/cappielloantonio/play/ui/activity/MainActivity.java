@@ -266,7 +266,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void resetMusicSession() {
-        MediaManager.quit(getMediaBrowserListenableFuture());
+        MediaManager.reset(getMediaBrowserListenableFuture());
     }
 
     private void resetViewModel() {

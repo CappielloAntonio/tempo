@@ -21,6 +21,25 @@ import java.util.concurrent.ExecutionException;
 public class MediaManager {
     private static final String TAG = "MediaManager";
 
+    public static void reset(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture) {
+        if (mediaBrowserListenableFuture != null) {
+            mediaBrowserListenableFuture.addListener(() -> {
+                try {
+                    if (mediaBrowserListenableFuture.isDone()) {
+                        if (mediaBrowserListenableFuture.get().isPlaying()) {
+                            mediaBrowserListenableFuture.get().pause();
+                            mediaBrowserListenableFuture.get().stop();
+                            mediaBrowserListenableFuture.get().clearMediaItems();
+                            clearDatabase();
+                        }
+                    }
+                } catch (ExecutionException | InterruptedException e) {
+                    Log.e(TAG, e.getMessage());
+                }
+            }, MoreExecutors.directExecutor());
+        }
+    }
+
     public static void quit(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
@@ -305,5 +324,9 @@ public class MediaManager {
             songs.remove(toRemove);
             getQueueRepository().insertAll(songs, true, 0);
         }
+    }
+
+    public static void clearDatabase() {
+        getQueueRepository().deleteAll();
     }
 }

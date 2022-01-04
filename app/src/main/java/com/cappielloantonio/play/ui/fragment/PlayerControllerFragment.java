@@ -195,7 +195,9 @@ public class PlayerControllerFragment extends Fragment {
                     dialog.show(requireActivity().getSupportFragmentManager(), null);
                 });
 
-                playerBottomSheetViewModel.refreshSongInfo(requireActivity(), song);
+                if (getActivity() != null) {
+                    playerBottomSheetViewModel.refreshSongInfo(requireActivity(), song);
+                }
             }
         });
     }

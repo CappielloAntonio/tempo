@@ -19,6 +19,7 @@ import com.cappielloantonio.play.service.DownloaderManager;
 import com.cappielloantonio.play.service.DownloaderService;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.util.DownloadUtil;
+import com.google.android.gms.cast.framework.CastContext;
 import com.google.common.util.concurrent.ListenableFuture;
 
 public class BaseActivity extends AppCompatActivity {
@@ -30,6 +31,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initializeCastContext();
         initializeDownloader();
     }
 
@@ -101,5 +103,9 @@ public class BaseActivity extends AppCompatActivity {
         } catch (IllegalStateException e) {
             DownloadService.startForeground(this, DownloaderService.class);
         }
+    }
+
+    private void initializeCastContext() {
+        CastContext.getSharedInstance(this);
     }
 }

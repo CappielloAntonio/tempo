@@ -212,4 +212,5 @@
     <string name="settings_summary_transcoding">Priority given to the transcoding mode. If set to \"Direct play\" the bitrate of the file will not be changed.</string>
     <string name="notification_channel_name">playNotificationChannelName</string>
     <string name="notification_channel_description">playNotificationChannelNameDescription</string>
+    <string name="media_route_menu_title">Cast</string>
 </resources>

@@ -5,7 +5,13 @@
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
         android:title="@string/menu_search_button"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/media_route_menu_item"
+        android:title="@string/media_route_menu_title"
+        app:actionProviderClass="androidx.mediarouter.app.MediaRouteActionProvider"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_settings"

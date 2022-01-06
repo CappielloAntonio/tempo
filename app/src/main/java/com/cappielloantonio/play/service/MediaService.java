@@ -5,14 +5,15 @@ import android.app.PendingIntent;
 import android.content.Intent;
 
 import androidx.annotation.Nullable;
+import androidx.media3.cast.CastPlayer;
+import androidx.media3.cast.SessionAvailabilityListener;
 import androidx.media3.common.AudioAttributes;
 import androidx.media3.common.C;
 import androidx.media3.common.MediaItem;
+import androidx.media3.common.MimeTypes;
 import androidx.media3.common.Player;
 import androidx.media3.datasource.DataSource;
 import androidx.media3.exoplayer.ExoPlayer;
-import androidx.media3.exoplayer.analytics.AnalyticsListener;
-import androidx.media3.exoplayer.analytics.PlaybackStatsListener;
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
 import androidx.media3.exoplayer.source.MediaSourceFactory;
 import androidx.media3.session.MediaLibraryService;
@@ -20,14 +21,16 @@ import androidx.media3.session.MediaSession;
 
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.DownloadUtil;
+import com.google.android.gms.cast.framework.CastContext;
 
-public class MediaService extends MediaLibraryService {
+@SuppressLint("UnsafeOptInUsageError")
+public class MediaService extends MediaLibraryService implements SessionAvailabilityListener {
     private static final String TAG = "MediaService";
 
     public static final int REQUEST_CODE = 432;
 
     private ExoPlayer player;
-    private DataSource.Factory dataSourceFactory;
+    private CastPlayer castPlayer;
     private MediaSourceFactory mediaSourceFactory;
     private MediaLibrarySession mediaLibrarySession;
 
@@ -36,7 +39,11 @@ public class MediaService extends MediaLibraryService {
         super.onCreate();
         initializeMediaSource();
         initializePlayer();
+        initializeCastPlayer();
+        initializeMediaLibrarySession();
         initializePlayerListener();
+
+        setPlayer(null, castPlayer.isCastSessionAvailable() ? castPlayer : player);
     }
 
     @Override
@@ -51,13 +58,11 @@ public class MediaService extends MediaLibraryService {
         return mediaLibrarySession;
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void initializeMediaSource() {
-        dataSourceFactory = DownloadUtil.getDataSourceFactory(this);
+        DataSource.Factory dataSourceFactory = DownloadUtil.getDataSourceFactory(this);
         mediaSourceFactory = new DefaultMediaSourceFactory(dataSourceFactory);
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void initializePlayer() {
         player = new ExoPlayer.Builder(this)
                 .setMediaSourceFactory(mediaSourceFactory)
@@ -65,15 +70,40 @@ public class MediaService extends MediaLibraryService {
                 .setHandleAudioBecomingNoisy(true)
                 .setWakeMode(C.WAKE_MODE_NETWORK)
                 .build();
+    }
 
+    private void initializeCastPlayer() {
+        castPlayer = new CastPlayer(CastContext.getSharedInstance(this));
+        castPlayer.setSessionAvailabilityListener(this);
+    }
+
+    private void initializeMediaLibrarySession() {
         mediaLibrarySession = new MediaLibrarySession.Builder(this, player, new LibrarySessionCallback())
                 .setMediaItemFiller(new CustomMediaItemFiller())
                 .setSessionActivity(PendingIntent.getActivity(getApplicationContext(), REQUEST_CODE, new Intent(getApplicationContext(), MainActivity.class), PendingIntent.FLAG_IMMUTABLE))
                 .build();
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
+    private void setPlayer(Player oldPlayer, Player newPlayer) {
+        if (oldPlayer == newPlayer) return;
+        if (oldPlayer != null) oldPlayer.stop();
+
+        mediaLibrarySession.setPlayer(newPlayer);
+    }
+
+    @Override
+    public void onCastSessionAvailable() {
+        setPlayer(player, castPlayer);
+    }
+
+    @Override
+    public void onCastSessionUnavailable() {
+        setPlayer(castPlayer, player);
+    }
+
     private void releasePlayer() {
+        castPlayer.setSessionAvailabilityListener(null);
+        castPlayer.release();
         player.release();
         mediaLibrarySession.release();
     }
@@ -81,18 +111,17 @@ public class MediaService extends MediaLibraryService {
     private class LibrarySessionCallback implements MediaLibrarySession.MediaLibrarySessionCallback {
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private class CustomMediaItemFiller implements MediaSession.MediaItemFiller {
         @Override
         public MediaItem fillInLocalConfiguration(MediaSession session, MediaSession.ControllerInfo controller, MediaItem mediaItem) {
             return mediaItem.buildUpon()
                     .setUri(mediaItem.mediaMetadata.mediaUri)
                     .setMediaMetadata(mediaItem.mediaMetadata)
+                    .setMimeType(MimeTypes.BASE_TYPE_AUDIO)
                     .build();
         }
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void initializePlayerListener() {
         player.addListener(new Player.Listener() {
             @Override
@@ -103,7 +132,7 @@ public class MediaService extends MediaLibraryService {
 
             @Override
             public void onIsPlayingChanged(boolean isPlaying) {
-                if(isPlaying) {
+                if (isPlaying) {
                     MediaManager.setPlayingPausedTimestamp(player.getCurrentMediaItem(), player.getCurrentPosition());
                 }
             }

@@ -1,10 +1,12 @@
 package com.cappielloantonio.play.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.MediaMetadata;
+import androidx.media3.common.MimeTypes;
 
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
@@ -197,6 +199,7 @@ public class MappingUtil {
         return genres;
     }
 
+    @SuppressLint("UnsafeOptInUsageError")
     public static MediaItem mapMediaItem(Context context, Song song, boolean stream) {
         boolean isDownloaded = DownloadUtil.getDownloadTracker(context).isDownloaded(MusicUtil.getSongDownloadUri(song));
 
@@ -219,6 +222,7 @@ public class MappingUtil {
                                 .setExtras(bundle)
                                 .build()
                 )
+                .setMimeType(MimeTypes.BASE_TYPE_AUDIO)
                 .setUri(stream && !isDownloaded ? MusicUtil.getSongStreamUri(context, song) : MusicUtil.getSongDownloadUri(song))
                 .build();
     }

@@ -11,6 +11,7 @@ import com.cappielloantonio.play.helper.ThemeHelper;
 import com.cappielloantonio.play.subsonic.Subsonic;
 import com.cappielloantonio.play.subsonic.SubsonicPreferences;
 import com.cappielloantonio.play.util.PreferenceUtil;
+import com.google.android.material.color.DynamicColors;
 
 public class App extends Application {
     private static final String TAG = "App";
@@ -21,6 +22,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
+        DynamicColors.applyToActivitiesIfAvailable(this);
         CrashReporter.initialize(this);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());

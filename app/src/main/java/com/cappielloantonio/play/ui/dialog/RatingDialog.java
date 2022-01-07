@@ -27,7 +27,7 @@ public class RatingDialog extends DialogFragment {
         bind = DialogRatingBinding.inflate(LayoutInflater.from(requireContext()));
         ratingViewModel = new ViewModelProvider(requireActivity()).get(RatingViewModel.class);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppTheme_AlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setView(bind.getRoot())
                 .setTitle(R.string.rating_dialog_title)
@@ -42,7 +42,6 @@ public class RatingDialog extends DialogFragment {
         super.onStart();
 
         setElementInfo();
-        setButtonColor();
         setRating();
     }
 
@@ -60,11 +59,6 @@ public class RatingDialog extends DialogFragment {
         } else if (requireArguments().getParcelable("artist_object") != null) {
             ratingViewModel.setArtist(requireArguments().getParcelable("artist_object"));
         }
-    }
-
-    private void setButtonColor() {
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorAccent, null));
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent, null));
     }
 
     private void setRating() {

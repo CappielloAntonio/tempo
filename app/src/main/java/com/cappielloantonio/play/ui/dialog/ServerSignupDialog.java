@@ -53,7 +53,7 @@ public class ServerSignupDialog extends DialogFragment {
 
         bind = DialogServerSignupBinding.inflate(LayoutInflater.from(requireContext()));
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppTheme_AlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setView(bind.getRoot())
                 .setTitle(R.string.server_signup_dialog_title)
@@ -95,10 +95,6 @@ public class ServerSignupDialog extends DialogFragment {
     }
 
     private void setButtonAction() {
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.colorAccent, null));
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent, null));
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorAccent, null));
-
         ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
             if (validateInput()) {
                 saveServerPreference(server, username, password, null, null);

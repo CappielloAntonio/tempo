@@ -24,7 +24,7 @@ public class ServerUnreachableDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         bind = DialogServerUnreachableBinding.inflate(LayoutInflater.from(requireContext()));
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppTheme_AlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setView(bind.getRoot())
                 .setTitle(R.string.server_unreachable_dialog_title)
@@ -49,10 +49,6 @@ public class ServerUnreachableDialog extends DialogFragment {
     }
 
     private void setButtonAction() {
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.colorAccent, null));
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent, null));
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorAccent, null));
-
         ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
             MainActivity activity = (MainActivity) getActivity();
 

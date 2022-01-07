@@ -1,41 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-
-        <item name="colorControlNormal">@color/colorPrimary</item>
-
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@color/colorPrimary</item>
-        <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:windowTranslucentNavigation">false</item>
-
-        <item name="dialogTheme">@style/AppTheme.Dialog</item>
-        <item name="alertDialogTheme">@style/AppTheme.Dialog</item>
-    </style>
-
-    <style name="AppTheme.Dialog" parent="Theme.MaterialComponents.DayNight.Dialog">
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="colorPrimary">@color/colorAccent</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowMinWidthMajor">82%</item>
-        <item name="android:windowMinWidthMinor">82%</item>
-    </style>
-
-    <style name="AppTheme.AlertDialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
-        <item name="android:windowBackground">@drawable/dialog_shape</item>
-        <item name="android:windowMinWidthMajor">86%</item>
-        <item name="android:windowMinWidthMinor">86%</item>
-    </style>
-
-    <style name="Divider">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">0.5dp</item>
-        <item name="android:background">@color/dividerColor</item>
+    <style name="AppTheme" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/md_theme_dark_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_dark_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/md_theme_dark_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_dark_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_dark_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_dark_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/md_theme_dark_tertiary</item>
+        <item name="colorOnTertiary">@color/md_theme_dark_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/md_theme_dark_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/md_theme_dark_onTertiaryContainer</item>
+        <item name="colorError">@color/md_theme_dark_error</item>
+        <item name="colorErrorContainer">@color/md_theme_dark_errorContainer</item>
+        <item name="colorOnError">@color/md_theme_dark_onError</item>
+        <item name="colorOnErrorContainer">@color/md_theme_dark_onErrorContainer</item>
+        <item name="android:colorBackground">@color/md_theme_dark_background</item>
+        <item name="colorOnBackground">@color/md_theme_dark_onBackground</item>
+        <item name="colorSurface">@color/md_theme_dark_surface</item>
+        <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_theme_dark_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_dark_onSurfaceVariant</item>
+        <item name="colorOutline">@color/md_theme_dark_outline</item>
+        <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/md_theme_dark_primaryInverse</item>
     </style>
 </resources>

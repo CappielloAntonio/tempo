@@ -93,7 +93,7 @@
     </style>
 
     <!-- Font dei pulsanti vari presenti nell'applicazione -->
-    <style name="MainButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+    <style name="MainButton" parent="Widget.Material3.Button.UnelevatedButton">
         <item name="android:fontFamily">@font/inter</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textFontWeight">700</item>

@@ -11,7 +11,7 @@
         android:layout_height="?attr/actionBarSize"
         app:layout_collapseMode="pin"
         app:navigationIcon="@drawable/ic_arrow_back"
-        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+        app:popupTheme="@style/ThemeOverlay.Material3.Light"
         app:titleTextColor="@color/titleTextColor" />
 
     <androidx.core.widget.NestedScrollView

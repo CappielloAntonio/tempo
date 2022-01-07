@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/appbar_header_height"
         android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+                app:popupTheme="@style/ThemeOverlay.Material3.Light"
                 app:titleTextColor="@color/titleTextColor" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>

@@ -24,7 +24,7 @@
     <string name="album_page_extra_info_button">More like this</string>
     <string name="album_page_play_button">Play</string>
     <string name="album_page_shuffle_button">Shuffle</string>
-    <string name="app_name">Play for Subsonic</string>
+    <string name="app_name">Play</string>
     <string name="artist_bottom_sheet_instant_mix">Instant mix</string>
     <string name="artist_bottom_sheet_shuffle">Shuffle</string>
     <string name="artist_catalogue_title">Artists</string>
@@ -49,7 +49,6 @@
     <string name="connection_alert_dialog_summary">Access to the Subsonic server on connections other than Wi-Fi has been restricted. To prevent this alert dialod from reappearing, disable the connection check in the app settings.</string>
     <string name="download_info_empty_subtitle">Once you download a song, you\'ll find it here</string>
     <string name="download_info_empty_title">No downloads yet!</string>
-    <string name="download_start_error">Failed to start download</string>
     <string name="download_title_album_section">Albums</string>
     <string name="download_title_album_see_all">See all</string>
     <string name="download_title_artist_section">Artists</string>
@@ -60,12 +59,7 @@
     <string name="download_title_tracks_see_all_button">See all</string>
     <string name="empty_string" />
     <string name="error_required">Required</string>
-    <string name="exo_action_next">Next</string>
-    <string name="exo_action_play_pause">Play/Pause</string>
-    <string name="exo_action_previous">Previous</string>
     <string name="exo_download_notification_channel_name">Downloads</string>
-    <string name="exo_info_empty_playlist">Playlist is empty</string>
-    <string name="exo_info_unplayable_file">Couldn\'t play this song.</string>
     <string name="filter_info_selection">Select two or more filters</string>
     <string name="filter_title">Filter</string>
     <string name="filter_title_expanded">Filter Genres</string>
@@ -102,6 +96,7 @@
     <string name="login_empty">No server added</string>
     <string name="login_title">Subsonic servers</string>
     <string name="login_title_expanded">Subsonic servers</string>
+    <string name="media_route_menu_title">Cast</string>
     <string name="menu_add_button">Add</string>
     <string name="menu_download_all_button">Download all</string>
     <string name="menu_download_label">Download</string>
@@ -112,12 +107,7 @@
     <string name="menu_settings_button">Settings</string>
     <string name="menu_unpin_button">Unpin</string>
     <string name="player_bottom_sheet_title">Now playing</string>
-    <string name="player_hide_lyrics_button">Hide</string>
-    <string name="player_show_lyrics_button">Show</string>
-    <string name="player_song_lyrics_label">Lyrics</string>
     <string name="player_song_lyrics_none_available_label">No lyrics available</string>
-    <string name="playing_notification_description">The playing notification provides actions for play/pause etc.</string>
-    <string name="playing_notification_name">Playing Notification</string>
     <string name="playlist_catalogue_title">Playlist Catalogue</string>
     <string name="playlist_catalogue_title_expanded">Browse Playlists</string>
     <string name="playlist_chooser_dialog_empty">No playlists created</string>
@@ -200,7 +190,6 @@
     <string name="song_list_page_recently_added">Recently added tracks</string>
     <string name="song_list_page_recently_played">Recently played tracks</string>
     <string name="song_list_page_starred">Starred tracks</string>
-    <string name="song_list_page_title">Songs</string>
     <string name="song_list_page_top">%1$s\'s top tracks</string>
     <string name="song_list_page_year">Year %1$d</string>
     <string name="song_subtitle_formatter">%1$s  •  %2$s</string>
@@ -210,7 +199,4 @@
     <string name="starred_sync_dialog_title">Sync starred tracks</string>
     <string name="settings_title_transcoding">Transcoding</string>
     <string name="settings_summary_transcoding">Priority given to the transcoding mode. If set to \"Direct play\" the bitrate of the file will not be changed.</string>
-    <string name="notification_channel_name">playNotificationChannelName</string>
-    <string name="notification_channel_description">playNotificationChannelNameDescription</string>
-    <string name="media_route_menu_title">Cast</string>
 </resources>

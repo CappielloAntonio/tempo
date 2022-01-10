@@ -129,9 +129,11 @@ public class PlayerCoverFragment extends Fragment {
                 });
 
                 bind.innerButtonBottomRight.setOnClickListener(view -> {
-                    PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getActivity().getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
-                    if (playerBottomSheetFragment != null) {
-                        playerBottomSheetFragment.goToLyricsPage();
+                    if (getActivity() != null) {
+                        PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) requireActivity().getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
+                        if (playerBottomSheetFragment != null) {
+                            playerBottomSheetFragment.goToLyricsPage();
+                        }
                     }
                 });
             }

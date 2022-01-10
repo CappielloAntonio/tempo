@@ -134,7 +134,7 @@ public class ArtistPageFragment extends Fragment {
             if (bind != null) bind.artistPageBioSector.setVisibility(!normalizedBio.trim().isEmpty() ? View.VISIBLE : View.GONE);
             if (bind != null) bind.bioMoreTextViewClickable.setVisibility(artist.getLastfm() != null ? View.VISIBLE : View.GONE);
 
-            CustomGlideRequest.Builder
+            if (getContext() != null) CustomGlideRequest.Builder
                     .from(
                             requireContext(),
                             artistPageViewModel.getArtist().getId(),
@@ -145,9 +145,9 @@ public class ArtistPageFragment extends Fragment {
                     .build()
                     .into(bind.artistBackdropImageView);
 
-            bind.bioTextView.setText(normalizedBio);
+            if (bind != null) bind.bioTextView.setText(normalizedBio);
 
-            bind.bioMoreTextViewClickable.setOnClickListener(v -> {
+            if (bind != null) bind.bioMoreTextViewClickable.setOnClickListener(v -> {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(artist.getLastfm()));
                 startActivity(intent);

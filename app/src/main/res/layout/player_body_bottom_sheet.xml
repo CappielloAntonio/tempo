@@ -3,4 +3,4 @@
     android:id="@+id/player_body_bottom_sheet_view_pager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary" />
+    android:background="?attr/colorSurface"/>

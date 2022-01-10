@@ -19,8 +19,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
-            android:layout_weight="8"
-            android:background="@color/placeholderColor" />
+            android:layout_weight="8" />
 
         <ImageView
             android:layout_width="12dp"
@@ -28,8 +27,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="22dp"
             android:layout_marginEnd="8dp"
-            android:layout_weight="2"
-            android:background="@color/placeholderColor" />
+            android:layout_weight="2" />
     </LinearLayout>
 
     <LinearLayout
@@ -45,51 +43,45 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:paddingStart="16dp"
-            android:paddingEnd="8dp"
-            android:orientation="vertical">
+            android:paddingEnd="8dp">
 
             <ImageView
                 android:layout_width="172dp"
                 android:layout_height="172dp"
-                android:layout_gravity="center"
-                android:background="@color/placeholderColor" />
+                android:layout_gravity="center" />
 
             <ImageView
                 android:layout_width="124dp"
                 android:layout_height="14dp"
-                android:background="@color/placeholderColor"
                 android:layout_marginTop="8dp" />
 
             <ImageView
                 android:layout_width="112dp"
                 android:layout_height="12dp"
-                android:background="@color/placeholderColor"
                 android:layout_marginTop="4dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingEnd="8dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingEnd="8dp">
 
             <ImageView
                 android:layout_width="172dp"
                 android:layout_height="172dp"
-                android:layout_gravity="center"
-                android:background="@color/placeholderColor" />
+                android:layout_gravity="center" />
 
             <ImageView
                 android:layout_width="124dp"
                 android:layout_height="14dp"
-                android:background="@color/placeholderColor"
                 android:layout_marginTop="8dp" />
 
             <ImageView
                 android:layout_width="112dp"
                 android:layout_height="12dp"
-                android:background="@color/placeholderColor"
                 android:layout_marginTop="4dp" />
         </LinearLayout>
 
@@ -101,19 +93,16 @@
             <ImageView
                 android:layout_width="172dp"
                 android:layout_height="172dp"
-                android:layout_gravity="center"
-                android:background="@color/placeholderColor" />
+                android:layout_gravity="center" />
 
             <ImageView
                 android:layout_width="124dp"
                 android:layout_height="14dp"
-                android:background="@color/placeholderColor"
                 android:layout_marginTop="8dp" />
 
             <ImageView
                 android:layout_width="112dp"
                 android:layout_height="12dp"
-                android:background="@color/placeholderColor"
                 android:layout_marginTop="4dp" />
         </LinearLayout>
     </LinearLayout>

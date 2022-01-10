@@ -19,8 +19,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
-            android:layout_weight="9"
-            android:background="@color/placeholderColor" />
+            android:layout_weight="9" />
 
         <ImageView
             android:layout_width="12dp"
@@ -28,16 +27,14 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:background="@color/placeholderColor" />
+            android:layout_weight="1" />
     </LinearLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="190dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@color/placeholderColor" />
+        android:layout_marginBottom="8dp" />
 </LinearLayout>

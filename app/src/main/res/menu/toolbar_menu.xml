@@ -5,7 +5,6 @@
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
-        android:iconTint="@color/titleTextColor"
         android:title="@string/menu_search_button"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="ifRoom" />

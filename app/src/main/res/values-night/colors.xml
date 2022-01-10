@@ -1,32 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#121212</color>
-    <color name="colorPrimaryDark">#121212</color>
-    <color name="colorAccent">#733ae6</color>
-    <color name="colorAccentLight">#aa6aff</color>
     <color name="cardColor">#1D1D1D</color>
-    <color name="almostCardColor">#1D1D1C</color>
     <color name="titleTextColor">#DADADA</color>
     <color name="subtitleTextColor">#9B9B9B</color>
     <color name="songToPlayTextColor">#949494</color>
     <color name="suggestionTextColor">#DADADA</color>
     <color name="suggestionIconColor">#DADADA</color>
-    <color name="darkIconColor">#CFCFCF</color>
     <color name="suggestionSelectedTextColor">#CCCCCC</color>
     <color name="dividerColor">#404040</color>
-    <color name="hintTextColor">#CFCFCF</color>
-    <color name="buttonBackgroundColor">#1D1D1D</color>
-    <color name="bottomNavIconPressedColor">#FFFFFF</color>
-    <color name="bottomNavIconSelectedColor">#EEEEEE</color>
-    <color name="bottomNavIconColor">#707070</color>
-    <color name="chipBorderColor">#707070</color>
-    <color name="chipSelectedBackgroundColor">#606060</color>
-    <color name="chipUnelectedBackgroundColor">#1D1D1D</color>
-    <color name="starTintColor">#733ae6</color>
-    <color name="starBackgroundTintColor">#1D1D1D</color>
-    <color name="placeholderColor">#1D1D1D</color>
-    <color name="seekBarPlayedColor">#7C00BB</color>
-    <color name="seekBarUnPlayedColor">#4C2A5D</color>
-    <color name="seekBarBufferedColor">#533364</color>
 </resources>
 

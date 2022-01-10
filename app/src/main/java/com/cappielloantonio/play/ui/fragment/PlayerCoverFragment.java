@@ -29,6 +29,7 @@ import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.dialog.PlaylistChooserDialog;
+import com.cappielloantonio.play.ui.fragment.pager.PlayerControllerVerticalPager;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
@@ -129,7 +130,10 @@ public class PlayerCoverFragment extends Fragment {
                 });
 
                 bind.innerButtonBottomRight.setOnClickListener(view -> {
-
+                    PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getActivity().getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
+                    if (playerBottomSheetFragment != null) {
+                        playerBottomSheetFragment.goToLyricsPage();
+                    }
                 });
             }
         });

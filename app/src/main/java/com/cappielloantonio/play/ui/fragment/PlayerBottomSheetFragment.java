@@ -178,12 +178,25 @@ public class PlayerBottomSheetFragment extends Fragment {
 
     public void goBackToFirstPage() {
         bind.playerBodyLayout.playerBodyBottomSheetViewPager.setCurrentItem(0, false);
+        goToControllerPage();
+    }
 
+    public void goToControllerPage() {
         PlayerControllerVerticalPager playerControllerVerticalPager = (PlayerControllerVerticalPager) bind.playerBodyLayout.playerBodyBottomSheetViewPager.getAdapter();
         if (playerControllerVerticalPager != null) {
             PlayerControllerFragment playerControllerFragment = (PlayerControllerFragment) playerControllerVerticalPager.getRegisteredFragment(0);
             if (playerControllerFragment != null) {
                 playerControllerFragment.goToControllerPage();
+            }
+        }
+    }
+
+    public void goToLyricsPage() {
+        PlayerControllerVerticalPager playerControllerVerticalPager = (PlayerControllerVerticalPager) bind.playerBodyLayout.playerBodyBottomSheetViewPager.getAdapter();
+        if (playerControllerVerticalPager != null) {
+            PlayerControllerFragment playerControllerFragment = (PlayerControllerFragment) playerControllerVerticalPager.getRegisteredFragment(0);
+            if (playerControllerFragment != null) {
+                playerControllerFragment.goToLyricsPage();
             }
         }
     }

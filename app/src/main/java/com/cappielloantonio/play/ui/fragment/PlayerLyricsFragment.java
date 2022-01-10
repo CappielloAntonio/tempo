@@ -45,10 +45,12 @@ public class PlayerLyricsFragment extends Fragment {
 
     private void initLyrics() {
         playerBottomSheetViewModel.getLiveLyrics().observe(requireActivity(), lyrics -> {
-            if (lyrics == null || lyrics.trim().equals("")) {
-                bind.nowPlayingSongLyricsTextView.setText(R.string.player_song_lyrics_none_available_label);
-            } else {
-                bind.nowPlayingSongLyricsTextView.setText(MusicUtil.getReadableString(lyrics));
+            if (bind != null) {
+                if (lyrics == null || lyrics.trim().equals("")) {
+                    bind.nowPlayingSongLyricsTextView.setText(R.string.player_song_lyrics_none_available_label);
+                } else {
+                    bind.nowPlayingSongLyricsTextView.setText(MusicUtil.getReadableString(lyrics));
+                }
             }
         });
     }

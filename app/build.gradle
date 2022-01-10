@@ -55,7 +55,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // Google GMS
-    implementation 'com.google.android.gms:play-services-cast-framework:21.0.0'
+    implementation 'com.google.android.gms:play-services-cast-framework:21.0.1'
 
     // Android Material
     implementation 'com.google.android.material:material:1.6.0-alpha01'

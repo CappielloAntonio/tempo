@@ -6,6 +6,7 @@
         <entry key="../../.gradle/caches/transforms-3/20796fa5f04d2ad22571c8f80fdd27bd/transformed/jetified-exoplayer-ui-2.12.2/res/drawable-anydpi-v21/exo_ic_skip_previous.xml" value="0.5484375" />
         <entry key="../../.gradle/caches/transforms-3/cfd4e4d299e24db95f3608b5f72af22b/transformed/jetified-exoplayer-ui-2.12.2/res/drawable-anydpi-v21/exo_ic_play_circle_filled.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable-anydpi/ic_api_notification.xml" value="0.44351851851851853" />
+        <entry key="app/src/main/res/drawable-anydpi/ic_notification.xml" value="0.18958333333333333" />
         <entry key="app/src/main/res/drawable-v24/ic_add.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable-v24/ic_cast.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable-v24/ic_download.xml" value="0.27685185185185185" />
@@ -19,6 +20,7 @@
         <entry key="app/src/main/res/drawable/button_play_pause_selector.xml" value="0.2722222222222222" />
         <entry key="app/src/main/res/drawable/dialog_shape.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable/gradient_discover_background_image.xml" value="0.28703703703703703" />
+        <entry key="app/src/main/res/drawable/gradient_player_cover_background_image.xml" value="0.3365679264555669" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.28703703703703703" />
         <entry key="app/src/main/res/drawable/ic_arrow_back.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_bottom_sheet_down.xml" value="0.4425925925925926" />
@@ -36,12 +38,14 @@
         <entry key="app/src/main/res/drawable/ic_graphic_eq.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_home.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2814814814814815" />
+        <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.34322916666666664" />
         <entry key="app/src/main/res/drawable/ic_lyrics.xml" value="0.17314814814814813" />
         <entry key="app/src/main/res/drawable/ic_minimize.xml" value="0.28703703703703703" />
         <entry key="app/src/main/res/drawable/ic_mix_from_here.xml" value="0.28703703703703703" />
         <entry key="app/src/main/res/drawable/ic_more_vert.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_pause.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_pause_circle.xml" value="0.28703703703703703" />
+        <entry key="app/src/main/res/drawable/ic_pause_white_24dp.xml" value="0.18958333333333333" />
         <entry key="app/src/main/res/drawable/ic_play.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable/ic_play_arrow_white_24dp.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_play_for_work.xml" value="0.30625" />
@@ -79,10 +83,10 @@
         <entry key="app/src/main/res/layout/dialog_starred_sync.xml" value="0.528125" />
         <entry key="app/src/main/res/layout/fragment_album_catalogue.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/fragment_album_list_page.xml" value="0.225" />
-        <entry key="app/src/main/res/layout/fragment_album_page.xml" value="0.2769409038238702" />
+        <entry key="app/src/main/res/layout/fragment_album_page.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_artist_catalogue.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/fragment_artist_list_page.xml" value="0.225" />
-        <entry key="app/src/main/res/layout/fragment_artist_page.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_artist_page.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/fragment_download.xml" value="0.283363802559415" />
         <entry key="app/src/main/res/layout/fragment_filter.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/fragment_genre_catalogue.xml" value="0.3229166666666667" />
@@ -100,8 +104,8 @@
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/fragment_song_list_page.xml" value="0.225" />
         <entry key="app/src/main/res/layout/inner_fragment_player_controller.xml" value="0.3229166666666667" />
-        <entry key="app/src/main/res/layout/inner_fragment_player_controller_layout.xml" value="0.48638132295719844" />
-        <entry key="app/src/main/res/layout/inner_fragment_player_cover.xml" value="0.3229166666666667" />
+        <entry key="app/src/main/res/layout/inner_fragment_player_controller_layout.xml" value="0.6579601990049752" />
+        <entry key="app/src/main/res/layout/inner_fragment_player_cover.xml" value="0.40390879478827363" />
         <entry key="app/src/main/res/layout/inner_fragment_player_lyrics.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/inner_fragment_player_queue.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_home_album_placeholder.xml" value="0.3229166666666667" />

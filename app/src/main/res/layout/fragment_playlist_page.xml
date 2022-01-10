@@ -5,14 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/anim_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_collapseMode="pin"
-        app:navigationIcon="@drawable/ic_arrow_back"
-        app:popupTheme="@style/ThemeOverlay.Material3.Light"
-        app:titleTextColor="@color/titleTextColor" />
+        app:navigationIcon="@drawable/ic_arrow_back" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/fragment_playlist_page_nested_scroll_view"
@@ -149,14 +147,12 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="4dp"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/buttonBackgroundColor"
                         android:padding="10dp"
                         android:text="@string/playlist_page_play_button"
                         android:textAllCaps="false"
                         app:icon="@drawable/ic_play"
                         app:iconGravity="textStart"
-                        app:iconPadding="18dp"
-                        app:iconTint="@color/darkIconColor" />
+                        app:iconPadding="18dp"/>
 
                     <Button
                         android:id="@+id/playlist_page_shuffle_button"
@@ -166,14 +162,12 @@
                         android:layout_marginStart="4dp"
                         android:layout_marginEnd="16dp"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/buttonBackgroundColor"
                         android:padding="10dp"
                         android:text="@string/playlist_page_shuffle_button"
                         android:textAllCaps="false"
                         app:icon="@drawable/ic_shuffle"
                         app:iconGravity="textStart"
-                        app:iconPadding="18dp"
-                        app:iconTint="@color/darkIconColor" />
+                        app:iconPadding="18dp" />
                 </LinearLayout>
 
                 <TextView

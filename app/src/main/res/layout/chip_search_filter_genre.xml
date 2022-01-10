@@ -10,7 +10,4 @@
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
     android:textAppearance="?android:attr/textAppearance"
-    android:textColor="@color/titleTextColor"
-    app:chipBackgroundColor="@color/color_chip_status"
-    app:chipStrokeColor="@color/chipBorderColor"
     app:chipStrokeWidth="1.5dp" />

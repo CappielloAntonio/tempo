@@ -14,9 +14,7 @@
         android:textColorHint="?android:textColorHint"
         app:endIconMode="clear_text"
         app:endIconTint="?android:textColorSecondary"
-        app:errorEnabled="true"
-        app:hintTextColor="@color/colorAccent"
-        app:boxStrokeColor="@color/colorAccent">
+        app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/server_name_text_view"
@@ -38,9 +36,7 @@
         android:textColorHint="?android:textColorHint"
         app:endIconMode="clear_text"
         app:endIconTint="?android:textColorSecondary"
-        app:errorEnabled="true"
-        app:hintTextColor="@color/colorAccent"
-        app:boxStrokeColor="@color/colorAccent">
+        app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/username_text_view"
@@ -62,9 +58,7 @@
         android:textColorHint="?android:textColorHint"
         app:endIconMode="password_toggle"
         app:endIconTint="?android:textColorSecondary"
-        app:errorEnabled="true"
-        app:hintTextColor="@color/colorAccent"
-        app:boxStrokeColor="@color/colorAccent">
+        app:errorEnabled="true">
 
         <!-- Navidrome android:text="!$4EBXhSPUi4$E#oagvAisCA" -->
         <!-- Gonic android:text="hYP3%yD!rx@GBf95B2wbRUk8" -->
@@ -88,9 +82,7 @@
         android:textColorHint="?android:textColorHint"
         app:endIconMode="clear_text"
         app:endIconTint="?android:textColorSecondary"
-        app:errorEnabled="true"
-        app:hintTextColor="@color/colorAccent"
-        app:boxStrokeColor="@color/colorAccent">
+        app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/server_text_view"

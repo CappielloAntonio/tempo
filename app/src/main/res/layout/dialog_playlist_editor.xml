@@ -14,9 +14,7 @@
         android:textColorHint="?android:textColorHint"
         app:endIconMode="clear_text"
         app:endIconTint="?android:textColorSecondary"
-        app:errorEnabled="true"
-        app:hintTextColor="@color/colorAccent"
-        app:boxStrokeColor="@color/colorAccent">
+        app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/playlist_name_text_view"

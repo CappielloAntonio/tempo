@@ -14,8 +14,6 @@
         android:stepSize="1"
         android:numStars="5"
         android:rating="0"
-        android:progressTint="@color/starTintColor"
-        android:progressBackgroundTint="@color/starBackgroundTintColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>

@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             app:behavior_hideable="true"
             app:behavior_peekHeight="@dimen/bottom_sheet_peek_height"
-            app:layout_behavior="@string/bottom_sheet_behavior" />
+            app:layout_behavior="@string/bottom_sheet_behavior"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -35,20 +35,16 @@
         android:layout_height="wrap_content"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
-        android:background="@drawable/bottom_nav_shape"
         android:visibility="gone"
-        app:itemIconTint="@drawable/bottom_nav_selector"
-        app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottom_nav_menu" />
 
     <TextView
         android:id="@+id/offline_mode_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
         android:gravity="center"
         android:text="@string/activity_info_offline_mode"
-        android:textColor="@android:color/white"
         android:textSize="6sp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        style="@style/NoConnectionTextView"/>
 </LinearLayout>

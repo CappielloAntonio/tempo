@@ -181,6 +181,6 @@ public class PlayerBottomSheetFragment extends Fragment {
 
         PlayerControllerVerticalPager playerControllerVerticalPager = (PlayerControllerVerticalPager) bind.playerBodyLayout.playerBodyBottomSheetViewPager.getAdapter();
         PlayerControllerFragment playerControllerFragment = (PlayerControllerFragment) playerControllerVerticalPager.getRegisteredFragment(0);
-        playerControllerFragment.goBackToFirstPage();
+        playerControllerFragment.goToControllerPage();
     }
 }

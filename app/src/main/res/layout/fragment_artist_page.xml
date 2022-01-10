@@ -8,40 +8,34 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/appbar_header_height"
-        android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar">
+        android:layout_height="@dimen/appbar_header_height">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="@dimen/activity_margin_content"
-            android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <ImageView
                 android:id="@+id/artist_backdrop_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"
-                android:fitsSystemWindows="true"/>
+                app:layout_collapseMode="parallax" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/appbar_header_height"
                 android:layout_gravity="top"
-                android:background="@drawable/gradient_backdrop_background_image"/>
+                android:background="@drawable/gradient_backdrop_background_image" />
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/anim_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.Material3.Light"
-                app:titleTextColor="@color/titleTextColor" />
+                app:layout_collapseMode="pin" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -64,7 +58,7 @@
                 android:id="@+id/upper_button_divider"
                 style="@style/Divider"
                 android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp"/>
+                android:layout_marginEnd="18dp" />
 
             <LinearLayout
                 android:id="@+id/album_page_button_layout"
@@ -82,14 +76,12 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="4dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/buttonBackgroundColor"
                     android:padding="10dp"
                     android:text="@string/artist_page_shuffle_button"
                     android:textAllCaps="false"
                     app:icon="@drawable/ic_shuffle"
                     app:iconGravity="textStart"
-                    app:iconPadding="18dp"
-                    app:iconTint="@color/darkIconColor" />
+                    app:iconPadding="18dp" />
 
                 <Button
                     android:id="@+id/artist_page_radio_button"
@@ -99,14 +91,12 @@
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="16dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/buttonBackgroundColor"
                     android:padding="10dp"
                     android:text="@string/artist_page_radio_button"
                     android:textAllCaps="false"
                     app:icon="@drawable/ic_feed"
                     app:iconGravity="textStart"
-                    app:iconPadding="18dp"
-                    app:iconTint="@color/darkIconColor" />
+                    app:iconPadding="18dp" />
             </LinearLayout>
 
             <View
@@ -114,7 +104,7 @@
                 style="@style/Divider"
                 android:layout_marginStart="18dp"
                 android:layout_marginEnd="18dp"
-                android:layout_marginBottom="12dp"/>
+                android:layout_marginBottom="12dp" />
 
             <LinearLayout
                 android:id="@+id/artist_page_bio_sector"
@@ -152,9 +142,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
                     android:paddingTop="8dp"
-                    android:paddingBottom="8dp"/>
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="8dp" />
             </LinearLayout>
 
             <!--  Label and button  -->

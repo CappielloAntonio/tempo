@@ -29,7 +29,6 @@ import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.dialog.PlaylistChooserDialog;
-import com.cappielloantonio.play.ui.fragment.pager.PlayerControllerVerticalPager;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;

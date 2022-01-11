@@ -145,7 +145,7 @@ public class MainActivity extends BaseActivity {
 
                     switch (state) {
                         case BottomSheetBehavior.STATE_HIDDEN:
-                            resetMusicSession();
+                            hideMusicSession();
                             break;
                         case BottomSheetBehavior.STATE_COLLAPSED:
                             if (playerBottomSheetFragment != null) {
@@ -266,6 +266,10 @@ public class MainActivity extends BaseActivity {
 
     private void resetMusicSession() {
         MediaManager.reset(getMediaBrowserListenableFuture());
+    }
+
+    private void hideMusicSession() {
+        MediaManager.hide(getMediaBrowserListenableFuture());
     }
 
     private void resetViewModel() {

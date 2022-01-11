@@ -28,10 +28,11 @@ public class MediaManager {
                     if (mediaBrowserListenableFuture.isDone()) {
                         if (mediaBrowserListenableFuture.get().isPlaying()) {
                             mediaBrowserListenableFuture.get().pause();
-                            mediaBrowserListenableFuture.get().stop();
-                            mediaBrowserListenableFuture.get().clearMediaItems();
-                            clearDatabase();
                         }
+
+                        mediaBrowserListenableFuture.get().stop();
+                        mediaBrowserListenableFuture.get().clearMediaItems();
+                        clearDatabase();
                     }
                 } catch (ExecutionException | InterruptedException e) {
                     Log.e(TAG, e.getMessage());
@@ -40,7 +41,7 @@ public class MediaManager {
         }
     }
 
-    public static void quit(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture) {
+    public static void hide(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {

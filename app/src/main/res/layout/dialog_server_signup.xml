@@ -60,8 +60,6 @@
         app:endIconTint="?android:textColorSecondary"
         app:errorEnabled="true">
 
-        <!-- Navidrome android:text="!$4EBXhSPUi4$E#oagvAisCA" -->
-        <!-- Gonic android:text="hYP3%yD!rx@GBf95B2wbRUk8" -->
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password_text_view"
             android:layout_width="match_parent"
@@ -101,4 +99,12 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:text="@string/server_signup_dialog_action_direct_access"/>
+
+    <CheckBox
+        android:id="@+id/low_security_checkbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/server_signup_dialog_action_low_security"/>
 </LinearLayout>

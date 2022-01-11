@@ -100,7 +100,7 @@ public class Subsonic {
     public String getUrl() {
         String url = preferences.getServerUrl() + "/rest/";
 
-        return url.replace("//rest","/rest");
+        return url.replace("//rest", "/rest");
     }
 
     public Map<String, String> getParams() {
@@ -111,6 +111,8 @@ public class Subsonic {
         params.put("v", getApiVersion().getVersionString());
         params.put("c", preferences.getClientName());
         params.put("f", "xml");
+
+        if (preferences.getPassword() != null && !preferences.getPassword().trim().equals("")) params.put("p", preferences.getPassword());
 
         return params;
     }

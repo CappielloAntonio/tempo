@@ -54,6 +54,7 @@ public class App extends Application {
         SubsonicPreferences preferences = new SubsonicPreferences();
         preferences.setServerUrl(server);
         preferences.setUsername(username);
+        preferences.setPassword(password);
         preferences.setAuthentication(password, token, salt);
 
         return new Subsonic(context, preferences);

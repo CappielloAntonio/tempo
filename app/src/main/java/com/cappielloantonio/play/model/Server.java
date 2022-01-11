@@ -33,7 +33,10 @@ public class Server implements Parcelable {
     @ColumnInfo(name = "timestamp")
     private long timestamp;
 
-    public Server(@NonNull String serverId, String serverName, String username, String address, String token, String salt, long timestamp) {
+    @ColumnInfo(name = "low_security", defaultValue = "false")
+    private boolean lowSecurity;
+
+    public Server(@NonNull String serverId, String serverName, String username, String address, String token, String salt, long timestamp, boolean lowSecurity) {
         this.serverId = serverId;
         this.serverName = serverName;
         this.username = username;
@@ -41,6 +44,7 @@ public class Server implements Parcelable {
         this.token = token;
         this.salt = salt;
         this.timestamp = timestamp;
+        this.lowSecurity = lowSecurity;
     }
 
     @NonNull
@@ -98,6 +102,14 @@ public class Server implements Parcelable {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public boolean isLowSecurity() {
+        return lowSecurity;
+    }
+
+    public void setLowSecurity(boolean lowSecurity) {
+        this.lowSecurity = lowSecurity;
     }
 
     @Override

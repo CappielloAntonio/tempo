@@ -7,6 +7,7 @@ import java.util.UUID;
 public class SubsonicPreferences {
     private String serverUrl;
     private String username;
+    private String password;
     private String clientName = "Play";
     private SubsonicAuthentication authentication;
 
@@ -16,6 +17,10 @@ public class SubsonicPreferences {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getClientName() {
@@ -32,6 +37,10 @@ public class SubsonicPreferences {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setClientName(String clientName) {

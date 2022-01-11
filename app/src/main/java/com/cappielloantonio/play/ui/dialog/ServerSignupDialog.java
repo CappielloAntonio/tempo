@@ -41,6 +41,7 @@ public class ServerSignupDialog extends DialogFragment {
     private String password;
     private String server;
     private boolean directAccess = false;
+    private boolean lowSecurity = false;
 
     @NonNull
     @Override
@@ -90,7 +91,10 @@ public class ServerSignupDialog extends DialogFragment {
                 bind.passwordTextView.setText("");
                 bind.serverTextView.setText(loginViewModel.getServerToEdit().getAddress());
                 bind.directAccessCheckbox.setChecked(false);
+                bind.lowSecurityCheckbox.setChecked(loginViewModel.getServerToEdit().isLowSecurity());
             }
+        } else {
+            loginViewModel.setServerToEdit(null);
         }
     }
 
@@ -115,6 +119,7 @@ public class ServerSignupDialog extends DialogFragment {
         password = Objects.requireNonNull(bind.passwordTextView.getText()).toString();
         server = Objects.requireNonNull(bind.serverTextView.getText()).toString().trim();
         directAccess = bind.directAccessCheckbox.isChecked();
+        lowSecurity = bind.lowSecurityCheckbox.isChecked();
 
         if (TextUtils.isEmpty(serverName)) {
             bind.serverNameTextView.setError(getString(R.string.error_required));
@@ -162,14 +167,13 @@ public class ServerSignupDialog extends DialogFragment {
         if (token != null && salt != null) {
             String serverID = loginViewModel.getServerToEdit() != null ? loginViewModel.getServerToEdit().getServerId() : UUID.randomUUID().toString();
 
-            PreferenceUtil.getInstance(context).setPassword(null);
             PreferenceUtil.getInstance(context).setToken(token);
             PreferenceUtil.getInstance(context).setSalt(salt);
             PreferenceUtil.getInstance(context).setServerId(serverID);
 
-            loginViewModel.addServer(new Server(serverID, this.serverName, this.username, this.server, token, salt, System.currentTimeMillis()));
+            if (!lowSecurity) PreferenceUtil.getInstance(context).setPassword(null);
 
-            return;
+            loginViewModel.addServer(new Server(serverID, this.serverName, this.username, this.server, token, salt, System.currentTimeMillis(), this.lowSecurity));
         }
 
         App.getSubsonicClientInstance(context, true);

@@ -34,6 +34,7 @@ import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.LibraryViewModel;
+import com.google.android.gms.cast.framework.CastButtonFactory;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.Objects;
@@ -61,6 +62,7 @@ public class LibraryFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.main_page_menu, menu);
+        CastButtonFactory.setUpMediaRouteButton(requireContext(), menu, R.id.media_route_menu_item);
     }
 
     @Nullable

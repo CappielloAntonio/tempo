@@ -291,7 +291,7 @@ public class AlbumRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getAlbumList2() != null && response.body().getAlbumList2().getAlbums() != null && response.body().getAlbumList2().getAlbums().get(0) != null) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getAlbumList2() != null && response.body().getAlbumList2().getAlbums() != null && !response.body().getAlbumList2().getAlbums().isEmpty()) {
                             callback.onLoadYear(response.body().getAlbumList2().getAlbums().get(0).getYear());
                         }
                     }
@@ -311,7 +311,7 @@ public class AlbumRepository {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getAlbumList2() != null) {
-                            if (response.body().getAlbumList2().getAlbums().size() > 0 && response.body().getAlbumList2().getAlbums().get(0) != null) {
+                            if (response.body().getAlbumList2().getAlbums().size() > 0 && !response.body().getAlbumList2().getAlbums().isEmpty()) {
                                 callback.onLoadYear(response.body().getAlbumList2().getAlbums().get(0).getYear());
                             } else {
                                 callback.onLoadYear(-1);

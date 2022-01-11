@@ -117,7 +117,7 @@ public class ServerSignupDialog extends DialogFragment {
     private boolean validateInput() {
         serverName = Objects.requireNonNull(bind.serverNameTextView.getText()).toString().trim();
         username = Objects.requireNonNull(bind.usernameTextView.getText()).toString().trim();
-        password = MusicUtil.passwordHexEncoding(Objects.requireNonNull(bind.passwordTextView.getText()).toString());
+        password = bind.lowSecurityCheckbox.isChecked() ? MusicUtil.passwordHexEncoding(Objects.requireNonNull(bind.passwordTextView.getText()).toString()) : Objects.requireNonNull(bind.passwordTextView.getText()).toString();
         server = Objects.requireNonNull(bind.serverTextView.getText()).toString().trim();
         directAccess = bind.directAccessCheckbox.isChecked();
         lowSecurity = bind.lowSecurityCheckbox.isChecked();

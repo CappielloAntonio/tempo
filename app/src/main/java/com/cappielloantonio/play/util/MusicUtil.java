@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class MusicUtil {
     private static final String TAG = "MusicUtil";
@@ -35,7 +36,7 @@ public class MusicUtil {
                 "&c=" + params.get("c") +
                 "&id=" + song.getId();
 
-        if(connectivityManager.getActiveNetworkInfo() != null) {
+        if (connectivityManager.getActiveNetworkInfo() != null) {
             uri = uri + "&maxBitRate="
                     + getBitratePreference(context, connectivityManager.getActiveNetworkInfo().getType()) + "&format="
                     + getTranscodingFormatPreference(context, connectivityManager.getActiveNetworkInfo().getType());
@@ -127,6 +128,10 @@ public class MusicUtil {
         }
 
         return readableStrings;
+    }
+
+    public static String passwordHexEncoding(String plainPassword) {
+        return "enc:" + plainPassword.chars().mapToObj(Integer::toHexString).collect(Collectors.joining());
     }
 
     public static int getDefaultPicPerCategory(String category) {

@@ -55,6 +55,10 @@ public class CustomGlideRequest {
             url = url + "&size=" + size;
         }
 
+        if (params.get("p") != null) {
+            url = url + "&p=" + params.get("p");
+        }
+
         Log.d(TAG, "createUrl() " + url);
 
         return url;

@@ -195,7 +195,6 @@
     <string name="song_subtitle_formatter">%1$s  •  %2$s</string>
     <string name="starred_sync_dialog_negative_button">Cancel</string>
     <string name="starred_sync_dialog_positive_button">Continue</string>
-    <string name="starred_sync_dialog_summary">Tracks will be downloaded in their original format. Standard data rates may apply.</string>
     <string name="starred_sync_dialog_title">Sync starred tracks</string>
     <string name="settings_title_transcoding">Transcoding</string>
     <string name="settings_summary_transcoding">Priority given to the transcoding mode. If set to \"Direct play\" the bitrate of the file will not be changed.</string>

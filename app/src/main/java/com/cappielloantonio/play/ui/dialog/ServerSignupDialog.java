@@ -148,8 +148,8 @@ public class ServerSignupDialog extends DialogFragment {
             }
 
             @Override
-            public void onSuccess(String token, String salt) {
-                saveServerPreference(null, null, null, token, salt);
+            public void onSuccess(String password, String token, String salt) {
+                saveServerPreference(null, null, password, token, salt);
                 if (directAccess) enter();
             }
         });
@@ -167,13 +167,12 @@ public class ServerSignupDialog extends DialogFragment {
         if (token != null && salt != null) {
             String serverID = loginViewModel.getServerToEdit() != null ? loginViewModel.getServerToEdit().getServerId() : UUID.randomUUID().toString();
 
+            PreferenceUtil.getInstance(context).setPassword(this.lowSecurity ? password : null);
             PreferenceUtil.getInstance(context).setToken(token);
             PreferenceUtil.getInstance(context).setSalt(salt);
             PreferenceUtil.getInstance(context).setServerId(serverID);
 
-            if (!lowSecurity) PreferenceUtil.getInstance(context).setPassword(null);
-
-            loginViewModel.addServer(new Server(serverID, this.serverName, this.username, this.server, token, salt, System.currentTimeMillis(), this.lowSecurity));
+            loginViewModel.addServer(new Server(serverID, this.serverName, this.username, this.lowSecurity ? password : null, this.server, token, salt, System.currentTimeMillis(), this.lowSecurity));
         }
 
         App.getSubsonicClientInstance(context, true);

@@ -34,9 +34,10 @@ public class SystemRepository {
                             if (response.body().getStatus().getValue().equals(ResponseStatus.FAILED)) {
                                 callback.onError(new Exception(response.body().getError().getCode().getValue() + " - " + response.body().getError().getMessage()));
                             } else if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
-                                String salt = response.raw().request().url().queryParameter("s");
+                                String password = response.raw().request().url().queryParameter("p");
                                 String token = response.raw().request().url().queryParameter("t");
-                                callback.onSuccess(token, salt);
+                                String salt = response.raw().request().url().queryParameter("s");
+                                callback.onSuccess(password, token, salt);
                             } else {
                                 callback.onError(new Exception("Empty response"));
                             }

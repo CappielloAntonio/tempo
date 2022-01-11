@@ -21,6 +21,9 @@ public class Server implements Parcelable {
     @ColumnInfo(name = "username")
     private String username;
 
+    @ColumnInfo(name = "password")
+    private String password;
+
     @ColumnInfo(name = "address")
     private String address;
 
@@ -36,10 +39,11 @@ public class Server implements Parcelable {
     @ColumnInfo(name = "low_security", defaultValue = "false")
     private boolean lowSecurity;
 
-    public Server(@NonNull String serverId, String serverName, String username, String address, String token, String salt, long timestamp, boolean lowSecurity) {
+    public Server(@NonNull String serverId, String serverName, String username, String password, String address, String token, String salt, long timestamp, boolean lowSecurity) {
         this.serverId = serverId;
         this.serverName = serverName;
         this.username = username;
+        this.password = password;
         this.address = address;
         this.token = token;
         this.salt = salt;
@@ -70,6 +74,14 @@ public class Server implements Parcelable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getAddress() {

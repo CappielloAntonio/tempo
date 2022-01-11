@@ -96,7 +96,7 @@ public class MainActivity extends BaseActivity {
         initBottomSheet();
         initNavigation();
 
-        if (PreferenceUtil.getInstance(this).getToken() != null) {
+        if (PreferenceUtil.getInstance(this).getToken() != null && PreferenceUtil.getInstance(this).getSalt() != null) {
             goFromLogin();
         } else {
             goToLogin();

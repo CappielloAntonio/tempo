@@ -87,7 +87,7 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
         @Override
         public void onClick(View view) {
             Server server = servers.get(getBindingAdapterPosition());
-            saveServerPreference(server.getAddress(), server.getUsername(), server.getToken(), server.getSalt());
+            saveServerPreference(server.getServerId(), server.getAddress(), server.getUsername(), server.isLowSecurity() ? server.getPassword() : null, server.getToken(), server.getSalt());
             refreshSubsonicClientInstance();
 
             SystemRepository systemRepository = new SystemRepository(App.getInstance());
@@ -98,8 +98,8 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
                 }
 
                 @Override
-                public void onSuccess(String token, String salt) {
-                    saveServerPreference(null, null, token, salt);
+                public void onSuccess(String password, String token, String salt) {
+                    saveServerPreference(null, null, null, password, token, salt);
                     enter();
                 }
             });
@@ -121,11 +121,14 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
             mainActivity.goFromLogin();
         }
 
-        private void saveServerPreference(String server, String user, String token, String salt) {
+        private void saveServerPreference(String serverId, String server, String user, String password, String token, String salt) {
             if (user != null) PreferenceUtil.getInstance(context).setUser(user);
+            if (serverId != null) PreferenceUtil.getInstance(context).setServerId(serverId);
             if (server != null) PreferenceUtil.getInstance(context).setServer(server);
+            if (password != null) PreferenceUtil.getInstance(context).setPassword(password);
 
             if (token != null && salt != null) {
+                PreferenceUtil.getInstance(context).setPassword(password);
                 PreferenceUtil.getInstance(context).setToken(token);
                 PreferenceUtil.getInstance(context).setSalt(salt);
             }

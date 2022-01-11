@@ -4,5 +4,5 @@ public interface SystemCallback {
 
     void onError(Exception exception);
 
-    void onSuccess(String token, String salt);
+    void onSuccess(String password, String token, String salt);
 }

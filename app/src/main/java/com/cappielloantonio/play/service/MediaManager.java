@@ -64,7 +64,7 @@ public class MediaManager {
                     if (mediaBrowserListenableFuture.isDone()) {
                         if (mediaBrowserListenableFuture.get().getMediaItemCount() < 1) {
                             List<Song> songs = getQueueRepository().getSongs();
-                            if (songs.size() >= 1) {
+                            if (songs != null && songs.size() >= 1) {
                                 init(mediaBrowserListenableFuture, context, songs);
                             }
                         }

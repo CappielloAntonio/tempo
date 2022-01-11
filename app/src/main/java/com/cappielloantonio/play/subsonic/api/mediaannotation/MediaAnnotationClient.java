@@ -55,7 +55,7 @@ public class MediaAnnotationClient {
     }
 
     private OkHttpClient getOkHttpClient() {
-        CacheUtil cacheUtil = new CacheUtil(context, 60, 60 * 60 * 24 * 30);
+        CacheUtil cacheUtil = new CacheUtil(context, 0, 60 * 60 * 24 * 30);
 
         return new OkHttpClient.Builder()
                 .addInterceptor(getHttpLoggingInterceptor())

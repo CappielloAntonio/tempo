@@ -159,8 +159,12 @@ public class Server implements Parcelable {
     }
 
     public static final Creator<Server> CREATOR = new Creator<Server>() {
-        public Server createFromParcel(Parcel in) { return new Server(in); }
+        public Server createFromParcel(Parcel in) {
+            return new Server(in);
+        }
 
-        public Server[] newArray(int size) { return new Server[size]; }
+        public Server[] newArray(int size) {
+            return new Server[size];
+        }
     };
 }

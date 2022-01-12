@@ -39,7 +39,7 @@
             </intent-filter>
         </service>
         <service android:name=".service.DownloaderService"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="androidx.media3.exoplayer.downloadService.action.RESTART"/>
                 <category android:name="android.intent.category.DEFAULT"/>

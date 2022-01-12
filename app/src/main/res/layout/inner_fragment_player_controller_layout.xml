@@ -123,13 +123,13 @@
         android:layout_marginTop="18dp"
         android:layout_marginEnd="16dp"
         app:bar_height="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player_artist_name_label"
         app:buffered_color="?attr/colorOnSecondaryContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player_artist_name_label"
         app:played_color="?attr/colorOnPrimaryContainer"
         app:scrubber_color="?attr/colorOnPrimaryContainer"
-        app:unplayed_color="?attr/colorPrimaryContainer"/>
+        app:unplayed_color="?attr/colorPrimaryContainer" />
 
     <TextView
         android:id="@+id/exo_duration"

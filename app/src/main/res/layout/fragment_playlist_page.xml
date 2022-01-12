@@ -152,7 +152,7 @@
                         android:textAllCaps="false"
                         app:icon="@drawable/ic_play"
                         app:iconGravity="textStart"
-                        app:iconPadding="18dp"/>
+                        app:iconPadding="18dp" />
 
                     <Button
                         android:id="@+id/playlist_page_shuffle_button"
@@ -202,7 +202,7 @@
                 android:clipToPadding="false"
                 android:nestedScrollingEnabled="false"
                 android:paddingTop="8dp"
-                android:paddingBottom="@dimen/global_padding_bottom"/>
+                android:paddingBottom="@dimen/global_padding_bottom" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

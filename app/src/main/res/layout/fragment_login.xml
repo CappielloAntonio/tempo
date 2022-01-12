@@ -25,6 +25,7 @@
                 android:id="@+id/server_info_sector"
                 android:layout_width="match_parent"
                 android:layout_height="172dp"
+                android:background="?attr/colorSurface"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <TextView

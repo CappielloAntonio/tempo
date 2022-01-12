@@ -39,7 +39,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        initializeBarColors();
+        setNavigationBarColor();
         initializeBrowser();
     }
 
@@ -111,8 +111,7 @@ public class BaseActivity extends AppCompatActivity {
         CastContext.getSharedInstance(this);
     }
 
-    private void initializeBarColors() {
-        getWindow().setStatusBarColor(SurfaceColors.getColorForElevation(this, 10));
+    private void setNavigationBarColor() {
         getWindow().setNavigationBarColor(SurfaceColors.getColorForElevation(this, 10));
     }
 }

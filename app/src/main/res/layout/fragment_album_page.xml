@@ -9,6 +9,7 @@
         android:id="@+id/anim_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
         app:layout_collapseMode="pin"
         app:navigationIcon="@drawable/ic_arrow_back" />
 
@@ -136,7 +137,7 @@
                         android:textAllCaps="false"
                         app:icon="@drawable/ic_shuffle"
                         app:iconGravity="textStart"
-                        app:iconPadding="18dp"/>
+                        app:iconPadding="18dp" />
                 </LinearLayout>
 
                 <TextView

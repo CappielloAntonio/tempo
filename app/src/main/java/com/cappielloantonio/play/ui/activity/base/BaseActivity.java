@@ -20,6 +20,7 @@ import com.cappielloantonio.play.service.DownloaderService;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.google.android.gms.cast.framework.CastContext;
+import com.google.android.material.elevation.SurfaceColors;
 import com.google.common.util.concurrent.ListenableFuture;
 
 public class BaseActivity extends AppCompatActivity {
@@ -38,6 +39,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        initializeBarColors();
         initializeBrowser();
     }
 
@@ -107,5 +109,10 @@ public class BaseActivity extends AppCompatActivity {
 
     private void initializeCastContext() {
         CastContext.getSharedInstance(this);
+    }
+
+    private void initializeBarColors() {
+        getWindow().setStatusBarColor(SurfaceColors.getColorForElevation(this, 10));
+        getWindow().setNavigationBarColor(SurfaceColors.getColorForElevation(this, 10));
     }
 }

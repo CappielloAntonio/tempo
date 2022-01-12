@@ -80,6 +80,7 @@
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
         android:thumb="@android:color/transparent"
+        android:background="?attr/colorSurface"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

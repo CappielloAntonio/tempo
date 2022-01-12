@@ -12,9 +12,7 @@
         android:paddingTop="8dp"
         android:paddingEnd="8dp"
         app:areSuggestionsDisabled="false"
-        app:cardBackgroundColor="@color/cardColor"
         app:cardCornerRadius="4dp"
-        app:cardElevation="2dp"
         app:clearInputButtonDrawable="@drawable/ic_close"
         app:dividerColor="@color/dividerColor"
         app:isClearInputButtonEnabled="true"
@@ -24,11 +22,11 @@
         app:leftButtonDrawable="@drawable/ic_search"
         app:queryInputHint="@string/search_hint"
         app:shouldDimBehind="true"
-        app:suggestionIconColor="@color/suggestionIconColor"
-        app:suggestionRecentSearchIconColor="@color/suggestionIconColor"
-        app:suggestionSearchSuggestionIconColor="@color/suggestionIconColor"
-        app:suggestionSelectedTextColor="@color/suggestionSelectedTextColor"
-        app:suggestionTextColor="@color/suggestionTextColor" />
+        app:suggestionIconColor="?attr/colorOnSurface"
+        app:suggestionRecentSearchIconColor="?attr/colorOnSurface"
+        app:suggestionSearchSuggestionIconColor="?attr/colorOnSurface"
+        app:suggestionSelectedTextColor="?attr/colorOnSurface"
+        app:suggestionTextColor="?attr/colorOnSurface" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/search_result_nested_scroll_view"

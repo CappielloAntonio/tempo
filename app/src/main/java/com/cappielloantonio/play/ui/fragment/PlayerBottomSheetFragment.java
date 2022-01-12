@@ -27,6 +27,7 @@ import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.fragment.pager.PlayerControllerVerticalPager;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
+import com.google.android.material.elevation.SurfaceColors;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 
@@ -53,6 +54,7 @@ public class PlayerBottomSheetFragment extends Fragment {
 
         playerBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(PlayerBottomSheetViewModel.class);
 
+        customizeBottomSheetBackground();
         initViewPager();
 
         return view;
@@ -76,6 +78,10 @@ public class PlayerBottomSheetFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         bind = null;
+    }
+
+    private void customizeBottomSheetBackground() {
+        bind.playerHeaderLayout.getRoot().setBackgroundColor(SurfaceColors.getColorForElevation(requireContext(), 10));
     }
 
     private void initViewPager() {

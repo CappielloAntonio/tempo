@@ -26,6 +26,7 @@ import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.SearchViewModel;
+import com.google.android.material.elevation.SurfaceColors;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.paulrybitskyi.persistentsearchview.adapters.model.SuggestionItem;
 import com.paulrybitskyi.persistentsearchview.listeners.OnSuggestionChangeListener;
@@ -115,6 +116,8 @@ public class SearchFragment extends Fragment {
     }
 
     private void initSearchView() {
+        bind.persistentSearchView.setCardBackgroundColor(SurfaceColors.getColorForElevation(requireContext(), 2));
+
         if (isQueryValid(searchViewModel.getQuery())) {
             search(searchViewModel.getQuery());
         }

@@ -59,13 +59,9 @@
 
     <color name="gradientTitleColor">#FFFFFF</color>
     <color name="gradientSubtitleColor">#BFBFBF</color>
-    <color name="cardColor">#FFFFFF</color>
     <color name="titleTextColor">#252525</color>
     <color name="subtitleTextColor">#646464</color>
     <color name="songToPlayTextColor">#ABABAB</color>
-    <color name="suggestionTextColor">#252525</color>
-    <color name="suggestionIconColor">#252525</color>
-    <color name="suggestionSelectedTextColor">#333333</color>
     <color name="dividerColor">#f0f0f0</color>
     <color name="white">#FFFFFF</color>
 

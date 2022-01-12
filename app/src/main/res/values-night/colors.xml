@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="cardColor">#1D1D1D</color>
     <color name="titleTextColor">#DADADA</color>
     <color name="subtitleTextColor">#9B9B9B</color>
     <color name="songToPlayTextColor">#949494</color>
-    <color name="suggestionTextColor">#DADADA</color>
-    <color name="suggestionIconColor">#DADADA</color>
-    <color name="suggestionSelectedTextColor">#CCCCCC</color>
     <color name="dividerColor">#404040</color>
 </resources>
 

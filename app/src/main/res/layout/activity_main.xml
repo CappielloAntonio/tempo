@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             app:behavior_hideable="true"
             app:behavior_peekHeight="@dimen/bottom_sheet_peek_height"
-            app:layout_behavior="@string/bottom_sheet_behavior"/>
+            app:layout_behavior="@string/bottom_sheet_behavior" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -40,11 +40,11 @@
 
     <TextView
         android:id="@+id/offline_mode_text_view"
+        style="@style/NoConnectionTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/activity_info_offline_mode"
         android:textSize="6sp"
-        android:visibility="gone"
-        style="@style/NoConnectionTextView"/>
+        android:visibility="gone" />
 </LinearLayout>

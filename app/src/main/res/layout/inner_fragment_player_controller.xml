@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.media3.ui.PlayerControlView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.media3.ui.PlayerControlView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/now_playing_song_controller_view"
     android:layout_width="match_parent"
@@ -8,4 +7,4 @@
     app:controller_layout_id="@layout/inner_fragment_player_controller_layout"
     app:repeat_toggle_modes="all|one"
     app:show_shuffle_button="true"
-    app:show_timeout="0"/>
+    app:show_timeout="0" />

@@ -1,5 +1,4 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/placeholder"
     android:layout_width="match_parent"
@@ -21,7 +20,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
-            android:layout_weight="8"/>
+            android:layout_weight="8" />
 
         <ImageView
             android:layout_width="12dp"
@@ -35,8 +34,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="16dp"
         android:layout_marginEnd="8dp"
+        android:paddingStart="16dp"
         android:paddingTop="8dp">
 
         <ImageView
@@ -64,8 +63,8 @@
             android:layout_width="124dp"
             android:layout_height="12dp"
             android:layout_marginStart="12dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintStart_toEndOf="@+id/album_cover_placeholder_1"
             app:layout_constraintTop_toBottomOf="@+id/album_title_placeholder_1" />
 
@@ -83,8 +82,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="16dp"
         android:layout_marginEnd="8dp"
+        android:paddingStart="16dp"
         android:paddingTop="3dp"
         android:paddingBottom="3dp">
 
@@ -113,8 +112,8 @@
             android:layout_width="124dp"
             android:layout_height="12dp"
             android:layout_marginStart="12dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintStart_toEndOf="@+id/album_cover_placeholder_2"
             app:layout_constraintTop_toBottomOf="@+id/album_title_placeholder_2" />
 
@@ -132,8 +131,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="16dp"
         android:layout_marginEnd="8dp"
+        android:paddingStart="16dp"
         android:paddingTop="3dp"
         android:paddingBottom="3dp">
 
@@ -162,8 +161,8 @@
             android:layout_width="124dp"
             android:layout_height="12dp"
             android:layout_marginStart="12dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintStart_toEndOf="@+id/album_cover_placeholder_3"
             app:layout_constraintTop_toBottomOf="@+id/album_title_placeholder_3" />
 
@@ -181,8 +180,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="16dp"
         android:layout_marginEnd="8dp"
+        android:paddingStart="16dp"
         android:paddingTop="3dp"
         android:paddingBottom="3dp">
 
@@ -211,8 +210,8 @@
             android:layout_width="124dp"
             android:layout_height="12dp"
             android:layout_marginStart="12dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintStart_toEndOf="@+id/album_cover_placeholder_4"
             app:layout_constraintTop_toBottomOf="@+id/album_title_placeholder_4" />
 
@@ -230,8 +229,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="16dp"
         android:layout_marginEnd="8dp"
+        android:paddingStart="16dp"
         android:paddingTop="3dp"
         android:paddingBottom="3dp">
 
@@ -260,8 +259,8 @@
             android:layout_width="124dp"
             android:layout_height="12dp"
             android:layout_marginStart="12dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintStart_toEndOf="@+id/album_cover_placeholder_5"
             app:layout_constraintTop_toBottomOf="@+id/album_title_placeholder_5" />
 

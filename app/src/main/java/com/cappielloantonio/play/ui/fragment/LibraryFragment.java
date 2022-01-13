@@ -257,6 +257,7 @@ public class LibraryFragment extends Fragment {
     }
 
     private void initPlaylistSlideView() {
+        bind.playlistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.playlistRecyclerView.setHasFixedSize(true);
 
         playlistHorizontalAdapter = new PlaylistHorizontalAdapter(activity, requireContext());
@@ -268,22 +269,9 @@ public class LibraryFragment extends Fragment {
             } else {
                 if (bind != null) bind.libraryPlaylistPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null) bind.libraryPlaylistSector.setVisibility(!playlists.isEmpty() ? View.VISIBLE : View.GONE);
-                if (bind != null) bind.playlistRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(playlists.size(), 5), GridLayoutManager.HORIZONTAL, false));
 
                 playlistHorizontalAdapter.setItems(playlists);
             }
         });
-
-        SnapHelper starredTrackSnapHelper = new PagerSnapHelper();
-        starredTrackSnapHelper.attachToRecyclerView(bind.playlistRecyclerView);
-
-        bind.playlistRecyclerView.addItemDecoration(
-                new DotsIndicatorDecoration(
-                        getResources().getDimensionPixelSize(R.dimen.radius),
-                        getResources().getDimensionPixelSize(R.dimen.radius) * 4,
-                        getResources().getDimensionPixelSize(R.dimen.dots_height),
-                        requireContext().getResources().getColor(R.color.titleTextColor, null),
-                        requireContext().getResources().getColor(R.color.titleTextColor, null))
-        );
     }
 }

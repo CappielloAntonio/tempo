@@ -152,8 +152,8 @@ public class SongListPageFragment extends Fragment {
         songListPageViewModel.getSongList(requireActivity()).observe(requireActivity(), songs -> {
             if (bind != null) {
                 bind.songListShuffleImageView.setOnClickListener(v -> {
-                    Collections.shuffle(songs.subList(0, Math.min(25, songs.size())));
-                    MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
+                    Collections.shuffle(songs);
+                    MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs.subList(0, Math.min(25, songs.size())), 0);
                     activity.setBottomSheetInPeek(true);
                 });
             }

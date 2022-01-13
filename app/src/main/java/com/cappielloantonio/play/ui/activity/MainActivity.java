@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -31,6 +32,9 @@ import com.google.common.util.concurrent.MoreExecutors;
 
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
@@ -130,7 +134,9 @@ public class MainActivity extends BaseActivity {
     }
 
     public void collapseBottomSheet() {
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        final Handler handler = new Handler();
+        final Runnable runnable = () -> bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        handler.postDelayed(runnable, 100);
     }
 
     public void setBottomSheetDraggableState(Boolean isDraggable) {

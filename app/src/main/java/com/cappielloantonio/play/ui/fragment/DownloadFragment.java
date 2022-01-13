@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.SnapHelper;
 import androidx.viewpager2.widget.ViewPager2;
@@ -26,6 +27,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumHorizontalAdapter;
 import com.cappielloantonio.play.adapter.ArtistHorizontalAdapter;
 import com.cappielloantonio.play.adapter.PlaylistAdapter;
+import com.cappielloantonio.play.adapter.PlaylistHorizontalAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentDownloadBinding;
 import com.cappielloantonio.play.helper.recyclerview.DotsIndicatorDecoration;
@@ -52,7 +54,7 @@ public class DownloadFragment extends Fragment {
     private ArtistHorizontalAdapter downloadedArtistAdapter;
     private AlbumHorizontalAdapter downloadedAlbumAdapter;
     private SongHorizontalAdapter downloadedTrackAdapter;
-    private PlaylistAdapter playlistAdapter;
+    private PlaylistHorizontalAdapter playlistHorizontalAdapter;
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
@@ -264,11 +266,11 @@ public class DownloadFragment extends Fragment {
     }
 
     private void initDownloadedPlaylistSlideView() {
-        bind.downloadedPlaylistViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        bind.downloadedPlaylistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        bind.downloadedPlaylistRecyclerView.setHasFixedSize(true);
 
-        playlistAdapter = new PlaylistAdapter(activity, requireContext(), true);
-        bind.downloadedPlaylistViewPager.setAdapter(playlistAdapter);
-        bind.downloadedPlaylistViewPager.setOffscreenPageLimit(3);
+        playlistHorizontalAdapter = new PlaylistHorizontalAdapter(activity, requireContext());
+        bind.downloadedPlaylistRecyclerView.setAdapter(playlistHorizontalAdapter);
         downloadViewModel.getDownloadedPlaylists(requireActivity(), 5).observe(requireActivity(), playlists -> {
             if (playlists == null) {
                 if (bind != null) bind.downloadDownloadedPlaylistPlaceholder.placeholder.setVisibility(View.VISIBLE);
@@ -277,24 +279,7 @@ public class DownloadFragment extends Fragment {
                 if (bind != null) bind.downloadDownloadedPlaylistPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null) bind.downloadDownloadedPlaylistSector.setVisibility(!playlists.isEmpty() ? View.VISIBLE : View.GONE);
 
-                playlistAdapter.setItems(playlists);
-            }
-        });
-
-        setSlideViewOffset(20, 16);
-    }
-
-    private void setSlideViewOffset(float pageOffset, float pageMargin) {
-        bind.downloadedPlaylistViewPager.setPageTransformer((page, position) -> {
-            float myOffset = position * -(2 * pageOffset + pageMargin);
-            if (bind.downloadedPlaylistViewPager.getOrientation() == ViewPager2.ORIENTATION_HORIZONTAL) {
-                if (ViewCompat.getLayoutDirection(bind.downloadedPlaylistViewPager) == ViewCompat.LAYOUT_DIRECTION_RTL) {
-                    page.setTranslationX(-myOffset);
-                } else {
-                    page.setTranslationX(myOffset);
-                }
-            } else {
-                page.setTranslationY(myOffset);
+                playlistHorizontalAdapter.setItems(playlists);
             }
         });
     }

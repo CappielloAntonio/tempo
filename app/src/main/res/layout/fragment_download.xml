@@ -297,11 +297,12 @@
 
                 </LinearLayout>
 
-                <!--  slideview  -->
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/downloaded_playlist_view_pager"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/downloaded_playlist_recycler_view"
                     android:layout_width="match_parent"
-                    android:layout_height="212dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:clipToPadding="false"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp" />
@@ -309,7 +310,7 @@
 
             <include
                 android:id="@+id/download_downloaded_playlist_placeholder"
-                layout="@layout/item_placeholder_album"
+                layout="@layout/item_placeholder_horizontal"
                 android:visibility="gone" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

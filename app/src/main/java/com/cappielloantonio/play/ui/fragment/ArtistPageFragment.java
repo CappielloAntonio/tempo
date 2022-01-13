@@ -111,20 +111,11 @@ public class ArtistPageFragment extends Fragment {
     @SuppressLint("NewApi")
     private void initAppBar() {
         activity.setSupportActionBar(bind.animToolbar);
-        if (activity.getSupportActionBar() != null)
-            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (activity.getSupportActionBar() != null) activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         bind.collapsingToolbar.setTitle(MusicUtil.getReadableString(artistPageViewModel.getArtist().getName()));
         bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
-        bind.collapsingToolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.titleTextColor, null));
-
-        bind.appbar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
-            if ((bind.collapsingToolbar.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.collapsingToolbar))) {
-                Objects.requireNonNull(bind.animToolbar.getNavigationIcon()).setColorFilter(new BlendModeColorFilter(getResources().getColor(R.color.titleTextColor, null), BlendMode.SRC_ATOP));
-            } else {
-                Objects.requireNonNull(bind.animToolbar.getNavigationIcon()).setColorFilter(new BlendModeColorFilter(getResources().getColor(R.color.white, null), BlendMode.SRC_ATOP));
-            }
-        });
+        bind.collapsingToolbar.setExpandedTitleColor(getResources().getColor(R.color.white, null));
     }
 
     private void initArtistInfo() {

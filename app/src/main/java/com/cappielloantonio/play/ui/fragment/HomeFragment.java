@@ -527,7 +527,6 @@ public class HomeFragment extends Fragment {
                         genericPlaylistRecyclerView.setHasFixedSize(true);
 
                         SongHorizontalAdapter trackAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
-                        trackAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
                         genericPlaylistRecyclerView.setAdapter(trackAdapter);
 
                         homeViewModel.getPlaylistSongLiveList(playlist.getId()).observe(requireActivity(), songs -> {
@@ -538,6 +537,8 @@ public class HomeFragment extends Fragment {
                                 trackAdapter.setItems(songs.subList(0, songsNumber));
                             }
                         });
+
+                        trackAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
 
                         genericPlaylistCickableTextView.setOnClickListener(view -> {
                             Bundle bundle = new Bundle();

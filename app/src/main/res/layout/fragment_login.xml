@@ -29,7 +29,7 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <TextView
-                    style="@style/HeadlineTextView"
+                    style="@style/TitleLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="16dp"
@@ -45,7 +45,7 @@
 
         <TextView
             android:id="@+id/no_server_added_text_view"
-            style="@style/SubheadTextView"
+            style="@style/TitleMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"

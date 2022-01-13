@@ -33,7 +33,7 @@
                     android:foreground="?android:attr/selectableItemBackgroundBorderless" />
 
                 <TextView
-                    style="@style/ToolbarTextView"
+                    style="@style/HeadlineMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="8dp"
@@ -61,7 +61,7 @@
 
     <TextView
         android:id="@+id/player_song_title_label"
-        style="@style/TitleTextView"
+        style="@style/HeadlineLarge"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -90,7 +90,7 @@
 
     <TextView
         android:id="@+id/player_artist_name_label"
-        style="@style/SubheadTextView"
+        style="@style/TitleMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"

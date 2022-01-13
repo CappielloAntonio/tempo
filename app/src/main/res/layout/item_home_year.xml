@@ -25,11 +25,11 @@
             <View
                 android:layout_width="6dp"
                 android:layout_height="match_parent"
-                android:background="?attr/colorPrimary"/>
+                android:background="?attr/colorPrimary" />
 
             <TextView
                 android:id="@+id/year_label"
-                style="@style/ItemTitleTextView"
+                style="@style/LabelMedium"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"

@@ -70,7 +70,6 @@
 
                 <Button
                     android:id="@+id/artist_page_shuffle_button"
-                    style="@style/MainButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -85,7 +84,6 @@
 
                 <Button
                     android:id="@+id/artist_page_radio_button"
-                    style="@style/MainButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -119,7 +117,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/HeadlineTextView"
+                        style="@style/TitleLarge"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -129,7 +127,7 @@
 
                     <TextView
                         android:id="@+id/bio_more_text_view_clickable"
-                        style="@style/SubheadTextView"
+                        style="@style/TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingEnd="16dp"
@@ -138,7 +136,7 @@
 
                 <TextView
                     android:id="@+id/bio_text_view"
-                    style="@style/SubheadTextView"
+                    style="@style/TitleMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:paddingStart="16dp"
@@ -161,7 +159,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/HeadlineTextView"
+                        style="@style/TitleLarge"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -171,7 +169,7 @@
 
                     <TextView
                         android:id="@+id/most_streamed_song_text_view_clickable"
-                        style="@style/SubheadTextView"
+                        style="@style/TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingEnd="16dp"
@@ -195,7 +193,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/HeadlineTextView"
+                    style="@style/TitleLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="16dp"
@@ -223,7 +221,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/HeadlineTextView"
+                    style="@style/TitleLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="16dp"

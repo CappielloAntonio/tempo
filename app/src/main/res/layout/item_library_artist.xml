@@ -16,7 +16,7 @@
 
     <TextView
         android:id="@+id/artist_name_label"
-        style="@style/ItemTitleTextView"
+        style="@style/LabelMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"

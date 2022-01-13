@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/playlist_dialog_song_title_text_view"
-        style="@style/ItemTitleTextView"
+        style="@style/LabelMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="marquee"
@@ -51,7 +51,7 @@
 
         <TextView
             android:id="@+id/playlist_dialog_album_artist_text_view"
-            style="@style/ItemSubtitleTextView"
+            style="@style/LabelSmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -63,14 +63,14 @@
 
         <TextView
             android:id="@+id/queue_separator_text_view"
-            style="@style/ItemSubtitleTextView"
+            style="@style/LabelSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/label_dot_separator" />
 
         <TextView
             android:id="@+id/playlist_dialog_song_duration_text_view"
-            style="@style/ItemSubtitleTextView"
+            style="@style/LabelSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"

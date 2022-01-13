@@ -41,36 +41,31 @@
 
         <TextView
             android:id="@+id/song_title_text_view"
+            style="@style/LabelMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:ellipsize="marquee"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:fontFamily="@font/opensans"
             android:marqueeRepeatLimit="marquee_forever"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:scrollHorizontally="true"
             android:singleLine="true"
             android:text="@string/label_placeholder"
-            android:textColor="@color/titleTextColor"
-            android:textSize="14sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@id/button_favorite"
             app:layout_constraintStart_toEndOf="@+id/song_cover_image_view"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/song_artist_text_view"
+            style="@style/LabelSmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/opensans"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:text="@string/label_placeholder"
-            android:textColor="@color/subtitleTextColor"
-            android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@id/button_favorite"
             app:layout_constraintStart_toEndOf="@+id/song_cover_image_view"
             app:layout_constraintTop_toBottomOf="@+id/song_title_text_view" />
@@ -89,147 +84,120 @@
 
         <TextView
             android:id="@+id/play_radio_text_view"
+            style="@style/LabelMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:fontFamily="@font/opensans"
             android:paddingStart="20dp"
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="@string/song_bottom_sheet_instant_mix"
-            android:textColor="@color/titleTextColor"
-            android:textFontWeight="700"
-            android:textSize="14sp" />
+            android:text="@string/song_bottom_sheet_instant_mix" />
 
         <TextView
             android:id="@+id/play_next_text_view"
+            style="@style/LabelMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:fontFamily="@font/opensans"
             android:paddingStart="20dp"
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="@string/song_bottom_sheet_play_next"
-            android:textColor="@color/titleTextColor"
-            android:textFontWeight="700"
-            android:textSize="14sp" />
+            android:text="@string/song_bottom_sheet_play_next" />
 
         <TextView
             android:id="@+id/add_to_queue_text_view"
+            style="@style/LabelMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:fontFamily="@font/opensans"
             android:paddingStart="20dp"
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="@string/song_bottom_sheet_add_to_queue"
-            android:textColor="@color/titleTextColor"
-            android:textFontWeight="700"
-            android:textSize="14sp" />
+            android:text="@string/song_bottom_sheet_add_to_queue" />
 
         <TextView
             android:id="@+id/rate_text_view"
+            style="@style/LabelMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:fontFamily="@font/opensans"
             android:paddingStart="20dp"
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="@string/song_bottom_sheet_rate"
-            android:textColor="@color/titleTextColor"
-            android:textFontWeight="700"
-            android:textSize="14sp" />
+            android:text="@string/song_bottom_sheet_rate" />
 
         <TextView
             android:id="@+id/download_text_view"
+            style="@style/LabelMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:fontFamily="@font/opensans"
             android:paddingStart="20dp"
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="@string/song_bottom_sheet_download"
-            android:textColor="@color/titleTextColor"
-            android:textFontWeight="700"
-            android:textSize="14sp" />
+            android:text="@string/song_bottom_sheet_download" />
 
         <TextView
             android:id="@+id/remove_text_view"
+            style="@style/LabelMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:fontFamily="@font/opensans"
             android:paddingStart="20dp"
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="@string/song_bottom_sheet_remove"
-            android:textColor="@color/titleTextColor"
-            android:textFontWeight="700"
-            android:textSize="14sp" />
+            android:text="@string/song_bottom_sheet_remove" />
 
         <TextView
             android:id="@+id/add_to_playlist_text_view"
+            style="@style/LabelMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:fontFamily="@font/opensans"
             android:paddingStart="20dp"
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="@string/song_bottom_sheet_add_to_playlist"
-            android:textColor="@color/titleTextColor"
-            android:textFontWeight="700"
-            android:textSize="14sp" />
+            android:text="@string/song_bottom_sheet_add_to_playlist" />
 
         <TextView
             android:id="@+id/go_to_album_text_view"
+            style="@style/LabelMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:fontFamily="@font/opensans"
             android:paddingStart="20dp"
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="@string/song_bottom_sheet_go_to_album"
-            android:textColor="@color/titleTextColor"
-            android:textFontWeight="700"
-            android:textSize="14sp" />
+            android:text="@string/song_bottom_sheet_go_to_album" />
 
         <TextView
             android:id="@+id/go_to_artist_text_view"
+            style="@style/LabelMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:fontFamily="@font/opensans"
             android:paddingStart="20dp"
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="@string/song_bottom_sheet_go_to_artist"
-            android:textColor="@color/titleTextColor"
-            android:textFontWeight="700"
-            android:textSize="14sp" />
+            android:text="@string/song_bottom_sheet_go_to_artist" />
 
     </LinearLayout>
 </LinearLayout>

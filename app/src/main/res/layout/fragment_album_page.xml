@@ -45,7 +45,7 @@
 
                 <TextView
                     android:id="@+id/album_name_label"
-                    style="@style/ShowcaseTitleTextView"
+                    style="@style/LabelExtraLarge"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
@@ -62,7 +62,7 @@
 
                 <TextView
                     android:id="@+id/album_artist_label"
-                    style="@style/ShowcaseSubtitleTextView"
+                    style="@style/LabelMedium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
@@ -77,7 +77,7 @@
 
                 <TextView
                     android:id="@+id/album_release_year_label"
-                    style="@style/ShowcaseExtraTextView"
+                    style="@style/LabelSmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
@@ -111,7 +111,6 @@
 
                     <Button
                         android:id="@+id/album_page_play_button"
-                        style="@style/MainButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -126,7 +125,6 @@
 
                     <Button
                         android:id="@+id/album_page_shuffle_button"
-                        style="@style/MainButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
@@ -142,7 +140,7 @@
 
                 <TextView
                     android:id="@+id/album_bio_label"
-                    style="@style/ShowcaseExtraTextView"
+                    style="@style/LabelSmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
@@ -188,7 +186,7 @@
                     android:visibility="gone">
 
                     <TextView
-                        style="@style/HeadlineTextView"
+                        style="@style/TitleLarge"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingStart="16dp"

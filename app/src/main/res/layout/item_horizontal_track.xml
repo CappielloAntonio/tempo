@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/track_number_text_view"
-        style="@style/TrackNumberTextView"
+        style="@style/LabelLarge"
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:layout_margin="2dp"
@@ -41,7 +41,7 @@
 
     <TextView
         android:id="@+id/search_result_song_title_text_view"
-        style="@style/ItemTitleTextView"
+        style="@style/LabelMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="marquee"
@@ -59,7 +59,7 @@
 
     <TextView
         android:id="@+id/search_result_song_subtitle_text_view"
-        style="@style/ItemSubtitleTextView"
+        style="@style/LabelSmall"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="marquee"

@@ -15,7 +15,7 @@
 
         <TextView
             android:id="@+id/generic_playlist_title_text_view"
-            style="@style/HeadlineTextView"
+            style="@style/TitleLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -26,7 +26,7 @@
 
         <TextView
             android:id="@+id/generic_playlist_text_view_clickable"
-            style="@style/SubheadTextView"
+            style="@style/TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="8dp"

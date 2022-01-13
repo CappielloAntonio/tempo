@@ -41,22 +41,19 @@
 
         <TextView
             android:id="@+id/song_title_text_view"
+            style="@style/LabelMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:ellipsize="marquee"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:fontFamily="@font/opensans"
             android:marqueeRepeatLimit="marquee_forever"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:scrollHorizontally="true"
             android:singleLine="true"
             android:text="@string/label_placeholder"
-            android:textColor="@color/titleTextColor"
-            android:textSize="14sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@id/button_favorite"
             app:layout_constraintStart_toEndOf="@+id/artist_cover_image_view"
             app:layout_constraintTop_toTopOf="parent" />
@@ -75,34 +72,28 @@
 
         <TextView
             android:id="@+id/play_radio_text_view"
+            style="@style/LabelMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:fontFamily="@font/opensans"
             android:paddingStart="20dp"
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="@string/artist_bottom_sheet_instant_mix"
-            android:textColor="@color/titleTextColor"
-            android:textFontWeight="700"
-            android:textSize="14sp" />
+            android:text="@string/artist_bottom_sheet_instant_mix" />
 
         <TextView
             android:id="@+id/play_random_text_view"
+            style="@style/LabelMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:fontFamily="@font/opensans"
             android:paddingStart="20dp"
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="@string/artist_bottom_sheet_shuffle"
-            android:textColor="@color/titleTextColor"
-            android:textFontWeight="700"
-            android:textSize="14sp" />
+            android:text="@string/artist_bottom_sheet_shuffle" />
     </LinearLayout>
 </LinearLayout>

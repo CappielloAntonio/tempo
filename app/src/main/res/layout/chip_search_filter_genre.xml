@@ -5,9 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:checkable="true"
-    android:fontFamily="@font/opensans"
     android:gravity="center"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
-    android:textAppearance="?android:attr/textAppearance"
     app:chipStrokeWidth="1.5dp" />

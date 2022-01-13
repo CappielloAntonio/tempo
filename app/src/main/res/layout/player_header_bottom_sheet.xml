@@ -18,7 +18,7 @@
 
     <TextView
         android:id="@+id/player_header_song_title_label"
-        style="@style/ItemTitleTextView"
+        style="@style/LabelMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -32,11 +32,10 @@
 
     <TextView
         android:id="@+id/player_header_song_artist_label"
-        style="@style/ItemSubtitleTextView"
+        style="@style/LabelSmall"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:fontFamily="@font/opensans"
         android:maxLines="1"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
@@ -76,11 +75,11 @@
         android:id="@+id/player_header_seek_bar"
         android:layout_width="match_parent"
         android:layout_height="2dp"
+        android:background="?attr/colorSurface"
         android:clickable="false"
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
         android:thumb="@android:color/transparent"
-        android:background="?attr/colorSurface"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

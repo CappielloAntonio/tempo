@@ -24,11 +24,11 @@
             <View
                 android:layout_width="6dp"
                 android:layout_height="match_parent"
-                android:background="?attr/colorPrimary"/>
+                android:background="?attr/colorPrimary" />
 
             <TextView
                 android:id="@+id/genre_label"
-                style="@style/ItemTitleTextView"
+                style="@style/LabelMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"

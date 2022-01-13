@@ -75,7 +75,7 @@
 
                 <TextView
                     android:id="@+id/playlist_name_label"
-                    style="@style/ShowcaseTitleTextView"
+                    style="@style/LabelExtraLarge"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
@@ -92,7 +92,7 @@
 
                 <TextView
                     android:id="@+id/playlist_song_count_label"
-                    style="@style/ShowcaseSubtitleTextView"
+                    style="@style/LabelMedium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
@@ -107,7 +107,7 @@
 
                 <TextView
                     android:id="@+id/playlist_duration_label"
-                    style="@style/ShowcaseExtraTextView"
+                    style="@style/LabelSmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
@@ -141,7 +141,6 @@
 
                     <Button
                         android:id="@+id/playlist_page_play_button"
-                        style="@style/MainButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -156,7 +155,6 @@
 
                     <Button
                         android:id="@+id/playlist_page_shuffle_button"
-                        style="@style/MainButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
@@ -172,7 +170,7 @@
 
                 <TextView
                     android:id="@+id/album_bio_label"
-                    style="@style/ShowcaseExtraTextView"
+                    style="@style/LabelSmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"

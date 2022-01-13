@@ -52,7 +52,7 @@
                 android:visibility="gone">
 
                 <TextView
-                    style="@style/HeadlineTextView"
+                    style="@style/TitleLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="16dp"
@@ -83,7 +83,7 @@
                 android:visibility="gone">
 
                 <TextView
-                    style="@style/HeadlineTextView"
+                    style="@style/TitleLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="16dp"
@@ -114,7 +114,7 @@
                 android:visibility="gone">
 
                 <TextView
-                    style="@style/HeadlineTextView"
+                    style="@style/TitleLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="16dp"

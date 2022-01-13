@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- FONT STYLE -->
+
+    <style name="InterFontFamily">
+        <item name="android:fontFamily">@font/inter</item>
+    </style>
+
+
+    <style name="HeadlineLarge" parent="InterFontFamily">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:textColor">@color/titleTextColor</item>
+    </style>
+
+    <style name="HeadlineMedium" parent="InterFontFamily">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:textColor">@color/titleTextColor</item>
+    </style>
+
+    <style name="HeadlineSmall" parent="InterFontFamily">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:textColor">@color/titleTextColor</item>
+    </style>
+
+
+    <style name="TitleLarge" parent="InterFontFamily">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:textColor">@color/titleTextColor</item>
+    </style>
+
+    <style name="TitleMedium" parent="InterFontFamily">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:textColor">@color/subtitleTextColor</item>
+    </style>
+
+    <style name="TitleSmall" parent="InterFontFamily">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:textColor">@color/subtitleTextColor</item>
+    </style>
+
+
+    <style name="LabelExtraLarge" parent="InterFontFamily">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:textColor">@color/titleTextColor</item>
+    </style>
+
+    <style name="LabelLarge" parent="InterFontFamily">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:textColor">@color/titleTextColor</item>
+    </style>
+
+    <style name="LabelMedium" parent="InterFontFamily">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textColor">@color/titleTextColor</item>
+    </style>
+
+    <style name="LabelSmall" parent="InterFontFamily">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:textColor">@color/subtitleTextColor</item>
+    </style>
+
+
+    <style name="BodyLarge" parent="InterFontFamily">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:textColor">@color/titleTextColor</item>
+    </style>
+
+    <style name="BodyMedium" parent="InterFontFamily">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textColor">@color/titleTextColor</item>
+    </style>
+
+    <style name="BodySmall" parent="InterFontFamily">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:textColor">@color/titleTextColor</item>
+    </style>
+</resources>

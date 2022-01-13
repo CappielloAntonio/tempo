@@ -29,7 +29,7 @@
                     android:background="@drawable/ic_toolbar_motion_on" />
 
                 <TextView
-                    style="@style/ToolbarTextView"
+                    style="@style/HeadlineMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="8dp"
@@ -60,7 +60,7 @@
 
                 <!--  New releases  -->
                 <TextView
-                    style="@style/HeadlineTextView"
+                    style="@style/TitleLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="16dp"
@@ -102,7 +102,7 @@
 
                     <TextView
                         android:id="@+id/album_catalogue_sample_text_view_refreshable"
-                        style="@style/HeadlineTextView"
+                        style="@style/TitleLarge"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -113,7 +113,7 @@
 
                     <TextView
                         android:id="@+id/album_catalogue_text_view_clickable"
-                        style="@style/SubheadTextView"
+                        style="@style/TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="8dp"
@@ -159,7 +159,7 @@
 
                     <TextView
                         android:id="@+id/artist_catalogue_sample_text_view_refreshable"
-                        style="@style/HeadlineTextView"
+                        style="@style/TitleLarge"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -171,7 +171,7 @@
 
                     <TextView
                         android:id="@+id/artist_catalogue_text_view_clickable"
-                        style="@style/SubheadTextView"
+                        style="@style/TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="8dp"
@@ -218,7 +218,7 @@
 
                     <TextView
                         android:id="@+id/genre_catalogue_sample_text_view_refreshable"
-                        style="@style/HeadlineTextView"
+                        style="@style/TitleLarge"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -230,7 +230,7 @@
 
                     <TextView
                         android:id="@+id/genre_catalogue_text_view_clickable"
-                        style="@style/SubheadTextView"
+                        style="@style/TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="8dp"
@@ -275,7 +275,7 @@
 
                     <TextView
                         android:id="@+id/playlist_catalogue_sample_text_view_refreshable"
-                        style="@style/HeadlineTextView"
+                        style="@style/TitleLarge"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -287,7 +287,7 @@
 
                     <TextView
                         android:id="@+id/playlist_catalogue_text_view_clickable"
-                        style="@style/SubheadTextView"
+                        style="@style/TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="8dp"

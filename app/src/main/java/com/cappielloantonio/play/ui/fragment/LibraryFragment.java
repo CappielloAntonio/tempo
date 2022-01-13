@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.media3.session.MediaBrowser;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -26,6 +25,9 @@ import com.cappielloantonio.play.adapter.AlbumHorizontalAdapter;
 import com.cappielloantonio.play.adapter.ArtistAdapter;
 import com.cappielloantonio.play.adapter.GenreAdapter;
 import com.cappielloantonio.play.adapter.PlaylistAdapter;
+import com.cappielloantonio.play.adapter.PlaylistDialogHorizontalAdapter;
+import com.cappielloantonio.play.adapter.PlaylistHorizontalAdapter;
+import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentLibraryBinding;
 import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.play.helper.recyclerview.DotsIndicatorDecoration;
@@ -35,7 +37,6 @@ import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.LibraryViewModel;
 import com.google.android.gms.cast.framework.CastButtonFactory;
-import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.Objects;
 
@@ -51,6 +52,8 @@ public class LibraryFragment extends Fragment {
     private ArtistAdapter artistAdapter;
     private GenreAdapter genreAdapter;
     private PlaylistAdapter playlistAdapter;
+
+    private PlaylistHorizontalAdapter playlistHorizontalAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -254,11 +257,10 @@ public class LibraryFragment extends Fragment {
     }
 
     private void initPlaylistSlideView() {
-        bind.playlistViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        bind.playlistRecyclerView.setHasFixedSize(true);
 
-        playlistAdapter = new PlaylistAdapter(activity, requireContext(), false);
-        bind.playlistViewPager.setAdapter(playlistAdapter);
-        bind.playlistViewPager.setOffscreenPageLimit(3);
+        playlistHorizontalAdapter = new PlaylistHorizontalAdapter(activity, requireContext());
+        bind.playlistRecyclerView.setAdapter(playlistHorizontalAdapter);
         libraryViewModel.getPlaylistSample().observe(requireActivity(), playlists -> {
             if (playlists == null) {
                 if (bind != null) bind.libraryPlaylistPlaceholder.placeholder.setVisibility(View.VISIBLE);
@@ -266,26 +268,22 @@ public class LibraryFragment extends Fragment {
             } else {
                 if (bind != null) bind.libraryPlaylistPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null) bind.libraryPlaylistSector.setVisibility(!playlists.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null) bind.playlistRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(playlists.size(), 5), GridLayoutManager.HORIZONTAL, false));
 
-                playlistAdapter.setItems(playlists);
+                playlistHorizontalAdapter.setItems(playlists);
             }
         });
 
-        setDiscoverSongSlideViewOffset(20, 16);
-    }
+        SnapHelper starredTrackSnapHelper = new PagerSnapHelper();
+        starredTrackSnapHelper.attachToRecyclerView(bind.playlistRecyclerView);
 
-    private void setDiscoverSongSlideViewOffset(float pageOffset, float pageMargin) {
-        bind.playlistViewPager.setPageTransformer((page, position) -> {
-            float myOffset = position * -(2 * pageOffset + pageMargin);
-            if (bind.playlistViewPager.getOrientation() == ViewPager2.ORIENTATION_HORIZONTAL) {
-                if (ViewCompat.getLayoutDirection(bind.playlistViewPager) == ViewCompat.LAYOUT_DIRECTION_RTL) {
-                    page.setTranslationX(-myOffset);
-                } else {
-                    page.setTranslationX(myOffset);
-                }
-            } else {
-                page.setTranslationY(myOffset);
-            }
-        });
+        bind.playlistRecyclerView.addItemDecoration(
+                new DotsIndicatorDecoration(
+                        getResources().getDimensionPixelSize(R.dimen.radius),
+                        getResources().getDimensionPixelSize(R.dimen.radius) * 4,
+                        getResources().getDimensionPixelSize(R.dimen.dots_height),
+                        requireContext().getResources().getColor(R.color.titleTextColor, null),
+                        requireContext().getResources().getColor(R.color.titleTextColor, null))
+        );
     }
 }

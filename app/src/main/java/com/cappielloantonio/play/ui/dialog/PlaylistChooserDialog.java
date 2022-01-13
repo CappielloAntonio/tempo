@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.adapter.PlaylistHorizontalAdapter;
+import com.cappielloantonio.play.adapter.PlaylistDialogHorizontalAdapter;
 import com.cappielloantonio.play.databinding.DialogPlaylistChooserBinding;
 import com.cappielloantonio.play.viewmodel.PlaylistChooserViewModel;
 
@@ -24,7 +24,7 @@ public class PlaylistChooserDialog extends DialogFragment {
     private DialogPlaylistChooserBinding bind;
     private PlaylistChooserViewModel playlistChooserViewModel;
 
-    private PlaylistHorizontalAdapter playlistHorizontalAdapter;
+    private PlaylistDialogHorizontalAdapter playlistDialogHorizontalAdapter;
 
     @NonNull
     @Override
@@ -79,15 +79,15 @@ public class PlaylistChooserDialog extends DialogFragment {
         bind.playlistDialogRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.playlistDialogRecyclerView.setHasFixedSize(true);
 
-        playlistHorizontalAdapter = new PlaylistHorizontalAdapter(requireContext(), playlistChooserViewModel, this);
-        bind.playlistDialogRecyclerView.setAdapter(playlistHorizontalAdapter);
+        playlistDialogHorizontalAdapter = new PlaylistDialogHorizontalAdapter(requireContext(), playlistChooserViewModel, this);
+        bind.playlistDialogRecyclerView.setAdapter(playlistDialogHorizontalAdapter);
 
         playlistChooserViewModel.getPlaylistList().observe(requireActivity(), playlists -> {
             if (playlists != null) {
                 if (playlists.size() > 0) {
                     if (bind != null) bind.noPlaylistsCreatedTextView.setVisibility(View.GONE);
                     if (bind != null) bind.playlistDialogRecyclerView.setVisibility(View.VISIBLE);
-                    playlistHorizontalAdapter.setItems(playlists);
+                    playlistDialogHorizontalAdapter.setItems(playlists);
                 } else {
                     if (bind != null) bind.noPlaylistsCreatedTextView.setVisibility(View.VISIBLE);
                     if (bind != null) bind.playlistDialogRecyclerView.setVisibility(View.GONE);

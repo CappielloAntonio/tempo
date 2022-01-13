@@ -21,7 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.adapter.PlaylistCatalogueAdapter;
+import com.cappielloantonio.play.adapter.PlaylistHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlaylistCatalogueBinding;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
@@ -37,7 +37,7 @@ public class PlaylistCatalogueFragment extends Fragment {
     private MainActivity activity;
     private PlaylistCatalogueViewModel playlistCatalogueViewModel;
 
-    private PlaylistCatalogueAdapter playlistCatalogueAdapter;
+    private PlaylistHorizontalAdapter playlistHorizontalAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -108,10 +108,10 @@ public class PlaylistCatalogueFragment extends Fragment {
         bind.playlistCatalogueRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.playlistCatalogueRecyclerView.setHasFixedSize(true);
 
-        playlistCatalogueAdapter = new PlaylistCatalogueAdapter(activity, requireContext(), playlistCatalogueViewModel.getType().equals(Playlist.DOWNLOADED));
-        bind.playlistCatalogueRecyclerView.setAdapter(playlistCatalogueAdapter);
+        playlistHorizontalAdapter = new PlaylistHorizontalAdapter(activity, requireContext());
+        bind.playlistCatalogueRecyclerView.setAdapter(playlistHorizontalAdapter);
 
-        if(getActivity() != null) {
+        if (getActivity() != null) {
             playlistCatalogueViewModel.getPlaylistList(requireActivity()).observe(requireActivity(), playlists ->
                     playlistCatalogueViewModel.getPinnedPlaylistList(requireActivity()).observe(requireActivity(),
                             pinnedPlaylists -> {
@@ -135,7 +135,7 @@ public class PlaylistCatalogueFragment extends Fragment {
                                     sortedList.addAll(unsortedList);
                                 }
 
-                                playlistCatalogueAdapter.setItems(sortedList);
+                                playlistHorizontalAdapter.setItems(sortedList);
                                 playlistCatalogueViewModel.unpinPlaylist(pinnedPlaylistsNotFound);
                             }));
         }
@@ -163,7 +163,7 @@ public class PlaylistCatalogueFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                playlistCatalogueAdapter.getFilter().filter(newText);
+                playlistHorizontalAdapter.getFilter().filter(newText);
                 return false;
             }
         });

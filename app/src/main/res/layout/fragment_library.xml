@@ -284,7 +284,6 @@
                         android:paddingEnd="8dp"
                         android:text="@string/library_title_playlist" />
 
-
                     <TextView
                         android:id="@+id/playlist_catalogue_text_view_clickable"
                         style="@style/TitleMedium"
@@ -297,11 +296,12 @@
 
                 </LinearLayout>
 
-                <!--  slideview  -->
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/playlist_view_pager"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/playlist_recycler_view"
                     android:layout_width="match_parent"
-                    android:layout_height="212dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:clipToPadding="false"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp" />
@@ -309,7 +309,7 @@
 
             <include
                 android:id="@+id/library_playlist_placeholder"
-                layout="@layout/item_placeholder_album"
+                layout="@layout/item_placeholder_horizontal"
                 android:visibility="gone" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -134,7 +134,7 @@ public class ArtistPageFragment extends Fragment {
             if (bind != null) bind.artistPageBioSector.setVisibility(!normalizedBio.trim().isEmpty() ? View.VISIBLE : View.GONE);
             if (bind != null) bind.bioMoreTextViewClickable.setVisibility(artist.getLastfm() != null ? View.VISIBLE : View.GONE);
 
-            if (getContext() != null) CustomGlideRequest.Builder
+            if (getContext() != null && bind != null) CustomGlideRequest.Builder
                     .from(
                             requireContext(),
                             artistPageViewModel.getArtist().getId(),

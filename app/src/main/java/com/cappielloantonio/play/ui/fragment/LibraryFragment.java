@@ -51,7 +51,6 @@ public class LibraryFragment extends Fragment {
     private AlbumAdapter albumAdapter;
     private ArtistAdapter artistAdapter;
     private GenreAdapter genreAdapter;
-    private PlaylistAdapter playlistAdapter;
 
     private PlaylistHorizontalAdapter playlistHorizontalAdapter;
 

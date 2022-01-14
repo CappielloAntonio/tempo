@@ -50,6 +50,7 @@
         <entry key="app/src/main/res/drawable/ic_play_arrow_white_24dp.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_play_for_work.xml" value="0.30625" />
         <entry key="app/src/main/res/drawable/ic_playlist_add.xml" value="0.28703703703703703" />
+        <entry key="app/src/main/res/drawable/ic_queue.xml" value="0.3365679264555669" />
         <entry key="app/src/main/res/drawable/ic_queue_music.xml" value="0.28703703703703703" />
         <entry key="app/src/main/res/drawable/ic_radio.xml" value="0.28703703703703703" />
         <entry key="app/src/main/res/drawable/ic_rating.xml" value="0.28703703703703703" />
@@ -150,6 +151,7 @@
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/menu/login_page_menu.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/menu/main_page_menu.xml" value="0.3229166666666667" />
+        <entry key="app/src/main/res/menu/now_playing_page_menu.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/menu/player_page_menu.xml" value="0.5178753830439223" />
         <entry key="app/src/main/res/menu/playlist_page_menu.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/menu/toolbar_menu.xml" value="0.3229166666666667" />

@@ -46,11 +46,13 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
+            android:id="@+id/library_linear_layout_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="@dimen/global_padding_bottom">
 
+            <!--  Album  -->
             <LinearLayout
                 android:id="@+id/library_album_sector"
                 android:layout_width="match_parent"
@@ -74,9 +76,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingStart="8dp"
+                        android:paddingTop="8dp"
                         android:paddingEnd="8dp"
                         android:text="@string/library_title_album" />
-
 
                     <TextView
                         android:id="@+id/album_catalogue_text_view_clickable"
@@ -84,6 +86,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="8dp"
+                        android:paddingTop="8dp"
                         android:paddingEnd="8dp"
                         android:text="@string/library_title_album_see_all_button" />
 

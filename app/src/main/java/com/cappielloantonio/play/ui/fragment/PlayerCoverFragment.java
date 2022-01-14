@@ -112,8 +112,6 @@ public class PlayerCoverFragment extends Fragment {
                 );
 
                 bind.innerButtonBottomLeft.setOnClickListener(view -> {
-                    MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), song);
-
                     SongRepository songRepository = new SongRepository(App.getInstance());
                     songRepository.getInstantMix(song, 20, new MediaCallback() {
                         @Override

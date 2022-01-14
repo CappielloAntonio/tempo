@@ -31,7 +31,6 @@ public class LibraryViewModel extends AndroidViewModel {
 
     private final MutableLiveData<List<Playlist>> playlistSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Album>> sampleAlbum = new MutableLiveData<>(null);
-    private final MutableLiveData<List<Album>> newReleasedAlbum = new MutableLiveData<>(null);
     private final MutableLiveData<List<Artist>> sampleArtist = new MutableLiveData<>(null);
     private final MutableLiveData<List<Genre>> sampleGenres = new MutableLiveData<>(null);
 
@@ -49,17 +48,6 @@ public class LibraryViewModel extends AndroidViewModel {
         artistRepository.getArtists(true, 20).observeForever(sampleArtist::postValue);
         genreRepository.getGenres(true, 15).observeForever(sampleGenres::postValue);
         playlistRepository.getPlaylists(true, 10).observeForever(playlistSample::postValue);
-    }
-
-    public LiveData<List<Album>> getRecentlyReleasedAlbums(LifecycleOwner owner) {
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-
-        albumRepository.getAlbums("byYear", 500, currentYear, currentYear).observe(owner, albums -> {
-            albums.sort(Comparator.comparing(Album::getCreated).reversed());
-            newReleasedAlbum.postValue(albums.subList(0, Math.min(20, albums.size())));
-        });
-
-        return newReleasedAlbum;
     }
 
     public LiveData<List<Album>> getAlbumSample() {

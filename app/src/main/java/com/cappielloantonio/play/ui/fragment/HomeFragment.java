@@ -59,6 +59,7 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
 
     private DiscoverSongAdapter discoverSongAdapter;
+    private AlbumHorizontalAdapter newRelesesAlbumAdapter;
     private AlbumAdapter recentlyAddedAlbumAdapter;
     private AlbumAdapter recentlyPlayedAlbumAdapter;
     private AlbumAdapter mostPlayedAlbumAdapter;
@@ -104,6 +105,7 @@ public class HomeFragment extends Fragment {
         initAppBar();
         initDiscoverSongSlideView();
         initSimilarSongView();
+        initNewReleasesView();
         initMostPlayedAlbumView();
         initRecentPlayedAlbumView();
         initStarredTracksView();
@@ -279,6 +281,39 @@ public class HomeFragment extends Fragment {
 
         CustomLinearSnapHelper similarSongSnapHelper = new CustomLinearSnapHelper();
         similarSongSnapHelper.attachToRecyclerView(bind.similarTracksRecyclerView);
+    }
+
+    private void initNewReleasesView() {
+        bind.newReleasesRecyclerView.setHasFixedSize(true);
+
+        newRelesesAlbumAdapter = new AlbumHorizontalAdapter(requireContext(), false);
+        bind.newReleasesRecyclerView.setAdapter(newRelesesAlbumAdapter);
+        homeViewModel.getRecentlyReleasedAlbums(requireActivity()).observe(requireActivity(), albums -> {
+            if (albums == null) {
+                if (bind != null) bind.homeNewReleasesPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeNewReleasesSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.homeNewReleasesPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeNewReleasesSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+
+                if (bind != null)
+                    bind.newReleasesRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
+
+                newRelesesAlbumAdapter.setItems(albums);
+            }
+        });
+
+        SnapHelper starredAlbumSnapHelper = new PagerSnapHelper();
+        starredAlbumSnapHelper.attachToRecyclerView(bind.newReleasesRecyclerView);
+
+        bind.newReleasesRecyclerView.addItemDecoration(
+                new DotsIndicatorDecoration(
+                        getResources().getDimensionPixelSize(R.dimen.radius),
+                        getResources().getDimensionPixelSize(R.dimen.radius) * 4,
+                        getResources().getDimensionPixelSize(R.dimen.dots_height),
+                        requireContext().getResources().getColor(R.color.titleTextColor, null),
+                        requireContext().getResources().getColor(R.color.titleTextColor, null))
+        );
     }
 
     private void initMostPlayedAlbumView() {
@@ -487,18 +522,12 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    /*
-     * Il layout di default prevede questa sequenza:
-     * - Discovery - Most_played - Last_played - Year - Favorite - Downloaded - Recently_added
-     *
-     * Se però non ho ancora ascoltato nessuna canzone e quindi Most_played e Last_played sono vuoti, modifico come segue
-     * - Discovery - Recently_added - Year - Favorite - Downloaded - Most_played - Last_played
-     */
     public void reorder() {
         if (bind != null) {
             bind.homeLinearLayoutContainer.removeAllViews();
             bind.homeLinearLayoutContainer.addView(bind.homeDiscoverSector);
             bind.homeLinearLayoutContainer.addView(bind.homeSimilarTracksSector);
+            bind.homeLinearLayoutContainer.addView(bind.homeNewReleasesSector);
             bind.homeLinearLayoutContainer.addView(bind.homeRecentlyAddedAlbumsSector);
             bind.homeLinearLayoutContainer.addView(bind.homeFlashbackSector);
             bind.homeLinearLayoutContainer.addView(bind.homeStarredTracksSector);

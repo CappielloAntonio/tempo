@@ -131,6 +131,40 @@
 
             <!--  Most played albums -->
             <LinearLayout
+                android:id="@+id/home_new_releases_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="8dp">
+
+                <!--  New releases  -->
+                <TextView
+                    style="@style/TitleLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/home_title_new_releases" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/new_releases_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:clipToPadding="false"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp" />
+            </LinearLayout>
+
+            <include
+                android:id="@+id/home_new_releases_placeholder"
+                layout="@layout/item_placeholder_horizontal"
+                android:visibility="gone" />
+
+            <!--  Most played albums -->
+            <LinearLayout
                 android:id="@+id/home_most_played_albums_sector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

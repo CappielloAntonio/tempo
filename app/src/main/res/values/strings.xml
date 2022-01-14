@@ -74,6 +74,7 @@
     <string name="home_title_most_played">Most played</string>
     <string name="home_title_most_played_see_all_button">See all</string>
     <string name="home_title_music_discovery">Music discovery</string>
+    <string name="home_title_new_releases">New releases</string>
     <string name="home_title_recently_added">Recently added</string>
     <string name="home_title_recently_added_see_all_button">See all</string>
     <string name="home_title_starred_albums">★ Starred albums</string>
@@ -90,7 +91,6 @@
     <string name="library_title_artist_see_all_button">See all</string>
     <string name="library_title_genre">Genres</string>
     <string name="library_title_genre_see_all_button">See all</string>
-    <string name="library_title_new_releases">New releases</string>
     <string name="library_title_playlist">Playlists</string>
     <string name="library_title_playlist_see_all_button">See all</string>
     <string name="login_empty">No server added</string>

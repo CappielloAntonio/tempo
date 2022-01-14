@@ -19,7 +19,9 @@ import com.cappielloantonio.play.repository.PlaylistRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class HomeViewModel extends AndroidViewModel {
@@ -31,8 +33,8 @@ public class HomeViewModel extends AndroidViewModel {
     private final PlaylistRepository playlistRepository;
 
     private final MutableLiveData<List<Song>> dicoverSongSample = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Album>> newReleasedAlbum = new MutableLiveData<>(null);
     private final MutableLiveData<List<Song>> starredTracksSample = new MutableLiveData<>(null);
-
     private final MutableLiveData<List<Album>> mostPlayedAlbumSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Album>> recentlyPlayedAlbumSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Integer>> years = new MutableLiveData<>(null);
@@ -56,6 +58,17 @@ public class HomeViewModel extends AndroidViewModel {
 
     public LiveData<List<Song>> getDiscoverSongSample() {
         return dicoverSongSample;
+    }
+
+    public LiveData<List<Album>> getRecentlyReleasedAlbums(LifecycleOwner owner) {
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+
+        albumRepository.getAlbums("byYear", 500, currentYear, currentYear).observe(owner, albums -> {
+            albums.sort(Comparator.comparing(Album::getCreated).reversed());
+            newReleasedAlbum.postValue(albums.subList(0, Math.min(20, albums.size())));
+        });
+
+        return newReleasedAlbum;
     }
 
     public LiveData<List<Song>> getStarredTracksSample() {

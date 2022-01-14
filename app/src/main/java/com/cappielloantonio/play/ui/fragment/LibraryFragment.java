@@ -47,7 +47,6 @@ public class LibraryFragment extends Fragment {
     private MainActivity activity;
     private LibraryViewModel libraryViewModel;
 
-    private AlbumHorizontalAdapter newRelesesAlbumAdapter;
     private AlbumAdapter albumAdapter;
     private ArtistAdapter artistAdapter;
     private GenreAdapter genreAdapter;
@@ -86,7 +85,6 @@ public class LibraryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initAppBar();
-        initNewReleasesView();
         initAlbumView();
         initArtistView();
         initGenreView();
@@ -149,38 +147,6 @@ public class LibraryFragment extends Fragment {
     private void initAppBar() {
         activity.setSupportActionBar(bind.toolbar);
         Objects.requireNonNull(bind.toolbar.getOverflowIcon()).setTint(requireContext().getResources().getColor(R.color.titleTextColor, null));
-    }
-
-    private void initNewReleasesView() {
-        bind.newReleasesRecyclerView.setHasFixedSize(true);
-
-        newRelesesAlbumAdapter = new AlbumHorizontalAdapter(requireContext(), false);
-        bind.newReleasesRecyclerView.setAdapter(newRelesesAlbumAdapter);
-        libraryViewModel.getRecentlyReleasedAlbums(requireActivity()).observe(requireActivity(), albums -> {
-            if (albums == null) {
-                if (bind != null) bind.libraryNewReleasesPlaceholder.placeholder.setVisibility(View.VISIBLE);
-                if (bind != null) bind.libraryNewReleasesSector.setVisibility(View.GONE);
-            } else {
-                if (bind != null) bind.libraryNewReleasesPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null) bind.libraryNewReleasesSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
-                if (bind != null)
-                    bind.newReleasesRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
-
-                newRelesesAlbumAdapter.setItems(albums);
-            }
-        });
-
-        SnapHelper starredAlbumSnapHelper = new PagerSnapHelper();
-        starredAlbumSnapHelper.attachToRecyclerView(bind.newReleasesRecyclerView);
-
-        bind.newReleasesRecyclerView.addItemDecoration(
-                new DotsIndicatorDecoration(
-                        getResources().getDimensionPixelSize(R.dimen.radius),
-                        getResources().getDimensionPixelSize(R.dimen.radius) * 4,
-                        getResources().getDimensionPixelSize(R.dimen.dots_height),
-                        requireContext().getResources().getColor(R.color.titleTextColor, null),
-                        requireContext().getResources().getColor(R.color.titleTextColor, null))
-        );
     }
 
     private void initAlbumView() {

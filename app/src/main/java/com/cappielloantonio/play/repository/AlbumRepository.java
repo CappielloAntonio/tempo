@@ -16,6 +16,7 @@ import com.cappielloantonio.play.util.MappingUtil;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -179,6 +180,7 @@ public class AlbumRepository {
 
                         if (response.isSuccessful() && response.body() != null && response.body().getArtist() != null) {
                             albums.addAll(MappingUtil.mapAlbum(response.body().getArtist().getAlbums()));
+                            albums.sort(Comparator.comparing(Album::getYear));
                         }
 
                         artistsAlbum.setValue(albums);

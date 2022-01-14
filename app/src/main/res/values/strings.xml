@@ -170,7 +170,7 @@
     <string name="settings_theme">Theme</string>
     <string name="settings_title_data">Data</string>
     <string name="settings_title_general">General</string>
-    <string name="settings_version_summary">1.1</string>
+    <string name="settings_version_summary">2.1</string>
     <string name="settings_version_title">Version</string>
     <string name="settings_wifi_only_title">Stream via Wi-Fi only alert</string>
     <string name="settings_wifi_only_summary">Ask for user confirmation before streaming over mobile network</string>

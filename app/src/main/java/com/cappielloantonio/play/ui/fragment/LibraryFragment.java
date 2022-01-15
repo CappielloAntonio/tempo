@@ -31,6 +31,7 @@ import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentLibraryBinding;
 import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.play.helper.recyclerview.DotsIndicatorDecoration;
+import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.ui.activity.MainActivity;
@@ -85,6 +86,9 @@ public class LibraryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initAppBar();
+        initNewReleasesShortcut();
+        initStarredShortcut();
+        initGenresShortcut();
         initAlbumView();
         initArtistView();
         initGenreView();
@@ -147,6 +151,26 @@ public class LibraryFragment extends Fragment {
     private void initAppBar() {
         activity.setSupportActionBar(bind.toolbar);
         Objects.requireNonNull(bind.toolbar.getOverflowIcon()).setTint(requireContext().getResources().getColor(R.color.titleTextColor, null));
+    }
+
+    private void initNewReleasesShortcut() {
+        bind.libraryNewReleasesSector.setOnClickListener(view -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(Album.NEW_RELEASES, Album.NEW_RELEASES);
+            activity.navController.navigate(R.id.action_libraryFragment_to_albumListPageFragment, bundle);
+        });
+    }
+
+    private void initStarredShortcut() {
+        bind.libraryStarredSector.setOnClickListener(view -> {
+            activity.navController.navigate(R.id.action_libraryFragment_to_starredFragment);
+        });
+    }
+
+    private void initGenresShortcut() {
+        bind.libraryGenresShortcutSector.setOnClickListener(view -> {
+            activity.navController.navigate(R.id.action_libraryFragment_to_genreCatalogueFragment);
+        });
     }
 
     private void initAlbumView() {

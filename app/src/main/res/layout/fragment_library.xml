@@ -52,6 +52,109 @@
             android:orientation="vertical"
             android:paddingBottom="@dimen/global_padding_bottom">
 
+            <LinearLayout
+                android:id="@+id/library_new_releases_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_insights"/>
+
+                <TextView
+                    android:id="@+id/library_new_releases"
+                    style="@style/TitleLarge"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:text="@string/library_title_new_releases" />
+
+                <ImageView
+                    android:id="@+id/library_new_releases_navigate_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_navigate_next"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/library_starred_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_star"/>
+
+                <TextView
+                    android:id="@+id/library_starred"
+                    style="@style/TitleLarge"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:text="@string/library_title_starred" />
+
+                <ImageView
+                    android:id="@+id/library_starred_navigate_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_navigate_next"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/library_genres_shortcut_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="12dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_genre"/>
+
+                <TextView
+                    android:id="@+id/library_genres"
+                    style="@style/TitleLarge"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:text="@string/library_title_genre" />
+
+                <ImageView
+                    android:id="@+id/library_genres_navigate_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_navigate_next"/>
+            </LinearLayout>
+
+            <View
+                style="@style/Divider"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_marginEnd="16dp" />
+
             <!--  Album  -->
             <LinearLayout
                 android:id="@+id/library_album_sector"

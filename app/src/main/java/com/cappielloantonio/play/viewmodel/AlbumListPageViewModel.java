@@ -16,6 +16,8 @@ import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.util.MappingUtil;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 
 public class AlbumListPageViewModel extends AndroidViewModel {
@@ -49,6 +51,13 @@ public class AlbumListPageViewModel extends AndroidViewModel {
                 break;
             case Album.STARRED:
                 albumList = albumRepository.getStarredAlbums(false, -1);
+                break;
+            case Album.NEW_RELEASES:
+                int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+                albumRepository.getAlbums("byYear", 500, currentYear, currentYear).observe(owner, albums -> {
+                    albums.sort(Comparator.comparing(Album::getCreated).reversed());
+                    albumList.postValue(albums.subList(0, Math.min(20, albums.size())));
+                });
                 break;
             case Album.DOWNLOADED:
                 downloadRepository.getLiveDownload().observe(owner, downloads -> albumList.setValue(MappingUtil.mapDownloadToAlbum(downloads)));

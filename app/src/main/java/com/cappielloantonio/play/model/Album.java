@@ -22,6 +22,7 @@ public class Album implements Parcelable {
     public static final String DOWNLOADED = "DOWNLOADED";
     public static final String STARRED = "STARRED";
     public static final String FROM_ARTIST = "FROM_ARTIST";
+    public static final String NEW_RELEASES = "NEW_RELEASES";
 
     private String id;
     private String title;

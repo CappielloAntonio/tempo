@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.ui.fragment;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +24,6 @@ public class AlbumListPageFragment extends Fragment {
 
     private MainActivity activity;
     private AlbumListPageViewModel albumListPageViewModel;
-
     private AlbumHorizontalAdapter albumHorizontalAdapter;
 
     @Override
@@ -68,6 +66,9 @@ public class AlbumListPageFragment extends Fragment {
         } else if (requireArguments().getString(Album.STARRED) != null) {
             albumListPageViewModel.title = Album.STARRED;
             bind.pageTitleLabel.setText(R.string.album_list_page_starred);
+        } else if (requireArguments().getString(Album.NEW_RELEASES) != null) {
+            albumListPageViewModel.title = Album.NEW_RELEASES;
+            bind.pageTitleLabel.setText(R.string.album_list_page_new_releases);
         } else if (requireArguments().getString(Album.DOWNLOADED) != null) {
             albumListPageViewModel.title = Album.DOWNLOADED;
             bind.pageTitleLabel.setText(R.string.album_list_page_downloaded);

@@ -10,18 +10,14 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.AlbumRepository;
-import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class HomeViewModel extends AndroidViewModel {
@@ -29,18 +25,13 @@ public class HomeViewModel extends AndroidViewModel {
 
     private final SongRepository songRepository;
     private final AlbumRepository albumRepository;
-    private final ArtistRepository artistRepository;
     private final PlaylistRepository playlistRepository;
 
     private final MutableLiveData<List<Song>> dicoverSongSample = new MutableLiveData<>(null);
-    private final MutableLiveData<List<Album>> newReleasedAlbum = new MutableLiveData<>(null);
     private final MutableLiveData<List<Song>> starredTracksSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Album>> mostPlayedAlbumSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Album>> recentlyPlayedAlbumSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Integer>> years = new MutableLiveData<>(null);
-    private final MutableLiveData<List<Song>> starredTracks = new MutableLiveData<>(null);
-    private final MutableLiveData<List<Album>> starredAlbums = new MutableLiveData<>(null);
-    private final MutableLiveData<List<Artist>> starredArtists = new MutableLiveData<>(null);
     private final MutableLiveData<List<Album>> recentlyAddedAlbumSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Playlist>> pinnedPlaylists = new MutableLiveData<>(null);
 
@@ -49,7 +40,6 @@ public class HomeViewModel extends AndroidViewModel {
 
         songRepository = new SongRepository(application);
         albumRepository = new AlbumRepository(application);
-        artistRepository = new ArtistRepository(application);
         playlistRepository = new PlaylistRepository(application);
 
         songRepository.getRandomSample(10, null, null).observeForever(dicoverSongSample::postValue);
@@ -60,17 +50,6 @@ public class HomeViewModel extends AndroidViewModel {
         return dicoverSongSample;
     }
 
-    public LiveData<List<Album>> getRecentlyReleasedAlbums(LifecycleOwner owner) {
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-
-        albumRepository.getAlbums("byYear", 500, currentYear, currentYear).observe(owner, albums -> {
-            albums.sort(Comparator.comparing(Album::getCreated).reversed());
-            newReleasedAlbum.postValue(albums.subList(0, Math.min(20, albums.size())));
-        });
-
-        return newReleasedAlbum;
-    }
-
     public LiveData<List<Song>> getStarredTracksSample() {
         return starredTracksSample;
     }
@@ -78,21 +57,6 @@ public class HomeViewModel extends AndroidViewModel {
     public LiveData<List<Integer>> getYearList(LifecycleOwner owner) {
         albumRepository.getDecades().observe(owner, years::postValue);
         return years;
-    }
-
-    public LiveData<List<Song>> getStarredTracks(LifecycleOwner owner) {
-        songRepository.getStarredSongs(true, 20).observe(owner, starredTracks::postValue);
-        return starredTracks;
-    }
-
-    public LiveData<List<Album>> getStarredAlbums(LifecycleOwner owner) {
-        albumRepository.getStarredAlbums(true, 20).observe(owner, starredAlbums::postValue);
-        return starredAlbums;
-    }
-
-    public LiveData<List<Artist>> getStarredArtists(LifecycleOwner owner) {
-        artistRepository.getStarredArtists(true, 20).observe(owner, starredArtists::postValue);
-        return starredArtists;
     }
 
     public LiveData<List<Album>> getMostPlayedAlbums(LifecycleOwner owner) {
@@ -129,18 +93,6 @@ public class HomeViewModel extends AndroidViewModel {
 
     public void refreshSimilarSongSample(LifecycleOwner owner) {
         songRepository.getStarredSongs(true, 10).observe(owner, starredTracksSample::postValue);
-    }
-
-    public void refreshStarredTracks(LifecycleOwner owner) {
-        songRepository.getStarredSongs(true, 20).observe(owner, starredTracks::postValue);
-    }
-
-    public void refreshStarredAlbums(LifecycleOwner owner) {
-        albumRepository.getStarredAlbums(true, 20).observe(owner, starredAlbums::postValue);
-    }
-
-    public void refreshStarredArtists(LifecycleOwner owner) {
-        artistRepository.getStarredArtists(true, 20).observe(owner, starredArtists::postValue);
     }
 
     public void refreshMostPlayedAlbums(LifecycleOwner owner) {

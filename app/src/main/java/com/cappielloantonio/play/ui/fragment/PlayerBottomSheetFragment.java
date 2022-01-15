@@ -76,7 +76,7 @@ public class PlayerBottomSheetFragment extends Fragment {
     }
 
     private void customizeBottomSheetBackground() {
-        bind.playerHeaderLayout.getRoot().setBackgroundColor(SurfaceColors.getColorForElevation(requireContext(), 10));
+        bind.playerHeaderLayout.getRoot().setBackgroundColor(SurfaceColors.getColorForElevation(requireContext(), 2));
     }
 
     private void initViewPager() {

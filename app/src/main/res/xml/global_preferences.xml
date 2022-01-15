@@ -129,5 +129,13 @@
                 android:action="android.intent.action.VIEW"
                 android:data="@string/settings_github_link" />
         </Preference>
+
+        <Preference
+            app:summary="@string/undraw_thanks"
+            app:title="@string/undraw_page">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/undraw_url" />
+        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>

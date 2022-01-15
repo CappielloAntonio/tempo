@@ -17,6 +17,7 @@
     <string name="album_error_retrieving_radio">Error retrieving album\'s radio</string>
     <string name="album_list_page_downloaded">Downloaded albums</string>
     <string name="album_list_page_most_played">Most played albums</string>
+    <string name="album_list_page_new_releases">New releases</string>
     <string name="album_list_page_recently_added">Recently added albums</string>
     <string name="album_list_page_recently_played">Recently played albums</string>
     <string name="album_list_page_starred">Starred albums</string>
@@ -74,7 +75,6 @@
     <string name="home_title_most_played">Most played</string>
     <string name="home_title_most_played_see_all_button">See all</string>
     <string name="home_title_music_discovery">Music discovery</string>
-    <string name="home_title_new_releases">New releases</string>
     <string name="home_title_recently_added">Recently added</string>
     <string name="home_title_recently_added_see_all_button">See all</string>
     <string name="home_title_starred_albums">★ Starred albums</string>
@@ -91,8 +91,10 @@
     <string name="library_title_artist_see_all_button">See all</string>
     <string name="library_title_genre">Genres</string>
     <string name="library_title_genre_see_all_button">See all</string>
+    <string name="library_title_new_releases">New releases</string>
     <string name="library_title_playlist">Playlists</string>
     <string name="library_title_playlist_see_all_button">See all</string>
+    <string name="library_title_starred">Starred</string>
     <string name="login_empty">No server added</string>
     <string name="login_title">Subsonic servers</string>
     <string name="login_title_expanded">Subsonic servers</string>
@@ -133,6 +135,7 @@
     <string name="search_title_album">Albums</string>
     <string name="search_title_artist">Artists</string>
     <string name="search_title_song">Songs</string>
+    <string name="server_signup_dialog_action_low_security">Low security</string>
     <string name="server_signup_dialog_action_direct_access">Direct access</string>
     <string name="server_signup_dialog_hint_name">Server Name</string>
     <string name="server_signup_dialog_hint_password">Password</string>
@@ -165,11 +168,13 @@
     <string name="settings_max_bitrate_mobile">Bitrate in mobile</string>
     <string name="settings_media_cache">Size of media file cache</string>
     <string name="settings_scan_title">Scan library</string>
+    <string name="settings_summary_transcoding">Priority given to the transcoding mode. If set to \"Direct play\" the bitrate of the file will not be changed.</string>
     <string name="settings_sync_starred_tracks_for_offline_use_summary">If enabled, starred tracks will be downloaded for offline use</string>
     <string name="settings_sync_starred_tracks_for_offline_use_title">Sync starred tracks for offline use</string>
     <string name="settings_theme">Theme</string>
     <string name="settings_title_data">Data</string>
     <string name="settings_title_general">General</string>
+    <string name="settings_title_transcoding">Transcoding</string>
     <string name="settings_version_summary">2.1</string>
     <string name="settings_version_title">Version</string>
     <string name="settings_wifi_only_title">Stream via Wi-Fi only alert</string>
@@ -196,7 +201,8 @@
     <string name="starred_sync_dialog_negative_button">Cancel</string>
     <string name="starred_sync_dialog_positive_button">Continue</string>
     <string name="starred_sync_dialog_title">Sync starred tracks</string>
-    <string name="settings_title_transcoding">Transcoding</string>
-    <string name="settings_summary_transcoding">Priority given to the transcoding mode. If set to \"Direct play\" the bitrate of the file will not be changed.</string>
-    <string name="server_signup_dialog_action_low_security">Low security</string>
+    <string name="starred_title">Starred</string>
+    <string name="undraw_url">https://undraw.co/</string>
+    <string name="undraw_page">unDraw</string>
+    <string name="undraw_thanks">A special thanks goes to unDraw without whose illustrations we could not have made this application more beautiful</string>
 </resources>

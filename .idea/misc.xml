@@ -34,15 +34,19 @@
         <entry key="app/src/main/res/drawable/ic_favorites_outlined.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_feed.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_file_download.xml" value="0.2722222222222222" />
+        <entry key="app/src/main/res/drawable/ic_genre.xml" value="0.24814814814814815" />
         <entry key="app/src/main/res/drawable/ic_grade.xml" value="0.28703703703703703" />
         <entry key="app/src/main/res/drawable/ic_graphic_eq.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_home.xml" value="0.28055555555555556" />
+        <entry key="app/src/main/res/drawable/ic_insights.xml" value="0.24814814814814815" />
+        <entry key="app/src/main/res/drawable/ic_label.xml" value="0.24814814814814815" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2814814814814815" />
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.34322916666666664" />
         <entry key="app/src/main/res/drawable/ic_lyrics.xml" value="0.17314814814814813" />
         <entry key="app/src/main/res/drawable/ic_minimize.xml" value="0.8" />
         <entry key="app/src/main/res/drawable/ic_mix_from_here.xml" value="0.28703703703703703" />
         <entry key="app/src/main/res/drawable/ic_more_vert.xml" value="0.28055555555555556" />
+        <entry key="app/src/main/res/drawable/ic_navigate_next.xml" value="0.24814814814814815" />
         <entry key="app/src/main/res/drawable/ic_pause.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_pause_circle.xml" value="0.28703703703703703" />
         <entry key="app/src/main/res/drawable/ic_pause_white_24dp.xml" value="0.18958333333333333" />
@@ -83,7 +87,7 @@
         <entry key="app/src/main/res/layout/dialog_server_unreachable.xml" value="0.3537037037037037" />
         <entry key="app/src/main/res/layout/dialog_starred_sync.xml" value="0.528125" />
         <entry key="app/src/main/res/layout/fragment_album_catalogue.xml" value="0.3229166666666667" />
-        <entry key="app/src/main/res/layout/fragment_album_list_page.xml" value="0.225" />
+        <entry key="app/src/main/res/layout/fragment_album_list_page.xml" value="0.3166496424923391" />
         <entry key="app/src/main/res/layout/fragment_album_page.xml" value="0.3166496424923391" />
         <entry key="app/src/main/res/layout/fragment_artist_catalogue.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/fragment_artist_list_page.xml" value="0.225" />
@@ -91,9 +95,9 @@
         <entry key="app/src/main/res/layout/fragment_download.xml" value="0.283363802559415" />
         <entry key="app/src/main/res/layout/fragment_filter.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/fragment_genre_catalogue.xml" value="0.3229166666666667" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.2871699861046781" />
         <entry key="app/src/main/res/layout/fragment_landing.xml" value="0.3229166666666667" />
-        <entry key="app/src/main/res/layout/fragment_library.xml" value="0.3229166666666667" />
+        <entry key="app/src/main/res/layout/fragment_library.xml" value="0.4865951742627346" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.3166496424923391" />
         <entry key="app/src/main/res/layout/fragment_player_bottom_sheet.xml" value="0.3166496424923391" />
         <entry key="app/src/main/res/layout/fragment_player_cover.xml" value="0.528125" />
@@ -104,6 +108,7 @@
         <entry key="app/src/main/res/layout/fragment_playlist_page.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/fragment_song_list_page.xml" value="0.225" />
+        <entry key="app/src/main/res/layout/fragment_starred.xml" value="0.3166496424923391" />
         <entry key="app/src/main/res/layout/inner_fragment_player_controller.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/inner_fragment_player_controller_layout.xml" value="0.49016641452344933" />
         <entry key="app/src/main/res/layout/inner_fragment_player_cover.xml" value="0.40390879478827363" />

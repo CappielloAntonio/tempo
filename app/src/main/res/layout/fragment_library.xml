@@ -56,20 +56,21 @@
                 android:id="@+id/library_new_releases_sector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:orientation="horizontal"
                 android:paddingStart="16dp"
                 android:paddingTop="8dp"
                 android:paddingEnd="16dp"
-                android:paddingBottom="16dp">
+                android:paddingBottom="8dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_insights"/>
+                    android:src="@drawable/ic_insights" />
 
                 <TextView
                     android:id="@+id/library_new_releases"
-                    style="@style/TitleLarge"
+                    style="@style/LabelLarge"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -81,27 +82,28 @@
                     android:id="@+id/library_new_releases_navigate_next"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_navigate_next"/>
+                    android:src="@drawable/ic_navigate_next" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/library_starred_sector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:orientation="horizontal"
                 android:paddingStart="16dp"
                 android:paddingTop="8dp"
                 android:paddingEnd="16dp"
-                android:paddingBottom="16dp">
+                android:paddingBottom="8dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_star"/>
+                    android:src="@drawable/ic_star" />
 
                 <TextView
                     android:id="@+id/library_starred"
-                    style="@style/TitleLarge"
+                    style="@style/LabelLarge"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -113,27 +115,28 @@
                     android:id="@+id/library_starred_navigate_next"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_navigate_next"/>
+                    android:src="@drawable/ic_navigate_next" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/library_genres_shortcut_sector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:orientation="horizontal"
                 android:paddingStart="16dp"
                 android:paddingTop="8dp"
                 android:paddingEnd="16dp"
-                android:paddingBottom="12dp">
+                android:paddingBottom="8dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_genre"/>
+                    android:src="@drawable/ic_genre" />
 
                 <TextView
                     android:id="@+id/library_genres"
-                    style="@style/TitleLarge"
+                    style="@style/LabelLarge"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -145,15 +148,15 @@
                     android:id="@+id/library_genres_navigate_next"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_navigate_next"/>
+                    android:src="@drawable/ic_navigate_next" />
             </LinearLayout>
 
             <View
                 style="@style/Divider"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
-                android:layout_marginEnd="16dp" />
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="12dp" />
 
             <!--  Album  -->
             <LinearLayout

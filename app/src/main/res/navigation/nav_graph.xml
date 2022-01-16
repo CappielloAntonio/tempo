@@ -277,6 +277,12 @@
         <action
             android:id="@+id/action_starredFragment_to_artistListPageFragment"
             app:destination="@id/artistListPageFragment" />
+        <action
+            android:id="@+id/action_starredFragment_to_albumPageFragment"
+            app:destination="@id/albumPageFragment" />
+        <action
+            android:id="@+id/action_starredFragment_to_artistPageFragment"
+            app:destination="@id/artistPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/playlistPageFragment"

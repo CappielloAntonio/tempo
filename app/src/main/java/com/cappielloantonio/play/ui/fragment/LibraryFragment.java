@@ -86,9 +86,6 @@ public class LibraryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initAppBar();
-        initNewReleasesShortcut();
-        initStarredShortcut();
-        initGenresShortcut();
         initAlbumView();
         initArtistView();
         initGenreView();
@@ -153,26 +150,6 @@ public class LibraryFragment extends Fragment {
         Objects.requireNonNull(bind.toolbar.getOverflowIcon()).setTint(requireContext().getResources().getColor(R.color.titleTextColor, null));
     }
 
-    private void initNewReleasesShortcut() {
-        bind.libraryNewReleasesSector.setOnClickListener(view -> {
-            Bundle bundle = new Bundle();
-            bundle.putString(Album.NEW_RELEASES, Album.NEW_RELEASES);
-            activity.navController.navigate(R.id.action_libraryFragment_to_albumListPageFragment, bundle);
-        });
-    }
-
-    private void initStarredShortcut() {
-        bind.libraryStarredSector.setOnClickListener(view -> {
-            activity.navController.navigate(R.id.action_libraryFragment_to_starredFragment);
-        });
-    }
-
-    private void initGenresShortcut() {
-        bind.libraryGenresShortcutSector.setOnClickListener(view -> {
-            activity.navController.navigate(R.id.action_libraryFragment_to_genreCatalogueFragment);
-        });
-    }
-
     private void initAlbumView() {
         bind.albumRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.albumRecyclerView.setHasFixedSize(true);
@@ -199,7 +176,7 @@ public class LibraryFragment extends Fragment {
         bind.artistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.artistRecyclerView.setHasFixedSize(true);
 
-        artistAdapter = new ArtistAdapter(requireContext());
+        artistAdapter = new ArtistAdapter((MainActivity) requireActivity(), requireContext());
         bind.artistRecyclerView.setAdapter(artistAdapter);
         libraryViewModel.getArtistSample().observe(requireActivity(), artists -> {
             if (artists == null) {

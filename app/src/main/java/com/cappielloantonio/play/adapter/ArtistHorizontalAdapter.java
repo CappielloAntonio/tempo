@@ -110,13 +110,13 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
             Bundle bundle = new Bundle();
             bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
 
-            if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.artistListPageFragment) {
+            if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.homeFragment) {
+                Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_artistPageFragment, bundle);
+            } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.artistListPageFragment) {
                 if (!isDownloaded) Navigation.findNavController(view).navigate(R.id.action_artistListPageFragment_to_artistPageFragment, bundle);
                 else Navigation.findNavController(view).navigate(R.id.action_artistListPageFragment_to_albumListPageFragment, bundle);
             } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.downloadFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_downloadFragment_to_albumListPageFragment, bundle);
-            } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.starredFragment) {
-                Navigation.findNavController(view).navigate(R.id.action_starredFragment_to_artistPageFragment, bundle);
             }
         }
 

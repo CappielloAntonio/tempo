@@ -91,7 +91,7 @@ public class SearchFragment extends Fragment {
         bind.searchResultArtistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.searchResultArtistRecyclerView.setHasFixedSize(true);
 
-        artistAdapter = new ArtistAdapter(requireContext());
+        artistAdapter = new ArtistAdapter((MainActivity) requireActivity(), requireContext());
         bind.searchResultArtistRecyclerView.setAdapter(artistAdapter);
 
         CustomLinearSnapHelper artistSnapHelper = new CustomLinearSnapHelper();

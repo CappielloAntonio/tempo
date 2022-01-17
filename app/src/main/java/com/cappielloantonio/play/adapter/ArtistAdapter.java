@@ -2,21 +2,31 @@ package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.media3.session.MediaBrowser;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.repository.ArtistRepository;
+import com.cappielloantonio.play.service.MediaManager;
+import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +36,15 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
     private static final String TAG = "ArtistAdapter";
 
     private final LayoutInflater inflater;
+    private final MainActivity mainActivity;
     private final Context context;
 
     private List<Artist> artists;
 
-    public ArtistAdapter(Context context) {
+    private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
+
+    public ArtistAdapter(MainActivity mainActivity, Context context) {
+        this.mainActivity = mainActivity;
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.artists = new ArrayList<>();
@@ -70,6 +84,10 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
+    public void setMediaBrowserListenableFuture(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture) {
+        this.mediaBrowserListenableFuture = mediaBrowserListenableFuture;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView textArtistName;
         ImageView cover;
@@ -95,6 +113,26 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
                 Navigation.findNavController(view).navigate(R.id.action_libraryFragment_to_artistPageFragment, bundle);
             } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.artistCatalogueFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_artistCatalogueFragment_to_artistPageFragment, bundle);
+            } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.homeFragment) {
+                if (mediaBrowserListenableFuture != null) {
+                    ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
+                    artistRepository.getInstantMix(artists.get(getBindingAdapterPosition()), 20, new MediaCallback() {
+                        @Override
+                        public void onError(Exception exception) {
+                            Log.e(TAG, "onError() " + exception.getMessage());
+                        }
+
+                        @Override
+                        public void onLoadMedia(List<?> media) {
+                            if (media.size() > 0) {
+                                MediaManager.startQueue(mediaBrowserListenableFuture, context, (ArrayList<Song>) media, 0);
+                                mainActivity.setBottomSheetInPeek(true);
+                            } else {
+                                Toast.makeText(context, context.getString(R.string.artist_error_retrieving_radio), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
             }
         }
 

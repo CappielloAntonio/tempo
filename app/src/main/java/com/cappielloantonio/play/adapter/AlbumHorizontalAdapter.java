@@ -108,8 +108,6 @@ public class AlbumHorizontalAdapter extends RecyclerView.Adapter<AlbumHorizontal
                 Navigation.findNavController(view).navigate(R.id.action_downloadFragment_to_albumPageFragment, bundle);
             } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.libraryFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_libraryFragment_to_albumPageFragment, bundle);
-            } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.starredFragment) {
-                Navigation.findNavController(view).navigate(R.id.action_starredFragment_to_albumPageFragment, bundle);
             }
         }
 

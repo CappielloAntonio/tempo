@@ -129,6 +129,294 @@
                 layout="@layout/item_placeholder_album"
                 android:visibility="gone" />
 
+            <!--  Radio Artist -->
+            <LinearLayout
+                android:id="@+id/home_radio_artist_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/recently_radio_artist_text_view_refreshable"
+                    style="@style/TitleLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingTop="20dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/home_title_radio_artist" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/radio_artist_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:clipToPadding="false"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="8dp" />
+            </LinearLayout>
+
+            <include
+                android:id="@+id/home_radio_artist_placeholder"
+                layout="@layout/item_placeholder_album"
+                android:visibility="gone" />
+
+            <View
+                style="@style/Divider"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Favorites -->
+            <LinearLayout
+                android:id="@+id/starred_tracks_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!--  Label and button  -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="8dp">
+
+                    <TextView
+                        android:id="@+id/starred_tracks_text_view_refreshable"
+                        style="@style/TitleLarge"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:text="@string/home_title_starred_tracks" />
+
+
+                    <TextView
+                        android:id="@+id/starred_tracks_text_view_clickable"
+                        style="@style/TitleMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:text="@string/home_title_starred_tracks_see_all_button" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/starred_tracks_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:clipToPadding="false"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp" />
+            </LinearLayout>
+
+            <include
+                android:id="@+id/starred_tracks_placeholder"
+                layout="@layout/item_placeholder_horizontal"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/starred_albums_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!--  Label and button  -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="8dp">
+
+                    <TextView
+                        android:id="@+id/starred_albums_text_view_refreshable"
+                        style="@style/TitleLarge"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="8dp"
+                        android:paddingTop="12dp"
+                        android:paddingEnd="8dp"
+                        android:text="@string/home_title_starred_albums" />
+
+
+                    <TextView
+                        android:id="@+id/starred_albums_text_view_clickable"
+                        style="@style/TitleMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
+                        android:paddingTop="12dp"
+                        android:paddingEnd="8dp"
+                        android:text="@string/home_title_starred_albums_see_all_button" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/starred_albums_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:clipToPadding="false"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp" />
+            </LinearLayout>
+
+            <include
+                android:id="@+id/starred_albums_placeholder"
+                layout="@layout/item_placeholder_horizontal"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/starred_artists_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!--  Label and button  -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="8dp">
+
+                    <TextView
+                        android:id="@+id/starred_artists_text_view_refreshable"
+                        style="@style/TitleLarge"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="8dp"
+                        android:paddingTop="12dp"
+                        android:paddingEnd="8dp"
+                        android:text="@string/home_title_starred_artists" />
+
+
+                    <TextView
+                        android:id="@+id/starred_artists_text_view_clickable"
+                        style="@style/TitleMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
+                        android:paddingTop="12dp"
+                        android:paddingEnd="8dp"
+                        android:text="@string/home_title_starred_artists_see_all_button" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/starred_artists_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:clipToPadding="false"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp" />
+            </LinearLayout>
+
+            <include
+                android:id="@+id/starred_artists_placeholder"
+                layout="@layout/item_placeholder_horizontal"
+                android:visibility="gone" />
+
+            <View
+                style="@style/Divider"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="12dp" />
+
+            <LinearLayout
+                android:id="@+id/home_new_releases_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="8dp">
+
+                <!--  New releases  -->
+                <TextView
+                    style="@style/TitleLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/home_title_new_releases" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/new_releases_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:clipToPadding="false"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp" />
+            </LinearLayout>
+
+            <include
+                android:id="@+id/home_new_releases_placeholder"
+                layout="@layout/item_placeholder_horizontal"
+                android:visibility="gone" />
+
+            <!-- Fashback -->
+            <LinearLayout
+                android:id="@+id/home_flashback_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!--  Label and button  -->
+                <TextView
+                    style="@style/TitleLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingTop="20dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/home_title_flashback" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/years_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:clipToPadding="false"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="8dp" />
+            </LinearLayout>
+
+            <include
+                android:id="@+id/home_flashback_placeholder"
+                layout="@layout/item_placeholder_year"
+                android:visibility="gone" />
+
+            <View
+                style="@style/Divider"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="12dp" />
+
             <!--  Most played albums -->
             <LinearLayout
                 android:id="@+id/home_most_played_albums_sector"
@@ -244,41 +532,6 @@
             <include
                 android:id="@+id/home_recently_played_albums_placeholder"
                 layout="@layout/item_placeholder_album"
-                android:visibility="gone" />
-
-            <!-- Fashback -->
-            <LinearLayout
-                android:id="@+id/home_flashback_sector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <!--  Label and button  -->
-                <TextView
-                    style="@style/TitleLarge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="16dp"
-                    android:paddingTop="20dp"
-                    android:paddingEnd="16dp"
-                    android:text="@string/home_title_flashback" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/years_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:clipToPadding="false"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="8dp" />
-            </LinearLayout>
-
-            <include
-                android:id="@+id/home_flashback_placeholder"
-                layout="@layout/item_placeholder_year"
                 android:visibility="gone" />
 
             <!--  Recently added albums -->

@@ -27,6 +27,9 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumAdapter;
+import com.cappielloantonio.play.adapter.AlbumHorizontalAdapter;
+import com.cappielloantonio.play.adapter.ArtistAdapter;
+import com.cappielloantonio.play.adapter.ArtistHorizontalAdapter;
 import com.cappielloantonio.play.adapter.DiscoverSongAdapter;
 import com.cappielloantonio.play.adapter.SimilarTrackAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
@@ -35,6 +38,7 @@ import com.cappielloantonio.play.databinding.FragmentHomeBinding;
 import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.play.helper.recyclerview.DotsIndicatorDecoration;
 import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.service.MediaService;
@@ -55,11 +59,16 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
 
     private DiscoverSongAdapter discoverSongAdapter;
+    private SimilarTrackAdapter similarMusicAdapter;
+    private ArtistAdapter radioArtistAdapter;
+    private SongHorizontalAdapter starredSongAdapter;
+    private AlbumHorizontalAdapter starredAlbumAdapter;
+    private ArtistHorizontalAdapter starredArtistAdapter;
     private AlbumAdapter recentlyAddedAlbumAdapter;
     private AlbumAdapter recentlyPlayedAlbumAdapter;
     private AlbumAdapter mostPlayedAlbumAdapter;
+    private AlbumHorizontalAdapter newReleasesAlbumAdapter;
     private YearAdapter yearAdapter;
-    private SimilarTrackAdapter similarMusicAdapter;
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
@@ -97,8 +106,13 @@ public class HomeFragment extends Fragment {
         initAppBar();
         initDiscoverSongSlideView();
         initSimilarSongView();
+        initArtistRadio();
+        initStarredTracksView();
+        initStarredAlbumsView();
+        initStarredArtistsView();
         initMostPlayedAlbumView();
         initRecentPlayedAlbumView();
+        initNewReleasesView();
         initYearSongView();
         initRecentAddedAlbumView();
         initPinnedPlaylistsView();
@@ -146,6 +160,39 @@ public class HomeFragment extends Fragment {
     }
 
     private void init() {
+        bind.musicDiscoveryTextViewRefreshable.setOnLongClickListener(v -> {
+            homeViewModel.refreshDiscoverySongSample(requireActivity());
+            return true;
+        });
+
+        bind.similarTracksTextViewRefreshable.setOnLongClickListener(v -> {
+            homeViewModel.refreshSimilarSongSample(requireActivity());
+            return true;
+        });
+
+        bind.recentlyRadioArtistTextViewRefreshable.setOnLongClickListener(v -> {
+            homeViewModel.refreshRadioArtistSample(requireActivity());
+            return true;
+        });
+
+        bind.starredTracksTextViewClickable.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(Song.STARRED, Song.STARRED);
+            activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
+        });
+
+        bind.starredAlbumsTextViewClickable.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(Album.STARRED, Album.STARRED);
+            activity.navController.navigate(R.id.action_homeFragment_to_albumListPageFragment, bundle);
+        });
+
+        bind.starredArtistsTextViewClickable.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(Artist.STARRED, Artist.STARRED);
+            activity.navController.navigate(R.id.action_homeFragment_to_artistListPageFragment, bundle);
+        });
+
         bind.recentlyAddedAlbumsTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putString(Album.RECENTLY_ADDED, Album.RECENTLY_ADDED);
@@ -164,13 +211,18 @@ public class HomeFragment extends Fragment {
             activity.navController.navigate(R.id.action_homeFragment_to_albumListPageFragment, bundle);
         });
 
-        bind.musicDiscoveryTextViewRefreshable.setOnLongClickListener(v -> {
-            homeViewModel.refreshDiscoverySongSample(requireActivity());
+        bind.starredTracksTextViewRefreshable.setOnLongClickListener(v -> {
+            homeViewModel.refreshStarredTracks(requireActivity());
             return true;
         });
 
-        bind.similarTracksTextViewRefreshable.setOnLongClickListener(v -> {
-            homeViewModel.refreshSimilarSongSample(requireActivity());
+        bind.starredAlbumsTextViewRefreshable.setOnLongClickListener(v -> {
+            homeViewModel.refreshStarredAlbums(requireActivity());
+            return true;
+        });
+
+        bind.starredArtistsTextViewRefreshable.setOnLongClickListener(v -> {
+            homeViewModel.refreshStarredArtists(requireActivity());
             return true;
         });
 
@@ -238,6 +290,184 @@ public class HomeFragment extends Fragment {
         similarSongSnapHelper.attachToRecyclerView(bind.similarTracksRecyclerView);
     }
 
+    private void initArtistRadio() {
+        bind.radioArtistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        bind.radioArtistRecyclerView.setHasFixedSize(true);
+
+        radioArtistAdapter = new ArtistAdapter((MainActivity) requireActivity(), requireContext());
+        bind.radioArtistRecyclerView.setAdapter(radioArtistAdapter);
+        homeViewModel.getStarredArtistsSample().observe(requireActivity(), artists -> {
+            if (artists == null) {
+                if (bind != null) bind.homeRadioArtistPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeRadioArtistSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.homeRadioArtistPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeRadioArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+
+                radioArtistAdapter.setItems(artists);
+            }
+        });
+
+        CustomLinearSnapHelper artistRadioSnapHelper = new CustomLinearSnapHelper();
+        artistRadioSnapHelper.attachToRecyclerView(bind.radioArtistRecyclerView);
+    }
+
+    private void initStarredTracksView() {
+        bind.starredTracksRecyclerView.setHasFixedSize(true);
+
+        starredSongAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
+        bind.starredTracksRecyclerView.setAdapter(starredSongAdapter);
+        homeViewModel.getStarredTracks(requireActivity()).observe(requireActivity(), songs -> {
+            if (songs == null) {
+                if (bind != null) bind.starredTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.starredTracksSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.starredTracksPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.starredTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.starredTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(songs.size(), 5), GridLayoutManager.HORIZONTAL, false));
+
+                starredSongAdapter.setItems(songs);
+            }
+        });
+
+        SnapHelper starredTrackSnapHelper = new PagerSnapHelper();
+        starredTrackSnapHelper.attachToRecyclerView(bind.starredTracksRecyclerView);
+
+        bind.starredTracksRecyclerView.addItemDecoration(
+                new DotsIndicatorDecoration(
+                        getResources().getDimensionPixelSize(R.dimen.radius),
+                        getResources().getDimensionPixelSize(R.dimen.radius) * 4,
+                        getResources().getDimensionPixelSize(R.dimen.dots_height),
+                        requireContext().getResources().getColor(R.color.titleTextColor, null),
+                        requireContext().getResources().getColor(R.color.titleTextColor, null))
+        );
+    }
+
+    private void initStarredAlbumsView() {
+        bind.starredAlbumsRecyclerView.setHasFixedSize(true);
+
+        starredAlbumAdapter = new AlbumHorizontalAdapter(requireContext(), false);
+        bind.starredAlbumsRecyclerView.setAdapter(starredAlbumAdapter);
+        homeViewModel.getStarredAlbums(requireActivity()).observe(requireActivity(), albums -> {
+            if (albums == null) {
+                if (bind != null) bind.starredAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.starredAlbumsSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.starredAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.starredAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.starredAlbumsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
+
+                starredAlbumAdapter.setItems(albums);
+            }
+        });
+
+        SnapHelper starredAlbumSnapHelper = new PagerSnapHelper();
+        starredAlbumSnapHelper.attachToRecyclerView(bind.starredAlbumsRecyclerView);
+
+        bind.starredAlbumsRecyclerView.addItemDecoration(
+                new DotsIndicatorDecoration(
+                        getResources().getDimensionPixelSize(R.dimen.radius),
+                        getResources().getDimensionPixelSize(R.dimen.radius) * 4,
+                        getResources().getDimensionPixelSize(R.dimen.dots_height),
+                        requireContext().getResources().getColor(R.color.titleTextColor, null),
+                        requireContext().getResources().getColor(R.color.titleTextColor, null))
+        );
+    }
+
+    private void initStarredArtistsView() {
+        bind.starredArtistsRecyclerView.setHasFixedSize(true);
+
+        starredArtistAdapter = new ArtistHorizontalAdapter(requireContext(), false);
+        bind.starredArtistsRecyclerView.setAdapter(starredArtistAdapter);
+        homeViewModel.getStarredArtists(requireActivity()).observe(requireActivity(), artists -> {
+            if (artists == null) {
+                if (bind != null) bind.starredArtistsPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.starredArtistsSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.starredArtistsPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.starredArtistsSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.starredArtistsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(artists.size(), 5), GridLayoutManager.HORIZONTAL, false));
+
+                starredArtistAdapter.setItems(artists);
+            }
+        });
+
+        SnapHelper starredArtistSnapHelper = new PagerSnapHelper();
+        starredArtistSnapHelper.attachToRecyclerView(bind.starredArtistsRecyclerView);
+
+        bind.starredArtistsRecyclerView.addItemDecoration(
+                new DotsIndicatorDecoration(
+                        getResources().getDimensionPixelSize(R.dimen.radius),
+                        getResources().getDimensionPixelSize(R.dimen.radius) * 4,
+                        getResources().getDimensionPixelSize(R.dimen.dots_height),
+                        requireContext().getResources().getColor(R.color.titleTextColor, null),
+                        requireContext().getResources().getColor(R.color.titleTextColor, null))
+        );
+    }
+
+    private void initNewReleasesView() {
+        bind.newReleasesRecyclerView.setHasFixedSize(true);
+
+        newReleasesAlbumAdapter = new AlbumHorizontalAdapter(requireContext(), false);
+        bind.newReleasesRecyclerView.setAdapter(newReleasesAlbumAdapter);
+        homeViewModel.getRecentlyReleasedAlbums(requireActivity()).observe(requireActivity(), albums -> {
+            if (albums == null) {
+                if (bind != null) bind.homeNewReleasesPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeNewReleasesSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.homeNewReleasesPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeNewReleasesSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.newReleasesRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
+
+                newReleasesAlbumAdapter.setItems(albums);
+            }
+        });
+
+        SnapHelper newReleasesSnapHelper = new PagerSnapHelper();
+        newReleasesSnapHelper.attachToRecyclerView(bind.newReleasesRecyclerView);
+
+        bind.newReleasesRecyclerView.addItemDecoration(
+                new DotsIndicatorDecoration(
+                        getResources().getDimensionPixelSize(R.dimen.radius),
+                        getResources().getDimensionPixelSize(R.dimen.radius) * 4,
+                        getResources().getDimensionPixelSize(R.dimen.dots_height),
+                        requireContext().getResources().getColor(R.color.titleTextColor, null),
+                        requireContext().getResources().getColor(R.color.titleTextColor, null))
+        );
+    }
+
+    private void initYearSongView() {
+        bind.yearsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        bind.yearsRecyclerView.setHasFixedSize(true);
+
+        yearAdapter = new YearAdapter(requireContext());
+        yearAdapter.setClickListener((view, position) -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(Song.BY_YEAR, Song.BY_YEAR);
+            bundle.putInt("year_object", yearAdapter.getItem(position));
+            activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
+        });
+        bind.yearsRecyclerView.setAdapter(yearAdapter);
+        homeViewModel.getYearList(requireActivity()).observe(requireActivity(), years -> {
+            if (years == null) {
+                if (bind != null) bind.homeFlashbackPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeFlashbackSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.homeFlashbackPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeFlashbackSector.setVisibility(!years.isEmpty() ? View.VISIBLE : View.GONE);
+
+                yearAdapter.setItems(years);
+            }
+        });
+
+        CustomLinearSnapHelper yearSnapHelper = new CustomLinearSnapHelper();
+        yearSnapHelper.attachToRecyclerView(bind.yearsRecyclerView);
+    }
+
     private void initMostPlayedAlbumView() {
         bind.mostPlayedAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.mostPlayedAlbumsRecyclerView.setHasFixedSize(true);
@@ -281,34 +511,6 @@ public class HomeFragment extends Fragment {
 
         CustomLinearSnapHelper recentPlayedAlbumSnapHelper = new CustomLinearSnapHelper();
         recentPlayedAlbumSnapHelper.attachToRecyclerView(bind.recentlyPlayedAlbumsRecyclerView);
-    }
-
-    private void initYearSongView() {
-        bind.yearsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        bind.yearsRecyclerView.setHasFixedSize(true);
-
-        yearAdapter = new YearAdapter(requireContext());
-        yearAdapter.setClickListener((view, position) -> {
-            Bundle bundle = new Bundle();
-            bundle.putString(Song.BY_YEAR, Song.BY_YEAR);
-            bundle.putInt("year_object", yearAdapter.getItem(position));
-            activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
-        });
-        bind.yearsRecyclerView.setAdapter(yearAdapter);
-        homeViewModel.getYearList(requireActivity()).observe(requireActivity(), years -> {
-            if (years == null) {
-                if (bind != null) bind.homeFlashbackPlaceholder.placeholder.setVisibility(View.VISIBLE);
-                if (bind != null) bind.homeFlashbackSector.setVisibility(View.GONE);
-            } else {
-                if (bind != null) bind.homeFlashbackPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null) bind.homeFlashbackSector.setVisibility(!years.isEmpty() ? View.VISIBLE : View.GONE);
-
-                yearAdapter.setItems(years);
-            }
-        });
-
-        CustomLinearSnapHelper yearSnapHelper = new CustomLinearSnapHelper();
-        yearSnapHelper.attachToRecyclerView(bind.yearsRecyclerView);
     }
 
     private void initRecentAddedAlbumView() {
@@ -430,5 +632,7 @@ public class HomeFragment extends Fragment {
     private void setMediaBrowserListenableFuture() {
         discoverSongAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
         similarMusicAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
+        starredSongAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
+        radioArtistAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
     }
 }

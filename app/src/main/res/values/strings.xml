@@ -206,6 +206,6 @@
     <string name="undraw_page">unDraw</string>
     <string name="undraw_thanks">A special thanks goes to unDraw without whose illustrations we could not have made this application more beautiful</string>
     <string name="home_title_radio_artist_see_all_button">See all</string>
-    <string name="home_title_radio_artist">Radio artist</string>
+    <string name="home_title_radio_station">Radio stations</string>
     <string name="home_title_new_releases">New releases</string>
 </resources>

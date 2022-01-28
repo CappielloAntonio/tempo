@@ -43,58 +43,28 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_homeFragment_to_songListPageFragment"
-            app:destination="@id/songListPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/songListPageFragment" />
         <action
             android:id="@+id/action_homeFragment_to_albumListPageFragment"
-            app:destination="@id/albumListPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/albumListPageFragment" />
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/settingsFragment" />
         <action
             android:id="@+id/action_homeFragment_to_albumPageFragment"
-            app:destination="@id/albumPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/albumPageFragment" />
         <action
             android:id="@+id/action_homeFragment_to_artistPageFragment"
-            app:destination="@id/artistPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/artistPageFragment" />
         <action
             android:id="@+id/action_homeFragment_to_artistListPageFragment"
-            app:destination="@id/artistListPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/artistListPageFragment" />
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
-            app:destination="@id/searchFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/searchFragment" />
         <action
             android:id="@+id/action_homeFragment_to_playlistPageFragment"
-            app:destination="@id/playlistPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/playlistPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/libraryFragment"
@@ -103,79 +73,37 @@
         tools:layout="@layout/fragment_library">
         <action
             android:id="@+id/action_libraryFragment_to_artistCatalogueFragment"
-            app:destination="@id/artistCatalogueFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/artistCatalogueFragment" />
         <action
             android:id="@+id/action_libraryFragment_to_albumCatalogueFragment"
-            app:destination="@id/albumCatalogueFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/albumCatalogueFragment" />
         <action
             android:id="@+id/action_libraryFragment_to_genreCatalogueFragment"
-            app:destination="@id/genreCatalogueFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/genreCatalogueFragment" />
         <action
             android:id="@+id/action_libraryFragment_to_playlistCatalogueFragment"
-            app:destination="@id/playlistCatalogueFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/playlistCatalogueFragment" />
         <action
             android:id="@+id/action_libraryFragment_to_artistPageFragment"
-            app:destination="@id/artistPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/artistPageFragment" />
         <action
             android:id="@+id/action_libraryFragment_to_albumPageFragment"
-            app:destination="@id/albumPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/albumPageFragment" />
         <action
             android:id="@+id/action_libraryFragment_to_songListPageFragment"
-            app:destination="@id/songListPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/songListPageFragment" />
         <action
             android:id="@+id/action_libraryFragment_to_playlistPageFragment"
-            app:destination="@id/playlistPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/playlistPageFragment" />
         <action
             android:id="@+id/action_libraryFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/settingsFragment" />
         <action
             android:id="@+id/action_libraryFragment_to_searchFragment"
-            app:destination="@id/searchFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/searchFragment" />
         <action
             android:id="@+id/action_libraryFragment_to_albumListPageFragment"
-            app:destination="@id/albumListPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/albumListPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/downloadFragment"
@@ -184,58 +112,28 @@
         tools:layout="@layout/fragment_download">
         <action
             android:id="@+id/action_downloadFragment_to_songListPageFragment"
-            app:destination="@id/songListPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/songListPageFragment" />
         <action
             android:id="@+id/action_downloadFragment_to_albumPageFragment"
-            app:destination="@id/albumPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/albumPageFragment" />
         <action
             android:id="@+id/action_downloadFragment_to_albumListPageFragment"
-            app:destination="@id/albumListPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/albumListPageFragment" />
         <action
             android:id="@+id/action_downloadFragment_to_artistListPageFragment"
-            app:destination="@id/artistListPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/artistListPageFragment" />
         <action
             android:id="@+id/action_downloadFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/settingsFragment" />
         <action
             android:id="@+id/action_downloadFragment_to_searchFragment"
-            app:destination="@id/searchFragment"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/searchFragment"/>
         <action
             android:id="@+id/action_downloadFragment_to_playlistPageFragment"
-            app:destination="@id/playlistPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/playlistPageFragment" />
         <action
             android:id="@+id/action_downloadFragment_to_playlistCatalogueFragment"
-            app:destination="@id/playlistCatalogueFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/playlistCatalogueFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -255,25 +153,13 @@
         tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_artistPageFragment"
-            app:destination="@id/artistPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/artistPageFragment" />
         <action
             android:id="@+id/action_searchFragment_to_albumPageFragment"
-            app:destination="@id/albumPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/albumPageFragment" />
         <action
             android:id="@+id/action_searchFragment_to_songListPageFragment"
-            app:destination="@id/songListPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/songListPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/filterFragment"
@@ -282,11 +168,7 @@
         tools:layout="@layout/fragment_filter">
         <action
             android:id="@+id/action_filterFragment_to_songListPageFragment"
-            app:destination="@id/songListPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/songListPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/artistCatalogueFragment"
@@ -295,11 +177,7 @@
         tools:layout="@layout/fragment_artist_catalogue">
         <action
             android:id="@+id/action_artistCatalogueFragment_to_artistPageFragment"
-            app:destination="@id/artistPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/artistPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/albumCatalogueFragment"
@@ -308,11 +186,7 @@
         tools:layout="@layout/fragment_album_catalogue">
         <action
             android:id="@+id/action_albumCatalogueFragment_to_albumPageFragment"
-            app:destination="@id/albumPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/albumPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/genreCatalogueFragment"
@@ -321,11 +195,7 @@
         tools:layout="@layout/fragment_genre_catalogue">
         <action
             android:id="@+id/action_genreCatalogueFragment_to_songListPageFragment"
-            app:destination="@id/songListPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/songListPageFragment" />
         <action
             android:id="@+id/action_genreCatalogueFragment_to_filterFragment"
             app:destination="@id/filterFragment" />
@@ -337,11 +207,7 @@
         tools:layout="@layout/fragment_playlist_catalogue">
         <action
             android:id="@+id/action_playlistCatalogueFragment_to_playlistPageFragment"
-            app:destination="@id/playlistPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/playlistPageFragment" />
     </fragment>
 
     <fragment
@@ -351,18 +217,10 @@
         tools:layout="@layout/fragment_artist_page">
         <action
             android:id="@+id/action_artistPageFragment_to_albumPageFragment"
-            app:destination="@id/albumPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/albumPageFragment" />
         <action
             android:id="@+id/action_artistPageFragment_to_songListPageFragment"
-            app:destination="@id/songListPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/songListPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/albumPageFragment"
@@ -371,11 +229,7 @@
         tools:layout="@layout/fragment_album_page">
         <action
             android:id="@+id/action_albumPageFragment_to_artistPageFragment"
-            app:destination="@id/artistPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/artistPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/songListPageFragment"
@@ -389,11 +243,7 @@
         tools:layout="@layout/fragment_album_list_page">
         <action
             android:id="@+id/action_albumListPageFragment_to_albumPageFragment"
-            app:destination="@id/albumPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/albumPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/artistListPageFragment"
@@ -402,18 +252,10 @@
         tools:layout="@layout/fragment_artist_list_page">
         <action
             android:id="@+id/action_artistListPageFragment_to_artistPageFragment"
-            app:destination="@id/artistPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/artistPageFragment" />
         <action
             android:id="@+id/action_artistListPageFragment_to_albumListPageFragment"
-            app:destination="@id/albumListPageFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/albumListPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/playlistPageFragment"

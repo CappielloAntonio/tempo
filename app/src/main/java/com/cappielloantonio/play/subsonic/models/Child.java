@@ -63,8 +63,8 @@ public class Child {
     protected String albumId;
     @Attribute
     protected String artistId;
-    @Element
-    protected MediaType type;
+    @Attribute
+    protected String type;
     @Attribute
     protected Long bookmarkPosition;
     @Attribute
@@ -72,7 +72,6 @@ public class Child {
     @Attribute
     protected Integer originalHeight;
 
-    @Attribute
     public String getId() {
         return id;
     }
@@ -289,11 +288,11 @@ public class Child {
         this.artistId = value;
     }
 
-    public MediaType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(MediaType value) {
+    public void setType(String value) {
         this.type = value;
     }
 

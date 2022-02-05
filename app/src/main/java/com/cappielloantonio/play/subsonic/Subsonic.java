@@ -8,6 +8,7 @@ import com.cappielloantonio.play.subsonic.api.mediaannotation.MediaAnnotationCli
 import com.cappielloantonio.play.subsonic.api.medialibraryscanning.MediaLibraryScanningClient;
 import com.cappielloantonio.play.subsonic.api.mediaretrieval.MediaRetrievalClient;
 import com.cappielloantonio.play.subsonic.api.playlist.PlaylistClient;
+import com.cappielloantonio.play.subsonic.api.podcast.PodcastClient;
 import com.cappielloantonio.play.subsonic.api.searching.SearchingClient;
 import com.cappielloantonio.play.subsonic.api.system.SystemClient;
 import com.cappielloantonio.play.subsonic.base.Version;
@@ -30,6 +31,7 @@ public class Subsonic {
     private SearchingClient searchingClient;
     private AlbumSongListClient albumSongListClient;
     private MediaAnnotationClient mediaAnnotationClient;
+    private PodcastClient podcastClient;
     private MediaLibraryScanningClient mediaLibraryScanningClient;
 
     public Subsonic(Context context, SubsonicPreferences preferences) {
@@ -88,6 +90,13 @@ public class Subsonic {
             mediaAnnotationClient = new MediaAnnotationClient(context, this);
         }
         return mediaAnnotationClient;
+    }
+
+    public PodcastClient getPodcastClient() {
+        if (podcastClient == null) {
+            podcastClient = new PodcastClient(context, this);
+        }
+        return podcastClient;
     }
 
     public MediaLibraryScanningClient getMediaLibraryScanningClient() {

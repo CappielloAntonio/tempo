@@ -38,7 +38,7 @@ public class SongRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        if(response.isSuccessful() && response.body() != null && response.body().getStarred2() != null) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getStarred2() != null) {
                             List<Song> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getStarred2().getSongs()));
 
                             if (!random) {
@@ -97,7 +97,7 @@ public class SongRepository {
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         List<Song> songs = new ArrayList<>();
 
-                        if(response.isSuccessful() && response.body() != null && response.body().getRandomSongs() != null) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getRandomSongs() != null) {
                             songs.addAll(MappingUtil.mapSong(response.body().getRandomSongs().getSongs()));
                         }
 
@@ -194,7 +194,7 @@ public class SongRepository {
                             List<Song> newSongs = new ArrayList<>(MappingUtil.mapSong(response.body().getSongsByGenre().getSongs()));
                             List<Song> songs = songsByGenre.getValue();
 
-                            if(songs == null) songs = new ArrayList<>();
+                            if (songs == null) songs = new ArrayList<>();
                             songs.addAll(newSongs);
                             Collections.shuffle(songs);
 
@@ -226,7 +226,7 @@ public class SongRepository {
                         public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                             List<Song> songs = new ArrayList<>();
 
-                            if(response.isSuccessful() && response.body() != null && response.body().getSongsByGenre() != null) {
+                            if (response.isSuccessful() && response.body() != null && response.body().getSongsByGenre() != null) {
                                 songs.addAll(MappingUtil.mapSong(response.body().getSongsByGenre().getSongs()));
                             }
 

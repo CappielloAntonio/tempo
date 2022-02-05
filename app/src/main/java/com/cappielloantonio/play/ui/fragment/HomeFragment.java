@@ -3,6 +3,7 @@ package com.cappielloantonio.play.ui.fragment;
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +32,7 @@ import com.cappielloantonio.play.adapter.AlbumHorizontalAdapter;
 import com.cappielloantonio.play.adapter.ArtistAdapter;
 import com.cappielloantonio.play.adapter.ArtistHorizontalAdapter;
 import com.cappielloantonio.play.adapter.DiscoverSongAdapter;
+import com.cappielloantonio.play.adapter.PodcastEpisodeAdapter;
 import com.cappielloantonio.play.adapter.SimilarTrackAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.adapter.YearAdapter;
@@ -69,6 +71,7 @@ public class HomeFragment extends Fragment {
     private AlbumAdapter mostPlayedAlbumAdapter;
     private AlbumHorizontalAdapter newReleasesAlbumAdapter;
     private YearAdapter yearAdapter;
+    private PodcastEpisodeAdapter podcastEpisodeAdapter;
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
@@ -116,6 +119,7 @@ public class HomeFragment extends Fragment {
         initYearSongView();
         initRecentAddedAlbumView();
         initPinnedPlaylistsView();
+        initNewestPodcastsView();
     }
 
     @Override
@@ -265,7 +269,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        setDiscoverSongSlideViewOffset(20, 16);
+        setSlideViewOffset(bind.discoverSongViewPager, 20, 16);
     }
 
     private void initSimilarSongView() {
@@ -535,33 +539,6 @@ public class HomeFragment extends Fragment {
         recentAddedAlbumSnapHelper.attachToRecyclerView(bind.recentlyAddedAlbumsRecyclerView);
     }
 
-    private void setDiscoverSongSlideViewOffset(float pageOffset, float pageMargin) {
-        bind.discoverSongViewPager.setPageTransformer((page, position) -> {
-            float myOffset = position * -(2 * pageOffset + pageMargin);
-            if (bind.discoverSongViewPager.getOrientation() == ViewPager2.ORIENTATION_HORIZONTAL) {
-                if (ViewCompat.getLayoutDirection(bind.discoverSongViewPager) == ViewCompat.LAYOUT_DIRECTION_RTL) {
-                    page.setTranslationX(-myOffset);
-                } else {
-                    page.setTranslationX(myOffset);
-                }
-            } else {
-                page.setTranslationY(myOffset);
-            }
-        });
-    }
-
-    public void reorder() {
-        if (bind != null) {
-            bind.homeLinearLayoutContainer.removeAllViews();
-            bind.homeLinearLayoutContainer.addView(bind.homeDiscoverSector);
-            bind.homeLinearLayoutContainer.addView(bind.homeSimilarTracksSector);
-            bind.homeLinearLayoutContainer.addView(bind.homeRecentlyAddedAlbumsSector);
-            bind.homeLinearLayoutContainer.addView(bind.homeFlashbackSector);
-            bind.homeLinearLayoutContainer.addView(bind.homeMostPlayedAlbumsSector);
-            bind.homeLinearLayoutContainer.addView(bind.homeRecentlyPlayedAlbumsSector);
-        }
-    }
-
     public void initPinnedPlaylistsView() {
         homeViewModel.getPinnedPlaylistList(requireActivity(), 5, true).observe(requireActivity(), playlists -> {
             if (bind != null && playlists != null) {
@@ -618,6 +595,55 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void initNewestPodcastsView() {
+        bind.newestPodcastsViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+
+        podcastEpisodeAdapter = new PodcastEpisodeAdapter(activity, requireContext());
+        bind.newestPodcastsViewPager.setAdapter(podcastEpisodeAdapter);
+        bind.newestPodcastsViewPager.setOffscreenPageLimit(1);
+        homeViewModel.getNewestPodcastEpisodes(requireActivity()).observe(requireActivity(), podcastEpisodes -> {
+            if (podcastEpisodes == null) {
+                if (bind != null) bind.homeNewestPodcastsPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeNewestPodcastsSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.homeNewestPodcastsPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeNewestPodcastsSector.setVisibility(!podcastEpisodes.isEmpty() ? View.VISIBLE : View.GONE);
+
+                podcastEpisodeAdapter.setItems(podcastEpisodes);
+            }
+        });
+
+        setSlideViewOffset(bind.newestPodcastsViewPager, 20, 16);
+    }
+
+    private void setSlideViewOffset(ViewPager2 viewPager, float pageOffset, float pageMargin) {
+        viewPager.setPageTransformer((page, position) -> {
+            float myOffset = position * -(2 * pageOffset + pageMargin);
+            if (viewPager.getOrientation() == ViewPager2.ORIENTATION_HORIZONTAL) {
+                if (ViewCompat.getLayoutDirection(viewPager) == ViewCompat.LAYOUT_DIRECTION_RTL) {
+                    page.setTranslationX(-myOffset);
+                } else {
+                    page.setTranslationX(myOffset);
+                }
+            } else {
+                page.setTranslationY(myOffset);
+            }
+        });
+    }
+
+    public void reorder() {
+        if (bind != null) {
+            bind.homeLinearLayoutContainer.removeAllViews();
+            bind.homeLinearLayoutContainer.addView(bind.homeDiscoverSector);
+            bind.homeLinearLayoutContainer.addView(bind.homeSimilarTracksSector);
+            bind.homeLinearLayoutContainer.addView(bind.homeRecentlyAddedAlbumsSector);
+            bind.homeLinearLayoutContainer.addView(bind.homeFlashbackSector);
+            bind.homeLinearLayoutContainer.addView(bind.homeMostPlayedAlbumsSector);
+            bind.homeLinearLayoutContainer.addView(bind.homeRecentlyPlayedAlbumsSector);
+            bind.homeLinearLayoutContainer.addView(bind.homeNewestPodcastsSector);
+        }
     }
 
     @SuppressLint("UnsafeOptInUsageError")

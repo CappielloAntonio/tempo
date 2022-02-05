@@ -127,6 +127,7 @@
     <string name="playlist_page_play_button">Play</string>
     <string name="playlist_page_shuffle_button">Shuffle</string>
     <string name="playlist_song_count">Playlist  •  %1$d songs</string>
+    <string name="podcast_release_date_duration_formatter">%1$s  •  %2$s</string>
     <string name="rating_dialog_negative_button">Cancel</string>
     <string name="rating_dialog_positive_button">Save</string>
     <string name="rating_dialog_title">Rate</string>
@@ -208,4 +209,5 @@
     <string name="home_title_radio_artist_see_all_button">See all</string>
     <string name="home_title_radio_station">Radio stations</string>
     <string name="home_title_new_releases">New releases</string>
+    <string name="home_title_newest_podcasts">Newest podcasts</string>
 </resources>

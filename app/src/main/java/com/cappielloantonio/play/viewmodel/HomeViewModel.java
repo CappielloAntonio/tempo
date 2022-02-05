@@ -12,11 +12,14 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.model.PodcastEpisode;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
+import com.cappielloantonio.play.repository.PodcastRepository;
 import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.subsonic.models.NewestPodcasts;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
 import java.util.Calendar;
@@ -31,6 +34,7 @@ public class HomeViewModel extends AndroidViewModel {
     private final AlbumRepository albumRepository;
     private final ArtistRepository artistRepository;
     private final PlaylistRepository playlistRepository;
+    private final PodcastRepository podcastRepository;
 
     private final MutableLiveData<List<Song>> dicoverSongSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Album>> newReleasedAlbum = new MutableLiveData<>(null);
@@ -44,6 +48,7 @@ public class HomeViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Integer>> years = new MutableLiveData<>(null);
     private final MutableLiveData<List<Album>> recentlyAddedAlbumSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Playlist>> pinnedPlaylists = new MutableLiveData<>(null);
+    private final MutableLiveData<List<PodcastEpisode>> newestPodcastEpisodes = new MutableLiveData<>(null);
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
@@ -52,6 +57,7 @@ public class HomeViewModel extends AndroidViewModel {
         albumRepository = new AlbumRepository(application);
         artistRepository = new ArtistRepository(application);
         playlistRepository = new PlaylistRepository(application);
+        podcastRepository = new PodcastRepository(application);
 
         songRepository.getRandomSample(10, null, null).observeForever(dicoverSongSample::postValue);
         songRepository.getStarredSongs(true, 10).observeForever(starredTracksSample::postValue);
@@ -127,6 +133,11 @@ public class HomeViewModel extends AndroidViewModel {
 
     public LiveData<List<Song>> getPlaylistSongLiveList(String playlistId) {
         return playlistRepository.getPlaylistSongs(playlistId);
+    }
+
+    public LiveData<List<PodcastEpisode>> getNewestPodcastEpisodes(LifecycleOwner owner) {
+        podcastRepository.getNewestPodcastEpisodes(20).observe(owner, newestPodcastEpisodes::postValue);
+        return newestPodcastEpisodes;
     }
 
     public void refreshDiscoverySongSample(LifecycleOwner owner) {

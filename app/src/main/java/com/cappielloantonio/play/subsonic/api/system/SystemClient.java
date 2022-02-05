@@ -8,6 +8,8 @@ import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.subsonic.utils.CacheUtil;
 import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -48,6 +50,10 @@ public class SystemClient {
         CacheUtil cacheUtil = new CacheUtil(context, 0, 60 * 60 * 24 * 30);
 
         return new OkHttpClient.Builder()
+                .callTimeout(2, TimeUnit.MINUTES)
+                .connectTimeout(20, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
                 .addInterceptor(getHttpLoggingInterceptor())
                 .addInterceptor(cacheUtil.offlineInterceptor)
                 .addNetworkInterceptor(cacheUtil.onlineInterceptor)

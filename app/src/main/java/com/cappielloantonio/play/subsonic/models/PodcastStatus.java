@@ -1,29 +1,25 @@
 package com.cappielloantonio.play.subsonic.models;
 
-public enum PodcastStatus {
-    NEW("new"),
-    DOWNLOADING("downloading"),
-    COMPLETED("completed"),
-    ERROR("error"),
-    DELETED("deleted"),
-    SKIPPED("skipped");
+import com.tickaroo.tikxml.annotation.Attribute;
+import com.tickaroo.tikxml.annotation.Xml;
 
-    private final String value;
+@Xml
+public class PodcastStatus {
+    public static String NEW = "new";
+    public static String DOWNLOADING = "downloading";
+    public static String COMPLETED = "completed";
+    public static String ERROR = "error";
+    public static String DELETED = "deleted";
+    public static String SKIPPED = "skipped";
 
-    PodcastStatus(String v) {
-        value = v;
-    }
+    @Attribute
+    private String value;
 
-    public String value() {
+    public String getValue() {
         return value;
     }
 
-    public static PodcastStatus fromValue(String v) {
-        for (PodcastStatus c : PodcastStatus.values()) {
-            if (c.value.equals(v)) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException(v);
+    public void setValue(String value) {
+        this.value = value;
     }
 }

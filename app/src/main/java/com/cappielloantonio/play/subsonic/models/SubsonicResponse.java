@@ -28,6 +28,7 @@ public class SubsonicResponse {
     private PlayQueue playQueue;
     private Bookmarks bookmarks;
     private InternetRadioStations internetRadioStations;
+    @Element(name = "newestPodcasts")
     private NewestPodcasts newestPodcasts;
     private Podcasts podcasts;
     @Element(name = "lyrics")

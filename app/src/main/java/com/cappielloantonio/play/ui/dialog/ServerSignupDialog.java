@@ -2,26 +2,17 @@ package com.cappielloantonio.play.ui.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.DialogServerSignupBinding;
-import com.cappielloantonio.play.interfaces.SystemCallback;
 import com.cappielloantonio.play.model.Server;
-import com.cappielloantonio.play.repository.SystemRepository;
-import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
-import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.LoginViewModel;
 
 import java.util.Objects;
@@ -31,29 +22,20 @@ public class ServerSignupDialog extends DialogFragment {
     private static final String TAG = "ServerSignupDialog";
 
     private DialogServerSignupBinding bind;
-    private MainActivity activity;
-    private Context context;
     private LoginViewModel loginViewModel;
-
-    private SystemRepository systemRepository;
 
     private String serverName;
     private String username;
     private String password;
     private String server;
-    private boolean directAccess = false;
     private boolean lowSecurity = false;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        activity = (MainActivity) getActivity();
-        context = requireContext();
-
         loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
-        systemRepository = new SystemRepository(App.getInstance());
 
-        bind = DialogServerSignupBinding.inflate(LayoutInflater.from(requireContext()));
+        bind = DialogServerSignupBinding.inflate(getLayoutInflater());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -91,7 +73,6 @@ public class ServerSignupDialog extends DialogFragment {
                 bind.usernameTextView.setText(loginViewModel.getServerToEdit().getUsername());
                 bind.passwordTextView.setText("");
                 bind.serverTextView.setText(loginViewModel.getServerToEdit().getAddress());
-                bind.directAccessCheckbox.setChecked(false);
                 bind.lowSecurityCheckbox.setChecked(loginViewModel.getServerToEdit().isLowSecurity());
             }
         } else {
@@ -102,8 +83,7 @@ public class ServerSignupDialog extends DialogFragment {
     private void setButtonAction() {
         ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
             if (validateInput()) {
-                saveServerPreference(server, username, password, null, null);
-                authenticate();
+                saveServerPreference();
                 Objects.requireNonNull(getDialog()).dismiss();
             }
         });
@@ -119,7 +99,6 @@ public class ServerSignupDialog extends DialogFragment {
         username = Objects.requireNonNull(bind.usernameTextView.getText()).toString().trim();
         password = bind.lowSecurityCheckbox.isChecked() ? MusicUtil.passwordHexEncoding(Objects.requireNonNull(bind.passwordTextView.getText()).toString()) : Objects.requireNonNull(bind.passwordTextView.getText()).toString();
         server = Objects.requireNonNull(bind.serverTextView.getText()).toString().trim();
-        directAccess = bind.directAccessCheckbox.isChecked();
         lowSecurity = bind.lowSecurityCheckbox.isChecked();
 
         if (TextUtils.isEmpty(serverName)) {
@@ -140,42 +119,8 @@ public class ServerSignupDialog extends DialogFragment {
         return true;
     }
 
-    private void authenticate() {
-        systemRepository.checkUserCredential(new SystemCallback() {
-            @Override
-            public void onError(Exception exception) {
-                Log.e(TAG, exception.getMessage());
-                Toast.makeText(context, exception.getMessage(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onSuccess(String password, String token, String salt) {
-                saveServerPreference(null, null, password, token, salt);
-                if (directAccess) enter();
-            }
-        });
-    }
-
-    private void enter() {
-        activity.goFromLogin();
-    }
-
-    private void saveServerPreference(String server, String user, String password, String token, String salt) {
-        if (user != null) PreferenceUtil.getInstance(context).setUser(user);
-        if (server != null) PreferenceUtil.getInstance(context).setServer(server);
-        if (password != null) PreferenceUtil.getInstance(context).setPassword(password);
-
-        if (token != null && salt != null) {
-            String serverID = loginViewModel.getServerToEdit() != null ? loginViewModel.getServerToEdit().getServerId() : UUID.randomUUID().toString();
-
-            PreferenceUtil.getInstance(context).setPassword(this.lowSecurity ? password : null);
-            PreferenceUtil.getInstance(context).setToken(token);
-            PreferenceUtil.getInstance(context).setSalt(salt);
-            PreferenceUtil.getInstance(context).setServerId(serverID);
-
-            loginViewModel.addServer(new Server(serverID, this.serverName, this.username, this.lowSecurity ? password : null, this.server, token, salt, System.currentTimeMillis(), this.lowSecurity));
-        }
-
-        App.getSubsonicClientInstance(context, true);
+    private void saveServerPreference() {
+        String serverID = loginViewModel.getServerToEdit() != null ? loginViewModel.getServerToEdit().getServerId() : UUID.randomUUID().toString();
+        loginViewModel.addServer(new Server(serverID, this.serverName, this.username, this.password, this.server, System.currentTimeMillis(), this.lowSecurity));
     }
 }

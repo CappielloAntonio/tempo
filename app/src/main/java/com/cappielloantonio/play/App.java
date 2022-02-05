@@ -50,12 +50,18 @@ public class App extends Application {
         String password = PreferenceUtil.getInstance(context).getPassword();
         String token = PreferenceUtil.getInstance(context).getToken();
         String salt = PreferenceUtil.getInstance(context).getSalt();
+        boolean isLowSecurity = PreferenceUtil.getInstance(context).isLowScurity();
 
         SubsonicPreferences preferences = new SubsonicPreferences();
         preferences.setServerUrl(server);
         preferences.setUsername(username);
-        preferences.setPassword(password);
-        preferences.setAuthentication(password, token, salt);
+        preferences.setAuthentication(password, token, salt, isLowSecurity);
+
+        if (preferences.getAuthentication() != null) {
+            if (preferences.getAuthentication().getPassword() != null) PreferenceUtil.getInstance(context).setPassword(preferences.getAuthentication().getPassword());
+            if (preferences.getAuthentication().getToken() != null) PreferenceUtil.getInstance(context).setToken(preferences.getAuthentication().getToken());
+            if (preferences.getAuthentication().getSalt() != null) PreferenceUtil.getInstance(context).setSalt(preferences.getAuthentication().getSalt());
+        }
 
         return new Subsonic(context, preferences);
     }

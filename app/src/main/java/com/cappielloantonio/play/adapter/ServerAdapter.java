@@ -18,7 +18,6 @@ import com.cappielloantonio.play.model.Server;
 import com.cappielloantonio.play.repository.SystemRepository;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.dialog.ServerSignupDialog;
-import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
 import java.util.ArrayList;
@@ -88,8 +87,7 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
         @Override
         public void onClick(View view) {
             Server server = servers.get(getBindingAdapterPosition());
-            saveServerPreference(server.getServerId(), server.getAddress(), server.getUsername(), server.isLowSecurity() ? server.getPassword() : null, server.getToken(), server.getSalt());
-            refreshSubsonicClientInstance();
+            saveServerPreference(server.getServerId(), server.getAddress(), server.getUsername(), server.getPassword(), server.isLowSecurity());
 
             SystemRepository systemRepository = new SystemRepository(App.getInstance());
             systemRepository.checkUserCredential(new SystemCallback() {
@@ -100,7 +98,6 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
 
                 @Override
                 public void onSuccess(String password, String token, String salt) {
-                    saveServerPreference(null, null, null, password, token, salt);
                     enter();
                 }
             });
@@ -122,21 +119,13 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
             mainActivity.goFromLogin();
         }
 
-        private void saveServerPreference(String serverId, String server, String user, String password, String token, String salt) {
-            if (user != null) PreferenceUtil.getInstance(context).setUser(user);
-            if (serverId != null) PreferenceUtil.getInstance(context).setServerId(serverId);
-            if (server != null) PreferenceUtil.getInstance(context).setServer(server);
-            if (password != null) PreferenceUtil.getInstance(context).setPassword(password);
+        private void saveServerPreference(String serverId, String server, String user, String password, boolean isLowSecurity) {
+            PreferenceUtil.getInstance(context).setServerId(serverId);
+            PreferenceUtil.getInstance(context).setServer(server);
+            PreferenceUtil.getInstance(context).setUser(user);
+            PreferenceUtil.getInstance(context).setPassword(password);
+            PreferenceUtil.getInstance(context).setLowSecurity(isLowSecurity);
 
-            if (token != null && salt != null) {
-                PreferenceUtil.getInstance(context).setPassword(password);
-                PreferenceUtil.getInstance(context).setToken(token);
-                PreferenceUtil.getInstance(context).setSalt(salt);
-            }
-        }
-
-        private void refreshSubsonicClientInstance() {
-            PreferenceUtil.getInstance(context).setServerId(servers.get(getBindingAdapterPosition()).getServerId());
             App.getSubsonicClientInstance(context, true);
         }
     }

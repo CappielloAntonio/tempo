@@ -7,7 +7,6 @@ import java.util.UUID;
 public class SubsonicPreferences {
     private String serverUrl;
     private String username;
-    private String password;
     private String clientName = "Play";
     private SubsonicAuthentication authentication;
 
@@ -17,10 +16,6 @@ public class SubsonicPreferences {
 
     public String getUsername() {
         return username;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public String getClientName() {
@@ -39,31 +34,40 @@ public class SubsonicPreferences {
         this.username = username;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public void setClientName(String clientName) {
         this.clientName = clientName;
     }
 
-    public void setAuthentication(String password, String token, String salt) {
-        if (password != null) this.authentication = new SubsonicAuthentication(password);
-        if (token != null && salt != null)
+    public void setAuthentication(String password, String token, String salt, boolean isLowSecurity) {
+        if (password != null) {
+            this.authentication = new SubsonicAuthentication(password, isLowSecurity);
+        }
+
+        if (token != null && salt != null) {
             this.authentication = new SubsonicAuthentication(token, salt);
+        }
     }
 
     public static class SubsonicAuthentication {
+        private String password;
         private String salt;
         private String token;
 
-        public SubsonicAuthentication(String password) {
-            update(password);
+        public SubsonicAuthentication(String password, boolean isLowSecurity) {
+            if (isLowSecurity) {
+                this.password = password;
+            } else {
+                update(password);
+            }
         }
 
         public SubsonicAuthentication(String token, String salt) {
             this.token = token;
             this.salt = salt;
+        }
+
+        public String getPassword() {
+            return password;
         }
 
         public String getSalt() {

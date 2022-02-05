@@ -115,13 +115,14 @@ public class Subsonic {
     public Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
         params.put("u", preferences.getUsername());
-        params.put("s", preferences.getAuthentication().getSalt());
-        params.put("t", preferences.getAuthentication().getToken());
+
+        if (preferences.getAuthentication().getPassword() != null) params.put("p", preferences.getAuthentication().getPassword());
+        if (preferences.getAuthentication().getSalt() != null) params.put("s", preferences.getAuthentication().getSalt());
+        if (preferences.getAuthentication().getToken() != null) params.put("t", preferences.getAuthentication().getToken());
+
         params.put("v", getApiVersion().getVersionString());
         params.put("c", preferences.getClientName());
         params.put("f", "xml");
-
-        if (preferences.getPassword() != null && !preferences.getPassword().trim().equals("")) params.put("p", preferences.getPassword());
 
         return params;
     }

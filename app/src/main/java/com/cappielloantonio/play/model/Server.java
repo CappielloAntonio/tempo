@@ -27,26 +27,18 @@ public class Server implements Parcelable {
     @ColumnInfo(name = "address")
     private String address;
 
-    @ColumnInfo(name = "token")
-    private String token;
-
-    @ColumnInfo(name = "salt")
-    private String salt;
-
     @ColumnInfo(name = "timestamp")
     private long timestamp;
 
     @ColumnInfo(name = "low_security", defaultValue = "false")
     private boolean lowSecurity;
 
-    public Server(@NonNull String serverId, String serverName, String username, String password, String address, String token, String salt, long timestamp, boolean lowSecurity) {
+    public Server(@NonNull String serverId, String serverName, String username, String password, String address, long timestamp, boolean lowSecurity) {
         this.serverId = serverId;
         this.serverName = serverName;
         this.username = username;
         this.password = password;
         this.address = address;
-        this.token = token;
-        this.salt = salt;
         this.timestamp = timestamp;
         this.lowSecurity = lowSecurity;
     }
@@ -90,22 +82,6 @@ public class Server implements Parcelable {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
     }
 
     public long getTimestamp() {
@@ -155,8 +131,6 @@ public class Server implements Parcelable {
         dest.writeString(serverName);
         dest.writeString(username);
         dest.writeString(address);
-        dest.writeString(token);
-        dest.writeString(salt);
         dest.writeLong(timestamp);
     }
 
@@ -165,8 +139,6 @@ public class Server implements Parcelable {
         this.serverName = in.readString();
         this.username = in.readString();
         this.address = in.readString();
-        this.token = in.readString();
-        this.salt = in.readString();
         this.timestamp = in.readLong();
     }
 

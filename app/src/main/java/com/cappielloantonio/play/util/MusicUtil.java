@@ -27,42 +27,50 @@ public class MusicUtil {
 
         Map<String, String> params = App.getSubsonicClientInstance(App.getInstance(), false).getParams();
 
-        String uri = App.getSubsonicClientInstance(App.getInstance(), false).getUrl() +
-                "stream" +
-                "?u=" + params.get("u") +
-                "&s=" + params.get("s") +
-                "&t=" + params.get("t") +
-                "&v=" + params.get("v") +
-                "&c=" + params.get("c") +
-                "&id=" + id;
+        StringBuilder uri = new StringBuilder();
+
+        uri.append(App.getSubsonicClientInstance(App.getInstance(), false).getUrl());
+        uri.append("stream");
+
+        if(params.containsKey("u") && params.get("u") != null) uri.append("?u=").append(params.get("u"));
+        if(params.containsKey("p") && params.get("p") != null) uri.append("&p=").append(params.get("p"));
+        if(params.containsKey("s") && params.get("s") != null) uri.append("&s=").append(params.get("s"));
+        if(params.containsKey("t") && params.get("t") != null) uri.append("&t=").append(params.get("t"));
+        if(params.containsKey("v") && params.get("v") != null) uri.append("&v=").append(params.get("v"));
+        if(params.containsKey("c") && params.get("c") != null) uri.append("&c=").append(params.get("c"));
+        uri.append("&id=").append(id);
 
         if (connectivityManager.getActiveNetworkInfo() != null) {
-            uri = uri + "&maxBitRate="
-                    + getBitratePreference(context, connectivityManager.getActiveNetworkInfo().getType()) + "&format="
-                    + getTranscodingFormatPreference(context, connectivityManager.getActiveNetworkInfo().getType());
+            uri.append("&maxBitRate=")
+                    .append(getBitratePreference(context, connectivityManager.getActiveNetworkInfo().getType()))
+                    .append("&format=").append(getTranscodingFormatPreference(context, connectivityManager.getActiveNetworkInfo().getType()));
         }
 
-        Log.d(TAG, "getSongStreamUri(): " + uri);
+        Log.d(TAG, "getStreamUri(): " + uri);
 
-        return Uri.parse(uri);
+        return Uri.parse(uri.toString());
     }
 
     @SuppressLint("UnsafeOptInUsageError")
     public static Uri getDownloadUri(String id) {
         Map<String, String> params = App.getSubsonicClientInstance(App.getInstance(), false).getParams();
 
-        String uri = App.getSubsonicClientInstance(App.getInstance(), false).getUrl() +
-                "stream" +
-                "?u=" + params.get("u") +
-                "&s=" + params.get("s") +
-                "&t=" + params.get("t") +
-                "&v=" + params.get("v") +
-                "&c=" + params.get("c") +
-                "&id=" + id;
+        StringBuilder uri = new StringBuilder();
 
-        Log.d(TAG, "getSongDownloadUri(): " + uri);
+        uri.append(App.getSubsonicClientInstance(App.getInstance(), false).getUrl());
+        uri.append("stream");
 
-        return Uri.parse(uri);
+        if(params.containsKey("u") && params.get("u") != null) uri.append("?u=").append(params.get("u"));
+        if(params.containsKey("p") && params.get("p") != null) uri.append("&p=").append(params.get("p"));
+        if(params.containsKey("s") && params.get("s") != null) uri.append("&s=").append(params.get("s"));
+        if(params.containsKey("t") && params.get("t") != null) uri.append("&t=").append(params.get("t"));
+        if(params.containsKey("v") && params.get("v") != null) uri.append("&v=").append(params.get("v"));
+        if(params.containsKey("c") && params.get("c") != null) uri.append("&c=").append(params.get("c"));
+        uri.append("&id=").append(id);
+
+        Log.d(TAG, "getDownloadUri(): " + uri);
+
+        return Uri.parse(uri.toString());
     }
 
     public static String getReadableDurationString(long duration, boolean millis) {

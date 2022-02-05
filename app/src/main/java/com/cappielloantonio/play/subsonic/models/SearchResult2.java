@@ -22,6 +22,10 @@ public class SearchResult2 {
         return this.artists;
     }
 
+    public void setArtists(List<Artist> artists) {
+        this.artists = artists;
+    }
+
     public List<Child> getAlbums() {
         if (albums == null) {
             albums = new ArrayList<>();
@@ -29,19 +33,15 @@ public class SearchResult2 {
         return this.albums;
     }
 
+    public void setAlbums(List<Child> albums) {
+        this.albums = albums;
+    }
+
     public List<Child> getSongs() {
         if (songs == null) {
             songs = new ArrayList<>();
         }
         return this.songs;
-    }
-
-    public void setArtists(List<Artist> artists) {
-        this.artists = artists;
-    }
-
-    public void setAlbums(List<Child> albums) {
-        this.albums = albums;
     }
 
     public void setSongs(List<Child> songs) {

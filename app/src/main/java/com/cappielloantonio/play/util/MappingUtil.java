@@ -12,6 +12,8 @@ import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.model.PodcastChannel;
+import com.cappielloantonio.play.model.PodcastEpisode;
 import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Song;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
@@ -201,7 +203,7 @@ public class MappingUtil {
 
     @SuppressLint("UnsafeOptInUsageError")
     public static MediaItem mapMediaItem(Context context, Song song, boolean stream) {
-        boolean isDownloaded = DownloadUtil.getDownloadTracker(context).isDownloaded(MusicUtil.getSongDownloadUri(song));
+        boolean isDownloaded = DownloadUtil.getDownloadTracker(context).isDownloaded(MusicUtil.getDownloadUri(song.getId()));
 
         Bundle bundle = new Bundle();
         bundle.putString("id", song.getId());
@@ -212,7 +214,7 @@ public class MappingUtil {
                 .setMediaId(song.getId())
                 .setMediaMetadata(
                         new MediaMetadata.Builder()
-                                .setMediaUri(stream && !isDownloaded ? MusicUtil.getSongStreamUri(context, song) : MusicUtil.getSongDownloadUri(song))
+                                .setMediaUri(stream && !isDownloaded ? MusicUtil.getStreamUri(context, song.getId()) : MusicUtil.getDownloadUri(song.getId()))
                                 .setTitle(MusicUtil.getReadableString(song.getTitle()))
                                 .setTrackNumber(song.getTrackNumber())
                                 .setDiscNumber(song.getDiscNumber())
@@ -223,17 +225,76 @@ public class MappingUtil {
                                 .build()
                 )
                 .setMimeType(MimeTypes.BASE_TYPE_AUDIO)
-                .setUri(stream && !isDownloaded ? MusicUtil.getSongStreamUri(context, song) : MusicUtil.getSongDownloadUri(song))
+                .setUri(stream && !isDownloaded ? MusicUtil.getStreamUri(context, song.getId()) : MusicUtil.getDownloadUri(song.getId()))
                 .build();
     }
 
-    public static ArrayList<MediaItem> mapMediaItems(Context context, List<Song> songs, boolean stream) {
+    @SuppressLint("UnsafeOptInUsageError")
+    public static MediaItem mapMediaItem(Context context, PodcastEpisode podcastEpisode, boolean stream) {
+        boolean isDownloaded = DownloadUtil.getDownloadTracker(context).isDownloaded(MusicUtil.getDownloadUri(podcastEpisode.getId()));
+
+        Bundle bundle = new Bundle();
+        bundle.putString("id", podcastEpisode.getId());
+        bundle.putString("albumId", podcastEpisode.getAlbumId());
+        bundle.putString("artistId", podcastEpisode.getArtistId());
+
+        return new MediaItem.Builder()
+                .setMediaId(podcastEpisode.getId())
+                .setMediaMetadata(
+                        new MediaMetadata.Builder()
+                                .setMediaUri(stream && !isDownloaded ? MusicUtil.getStreamUri(context, podcastEpisode.getId()) : MusicUtil.getDownloadUri(podcastEpisode.getId()))
+                                .setTitle(MusicUtil.getReadableString(podcastEpisode.getTitle()))
+                                .setReleaseYear(podcastEpisode.getYear())
+                                .setArtist(MusicUtil.getReadableString(podcastEpisode.getArtist()))
+                                .setExtras(bundle)
+                                .build()
+                )
+                .setMimeType(MimeTypes.BASE_TYPE_AUDIO)
+                .setUri(stream && !isDownloaded ? MusicUtil.getStreamUri(context, podcastEpisode.getId()) : MusicUtil.getDownloadUri(podcastEpisode.getId()))
+                .build();
+    }
+
+    public static ArrayList<MediaItem> mapMediaItems(Context context, List<?> items, boolean stream) {
         ArrayList<MediaItem> mediaItems = new ArrayList();
 
-        for (Song song : songs) {
-            mediaItems.add(mapMediaItem(context, song, stream));
+        for(int i = 0; i < items.size(); i++) {
+            if(items.get(i) instanceof Song) {
+                mediaItems.add(mapMediaItem(context, (Song) items.get(i), stream));
+            }
+
+            if(items.get(i) instanceof PodcastEpisode) {
+                mediaItems.add(mapMediaItem(context, (PodcastEpisode) items.get(i), stream));
+            }
         }
 
         return mediaItems;
+    }
+
+    public static ArrayList<PodcastChannel> mapPodcastChannel(List<com.cappielloantonio.play.subsonic.models.PodcastChannel> subsonicPodcastChannels) {
+        ArrayList<PodcastChannel> podcastChannels = new ArrayList();
+
+        for (com.cappielloantonio.play.subsonic.models.PodcastChannel subsonicPodcastChannel : subsonicPodcastChannels) {
+            podcastChannels.add(mapPodcastChannel(subsonicPodcastChannel));
+        }
+
+        return podcastChannels;
+    }
+
+    public static PodcastChannel mapPodcastChannel(com.cappielloantonio.play.subsonic.models.PodcastChannel subsonicPodcastChannel) {
+        return new PodcastChannel(subsonicPodcastChannel);
+    }
+
+    public static ArrayList<PodcastEpisode> mapPodcastEpisode(List<com.cappielloantonio.play.subsonic.models.PodcastEpisode> subsonicPodcastEpisodes) {
+        ArrayList<PodcastEpisode> podcastEpisodes = new ArrayList();
+
+        for (com.cappielloantonio.play.subsonic.models.PodcastEpisode subsonicPodcastEpisode : subsonicPodcastEpisodes) {
+            podcastEpisodes.add(mapPodcastEpisode(subsonicPodcastEpisode));
+        }
+
+        return podcastEpisodes;
+    }
+
+    public static PodcastEpisode mapPodcastEpisode(com.cappielloantonio.play.subsonic.models.PodcastEpisode subsonicPodcastEpisode) {
+        return new PodcastEpisode(subsonicPodcastEpisode);
     }
 }

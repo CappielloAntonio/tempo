@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class MusicUtil {
     private static final String TAG = "MusicUtil";
 
-    public static Uri getSongStreamUri(Context context, Song song) {
+    public static Uri getStreamUri(Context context, String id) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         Map<String, String> params = App.getSubsonicClientInstance(App.getInstance(), false).getParams();
@@ -34,7 +34,7 @@ public class MusicUtil {
                 "&t=" + params.get("t") +
                 "&v=" + params.get("v") +
                 "&c=" + params.get("c") +
-                "&id=" + song.getId();
+                "&id=" + id;
 
         if (connectivityManager.getActiveNetworkInfo() != null) {
             uri = uri + "&maxBitRate="
@@ -48,7 +48,7 @@ public class MusicUtil {
     }
 
     @SuppressLint("UnsafeOptInUsageError")
-    public static Uri getSongDownloadUri(Song song) {
+    public static Uri getDownloadUri(String id) {
         Map<String, String> params = App.getSubsonicClientInstance(App.getInstance(), false).getParams();
 
         String uri = App.getSubsonicClientInstance(App.getInstance(), false).getUrl() +
@@ -58,7 +58,7 @@ public class MusicUtil {
                 "&t=" + params.get("t") +
                 "&v=" + params.get("v") +
                 "&c=" + params.get("c") +
-                "&id=" + song.getId();
+                "&id=" + id;
 
         Log.d(TAG, "getSongDownloadUri(): " + uri);
 
@@ -83,6 +83,18 @@ public class MusicUtil {
             long hours = minutes / 60;
             minutes = minutes % 60;
             return String.format(Locale.getDefault(), "%d:%02d:%02d", hours, minutes, seconds);
+        }
+    }
+
+    public static String getReadablePodcastDurationString(long duration) {
+        long minutes = duration / 60;
+
+        if (minutes < 60) {
+            return String.format(Locale.getDefault(), "%01d min", minutes);
+        } else {
+            long hours = minutes / 60;
+            minutes = minutes % 60;
+            return String.format(Locale.getDefault(), "%d h %02d min", hours, minutes);
         }
     }
 

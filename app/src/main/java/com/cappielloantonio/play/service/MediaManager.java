@@ -1,5 +1,6 @@
 package com.cappielloantonio.play.service;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
@@ -288,14 +289,17 @@ public class MediaManager {
         }
     }
 
+    @SuppressLint("UnsafeOptInUsageError")
     public static void setLastPlayedTimestamp(MediaItem mediaItem) {
         if (mediaItem != null) getQueueRepository().setLastPlayedTimestamp(mediaItem.mediaId);
     }
 
+    @SuppressLint("UnsafeOptInUsageError")
     public static void setPlayingPausedTimestamp(MediaItem mediaItem, long ms) {
         if (mediaItem != null) getQueueRepository().setPlayingPausedTimestamp(mediaItem.mediaId, ms);
     }
 
+    @SuppressLint("UnsafeOptInUsageError")
     public static void scrobble(MediaItem mediaItem) {
         if (mediaItem != null) getSongRepository().scrobble(mediaItem.mediaMetadata.extras.getString("id"));
     }

@@ -16,6 +16,7 @@ public class PreferenceUtil {
     public static final String PASSWORD = "password";
     public static final String TOKEN = "token";
     public static final String SALT = "salt";
+    public static final String LOW_SECURITY = "low_security";
     public static final String SERVER_ID = "server_id";
     public static final String POSITION = "position";
     public static final String PROGRESS = "progress";
@@ -96,6 +97,16 @@ public class PreferenceUtil {
     public void setSalt(String salt) {
         final SharedPreferences.Editor editor = mPreferences.edit();
         editor.putString(SALT, salt);
+        editor.apply();
+    }
+
+    public boolean isLowScurity() {
+        return mPreferences.getBoolean(LOW_SECURITY, false);
+    }
+
+    public void setLowSecurity(boolean isLowSecurity) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(LOW_SECURITY, isLowSecurity);
         editor.apply();
     }
 

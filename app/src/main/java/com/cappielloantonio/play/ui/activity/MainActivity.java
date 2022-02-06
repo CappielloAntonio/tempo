@@ -154,9 +154,8 @@ public class MainActivity extends BaseActivity {
                             hideMusicSession();
                             break;
                         case BottomSheetBehavior.STATE_COLLAPSED:
-                            if (playerBottomSheetFragment != null) {
-                                playerBottomSheetFragment.goBackToFirstPage();
-                            }
+                            if (playerBottomSheetFragment != null) playerBottomSheetFragment.goBackToFirstPage();
+                            break;
                         case BottomSheetBehavior.STATE_SETTLING:
                         case BottomSheetBehavior.STATE_EXPANDED:
                         case BottomSheetBehavior.STATE_DRAGGING:

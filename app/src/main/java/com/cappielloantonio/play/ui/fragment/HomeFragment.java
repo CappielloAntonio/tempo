@@ -605,10 +605,8 @@ public class HomeFragment extends Fragment {
         bind.newestPodcastsViewPager.setOffscreenPageLimit(1);
         homeViewModel.getNewestPodcastEpisodes(requireActivity()).observe(requireActivity(), podcastEpisodes -> {
             if (podcastEpisodes == null) {
-                if (bind != null) bind.homeNewestPodcastsPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeNewestPodcastsSector.setVisibility(View.GONE);
             } else {
-                if (bind != null) bind.homeNewestPodcastsPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null) bind.homeNewestPodcastsSector.setVisibility(!podcastEpisodes.isEmpty() ? View.VISIBLE : View.GONE);
 
                 podcastEpisodeAdapter.setItems(podcastEpisodes);

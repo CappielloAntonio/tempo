@@ -624,11 +624,6 @@
                     android:clipToPadding="false"
                     android:paddingBottom="8dp" />
             </LinearLayout>
-
-            <include
-                android:id="@+id/home_newest_podcasts_placeholder"
-                layout="@layout/item_placehoder_discovery"
-                android:visibility="gone" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

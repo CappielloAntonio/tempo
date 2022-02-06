@@ -26,6 +26,7 @@ import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
@@ -114,6 +115,10 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
             } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.artistCatalogueFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_artistCatalogueFragment_to_artistPageFragment, bundle);
             } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.homeFragment) {
+                Snackbar.make(mainActivity.bind.getRoot(), R.string.artist_adapter_radio_station_starting, Snackbar.LENGTH_LONG)
+                        .setAnchorView(mainActivity.bind.playerBottomSheet)
+                        .show();
+
                 if (mediaBrowserListenableFuture != null) {
                     ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
                     artistRepository.getInstantMix(artists.get(getBindingAdapterPosition()), 20, new MediaCallback() {

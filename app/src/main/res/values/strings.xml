@@ -210,4 +210,5 @@
     <string name="home_title_radio_station">Radio stations</string>
     <string name="home_title_new_releases">New releases</string>
     <string name="home_title_newest_podcasts">Newest podcasts</string>
+    <string name="artist_adapter_radio_station_starting">Searching...</string>
 </resources>

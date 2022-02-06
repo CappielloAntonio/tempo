@@ -93,6 +93,7 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
             systemRepository.checkUserCredential(new SystemCallback() {
                 @Override
                 public void onError(Exception exception) {
+                    resetServerPreference();
                     Toast.makeText(context, exception.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
@@ -125,6 +126,16 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
             PreferenceUtil.getInstance(context).setUser(user);
             PreferenceUtil.getInstance(context).setPassword(password);
             PreferenceUtil.getInstance(context).setLowSecurity(isLowSecurity);
+
+            App.getSubsonicClientInstance(context, true);
+        }
+
+        private void resetServerPreference() {
+            PreferenceUtil.getInstance(context).setServerId(null);
+            PreferenceUtil.getInstance(context).setServer(null);
+            PreferenceUtil.getInstance(context).setUser(null);
+            PreferenceUtil.getInstance(context).setPassword(null);
+            PreferenceUtil.getInstance(context).setLowSecurity(false);
 
             App.getSubsonicClientInstance(context, true);
         }

@@ -137,9 +137,9 @@ public class SongListPageFragment extends Fragment {
             activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        bind.toolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
+        if (bind != null) bind.toolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
 
-        bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+        if (bind != null) bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             if ((bind.albumInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.toolbar))) {
                 bind.toolbar.setTitle(songListPageViewModel.toolbarTitle);
             } else {

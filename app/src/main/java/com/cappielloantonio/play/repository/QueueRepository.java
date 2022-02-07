@@ -28,43 +28,43 @@ public class QueueRepository {
         return queueDao.getAll();
     }
 
-    public List<Media> getSongs() {
-        List<Media> songs = new ArrayList<>();
+    public List<Media> getMedia() {
+        List<Media> media = new ArrayList<>();
 
-        GetSongsThreadSafe getSongs = new GetSongsThreadSafe(queueDao);
-        Thread thread = new Thread(getSongs);
+        GetMediaThreadSafe getMedia = new GetMediaThreadSafe(queueDao);
+        Thread thread = new Thread(getMedia);
         thread.start();
 
         try {
             thread.join();
-            songs = getSongs.getSongs();
+            media = getMedia.getMedia();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        return songs;
+        return media;
     }
 
-    public void insert(Media song, boolean reset, int afterIndex) {
+    public void insert(Media media, boolean reset, int afterIndex) {
         try {
-            List<Media> songs = new ArrayList<>();
+            List<Media> mediaList = new ArrayList<>();
 
             if (!reset) {
-                GetSongsThreadSafe getSongsThreadSafe = new GetSongsThreadSafe(queueDao);
-                Thread getSongsThread = new Thread(getSongsThreadSafe);
-                getSongsThread.start();
-                getSongsThread.join();
+                GetMediaThreadSafe getMediaThreadSafe = new GetMediaThreadSafe(queueDao);
+                Thread getMediaThread = new Thread(getMediaThreadSafe);
+                getMediaThread.start();
+                getMediaThread.join();
 
-                songs = getSongsThreadSafe.getSongs();
+                mediaList = getMediaThreadSafe.getMedia();
             }
 
-            songs.add(afterIndex, song);
+            mediaList.add(afterIndex, media);
 
             Thread delete = new Thread(new DeleteAllThreadSafe(queueDao));
             delete.start();
             delete.join();
 
-            Thread insertAll = new Thread(new InsertAllThreadSafe(queueDao, songs));
+            Thread insertAll = new Thread(new InsertAllThreadSafe(queueDao, mediaList));
             insertAll.start();
             insertAll.join();
         } catch (InterruptedException e) {
@@ -74,24 +74,24 @@ public class QueueRepository {
 
     public void insertAll(List<Media> toAdd, boolean reset, int afterIndex) {
         try {
-            List<Media> songs = new ArrayList<>();
+            List<Media> media = new ArrayList<>();
 
             if (!reset) {
-                GetSongsThreadSafe getSongsThreadSafe = new GetSongsThreadSafe(queueDao);
-                Thread getSongsThread = new Thread(getSongsThreadSafe);
-                getSongsThread.start();
-                getSongsThread.join();
+                GetMediaThreadSafe getMediaThreadSafe = new GetMediaThreadSafe(queueDao);
+                Thread getMediaThread = new Thread(getMediaThreadSafe);
+                getMediaThread.start();
+                getMediaThread.join();
 
-                songs = getSongsThreadSafe.getSongs();
+                media = getMediaThreadSafe.getMedia();
             }
 
-            songs.addAll(afterIndex, toAdd);
+            media.addAll(afterIndex, toAdd);
 
             Thread delete = new Thread(new DeleteAllThreadSafe(queueDao));
             delete.start();
             delete.join();
 
-            Thread insertAll = new Thread(new InsertAllThreadSafe(queueDao, songs));
+            Thread insertAll = new Thread(new InsertAllThreadSafe(queueDao, media));
             insertAll.start();
             insertAll.join();
         } catch (InterruptedException e) {
@@ -140,16 +140,16 @@ public class QueueRepository {
         thread.start();
     }
 
-    public int getLastPlayedSongIndex() {
+    public int getLastPlayedMediaIndex() {
         int index = 0;
 
-        GetLastPlayedSongThreadSafe getLastPlayedSongThreadSafe = new GetLastPlayedSongThreadSafe(queueDao);
-        Thread thread = new Thread(getLastPlayedSongThreadSafe);
+        GetLastPlayedMediaThreadSafe getLastPlayedMediaThreadSafe = new GetLastPlayedMediaThreadSafe(queueDao);
+        Thread thread = new Thread(getLastPlayedMediaThreadSafe);
         thread.start();
 
         try {
             thread.join();
-            index = getLastPlayedSongThreadSafe.getIndex();
+            index = getLastPlayedMediaThreadSafe.getIndex();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -157,16 +157,16 @@ public class QueueRepository {
         return index;
     }
 
-    public long getLastPlayedSongTimestamp() {
+    public long getLastPlayedMediaTimestamp() {
         long timestamp = 0;
 
-        GetLastPlayedSongTimestampThreadSafe getLastPlayedSongTimestampThreadSafe = new GetLastPlayedSongTimestampThreadSafe(queueDao);
-        Thread thread = new Thread(getLastPlayedSongTimestampThreadSafe);
+        GetLastPlayedMediaTimestampThreadSafe getLastPlayedMediaTimestampThreadSafe = new GetLastPlayedMediaTimestampThreadSafe(queueDao);
+        Thread thread = new Thread(getLastPlayedMediaTimestampThreadSafe);
         thread.start();
 
         try {
             thread.join();
-            timestamp = getLastPlayedSongTimestampThreadSafe.getTimestamp();
+            timestamp = getLastPlayedMediaTimestampThreadSafe.getTimestamp();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -174,36 +174,36 @@ public class QueueRepository {
         return timestamp;
     }
 
-    private static class GetSongsThreadSafe implements Runnable {
+    private static class GetMediaThreadSafe implements Runnable {
         private final QueueDao queueDao;
-        private List<Media> songs;
+        private List<Media> media;
 
-        public GetSongsThreadSafe(QueueDao queueDao) {
+        public GetMediaThreadSafe(QueueDao queueDao) {
             this.queueDao = queueDao;
         }
 
         @Override
         public void run() {
-            songs = MappingUtil.mapQueue(queueDao.getAllSimple());
+            media = MappingUtil.mapQueue(queueDao.getAllSimple());
         }
 
-        public List<Media> getSongs() {
-            return songs;
+        public List<Media> getMedia() {
+            return media;
         }
     }
 
     private static class InsertAllThreadSafe implements Runnable {
         private final QueueDao queueDao;
-        private final List<Media> songs;
+        private final List<Media> media;
 
-        public InsertAllThreadSafe(QueueDao queueDao, List<Media> songs) {
+        public InsertAllThreadSafe(QueueDao queueDao, List<Media> media) {
             this.queueDao = queueDao;
-            this.songs = songs;
+            this.media = media;
         }
 
         @Override
         public void run() {
-            queueDao.insertAll(MappingUtil.mapSongsToQueue(songs));
+            queueDao.insertAll(MappingUtil.mapMediaToQueue(media));
         }
     }
 
@@ -255,41 +255,41 @@ public class QueueRepository {
 
     private static class SetLastPlayedTimestampThreadSafe implements Runnable {
         private final QueueDao queueDao;
-        private final String songId;
+        private final String mediaId;
 
-        public SetLastPlayedTimestampThreadSafe(QueueDao queueDao, String songId) {
+        public SetLastPlayedTimestampThreadSafe(QueueDao queueDao, String mediaId) {
             this.queueDao = queueDao;
-            this.songId = songId;
+            this.mediaId = mediaId;
         }
 
         @Override
         public void run() {
-            queueDao.setLastPlay(songId, Instant.now().toEpochMilli());
+            queueDao.setLastPlay(mediaId, Instant.now().toEpochMilli());
         }
     }
 
     private static class SetPlayingPausedTimestampThreadSafe implements Runnable {
         private final QueueDao queueDao;
-        private final String songId;
+        private final String mediaId;
         private final long ms;
 
-        public SetPlayingPausedTimestampThreadSafe(QueueDao queueDao, String songId, long ms) {
+        public SetPlayingPausedTimestampThreadSafe(QueueDao queueDao, String mediaId, long ms) {
             this.queueDao = queueDao;
-            this.songId = songId;
+            this.mediaId = mediaId;
             this.ms = ms;
         }
 
         @Override
         public void run() {
-            queueDao.setPlayingChanged(songId, ms);
+            queueDao.setPlayingChanged(mediaId, ms);
         }
     }
 
-    private static class GetLastPlayedSongThreadSafe implements Runnable {
+    private static class GetLastPlayedMediaThreadSafe implements Runnable {
         private final QueueDao queueDao;
         private int index;
 
-        public GetLastPlayedSongThreadSafe(QueueDao queueDao) {
+        public GetLastPlayedMediaThreadSafe(QueueDao queueDao) {
             this.queueDao = queueDao;
         }
 
@@ -303,11 +303,11 @@ public class QueueRepository {
         }
     }
 
-    private static class GetLastPlayedSongTimestampThreadSafe implements Runnable {
+    private static class GetLastPlayedMediaTimestampThreadSafe implements Runnable {
         private final QueueDao queueDao;
         private long timestamp;
 
-        public GetLastPlayedSongTimestampThreadSafe(QueueDao queueDao) {
+        public GetLastPlayedMediaTimestampThreadSafe(QueueDao queueDao) {
             this.queueDao = queueDao;
         }
 

@@ -7,8 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.model.PodcastChannel;
-import com.cappielloantonio.play.model.PodcastEpisode;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.util.MappingUtil;
 
@@ -50,8 +50,8 @@ public class PodcastRepository {
         return livePodcastChannel;
     }
 
-    public MutableLiveData<List<PodcastEpisode>> getNewestPodcastEpisodes(int count) {
-        MutableLiveData<List<PodcastEpisode>> liveNewestPodcastEpisodes = new MutableLiveData<>();
+    public MutableLiveData<List<Media>> getNewestPodcastEpisodes(int count) {
+        MutableLiveData<List<Media>> liveNewestPodcastEpisodes = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getPodcastClient()

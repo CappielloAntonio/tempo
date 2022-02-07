@@ -92,7 +92,7 @@ public class PlayerCoverFragment extends Fragment {
     }
 
     private void initInnerButton() {
-        playerBottomSheetViewModel.getLiveSong().observe(requireActivity(), song -> {
+        playerBottomSheetViewModel.getLiveMedia().observe(requireActivity(), song -> {
             if (song != null && bind != null) {
                 bind.innerButtonTopLeft.setOnClickListener(view -> {
                     DownloadUtil.getDownloadTracker(requireContext()).download(
@@ -172,6 +172,7 @@ public class PlayerCoverFragment extends Fragment {
         });
     }
 
+    @SuppressLint("UnsafeOptInUsageError")
     private void setCover(MediaMetadata mediaMetadata) {
         CustomGlideRequest.Builder
                 .from(requireContext(), mediaMetadata.extras != null ? mediaMetadata.extras.getString("id") : null, CustomGlideRequest.SONG_PIC, null)

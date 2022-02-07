@@ -133,18 +133,19 @@ public class PlayerBottomSheetFragment extends Fragment {
         });
     }
 
+    @SuppressLint("UnsafeOptInUsageError")
     private void setMetadata(MediaMetadata mediaMetadata) {
-        if (mediaMetadata.extras != null) playerBottomSheetViewModel.setLiveSong(requireActivity(), mediaMetadata.extras.getString("id"));
-        if (mediaMetadata.extras != null) playerBottomSheetViewModel.setLiveArtist(requireActivity(), mediaMetadata.extras.getString("artistId"));
+        if (mediaMetadata.extras != null) playerBottomSheetViewModel.setLiveMedia(requireActivity(), mediaMetadata.extras.getString("mediaType"), mediaMetadata.extras.getString("id"));
+        if (mediaMetadata.extras != null) playerBottomSheetViewModel.setLiveArtist(requireActivity(), mediaMetadata.extras.getString("mediaType"), mediaMetadata.extras.getString("artistId"));
 
-        bind.playerHeaderLayout.playerHeaderSongTitleLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.title)));
-        bind.playerHeaderLayout.playerHeaderSongArtistLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.artist)));
+        bind.playerHeaderLayout.playerHeaderMediaTitleLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.title)));
+        bind.playerHeaderLayout.playerHeaderMediaArtistLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.artist)));
 
         if (mediaMetadata.extras != null) CustomGlideRequest.Builder
                 .from(requireContext(), mediaMetadata.extras.getString("id"), CustomGlideRequest.SONG_PIC, null)
                 .build()
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
-                .into(bind.playerHeaderLayout.playerHeaderSongCoverImage);
+                .into(bind.playerHeaderLayout.playerHeaderMediaCoverImage);
     }
 
     private void setContentDuration(long duration) {
@@ -165,12 +166,12 @@ public class PlayerBottomSheetFragment extends Fragment {
             }
         });
 
-        bind.playerHeaderLayout.playerHeaderNextSongButton.setOnClickListener(view -> bind.getRoot().findViewById(R.id.exo_next).performClick());
+        bind.playerHeaderLayout.playerHeaderNextMediaButton.setOnClickListener(view -> bind.getRoot().findViewById(R.id.exo_next).performClick());
     }
 
     private void setHeaderNextButtonState(boolean isEnabled) {
-        bind.playerHeaderLayout.playerHeaderNextSongButton.setEnabled(isEnabled);
-        bind.playerHeaderLayout.playerHeaderNextSongButton.setAlpha(isEnabled ? (float) 1.0 : (float) 0.3);
+        bind.playerHeaderLayout.playerHeaderNextMediaButton.setEnabled(isEnabled);
+        bind.playerHeaderLayout.playerHeaderNextMediaButton.setAlpha(isEnabled ? (float) 1.0 : (float) 0.3);
     }
 
     public View getPlayerHeader() {

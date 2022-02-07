@@ -15,7 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.model.PodcastEpisode;
+import com.cappielloantonio.play.model.Media;
+import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -32,7 +33,7 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
     private final MainActivity activity;
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
-    private List<PodcastEpisode> podcastEpisodes;
+    private List<Media> podcastEpisodes;
 
     public PodcastEpisodeAdapter(MainActivity activity, Context context) {
         this.activity = activity;
@@ -50,11 +51,11 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        PodcastEpisode podcastEpisode = podcastEpisodes.get(position);
+        Media podcastEpisode = podcastEpisodes.get(position);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d");
 
         holder.textTitle.setText(MusicUtil.getReadableString(podcastEpisode.getTitle()));
-        holder.textSubtitle.setText(MusicUtil.getReadableString(podcastEpisode.getArtist()));
+        holder.textSubtitle.setText(MusicUtil.getReadableString(podcastEpisode.getArtistName()));
         holder.textReleaseAndDuration.setText(context.getString(R.string.podcast_release_date_duration_formatter, simpleDateFormat.format(podcastEpisode.getPublishDate()), MusicUtil.getReadablePodcastDurationString(podcastEpisode.getDuration())));
         holder.textDescription.setText(MusicUtil.getReadableString(podcastEpisode.getDescription()));
 
@@ -70,7 +71,7 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
         return podcastEpisodes.size();
     }
 
-    public void setItems(List<PodcastEpisode> podcastEpisodes) {
+    public void setItems(List<Media> podcastEpisodes) {
         this.podcastEpisodes = podcastEpisodes;
         notifyDataSetChanged();
     }
@@ -104,8 +105,8 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
 
         @Override
         public void onClick(View view) {
-            // MediaManager.startQueue(mediaBrowserListenableFuture, context, podcastEpisodes.get(getBindingAdapterPosition()));
-            // activity.setBottomSheetInPeek(true);
+            MediaManager.startQueue(mediaBrowserListenableFuture, context, podcastEpisodes.get(getBindingAdapterPosition()));
+            activity.setBottomSheetInPeek(true);
         }
     }
 }

@@ -11,9 +11,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Playlist;
-import com.cappielloantonio.play.model.PodcastEpisode;
 import com.cappielloantonio.play.model.Media;
+import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
@@ -47,7 +46,7 @@ public class HomeViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Integer>> years = new MutableLiveData<>(null);
     private final MutableLiveData<List<Album>> recentlyAddedAlbumSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Playlist>> pinnedPlaylists = new MutableLiveData<>(null);
-    private final MutableLiveData<List<PodcastEpisode>> newestPodcastEpisodes = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Media>> newestPodcastEpisodes = new MutableLiveData<>(null);
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
@@ -134,7 +133,7 @@ public class HomeViewModel extends AndroidViewModel {
         return playlistRepository.getPlaylistSongs(playlistId);
     }
 
-    public LiveData<List<PodcastEpisode>> getNewestPodcastEpisodes(LifecycleOwner owner) {
+    public LiveData<List<Media>> getNewestPodcastEpisodes(LifecycleOwner owner) {
         podcastRepository.getNewestPodcastEpisodes(20).observe(owner, newestPodcastEpisodes::postValue);
         return newestPodcastEpisodes;
     }

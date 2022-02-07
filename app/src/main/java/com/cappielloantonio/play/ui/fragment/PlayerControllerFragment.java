@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -38,9 +37,9 @@ public class PlayerControllerFragment extends Fragment {
 
     private InnerFragmentPlayerControllerBinding bind;
     private ImageView playerMoveDownBottomSheet;
-    private ViewPager2 playerSongCoverViewPager;
+    private ViewPager2 playerMediaCoverViewPager;
     private ToggleButton buttonFavorite;
-    private TextView playerSongTitleLabel;
+    private TextView playerMediaTitleLabel;
     private TextView playerArtistNameLabel;
 
     private MainActivity activity;
@@ -87,9 +86,9 @@ public class PlayerControllerFragment extends Fragment {
     @SuppressLint("UnsafeOptInUsageError")
     private void init() {
         playerMoveDownBottomSheet = bind.getRoot().findViewById(R.id.player_move_down_bottom_sheet);
-        playerSongCoverViewPager = bind.getRoot().findViewById(R.id.player_song_cover_view_pager);
+        playerMediaCoverViewPager = bind.getRoot().findViewById(R.id.player_media_cover_view_pager);
         buttonFavorite = bind.getRoot().findViewById(R.id.button_favorite);
-        playerSongTitleLabel = bind.getRoot().findViewById(R.id.player_song_title_label);
+        playerMediaTitleLabel = bind.getRoot().findViewById(R.id.player_media_title_label);
         playerArtistNameLabel = bind.getRoot().findViewById(R.id.player_artist_name_label);
 
         playerMoveDownBottomSheet.setOnClickListener(view -> activity.collapseBottomSheet());
@@ -110,7 +109,7 @@ public class PlayerControllerFragment extends Fragment {
             try {
                 MediaBrowser mediaBrowser = mediaBrowserListenableFuture.get();
 
-                bind.nowPlayingSongControllerView.setPlayer(mediaBrowser);
+                bind.nowPlayingMediaControllerView.setPlayer(mediaBrowser);
 
                 setMediaControllerListener(mediaBrowser);
             } catch (Exception e) {
@@ -131,19 +130,20 @@ public class PlayerControllerFragment extends Fragment {
         });
     }
 
+    @SuppressLint("UnsafeOptInUsageError")
     private void setMetadata(MediaMetadata mediaMetadata) {
-        playerSongTitleLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.title)));
+        playerMediaTitleLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.title)));
         playerArtistNameLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.artist)));
 
-        playerSongTitleLabel.setSelected(true);
+        playerMediaTitleLabel.setSelected(true);
         playerArtistNameLabel.setSelected(true);
     }
 
     private void initCoverLyricsSlideView() {
-        playerSongCoverViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-        playerSongCoverViewPager.setAdapter(new PlayerControllerHorizontalPager(this));
+        playerMediaCoverViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        playerMediaCoverViewPager.setAdapter(new PlayerControllerHorizontalPager(this));
 
-        playerSongCoverViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        playerMediaCoverViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
@@ -158,15 +158,15 @@ public class PlayerControllerFragment extends Fragment {
     }
 
     private void initMediaListenable() {
-        playerBottomSheetViewModel.getLiveSong().observe(requireActivity(), song -> {
-            if (song != null) {
-                buttonFavorite.setChecked(song.isFavorite());
+        playerBottomSheetViewModel.getLiveMedia().observe(requireActivity(), media -> {
+            if (media != null) {
+                buttonFavorite.setChecked(media.isStarred());
 
-                buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite(requireContext(), song));
+                buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite(requireContext(), media));
 
                 buttonFavorite.setOnLongClickListener(v -> {
                     Bundle bundle = new Bundle();
-                    bundle.putParcelable("song_object", song);
+                    bundle.putParcelable("song_object", media);
 
                     RatingDialog dialog = new RatingDialog();
                     dialog.setArguments(bundle);
@@ -176,7 +176,7 @@ public class PlayerControllerFragment extends Fragment {
                 });
 
                 if (getActivity() != null) {
-                    playerBottomSheetViewModel.refreshSongInfo(requireActivity(), song);
+                    playerBottomSheetViewModel.refreshMediaInfo(requireActivity(), media);
                 }
             }
         });
@@ -196,10 +196,10 @@ public class PlayerControllerFragment extends Fragment {
     }
 
     public void goToControllerPage() {
-        playerSongCoverViewPager.setCurrentItem(0, false);
+        playerMediaCoverViewPager.setCurrentItem(0, false);
     }
 
     public void goToLyricsPage() {
-        playerSongCoverViewPager.setCurrentItem(1, true);
+        playerMediaCoverViewPager.setCurrentItem(1, true);
     }
 }

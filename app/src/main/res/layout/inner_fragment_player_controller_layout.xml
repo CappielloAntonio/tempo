@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/now_playing_song_controller_layout"
+    android:id="@+id/now_playing_media_controller_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -44,7 +44,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/player_song_cover_view_pager"
+        android:id="@+id/player_media_cover_view_pager"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/guideline"
@@ -60,7 +60,7 @@
         app:layout_constraintGuide_percent="0.60" />
 
     <TextView
-        android:id="@+id/player_song_title_label"
+        android:id="@+id/player_media_title_label"
         style="@style/HeadlineLarge"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -84,9 +84,9 @@
         android:text=""
         android:textOff=""
         android:textOn=""
-        app:layout_constraintBottom_toBottomOf="@+id/player_song_title_label"
+        app:layout_constraintBottom_toBottomOf="@+id/player_media_title_label"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/player_song_title_label" />
+        app:layout_constraintTop_toTopOf="@+id/player_media_title_label" />
 
     <TextView
         android:id="@+id/player_artist_name_label"
@@ -99,7 +99,7 @@
         android:maxLines="2"
         android:text="@string/label_placeholder"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player_song_title_label" />
+        app:layout_constraintTop_toBottomOf="@+id/player_media_title_label" />
 
     <TextView
         android:id="@+id/exo_position"

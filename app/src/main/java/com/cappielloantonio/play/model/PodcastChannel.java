@@ -13,7 +13,7 @@ public class PodcastChannel {
     protected String originalImageUrl;
     protected String status;
     protected String errorMessage;
-    protected List<PodcastEpisode> episodes;
+    protected List<Media> episodes;
 
     public PodcastChannel(com.cappielloantonio.play.subsonic.models.PodcastChannel podcastChannel) {
         this.id = podcastChannel.getId();
@@ -27,7 +27,7 @@ public class PodcastChannel {
         this.episodes = MappingUtil.mapPodcastEpisode(podcastChannel.getEpisodes());
     }
 
-    public PodcastChannel(String id, String url, String title, String description, String coverArtId, String originalImageUrl, String status, String errorMessage, List<PodcastEpisode> episodes) {
+    public PodcastChannel(String id, String url, String title, String description, String coverArtId, String originalImageUrl, String status, String errorMessage, List<Media> episodes) {
         this.id = id;
         this.url = url;
         this.title = title;
@@ -103,11 +103,11 @@ public class PodcastChannel {
         this.errorMessage = errorMessage;
     }
 
-    public List<PodcastEpisode> getEpisodes() {
+    public List<Media> getEpisodes() {
         return episodes;
     }
 
-    public void setEpisodes(List<PodcastEpisode> episodes) {
+    public void setEpisodes(List<Media> episodes) {
         this.episodes = episodes;
     }
 }

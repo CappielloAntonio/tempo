@@ -9,7 +9,6 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Media;
@@ -31,8 +30,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
 
     private final MutableLiveData<String> lyricsLiveData = new MutableLiveData<>(null);
 
-    private final MutableLiveData<Media> liveSong = new MutableLiveData<>(null);
-    private final MutableLiveData<Album> liveAlbum = new MutableLiveData<>(null);
+    private final MutableLiveData<Media> liveMedia = new MutableLiveData<>(null);
     private final MutableLiveData<Artist> liveArtist = new MutableLiveData<>(null);
 
     public PlayerBottomSheetViewModel(@NonNull Application application) {
@@ -47,19 +45,19 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         return queueRepository.getLiveQueue();
     }
 
-    public void setFavorite(Context context, Media song) {
-        if (song != null) {
-            if (song.isFavorite()) {
-                songRepository.unstar(song.getId());
-                song.setFavorite(false);
+    public void setFavorite(Context context, Media media) {
+        if (media != null) {
+            if (media.isStarred()) {
+                songRepository.unstar(media.getId());
+                media.setStarred(false);
             } else {
-                songRepository.star(song.getId());
-                song.setFavorite(true);
+                songRepository.star(media.getId());
+                media.setStarred(true);
 
                 if (PreferenceUtil.getInstance(context).isStarredSyncEnabled()) {
                     DownloadUtil.getDownloadTracker(context).download(
-                            MappingUtil.mapMediaItem(context, song, false),
-                            MappingUtil.mapDownload(song, null, null)
+                            MappingUtil.mapMediaItem(context, media, false),
+                            MappingUtil.mapDownload(media, null, null)
                     );
                 }
             }
@@ -70,23 +68,41 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         return lyricsLiveData;
     }
 
-    public void refreshSongInfo(LifecycleOwner owner, Media song) {
-        songRepository.getSongLyrics(song).observe(owner, lyricsLiveData::postValue);
+    public void refreshMediaInfo(LifecycleOwner owner, Media media) {
+        songRepository.getSongLyrics(media).observe(owner, lyricsLiveData::postValue);
     }
 
-    public LiveData<Media> getLiveSong() {
-        return liveSong;
+    public LiveData<Media> getLiveMedia() {
+        return liveMedia;
     }
 
-    public void setLiveSong(LifecycleOwner owner, String songId) {
-        songRepository.getSong(songId).observe(owner, liveSong::postValue);
+    public void setLiveMedia(LifecycleOwner owner, String mediaType, String mediaId) {
+        if(mediaType != null) {
+            switch (mediaType) {
+                case Media.MEDIA_TYPE_MUSIC:
+                    songRepository.getSong(mediaId).observe(owner, liveMedia::postValue);
+                    break;
+                case Media.MEDIA_TYPE_PODCAST:
+                    liveMedia.postValue(null);
+                    break;
+            }
+        }
     }
 
     public LiveData<Artist> getLiveArtist() {
         return liveArtist;
     }
 
-    public void setLiveArtist(LifecycleOwner owner, String ArtistId) {
-        artistRepository.getArtist(ArtistId).observe(owner, liveArtist::postValue);
+    public void setLiveArtist(LifecycleOwner owner, String mediaType, String ArtistId) {
+        if(mediaType != null) {
+            switch (mediaType) {
+                case Media.MEDIA_TYPE_MUSIC:
+                    artistRepository.getArtist(ArtistId).observe(owner, liveArtist::postValue);
+                    break;
+                case Media.MEDIA_TYPE_PODCAST:
+                    liveArtist.postValue(null);
+                    break;
+            }
+        }
     }
 }

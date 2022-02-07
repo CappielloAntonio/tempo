@@ -11,7 +11,7 @@ public class Queue {
     private int trackOrder;
 
     @ColumnInfo(name = "id")
-    private String songID;
+    private String id;
 
     @ColumnInfo(name = "title")
     private String title;
@@ -28,30 +28,46 @@ public class Queue {
     @ColumnInfo(name = "artistName")
     private String artistName;
 
-    @ColumnInfo(name = "primary")
-    private String primary;
+    @ColumnInfo(name = "cover_art_id")
+    private String coverArtId;
 
     @ColumnInfo(name = "duration")
     private long duration;
 
-    @ColumnInfo(name = "last_play",defaultValue = "0")
+    @ColumnInfo(name = "last_play", defaultValue = "0")
     private long lastPlay;
 
     @ColumnInfo(name = "playing_changed", defaultValue = "0")
     private long playingChanged;
 
-    public Queue(int trackOrder, String songID, String title, String albumId, String albumName, String artistId, String artistName, String primary, long duration, long lastPlay, long playingChanged) {
+    @ColumnInfo(name = "stream_id")
+    private String streamId;
+
+    @ColumnInfo(name = "channel_id")
+    private String channelId;
+
+    @ColumnInfo(name = "publishing_date", defaultValue = "0")
+    private long publishingDate;
+
+    @ColumnInfo(name = "media_type")
+    private String type;
+
+    public Queue(int trackOrder, String id, String title, String albumId, String albumName, String artistId, String artistName, String coverArtId, long duration, long lastPlay, long playingChanged, String streamId, String channelId, long publishingDate, String type) {
         this.trackOrder = trackOrder;
-        this.songID = songID;
+        this.id = id;
         this.title = title;
         this.albumId = albumId;
         this.albumName = albumName;
         this.artistId = artistId;
         this.artistName = artistName;
-        this.primary = primary;
+        this.coverArtId = coverArtId;
         this.duration = duration;
         this.lastPlay = lastPlay;
         this.playingChanged = playingChanged;
+        this.streamId = streamId;
+        this.channelId = channelId;
+        this.publishingDate = publishingDate;
+        this.type = type;
     }
 
     public int getTrackOrder() {
@@ -62,12 +78,12 @@ public class Queue {
         this.trackOrder = trackOrder;
     }
 
-    public String getSongID() {
-        return songID;
+    public String getId() {
+        return id;
     }
 
-    public void setSongID(String songID) {
-        this.songID = songID;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -110,12 +126,12 @@ public class Queue {
         this.artistName = artistName;
     }
 
-    public String getPrimary() {
-        return primary;
+    public String getCoverArtId() {
+        return coverArtId;
     }
 
-    public void setPrimary(String primary) {
-        this.primary = primary;
+    public void setCoverArtId(String coverArtId) {
+        this.coverArtId = coverArtId;
     }
 
     public long getDuration() {
@@ -140,5 +156,37 @@ public class Queue {
 
     public void setPlayingChanged(long playingChanged) {
         this.playingChanged = playingChanged;
+    }
+
+    public String getStreamId() {
+        return streamId;
+    }
+
+    public void setStreamId(String streamId) {
+        this.streamId = streamId;
+    }
+
+    public String getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(String channelId) {
+        this.channelId = channelId;
+    }
+
+    public long getPublishingDate() {
+        return publishingDate;
+    }
+
+    public void setPublishingDate(long publishingDate) {
+        this.publishingDate = publishingDate;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

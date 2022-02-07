@@ -13,6 +13,11 @@ import java.util.UUID;
 public class Media implements Parcelable {
     private static final String TAG = "Media";
 
+    public static String MEDIA_TYPE_MUSIC = "music";
+    public static String MEDIA_TYPE_PODCAST = "podcast";
+    public static String MEDIA_TYPE_AUDIOBOOK = "audiobook";
+    public static String MEDIA_TYPE_VIDEO = "video";
+
     public static final String RECENTLY_PLAYED = "RECENTLY_PLAYED";
     public static final String MOST_PLAYED = "MOST_PLAYED";
     public static final String RECENTLY_ADDED = "RECENTLY_ADDED";

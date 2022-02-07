@@ -52,6 +52,12 @@ public class Media implements Parcelable {
     private long lastPlay;
     private int rating;
 
+    private String streamId;
+    private String channelId;
+    private String description;
+    private String status;
+    private Date publishDate;
+
     public Media() {
         this.id = UUID.randomUUID().toString();
     }

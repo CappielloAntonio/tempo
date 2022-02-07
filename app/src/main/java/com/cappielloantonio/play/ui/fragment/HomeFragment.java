@@ -40,8 +40,8 @@ import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.play.helper.recyclerview.DotsIndicatorDecoration;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Media;
+import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
@@ -657,5 +657,6 @@ public class HomeFragment extends Fragment {
         similarMusicAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
         starredSongAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
         radioArtistAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
+        podcastEpisodeAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
     }
 }

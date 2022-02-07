@@ -59,7 +59,7 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
         holder.textAlbum.setText(MusicUtil.getReadableString(song.getAlbumName()));
 
         CustomGlideRequest.Builder
-                .from(context, song.getPrimary(), CustomGlideRequest.SONG_PIC, null)
+                .from(context, song.getCoverArtId(), CustomGlideRequest.SONG_PIC, null)
                 .build()
                 .into(holder.cover);
     }

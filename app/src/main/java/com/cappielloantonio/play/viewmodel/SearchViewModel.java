@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.RecentSearch;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.SearchingRepository;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class SearchViewModel extends AndroidViewModel {
         }
     }
 
-    public LiveData<List<Song>> searchSong(String title) {
+    public LiveData<List<Media>> searchSong(String title) {
         return searchingRepository.getSearchedSongs(title);
     }
 

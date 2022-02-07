@@ -11,7 +11,7 @@ import com.cappielloantonio.play.database.dao.RecentSearchDao;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.RecentSearch;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.Child;
@@ -37,8 +37,8 @@ public class SearchingRepository {
         recentSearchDao = database.recentSearchDao();
     }
 
-    public MutableLiveData<List<Song>> getSearchedSongs(String query) {
-        MutableLiveData<List<Song>> searchedSongs = new MutableLiveData<>();
+    public MutableLiveData<List<Media>> getSearchedSongs(String query) {
+        MutableLiveData<List<Media>> searchedSongs = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getSearchingClient()
@@ -46,7 +46,7 @@ public class SearchingRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        List<Song> songs = new ArrayList<>();
+                        List<Media> songs = new ArrayList<>();
 
                         if (response.isSuccessful() && response.body() != null && response.body().getSearchResult3() != null) {
                             songs.addAll(MappingUtil.mapSong(response.body().getSearchResult3().getSongs()));

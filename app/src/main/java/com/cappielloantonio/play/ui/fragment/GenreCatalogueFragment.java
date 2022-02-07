@@ -25,7 +25,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.GenreCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentGenreCatalogueBinding;
 import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.GenreCatalogueViewModel;
 
@@ -109,7 +109,7 @@ public class GenreCatalogueFragment extends Fragment {
         bind.genreCatalogueRecyclerView.setAdapter(genreCatalogueAdapter);
         genreCatalogueAdapter.setClickListener((view, position) -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Song.BY_GENRE, Song.BY_GENRE);
+            bundle.putString(Media.BY_GENRE, Media.BY_GENRE);
             bundle.putParcelable("genre_object", genreCatalogueAdapter.getItem(position));
             activity.navController.navigate(R.id.action_genreCatalogueFragment_to_songListPageFragment, bundle);
         });

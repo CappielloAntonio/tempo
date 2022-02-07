@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.FragmentFilterBinding;
 import com.cappielloantonio.play.model.Genre;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.FilterViewModel;
@@ -57,7 +57,7 @@ public class FilterFragment extends Fragment {
 
     private void init() {
         Bundle bundle = new Bundle();
-        bundle.putString(Song.BY_GENRES, Song.BY_GENRES);
+        bundle.putString(Media.BY_GENRES, Media.BY_GENRES);
         bundle.putStringArrayList("filters_list", filterViewModel.getFilters());
         bundle.putStringArrayList("filter_name_list", filterViewModel.getFilterNames());
         bind.finishFilteringTextViewClickable.setOnClickListener(v -> {

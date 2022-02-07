@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.DownloadUtil;
@@ -36,7 +36,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
     private final boolean isCoverVisible;
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
-    private List<Song> songs;
+    private List<Media> songs;
 
     public SongHorizontalAdapter(MainActivity mainActivity, Context context, boolean isCoverVisible) {
         this.mainActivity = mainActivity;
@@ -55,7 +55,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Song song = songs.get(position);
+        Media song = songs.get(position);
 
         holder.songTitle.setText(MusicUtil.getReadableString(song.getTitle()));
         holder.songSubtitle.setText(context.getString(R.string.song_subtitle_formatter, MusicUtil.getReadableString(song.getArtistName()), MusicUtil.getReadableDurationString(song.getDuration(), false)));
@@ -83,7 +83,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         return songs.size();
     }
 
-    public void setItems(List<Song> songs) {
+    public void setItems(List<Media> songs) {
         this.songs = songs;
         notifyDataSetChanged();
     }
@@ -92,7 +92,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         this.mediaBrowserListenableFuture = mediaBrowserListenableFuture;
     }
 
-    public Song getItem(int id) {
+    public Media getItem(int id) {
         return songs.get(id);
     }
 

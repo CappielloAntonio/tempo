@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.session.MediaBrowser;
@@ -21,12 +20,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.SnapHelper;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumHorizontalAdapter;
 import com.cappielloantonio.play.adapter.ArtistHorizontalAdapter;
-import com.cappielloantonio.play.adapter.PlaylistAdapter;
 import com.cappielloantonio.play.adapter.PlaylistHorizontalAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentDownloadBinding;
@@ -34,7 +31,7 @@ import com.cappielloantonio.play.helper.recyclerview.DotsIndicatorDecoration;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Playlist;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.UIUtil;
@@ -153,7 +150,7 @@ public class DownloadFragment extends Fragment {
 
         bind.downloadedTracksTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Song.DOWNLOADED, Song.DOWNLOADED);
+            bundle.putString(Media.DOWNLOADED, Media.DOWNLOADED);
             activity.navController.navigate(R.id.action_downloadFragment_to_songListPageFragment, bundle);
         });
 

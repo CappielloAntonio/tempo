@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 
@@ -35,7 +35,7 @@ public class ArtistPageViewModel extends AndroidViewModel {
         return artistRepository.getArtistFullInfo(id);
     }
 
-    public LiveData<List<Song>> getArtistTopSongList(int count) {
+    public LiveData<List<Media>> getArtistTopSongList(int count) {
         return artistRepository.getTopSongs(artist.getName(), count);
     }
 

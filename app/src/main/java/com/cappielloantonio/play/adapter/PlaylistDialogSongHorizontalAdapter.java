@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import java.util.List;
 public class PlaylistDialogSongHorizontalAdapter extends RecyclerView.Adapter<PlaylistDialogSongHorizontalAdapter.ViewHolder> {
     private static final String TAG = "PlaylistDialogSongHorizontalAdapter";
 
-    private List<Song> songs;
+    private List<Media> songs;
     private final LayoutInflater mInflater;
     private final Context context;
 
@@ -41,7 +41,7 @@ public class PlaylistDialogSongHorizontalAdapter extends RecyclerView.Adapter<Pl
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Song song = songs.get(position);
+        Media song = songs.get(position);
 
         holder.songTitle.setText(MusicUtil.getReadableString(song.getTitle()));
         holder.songArtist.setText(MusicUtil.getReadableString(song.getArtistName()));
@@ -59,16 +59,16 @@ public class PlaylistDialogSongHorizontalAdapter extends RecyclerView.Adapter<Pl
         return songs.size();
     }
 
-    public List<Song> getItems() {
+    public List<Media> getItems() {
         return this.songs;
     }
 
-    public void setItems(List<Song> songs) {
+    public void setItems(List<Media> songs) {
         this.songs = songs;
         notifyDataSetChanged();
     }
 
-    public Song getItem(int id) {
+    public Media getItem(int id) {
         return songs.get(id);
     }
 

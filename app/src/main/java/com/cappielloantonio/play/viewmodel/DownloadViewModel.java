@@ -11,7 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Playlist;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.util.MappingUtil;
 
@@ -24,7 +24,7 @@ public class DownloadViewModel extends AndroidViewModel {
 
     private final MutableLiveData<List<Artist>> downloadedArtistSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Album>> downloadedAlbumSample = new MutableLiveData<>(null);
-    private final MutableLiveData<List<Song>> downloadedTrackSample = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Media>> downloadedTrackSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Playlist>> downloadedPlaylistSample = new MutableLiveData<>(null);
 
     public DownloadViewModel(@NonNull Application application) {
@@ -43,7 +43,7 @@ public class DownloadViewModel extends AndroidViewModel {
         return downloadedAlbumSample;
     }
 
-    public LiveData<List<Song>> getDownloadedTracks(LifecycleOwner owner, int size) {
+    public LiveData<List<Media>> getDownloadedTracks(LifecycleOwner owner, int size) {
         downloadRepository.getLiveDownloadSample(size, false, false, true, false).observe(owner, downloads -> downloadedTrackSample.postValue(MappingUtil.mapDownloadToSong(downloads)));
         return downloadedTrackSample;
     }

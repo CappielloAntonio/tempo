@@ -3,7 +3,6 @@ package com.cappielloantonio.play.ui.fragment;
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,7 +41,7 @@ import com.cappielloantonio.play.helper.recyclerview.DotsIndicatorDecoration;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Playlist;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
@@ -181,7 +180,7 @@ public class HomeFragment extends Fragment {
 
         bind.starredTracksTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Song.STARRED, Song.STARRED);
+            bundle.putString(Media.STARRED, Media.STARRED);
             activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
         });
 
@@ -451,7 +450,7 @@ public class HomeFragment extends Fragment {
         yearAdapter = new YearAdapter(requireContext());
         yearAdapter.setClickListener((view, position) -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Song.BY_YEAR, Song.BY_YEAR);
+            bundle.putString(Media.BY_YEAR, Media.BY_YEAR);
             bundle.putInt("year_object", yearAdapter.getItem(position));
             activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
         });

@@ -23,7 +23,7 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.MediaCallback;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
@@ -43,7 +43,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
     private static final String TAG = "SongBottomSheetDialog";
 
     private SongBottomSheetViewModel songBottomSheetViewModel;
-    private Song song;
+    private Media song;
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
@@ -123,7 +123,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
                 @Override
                 public void onLoadMedia(List<?> media) {
-                    MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), (List<Song>) media, true);
+                    MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), (List<Media>) media, true);
                     dismissBottomSheet();
                 }
             });

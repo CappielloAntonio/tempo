@@ -21,7 +21,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.ui.activity.MainActivity;
@@ -130,7 +130,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
                         @Override
                         public void onLoadMedia(List<?> media) {
                             if (media.size() > 0) {
-                                MediaManager.startQueue(mediaBrowserListenableFuture, context, (ArrayList<Song>) media, 0);
+                                MediaManager.startQueue(mediaBrowserListenableFuture, context, (ArrayList<Media>) media, 0);
                                 mainActivity.setBottomSheetInPeek(true);
                             } else {
                                 Toast.makeText(context, context.getString(R.string.artist_error_retrieving_radio), Toast.LENGTH_SHORT).show();

@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData;
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.QueueDao;
 import com.cappielloantonio.play.model.Queue;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.util.MappingUtil;
 
 import java.time.Instant;
@@ -28,8 +28,8 @@ public class QueueRepository {
         return queueDao.getAll();
     }
 
-    public List<Song> getSongs() {
-        List<Song> songs = new ArrayList<>();
+    public List<Media> getSongs() {
+        List<Media> songs = new ArrayList<>();
 
         GetSongsThreadSafe getSongs = new GetSongsThreadSafe(queueDao);
         Thread thread = new Thread(getSongs);
@@ -45,9 +45,9 @@ public class QueueRepository {
         return songs;
     }
 
-    public void insert(Song song, boolean reset, int afterIndex) {
+    public void insert(Media song, boolean reset, int afterIndex) {
         try {
-            List<Song> songs = new ArrayList<>();
+            List<Media> songs = new ArrayList<>();
 
             if (!reset) {
                 GetSongsThreadSafe getSongsThreadSafe = new GetSongsThreadSafe(queueDao);
@@ -72,9 +72,9 @@ public class QueueRepository {
         }
     }
 
-    public void insertAll(List<Song> toAdd, boolean reset, int afterIndex) {
+    public void insertAll(List<Media> toAdd, boolean reset, int afterIndex) {
         try {
-            List<Song> songs = new ArrayList<>();
+            List<Media> songs = new ArrayList<>();
 
             if (!reset) {
                 GetSongsThreadSafe getSongsThreadSafe = new GetSongsThreadSafe(queueDao);
@@ -176,7 +176,7 @@ public class QueueRepository {
 
     private static class GetSongsThreadSafe implements Runnable {
         private final QueueDao queueDao;
-        private List<Song> songs;
+        private List<Media> songs;
 
         public GetSongsThreadSafe(QueueDao queueDao) {
             this.queueDao = queueDao;
@@ -187,16 +187,16 @@ public class QueueRepository {
             songs = MappingUtil.mapQueue(queueDao.getAllSimple());
         }
 
-        public List<Song> getSongs() {
+        public List<Media> getSongs() {
             return songs;
         }
     }
 
     private static class InsertAllThreadSafe implements Runnable {
         private final QueueDao queueDao;
-        private final List<Song> songs;
+        private final List<Media> songs;
 
-        public InsertAllThreadSafe(QueueDao queueDao, List<Song> songs) {
+        public InsertAllThreadSafe(QueueDao queueDao, List<Media> songs) {
             this.queueDao = queueDao;
             this.songs = songs;
         }

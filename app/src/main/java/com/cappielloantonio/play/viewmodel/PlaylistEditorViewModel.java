@@ -1,7 +1,6 @@
 package com.cappielloantonio.play.viewmodel;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -9,7 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.model.Playlist;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.PlaylistRepository;
 
 import java.util.ArrayList;
@@ -22,10 +21,10 @@ public class PlaylistEditorViewModel extends AndroidViewModel {
 
     private final PlaylistRepository playlistRepository;
 
-    private Song toAdd;
+    private Media toAdd;
     private Playlist toEdit;
 
-    private MutableLiveData<List<Song>> songLiveList = new MutableLiveData<>();
+    private MutableLiveData<List<Media>> songLiveList = new MutableLiveData<>();
 
     public PlaylistEditorViewModel(@NonNull Application application) {
         super(application);
@@ -46,11 +45,11 @@ public class PlaylistEditorViewModel extends AndroidViewModel {
         if (toEdit != null) playlistRepository.deletePlaylist(toEdit.getId());
     }
 
-    public Song getSongToAdd() {
+    public Media getSongToAdd() {
         return toAdd;
     }
 
-    public void setSongToAdd(Song song) {
+    public void setSongToAdd(Media song) {
         this.toAdd = song;
     }
 
@@ -68,26 +67,26 @@ public class PlaylistEditorViewModel extends AndroidViewModel {
         }
     }
 
-    public LiveData<List<Song>> getPlaylistSongLiveList() {
+    public LiveData<List<Media>> getPlaylistSongLiveList() {
         return songLiveList;
     }
 
     public void removeFromPlaylistSongLiveList(int position) {
-        List<Song> songs = songLiveList.getValue();
+        List<Media> songs = songLiveList.getValue();
         Objects.requireNonNull(songs).remove(position);
         songLiveList.postValue(songs);
     }
 
-    public void orderPlaylistSongLiveListAfterSwap(List<Song> songs) {
+    public void orderPlaylistSongLiveListAfterSwap(List<Media> songs) {
         songLiveList.postValue(songs);
     }
 
     private ArrayList<String> getPlaylistSongIds() {
-        List<Song> songs = songLiveList.getValue();
+        List<Media> songs = songLiveList.getValue();
         ArrayList<String> ids = new ArrayList<>();
 
         if (songs != null && !songs.isEmpty()) {
-            for (Song song : songs) {
+            for (Media song : songs) {
                 ids.add(song.getId());
             }
         }

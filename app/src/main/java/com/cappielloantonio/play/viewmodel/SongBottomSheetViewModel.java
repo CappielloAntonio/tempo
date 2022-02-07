@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.SongRepository;
@@ -22,7 +22,7 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
     private final AlbumRepository albumRepository;
     private final ArtistRepository artistRepository;
 
-    private Song song;
+    private Media song;
 
     public SongBottomSheetViewModel(@NonNull Application application) {
         super(application);
@@ -32,11 +32,11 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
         artistRepository = new ArtistRepository(application);
     }
 
-    public Song getSong() {
+    public Media getSong() {
         return song;
     }
 
-    public void setSong(Song song) {
+    public void setSong(Media song) {
         this.song = song;
     }
 

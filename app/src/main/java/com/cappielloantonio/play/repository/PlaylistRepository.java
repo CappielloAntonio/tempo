@@ -9,10 +9,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.PlaylistDao;
-import com.cappielloantonio.play.database.dao.ServerDao;
 import com.cappielloantonio.play.model.Playlist;
-import com.cappielloantonio.play.model.Server;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.util.MappingUtil;
 
@@ -63,8 +61,8 @@ public class PlaylistRepository {
         return listLivePlaylists;
     }
 
-    public MutableLiveData<List<Song>> getPlaylistSongs(String id) {
-        MutableLiveData<List<Song>> listLivePlaylistSongs = new MutableLiveData<>();
+    public MutableLiveData<List<Media>> getPlaylistSongs(String id) {
+        MutableLiveData<List<Media>> listLivePlaylistSongs = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getPlaylistClient()
@@ -73,7 +71,7 @@ public class PlaylistRepository {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getPlaylist() != null) {
-                            List<Song> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getPlaylist().getEntries()));
+                            List<Media> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getPlaylist().getEntries()));
                             listLivePlaylistSongs.setValue(songs);
                         }
                     }

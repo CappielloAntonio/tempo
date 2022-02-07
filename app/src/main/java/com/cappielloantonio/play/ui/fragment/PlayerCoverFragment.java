@@ -24,7 +24,7 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.databinding.InnerFragmentPlayerCoverBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.MediaCallback;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
@@ -121,7 +121,7 @@ public class PlayerCoverFragment extends Fragment {
 
                         @Override
                         public void onLoadMedia(List<?> media) {
-                            MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), (List<Song>) media, true);
+                            MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), (List<Media>) media, true);
                         }
                     });
                 });

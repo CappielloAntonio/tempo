@@ -7,11 +7,11 @@ import androidx.annotation.NonNull;
 
 import com.cappielloantonio.play.subsonic.models.Child;
 
-import java.time.Instant;
+import java.util.Date;
 import java.util.UUID;
 
-public class Song implements Parcelable {
-    private static final String TAG = "SongClass";
+public class Media implements Parcelable {
+    private static final String TAG = "Media";
 
     public static final String RECENTLY_PLAYED = "RECENTLY_PLAYED";
     public static final String MOST_PLAYED = "MOST_PLAYED";
@@ -42,15 +42,16 @@ public class Song implements Parcelable {
     private String container;
     private int bitRate;
     private long added;
+    private String type;
     private int playCount;
     private long lastPlay;
     private int rating;
 
-    public Song() {
+    public Media() {
         this.id = UUID.randomUUID().toString();
     }
 
-    public Song(Child child) {
+    public Media(Child child) {
         this.id = child.getId();
         this.title = child.getTitle();
         this.trackNumber = child.getTrack() != null ? child.getTrack() : 0;
@@ -73,7 +74,7 @@ public class Song implements Parcelable {
         this.rating = child.getUserRating() != null ? child.getUserRating() : 0;
     }
 
-    public Song(Queue queue) {
+    public Media(Queue queue) {
         this.id = queue.getSongID();
         this.title = queue.getTitle();
         this.albumId = queue.getAlbumId();
@@ -84,7 +85,7 @@ public class Song implements Parcelable {
         this.duration = queue.getDuration();
     }
 
-    public Song(Download download) {
+    public Media(Download download) {
         this.id = download.getSongID();
         this.title = download.getTitle();
         this.albumId = download.getAlbumId();
@@ -269,7 +270,7 @@ public class Song implements Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Song song = (Song) o;
+        Media song = (Media) o;
         return id.equals(song.id);
     }
 
@@ -313,7 +314,7 @@ public class Song implements Parcelable {
         dest.writeLong(this.lastPlay);
     }
 
-    protected Song(Parcel in) {
+    protected Media(Parcel in) {
         this.id = in.readString();
         this.title = in.readString();
         this.trackNumber = in.readInt();
@@ -336,13 +337,13 @@ public class Song implements Parcelable {
         this.lastPlay = in.readLong();
     }
 
-    public static final Creator<Song> CREATOR = new Creator<Song>() {
-        public Song createFromParcel(Parcel source) {
-            return new Song(source);
+    public static final Creator<Media> CREATOR = new Creator<Media>() {
+        public Media createFromParcel(Parcel source) {
+            return new Media(source);
         }
 
-        public Song[] newArray(int size) {
-            return new Song[size];
+        public Media[] newArray(int size) {
+            return new Media[size];
         }
     };
 }

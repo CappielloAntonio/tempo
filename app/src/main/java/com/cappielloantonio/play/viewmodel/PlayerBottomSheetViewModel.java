@@ -12,7 +12,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Queue;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
@@ -31,7 +31,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
 
     private final MutableLiveData<String> lyricsLiveData = new MutableLiveData<>(null);
 
-    private final MutableLiveData<Song> liveSong = new MutableLiveData<>(null);
+    private final MutableLiveData<Media> liveSong = new MutableLiveData<>(null);
     private final MutableLiveData<Album> liveAlbum = new MutableLiveData<>(null);
     private final MutableLiveData<Artist> liveArtist = new MutableLiveData<>(null);
 
@@ -47,7 +47,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         return queueRepository.getLiveQueue();
     }
 
-    public void setFavorite(Context context, Song song) {
+    public void setFavorite(Context context, Media song) {
         if (song != null) {
             if (song.isFavorite()) {
                 songRepository.unstar(song.getId());
@@ -70,11 +70,11 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         return lyricsLiveData;
     }
 
-    public void refreshSongInfo(LifecycleOwner owner, Song song) {
+    public void refreshSongInfo(LifecycleOwner owner, Media song) {
         songRepository.getSongLyrics(song).observe(owner, lyricsLiveData::postValue);
     }
 
-    public LiveData<Song> getLiveSong() {
+    public LiveData<Media> getLiveSong() {
         return liveSong;
     }
 

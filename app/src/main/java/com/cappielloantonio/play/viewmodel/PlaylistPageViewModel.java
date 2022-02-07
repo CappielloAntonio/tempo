@@ -3,7 +3,6 @@ package com.cappielloantonio.play.viewmodel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
@@ -11,7 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.model.Playlist;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
 import com.cappielloantonio.play.util.MappingUtil;
@@ -23,7 +22,7 @@ public class PlaylistPageViewModel extends AndroidViewModel {
     private final PlaylistRepository playlistRepository;
     private final DownloadRepository downloadRepository;
 
-    private MutableLiveData<List<Song>> playlistSongLiveList = new MutableLiveData<>();
+    private MutableLiveData<List<Media>> playlistSongLiveList = new MutableLiveData<>();
 
     private Playlist playlist;
     private boolean isOffline;
@@ -35,7 +34,7 @@ public class PlaylistPageViewModel extends AndroidViewModel {
         downloadRepository = new DownloadRepository(application);
     }
 
-    public LiveData<List<Song>> getPlaylistSongLiveList(LifecycleOwner owner) {
+    public LiveData<List<Media>> getPlaylistSongLiveList(LifecycleOwner owner) {
         if (isOffline) {
             downloadRepository.getLiveDownloadFromPlaylist(playlist.getId()).observe(owner, downloads -> playlistSongLiveList.postValue(MappingUtil.mapDownloadToSong(downloads)));
         } else {

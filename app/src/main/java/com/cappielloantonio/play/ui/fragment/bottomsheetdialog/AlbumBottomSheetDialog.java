@@ -26,7 +26,7 @@ import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Download;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
@@ -113,7 +113,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
                 @Override
                 public void onLoadMedia(List<?> media) {
                     if (media.size() > 0) {
-                        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), (ArrayList<Song>) media, 0);
+                        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), (ArrayList<Media>) media, 0);
                         ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
                     } else {
                         Toast.makeText(requireContext(), getString(R.string.album_error_retrieving_radio), Toast.LENGTH_SHORT).show();

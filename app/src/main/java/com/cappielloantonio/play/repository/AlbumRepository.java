@@ -9,7 +9,7 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.DecadesCallback;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.util.MappingUtil;
 
@@ -140,8 +140,8 @@ public class AlbumRepository {
                 });
     }
 
-    public MutableLiveData<List<Song>> getAlbumTracks(String id) {
-        MutableLiveData<List<Song>> albumTracks = new MutableLiveData<>();
+    public MutableLiveData<List<Media>> getAlbumTracks(String id) {
+        MutableLiveData<List<Media>> albumTracks = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
@@ -149,7 +149,7 @@ public class AlbumRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        List<Song> tracks = new ArrayList<>();
+                        List<Media> tracks = new ArrayList<>();
 
                         if (response.isSuccessful() && response.body() != null && response.body().getAlbum() != null) {
                             tracks.addAll(MappingUtil.mapSong(response.body().getAlbum().getSongs()));
@@ -248,7 +248,7 @@ public class AlbumRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        List<Song> songs = new ArrayList<>();
+                        List<Media> songs = new ArrayList<>();
 
                         if (response.isSuccessful() && response.body() != null && response.body().getSimilarSongs2() != null) {
                             songs.addAll(MappingUtil.mapSong(response.body().getSimilarSongs2().getSongs()));

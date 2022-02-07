@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 
@@ -40,7 +40,7 @@ public class AlbumBottomSheetViewModel extends AndroidViewModel {
         return artistRepository.getArtist(album.getArtistId());
     }
 
-    public MutableLiveData<List<Song>> getAlbumTracks() {
+    public MutableLiveData<List<Media>> getAlbumTracks() {
         return albumRepository.getAlbumTracks(album.getId());
     }
 

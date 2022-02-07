@@ -70,7 +70,7 @@ public class Download {
         this.playlistName = playlistName;
     }
 
-    public Download(Song song, String playlistId, String playlistName) {
+    public Download(Media song, String playlistId, String playlistName) {
         this.id = UUID.randomUUID().toString();
         this.songID = song.getId();
         this.title = song.getTitle();

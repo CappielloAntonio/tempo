@@ -4,7 +4,6 @@ import android.app.Application;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
@@ -13,7 +12,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Genre;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.repository.SongRepository;
@@ -33,7 +32,7 @@ public class SongListPageViewModel extends AndroidViewModel {
     public Artist artist;
     public Album album;
 
-    private MutableLiveData<List<Song>> songList;
+    private MutableLiveData<List<Media>> songList;
 
     public ArrayList<String> filters = new ArrayList<>();
     public ArrayList<String> filterNames = new ArrayList<>();
@@ -48,29 +47,29 @@ public class SongListPageViewModel extends AndroidViewModel {
         downloadRepository = new DownloadRepository(application);
     }
 
-    public LiveData<List<Song>> getSongList(LifecycleOwner owner) {
+    public LiveData<List<Media>> getSongList(LifecycleOwner owner) {
         songList = new MutableLiveData<>(new ArrayList<>());
 
         switch (title) {
-            case Song.BY_GENRE:
+            case Media.BY_GENRE:
                 songList = songRepository.getSongsByGenre(genre.getId());
                 break;
-            case Song.BY_ARTIST:
+            case Media.BY_ARTIST:
                 songList = artistRepository.getTopSongs(artist.getName(), 50);
                 break;
-            case Song.BY_GENRES:
+            case Media.BY_GENRES:
                 songList = songRepository.getSongsByGenres(filters);
                 break;
-            case Song.BY_YEAR:
+            case Media.BY_YEAR:
                 songList = songRepository.getRandomSample(500, year, year + 10);
                 break;
-            case Song.STARRED:
+            case Media.STARRED:
                 songList = songRepository.getStarredSongs(false, -1);
                 break;
-            case Song.DOWNLOADED:
+            case Media.DOWNLOADED:
                 downloadRepository.getLiveDownload().observe(owner, downloads -> songList.setValue(MappingUtil.mapDownloadToSong(downloads)));
                 break;
-            case Song.FROM_ALBUM:
+            case Media.FROM_ALBUM:
                 downloadRepository.getLiveDownloadFromAlbum(album.getId()).observe(owner, downloads -> songList.setValue(MappingUtil.mapDownloadToSong(downloads)));
                 break;
         }

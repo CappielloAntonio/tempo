@@ -19,7 +19,7 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.MediaCallback;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.ui.activity.MainActivity;
@@ -37,7 +37,7 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
     private final LayoutInflater mInflater;
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
-    private List<Song> songs;
+    private List<Media> songs;
 
     public SimilarTrackAdapter(MainActivity activity, Context context) {
         this.activity = activity;
@@ -55,7 +55,7 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Song song = songs.get(position);
+        Media song = songs.get(position);
 
         holder.textTitle.setText(MusicUtil.getReadableString(song.getTitle()));
 
@@ -71,11 +71,11 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
         return songs.size();
     }
 
-    public Song getItem(int position) {
+    public Media getItem(int position) {
         return songs.get(position);
     }
 
-    public void setItems(List<Song> songs) {
+    public void setItems(List<Media> songs) {
         this.songs = songs;
         notifyDataSetChanged();
     }
@@ -112,7 +112,7 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
 
                 @Override
                 public void onLoadMedia(List<?> media) {
-                    MediaManager.enqueue(mediaBrowserListenableFuture, context, (List<Song>) media, false);
+                    MediaManager.enqueue(mediaBrowserListenableFuture, context, (List<Media>) media, false);
                 }
             });
         }

@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.MediaCallback;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.util.MappingUtil;
 
@@ -29,8 +29,8 @@ public class SongRepository {
         this.application = application;
     }
 
-    public MutableLiveData<List<Song>> getStarredSongs(boolean random, int size) {
-        MutableLiveData<List<Song>> starredSongs = new MutableLiveData<>();
+    public MutableLiveData<List<Media>> getStarredSongs(boolean random, int size) {
+        MutableLiveData<List<Media>> starredSongs = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
@@ -39,7 +39,7 @@ public class SongRepository {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getStarred2() != null) {
-                            List<Song> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getStarred2().getSongs()));
+                            List<Media> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getStarred2().getSongs()));
 
                             if (!random) {
                                 starredSongs.setValue(songs);
@@ -59,7 +59,7 @@ public class SongRepository {
         return starredSongs;
     }
 
-    public void getInstantMix(Song song, int count, MediaCallback callback) {
+    public void getInstantMix(Media song, int count, MediaCallback callback) {
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
                 .getSimilarSongs2(song.getId(), count)
@@ -67,7 +67,7 @@ public class SongRepository {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getSimilarSongs2() != null) {
-                            List<Song> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getSimilarSongs2().getSongs()));
+                            List<Media> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getSimilarSongs2().getSongs()));
 
                             if (songs.size() <= 1) {
                                 songs.add(song);
@@ -79,15 +79,15 @@ public class SongRepository {
 
                     @Override
                     public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
-                        List<Song> songs = new ArrayList<>();
+                        List<Media> songs = new ArrayList<>();
                         songs.add(song);
                         callback.onLoadMedia(songs);
                     }
                 });
     }
 
-    public MutableLiveData<List<Song>> getRandomSample(int number, Integer fromYear, Integer toYear) {
-        MutableLiveData<List<Song>> randomSongsSample = new MutableLiveData<>();
+    public MutableLiveData<List<Media>> getRandomSample(int number, Integer fromYear, Integer toYear) {
+        MutableLiveData<List<Media>> randomSongsSample = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
@@ -95,7 +95,7 @@ public class SongRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        List<Song> songs = new ArrayList<>();
+                        List<Media> songs = new ArrayList<>();
 
                         if (response.isSuccessful() && response.body() != null && response.body().getRandomSongs() != null) {
                             songs.addAll(MappingUtil.mapSong(response.body().getRandomSongs().getSongs()));
@@ -181,8 +181,8 @@ public class SongRepository {
                 });
     }
 
-    public MutableLiveData<List<Song>> getSongsByGenre(String id) {
-        MutableLiveData<List<Song>> songsByGenre = new MutableLiveData<>();
+    public MutableLiveData<List<Media>> getSongsByGenre(String id) {
+        MutableLiveData<List<Media>> songsByGenre = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
@@ -191,15 +191,15 @@ public class SongRepository {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getSongsByGenre() != null) {
-                            List<Song> newSongs = new ArrayList<>(MappingUtil.mapSong(response.body().getSongsByGenre().getSongs()));
-                            List<Song> songs = songsByGenre.getValue();
+                            List<Media> newSongs = new ArrayList<>(MappingUtil.mapSong(response.body().getSongsByGenre().getSongs()));
+                            List<Media> songs = songsByGenre.getValue();
 
                             if (songs == null) songs = new ArrayList<>();
                             songs.addAll(newSongs);
                             Collections.shuffle(songs);
 
-                            LinkedHashSet<Song> hashSet = new LinkedHashSet<>(songs);
-                            ArrayList<Song> songsWithoutDuplicates = new ArrayList<>(hashSet);
+                            LinkedHashSet<Media> hashSet = new LinkedHashSet<>(songs);
+                            ArrayList<Media> songsWithoutDuplicates = new ArrayList<>(hashSet);
 
                             songsByGenre.setValue(songsWithoutDuplicates);
                         }
@@ -214,8 +214,8 @@ public class SongRepository {
         return songsByGenre;
     }
 
-    public MutableLiveData<List<Song>> getSongsByGenres(ArrayList<String> genresId) {
-        MutableLiveData<List<Song>> songsByGenre = new MutableLiveData<>();
+    public MutableLiveData<List<Media>> getSongsByGenres(ArrayList<String> genresId) {
+        MutableLiveData<List<Media>> songsByGenre = new MutableLiveData<>();
 
         for (String id : genresId)
             App.getSubsonicClientInstance(application, false)
@@ -224,7 +224,7 @@ public class SongRepository {
                     .enqueue(new Callback<SubsonicResponse>() {
                         @Override
                         public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                            List<Song> songs = new ArrayList<>();
+                            List<Media> songs = new ArrayList<>();
 
                             if (response.isSuccessful() && response.body() != null && response.body().getSongsByGenre() != null) {
                                 songs.addAll(MappingUtil.mapSong(response.body().getSongsByGenre().getSongs()));
@@ -242,8 +242,8 @@ public class SongRepository {
         return songsByGenre;
     }
 
-    public MutableLiveData<Song> getSong(String id) {
-        MutableLiveData<Song> song = new MutableLiveData<>();
+    public MutableLiveData<Media> getSong(String id) {
+        MutableLiveData<Media> song = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
@@ -265,7 +265,7 @@ public class SongRepository {
         return song;
     }
 
-    public MutableLiveData<String> getSongLyrics(Song song) {
+    public MutableLiveData<String> getSongLyrics(Media song) {
         MutableLiveData<String> lyrics = new MutableLiveData<>(null);
 
         App.getSubsonicClientInstance(application, false)

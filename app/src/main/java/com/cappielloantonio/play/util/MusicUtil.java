@@ -10,7 +10,6 @@ import android.util.Log;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.model.Song;
 
 import java.util.ArrayList;
 import java.util.List;

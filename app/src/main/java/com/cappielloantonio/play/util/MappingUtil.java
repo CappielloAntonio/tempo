@@ -15,7 +15,7 @@ import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.PodcastChannel;
 import com.cappielloantonio.play.model.PodcastEpisode;
 import com.cappielloantonio.play.model.Queue;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.AlbumInfo;
 import com.cappielloantonio.play.subsonic.models.AlbumWithSongsID3;
@@ -30,18 +30,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MappingUtil {
-    public static ArrayList<Song> mapSong(List<Child> children) {
-        ArrayList<Song> songs = new ArrayList();
+    public static ArrayList<Media> mapSong(List<Child> children) {
+        ArrayList<Media> songs = new ArrayList();
 
         for (Child child : children) {
-            songs.add(new Song(child));
+            songs.add(new Media(child));
         }
 
         return songs;
     }
 
-    public static Song mapSong(Child child) {
-        return new Song(child);
+    public static Media mapSong(Child child) {
+        return new Media(child);
     }
 
     public static ArrayList<Album> mapAlbum(List<AlbumID3> albumID3List) {
@@ -94,21 +94,21 @@ public class MappingUtil {
         return artists;
     }
 
-    public static ArrayList<Song> mapQueue(List<Queue> queueList) {
-        ArrayList<Song> songs = new ArrayList();
+    public static ArrayList<Media> mapQueue(List<Queue> queueList) {
+        ArrayList<Media> songs = new ArrayList();
 
         for (Queue item : queueList) {
-            songs.add(new Song(item));
+            songs.add(new Media(item));
         }
 
         return songs;
     }
 
-    public static Queue mapSongToQueue(Song song, int trackOrder) {
+    public static Queue mapSongToQueue(Media song, int trackOrder) {
         return new Queue(trackOrder, song.getId(), song.getTitle(), song.getAlbumId(), song.getAlbumName(), song.getArtistId(), song.getArtistName(), song.getPrimary(), song.getDuration(), 0, 0);
     }
 
-    public static List<Queue> mapSongsToQueue(List<Song> songs) {
+    public static List<Queue> mapSongsToQueue(List<Media> songs) {
         List<Queue> queue = new ArrayList<>();
 
         for (int counter = 0; counter < songs.size(); counter++) {
@@ -128,11 +128,11 @@ public class MappingUtil {
         return playlist;
     }
 
-    public static ArrayList<Song> mapDownloadToSong(List<Download> downloads) {
-        ArrayList<Song> songs = new ArrayList();
+    public static ArrayList<Media> mapDownloadToSong(List<Download> downloads) {
+        ArrayList<Media> songs = new ArrayList();
 
         for (Download download : downloads) {
-            Song song = new Song(download);
+            Media song = new Media(download);
             if (!songs.contains(song)) {
                 songs.add(song);
             }
@@ -177,17 +177,17 @@ public class MappingUtil {
         return playlists;
     }
 
-    public static ArrayList<Download> mapDownload(List<Song> songs, String playlistId, String playlistName) {
+    public static ArrayList<Download> mapDownload(List<Media> songs, String playlistId, String playlistName) {
         ArrayList<Download> downloads = new ArrayList();
 
-        for (Song song : songs) {
+        for (Media song : songs) {
             downloads.add(new Download(song, playlistId, playlistName));
         }
 
         return downloads;
     }
 
-    public static Download mapDownload(Song song, String playlistId, String playlistName) {
+    public static Download mapDownload(Media song, String playlistId, String playlistName) {
         return new Download(song, playlistId, playlistName);
     }
 
@@ -202,7 +202,7 @@ public class MappingUtil {
     }
 
     @SuppressLint("UnsafeOptInUsageError")
-    public static MediaItem mapMediaItem(Context context, Song song, boolean stream) {
+    public static MediaItem mapMediaItem(Context context, Media song, boolean stream) {
         boolean isDownloaded = DownloadUtil.getDownloadTracker(context).isDownloaded(MusicUtil.getDownloadUri(song.getId()));
 
         Bundle bundle = new Bundle();
@@ -258,8 +258,8 @@ public class MappingUtil {
         ArrayList<MediaItem> mediaItems = new ArrayList();
 
         for(int i = 0; i < items.size(); i++) {
-            if(items.get(i) instanceof Song) {
-                mediaItems.add(mapMediaItem(context, (Song) items.get(i), stream));
+            if(items.get(i) instanceof Media) {
+                mediaItems.add(mapMediaItem(context, (Media) items.get(i), stream));
             }
 
             if(items.get(i) instanceof PodcastEpisode) {

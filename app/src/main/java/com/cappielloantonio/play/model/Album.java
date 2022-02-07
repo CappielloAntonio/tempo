@@ -32,7 +32,7 @@ public class Album implements Parcelable {
     private String primary;
     private String blurHash;
     private boolean favorite;
-    private List<Song> songs;
+    private List<Media> songs;
     private String notes;
     private Date created;
 
@@ -135,11 +135,11 @@ public class Album implements Parcelable {
         this.favorite = favorite;
     }
 
-    public List<Song> getSongs() {
+    public List<Media> getSongs() {
         return songs;
     }
 
-    public void setSongs(List<Song> songs) {
+    public void setSongs(List<Media> songs) {
         this.songs = songs;
     }
 

@@ -17,8 +17,7 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.MediaCallback;
-import com.cappielloantonio.play.model.Song;
-import com.cappielloantonio.play.repository.QueueRepository;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.ui.activity.MainActivity;
@@ -36,7 +35,7 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
     private final MainActivity activity;
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
-    private List<Song> songs;
+    private List<Media> songs;
 
     public DiscoverSongAdapter(MainActivity activity, Context context) {
         this.activity = activity;
@@ -54,7 +53,7 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Song song = songs.get(position);
+        Media song = songs.get(position);
 
         holder.textTitle.setText(MusicUtil.getReadableString(song.getTitle()));
         holder.textAlbum.setText(MusicUtil.getReadableString(song.getAlbumName()));
@@ -76,7 +75,7 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
         return songs.size();
     }
 
-    public void setItems(List<Song> songs) {
+    public void setItems(List<Media> songs) {
         this.songs = songs;
         notifyDataSetChanged();
     }
@@ -114,7 +113,7 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
 
                 @Override
                 public void onLoadMedia(List<?> media) {
-                    MediaManager.enqueue(mediaBrowserListenableFuture, context, (List<Song>) media,false);
+                    MediaManager.enqueue(mediaBrowserListenableFuture, context, (List<Media>) media,false);
                 }
             });
         }

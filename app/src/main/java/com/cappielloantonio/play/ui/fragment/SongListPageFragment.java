@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentSongListPageBinding;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
@@ -80,50 +80,50 @@ public class SongListPageFragment extends Fragment {
     }
 
     private void init() {
-        if (requireArguments().getString(Song.RECENTLY_PLAYED) != null) {
-            songListPageViewModel.title = Song.RECENTLY_PLAYED;
+        if (requireArguments().getString(Media.RECENTLY_PLAYED) != null) {
+            songListPageViewModel.title = Media.RECENTLY_PLAYED;
             songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_recently_played);
             bind.pageTitleLabel.setText(R.string.song_list_page_recently_played);
-        } else if (requireArguments().getString(Song.MOST_PLAYED) != null) {
-            songListPageViewModel.title = Song.MOST_PLAYED;
+        } else if (requireArguments().getString(Media.MOST_PLAYED) != null) {
+            songListPageViewModel.title = Media.MOST_PLAYED;
             songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_most_played);
             bind.pageTitleLabel.setText(R.string.song_list_page_most_played);
-        } else if (requireArguments().getString(Song.RECENTLY_ADDED) != null) {
-            songListPageViewModel.title = Song.RECENTLY_ADDED;
+        } else if (requireArguments().getString(Media.RECENTLY_ADDED) != null) {
+            songListPageViewModel.title = Media.RECENTLY_ADDED;
             songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_recently_added);
             bind.pageTitleLabel.setText(R.string.song_list_page_recently_added);
-        } else if (requireArguments().getString(Song.BY_GENRE) != null) {
-            songListPageViewModel.title = Song.BY_GENRE;
+        } else if (requireArguments().getString(Media.BY_GENRE) != null) {
+            songListPageViewModel.title = Media.BY_GENRE;
             songListPageViewModel.genre = requireArguments().getParcelable("genre_object");
             songListPageViewModel.toolbarTitle = MusicUtil.getReadableString(songListPageViewModel.genre.getName());
             bind.pageTitleLabel.setText(MusicUtil.getReadableString(songListPageViewModel.genre.getName()));
-        } else if (requireArguments().getString(Song.BY_ARTIST) != null) {
-            songListPageViewModel.title = Song.BY_ARTIST;
+        } else if (requireArguments().getString(Media.BY_ARTIST) != null) {
+            songListPageViewModel.title = Media.BY_ARTIST;
             songListPageViewModel.artist = requireArguments().getParcelable("artist_object");
             songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_top, MusicUtil.getReadableString(songListPageViewModel.artist.getName()));
             bind.pageTitleLabel.setText(getString(R.string.song_list_page_top, MusicUtil.getReadableString(songListPageViewModel.artist.getName())));
-        } else if (requireArguments().getString(Song.BY_GENRES) != null) {
-            songListPageViewModel.title = Song.BY_GENRES;
+        } else if (requireArguments().getString(Media.BY_GENRES) != null) {
+            songListPageViewModel.title = Media.BY_GENRES;
             songListPageViewModel.filters = requireArguments().getStringArrayList("filters_list");
             songListPageViewModel.filterNames = requireArguments().getStringArrayList("filter_name_list");
             songListPageViewModel.toolbarTitle = songListPageViewModel.getFiltersTitle();
             bind.pageTitleLabel.setText(songListPageViewModel.getFiltersTitle());
-        } else if (requireArguments().getString(Song.BY_YEAR) != null) {
-            songListPageViewModel.title = Song.BY_YEAR;
+        } else if (requireArguments().getString(Media.BY_YEAR) != null) {
+            songListPageViewModel.title = Media.BY_YEAR;
             songListPageViewModel.year = requireArguments().getInt("year_object");
             songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_year, songListPageViewModel.year);
             bind.pageTitleLabel.setText(getString(R.string.song_list_page_year, songListPageViewModel.year));
-        } else if (requireArguments().getString(Song.STARRED) != null) {
-            songListPageViewModel.title = Song.STARRED;
+        } else if (requireArguments().getString(Media.STARRED) != null) {
+            songListPageViewModel.title = Media.STARRED;
             songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_starred);
             bind.pageTitleLabel.setText(R.string.song_list_page_starred);
-        } else if (requireArguments().getString(Song.DOWNLOADED) != null) {
-            songListPageViewModel.title = Song.DOWNLOADED;
+        } else if (requireArguments().getString(Media.DOWNLOADED) != null) {
+            songListPageViewModel.title = Media.DOWNLOADED;
             songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_downloaded);
             bind.pageTitleLabel.setText(getString(R.string.song_list_page_downloaded));
         } else if (requireArguments().getParcelable("album_object") != null) {
             songListPageViewModel.album = requireArguments().getParcelable("album_object");
-            songListPageViewModel.title = Song.FROM_ALBUM;
+            songListPageViewModel.title = Media.FROM_ALBUM;
             songListPageViewModel.toolbarTitle = MusicUtil.getReadableString(songListPageViewModel.album.getTitle());
             bind.pageTitleLabel.setText(MusicUtil.getReadableString(songListPageViewModel.album.getTitle()));
         }

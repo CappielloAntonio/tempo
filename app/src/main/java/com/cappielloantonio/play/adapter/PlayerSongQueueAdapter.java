@@ -14,9 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.service.MediaManager;
-import com.cappielloantonio.play.ui.fragment.PlayerBottomSheetFragment;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -30,7 +29,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
     private final Context context;
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
-    private List<Song> songs;
+    private List<Media> songs;
 
     public PlayerSongQueueAdapter(Context context) {
         this.context = context;
@@ -47,7 +46,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Song song = songs.get(position);
+        Media song = songs.get(position);
 
         holder.songTitle.setText(MusicUtil.getReadableString(song.getTitle()));
         holder.songSubtitle.setText(context.getString(R.string.song_subtitle_formatter, MusicUtil.getReadableString(song.getArtistName()), MusicUtil.getReadableDurationString(song.getDuration(), false)));
@@ -71,11 +70,11 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
         return songs.size();
     }
 
-    public List<Song> getItems() {
+    public List<Media> getItems() {
         return this.songs;
     }
 
-    public void setItems(List<Song> songs) {
+    public void setItems(List<Media> songs) {
         this.songs = songs;
         notifyDataSetChanged();
     }
@@ -84,7 +83,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
         this.mediaBrowserListenableFuture = mediaBrowserListenableFuture;
     }
 
-    public Song getItem(int id) {
+    public Media getItem(int id) {
         return songs.get(id);
     }
 

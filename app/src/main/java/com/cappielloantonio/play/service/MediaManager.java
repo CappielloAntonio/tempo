@@ -9,7 +9,7 @@ import androidx.media3.session.MediaBrowser;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.MediaIndexCallback;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.util.MappingUtil;
@@ -64,7 +64,7 @@ public class MediaManager {
                 try {
                     if (mediaBrowserListenableFuture.isDone()) {
                         if (mediaBrowserListenableFuture.get().getMediaItemCount() < 1) {
-                            List<Song> songs = getQueueRepository().getSongs();
+                            List<Media> songs = getQueueRepository().getSongs();
                             if (songs != null && songs.size() >= 1) {
                                 init(mediaBrowserListenableFuture, context, songs);
                             }
@@ -77,7 +77,7 @@ public class MediaManager {
         }
     }
 
-    public static void init(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, List<Song> songs) {
+    public static void init(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, List<Media> songs) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
@@ -164,7 +164,7 @@ public class MediaManager {
         }
     }
 
-    public static void startQueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, List<Song> songs, int startIndex) {
+    public static void startQueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, List<Media> songs, int startIndex) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
@@ -183,7 +183,7 @@ public class MediaManager {
         }
     }
 
-    public static void startQueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, Song song) {
+    public static void startQueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, Media song) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
@@ -201,7 +201,7 @@ public class MediaManager {
         }
     }
 
-    public static void enqueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, List<Song> songs, boolean playImmediatelyAfter) {
+    public static void enqueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, List<Media> songs, boolean playImmediatelyAfter) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
@@ -221,7 +221,7 @@ public class MediaManager {
         }
     }
 
-    public static void enqueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, Song song, boolean playImmediatelyAfter) {
+    public static void enqueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, Media song, boolean playImmediatelyAfter) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
@@ -241,7 +241,7 @@ public class MediaManager {
         }
     }
 
-    public static void swap(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, List<Song> songs, int from, int to) {
+    public static void swap(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, List<Media> songs, int from, int to) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
@@ -256,7 +256,7 @@ public class MediaManager {
         }
     }
 
-    public static void remove(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, List<Song> songs, int toRemove) {
+    public static void remove(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, List<Media> songs, int toRemove) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
@@ -312,19 +312,19 @@ public class MediaManager {
         return new SongRepository(App.getInstance());
     }
 
-    private static void enqueueDatabase(List<Song> songs, boolean reset, int afterIndex) {
+    private static void enqueueDatabase(List<Media> songs, boolean reset, int afterIndex) {
         getQueueRepository().insertAll(songs, reset, afterIndex);
     }
 
-    private static void enqueueDatabase(Song song, boolean reset, int afterIndex) {
+    private static void enqueueDatabase(Media song, boolean reset, int afterIndex) {
         getQueueRepository().insert(song, reset, afterIndex);
     }
 
-    private static void swapDatabase(List<Song> songs) {
+    private static void swapDatabase(List<Media> songs) {
         getQueueRepository().insertAll(songs, true, 0);
     }
 
-    private static void removeDatabase(List<Song> songs, int toRemove) {
+    private static void removeDatabase(List<Media> songs, int toRemove) {
         if (toRemove != -1) {
             songs.remove(toRemove);
             getQueueRepository().insertAll(songs, true, 0);

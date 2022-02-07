@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.model.Playlist;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.PlaylistRepository;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class PlaylistChooserViewModel extends AndroidViewModel {
     private final PlaylistRepository playlistRepository;
 
     private final MutableLiveData<List<Playlist>> playlists = new MutableLiveData<>(null);
-    private Song toAdd;
+    private Media toAdd;
 
     public PlaylistChooserViewModel(@NonNull Application application) {
         super(application);
@@ -38,11 +38,11 @@ public class PlaylistChooserViewModel extends AndroidViewModel {
         playlistRepository.addSongToPlaylist(playlistId, new ArrayList(Collections.singletonList(toAdd.getId())));
     }
 
-    public void setSongToAdd(Song song) {
+    public void setSongToAdd(Media song) {
         toAdd = song;
     }
 
-    public Song getSongToAdd() {
+    public Media getSongToAdd() {
         return toAdd;
     }
 }

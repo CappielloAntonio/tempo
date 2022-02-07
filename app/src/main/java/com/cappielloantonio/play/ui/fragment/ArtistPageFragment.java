@@ -3,8 +3,6 @@ package com.cappielloantonio.play.ui.fragment;
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.graphics.BlendMode;
-import android.graphics.BlendModeColorFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.session.MediaBrowser;
@@ -30,7 +27,7 @@ import com.cappielloantonio.play.databinding.FragmentArtistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.play.interfaces.MediaCallback;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
@@ -41,7 +38,6 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ArtistPageFragment extends Fragment {
     private static final String TAG = "ArtistPageFragment";
@@ -102,7 +98,7 @@ public class ArtistPageFragment extends Fragment {
 
         bind.mostStreamedSongTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Song.BY_ARTIST, Song.BY_ARTIST);
+            bundle.putString(Media.BY_ARTIST, Media.BY_ARTIST);
             bundle.putParcelable("artist_object", artistPageViewModel.getArtist());
             activity.navController.navigate(R.id.action_artistPageFragment_to_songListPageFragment, bundle);
         });
@@ -170,7 +166,7 @@ public class ArtistPageFragment extends Fragment {
                 @Override
                 public void onLoadMedia(List<?> media) {
                     if (media.size() > 0) {
-                        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), (ArrayList<Song>) media, 0);
+                        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), (ArrayList<Media>) media, 0);
                         activity.setBottomSheetInPeek(true);
                     } else {
                         Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_radio), Toast.LENGTH_SHORT).show();

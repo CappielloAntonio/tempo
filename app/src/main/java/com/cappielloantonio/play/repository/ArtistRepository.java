@@ -10,7 +10,7 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.subsonic.models.IndexID3;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.util.MappingUtil;
@@ -251,7 +251,7 @@ public class ArtistRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        List<Song> songs = new ArrayList<>();
+                        List<Media> songs = new ArrayList<>();
 
                         if (response.isSuccessful() && response.body() != null && response.body().getSimilarSongs2() != null) {
                             songs.addAll(MappingUtil.mapSong(response.body().getSimilarSongs2().getSongs()));
@@ -267,8 +267,8 @@ public class ArtistRepository {
                 });
     }
 
-    public MutableLiveData<ArrayList<Song>> getArtistRandomSong(FragmentActivity fragmentActivity, Artist artist, int count) {
-        MutableLiveData<ArrayList<Song>> randomSongs = new MutableLiveData<>();
+    public MutableLiveData<ArrayList<Media>> getArtistRandomSong(FragmentActivity fragmentActivity, Artist artist, int count) {
+        MutableLiveData<ArrayList<Media>> randomSongs = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
@@ -284,7 +284,7 @@ public class ArtistRepository {
 
                                 for (int index = 0; index < albums.size(); index++) {
                                     albumRepository.getAlbumTracks(albums.get(index).getId()).observe(fragmentActivity, songs -> {
-                                        ArrayList<Song> liveSongs = randomSongs.getValue();
+                                        ArrayList<Media> liveSongs = randomSongs.getValue();
                                         if (liveSongs == null) liveSongs = new ArrayList<>();
                                         Collections.shuffle(liveSongs);
                                         liveSongs.addAll(songs);
@@ -304,8 +304,8 @@ public class ArtistRepository {
         return randomSongs;
     }
 
-    public MutableLiveData<List<Song>> getTopSongs(String artistName, int count) {
-        MutableLiveData<List<Song>> topSongs = new MutableLiveData<>();
+    public MutableLiveData<List<Media>> getTopSongs(String artistName, int count) {
+        MutableLiveData<List<Media>> topSongs = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()

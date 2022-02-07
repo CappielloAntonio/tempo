@@ -10,32 +10,21 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.PagerSnapHelper;
-import androidx.recyclerview.widget.SnapHelper;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumAdapter;
-import com.cappielloantonio.play.adapter.AlbumHorizontalAdapter;
 import com.cappielloantonio.play.adapter.ArtistAdapter;
 import com.cappielloantonio.play.adapter.GenreAdapter;
-import com.cappielloantonio.play.adapter.PlaylistAdapter;
-import com.cappielloantonio.play.adapter.PlaylistDialogHorizontalAdapter;
 import com.cappielloantonio.play.adapter.PlaylistHorizontalAdapter;
-import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentLibraryBinding;
 import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
-import com.cappielloantonio.play.helper.recyclerview.DotsIndicatorDecoration;
-import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Playlist;
-import com.cappielloantonio.play.model.Song;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.LibraryViewModel;
 import com.google.android.gms.cast.framework.CastButtonFactory;
 
@@ -201,7 +190,7 @@ public class LibraryFragment extends Fragment {
         genreAdapter = new GenreAdapter(requireContext());
         genreAdapter.setClickListener((view, position) -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Song.BY_GENRE, Song.BY_GENRE);
+            bundle.putString(Media.BY_GENRE, Media.BY_GENRE);
             bundle.putParcelable("genre_object", genreAdapter.getItem(position));
             activity.navController.navigate(R.id.action_libraryFragment_to_songListPageFragment, bundle);
         });

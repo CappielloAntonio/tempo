@@ -79,7 +79,7 @@ public class Download {
         this.artistId = song.getArtistId();
         this.artistName = MusicUtil.normalizedArtistName(song.getArtistName());
         this.trackNumber = song.getTrackNumber();
-        this.primary = song.getPrimary();
+        this.primary = song.getCoverArtId();
         this.duration = song.getDuration();
         this.server = PreferenceUtil.getInstance(App.getInstance()).getServerId();
         this.playlistId = playlistId;

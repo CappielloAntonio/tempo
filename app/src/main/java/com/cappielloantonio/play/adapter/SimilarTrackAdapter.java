@@ -60,7 +60,7 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
         holder.textTitle.setText(MusicUtil.getReadableString(song.getTitle()));
 
         CustomGlideRequest.Builder
-                .from(context, song.getPrimary(), CustomGlideRequest.SONG_PIC, null)
+                .from(context, song.getCoverArtId(), CustomGlideRequest.SONG_PIC, null)
                 .build()
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.cover);

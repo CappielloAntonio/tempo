@@ -68,7 +68,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         }
 
         if (isCoverVisible) CustomGlideRequest.Builder
-                .from(context, song.getPrimary(), CustomGlideRequest.SONG_PIC, null)
+                .from(context, song.getCoverArtId(), CustomGlideRequest.SONG_PIC, null)
                 .build()
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.cover);

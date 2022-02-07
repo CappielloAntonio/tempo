@@ -41,12 +41,12 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
     }
 
     public void setFavorite(Context context) {
-        if (song.isFavorite()) {
+        if (song.isStarred()) {
             songRepository.unstar(song.getId());
-            song.setFavorite(false);
+            song.setStarred(false);
         } else {
             songRepository.star(song.getId());
-            song.setFavorite(true);
+            song.setStarred(true);
 
             if (PreferenceUtil.getInstance(context).isStarredSyncEnabled()) {
                 DownloadUtil.getDownloadTracker(context).download(

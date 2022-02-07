@@ -78,7 +78,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
     private void init(View view) {
         ImageView coverSong = view.findViewById(R.id.song_cover_image_view);
         CustomGlideRequest.Builder
-                .from(requireContext(), songBottomSheetViewModel.getSong().getPrimary(), CustomGlideRequest.SONG_PIC, null)
+                .from(requireContext(), songBottomSheetViewModel.getSong().getCoverArtId(), CustomGlideRequest.SONG_PIC, null)
                 .build()
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(coverSong);
@@ -92,7 +92,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         artistSong.setText(MusicUtil.getReadableString(songBottomSheetViewModel.getSong().getArtistName()));
 
         ToggleButton favoriteToggle = view.findViewById(R.id.button_favorite);
-        favoriteToggle.setChecked(songBottomSheetViewModel.getSong().isFavorite());
+        favoriteToggle.setChecked(songBottomSheetViewModel.getSong().isStarred());
         favoriteToggle.setOnClickListener(v -> {
             songBottomSheetViewModel.setFavorite(requireContext());
             dismissBottomSheet();

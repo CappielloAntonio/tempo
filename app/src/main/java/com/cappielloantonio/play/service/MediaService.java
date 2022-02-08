@@ -19,6 +19,7 @@ import androidx.media3.exoplayer.source.MediaSourceFactory;
 import androidx.media3.session.MediaLibraryService;
 import androidx.media3.session.MediaSession;
 
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.google.android.gms.cast.framework.CastContext;
@@ -127,7 +128,7 @@ public class MediaService extends MediaLibraryService implements SessionAvailabi
             @Override
             public void onMediaItemTransition(@Nullable MediaItem mediaItem, int reason) {
                 MediaManager.setLastPlayedTimestamp(mediaItem);
-                MediaManager.scrobble(mediaItem);
+                if(mediaItem.mediaMetadata.extras.getString("mediaType").equals(Media.MEDIA_TYPE_MUSIC)) MediaManager.scrobble(mediaItem);
             }
 
             @Override

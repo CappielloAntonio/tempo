@@ -65,8 +65,8 @@ dependencies {
     implementation "com.arthurivanets.adapster:adapster:1.0.13"
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    implementation 'com.github.bumptech.glide:annotations:4.12.0'
+    implementation 'com.github.bumptech.glide:glide:4.13.0'
+    implementation 'com.github.bumptech.glide:annotations:4.13.0'
 
     // Media3
     implementation "androidx.media3:media3-session:1.0.0-alpha01"
@@ -75,12 +75,12 @@ dependencies {
     implementation "androidx.media3:media3-ui:1.0.0-alpha01"
     implementation "androidx.media3:media3-cast:1.0.0-alpha01"
 
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
     annotationProcessor 'androidx.room:room-compiler:2.4.1'
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3'
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.4'
     implementation 'com.tickaroo.tikxml:retrofit-converter:0.8.15'
 
     // XMLParser

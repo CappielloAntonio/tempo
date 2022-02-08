@@ -135,8 +135,10 @@ public class PlayerBottomSheetFragment extends Fragment {
 
     @SuppressLint("UnsafeOptInUsageError")
     private void setMetadata(MediaMetadata mediaMetadata) {
-        if (mediaMetadata.extras != null) playerBottomSheetViewModel.setLiveMedia(requireActivity(), mediaMetadata.extras.getString("mediaType"), mediaMetadata.extras.getString("id"));
-        if (mediaMetadata.extras != null) playerBottomSheetViewModel.setLiveArtist(requireActivity(), mediaMetadata.extras.getString("mediaType"), mediaMetadata.extras.getString("artistId"));
+        if (mediaMetadata.extras != null)
+            playerBottomSheetViewModel.setLiveMedia(requireActivity(), mediaMetadata.extras.getString("mediaType"), mediaMetadata.extras.getString("id"));
+        if (mediaMetadata.extras != null)
+            playerBottomSheetViewModel.setLiveArtist(requireActivity(), mediaMetadata.extras.getString("mediaType"), mediaMetadata.extras.getString("artistId"));
 
         bind.playerHeaderLayout.playerHeaderMediaTitleLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.title)));
         bind.playerHeaderLayout.playerHeaderMediaArtistLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.artist)));

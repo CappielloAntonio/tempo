@@ -175,7 +175,7 @@ public class PlayerCoverFragment extends Fragment {
     @SuppressLint("UnsafeOptInUsageError")
     private void setCover(MediaMetadata mediaMetadata) {
         CustomGlideRequest.Builder
-                .from(requireContext(), mediaMetadata.extras != null ? mediaMetadata.extras.getString("id") : null, CustomGlideRequest.SONG_PIC, null)
+                .from(requireContext(), mediaMetadata.extras != null ? mediaMetadata.extras.getString("coverArtId") : null, CustomGlideRequest.SONG_PIC, null)
                 .build()
                 .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(bind.nowPlayingSongCoverImageView);

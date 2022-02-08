@@ -209,6 +209,7 @@ public class MappingUtil {
         bundle.putString("id", media.getId());
         bundle.putString("albumId", media.getAlbumId());
         bundle.putString("artistId", media.getArtistId());
+        bundle.putString("coverArtId", media.getCoverArtId());
         bundle.putString("mediaType", media.getType());
 
         return new MediaItem.Builder()

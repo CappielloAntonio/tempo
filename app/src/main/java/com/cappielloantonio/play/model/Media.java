@@ -16,6 +16,13 @@ public class Media implements Parcelable {
     public static final String MEDIA_TYPE_AUDIOBOOK = "audiobook";
     public static final String MEDIA_TYPE_VIDEO = "video";
 
+    public static final float MEDIA_PLAYBACK_SPEED_080 = 0.8f;
+    public static final float MEDIA_PLAYBACK_SPEED_100 = 1.0f;
+    public static final float MEDIA_PLAYBACK_SPEED_125 = 1.25f;
+    public static final float MEDIA_PLAYBACK_SPEED_150 = 1.50f;
+    public static final float MEDIA_PLAYBACK_SPEED_175 = 1.75f;
+    public static final float MEDIA_PLAYBACK_SPEED_200 = 2.0f;
+
     public static final String RECENTLY_PLAYED = "RECENTLY_PLAYED";
     public static final String MOST_PLAYED = "MOST_PLAYED";
     public static final String RECENTLY_ADDED = "RECENTLY_ADDED";

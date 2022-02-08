@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.MediaMetadata;
 import androidx.media3.common.Player;
+import androidx.media3.common.util.RepeatModeUtil;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.MediaController;
 import androidx.media3.session.SessionToken;
@@ -23,6 +24,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.FragmentPlayerBottomSheetBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.fragment.pager.PlayerControllerVerticalPager;
 import com.cappielloantonio.play.util.MusicUtil;
@@ -108,6 +110,7 @@ public class PlayerBottomSheetFragment extends Fragment {
 
     @SuppressLint("UnsafeOptInUsageError")
     private void setMediaControllerListener(MediaBrowser mediaBrowser) {
+        setMediaControllerUI(mediaBrowser);
         setMetadata(mediaBrowser.getMediaMetadata());
         setContentDuration(mediaBrowser.getContentDuration());
         setPlayingState(mediaBrowser.isPlaying());
@@ -117,6 +120,7 @@ public class PlayerBottomSheetFragment extends Fragment {
         mediaBrowser.addListener(new Player.Listener() {
             @Override
             public void onMediaMetadataChanged(@NonNull MediaMetadata mediaMetadata) {
+                setMediaControllerUI(mediaBrowser);
                 setMetadata(mediaMetadata);
                 setContentDuration(mediaBrowser.getContentDuration());
             }
@@ -150,6 +154,25 @@ public class PlayerBottomSheetFragment extends Fragment {
                 .into(bind.playerHeaderLayout.playerHeaderMediaCoverImage);
     }
 
+    @SuppressLint("UnsafeOptInUsageError")
+    private void setMediaControllerUI(MediaBrowser mediaBrowser) {
+        if (mediaBrowser.getMediaMetadata().extras != null) {
+            switch (mediaBrowser.getMediaMetadata().extras.getString("mediaType", Media.MEDIA_TYPE_MUSIC)) {
+                case Media.MEDIA_TYPE_PODCAST:
+                    bind.playerHeaderLayout.playerHeaderFastForwardMediaButton.setVisibility(View.VISIBLE);
+                    bind.playerHeaderLayout.playerHeaderRewindMediaButton.setVisibility(View.VISIBLE);
+                    bind.playerHeaderLayout.playerHeaderNextMediaButton.setVisibility(View.GONE);
+                    break;
+                case Media.MEDIA_TYPE_MUSIC:
+                default:
+                    bind.playerHeaderLayout.playerHeaderFastForwardMediaButton.setVisibility(View.GONE);
+                    bind.playerHeaderLayout.playerHeaderRewindMediaButton.setVisibility(View.GONE);
+                    bind.playerHeaderLayout.playerHeaderNextMediaButton.setVisibility(View.VISIBLE);
+                    break;
+            }
+        }
+    }
+
     private void setContentDuration(long duration) {
         bind.playerHeaderLayout.playerHeaderSeekBar.setMax((int) (duration / 1000));
     }
@@ -169,6 +192,8 @@ public class PlayerBottomSheetFragment extends Fragment {
         });
 
         bind.playerHeaderLayout.playerHeaderNextMediaButton.setOnClickListener(view -> bind.getRoot().findViewById(R.id.exo_next).performClick());
+        bind.playerHeaderLayout.playerHeaderRewindMediaButton.setOnClickListener(view -> bind.getRoot().findViewById(R.id.exo_rew).performClick());
+        bind.playerHeaderLayout.playerHeaderFastForwardMediaButton.setOnClickListener(view -> bind.getRoot().findViewById(R.id.exo_ffwd).performClick());
     }
 
     private void setHeaderNextButtonState(boolean isEnabled) {

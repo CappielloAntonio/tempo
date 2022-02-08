@@ -7,4 +7,6 @@
     app:controller_layout_id="@layout/inner_fragment_player_controller_layout"
     app:repeat_toggle_modes="all|one"
     app:show_shuffle_button="true"
+    app:show_rewind_button="false"
+    app:show_fastforward_button="false"
     app:show_timeout="0" />

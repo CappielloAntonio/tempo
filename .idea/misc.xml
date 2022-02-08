@@ -18,6 +18,7 @@
         <entry key="app/src/main/res/drawable/bottom_nav_shape.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/button_favorite_selector.xml" value="0.46296296296296297" />
         <entry key="app/src/main/res/drawable/button_play_pause_selector.xml" value="0.2722222222222222" />
+        <entry key="app/src/main/res/drawable/button_skip_silence_selector.xml" value="0.156" />
         <entry key="app/src/main/res/drawable/dialog_shape.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable/gradient_discover_background_image.xml" value="0.28703703703703703" />
         <entry key="app/src/main/res/drawable/gradient_player_cover_background_image.xml" value="0.3365679264555669" />
@@ -34,6 +35,7 @@
         <entry key="app/src/main/res/drawable/ic_favorites_outlined.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_feed.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_file_download.xml" value="0.2722222222222222" />
+        <entry key="app/src/main/res/drawable/ic_forward.xml" value="0.156" />
         <entry key="app/src/main/res/drawable/ic_genre.xml" value="0.24814814814814815" />
         <entry key="app/src/main/res/drawable/ic_grade.xml" value="0.28703703703703703" />
         <entry key="app/src/main/res/drawable/ic_graphic_eq.xml" value="0.28055555555555556" />
@@ -60,6 +62,7 @@
         <entry key="app/src/main/res/drawable/ic_rating.xml" value="0.28703703703703703" />
         <entry key="app/src/main/res/drawable/ic_refresh.xml" value="0.18958333333333333" />
         <entry key="app/src/main/res/drawable/ic_repeat.xml" value="0.28703703703703703" />
+        <entry key="app/src/main/res/drawable/ic_replay.xml" value="0.156" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.27685185185185185" />
         <entry key="app/src/main/res/drawable/ic_settings.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_show_queue.xml" value="0.28703703703703703" />
@@ -68,6 +71,9 @@
         <entry key="app/src/main/res/drawable/ic_skip_next_white_24dp.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_skip_previous.xml" value="0.5484375" />
         <entry key="app/src/main/res/drawable/ic_skip_previous_white_24dp.xml" value="0.28055555555555556" />
+        <entry key="app/src/main/res/drawable/ic_skip_silence.xml" value="0.156" />
+        <entry key="app/src/main/res/drawable/ic_skip_silence_outlined.xml" value="0.156" />
+        <entry key="app/src/main/res/drawable/ic_speed.xml" value="0.156" />
         <entry key="app/src/main/res/drawable/ic_star.xml" value="0.2722222222222222" />
         <entry key="app/src/main/res/drawable/ic_toolbar_motion_on.xml" value="0.30625" />
         <entry key="app/src/main/res/drawable/ic_unfold.xml" value="0.5484375" />
@@ -110,7 +116,7 @@
         <entry key="app/src/main/res/layout/fragment_song_list_page.xml" value="0.225" />
         <entry key="app/src/main/res/layout/fragment_starred.xml" value="0.3166496424923391" />
         <entry key="app/src/main/res/layout/inner_fragment_player_controller.xml" value="0.3229166666666667" />
-        <entry key="app/src/main/res/layout/inner_fragment_player_controller_layout.xml" value="0.3229166666666667" />
+        <entry key="app/src/main/res/layout/inner_fragment_player_controller_layout.xml" value="0.6" />
         <entry key="app/src/main/res/layout/inner_fragment_player_cover.xml" value="0.40390879478827363" />
         <entry key="app/src/main/res/layout/inner_fragment_player_lyrics.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/inner_fragment_player_queue.xml" value="0.3229166666666667" />

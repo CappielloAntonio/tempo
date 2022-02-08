@@ -110,6 +110,7 @@
     <string name="menu_unpin_button">Unpin</string>
     <string name="player_bottom_sheet_title">Now playing</string>
     <string name="player_song_lyrics_none_available_label">No lyrics available</string>
+    <string name="player_playback_speed">%1$.2fx</string>
     <string name="playlist_catalogue_title">Playlist Catalogue</string>
     <string name="playlist_catalogue_title_expanded">Browse Playlists</string>
     <string name="playlist_chooser_dialog_empty">No playlists created</string>

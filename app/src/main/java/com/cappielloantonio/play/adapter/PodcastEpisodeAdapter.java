@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.media3.session.MediaBrowser;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -101,12 +103,20 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
             moreButton = itemView.findViewById(R.id.podcast_more_button);
 
             playButton.setOnClickListener(this);
+
+            moreButton.setOnClickListener(this::openMore);
         }
 
         @Override
         public void onClick(View view) {
             MediaManager.startQueue(mediaBrowserListenableFuture, context, podcastEpisodes.get(getBindingAdapterPosition()));
             activity.setBottomSheetInPeek(true);
+        }
+
+        private void openMore(View view) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("podcast_object", podcastEpisodes.get(getBindingAdapterPosition()));
+            Navigation.findNavController(view).navigate(R.id.podcastBottomSheetDialog, bundle);
         }
     }
 }

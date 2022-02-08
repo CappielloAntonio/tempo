@@ -82,6 +82,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/bottom_sheet_album_dialog.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/bottom_sheet_artist_dialog.xml" value="0.225" />
+        <entry key="app/src/main/res/layout/bottom_sheet_podcast_dialog.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/bottom_sheet_song_dialog.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/layout/chip_search_filter_genre.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/dialog_connection_alert.xml" value="0.3537037037037037" />

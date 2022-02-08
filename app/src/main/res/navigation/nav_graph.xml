@@ -277,4 +277,9 @@
         android:name="com.cappielloantonio.play.ui.fragment.bottomsheetdialog.AlbumBottomSheetDialog"
         android:label="AlbumBottomSheetDialog"
         tools:layout="@layout/bottom_sheet_album_dialog" />
+    <dialog
+        android:id="@+id/podcastBottomSheetDialog"
+        android:name="com.cappielloantonio.play.ui.fragment.bottomsheetdialog.PodcastBottomSheetDialog"
+        android:label="PodcastBottomSheetDialog"
+        tools:layout="@layout/bottom_sheet_podcast_dialog" />
 </navigation>

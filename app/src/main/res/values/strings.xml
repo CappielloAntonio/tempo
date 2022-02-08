@@ -212,4 +212,9 @@
     <string name="home_title_new_releases">New releases</string>
     <string name="home_title_newest_podcasts">Newest podcasts</string>
     <string name="artist_adapter_radio_station_starting">Searching...</string>
+    <string name="podcast_bottom_sheet_go_to_channel">Go to channel</string>
+    <string name="podcast_bottom_sheet_remove">Remove</string>
+    <string name="podcast_bottom_sheet_download">Download</string>
+    <string name="podcast_bottom_sheet_add_to_queue">Add to queue</string>
+    <string name="podcast_bottom_sheet_play_next">Play next</string>
 </resources>

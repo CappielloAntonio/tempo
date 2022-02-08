@@ -18,8 +18,8 @@ public class PreferenceUtil {
     public static final String SALT = "salt";
     public static final String LOW_SECURITY = "low_security";
     public static final String SERVER_ID = "server_id";
-    public static final String POSITION = "position";
-    public static final String PROGRESS = "progress";
+    public static final String PLAYBACK_SPEED = "playback_speed";
+    public static final String SKIP_SILENCE = "skip_silence";
     public static final String IMAGE_CACHE_SIZE = "image_cache_size";
     public static final String IMAGE_SIZE = "image_size";
     public static final String MEDIA_CACHE_SIZE = "media_cache_size";
@@ -120,23 +120,23 @@ public class PreferenceUtil {
         editor.apply();
     }
 
-    public int getPosition() {
-        return mPreferences.getInt(POSITION, -1);
+    public float getPlaybackSpeed() {
+        return mPreferences.getFloat(PLAYBACK_SPEED, 1f);
     }
 
-    public void setPosition(int position) {
+    public void setPlaybackSpeed(float playbackSpeed) {
         final SharedPreferences.Editor editor = mPreferences.edit();
-        editor.putInt(POSITION, position);
+        editor.putFloat(PLAYBACK_SPEED, playbackSpeed);
         editor.apply();
     }
 
-    public int getProgress() {
-        return mPreferences.getInt(PROGRESS, -1);
+    public final boolean isSkipSilenceMode() {
+        return mPreferences.getBoolean(SKIP_SILENCE, false);
     }
 
-    public void setProgress(int progress) {
+    public void setSkipSilenceMode(Boolean isSkipSilenceMode) {
         final SharedPreferences.Editor editor = mPreferences.edit();
-        editor.putInt(PROGRESS, progress);
+        editor.putBoolean(SKIP_SILENCE, isSkipSilenceMode);
         editor.apply();
     }
 

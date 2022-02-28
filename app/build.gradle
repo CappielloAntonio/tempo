@@ -50,7 +50,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'androidx.room:room-runtime:2.4.1'
+    implementation 'androidx.room:room-runtime:2.4.2'
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
@@ -58,15 +58,15 @@ dependencies {
     implementation 'com.google.android.gms:play-services-cast-framework:21.0.1'
 
     // Android Material
-    implementation 'com.google.android.material:material:1.6.0-alpha02'
+    implementation 'com.google.android.material:material:1.6.0-alpha03'
 
     // SearchBar
     implementation 'com.paulrybitskyi.persistentsearchview:persistentsearchview:1.1.4'
     implementation "com.arthurivanets.adapster:adapster:1.0.13"
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.13.0'
-    implementation 'com.github.bumptech.glide:annotations:4.13.0'
+    implementation 'com.github.bumptech.glide:glide:4.13.1'
+    implementation 'com.github.bumptech.glide:annotations:4.13.1'
 
     // Media3
     implementation "androidx.media3:media3-session:1.0.0-alpha01"
@@ -75,12 +75,12 @@ dependencies {
     implementation "androidx.media3:media3-ui:1.0.0-alpha01"
     implementation "androidx.media3:media3-cast:1.0.0-alpha01"
 
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
-    annotationProcessor 'androidx.room:room-compiler:2.4.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.1'
+    annotationProcessor 'androidx.room:room-compiler:2.4.2'
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.4'
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.5'
     implementation 'com.tickaroo.tikxml:retrofit-converter:0.8.15'
 
     // XMLParser

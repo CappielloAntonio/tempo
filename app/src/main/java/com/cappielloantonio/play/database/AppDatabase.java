@@ -22,8 +22,8 @@ import com.cappielloantonio.play.model.Server;
 @SuppressLint("RestrictedApi")
 @Database(
         version = 36,
-        entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Playlist.class},
-        autoMigrations = { @AutoMigration(from = 35, to = 36) }
+        entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Playlist.class}
+        // autoMigrations = { @AutoMigration(from = 35, to = 36) }
 )
 public abstract class AppDatabase extends RoomDatabase {
     private static final String TAG = "AppDatabase";
@@ -37,6 +37,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     .fallbackToDestructiveMigration()
                     .build();
         }
+
         return instance;
     }
 

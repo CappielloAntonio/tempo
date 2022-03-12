@@ -119,7 +119,7 @@ public class Media implements Parcelable {
     }
 
     public Media(Download download) {
-        this.id = download.getSongID();
+        this.id = download.getMediaID();
         this.title = download.getTitle();
         this.albumId = download.getAlbumId();
         this.albumName = download.getAlbumName();
@@ -128,6 +128,7 @@ public class Media implements Parcelable {
         this.trackNumber = download.getTrackNumber();
         this.coverArtId = download.getPrimary();
         this.duration = download.getDuration();
+        this.type = download.getType();
     }
 
     public String getId() {

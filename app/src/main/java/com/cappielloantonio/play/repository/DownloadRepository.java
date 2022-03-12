@@ -128,7 +128,7 @@ public class DownloadRepository {
 
         @Override
         public void run() {
-            downloadDao.delete(download.getSongID());
+            downloadDao.delete(download.getMediaID());
         }
     }
 }

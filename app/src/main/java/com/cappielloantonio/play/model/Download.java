@@ -18,8 +18,8 @@ public class Download {
     @ColumnInfo(name = "id")
     private String id;
 
-    @ColumnInfo(name = "songId")
-    private String songID;
+    @ColumnInfo(name = "mediaId")
+    private String mediaID;
 
     @ColumnInfo(name = "title")
     private String title;
@@ -54,9 +54,12 @@ public class Download {
     @ColumnInfo(name = "playlistName")
     private String playlistName;
 
-    public Download(@NonNull String id, String songID, String title, String albumId, String albumName, String artistId, String artistName, int trackNumber, String primary, long duration, String server, String playlistId, String playlistName) {
+    @ColumnInfo(name = "type")
+    private String type;
+
+    public Download(@NonNull String id, String mediaID, String title, String albumId, String albumName, String artistId, String artistName, int trackNumber, String primary, long duration, String server, String playlistId, String playlistName, String type) {
         this.id = id;
-        this.songID = songID;
+        this.mediaID = mediaID;
         this.title = title;
         this.albumId = albumId;
         this.albumName = albumName;
@@ -68,22 +71,24 @@ public class Download {
         this.server = server;
         this.playlistId = playlistId;
         this.playlistName = playlistName;
+        this.type = type;
     }
 
-    public Download(Media song, String playlistId, String playlistName) {
+    public Download(Media media, String playlistId, String playlistName) {
         this.id = UUID.randomUUID().toString();
-        this.songID = song.getId();
-        this.title = song.getTitle();
-        this.albumId = song.getAlbumId();
-        this.albumName = song.getAlbumName();
-        this.artistId = song.getArtistId();
-        this.artistName = MusicUtil.normalizedArtistName(song.getArtistName());
-        this.trackNumber = song.getTrackNumber();
-        this.primary = song.getCoverArtId();
-        this.duration = song.getDuration();
+        this.mediaID = media.getId();
+        this.title = media.getTitle();
+        this.albumId = media.getAlbumId();
+        this.albumName = media.getAlbumName();
+        this.artistId = media.getArtistId();
+        this.artistName = MusicUtil.normalizedArtistName(media.getArtistName());
+        this.trackNumber = media.getTrackNumber();
+        this.primary = media.getCoverArtId();
+        this.duration = media.getDuration();
         this.server = PreferenceUtil.getInstance(App.getInstance()).getServerId();
         this.playlistId = playlistId;
         this.playlistName = playlistName;
+        this.type = media.getType();
     }
 
     @NonNull
@@ -95,12 +100,12 @@ public class Download {
         this.id = id;
     }
 
-    public String getSongID() {
-        return songID;
+    public String getMediaID() {
+        return mediaID;
     }
 
-    public void setSongID(String songID) {
-        this.songID = songID;
+    public void setMediaID(String mediaID) {
+        this.mediaID = mediaID;
     }
 
     public String getTitle() {
@@ -189,5 +194,13 @@ public class Download {
 
     public void setPlaylistName(String playlistName) {
         this.playlistName = playlistName;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

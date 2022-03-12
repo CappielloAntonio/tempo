@@ -36,7 +36,7 @@ public class PlaylistPageViewModel extends AndroidViewModel {
 
     public LiveData<List<Media>> getPlaylistSongLiveList(LifecycleOwner owner) {
         if (isOffline) {
-            downloadRepository.getLiveDownloadFromPlaylist(playlist.getId()).observe(owner, downloads -> playlistSongLiveList.postValue(MappingUtil.mapDownloadToSong(downloads)));
+            downloadRepository.getLiveDownloadFromPlaylist(playlist.getId()).observe(owner, downloads -> playlistSongLiveList.postValue(MappingUtil.mapDownloadToMedia(downloads)));
         } else {
             playlistSongLiveList = playlistRepository.getPlaylistSongs(playlist.getId());
         }

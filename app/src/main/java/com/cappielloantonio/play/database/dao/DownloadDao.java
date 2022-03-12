@@ -45,8 +45,8 @@ public interface DownloadDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<Download> downloads);
 
-    @Query("DELETE FROM download WHERE songId = :songId")
-    void delete(String songId);
+    @Query("DELETE FROM download WHERE mediaId = :mediaId")
+    void delete(String mediaId);
 
     @Query("DELETE FROM download WHERE server=:server")
     void deleteAll(String server);

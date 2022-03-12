@@ -44,7 +44,7 @@ public class DownloadViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Media>> getDownloadedTracks(LifecycleOwner owner, int size) {
-        downloadRepository.getLiveDownloadSample(size, false, false, true, false).observe(owner, downloads -> downloadedTrackSample.postValue(MappingUtil.mapDownloadToSong(downloads)));
+        downloadRepository.getLiveDownloadSample(size, false, false, true, false).observe(owner, downloads -> downloadedTrackSample.postValue(MappingUtil.mapDownloadToMedia(downloads)));
         return downloadedTrackSample;
     }
 

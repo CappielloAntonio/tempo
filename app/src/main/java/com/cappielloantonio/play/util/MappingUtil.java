@@ -128,17 +128,17 @@ public class MappingUtil {
         return playlist;
     }
 
-    public static ArrayList<Media> mapDownloadToSong(List<Download> downloads) {
-        ArrayList<Media> songs = new ArrayList();
+    public static ArrayList<Media> mapDownloadToMedia(List<Download> downloads) {
+        ArrayList<Media> media = new ArrayList();
 
         for (Download download : downloads) {
-            Media song = new Media(download);
-            if (!songs.contains(song)) {
-                songs.add(song);
+            Media item = new Media(download);
+            if (!media.contains(item)) {
+                media.add(item);
             }
         }
 
-        return songs;
+        return media;
     }
 
     public static ArrayList<Album> mapDownloadToAlbum(List<Download> downloads) {
@@ -177,18 +177,18 @@ public class MappingUtil {
         return playlists;
     }
 
-    public static ArrayList<Download> mapDownload(List<Media> songs, String playlistId, String playlistName) {
+    public static ArrayList<Download> mapDownload(List<Media> media, String playlistId, String playlistName) {
         ArrayList<Download> downloads = new ArrayList();
 
-        for (Media song : songs) {
-            downloads.add(new Download(song, playlistId, playlistName));
+        for (Media item : media) {
+            downloads.add(new Download(item, playlistId, playlistName));
         }
 
         return downloads;
     }
 
-    public static Download mapDownload(Media song, String playlistId, String playlistName) {
-        return new Download(song, playlistId, playlistName);
+    public static Download mapDownload(Media media, String playlistId, String playlistName) {
+        return new Download(media, playlistId, playlistName);
     }
 
     public static ArrayList<com.cappielloantonio.play.model.Genre> mapGenre(List<Genre> genreList) {

@@ -7,8 +7,10 @@ import android.content.Context;
 import android.net.Uri;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.OptIn;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.util.Log;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.common.util.Util;
 import androidx.media3.exoplayer.offline.Download;
 import androidx.media3.exoplayer.offline.DownloadCursor;
@@ -50,6 +52,7 @@ public class DownloaderManager {
         return DownloadHelper.forMediaItem(context, mediaItem).getDownloadRequest(Util.getUtf8Bytes(checkNotNull(mediaItem.mediaId)));
     }
 
+    @OptIn(markerClass = UnstableApi.class)
     public boolean isDownloaded(Uri uri) {
         @Nullable Download download = downloads.get(uri);
         return download != null && download.state != Download.STATE_FAILED;

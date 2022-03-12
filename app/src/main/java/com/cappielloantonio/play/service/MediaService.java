@@ -15,7 +15,6 @@ import androidx.media3.common.Player;
 import androidx.media3.datasource.DataSource;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
-import androidx.media3.exoplayer.source.MediaSourceFactory;
 import androidx.media3.session.MediaLibraryService;
 import androidx.media3.session.MediaSession;
 
@@ -32,7 +31,7 @@ public class MediaService extends MediaLibraryService implements SessionAvailabi
 
     private ExoPlayer player;
     private CastPlayer castPlayer;
-    private MediaSourceFactory mediaSourceFactory;
+    private DefaultMediaSourceFactory defaultMediaSourceFactory;
     private MediaLibrarySession mediaLibrarySession;
 
     @Override
@@ -61,12 +60,12 @@ public class MediaService extends MediaLibraryService implements SessionAvailabi
 
     private void initializeMediaSource() {
         DataSource.Factory dataSourceFactory = DownloadUtil.getDataSourceFactory(this);
-        mediaSourceFactory = new DefaultMediaSourceFactory(dataSourceFactory);
+        defaultMediaSourceFactory = new DefaultMediaSourceFactory(dataSourceFactory);
     }
 
     private void initializePlayer() {
         player = new ExoPlayer.Builder(this)
-                .setMediaSourceFactory(mediaSourceFactory)
+                .setMediaSourceFactory(defaultMediaSourceFactory)
                 .setAudioAttributes(AudioAttributes.DEFAULT, true)
                 .setHandleAudioBecomingNoisy(true)
                 .setWakeMode(C.WAKE_MODE_NETWORK)

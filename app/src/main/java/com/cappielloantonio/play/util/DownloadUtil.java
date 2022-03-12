@@ -3,7 +3,6 @@ package com.cappielloantonio.play.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import androidx.media3.common.util.Log;
 import androidx.media3.database.DatabaseProvider;
 import androidx.media3.database.StandaloneDatabaseProvider;
 import androidx.media3.datasource.DataSource;
@@ -14,15 +13,12 @@ import androidx.media3.datasource.cache.Cache;
 import androidx.media3.datasource.cache.CacheDataSource;
 import androidx.media3.datasource.cache.NoOpCacheEvictor;
 import androidx.media3.datasource.cache.SimpleCache;
-import androidx.media3.exoplayer.offline.ActionFileUpgradeUtil;
-import androidx.media3.exoplayer.offline.DefaultDownloadIndex;
 import androidx.media3.exoplayer.offline.DownloadManager;
 import androidx.media3.exoplayer.offline.DownloadNotificationHelper;
 
 import com.cappielloantonio.play.service.DownloaderManager;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
@@ -33,8 +29,6 @@ public final class DownloadUtil {
     public static final String DOWNLOAD_NOTIFICATION_CHANNEL_ID = "download_channel";
 
     private static final String TAG = "DemoUtil";
-    private static final String DOWNLOAD_ACTION_FILE = "actions";
-    private static final String DOWNLOAD_TRACKER_ACTION_FILE = "tracked_actions";
     private static final String DOWNLOAD_CONTENT_DIRECTORY = "downloads";
 
     private static DataSource.Factory dataSourceFactory;
@@ -46,6 +40,7 @@ public final class DownloadUtil {
     private static DownloaderManager downloaderManager;
     private static DownloadNotificationHelper downloadNotificationHelper;
 
+    @SuppressLint("UnsafeOptInUsageError")
     public static synchronized HttpDataSource.Factory getHttpDataSourceFactory() {
         if (httpDataSourceFactory == null) {
             CookieManager cookieManager = new CookieManager();
@@ -57,6 +52,7 @@ public final class DownloadUtil {
         return httpDataSourceFactory;
     }
 
+    @SuppressLint("UnsafeOptInUsageError")
     public static synchronized DataSource.Factory getDataSourceFactory(Context context) {
         if (dataSourceFactory == null) {
             context = context.getApplicationContext();
@@ -99,20 +95,15 @@ public final class DownloadUtil {
     @SuppressLint("UnsafeOptInUsageError")
     private static synchronized void ensureDownloadManagerInitialized(Context context) {
         if (downloadManager == null) {
-            DefaultDownloadIndex downloadIndex = new DefaultDownloadIndex(getDatabaseProvider(context));
-            upgradeActionFile(context, DOWNLOAD_ACTION_FILE, downloadIndex, false);
-            upgradeActionFile(context, DOWNLOAD_TRACKER_ACTION_FILE, downloadIndex, true);
-            downloadManager = new DownloadManager(context, getDatabaseProvider(context), getDownloadCache(context), getHttpDataSourceFactory(), Executors.newFixedThreadPool(6));
-            downloaderManager = new DownloaderManager(context, downloadManager);
-        }
-    }
+            downloadManager =
+                    new DownloadManager(
+                            context,
+                            getDatabaseProvider(context),
+                            getDownloadCache(context),
+                            getHttpDataSourceFactory(),
+                            Executors.newFixedThreadPool(6));
 
-    @SuppressLint("UnsafeOptInUsageError")
-    private static synchronized void upgradeActionFile(Context context, String fileName, DefaultDownloadIndex downloadIndex, boolean addNewDownloadsAsCompleted) {
-        try {
-            ActionFileUpgradeUtil.upgradeAndDelete(new File(getDownloadDirectory(context), fileName), null, downloadIndex, true, addNewDownloadsAsCompleted);
-        } catch (IOException e) {
-            Log.e(TAG, "Failed to upgrade action file: " + fileName, e);
+            downloaderManager = new DownloaderManager(context, downloadManager);
         }
     }
 
@@ -136,6 +127,7 @@ public final class DownloadUtil {
         return downloadDirectory;
     }
 
+    @SuppressLint("UnsafeOptInUsageError")
     private static CacheDataSource.Factory buildReadOnlyCacheDataSource(DataSource.Factory upstreamFactory, Cache cache) {
         return new CacheDataSource.Factory()
                 .setCache(cache)

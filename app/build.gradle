@@ -91,4 +91,7 @@ dependencies {
 
     // Crash Report
     debugImplementation 'com.balsikandar.android:crashreporter:1.1.0'
+
+    // DB debug
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 }

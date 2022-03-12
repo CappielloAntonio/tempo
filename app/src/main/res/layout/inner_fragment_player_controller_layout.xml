@@ -252,30 +252,11 @@
         app:tint="?attr/colorOnPrimaryContainer" />
 
     <ImageButton
-        android:id="@id/exo_play"
-        style="@style/ExoMediaButton.Play"
+        android:id="@id/exo_play_pause"
+        style="@style/ExoStyledControls.Button.Center.PlayPause"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginTop="12dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_play_circle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exo_progress"
-        app:layout_constraintVertical_bias=".60"
-        app:tint="?attr/colorOnPrimaryContainer" />
-
-    <ImageButton
-        android:id="@id/exo_pause"
-        style="@style/ExoMediaButton.Pause"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="12dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_pause_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

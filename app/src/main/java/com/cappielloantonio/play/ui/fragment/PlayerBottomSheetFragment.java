@@ -183,14 +183,7 @@ public class PlayerBottomSheetFragment extends Fragment {
 
     @SuppressLint("UnsafeOptInUsageError")
     private void setHeaderMediaController() {
-        bind.playerHeaderLayout.playerHeaderButton.setOnClickListener(view -> {
-            if (bind.playerHeaderLayout.playerHeaderButton.isChecked()) {
-                bind.getRoot().findViewById(R.id.exo_play).performClick();
-            } else {
-                bind.getRoot().findViewById(R.id.exo_pause).performClick();
-            }
-        });
-
+        bind.playerHeaderLayout.playerHeaderButton.setOnClickListener(view -> bind.getRoot().findViewById(R.id.exo_play_pause).performClick());
         bind.playerHeaderLayout.playerHeaderNextMediaButton.setOnClickListener(view -> bind.getRoot().findViewById(R.id.exo_next).performClick());
         bind.playerHeaderLayout.playerHeaderRewindMediaButton.setOnClickListener(view -> bind.getRoot().findViewById(R.id.exo_rew).performClick());
         bind.playerHeaderLayout.playerHeaderFastForwardMediaButton.setOnClickListener(view -> bind.getRoot().findViewById(R.id.exo_ffwd).performClick());

@@ -127,8 +127,11 @@ public class MediaService extends MediaLibraryService implements SessionAvailabi
         player.addListener(new Player.Listener() {
             @Override
             public void onMediaItemTransition(@Nullable MediaItem mediaItem, int reason) {
+                if (mediaItem == null) return;
+
                 MediaManager.setLastPlayedTimestamp(mediaItem);
-                if(mediaItem.mediaMetadata.extras.getString("mediaType").equals(Media.MEDIA_TYPE_MUSIC)) MediaManager.scrobble(mediaItem);
+                if (mediaItem.mediaMetadata.extras.getString("mediaType").equals(Media.MEDIA_TYPE_MUSIC))
+                    MediaManager.scrobble(mediaItem);
             }
 
             @Override

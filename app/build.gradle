@@ -69,18 +69,18 @@ dependencies {
     implementation 'com.github.bumptech.glide:annotations:4.13.1'
 
     // Media3
-    implementation "androidx.media3:media3-session:1.0.0-alpha02"
-    implementation "androidx.media3:media3-common:1.0.0-alpha02"
-    implementation "androidx.media3:media3-exoplayer:1.0.0-alpha02"
-    implementation "androidx.media3:media3-ui:1.0.0-alpha02"
-    implementation "androidx.media3:media3-cast:1.0.0-alpha02"
+    implementation 'androidx.media3:media3-session:1.0.0-alpha03'
+    implementation 'androidx.media3:media3-common:1.0.0-alpha03'
+    implementation 'androidx.media3:media3-exoplayer:1.0.0-alpha03'
+    implementation 'androidx.media3:media3-ui:1.0.0-alpha03'
+    implementation 'androidx.media3:media3-cast:1.0.0-alpha03'
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.1'
     annotationProcessor 'androidx.room:room-compiler:2.4.2'
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.5'
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.6'
     implementation 'com.tickaroo.tikxml:retrofit-converter:0.8.15'
 
     // XMLParser

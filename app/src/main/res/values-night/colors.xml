@@ -4,5 +4,8 @@
     <color name="subtitleTextColor">#9B9B9B</color>
     <color name="songToPlayTextColor">#949494</color>
     <color name="dividerColor">#404040</color>
+
+    <color name="searchPlaceholderColor">#CFCFCF</color>
+    <color name="searchColor">#DADADA</color>
 </resources>
 

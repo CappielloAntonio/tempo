@@ -22,11 +22,15 @@
         app:leftButtonDrawable="@drawable/ic_search"
         app:queryInputHint="@string/search_hint"
         app:shouldDimBehind="true"
-        app:suggestionIconColor="?attr/colorOnSurface"
-        app:suggestionRecentSearchIconColor="?attr/colorOnSurface"
-        app:suggestionSearchSuggestionIconColor="?attr/colorOnSurface"
-        app:suggestionSelectedTextColor="?attr/colorOnSurface"
-        app:suggestionTextColor="?attr/colorOnSurface" />
+
+        app:queryInputBarIconColor="@color/searchPlaceholderColor"
+        app:queryInputHintColor="@color/searchPlaceholderColor"
+        app:queryInputTextColor="@color/searchPlaceholderColor"
+        app:suggestionIconColor="@color/searchColor"
+        app:suggestionRecentSearchIconColor="@color/searchColor"
+        app:suggestionSearchSuggestionIconColor="@color/searchColor"
+        app:suggestionSelectedTextColor="?attr/colorPrimary"
+        app:suggestionTextColor="@color/searchColor"/>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/search_result_nested_scroll_view"

@@ -90,7 +90,6 @@ public class PlayerControllerFragment extends Fragment {
         bind = null;
     }
 
-
     @SuppressLint("UnsafeOptInUsageError")
     private void init() {
         playerMoveDownBottomSheet = bind.getRoot().findViewById(R.id.player_move_down_bottom_sheet);

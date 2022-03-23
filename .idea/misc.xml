@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.4861111111111111" />
         <entry key="../../.gradle/caches/transforms-3/20796fa5f04d2ad22571c8f80fdd27bd/transformed/jetified-exoplayer-ui-2.12.2/res/drawable-anydpi-v21/exo_ic_skip_previous.xml" value="0.5484375" />
         <entry key="../../.gradle/caches/transforms-3/cfd4e4d299e24db95f3608b5f72af22b/transformed/jetified-exoplayer-ui-2.12.2/res/drawable-anydpi-v21/exo_ic_play_circle_filled.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable-anydpi/ic_api_notification.xml" value="0.44351851851851853" />

@@ -3,6 +3,7 @@ package com.cappielloantonio.play.ui.fragment;
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.MediaMetadata;
 import androidx.media3.common.Player;
-import androidx.media3.common.util.RepeatModeUtil;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.MediaController;
 import androidx.media3.session.SessionToken;
@@ -41,7 +41,8 @@ public class PlayerBottomSheetFragment extends Fragment {
     private PlayerBottomSheetViewModel playerBottomSheetViewModel;
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
-    // TODO: Collegare la seekbar all'exo_progress
+    private Handler progressBarHandler;
+    private Runnable progressBarRunnable;
 
     @Nullable
     @Override
@@ -110,6 +111,7 @@ public class PlayerBottomSheetFragment extends Fragment {
 
     @SuppressLint("UnsafeOptInUsageError")
     private void setMediaControllerListener(MediaBrowser mediaBrowser) {
+        defineProgressBarHandler(mediaBrowser);
         setMediaControllerUI(mediaBrowser);
         setMetadata(mediaBrowser.getMediaMetadata());
         setContentDuration(mediaBrowser.getContentDuration());
@@ -128,6 +130,11 @@ public class PlayerBottomSheetFragment extends Fragment {
             @Override
             public void onIsPlayingChanged(boolean isPlaying) {
                 setPlayingState(isPlaying);
+            }
+
+            @Override
+            public void onSkipSilenceEnabledChanged(boolean skipSilenceEnabled) {
+                Player.Listener.super.onSkipSilenceEnabledChanged(skipSilenceEnabled);
             }
 
             @Override
@@ -177,8 +184,13 @@ public class PlayerBottomSheetFragment extends Fragment {
         bind.playerHeaderLayout.playerHeaderSeekBar.setMax((int) (duration / 1000));
     }
 
+    private void setProgress(MediaBrowser mediaBrowser) {
+        if (bind != null) bind.playerHeaderLayout.playerHeaderSeekBar.setProgress((int) (mediaBrowser.getCurrentPosition() / 1000), true);
+    }
+
     private void setPlayingState(boolean isPlaying) {
         bind.playerHeaderLayout.playerHeaderButton.setChecked(isPlaying);
+        runProgressBarHandler(isPlaying);
     }
 
     @SuppressLint("UnsafeOptInUsageError")
@@ -220,6 +232,22 @@ public class PlayerBottomSheetFragment extends Fragment {
             if (playerControllerFragment != null) {
                 playerControllerFragment.goToLyricsPage();
             }
+        }
+    }
+
+    private void defineProgressBarHandler(MediaBrowser mediaBrowser) {
+        progressBarHandler = new Handler();
+        progressBarRunnable = () -> {
+            setProgress(mediaBrowser);
+            progressBarHandler.postDelayed(progressBarRunnable, 1000);
+        };
+    }
+
+    private void runProgressBarHandler(boolean isPlaying) {
+        if (isPlaying) {
+            progressBarHandler.postDelayed(progressBarRunnable, 1000);
+        } else {
+            progressBarHandler.removeCallbacks(progressBarRunnable);
         }
     }
 }

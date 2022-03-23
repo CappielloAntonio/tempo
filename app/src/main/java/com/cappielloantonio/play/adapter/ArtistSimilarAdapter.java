@@ -87,6 +87,8 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
+
+            textArtistName.setSelected(true);
         }
 
         @Override

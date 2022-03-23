@@ -83,7 +83,6 @@
                     android:ellipsize="end"
                     android:maxLines="2"
                     android:paddingTop="8dp"
-                    android:singleLine="false"
                     android:text="@string/label_placeholder"
                     android:textAlignment="center"
                     app:layout_constraintEnd_toEndOf="parent"

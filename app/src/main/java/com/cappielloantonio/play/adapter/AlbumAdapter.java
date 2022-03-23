@@ -85,6 +85,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
+
+            textAlbumName.setSelected(true);
+            textArtistName.setSelected(true);
         }
 
         @Override

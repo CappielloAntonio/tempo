@@ -18,11 +18,10 @@
         style="@style/LabelMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="2"
+        android:ellipsize="marquee"
         android:paddingTop="8dp"
         android:paddingBottom="16dp"
-        android:singleLine="false"
+        android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/artist_catalogue_cover_image_view" />

@@ -217,4 +217,8 @@
     <string name="podcast_bottom_sheet_download">Download</string>
     <string name="podcast_bottom_sheet_add_to_queue">Add to queue</string>
     <string name="podcast_bottom_sheet_play_next">Play next</string>
+    <string name="menu_sort_year">Year</string>
+    <string name="menu_sort_artist">Artist</string>
+    <string name="menu_sort_name">Name</string>
+    <string name="menu_sort_random">Random</string>
 </resources>

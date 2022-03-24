@@ -23,6 +23,8 @@ import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -158,5 +160,24 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
             Navigation.findNavController(v).navigate(R.id.albumBottomSheetDialog, bundle);
             return true;
         }
+    }
+
+    public void sort(String order) {
+        switch (order) {
+            case Album.ORDER_BY_NAME:
+                albums.sort(Comparator.comparing(Album::getTitle));
+                break;
+            case Album.ORDER_BY_ARTIST:
+                albums.sort(Comparator.comparing(Album::getArtistName));
+                break;
+            case Album.ORDER_BY_YEAR:
+                albums.sort(Comparator.comparing(Album::getYear));
+                break;
+            case Album.ORDER_BY_RANDOM:
+                Collections.shuffle(albums);
+                break;
+        }
+
+        notifyDataSetChanged();
     }
 }

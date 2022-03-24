@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_album_sort_name"
+        android:title="@string/menu_sort_name" />
+    <item
+        android:id="@+id/menu_album_sort_artist"
+        android:title="@string/menu_sort_artist" />
+    <item
+        android:id="@+id/menu_album_sort_year"
+        android:title="@string/menu_sort_year" />
+    <item
+        android:id="@+id/menu_album_sort_random"
+        android:title="@string/menu_sort_random" />
+</menu>

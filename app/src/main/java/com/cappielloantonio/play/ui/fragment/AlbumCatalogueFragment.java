@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.PopupMenu;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumCatalogueBinding;
 import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
+import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.AlbumCatalogueViewModel;
 
@@ -113,6 +115,8 @@ public class AlbumCatalogueFragment extends Fragment {
             hideKeyboard(v);
             return false;
         });
+
+        bind.albumListSortImageView.setOnClickListener(view -> showPopupMenu(view, R.menu.sort_album_popup_menu));
     }
 
     @Override
@@ -143,5 +147,30 @@ public class AlbumCatalogueFragment extends Fragment {
     private void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    private void showPopupMenu(View view, int menuResource) {
+        PopupMenu popup = new PopupMenu(requireContext(), view);
+        popup.getMenuInflater().inflate(menuResource, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.menu_album_sort_name) {
+                albumAdapter.sort(Album.ORDER_BY_NAME);
+                return true;
+            } else if (menuItem.getItemId() == R.id.menu_album_sort_artist) {
+                albumAdapter.sort(Album.ORDER_BY_ARTIST);
+                return true;
+            } else if (menuItem.getItemId() == R.id.menu_album_sort_year) {
+                albumAdapter.sort(Album.ORDER_BY_YEAR);
+                return true;
+            } else if (menuItem.getItemId() == R.id.menu_album_sort_random) {
+                albumAdapter.sort(Album.ORDER_BY_RANDOM);
+                return true;
+            }
+
+            return false;
+        });
+
+        popup.show();
     }
 }

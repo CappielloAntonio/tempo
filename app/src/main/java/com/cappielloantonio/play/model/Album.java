@@ -24,6 +24,11 @@ public class Album implements Parcelable {
     public static final String FROM_ARTIST = "FROM_ARTIST";
     public static final String NEW_RELEASES = "NEW_RELEASES";
 
+    public static final String ORDER_BY_NAME = "ORDER_BY_NAME";
+    public static final String ORDER_BY_ARTIST = "ORDER_BY_ARTIST";
+    public static final String ORDER_BY_YEAR = "ORDER_BY_YEAR";
+    public static final String ORDER_BY_RANDOM = "ORDER_BY_RANDOM";
+
     private String id;
     private String title;
     private int year;

@@ -19,6 +19,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="marquee"
+        android:paddingTop="8dp"
         android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

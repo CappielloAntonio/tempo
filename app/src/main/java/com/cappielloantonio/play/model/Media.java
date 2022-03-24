@@ -67,7 +67,7 @@ public class Media implements Parcelable {
         this.trackNumber = child.getTrack() != null ? child.getTrack() : 0;
         this.discNumber = child.getDiscNumber() != null ? child.getDiscNumber() : 0;
         this.year = child.getYear() != null ? child.getYear() : 0;
-        this.duration = child.getDuration();
+        this.duration = child.getDuration() != null ? child.getDuration() : 0;
         this.albumId = child.getAlbumId();
         this.albumName = child.getAlbum();
         this.artistId = child.getArtistId();

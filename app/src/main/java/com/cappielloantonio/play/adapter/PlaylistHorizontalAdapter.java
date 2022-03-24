@@ -15,12 +15,15 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.dialog.PlaylistEditorDialog;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -157,5 +160,18 @@ public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHori
 
             return true;
         }
+    }
+
+    public void sort(String order) {
+        switch (order) {
+            case Playlist.ORDER_BY_NAME:
+                playlists.sort(Comparator.comparing(Playlist::getName));
+                break;
+            case Playlist.ORDER_BY_RANDOM:
+                Collections.shuffle(playlists);
+                break;
+        }
+
+        notifyDataSetChanged();
     }
 }

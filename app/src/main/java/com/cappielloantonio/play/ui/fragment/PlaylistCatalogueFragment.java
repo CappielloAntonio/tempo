@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.PopupMenu;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.PlaylistHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlaylistCatalogueBinding;
+import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.PlaylistCatalogueViewModel;
@@ -144,6 +146,8 @@ public class PlaylistCatalogueFragment extends Fragment {
             hideKeyboard(v);
             return false;
         });
+
+        bind.playlistListSortImageView.setOnClickListener(view -> showPopupMenu(view, R.menu.sort_playlist_popup_menu));
     }
 
     @Override
@@ -174,5 +178,24 @@ public class PlaylistCatalogueFragment extends Fragment {
     private void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    private void showPopupMenu(View view, int menuResource) {
+        PopupMenu popup = new PopupMenu(requireContext(), view);
+        popup.getMenuInflater().inflate(menuResource, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.menu_playlist_sort_name) {
+                playlistHorizontalAdapter.sort(Genre.ORDER_BY_NAME);
+                return true;
+            } else if (menuItem.getItemId() == R.id.menu_playlist_sort_random) {
+                playlistHorizontalAdapter.sort(Genre.ORDER_BY_RANDOM);
+                return true;
+            }
+
+            return false;
+        });
+
+        popup.show();
     }
 }

@@ -6,6 +6,9 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class Genre implements Parcelable {
+    public static final String ORDER_BY_NAME = "ORDER_BY_NAME";
+    public static final String ORDER_BY_RANDOM = "ORDER_BY_RANDOM";
+
     private String id;
     private String name;
     private int songCount;

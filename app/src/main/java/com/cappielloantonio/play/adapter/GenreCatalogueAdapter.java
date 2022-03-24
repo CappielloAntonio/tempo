@@ -13,11 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAdapter.ViewHolder> implements Filterable {
@@ -128,5 +131,18 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         }
+    }
+
+    public void sort(String order) {
+        switch (order) {
+            case Genre.ORDER_BY_NAME:
+                genres.sort(Comparator.comparing(Genre::getName));
+                break;
+            case Genre.ORDER_BY_RANDOM:
+                Collections.shuffle(genres);
+                break;
+        }
+
+        notifyDataSetChanged();
     }
 }

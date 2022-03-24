@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.PopupMenu;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,8 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.GenreCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentGenreCatalogueBinding;
 import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
+import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.GenreCatalogueViewModel;
@@ -54,7 +57,7 @@ public class GenreCatalogueFragment extends Fragment {
 
         init();
         initAppBar();
-        initArtistCatalogueView();
+        initGenreCatalogueView();
 
         return view;
     }
@@ -88,7 +91,6 @@ public class GenreCatalogueFragment extends Fragment {
             activity.navController.navigateUp();
         });
 
-
         bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             if ((bind.genreInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.toolbar))) {
                 bind.toolbar.setTitle(R.string.genre_catalogue_title);
@@ -99,7 +101,7 @@ public class GenreCatalogueFragment extends Fragment {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private void initArtistCatalogueView() {
+    private void initGenreCatalogueView() {
         bind.genreCatalogueRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
         bind.genreCatalogueRecyclerView.addItemDecoration(new GridItemDecoration(2, 16, false));
         bind.genreCatalogueRecyclerView.setHasFixedSize(true);
@@ -120,6 +122,8 @@ public class GenreCatalogueFragment extends Fragment {
             hideKeyboard(v);
             return false;
         });
+
+        bind.genreListSortImageView.setOnClickListener(view -> showPopupMenu(view, R.menu.sort_genre_popup_menu));
     }
 
     @Override
@@ -150,5 +154,24 @@ public class GenreCatalogueFragment extends Fragment {
     private void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    private void showPopupMenu(View view, int menuResource) {
+        PopupMenu popup = new PopupMenu(requireContext(), view);
+        popup.getMenuInflater().inflate(menuResource, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.menu_genre_sort_name) {
+                genreCatalogueAdapter.sort(Genre.ORDER_BY_NAME);
+                return true;
+            } else if (menuItem.getItemId() == R.id.menu_genre_sort_random) {
+                genreCatalogueAdapter.sort(Genre.ORDER_BY_RANDOM);
+                return true;
+            }
+
+            return false;
+        });
+
+        popup.show();
     }
 }

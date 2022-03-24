@@ -49,7 +49,7 @@
                     android:layout_height="52dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="12dp"
                     android:insetLeft="0dp"
                     android:insetTop="0dp"
@@ -57,6 +57,24 @@
                     android:insetBottom="0dp"
                     app:cornerRadius="30dp"
                     app:icon="@drawable/ic_filter_list"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/genre_list_sort_image_view" />
+
+                <Button
+                    android:id="@+id/genre_list_sort_image_view"
+                    style="@style/Widget.Material3.Button.TonalButton.Icon"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="12dp"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:cornerRadius="30dp"
+                    app:icon="@drawable/ic_sort_list"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,6 +20,9 @@ public class Artist implements Parcelable {
     public static final String DOWNLOADED = "DOWNLOADED";
     public static final String STARRED = "STARRED";
 
+    public static final String ORDER_BY_NAME = "ORDER_BY_NAME";
+    public static final String ORDER_BY_RANDOM = "ORDER_BY_RANDOM";
+
     private List<Album> albums;
     private List<Artist> similarArtists;
 

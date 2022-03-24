@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.PopupMenu;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,8 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.ArtistCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistCatalogueBinding;
 import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
+import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.ArtistCatalogueViewModel;
 
@@ -113,6 +116,8 @@ public class ArtistCatalogueFragment extends Fragment {
             hideKeyboard(v);
             return false;
         });
+
+        bind.artistListSortImageView.setOnClickListener(view -> showPopupMenu(view, R.menu.sort_artist_popup_menu));
     }
 
     @Override
@@ -143,5 +148,24 @@ public class ArtistCatalogueFragment extends Fragment {
     private void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    private void showPopupMenu(View view, int menuResource) {
+        PopupMenu popup = new PopupMenu(requireContext(), view);
+        popup.getMenuInflater().inflate(menuResource, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.menu_artist_sort_name) {
+                artistAdapter.sort(Artist.ORDER_BY_NAME);
+                return true;
+            } else if (menuItem.getItemId() == R.id.menu_artist_sort_random) {
+                artistAdapter.sort(Artist.ORDER_BY_RANDOM);
+                return true;
+            }
+
+            return false;
+        });
+
+        popup.show();
     }
 }

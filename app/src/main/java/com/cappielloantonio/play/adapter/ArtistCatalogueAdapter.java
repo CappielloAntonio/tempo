@@ -18,11 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -159,5 +162,18 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
             Navigation.findNavController(v).navigate(R.id.artistBottomSheetDialog, bundle);
             return true;
         }
+    }
+
+    public void sort(String order) {
+        switch (order) {
+            case Artist.ORDER_BY_NAME:
+                artists.sort(Comparator.comparing(Artist::getName));
+                break;
+            case Artist.ORDER_BY_RANDOM:
+                Collections.shuffle(artists);
+                break;
+        }
+
+        notifyDataSetChanged();
     }
 }

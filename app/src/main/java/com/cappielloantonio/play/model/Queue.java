@@ -49,10 +49,19 @@ public class Queue {
     @ColumnInfo(name = "publishing_date", defaultValue = "0")
     private long publishingDate;
 
+    @ColumnInfo(name = "container")
+    private String container;
+
+    @ColumnInfo(name = "bitrate")
+    private int bitrate;
+
+    @ColumnInfo(name = "extension")
+    private String extension;
+
     @ColumnInfo(name = "media_type")
     private String type;
 
-    public Queue(int trackOrder, String id, String title, String albumId, String albumName, String artistId, String artistName, String coverArtId, long duration, long lastPlay, long playingChanged, String streamId, String channelId, long publishingDate, String type) {
+    public Queue(int trackOrder, String id, String title, String albumId, String albumName, String artistId, String artistName, String coverArtId, long duration, long lastPlay, long playingChanged, String streamId, String channelId, long publishingDate, String container, int bitrate, String extension, String type) {
         this.trackOrder = trackOrder;
         this.id = id;
         this.title = title;
@@ -67,6 +76,9 @@ public class Queue {
         this.streamId = streamId;
         this.channelId = channelId;
         this.publishingDate = publishingDate;
+        this.container = container;
+        this.bitrate = bitrate;
+        this.extension = extension;
         this.type = type;
     }
 
@@ -180,6 +192,30 @@ public class Queue {
 
     public void setPublishingDate(long publishingDate) {
         this.publishingDate = publishingDate;
+    }
+
+    public String getContainer() {
+        return container;
+    }
+
+    public void setContainer(String container) {
+        this.container = container;
+    }
+
+    public int getBitrate() {
+        return bitrate;
+    }
+
+    public void setBitrate(int bitrate) {
+        this.bitrate = bitrate;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 
     public String getType() {

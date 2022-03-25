@@ -54,10 +54,19 @@ public class Download {
     @ColumnInfo(name = "playlistName")
     private String playlistName;
 
+    @ColumnInfo(name = "container")
+    private String container;
+
+    @ColumnInfo(name = "bitrate")
+    private int bitrate;
+
+    @ColumnInfo(name = "extension")
+    private String extension;
+
     @ColumnInfo(name = "type")
     private String type;
 
-    public Download(@NonNull String id, String mediaID, String title, String albumId, String albumName, String artistId, String artistName, int trackNumber, String primary, long duration, String server, String playlistId, String playlistName, String type) {
+    public Download(@NonNull String id, String mediaID, String title, String albumId, String albumName, String artistId, String artistName, int trackNumber, String primary, long duration, String server, String playlistId, String playlistName, String container, int bitrate, String extension, String type) {
         this.id = id;
         this.mediaID = mediaID;
         this.title = title;
@@ -71,6 +80,9 @@ public class Download {
         this.server = server;
         this.playlistId = playlistId;
         this.playlistName = playlistName;
+        this.container = container;
+        this.bitrate = bitrate;
+        this.extension = extension;
         this.type = type;
     }
 
@@ -88,6 +100,9 @@ public class Download {
         this.server = PreferenceUtil.getInstance(App.getInstance()).getServerId();
         this.playlistId = playlistId;
         this.playlistName = playlistName;
+        this.container = media.getContainer();
+        this.bitrate = media.getBitrate();
+        this.extension = media.getExtension();
         this.type = media.getType();
     }
 
@@ -194,6 +209,30 @@ public class Download {
 
     public void setPlaylistName(String playlistName) {
         this.playlistName = playlistName;
+    }
+
+    public String getContainer() {
+        return container;
+    }
+
+    public void setContainer(String container) {
+        this.container = container;
+    }
+
+    public int getBitrate() {
+        return bitrate;
+    }
+
+    public void setBitrate(int bitrate) {
+        this.bitrate = bitrate;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 
     public String getType() {

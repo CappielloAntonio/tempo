@@ -2,6 +2,7 @@ package com.cappielloantonio.play.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -53,7 +54,8 @@ public class Media implements Parcelable {
     private String path;
     private long size;
     private String container;
-    private int bitRate;
+    private int bitrate;
+    private String extension;
     private long added;
     private String type;
     private int playCount;
@@ -75,14 +77,22 @@ public class Media implements Parcelable {
         this.coverArtId = child.getCoverArtId();
         this.starred = child.getStarred() != null;
         this.path = child.getPath();
-        this.size = child.getSize();
+        this.size = child.getSize() != null ? child.getSize() : 0;
         this.container = child.getContentType();
-        this.bitRate = child.getBitRate();
+        this.bitrate = child.getBitRate();
+        this.extension = child.getSuffix();
         this.added = child.getCreated().getTime();
         this.playCount = 0;
         this.lastPlay = 0;
         this.rating = child.getUserRating() != null ? child.getUserRating() : 0;
         this.type = child.getType();
+
+        Log.i(TAG, "Title: " + child.getTitle());
+        Log.i(TAG, "ContentType: " + child.getContentType());
+        Log.i(TAG, "Bitrate: " + child.getBitRate());
+        Log.i(TAG, "Suffix: " + child.getSuffix());
+        Log.i(TAG, "TranscodedContentType: " + child.getTranscodedContentType());
+        Log.i(TAG, "TranscodedCSuffix: " + child.getTranscodedSuffix());
     }
 
     public Media(PodcastEpisode podcastEpisode) {
@@ -100,6 +110,9 @@ public class Media implements Parcelable {
         this.description = podcastEpisode.getDescription();
         this.status = podcastEpisode.getStatus();
         this.publishDate = podcastEpisode.getPublishDate().getTime();
+        this.container = podcastEpisode.getContentType();
+        this.bitrate = podcastEpisode.getBitRate();
+        this.extension = podcastEpisode.getSuffix();
         this.type = podcastEpisode.getType();
     }
 
@@ -115,6 +128,9 @@ public class Media implements Parcelable {
         this.streamId = queue.getStreamId();
         this.channelId = queue.getChannelId();
         this.publishDate = queue.getPublishingDate();
+        this.container = queue.getContainer();
+        this.bitrate = queue.getBitrate();
+        this.extension = queue.getExtension();
         this.type = queue.getType();
     }
 
@@ -128,6 +144,9 @@ public class Media implements Parcelable {
         this.trackNumber = download.getTrackNumber();
         this.coverArtId = download.getPrimary();
         this.duration = download.getDuration();
+        this.container = download.getContainer();
+        this.bitrate = download.getBitrate();
+        this.extension = download.getExtension();
         this.type = download.getType();
     }
 
@@ -283,12 +302,20 @@ public class Media implements Parcelable {
         this.container = container;
     }
 
-    public int getBitRate() {
-        return bitRate;
+    public int getBitrate() {
+        return bitrate;
     }
 
-    public void setBitRate(int bitRate) {
-        this.bitRate = bitRate;
+    public void setBitrate(int bitRate) {
+        this.bitrate = bitRate;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 
     public long getAdded() {
@@ -385,7 +412,8 @@ public class Media implements Parcelable {
         dest.writeString(this.path);
         dest.writeLong(this.size);
         dest.writeString(this.container);
-        dest.writeInt(this.bitRate);
+        dest.writeInt(this.bitrate);
+        dest.writeString(this.extension);
         dest.writeLong(this.added);
         dest.writeString(this.type);
         dest.writeInt(this.playCount);
@@ -414,7 +442,8 @@ public class Media implements Parcelable {
         this.path = in.readString();
         this.size = in.readLong();
         this.container = in.readString();
-        this.bitRate = in.readInt();
+        this.bitrate = in.readInt();
+        this.extension = in.readString();
         this.added = in.readLong();
         this.type = in.readString();
         this.playCount = in.readInt();

@@ -34,6 +34,7 @@ import com.cappielloantonio.play.ui.fragment.pager.PlayerControllerHorizontalPag
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
+import com.google.android.material.chip.Chip;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 
@@ -41,13 +42,17 @@ public class PlayerControllerFragment extends Fragment {
     private static final String TAG = "PlayerCoverFragment";
 
     private InnerFragmentPlayerControllerBinding bind;
-    private ImageView playerMoveDownBottomSheet;
     private ViewPager2 playerMediaCoverViewPager;
     private ToggleButton buttonFavorite;
     private TextView playerMediaTitleLabel;
     private TextView playerArtistNameLabel;
     private Button playbackSpeedButton;
     private ToggleButton skipSilenceToggleButton;
+    private Chip playerMediaExtension;
+    private TextView playerMediaBitrate;
+    private ImageView playerMediaTranscodingIcon;
+    private Chip playerMediaTranscodedExtension;
+    private TextView playerMediaTranscodedBitrate;
 
     private MainActivity activity;
     private PlayerBottomSheetViewModel playerBottomSheetViewModel;
@@ -66,7 +71,6 @@ public class PlayerControllerFragment extends Fragment {
         initCoverLyricsSlideView();
         initMediaListenable();
         initArtistLabelButton();
-
 
         return view;
     }
@@ -92,15 +96,17 @@ public class PlayerControllerFragment extends Fragment {
 
     @SuppressLint("UnsafeOptInUsageError")
     private void init() {
-        playerMoveDownBottomSheet = bind.getRoot().findViewById(R.id.player_move_down_bottom_sheet);
         playerMediaCoverViewPager = bind.getRoot().findViewById(R.id.player_media_cover_view_pager);
         buttonFavorite = bind.getRoot().findViewById(R.id.button_favorite);
         playerMediaTitleLabel = bind.getRoot().findViewById(R.id.player_media_title_label);
         playerArtistNameLabel = bind.getRoot().findViewById(R.id.player_artist_name_label);
         playbackSpeedButton = bind.getRoot().findViewById(R.id.player_playback_speed_button);
         skipSilenceToggleButton = bind.getRoot().findViewById(R.id.player_skip_silence_toggle_button);
-
-        playerMoveDownBottomSheet.setOnClickListener(view -> activity.collapseBottomSheet());
+        playerMediaExtension = bind.getRoot().findViewById(R.id.player_media_extension);
+        playerMediaBitrate = bind.getRoot().findViewById(R.id.player_media_bitrate);
+        playerMediaTranscodingIcon = bind.getRoot().findViewById(R.id.player_media_transcoding_audio);
+        playerMediaTranscodedExtension = bind.getRoot().findViewById(R.id.player_media_transcoded_extension);
+        playerMediaTranscodedBitrate = bind.getRoot().findViewById(R.id.player_media_transcoded_bitrate);
     }
 
     @SuppressLint("UnsafeOptInUsageError")
@@ -131,12 +137,14 @@ public class PlayerControllerFragment extends Fragment {
     private void setMediaControllerListener(MediaBrowser mediaBrowser) {
         setMediaControllerUI(mediaBrowser);
         setMetadata(mediaBrowser.getMediaMetadata());
+        setMediaInfo(mediaBrowser.getMediaMetadata());
 
         mediaBrowser.addListener(new Player.Listener() {
             @Override
             public void onMediaMetadataChanged(@NonNull MediaMetadata mediaMetadata) {
                 setMediaControllerUI(mediaBrowser);
                 setMetadata(mediaMetadata);
+                setMediaInfo(mediaMetadata);
             }
         });
     }
@@ -148,6 +156,41 @@ public class PlayerControllerFragment extends Fragment {
 
         playerMediaTitleLabel.setSelected(true);
         playerArtistNameLabel.setSelected(true);
+    }
+
+    private void setMediaInfo(MediaMetadata mediaMetadata) {
+        if(mediaMetadata.extras != null) {
+            String extension = mediaMetadata.extras.getString("extension", "Unknown format");
+            String bitrate = mediaMetadata.extras.getInt("bitrate", 0) != 0 ? mediaMetadata.extras.getInt("bitrate", 0) + "kbps" : "Original";
+
+            playerMediaExtension.setText(extension);
+
+            if(bitrate.equals("Original")) {
+                playerMediaBitrate.setVisibility(View.GONE);
+            }   else {
+                playerMediaBitrate.setVisibility(View.VISIBLE);
+
+                playerMediaBitrate.setText(bitrate);
+
+            }
+        }
+
+        String transcodingExtension = MusicUtil.getTranscodingFormatPreference(requireContext());
+        String transcodingBitrate = Integer.parseInt(MusicUtil.getBitratePreference(requireContext())) != 0 ? Integer.parseInt(MusicUtil.getBitratePreference(requireContext())) + "kbps" : "Original";
+
+        if(transcodingExtension.equals("raw") && transcodingBitrate.equals("Original")) {
+            playerMediaTranscodingIcon.setVisibility(View.GONE);
+            playerMediaTranscodedBitrate.setVisibility(View.GONE);
+            playerMediaTranscodedExtension.setVisibility(View.GONE);
+        } else {
+            playerMediaTranscodingIcon.setVisibility(View.VISIBLE);
+            playerMediaTranscodedBitrate.setVisibility(View.VISIBLE);
+            playerMediaTranscodedExtension.setVisibility(View.VISIBLE);
+
+            playerMediaTranscodedExtension.setText(transcodingExtension);
+            playerMediaTranscodedBitrate.setText(transcodingBitrate);
+        }
+
     }
 
     @SuppressLint("UnsafeOptInUsageError")
@@ -205,9 +248,7 @@ public class PlayerControllerFragment extends Fragment {
         playerBottomSheetViewModel.getLiveMedia().observe(requireActivity(), media -> {
             if (media != null) {
                 buttonFavorite.setChecked(media.isStarred());
-
                 buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite(requireContext(), media));
-
                 buttonFavorite.setOnLongClickListener(v -> {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("song_object", media);

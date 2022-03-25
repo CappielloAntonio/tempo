@@ -5,52 +5,70 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
+    <LinearLayout
+        android:id="@+id/player_media_quality_sector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <com.google.android.material.chip.Chip
+            android:id="@+id/player_media_extension"
+            style="@style/Widget.Material3.Chip.Suggestion"
+            android:checked="true"
+            android:clickable="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipStrokeWidth="0dp"
+            android:text="Unknown"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+        <TextView
+            android:id="@+id/player_media_bitrate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:visibility="gone"/>
 
-                <ImageView
-                    android:id="@+id/player_move_down_bottom_sheet"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/ic_bottom_sheet_down"
-                    android:foreground="?android:attr/selectableItemBackgroundBorderless" />
+        <ImageView
+            android:id="@+id/player_media_transcoding_audio"
+            android:layout_width="24dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_transcode"
+            android:layout_margin="12dp"
+            android:visibility="gone"/>
 
-                <TextView
-                    style="@style/HeadlineMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:text="@string/player_bottom_sheet_title" />
-            </LinearLayout>
-        </com.google.android.material.appbar.MaterialToolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/player_media_transcoded_extension"
+            style="@style/Widget.Material3.Chip.Suggestion"
+            android:checked="true"
+            android:clickable="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipStrokeWidth="0dp"
+            android:text="Unknown"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/player_media_transcoded_bitrate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:visibility="gone"/>
+    </LinearLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/player_media_cover_view_pager"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintBottom_toTopOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar" />
+        app:layout_constraintTop_toBottomOf="@+id/player_media_quality_sector" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -255,8 +273,8 @@
     <ImageButton
         android:id="@id/exo_play_pause"
         style="@style/ExoStyledControls.Button.Center.PlayPause"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginTop="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

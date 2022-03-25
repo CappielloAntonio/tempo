@@ -1,11 +1,9 @@
 package com.cappielloantonio.play.subsonic.models;
 
 import com.tickaroo.tikxml.annotation.Attribute;
-import com.tickaroo.tikxml.annotation.Element;
 import com.tickaroo.tikxml.annotation.Xml;
 import com.tickaroo.tikxml.converters.date.rfc3339.DateRfc3339TypeConverter;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Xml

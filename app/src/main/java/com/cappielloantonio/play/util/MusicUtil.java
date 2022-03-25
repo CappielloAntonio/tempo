@@ -22,8 +22,6 @@ public class MusicUtil {
     private static final String TAG = "MusicUtil";
 
     public static Uri getStreamUri(Context context, String id) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
         Map<String, String> params = App.getSubsonicClientInstance(App.getInstance(), false).getParams();
 
         StringBuilder uri = new StringBuilder();
@@ -39,10 +37,10 @@ public class MusicUtil {
         if(params.containsKey("c") && params.get("c") != null) uri.append("&c=").append(params.get("c"));
         uri.append("&id=").append(id);
 
-        if (connectivityManager.getActiveNetworkInfo() != null) {
+        if (getConnectivityManager(context).getActiveNetworkInfo() != null) {
             uri.append("&maxBitRate=")
-                    .append(getBitratePreference(context, connectivityManager.getActiveNetworkInfo().getType()))
-                    .append("&format=").append(getTranscodingFormatPreference(context, connectivityManager.getActiveNetworkInfo().getType()));
+                    .append(getBitratePreference(context))
+                    .append("&format=").append(getTranscodingFormatPreference(context));
         }
 
         Log.d(TAG, "getStreamUri(): " + uri);
@@ -168,12 +166,12 @@ public class MusicUtil {
         }
     }
 
-    private static String getBitratePreference(Context context, int connectionType) {
-        String audioTranscodeFormat = getTranscodingFormatPreference(context, connectionType);
+    public static String getBitratePreference(Context context) {
+        String audioTranscodeFormat = getTranscodingFormatPreference(context);
 
         if (audioTranscodeFormat.equals("0")) return "0";
 
-        switch (connectionType) {
+        switch (getConnectivityManager(context).getActiveNetworkInfo().getType()) {
             case ConnectivityManager.TYPE_WIFI:
                 return PreferenceUtil.getInstance(context).getMaxBitrateWifi();
             case ConnectivityManager.TYPE_MOBILE:
@@ -183,8 +181,8 @@ public class MusicUtil {
         }
     }
 
-    private static String getTranscodingFormatPreference(Context context, int connectionType) {
-        switch (connectionType) {
+    public static String getTranscodingFormatPreference(Context context) {
+        switch (getConnectivityManager(context).getActiveNetworkInfo().getType()) {
             case ConnectivityManager.TYPE_WIFI:
                 return PreferenceUtil.getInstance(context).getAudioTranscodeFormatWifi();
             case ConnectivityManager.TYPE_MOBILE:
@@ -192,5 +190,9 @@ public class MusicUtil {
             default:
                 return PreferenceUtil.getInstance(context).getAudioTranscodeFormatWifi();
         }
+    }
+
+    private static ConnectivityManager getConnectivityManager(Context context) {
+        return (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 }

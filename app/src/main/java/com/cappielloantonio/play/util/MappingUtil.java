@@ -105,7 +105,7 @@ public class MappingUtil {
     }
 
     public static Queue mapMediaToQueue(Media media, int trackOrder) {
-        return new Queue(trackOrder, media.getId(), media.getTitle(), media.getAlbumId(), media.getAlbumName(), media.getArtistId(), media.getArtistName(), media.getCoverArtId(), media.getDuration(), 0, 0, media.getStreamId(), media.getChannelId(), media.getPublishDate(), media.getType());
+        return new Queue(trackOrder, media.getId(), media.getTitle(), media.getAlbumId(), media.getAlbumName(), media.getArtistId(), media.getArtistName(), media.getCoverArtId(), media.getDuration(), 0, 0, media.getStreamId(), media.getChannelId(), media.getPublishDate(), media.getContainer(), media.getBitrate(), media.getExtension(), media.getType());
     }
 
     public static List<Queue> mapMediaToQueue(List<Media> media) {
@@ -211,6 +211,9 @@ public class MappingUtil {
         bundle.putString("artistId", media.getArtistId());
         bundle.putString("coverArtId", media.getCoverArtId());
         bundle.putString("mediaType", media.getType());
+        bundle.putString("container", media.getContainer());
+        bundle.putInt("bitrate", media.getBitrate());
+        bundle.putString("extension", media.getExtension());
 
         return new MediaItem.Builder()
                 .setMediaId(media.getId())
@@ -236,15 +239,13 @@ public class MappingUtil {
             case Media.MEDIA_TYPE_MUSIC:
                 if (stream) {
                     return MusicUtil.getStreamUri(context, media.getId());
-                }
-                else {
+                } else {
                     return MusicUtil.getDownloadUri(media.getId());
                 }
             case Media.MEDIA_TYPE_PODCAST:
-                if(stream) {
+                if (stream) {
                     return MusicUtil.getStreamUri(context, media.getStreamId());
-                }
-                else {
+                } else {
                     return MusicUtil.getDownloadUri(media.getStreamId());
                 }
             default:

@@ -47,9 +47,14 @@ public class PlayerLyricsFragment extends Fragment {
         playerBottomSheetViewModel.getLiveLyrics().observe(requireActivity(), lyrics -> {
             if (bind != null) {
                 if (lyrics == null || lyrics.trim().equals("")) {
-                    bind.nowPlayingSongLyricsTextView.setText(R.string.player_song_lyrics_none_available_label);
+                    bind.nowPlayingSongLyricsTextView.setVisibility(View.GONE);
+                    bind.emptyDescriptionImageView.setVisibility(View.VISIBLE);
+                    bind.titleEmptyDescriptionLabel.setVisibility(View.VISIBLE);
                 } else {
                     bind.nowPlayingSongLyricsTextView.setText(MusicUtil.getReadableString(lyrics));
+                    bind.nowPlayingSongLyricsTextView.setVisibility(View.VISIBLE);
+                    bind.emptyDescriptionImageView.setVisibility(View.GONE);
+                    bind.titleEmptyDescriptionLabel.setVisibility(View.GONE);
                 }
             }
         });

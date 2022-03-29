@@ -40,7 +40,8 @@ public class MusicUtil {
         if (getConnectivityManager(context).getActiveNetworkInfo() != null) {
             uri.append("&maxBitRate=")
                     .append(getBitratePreference(context))
-                    .append("&format=").append(getTranscodingFormatPreference(context));
+                    .append("&format=")
+                    .append(getTranscodingFormatPreference(context));
         }
 
         Log.d(TAG, "getStreamUri(): " + uri);

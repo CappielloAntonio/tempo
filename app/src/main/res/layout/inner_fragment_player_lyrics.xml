@@ -25,7 +25,7 @@
             android:adjustViewBounds="true"
             android:maxWidth="240dp"
             android:maxHeight="240dp"
-            android:paddingTop="64dp"
+            android:paddingTop="96dp"
             android:scaleType="centerInside"
             android:src="@drawable/ui_empty_description"
             app:layout_constraintTop_toTopOf="parent"

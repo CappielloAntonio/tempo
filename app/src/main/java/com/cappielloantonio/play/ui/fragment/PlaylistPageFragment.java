@@ -80,7 +80,6 @@ public class PlaylistPageFragment extends Fragment {
         super.onStart();
 
         initializeMediaBrowser();
-        activity.setBottomNavigationBarVisibility(false);
     }
 
     @Override

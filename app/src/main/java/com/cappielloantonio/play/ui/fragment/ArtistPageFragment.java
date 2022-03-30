@@ -78,7 +78,6 @@ public class ArtistPageFragment extends Fragment {
 
         initializeMediaBrowser();
         setMediaBrowserListenableFuture();
-        activity.setBottomNavigationBarVisibility(false);
     }
 
     @Override

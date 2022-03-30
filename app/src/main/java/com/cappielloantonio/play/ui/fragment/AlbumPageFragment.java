@@ -82,7 +82,6 @@ public class AlbumPageFragment extends Fragment {
         super.onStart();
 
         initializeMediaBrowser();
-        activity.setBottomNavigationBarVisibility(false);
     }
 
     @Override

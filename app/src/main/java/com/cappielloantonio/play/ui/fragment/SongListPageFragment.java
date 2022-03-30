@@ -58,7 +58,6 @@ public class SongListPageFragment extends Fragment {
     public void onStart() {
         super.onStart();
         initializeMediaBrowser();
-        activity.setBottomNavigationBarVisibility(false);
     }
 
     @Override

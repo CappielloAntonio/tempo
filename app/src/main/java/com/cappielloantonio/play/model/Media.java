@@ -79,20 +79,13 @@ public class Media implements Parcelable {
         this.path = child.getPath();
         this.size = child.getSize() != null ? child.getSize() : 0;
         this.container = child.getContentType();
-        this.bitrate = child.getBitRate();
+        this.bitrate = child.getBitRate() != null ? child.getBitRate() : 0;
         this.extension = child.getSuffix();
         this.added = child.getCreated().getTime();
         this.playCount = 0;
         this.lastPlay = 0;
         this.rating = child.getUserRating() != null ? child.getUserRating() : 0;
         this.type = child.getType();
-
-        Log.i(TAG, "Title: " + child.getTitle());
-        Log.i(TAG, "ContentType: " + child.getContentType());
-        Log.i(TAG, "Bitrate: " + child.getBitRate());
-        Log.i(TAG, "Suffix: " + child.getSuffix());
-        Log.i(TAG, "TranscodedContentType: " + child.getTranscodedContentType());
-        Log.i(TAG, "TranscodedCSuffix: " + child.getTranscodedSuffix());
     }
 
     public Media(PodcastEpisode podcastEpisode) {

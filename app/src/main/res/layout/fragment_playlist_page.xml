@@ -200,7 +200,6 @@
                 android:nestedScrollingEnabled="false"
                 android:paddingTop="8dp"
                 android:paddingBottom="@dimen/global_padding_bottom" />
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

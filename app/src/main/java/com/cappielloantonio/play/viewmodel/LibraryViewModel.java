@@ -44,8 +44,8 @@ public class LibraryViewModel extends AndroidViewModel {
 
         // Inizializzate all'interno del costruttore, in modo da rimanere immutabili per tutto il
         // ciclo di vita dell'applicazione
-        albumRepository.getAlbums("random", 20, null, null).observeForever(sampleAlbum::postValue);
-        artistRepository.getArtists(true, 20).observeForever(sampleArtist::postValue);
+        albumRepository.getAlbums("random", 10, null, null).observeForever(sampleAlbum::postValue);
+        artistRepository.getArtists(true, 10).observeForever(sampleArtist::postValue);
         genreRepository.getGenres(true, 15).observeForever(sampleGenres::postValue);
         playlistRepository.getPlaylists(true, 10).observeForever(playlistSample::postValue);
     }
@@ -67,11 +67,11 @@ public class LibraryViewModel extends AndroidViewModel {
     }
 
     public void refreshAlbumSample(LifecycleOwner owner) {
-        albumRepository.getAlbums("random", 20, null, null).observe(owner, sampleAlbum::postValue);
+        albumRepository.getAlbums("random", 10, null, null).observe(owner, sampleAlbum::postValue);
     }
 
     public void refreshArtistSample(LifecycleOwner owner) {
-        artistRepository.getArtists(true, 20).observe(owner, sampleArtist::postValue);
+        artistRepository.getArtists(true, 10).observe(owner, sampleArtist::postValue);
     }
 
     public void refreshGenreSample(LifecycleOwner owner) {

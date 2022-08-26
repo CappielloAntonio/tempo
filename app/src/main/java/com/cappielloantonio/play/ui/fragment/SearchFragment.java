@@ -115,8 +115,6 @@ public class SearchFragment extends Fragment {
     }
 
     private void initSearchView() {
-        // bind.persistentSearchView.setCardBackgroundColor(SurfaceColors.getColorForElevation(requireContext(), 2));
-
         if (isQueryValid(searchViewModel.getQuery())) {
             search(searchViewModel.getQuery());
         }

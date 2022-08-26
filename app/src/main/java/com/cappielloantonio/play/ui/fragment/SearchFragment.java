@@ -203,9 +203,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void inputFocus() {
-        if (!isQueryValid(searchViewModel.getQuery())) {
-            bind.persistentSearchView.expand();
-        }
+        bind.persistentSearchView.expand();
     }
 
     @SuppressLint("UnsafeOptInUsageError")

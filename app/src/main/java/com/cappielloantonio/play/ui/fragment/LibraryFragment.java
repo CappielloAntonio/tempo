@@ -145,7 +145,7 @@ public class LibraryFragment extends Fragment {
 
         albumAdapter = new AlbumAdapter(requireContext());
         bind.albumRecyclerView.setAdapter(albumAdapter);
-        libraryViewModel.getAlbumSample().observe(requireActivity(), albums -> {
+        libraryViewModel.getAlbumSample().observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
                 if (bind != null) bind.libraryAlbumPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.libraryAlbumSector.setVisibility(View.GONE);
@@ -167,7 +167,7 @@ public class LibraryFragment extends Fragment {
 
         artistAdapter = new ArtistAdapter((MainActivity) requireActivity(), requireContext());
         bind.artistRecyclerView.setAdapter(artistAdapter);
-        libraryViewModel.getArtistSample().observe(requireActivity(), artists -> {
+        libraryViewModel.getArtistSample().observe(getViewLifecycleOwner(), artists -> {
             if (artists == null) {
                 if (bind != null) bind.libraryArtistPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.libraryArtistSector.setVisibility(View.GONE);
@@ -195,7 +195,7 @@ public class LibraryFragment extends Fragment {
             activity.navController.navigate(R.id.action_libraryFragment_to_songListPageFragment, bundle);
         });
         bind.genreRecyclerView.setAdapter(genreAdapter);
-        libraryViewModel.getGenreSample().observe(requireActivity(), genres -> {
+        libraryViewModel.getGenreSample().observe(getViewLifecycleOwner(), genres -> {
             if (genres == null) {
                 if (bind != null) bind.libraryGenrePlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.libraryGenresSector.setVisibility(View.GONE);
@@ -217,7 +217,7 @@ public class LibraryFragment extends Fragment {
 
         playlistHorizontalAdapter = new PlaylistHorizontalAdapter(activity, requireContext());
         bind.playlistRecyclerView.setAdapter(playlistHorizontalAdapter);
-        libraryViewModel.getPlaylistSample().observe(requireActivity(), playlists -> {
+        libraryViewModel.getPlaylistSample().observe(getViewLifecycleOwner(), playlists -> {
             if (playlists == null) {
                 if (bind != null) bind.libraryPlaylistPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.libraryPlaylistSector.setVisibility(View.GONE);

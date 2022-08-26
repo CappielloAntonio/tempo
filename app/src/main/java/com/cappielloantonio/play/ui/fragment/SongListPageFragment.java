@@ -148,7 +148,7 @@ public class SongListPageFragment extends Fragment {
     }
 
     private void initButtons() {
-        songListPageViewModel.getSongList(requireActivity()).observe(requireActivity(), songs -> {
+        songListPageViewModel.getSongList(requireActivity()).observe(getViewLifecycleOwner(), songs -> {
             if (bind != null) {
                 bind.songListShuffleImageView.setOnClickListener(v -> {
                     Collections.shuffle(songs);
@@ -165,7 +165,7 @@ public class SongListPageFragment extends Fragment {
 
         songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
         bind.songListRecyclerView.setAdapter(songHorizontalAdapter);
-        songListPageViewModel.getSongList(requireActivity()).observe(requireActivity(), songs -> songHorizontalAdapter.setItems(songs));
+        songListPageViewModel.getSongList(requireActivity()).observe(getViewLifecycleOwner(), songs -> songHorizontalAdapter.setItems(songs));
     }
 
     @SuppressLint("UnsafeOptInUsageError")

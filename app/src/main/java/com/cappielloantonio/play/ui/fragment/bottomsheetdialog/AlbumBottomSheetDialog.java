@@ -127,7 +127,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
         TextView playRandom = view.findViewById(R.id.play_random_text_view);
         playRandom.setOnClickListener(v -> {
             AlbumRepository albumRepository = new AlbumRepository(App.getInstance());
-            albumRepository.getAlbumTracks(album.getId()).observe(requireActivity(), songs -> {
+            albumRepository.getAlbumTracks(album.getId()).observe(getViewLifecycleOwner(), songs -> {
                 Collections.shuffle(songs);
 
                 MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
@@ -138,7 +138,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
         });
 
         TextView playNext = view.findViewById(R.id.play_next_text_view);
-        playNext.setOnClickListener(v -> albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
+        playNext.setOnClickListener(v -> albumBottomSheetViewModel.getAlbumTracks().observe(getViewLifecycleOwner(), songs -> {
             MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), songs, true);
             ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
 
@@ -146,7 +146,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
         }));
 
         TextView addToQueue = view.findViewById(R.id.add_to_queue_text_view);
-        addToQueue.setOnClickListener(v -> albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
+        addToQueue.setOnClickListener(v -> albumBottomSheetViewModel.getAlbumTracks().observe(getViewLifecycleOwner(), songs -> {
             MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), songs, false);
             ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
 
@@ -156,7 +156,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
         TextView downloadAll = view.findViewById(R.id.download_all_text_view);
         TextView removeAll = view.findViewById(R.id.remove_all_text_view);
 
-        albumBottomSheetViewModel.getAlbumTracks().observe(requireActivity(), songs -> {
+        albumBottomSheetViewModel.getAlbumTracks().observe(getViewLifecycleOwner(), songs -> {
             List<MediaItem> mediaItems = MappingUtil.mapMediaItems(requireContext(), songs, false);
             List<Download> downloads = MappingUtil.mapDownload(songs, null, null);
 

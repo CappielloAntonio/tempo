@@ -126,7 +126,7 @@ public class SearchFragment extends Fragment {
 
         bind.persistentSearchView.setOnSearchQueryChangeListener((searchView, oldQuery, newQuery) -> {
             if (!newQuery.trim().equals("") && newQuery.trim().length() > 1) {
-                searchViewModel.getSearchSuggestion(newQuery).observe(requireActivity(), suggestions -> searchView.setSuggestions(SuggestionCreationUtil.asRegularSearchSuggestions(MusicUtil.getReadableStrings(suggestions)), false));
+                searchViewModel.getSearchSuggestion(newQuery).observe(getViewLifecycleOwner(), suggestions -> searchView.setSuggestions(SuggestionCreationUtil.asRegularSearchSuggestions(MusicUtil.getReadableStrings(suggestions)), false));
             } else {
                 setSuggestions();
             }
@@ -179,19 +179,19 @@ public class SearchFragment extends Fragment {
     }
 
     private void performSearch(String query) {
-        searchViewModel.searchArtist(query).observe(requireActivity(), artists -> {
+        searchViewModel.searchArtist(query).observe(getViewLifecycleOwner(), artists -> {
             if (bind != null)
                 bind.searchArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
             artistAdapter.setItems(artists);
         });
 
-        searchViewModel.searchAlbum(query).observe(requireActivity(), albums -> {
+        searchViewModel.searchAlbum(query).observe(getViewLifecycleOwner(), albums -> {
             if (bind != null)
                 bind.searchAlbumSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
             albumAdapter.setItems(albums);
         });
 
-        searchViewModel.searchSong(query).observe(requireActivity(), songs -> {
+        searchViewModel.searchSong(query).observe(getViewLifecycleOwner(), songs -> {
             if (bind != null)
                 bind.searchSongSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
             songHorizontalAdapter.setItems(songs);

@@ -105,7 +105,7 @@ public class AlbumPageFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_download_album) {
-            albumPageViewModel.getAlbumSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
+            albumPageViewModel.getAlbumSongLiveList(requireActivity()).observe(getViewLifecycleOwner(), songs -> {
                 if (isVisible() && getActivity() != null) {
                     DownloadUtil.getDownloadTracker(requireContext()).download(
                             MappingUtil.mapMediaItems(requireContext(), songs, false),
@@ -144,7 +144,7 @@ public class AlbumPageFragment extends Fragment {
     }
 
     private void initAlbumInfoTextButton() {
-        bind.albumArtistLabel.setOnClickListener(v -> albumPageViewModel.getArtist().observe(requireActivity(), artist -> {
+        bind.albumArtistLabel.setOnClickListener(v -> albumPageViewModel.getArtist().observe(getViewLifecycleOwner(), artist -> {
             if (artist != null) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("artist_object", artist);
@@ -155,7 +155,7 @@ public class AlbumPageFragment extends Fragment {
     }
 
     private void initMusicButton() {
-        albumPageViewModel.getAlbumSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
+        albumPageViewModel.getAlbumSongLiveList(requireActivity()).observe(getViewLifecycleOwner(), songs -> {
             if (bind != null && !songs.isEmpty()) {
                 bind.albumPagePlayButton.setOnClickListener(v -> {
                     MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
@@ -191,7 +191,7 @@ public class AlbumPageFragment extends Fragment {
         songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), false);
         bind.songRecyclerView.setAdapter(songHorizontalAdapter);
 
-        albumPageViewModel.getAlbumSongLiveList(requireActivity()).observe(requireActivity(), songs -> songHorizontalAdapter.setItems(songs));
+        albumPageViewModel.getAlbumSongLiveList(requireActivity()).observe(getViewLifecycleOwner(), songs -> songHorizontalAdapter.setItems(songs));
     }
 
     @SuppressLint("UnsafeOptInUsageError")

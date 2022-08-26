@@ -63,11 +63,11 @@ public class RatingDialog extends DialogFragment {
 
     private void setRating() {
         if (ratingViewModel.getSong() != null) {
-            ratingViewModel.getLiveSong().observe(requireActivity(), song -> bind.ratingBar.setRating(song.getRating()));
+            ratingViewModel.getLiveSong().observe(getViewLifecycleOwner(), song -> bind.ratingBar.setRating(song.getRating()));
         } else if (ratingViewModel.getAlbum() != null) {
-            ratingViewModel.getLiveAlbum().observe(requireActivity(), album -> bind.ratingBar.setRating(/*album.getRating()*/ 0));
+            ratingViewModel.getLiveAlbum().observe(getViewLifecycleOwner(), album -> bind.ratingBar.setRating(/*album.getRating()*/ 0));
         } else if (ratingViewModel.getArtist() != null) {
-            ratingViewModel.getLiveArtist().observe(requireActivity(), artist -> bind.ratingBar.setRating(/*artist.getRating()*/ 0));
+            ratingViewModel.getLiveArtist().observe(getViewLifecycleOwner(), artist -> bind.ratingBar.setRating(/*artist.getRating()*/ 0));
         }
     }
 }

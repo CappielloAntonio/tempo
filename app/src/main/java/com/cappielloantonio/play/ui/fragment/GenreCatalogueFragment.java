@@ -110,7 +110,7 @@ public class GenreCatalogueFragment extends Fragment {
             activity.navController.navigate(R.id.action_genreCatalogueFragment_to_songListPageFragment, bundle);
         });
 
-        genreCatalogueViewModel.getGenreList().observe(requireActivity(), genres -> genreCatalogueAdapter.setItems(genres));
+        genreCatalogueViewModel.getGenreList().observe(getViewLifecycleOwner(), genres -> genreCatalogueAdapter.setItems(genres));
 
         bind.genreCatalogueRecyclerView.setOnTouchListener((v, event) -> {
             hideKeyboard(v);

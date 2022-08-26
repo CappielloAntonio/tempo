@@ -103,7 +103,7 @@ public class PlaylistPageFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_download_playlist) {
-            playlistPageViewModel.getPlaylistSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
+            playlistPageViewModel.getPlaylistSongLiveList(requireActivity()).observe(getViewLifecycleOwner(), songs -> {
                 if (isVisible() && getActivity() != null) {
                     DownloadUtil.getDownloadTracker(requireContext()).download(
                             MappingUtil.mapMediaItems(requireContext(), songs, false),
@@ -129,7 +129,7 @@ public class PlaylistPageFragment extends Fragment {
     }
 
     private void initMenuOption(Menu menu) {
-        playlistPageViewModel.isPinned(requireActivity()).observe(requireActivity(), isPinned -> {
+        playlistPageViewModel.isPinned(requireActivity()).observe(getViewLifecycleOwner(), isPinned -> {
             menu.findItem(R.id.action_unpin_playlist).setVisible(isPinned);
             menu.findItem(R.id.action_pin_playlist).setVisible(!isPinned);
         });
@@ -160,7 +160,7 @@ public class PlaylistPageFragment extends Fragment {
     }
 
     private void initMusicButton() {
-        playlistPageViewModel.getPlaylistSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
+        playlistPageViewModel.getPlaylistSongLiveList(requireActivity()).observe(getViewLifecycleOwner(), songs -> {
             if (bind != null) {
                 bind.playlistPagePlayButton.setOnClickListener(v -> {
                     MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
@@ -177,7 +177,7 @@ public class PlaylistPageFragment extends Fragment {
     }
 
     private void initBackCover() {
-        playlistPageViewModel.getPlaylistSongLiveList(requireActivity()).observe(requireActivity(), songs -> {
+        playlistPageViewModel.getPlaylistSongLiveList(requireActivity()).observe(getViewLifecycleOwner(), songs -> {
             if (bind != null) {
                 Collections.shuffle(songs);
 
@@ -219,7 +219,7 @@ public class PlaylistPageFragment extends Fragment {
         songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
         bind.songRecyclerView.setAdapter(songHorizontalAdapter);
 
-        playlistPageViewModel.getPlaylistSongLiveList(requireActivity()).observe(requireActivity(), songs -> songHorizontalAdapter.setItems(songs));
+        playlistPageViewModel.getPlaylistSongLiveList(requireActivity()).observe(getViewLifecycleOwner(), songs -> songHorizontalAdapter.setItems(songs));
     }
 
     @SuppressLint("UnsafeOptInUsageError")

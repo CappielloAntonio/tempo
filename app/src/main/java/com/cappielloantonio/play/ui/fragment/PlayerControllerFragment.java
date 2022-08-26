@@ -245,7 +245,7 @@ public class PlayerControllerFragment extends Fragment {
     }
 
     private void initMediaListenable() {
-        playerBottomSheetViewModel.getLiveMedia().observe(requireActivity(), media -> {
+        playerBottomSheetViewModel.getLiveMedia().observe(getViewLifecycleOwner(), media -> {
             if (media != null) {
                 buttonFavorite.setChecked(media.isStarred());
                 buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite(requireContext(), media));
@@ -268,7 +268,7 @@ public class PlayerControllerFragment extends Fragment {
     }
 
     private void initArtistLabelButton() {
-        playerBottomSheetViewModel.getLiveArtist().observe(requireActivity(), artist -> {
+        playerBottomSheetViewModel.getLiveArtist().observe(getViewLifecycleOwner(), artist -> {
             if (artist != null) {
                 playerArtistNameLabel.setOnClickListener(view -> {
                     Bundle bundle = new Bundle();

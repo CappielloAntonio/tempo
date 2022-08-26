@@ -82,7 +82,7 @@ public class PlaylistChooserDialog extends DialogFragment {
         playlistDialogHorizontalAdapter = new PlaylistDialogHorizontalAdapter(requireContext(), playlistChooserViewModel, this);
         bind.playlistDialogRecyclerView.setAdapter(playlistDialogHorizontalAdapter);
 
-        playlistChooserViewModel.getPlaylistList().observe(requireActivity(), playlists -> {
+        playlistChooserViewModel.getPlaylistList().observe(getViewLifecycleOwner(), playlists -> {
             if (playlists != null) {
                 if (playlists.size() > 0) {
                     if (bind != null) bind.noPlaylistsCreatedTextView.setVisibility(View.GONE);

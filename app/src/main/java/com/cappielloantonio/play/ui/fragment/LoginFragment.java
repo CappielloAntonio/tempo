@@ -82,7 +82,7 @@ public class LoginFragment extends Fragment {
 
         serverAdapter = new ServerAdapter(activity, requireContext());
         bind.serverListRecyclerView.setAdapter(serverAdapter);
-        loginViewModel.getServerList().observe(requireActivity(), servers -> {
+        loginViewModel.getServerList().observe(getViewLifecycleOwner(), servers -> {
             if (servers.size() > 0) {
                 if (bind != null) bind.noServerAddedTextView.setVisibility(View.GONE);
                 if (bind != null) bind.serverListRecyclerView.setVisibility(View.VISIBLE);

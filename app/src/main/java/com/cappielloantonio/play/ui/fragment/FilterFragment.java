@@ -83,7 +83,7 @@ public class FilterFragment extends Fragment {
     }
 
     private void setFilterChips() {
-        filterViewModel.getGenreList().observe(requireActivity(), genres -> {
+        filterViewModel.getGenreList().observe(getViewLifecycleOwner(), genres -> {
             bind.loadingProgressBar.setVisibility(View.GONE);
             bind.filterContainer.setVisibility(View.VISIBLE);
             for (Genre genre : genres) {

@@ -92,7 +92,7 @@ public class PlayerCoverFragment extends Fragment {
     }
 
     private void initInnerButton() {
-        playerBottomSheetViewModel.getLiveMedia().observe(requireActivity(), song -> {
+        playerBottomSheetViewModel.getLiveMedia().observe(getViewLifecycleOwner(), song -> {
             if (song != null && bind != null) {
                 bind.innerButtonTopLeft.setOnClickListener(view -> {
                     DownloadUtil.getDownloadTracker(requireContext()).download(

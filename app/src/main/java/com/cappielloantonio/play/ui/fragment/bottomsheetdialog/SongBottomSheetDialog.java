@@ -188,7 +188,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         });
 
         TextView goToAlbum = view.findViewById(R.id.go_to_album_text_view);
-        goToAlbum.setOnClickListener(v -> songBottomSheetViewModel.getAlbum().observe(requireActivity(), album -> {
+        goToAlbum.setOnClickListener(v -> songBottomSheetViewModel.getAlbum().observe(getViewLifecycleOwner(), album -> {
             if (album != null) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("album_object", album);
@@ -200,7 +200,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         }));
 
         TextView goToArtist = view.findViewById(R.id.go_to_artist_text_view);
-        goToArtist.setOnClickListener(v -> songBottomSheetViewModel.getArtist().observe(requireActivity(), artist -> {
+        goToArtist.setOnClickListener(v -> songBottomSheetViewModel.getArtist().observe(getViewLifecycleOwner(), artist -> {
             if (artist != null) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("artist_object", artist);

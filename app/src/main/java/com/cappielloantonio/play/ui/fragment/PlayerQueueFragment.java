@@ -91,7 +91,7 @@ public class PlayerQueueFragment extends Fragment {
 
         playerSongQueueAdapter = new PlayerSongQueueAdapter(requireContext());
         bind.playerQueueRecyclerView.setAdapter(playerSongQueueAdapter);
-        playerBottomSheetViewModel.getQueueSong().observe(requireActivity(), queue -> {
+        playerBottomSheetViewModel.getQueueSong().observe(getViewLifecycleOwner(), queue -> {
             if (queue != null) {
                 playerSongQueueAdapter.setItems(MappingUtil.mapQueue(queue));
             }

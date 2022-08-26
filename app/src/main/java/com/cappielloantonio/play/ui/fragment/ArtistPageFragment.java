@@ -114,7 +114,7 @@ public class ArtistPageFragment extends Fragment {
     }
 
     private void initArtistInfo() {
-        artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(requireActivity(), artist -> {
+        artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(getViewLifecycleOwner(), artist -> {
             String normalizedBio = MusicUtil.forceReadableString(artist.getBio());
 
             if (bind != null) bind.artistPageBioSector.setVisibility(!normalizedBio.trim().isEmpty() ? View.VISIBLE : View.GONE);
@@ -143,7 +143,7 @@ public class ArtistPageFragment extends Fragment {
     private void initPlayButtons() {
         bind.artistPageShuffleButton.setOnClickListener(v -> {
             ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
-            artistRepository.getArtistRandomSong(requireActivity(), artistPageViewModel.getArtist(), 20).observe(requireActivity(), songs -> {
+            artistRepository.getArtistRandomSong(requireActivity(), artistPageViewModel.getArtist(), 20).observe(getViewLifecycleOwner(), songs -> {
                 if (songs.size() > 0) {
                     MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
                     activity.setBottomSheetInPeek(true);
@@ -179,7 +179,7 @@ public class ArtistPageFragment extends Fragment {
 
         songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
         bind.mostStreamedSongRecyclerView.setAdapter(songHorizontalAdapter);
-        artistPageViewModel.getArtistTopSongList(10).observe(requireActivity(), songs -> {
+        artistPageViewModel.getArtistTopSongList(10).observe(getViewLifecycleOwner(), songs -> {
             if (bind != null) bind.artistPageTopSongsSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
             songHorizontalAdapter.setItems(songs);
         });
@@ -190,7 +190,7 @@ public class ArtistPageFragment extends Fragment {
 
         albumArtistPageOrSimilarAdapter = new AlbumArtistPageOrSimilarAdapter(requireContext());
         bind.albumsRecyclerView.setAdapter(albumArtistPageOrSimilarAdapter);
-        artistPageViewModel.getAlbumList().observe(requireActivity(), albums -> {
+        artistPageViewModel.getAlbumList().observe(getViewLifecycleOwner(), albums -> {
             if (bind != null) bind.artistPageAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
             albumArtistPageOrSimilarAdapter.setItems(albums);
         });
@@ -205,7 +205,7 @@ public class ArtistPageFragment extends Fragment {
 
         artistSimilarAdapter = new ArtistSimilarAdapter(requireContext());
         bind.similarArtistsRecyclerView.setAdapter(artistSimilarAdapter);
-        artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(requireActivity(), artist -> {
+        artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(getViewLifecycleOwner(), artist -> {
             if (bind != null) bind.similarArtistSector.setVisibility(!artist.getSimilarArtists().isEmpty() ? View.VISIBLE : View.GONE);
             artistSimilarAdapter.setItems(artist.getSimilarArtists());
         });

@@ -108,8 +108,8 @@ public class PlaylistCatalogueFragment extends Fragment {
         bind.playlistCatalogueRecyclerView.setAdapter(playlistHorizontalAdapter);
 
         if (getActivity() != null) {
-            playlistCatalogueViewModel.getPlaylistList(requireActivity()).observe(requireActivity(), playlists ->
-                    playlistCatalogueViewModel.getPinnedPlaylistList(requireActivity()).observe(requireActivity(),
+            playlistCatalogueViewModel.getPlaylistList(requireActivity()).observe(getViewLifecycleOwner(), playlists ->
+                    playlistCatalogueViewModel.getPinnedPlaylistList(requireActivity()).observe(getViewLifecycleOwner(),
                             pinnedPlaylists -> {
                                 List<Playlist> sortedList = new ArrayList<>();
                                 List<Playlist> unsortedList = new ArrayList<>(playlists);

@@ -44,7 +44,7 @@ public class PlayerLyricsFragment extends Fragment {
     }
 
     private void initLyrics() {
-        playerBottomSheetViewModel.getLiveLyrics().observe(requireActivity(), lyrics -> {
+        playerBottomSheetViewModel.getLiveLyrics().observe(getViewLifecycleOwner(), lyrics -> {
             if (bind != null) {
                 if (lyrics == null || lyrics.trim().equals("")) {
                     bind.nowPlayingSongLyricsTextView.setVisibility(View.GONE);

@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
     buildToolsVersion '30.0.3'
 
     defaultConfig {
         applicationId "com.cappielloantonio.playforsubsonic"
         minSdkVersion 26
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 4
         versionName "2.1.0"
 
@@ -93,5 +93,5 @@ dependencies {
     debugImplementation 'com.balsikandar.android:crashreporter:1.1.0'
 
     // DB debug
-    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+    // debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 }

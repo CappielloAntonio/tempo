@@ -26,7 +26,6 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.ArtistCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistCatalogueBinding;
 import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
-import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.ArtistCatalogueViewModel;

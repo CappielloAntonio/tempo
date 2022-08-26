@@ -9,13 +9,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
@@ -44,21 +48,13 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.setIsRecyclable(false);
+
         Artist artist = artists.get(position);
 
         holder.textArtistName.setText(MusicUtil.getReadableString(artist.getName()));
 
-        CustomGlideRequest.Builder
-                .from(
-                        context,
-                        artist.getId(),
-                        CustomGlideRequest.ARTIST_PIC,
-                        // artist.getImageUrl()
-                        null
-                )
-                .build()
-                .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
-                .into(holder.cover);
+        setArtistCover(artist, holder.cover);
     }
 
     @Override
@@ -73,6 +69,27 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
     public void setItems(List<Artist> artists) {
         this.artists = artists;
         notifyDataSetChanged();
+    }
+
+    private void setArtistCover(Artist artist, ImageView cover) {
+        ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
+        artistRepository.getArtistFullInfo(artist.getId()).observeForever(new Observer<Artist>() {
+            @Override
+            public void onChanged(Artist artist) {
+                CustomGlideRequest.Builder
+                        .from(
+                                context,
+                                artist.getId(),
+                                CustomGlideRequest.ARTIST_PIC,
+                                artist.getImageUrl()
+                        )
+                        .build()
+                        .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
+                        .into(cover);
+
+                artistRepository.getArtistFullInfo(artist.getId()).removeObserver(this);
+            }
+        });
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {

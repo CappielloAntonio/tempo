@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Observer;
 import androidx.media3.session.MediaBrowser;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
@@ -60,15 +61,13 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.setIsRecyclable(false);
+
         Artist artist = artists.get(position);
 
         holder.textArtistName.setText(MusicUtil.getReadableString(artist.getName()));
 
-        CustomGlideRequest.Builder
-                .from(context, artist.getId(), CustomGlideRequest.ARTIST_PIC, null)
-                .build()
-                .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
-                .into(holder.cover);
+        setArtistCover(artist, holder.cover);
     }
 
     @Override
@@ -87,6 +86,22 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
 
     public void setMediaBrowserListenableFuture(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture) {
         this.mediaBrowserListenableFuture = mediaBrowserListenableFuture;
+    }
+
+    private void setArtistCover(Artist artist, ImageView cover) {
+        ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
+        artistRepository.getArtistFullInfo(artist.getId()).observeForever(new Observer<Artist>() {
+            @Override
+            public void onChanged(Artist artist) {
+                CustomGlideRequest.Builder
+                        .from(context, artist.getId(), CustomGlideRequest.ARTIST_PIC, artist.getImageUrl())
+                        .build()
+                        .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
+                        .into(cover);
+
+                artistRepository.getArtistFullInfo(artist.getId()).removeObserver(this);
+            }
+        });
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {

@@ -125,8 +125,7 @@ public class ArtistPageFragment extends Fragment {
                             requireContext(),
                             artistPageViewModel.getArtist().getId(),
                             CustomGlideRequest.ARTIST_PIC,
-                            // artist.getImageUrl()
-                            null
+                            artist.getImageUrl()
                     )
                     .build()
                     .into(bind.artistBackdropImageView);

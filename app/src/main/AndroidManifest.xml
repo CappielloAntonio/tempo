@@ -32,6 +32,7 @@
         </activity>
         <service
             android:name=".service.MediaService"
+            android:foregroundServiceType="mediaPlayback"
             android:exported="true">
             <intent-filter>
                 <action android:name="androidx.media3.session.MediaLibraryService" />

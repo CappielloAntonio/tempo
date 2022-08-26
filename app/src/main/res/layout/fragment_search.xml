@@ -8,11 +8,13 @@
         android:id="@+id/persistentSearchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="8dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="8dp"
+        android:layout_marginTop="4dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
         app:areSuggestionsDisabled="false"
-        app:cardCornerRadius="4dp"
+        app:cardBackgroundColor="?attr/colorSurface"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp"
         app:clearInputButtonDrawable="@drawable/ic_close"
         app:dividerColor="@color/dividerColor"
         app:isClearInputButtonEnabled="true"
@@ -20,23 +22,33 @@
         app:isProgressBarEnabled="true"
         app:isVoiceInputButtonEnabled="false"
         app:leftButtonDrawable="@drawable/ic_search"
-        app:queryInputHint="@string/search_hint"
-        app:shouldDimBehind="true"
-
+        app:progressBarColor="?attr/colorOnSurface"
         app:queryInputBarIconColor="@color/searchPlaceholderColor"
+        app:queryInputCursorColor="?attr/colorOnSurface"
+        app:queryInputHint="@string/search_hint"
         app:queryInputHintColor="@color/searchPlaceholderColor"
         app:queryInputTextColor="@color/searchPlaceholderColor"
-        app:suggestionIconColor="@color/searchColor"
+        app:shouldDimBehind="false"
         app:suggestionRecentSearchIconColor="@color/searchColor"
         app:suggestionSearchSuggestionIconColor="@color/searchColor"
         app:suggestionSelectedTextColor="?attr/colorPrimary"
-        app:suggestionTextColor="@color/searchColor"/>
+        app:suggestionTextColor="@color/searchColor"
+        app:suggestionIconColor="@color/searchColor" />
+
+    <View
+        android:id="@+id/search_bar_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.75dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_below="@+id/persistentSearchView"
+        android:background="?attr/colorSurfaceVariant" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/search_result_nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/persistentSearchView">
+        android:layout_below="@id/search_bar_divider">
 
         <!-- Search result -->
         <LinearLayout

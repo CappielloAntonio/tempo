@@ -71,7 +71,8 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
             val availableSessionCommands = connectionResult.availableSessionCommands.buildUpon()
 
             customCommands.forEach { commandButton ->
-                commandButton.sessionCommand?.let { availableSessionCommands.add(it) }
+                // TODO: Aggiungere i comandi personalizzati
+                // commandButton.sessionCommand?.let { availableSessionCommands.add(it) }
             }
 
             return MediaSession.ConnectionResult.accept(

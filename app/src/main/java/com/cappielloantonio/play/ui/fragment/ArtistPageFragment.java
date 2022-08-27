@@ -71,7 +71,6 @@ public class ArtistPageFragment extends Fragment {
         return view;
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
@@ -103,7 +102,6 @@ public class ArtistPageFragment extends Fragment {
         });
     }
 
-    @SuppressLint("NewApi")
     private void initAppBar() {
         activity.setSupportActionBar(bind.animToolbar);
         if (activity.getSupportActionBar() != null) activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);

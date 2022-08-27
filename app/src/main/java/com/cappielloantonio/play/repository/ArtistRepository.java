@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
@@ -267,7 +268,7 @@ public class ArtistRepository {
                 });
     }
 
-    public MutableLiveData<ArrayList<Media>> getArtistRandomSong(FragmentActivity fragmentActivity, Artist artist, int count) {
+    public MutableLiveData<ArrayList<Media>> getArtistRandomSong(LifecycleOwner owner, Artist artist, int count) {
         MutableLiveData<ArrayList<Media>> randomSongs = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
@@ -283,7 +284,7 @@ public class ArtistRepository {
                                 AlbumRepository albumRepository = new AlbumRepository(App.getInstance());
 
                                 for (int index = 0; index < albums.size(); index++) {
-                                    albumRepository.getAlbumTracks(albums.get(index).getId()).observe(fragmentActivity, songs -> {
+                                    albumRepository.getAlbumTracks(albums.get(index).getId()).observe(owner, songs -> {
                                         ArrayList<Media> liveSongs = randomSongs.getValue();
                                         if (liveSongs == null) liveSongs = new ArrayList<>();
                                         Collections.shuffle(liveSongs);

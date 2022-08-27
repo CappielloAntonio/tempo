@@ -82,6 +82,6 @@ public class ArtistListPageFragment extends Fragment {
 
         artistHorizontalAdapter = new ArtistHorizontalAdapter(requireContext(), artistListPageViewModel.title.equals(Artist.DOWNLOADED));
         bind.artistListRecyclerView.setAdapter(artistHorizontalAdapter);
-        artistListPageViewModel.getArtistList(requireActivity()).observe(getViewLifecycleOwner(), artists -> artistHorizontalAdapter.setItems(artists));
+        artistListPageViewModel.getArtistList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> artistHorizontalAdapter.setItems(artists));
     }
 }

@@ -101,6 +101,6 @@ public class AlbumListPageFragment extends Fragment {
         );
 
         bind.albumListRecyclerView.setAdapter(albumHorizontalAdapter);
-        albumListPageViewModel.getAlbumList(requireActivity()).observe(getViewLifecycleOwner(), albums -> albumHorizontalAdapter.setItems(albums));
+        albumListPageViewModel.getAlbumList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> albumHorizontalAdapter.setItems(albums));
     }
 }

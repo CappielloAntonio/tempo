@@ -177,7 +177,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
         });
 
         TextView goToArtist = view.findViewById(R.id.go_to_artist_text_view);
-        goToArtist.setOnClickListener(v -> albumBottomSheetViewModel.getArtist().observe(requireActivity(), artist -> {
+        goToArtist.setOnClickListener(v -> albumBottomSheetViewModel.getArtist().observe(getViewLifecycleOwner(), artist -> {
             if (artist != null) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("artist_object", artist);

@@ -171,7 +171,7 @@ public class DownloadFragment extends Fragment {
 
         downloadedArtistAdapter = new ArtistHorizontalAdapter(requireContext(), false);
         bind.downloadedArtistRecyclerView.setAdapter(downloadedArtistAdapter);
-        downloadViewModel.getDownloadedArtists(requireActivity(), 20).observe(getViewLifecycleOwner(), artists -> {
+        downloadViewModel.getDownloadedArtists(getViewLifecycleOwner(), 20).observe(getViewLifecycleOwner(), artists -> {
             if (artists == null) {
                 if (bind != null) bind.downloadDownloadedArtistPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.downloadDownloadedArtistSector.setVisibility(View.GONE);
@@ -203,7 +203,7 @@ public class DownloadFragment extends Fragment {
 
         downloadedAlbumAdapter = new AlbumHorizontalAdapter(requireContext(), true);
         bind.downloadedAlbumRecyclerView.setAdapter(downloadedAlbumAdapter);
-        downloadViewModel.getDownloadedAlbums(requireActivity(), 20).observe(getViewLifecycleOwner(), albums -> {
+        downloadViewModel.getDownloadedAlbums(getViewLifecycleOwner(), 20).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
                 if (bind != null) bind.downloadDownloadedAlbumPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.downloadDownloadedAlbumSector.setVisibility(View.GONE);
@@ -235,7 +235,7 @@ public class DownloadFragment extends Fragment {
 
         downloadedTrackAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
         bind.downloadedTracksRecyclerView.setAdapter(downloadedTrackAdapter);
-        downloadViewModel.getDownloadedTracks(requireActivity(), 20).observe(getViewLifecycleOwner(), songs -> {
+        downloadViewModel.getDownloadedTracks(getViewLifecycleOwner(), 20).observe(getViewLifecycleOwner(), songs -> {
             if (songs == null) {
                 if (bind != null) bind.downloadDownloadedTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.downloadDownloadedTracksSector.setVisibility(View.GONE);
@@ -268,7 +268,7 @@ public class DownloadFragment extends Fragment {
 
         playlistHorizontalAdapter = new PlaylistHorizontalAdapter(activity, requireContext());
         bind.downloadedPlaylistRecyclerView.setAdapter(playlistHorizontalAdapter);
-        downloadViewModel.getDownloadedPlaylists(requireActivity(), 5).observe(getViewLifecycleOwner(), playlists -> {
+        downloadViewModel.getDownloadedPlaylists(getViewLifecycleOwner(), 5).observe(getViewLifecycleOwner(), playlists -> {
             if (playlists == null) {
                 if (bind != null) bind.downloadDownloadedPlaylistPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.downloadDownloadedPlaylistSector.setVisibility(View.GONE);
@@ -282,7 +282,7 @@ public class DownloadFragment extends Fragment {
     }
 
     private void initPlaceholder() {
-        downloadViewModel.getDownloadedTracks(requireActivity(), 20).observe(getViewLifecycleOwner(), songs -> {
+        downloadViewModel.getDownloadedTracks(getViewLifecycleOwner(), 20).observe(getViewLifecycleOwner(), songs -> {
             if ((songs != null && !songs.isEmpty())) {
                 if (bind != null) bind.emptyDownloadLayout.setVisibility(View.GONE);
                 if (bind != null) bind.fragmentDownloadNestedScrollView.setVisibility(View.VISIBLE);

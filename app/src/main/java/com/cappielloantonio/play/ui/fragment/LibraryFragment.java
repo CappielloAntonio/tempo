@@ -117,19 +117,19 @@ public class LibraryFragment extends Fragment {
         });
 
         bind.albumCatalogueSampleTextViewRefreshable.setOnLongClickListener(view -> {
-            libraryViewModel.refreshAlbumSample(requireActivity());
+            libraryViewModel.refreshAlbumSample(getViewLifecycleOwner());
             return true;
         });
         bind.artistCatalogueSampleTextViewRefreshable.setOnLongClickListener(view -> {
-            libraryViewModel.refreshArtistSample(requireActivity());
+            libraryViewModel.refreshArtistSample(getViewLifecycleOwner());
             return true;
         });
         bind.genreCatalogueSampleTextViewRefreshable.setOnLongClickListener(view -> {
-            libraryViewModel.refreshGenreSample(requireActivity());
+            libraryViewModel.refreshGenreSample(getViewLifecycleOwner());
             return true;
         });
         bind.playlistCatalogueSampleTextViewRefreshable.setOnLongClickListener(view -> {
-            libraryViewModel.refreshPlaylistSample(requireActivity());
+            libraryViewModel.refreshPlaylistSample(getViewLifecycleOwner());
             return true;
         });
     }

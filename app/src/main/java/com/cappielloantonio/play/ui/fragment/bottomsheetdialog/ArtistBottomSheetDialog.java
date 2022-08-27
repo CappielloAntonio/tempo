@@ -119,7 +119,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
         TextView playRandom = view.findViewById(R.id.play_random_text_view);
         playRandom.setOnClickListener(v -> {
             ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
-            artistRepository.getArtistRandomSong(requireActivity(), artist, 20).observe(getViewLifecycleOwner(), songs -> {
+            artistRepository.getArtistRandomSong(getViewLifecycleOwner(), artist, 20).observe(getViewLifecycleOwner(), songs -> {
                 if (songs.size() > 0) {
                     MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
                     ((MainActivity) requireActivity()).setBottomSheetInPeek(true);

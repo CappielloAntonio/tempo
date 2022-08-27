@@ -164,17 +164,17 @@ public class HomeFragment extends Fragment {
 
     private void init() {
         bind.musicDiscoveryTextViewRefreshable.setOnLongClickListener(v -> {
-            homeViewModel.refreshDiscoverySongSample(requireActivity());
+            homeViewModel.refreshDiscoverySongSample(getViewLifecycleOwner());
             return true;
         });
 
         bind.similarTracksTextViewRefreshable.setOnLongClickListener(v -> {
-            homeViewModel.refreshSimilarSongSample(requireActivity());
+            homeViewModel.refreshSimilarSongSample(getViewLifecycleOwner());
             return true;
         });
 
         bind.recentlyRadioArtistTextViewRefreshable.setOnLongClickListener(v -> {
-            homeViewModel.refreshRadioArtistSample(requireActivity());
+            homeViewModel.refreshRadioArtistSample(getViewLifecycleOwner());
             return true;
         });
 
@@ -215,32 +215,32 @@ public class HomeFragment extends Fragment {
         });
 
         bind.starredTracksTextViewRefreshable.setOnLongClickListener(v -> {
-            homeViewModel.refreshStarredTracks(requireActivity());
+            homeViewModel.refreshStarredTracks(getViewLifecycleOwner());
             return true;
         });
 
         bind.starredAlbumsTextViewRefreshable.setOnLongClickListener(v -> {
-            homeViewModel.refreshStarredAlbums(requireActivity());
+            homeViewModel.refreshStarredAlbums(getViewLifecycleOwner());
             return true;
         });
 
         bind.starredArtistsTextViewRefreshable.setOnLongClickListener(v -> {
-            homeViewModel.refreshStarredArtists(requireActivity());
+            homeViewModel.refreshStarredArtists(getViewLifecycleOwner());
             return true;
         });
 
         bind.recentlyPlayedAlbumsTextViewRefreshable.setOnLongClickListener(v -> {
-            homeViewModel.refreshRecentlyPlayedAlbumList(requireActivity());
+            homeViewModel.refreshRecentlyPlayedAlbumList(getViewLifecycleOwner());
             return true;
         });
 
         bind.mostPlayedAlbumsTextViewRefreshable.setOnLongClickListener(v -> {
-            homeViewModel.refreshMostPlayedAlbums(requireActivity());
+            homeViewModel.refreshMostPlayedAlbums(getViewLifecycleOwner());
             return true;
         });
 
         bind.recentlyAddedAlbumsTextViewRefreshable.setOnLongClickListener(v -> {
-            homeViewModel.refreshMostRecentlyAddedAlbums(requireActivity());
+            homeViewModel.refreshMostRecentlyAddedAlbums(getViewLifecycleOwner());
             return true;
         });
     }
@@ -320,7 +320,7 @@ public class HomeFragment extends Fragment {
 
         starredSongAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
         bind.starredTracksRecyclerView.setAdapter(starredSongAdapter);
-        homeViewModel.getStarredTracks(requireActivity()).observe(getViewLifecycleOwner(), songs -> {
+        homeViewModel.getStarredTracks(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
             if (songs == null) {
                 if (bind != null) bind.starredTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.starredTracksSector.setVisibility(View.GONE);
@@ -352,7 +352,7 @@ public class HomeFragment extends Fragment {
 
         starredAlbumAdapter = new AlbumHorizontalAdapter(requireContext(), false);
         bind.starredAlbumsRecyclerView.setAdapter(starredAlbumAdapter);
-        homeViewModel.getStarredAlbums(requireActivity()).observe(getViewLifecycleOwner(), albums -> {
+        homeViewModel.getStarredAlbums(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
                 if (bind != null) bind.starredAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.starredAlbumsSector.setVisibility(View.GONE);
@@ -384,7 +384,7 @@ public class HomeFragment extends Fragment {
 
         starredArtistAdapter = new ArtistHorizontalAdapter(requireContext(), false);
         bind.starredArtistsRecyclerView.setAdapter(starredArtistAdapter);
-        homeViewModel.getStarredArtists(requireActivity()).observe(getViewLifecycleOwner(), artists -> {
+        homeViewModel.getStarredArtists(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> {
             if (artists == null) {
                 if (bind != null) bind.starredArtistsPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.starredArtistsSector.setVisibility(View.GONE);
@@ -416,7 +416,7 @@ public class HomeFragment extends Fragment {
 
         newReleasesAlbumAdapter = new AlbumHorizontalAdapter(requireContext(), false);
         bind.newReleasesRecyclerView.setAdapter(newReleasesAlbumAdapter);
-        homeViewModel.getRecentlyReleasedAlbums(requireActivity()).observe(getViewLifecycleOwner(), albums -> {
+        homeViewModel.getRecentlyReleasedAlbums(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
                 if (bind != null) bind.homeNewReleasesPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeNewReleasesSector.setVisibility(View.GONE);
@@ -455,7 +455,7 @@ public class HomeFragment extends Fragment {
             activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
         });
         bind.yearsRecyclerView.setAdapter(yearAdapter);
-        homeViewModel.getYearList(requireActivity()).observe(getViewLifecycleOwner(), years -> {
+        homeViewModel.getYearList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), years -> {
             if (years == null) {
                 if (bind != null) bind.homeFlashbackPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeFlashbackSector.setVisibility(View.GONE);
@@ -477,7 +477,7 @@ public class HomeFragment extends Fragment {
 
         mostPlayedAlbumAdapter = new AlbumAdapter(requireContext());
         bind.mostPlayedAlbumsRecyclerView.setAdapter(mostPlayedAlbumAdapter);
-        homeViewModel.getMostPlayedAlbums(requireActivity()).observe(getViewLifecycleOwner(), albums -> {
+        homeViewModel.getMostPlayedAlbums(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
                 if (bind != null) bind.homeMostPlayedAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeMostPlayedAlbumsSector.setVisibility(View.GONE);
@@ -500,7 +500,7 @@ public class HomeFragment extends Fragment {
 
         recentlyPlayedAlbumAdapter = new AlbumAdapter(requireContext());
         bind.recentlyPlayedAlbumsRecyclerView.setAdapter(recentlyPlayedAlbumAdapter);
-        homeViewModel.getRecentlyPlayedAlbumList(requireActivity()).observe(getViewLifecycleOwner(), albums -> {
+        homeViewModel.getRecentlyPlayedAlbumList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
                 if (bind != null) bind.homeRecentlyPlayedAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeRecentlyPlayedAlbumsSector.setVisibility(View.GONE);
@@ -522,7 +522,7 @@ public class HomeFragment extends Fragment {
 
         recentlyAddedAlbumAdapter = new AlbumAdapter(requireContext());
         bind.recentlyAddedAlbumsRecyclerView.setAdapter(recentlyAddedAlbumAdapter);
-        homeViewModel.getMostRecentlyAddedAlbums(requireActivity()).observe(getViewLifecycleOwner(), albums -> {
+        homeViewModel.getMostRecentlyAddedAlbums(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
                 if (bind != null) bind.homeRecentlyAddedAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeRecentlyAddedAlbumsSector.setVisibility(View.GONE);
@@ -539,7 +539,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void initPinnedPlaylistsView() {
-        homeViewModel.getPinnedPlaylistList(requireActivity(), 5, true).observe(getViewLifecycleOwner(), playlists -> {
+        homeViewModel.getPinnedPlaylistList(getViewLifecycleOwner(), 5, true).observe(getViewLifecycleOwner(), playlists -> {
             if (bind != null && playlists != null) {
                 for (Playlist playlist : playlists) {
                     int playlistViewHashCode = playlist.getId().hashCode();
@@ -602,7 +602,7 @@ public class HomeFragment extends Fragment {
         podcastEpisodeAdapter = new PodcastEpisodeAdapter(activity, requireContext());
         bind.newestPodcastsViewPager.setAdapter(podcastEpisodeAdapter);
         bind.newestPodcastsViewPager.setOffscreenPageLimit(1);
-        homeViewModel.getNewestPodcastEpisodes(requireActivity()).observe(getViewLifecycleOwner(), podcastEpisodes -> {
+        homeViewModel.getNewestPodcastEpisodes(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), podcastEpisodes -> {
             if (podcastEpisodes == null) {
                 if (bind != null) bind.homeNewestPodcastsSector.setVisibility(View.GONE);
             } else {

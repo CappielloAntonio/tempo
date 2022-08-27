@@ -14,6 +14,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
@@ -84,7 +85,7 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
                                 artist.getImageUrl()
                         )
                         .build()
-                        .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
+                        .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                         .into(cover);
 
                 artistRepository.getArtistFullInfo(artist.getId()).removeObserver(this);

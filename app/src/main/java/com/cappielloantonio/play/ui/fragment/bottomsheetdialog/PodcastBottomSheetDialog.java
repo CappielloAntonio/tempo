@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
 
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
@@ -71,7 +72,7 @@ public class PodcastBottomSheetDialog extends BottomSheetDialogFragment implemen
         CustomGlideRequest.Builder
                 .from(requireContext(), podcastBottomSheetViewModel.getPodcast().getCoverArtId(), CustomGlideRequest.SONG_PIC, null)
                 .build()
-                .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
+                .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(coverPodcast);
 
         TextView titlePodcast = view.findViewById(R.id.podcast_title_text_view);

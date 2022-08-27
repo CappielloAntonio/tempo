@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
 
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
@@ -77,7 +78,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
         CustomGlideRequest.Builder
                 .from(requireContext(), artistBottomSheetViewModel.getArtist().getPrimary(), CustomGlideRequest.ARTIST_PIC, null)
                 .build()
-                .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
+                .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(coverArtist);
 
         TextView nameArtist = view.findViewById(R.id.song_title_text_view);

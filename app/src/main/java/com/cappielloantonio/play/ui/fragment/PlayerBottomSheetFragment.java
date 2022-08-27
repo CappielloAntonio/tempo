@@ -20,6 +20,7 @@ import androidx.media3.session.MediaController;
 import androidx.media3.session.SessionToken;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.FragmentPlayerBottomSheetBinding;
@@ -157,7 +158,7 @@ public class PlayerBottomSheetFragment extends Fragment {
         if (mediaMetadata.extras != null) CustomGlideRequest.Builder
                 .from(requireContext(), mediaMetadata.extras.getString("coverArtId"), CustomGlideRequest.SONG_PIC, null)
                 .build()
-                .transform(new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
+                .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(bind.playerHeaderLayout.playerHeaderMediaCoverImage);
     }
 

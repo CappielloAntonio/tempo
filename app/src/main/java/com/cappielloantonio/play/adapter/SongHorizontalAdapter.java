@@ -77,6 +77,10 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         if (isCoverVisible) holder.trackNumber.setVisibility(View.INVISIBLE);
 
         if (!isCoverVisible) holder.cover.setVisibility(View.INVISIBLE);
+
+        if (!isCoverVisible && (position > 0 && songs.get(position - 1) != null && songs.get(position - 1).getDiscNumber() < songs.get(position).getDiscNumber())) {
+            holder.differentDiscDivider.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -98,6 +102,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+        View differentDiscDivider;
         TextView songTitle;
         TextView songSubtitle;
         TextView trackNumber;
@@ -109,6 +114,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         ViewHolder(View itemView) {
             super(itemView);
 
+            differentDiscDivider = itemView.findViewById(R.id.different_disk_divider);
             songTitle = itemView.findViewById(R.id.search_result_song_title_text_view);
             songSubtitle = itemView.findViewById(R.id.search_result_song_subtitle_text_view);
             trackNumber = itemView.findViewById(R.id.track_number_text_view);

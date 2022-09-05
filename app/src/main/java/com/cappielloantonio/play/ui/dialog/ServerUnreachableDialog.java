@@ -32,7 +32,12 @@ public class ServerUnreachableDialog extends DialogFragment {
                 .setNeutralButton(R.string.server_unreachable_dialog_neutral_button, (dialog, id) -> { })
                 .setNegativeButton(R.string.server_unreachable_dialog_negative_button, (dialog, id) -> dialog.cancel());
 
-        return builder.create();
+        AlertDialog popup = builder.create();
+
+        popup.setCancelable(false);
+        popup.setCanceledOnTouchOutside(false);
+
+        return popup;
     }
 
     @Override

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
@@ -117,7 +118,8 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
 
     private void setArtistCover(Artist artist, ImageView cover) {
         ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
-        artistRepository.getArtistFullInfo(artist.getId()).observeForever(new Observer<Artist>() {
+        LiveData<Artist> livedata = artistRepository.getArtistFullInfo(artist.getId());
+        livedata.observeForever(new Observer<Artist>() {
             @Override
             public void onChanged(Artist artist) {
                 CustomGlideRequest.Builder
@@ -130,7 +132,7 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
                         .build()
                         .into(cover);
 
-                artistRepository.getArtistFullInfo(artist.getId()).removeObserver(this);
+                livedata.removeObserver(this);
             }
         });
     }

@@ -9,14 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.CenterInside;
-import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
@@ -84,21 +82,22 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
 
     private void setArtistCover(Artist artist, ImageView cover) {
         ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
-        artistRepository.getArtistFullInfo(artist.getId()).observeForever(new Observer<Artist>() {
+        LiveData<Artist> liveData = artistRepository.getArtistFullInfo(artist.getId());
+        liveData.observeForever(new Observer<Artist>() {
             @Override
             public void onChanged(Artist artist) {
-               CustomGlideRequest.Builder
+                CustomGlideRequest.Builder
                         .from(
                                 context,
                                 artist.getId(),
                                 CustomGlideRequest.ARTIST_PIC,
                                 artist.getImageUrl()
                         )
-                       .build()
-                       .transform(new CenterCrop(), new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
-                       .into(cover);
+                        .build()
+                        .transform(new CenterCrop(), new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
+                        .into(cover);
 
-                artistRepository.getArtistFullInfo(artist.getId()).removeObserver(this);
+                liveData.removeObserver(this);
             }
         });
     }
@@ -133,8 +132,10 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
             if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.homeFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_artistPageFragment, bundle);
             } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.artistListPageFragment) {
-                if (!isDownloaded) Navigation.findNavController(view).navigate(R.id.action_artistListPageFragment_to_artistPageFragment, bundle);
-                else Navigation.findNavController(view).navigate(R.id.action_artistListPageFragment_to_albumListPageFragment, bundle);
+                if (!isDownloaded)
+                    Navigation.findNavController(view).navigate(R.id.action_artistListPageFragment_to_artistPageFragment, bundle);
+                else
+                    Navigation.findNavController(view).navigate(R.id.action_artistListPageFragment_to_albumListPageFragment, bundle);
             } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.downloadFragment) {
                 Navigation.findNavController(view).navigate(R.id.action_downloadFragment_to_albumListPageFragment, bundle);
             }

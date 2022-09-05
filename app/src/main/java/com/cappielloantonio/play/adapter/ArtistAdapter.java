@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.media3.session.MediaBrowser;
 import androidx.navigation.Navigation;
@@ -91,7 +92,8 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
 
     private void setArtistCover(Artist artist, ImageView cover) {
         ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
-        artistRepository.getArtistFullInfo(artist.getId()).observeForever(new Observer<Artist>() {
+        LiveData<Artist> livedata = artistRepository.getArtistFullInfo(artist.getId());
+        livedata.observeForever(new Observer<Artist>() {
             @Override
             public void onChanged(Artist artist) {
                 CustomGlideRequest.Builder
@@ -100,7 +102,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
                         .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                         .into(cover);
 
-                artistRepository.getArtistFullInfo(artist.getId()).removeObserver(this);
+                livedata.removeObserver(this);
             }
         });
     }

@@ -56,67 +56,98 @@ public class HomeViewModel extends AndroidViewModel {
         artistRepository = new ArtistRepository(application);
         playlistRepository = new PlaylistRepository(application);
         podcastRepository = new PodcastRepository(application);
-
-        songRepository.getRandomSample(10, null, null).observeForever(dicoverSongSample::postValue);
-        songRepository.getStarredSongs(true, 10).observeForever(starredTracksSample::postValue);
-        artistRepository.getStarredArtists(true, 10).observeForever(starredArtistsSample::postValue);
     }
 
-    public LiveData<List<Media>> getDiscoverSongSample() {
+    public LiveData<List<Media>> getDiscoverSongSample(LifecycleOwner owner) {
+        if (dicoverSongSample.getValue() == null) {
+            songRepository.getRandomSample(10, null, null).observe(owner, dicoverSongSample::postValue);
+        }
+
         return dicoverSongSample;
     }
 
     public LiveData<List<Album>> getRecentlyReleasedAlbums(LifecycleOwner owner) {
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        if (newReleasedAlbum.getValue() == null) {
+            int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
-        albumRepository.getAlbums("byYear", 500, currentYear, currentYear).observe(owner, albums -> {
-            albums.sort(Comparator.comparing(Album::getCreated).reversed());
-            newReleasedAlbum.postValue(albums.subList(0, Math.min(20, albums.size())));
-        });
+            albumRepository.getAlbums("byYear", 500, currentYear, currentYear).observe(owner, albums -> {
+                albums.sort(Comparator.comparing(Album::getCreated).reversed());
+                newReleasedAlbum.postValue(albums.subList(0, Math.min(20, albums.size())));
+            });
+        }
 
         return newReleasedAlbum;
     }
 
-    public LiveData<List<Media>> getStarredTracksSample() {
+    public LiveData<List<Media>> getStarredTracksSample(LifecycleOwner owner) {
+        if (starredTracksSample.getValue() == null) {
+            songRepository.getStarredSongs(true, 10).observe(owner, starredTracksSample::postValue);
+        }
+
         return starredTracksSample;
     }
 
-    public LiveData<List<Artist>> getStarredArtistsSample() {
+    public LiveData<List<Artist>> getStarredArtistsSample(LifecycleOwner owner) {
+        if (starredArtistsSample.getValue() == null) {
+            artistRepository.getStarredArtists(true, 10).observe(owner, starredArtistsSample::postValue);
+        }
+
         return starredArtistsSample;
     }
 
     public LiveData<List<Media>> getStarredTracks(LifecycleOwner owner) {
-        songRepository.getStarredSongs(true, 20).observe(owner, starredTracks::postValue);
+        if (starredTracks.getValue() == null) {
+            songRepository.getStarredSongs(true, 20).observe(owner, starredTracks::postValue);
+        }
+
         return starredTracks;
     }
 
     public LiveData<List<Album>> getStarredAlbums(LifecycleOwner owner) {
-        albumRepository.getStarredAlbums(true, 20).observe(owner, starredAlbums::postValue);
+        if (starredAlbums.getValue() == null) {
+            albumRepository.getStarredAlbums(true, 20).observe(owner, starredAlbums::postValue);
+        }
+
         return starredAlbums;
     }
 
     public LiveData<List<Artist>> getStarredArtists(LifecycleOwner owner) {
-        artistRepository.getStarredArtists(true, 20).observe(owner, starredArtists::postValue);
+        if (starredArtists.getValue() == null) {
+            artistRepository.getStarredArtists(true, 20).observe(owner, starredArtists::postValue);
+        }
+
         return starredArtists;
     }
 
     public LiveData<List<Integer>> getYearList(LifecycleOwner owner) {
-        albumRepository.getDecades().observe(owner, years::postValue);
+        if (years.getValue() == null) {
+            albumRepository.getDecades().observe(owner, years::postValue);
+        }
+
         return years;
     }
 
     public LiveData<List<Album>> getMostPlayedAlbums(LifecycleOwner owner) {
-        albumRepository.getAlbums("frequent", 20, null, null).observe(owner, mostPlayedAlbumSample::postValue);
+        if (mostPlayedAlbumSample.getValue() == null) {
+            albumRepository.getAlbums("frequent", 20, null, null).observe(owner, mostPlayedAlbumSample::postValue);
+        }
+
         return mostPlayedAlbumSample;
     }
 
     public LiveData<List<Album>> getMostRecentlyAddedAlbums(LifecycleOwner owner) {
-        albumRepository.getAlbums("newest", 20, null, null).observe(owner, recentlyAddedAlbumSample::postValue);
+        if (recentlyAddedAlbumSample.getValue() == null) {
+            albumRepository.getAlbums("newest", 20, null, null).observe(owner, recentlyAddedAlbumSample::postValue);
+        }
+
         return recentlyAddedAlbumSample;
     }
 
     public LiveData<List<Album>> getRecentlyPlayedAlbumList(LifecycleOwner owner) {
-        albumRepository.getAlbums("recent", 20, null, null).observe(owner, recentlyPlayedAlbumSample::postValue);
+        if (recentlyPlayedAlbumSample.getValue() == null) {
+            albumRepository.getAlbums("recent", 20, null, null).observe(owner, recentlyPlayedAlbumSample::postValue);
+        }
+
         return recentlyPlayedAlbumSample;
     }
 
@@ -126,6 +157,7 @@ public class HomeViewModel extends AndroidViewModel {
             List<Playlist> subPlaylist = playlists.subList(0, Math.min(maxNumber, playlists.size()));
             pinnedPlaylists.postValue(subPlaylist);
         });
+
         return pinnedPlaylists;
     }
 
@@ -134,7 +166,10 @@ public class HomeViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Media>> getNewestPodcastEpisodes(LifecycleOwner owner) {
-        podcastRepository.getNewestPodcastEpisodes(20).observe(owner, newestPodcastEpisodes::postValue);
+        if (newestPodcastEpisodes.getValue() == null) {
+            podcastRepository.getNewestPodcastEpisodes(20).observe(owner, newestPodcastEpisodes::postValue);
+        }
+
         return newestPodcastEpisodes;
     }
 

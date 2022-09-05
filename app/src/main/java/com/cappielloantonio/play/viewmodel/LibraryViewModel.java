@@ -17,8 +17,6 @@ import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.GenreRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
 
-import java.util.Calendar;
-import java.util.Comparator;
 import java.util.List;
 
 public class LibraryViewModel extends AndroidViewModel {
@@ -41,28 +39,37 @@ public class LibraryViewModel extends AndroidViewModel {
         artistRepository = new ArtistRepository(application);
         genreRepository = new GenreRepository(application);
         playlistRepository = new PlaylistRepository(application);
-
-        // Inizializzate all'interno del costruttore, in modo da rimanere immutabili per tutto il
-        // ciclo di vita dell'applicazione
-        albumRepository.getAlbums("random", 10, null, null).observeForever(sampleAlbum::postValue);
-        artistRepository.getArtists(true, 10).observeForever(sampleArtist::postValue);
-        genreRepository.getGenres(true, 15).observeForever(sampleGenres::postValue);
-        playlistRepository.getPlaylists(true, 10).observeForever(playlistSample::postValue);
     }
 
-    public LiveData<List<Album>> getAlbumSample() {
+    public LiveData<List<Album>> getAlbumSample(LifecycleOwner owner) {
+        if (sampleAlbum.getValue() == null) {
+            albumRepository.getAlbums("random", 10, null, null).observe(owner, sampleAlbum::postValue);
+        }
+
         return sampleAlbum;
     }
 
-    public LiveData<List<Artist>> getArtistSample() {
+    public LiveData<List<Artist>> getArtistSample(LifecycleOwner owner) {
+        if (sampleArtist.getValue() == null) {
+            artistRepository.getArtists(true, 10).observe(owner, sampleArtist::postValue);
+        }
+
         return sampleArtist;
     }
 
-    public LiveData<List<Genre>> getGenreSample() {
+    public LiveData<List<Genre>> getGenreSample(LifecycleOwner owner) {
+        if (sampleGenres.getValue() == null) {
+            genreRepository.getGenres(true, 15).observe(owner, sampleGenres::postValue);
+        }
+
         return sampleGenres;
     }
 
-    public LiveData<List<Playlist>> getPlaylistSample() {
+    public LiveData<List<Playlist>> getPlaylistSample(LifecycleOwner owner) {
+        if (playlistSample.getValue() == null) {
+            playlistRepository.getPlaylists(true, 10).observe(owner, playlistSample::postValue);
+        }
+
         return playlistSample;
     }
 

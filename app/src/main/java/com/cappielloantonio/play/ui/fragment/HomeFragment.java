@@ -256,7 +256,7 @@ public class HomeFragment extends Fragment {
         discoverSongAdapter = new DiscoverSongAdapter(activity, requireContext());
         bind.discoverSongViewPager.setAdapter(discoverSongAdapter);
         bind.discoverSongViewPager.setOffscreenPageLimit(1);
-        homeViewModel.getDiscoverSongSample().observe(getViewLifecycleOwner(), songs -> {
+        homeViewModel.getDiscoverSongSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
             if (songs == null) {
                 if (bind != null) bind.homeDiscoveryPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeDiscoverSector.setVisibility(View.GONE);
@@ -277,7 +277,7 @@ public class HomeFragment extends Fragment {
 
         similarMusicAdapter = new SimilarTrackAdapter(activity, requireContext());
         bind.similarTracksRecyclerView.setAdapter(similarMusicAdapter);
-        homeViewModel.getStarredTracksSample().observe(getViewLifecycleOwner(), songs -> {
+        homeViewModel.getStarredTracksSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
             if (songs == null) {
                 if (bind != null) bind.homeSimilarTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeSimilarTracksSector.setVisibility(View.GONE);
@@ -299,7 +299,7 @@ public class HomeFragment extends Fragment {
 
         radioArtistAdapter = new ArtistAdapter((MainActivity) requireActivity(), requireContext());
         bind.radioArtistRecyclerView.setAdapter(radioArtistAdapter);
-        homeViewModel.getStarredArtistsSample().observe(getViewLifecycleOwner(), artists -> {
+        homeViewModel.getStarredArtistsSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> {
             if (artists == null) {
                 if (bind != null) bind.homeRadioArtistPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeRadioArtistSector.setVisibility(View.GONE);

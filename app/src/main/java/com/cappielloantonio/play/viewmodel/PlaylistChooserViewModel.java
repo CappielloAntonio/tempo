@@ -4,11 +4,12 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Media;
+import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.repository.PlaylistRepository;
 
 import java.util.ArrayList;
@@ -25,12 +26,10 @@ public class PlaylistChooserViewModel extends AndroidViewModel {
         super(application);
 
         playlistRepository = new PlaylistRepository(application);
-
-        playlistRepository.getPlaylists(false, -1).observeForever(playlists::postValue);
-
     }
 
-    public LiveData<List<Playlist>> getPlaylistList() {
+    public LiveData<List<Playlist>> getPlaylistList(LifecycleOwner owner) {
+        playlistRepository.getPlaylists(false, -1).observe(owner, playlists::postValue);
         return playlists;
     }
 

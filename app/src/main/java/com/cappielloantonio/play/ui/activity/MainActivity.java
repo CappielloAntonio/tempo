@@ -261,12 +261,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private void resetUserSession() {
-        PreferenceUtil.getInstance(this).setUser(null);
-        PreferenceUtil.getInstance(this).setServer(null);
-        PreferenceUtil.getInstance(this).setPassword(null);
-        PreferenceUtil.getInstance(this).setToken(null);
-        PreferenceUtil.getInstance(this).setSalt(null);
         PreferenceUtil.getInstance(this).setServerId(null);
+        PreferenceUtil.getInstance(this).setSalt(null);
+        PreferenceUtil.getInstance(this).setToken(null);
+        PreferenceUtil.getInstance(this).setPassword(null);
+        PreferenceUtil.getInstance(this).setServer(null);
+        PreferenceUtil.getInstance(this).setUser(null);
     }
 
     private void resetMusicSession() {

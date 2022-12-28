@@ -24,6 +24,7 @@
         <entry key="app/src/main/res/drawable/gradient_discover_background_image.xml" value="0.28703703703703703" />
         <entry key="app/src/main/res/drawable/gradient_player_cover_background_image.xml" value="0.3365679264555669" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.28703703703703703" />
+        <entry key="app/src/main/res/drawable/ic_add_circle.xml" value="0.2435" />
         <entry key="app/src/main/res/drawable/ic_arrow_back.xml" value="0.28055555555555556" />
         <entry key="app/src/main/res/drawable/ic_bottom_sheet_down.xml" value="0.4425925925925926" />
         <entry key="app/src/main/res/drawable/ic_check_circle.xml" value="0.4425925925925926" />
@@ -85,7 +86,8 @@
         <entry key="app/src/main/res/drawable/ic_unfold.xml" value="0.5484375" />
         <entry key="app/src/main/res/drawable/outline_play_circle.xml" value="0.28703703703703703" />
         <entry key="app/src/main/res/drawable/ui_empty_list.xml" value="0.28055555555555556" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.3229166666666667" />
+        <entry key="app/src/main/res/font/inter.xml" value="0.2861111111111111" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/bottom_sheet_album_dialog.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/bottom_sheet_artist_dialog.xml" value="0.225" />
         <entry key="app/src/main/res/layout/bottom_sheet_podcast_dialog.xml" value="0.3229166666666667" />
@@ -102,7 +104,7 @@
         <entry key="app/src/main/res/layout/fragment_album_catalogue.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/fragment_album_list_page.xml" value="0.3166496424923391" />
         <entry key="app/src/main/res/layout/fragment_album_page.xml" value="0.3166496424923391" />
-        <entry key="app/src/main/res/layout/fragment_artist_catalogue.xml" value="0.3229166666666667" />
+        <entry key="app/src/main/res/layout/fragment_artist_catalogue.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_artist_list_page.xml" value="0.225" />
         <entry key="app/src/main/res/layout/fragment_artist_page.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/fragment_download.xml" value="0.283363802559415" />
@@ -123,6 +125,7 @@
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/fragment_song_list_page.xml" value="0.225" />
         <entry key="app/src/main/res/layout/fragment_starred.xml" value="0.3166496424923391" />
+        <entry key="app/src/main/res/layout/generic_playlist_sector.xml" value="0.3494791666666667" />
         <entry key="app/src/main/res/layout/inner_fragment_player_controller.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/inner_fragment_player_controller_layout.xml" value="0.21822916666666667" />
         <entry key="app/src/main/res/layout/inner_fragment_player_cover.xml" value="0.40390879478827363" />
@@ -131,6 +134,9 @@
         <entry key="app/src/main/res/layout/item_home_album_placeholder.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_home_discover_song.xml" value="0.3166496424923391" />
         <entry key="app/src/main/res/layout/item_home_discovery_placeholder.xml" value="0.3229166666666667" />
+        <entry key="app/src/main/res/layout/item_home_grid_album.xml" value="0.34791666666666665" />
+        <entry key="app/src/main/res/layout/item_home_grid_track.xml" value="0.3494791666666667" />
+        <entry key="app/src/main/res/layout/item_home_grid_track_section.xml" value="0.3494791666666667" />
         <entry key="app/src/main/res/layout/item_home_horizontal_placeholder.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_home_placeholder.xml" value="0.47191011235955055" />
         <entry key="app/src/main/res/layout/item_home_podcast_episode.xml" value="0.5452261306532663" />
@@ -143,7 +149,7 @@
         <entry key="app/src/main/res/layout/item_horizontal_playlist.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_horizontal_playlist_dialog.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_horizontal_playlist_dialog_track.xml" value="0.3229166666666667" />
-        <entry key="app/src/main/res/layout/item_horizontal_track.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_horizontal_track.xml" value="0.5351851851851852" />
         <entry key="app/src/main/res/layout/item_library_album.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_library_artist.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/item_library_artist_page_or_similar_album.xml" value="0.3229166666666667" />
@@ -182,6 +188,7 @@
         <entry key="app/src/main/res/menu/sort_popup_menu.xml" value="0.5536458333333333" />
         <entry key="app/src/main/res/menu/toolbar_menu.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.28055555555555556" />
+        <entry key="app/src/main/res/xml/global_preferences.xml" value="0.3494791666666667" />
       </map>
     </option>
   </component>

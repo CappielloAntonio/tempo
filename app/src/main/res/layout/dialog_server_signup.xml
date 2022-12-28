@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/server_signup_dialog_hint_username"
             android:inputType="textShortMessage"
-            android:text="antonio"
+            android:text="Antonio"
             android:textCursorDrawable="@null" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/server_signup_dialog_hint_url"
             android:inputType="textNoSuggestions"
-            android:text="http://192.168.1.81:4533"
+            android:text="http://192.168.1.65:4533"
             android:textCursorDrawable="@null" />
     </com.google.android.material.textfield.TextInputLayout>
 

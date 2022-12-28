@@ -20,13 +20,11 @@ import com.cappielloantonio.play.util.DownloadUtil;
 
 import java.util.List;
 
-@SuppressLint("UnsafeOptInUsageError")
 public class DownloaderService extends androidx.media3.exoplayer.offline.DownloadService {
 
     private static final int JOB_ID = 1;
     private static final int FOREGROUND_NOTIFICATION_ID = 1;
 
-    @SuppressLint("UnsafeOptInUsageError")
     public DownloaderService() {
         super(FOREGROUND_NOTIFICATION_ID, DEFAULT_FOREGROUND_NOTIFICATION_UPDATE_INTERVAL, DownloadUtil.DOWNLOAD_NOTIFICATION_CHANNEL_ID, R.string.exo_download_notification_channel_name, 0);
     }
@@ -64,7 +62,6 @@ public class DownloaderService extends androidx.media3.exoplayer.offline.Downloa
             nextNotificationId = firstNotificationId;
         }
 
-        @SuppressLint("UnsafeOptInUsageError")
         @Override
         public void onDownloadChanged(@NonNull DownloadManager downloadManager, Download download, @Nullable Exception finalException) {
             Notification notification;

@@ -199,7 +199,6 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
         dismiss();
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void initializeMediaBrowser() {
         mediaBrowserListenableFuture = new MediaBrowser.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
     }

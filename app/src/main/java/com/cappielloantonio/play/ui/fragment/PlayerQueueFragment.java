@@ -72,7 +72,6 @@ public class PlayerQueueFragment extends Fragment {
         bind = null;
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void initializeBrowser() {
         mediaBrowserListenableFuture = new MediaBrowser.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
     }

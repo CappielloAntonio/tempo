@@ -206,7 +206,6 @@ public class SearchFragment extends Fragment {
         bind.persistentSearchView.expand();
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void initializeMediaBrowser() {
         mediaBrowserListenableFuture = new MediaBrowser.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
     }

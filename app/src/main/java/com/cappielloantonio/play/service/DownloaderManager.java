@@ -37,7 +37,6 @@ public class DownloaderManager {
     private final HashMap<Uri, Download> downloads;
     private final DownloadIndex downloadIndex;
 
-    @SuppressLint("UnsafeOptInUsageError")
     public DownloaderManager(Context context, DownloadManager downloadManager) {
         this.context = context.getApplicationContext();
 
@@ -47,7 +46,6 @@ public class DownloaderManager {
         loadDownloads();
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private DownloadRequest buildDownloadRequest(MediaItem mediaItem) {
         return DownloadHelper.forMediaItem(context, mediaItem).getDownloadRequest(Util.getUtf8Bytes(checkNotNull(mediaItem.mediaId)));
     }
@@ -58,13 +56,11 @@ public class DownloaderManager {
         return download != null && download.state != Download.STATE_FAILED;
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     public boolean isDownloaded(MediaItem mediaItem) {
         @Nullable Download download = downloads.get(checkNotNull(mediaItem.localConfiguration).uri);
         return download != null && download.state != Download.STATE_FAILED;
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     public boolean areDownloaded(List<MediaItem> mediaItems) {
         for (MediaItem mediaItem : mediaItems) {
             @Nullable Download download = downloads.get(checkNotNull(mediaItem.localConfiguration).uri);
@@ -76,7 +72,6 @@ public class DownloaderManager {
         return false;
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     public void download(MediaItem mediaItem, com.cappielloantonio.play.model.Download download) {
         DownloadService.sendAddDownload(context, DownloaderService.class, buildDownloadRequest(mediaItem), false);
         downloadDatabase(download);
@@ -88,7 +83,6 @@ public class DownloaderManager {
         }
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     public void remove(MediaItem mediaItem, com.cappielloantonio.play.model.Download download) {
         DownloadService.sendRemoveDownload(context, DownloaderService.class, buildDownloadRequest(mediaItem).id, false);
         removeDatabase(download);
@@ -100,7 +94,6 @@ public class DownloaderManager {
         }
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void loadDownloads() {
         try (DownloadCursor loadedDownloads = downloadIndex.getDownloads()) {
             while (loadedDownloads.moveToNext()) {

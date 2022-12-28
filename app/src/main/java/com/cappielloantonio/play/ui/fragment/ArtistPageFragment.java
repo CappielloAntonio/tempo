@@ -212,7 +212,6 @@ public class ArtistPageFragment extends Fragment {
         similarArtistSnapHelper.attachToRecyclerView(bind.similarArtistsRecyclerView);
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void initializeMediaBrowser() {
         mediaBrowserListenableFuture = new MediaBrowser.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
     }

@@ -108,7 +108,6 @@ public class MainActivity extends BaseActivity {
     }
 
     // BOTTOM SHEET/NAVIGATION
-    @SuppressLint("UnsafeOptInUsageError")
     private void initBottomSheet() {
         bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.player_bottom_sheet));
         bottomSheetBehavior.addBottomSheetCallback(bottomSheetCallback);
@@ -205,7 +204,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void initService() {
         MediaManager.check(getMediaBrowserListenableFuture(), this);
 

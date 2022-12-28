@@ -94,7 +94,6 @@ public class PlayerControllerFragment extends Fragment {
         bind = null;
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void init() {
         playerMediaCoverViewPager = bind.getRoot().findViewById(R.id.player_media_cover_view_pager);
         buttonFavorite = bind.getRoot().findViewById(R.id.button_favorite);
@@ -109,7 +108,6 @@ public class PlayerControllerFragment extends Fragment {
         playerMediaTranscodedBitrate = bind.getRoot().findViewById(R.id.player_media_transcoded_bitrate);
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void initializeBrowser() {
         mediaBrowserListenableFuture = new MediaBrowser.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
     }
@@ -118,7 +116,6 @@ public class PlayerControllerFragment extends Fragment {
         MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void bindMediaController() {
         mediaBrowserListenableFuture.addListener(() -> {
             try {
@@ -133,7 +130,6 @@ public class PlayerControllerFragment extends Fragment {
         }, MoreExecutors.directExecutor());
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void setMediaControllerListener(MediaBrowser mediaBrowser) {
         setMediaControllerUI(mediaBrowser);
         setMetadata(mediaBrowser.getMediaMetadata());
@@ -149,7 +145,6 @@ public class PlayerControllerFragment extends Fragment {
         });
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void setMetadata(MediaMetadata mediaMetadata) {
         playerMediaTitleLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.title)));
         playerArtistNameLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.artist)));
@@ -193,7 +188,6 @@ public class PlayerControllerFragment extends Fragment {
 
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void setMediaControllerUI(MediaBrowser mediaBrowser) {
         initPlaybackSpeedButton(mediaBrowser);
 
@@ -280,7 +274,6 @@ public class PlayerControllerFragment extends Fragment {
         });
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void initPlaybackSpeedButton(MediaBrowser mediaBrowser) {
         playbackSpeedButton.setOnClickListener(view -> {
             float currentSpeed = PreferenceUtil.getInstance(requireContext()).getPlaybackSpeed();
@@ -325,7 +318,6 @@ public class PlayerControllerFragment extends Fragment {
         playerMediaCoverViewPager.setCurrentItem(1, true);
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void setPlaybackParameters(MediaBrowser mediaBrowser) {
         Button playbackSpeedButton = bind.getRoot().findViewById(R.id.player_playback_speed_button);
         float currentSpeed = PreferenceUtil.getInstance(requireContext()).getPlaybackSpeed();
@@ -338,7 +330,6 @@ public class PlayerControllerFragment extends Fragment {
         skipSilenceToggleButton.setChecked(skipSilence);
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void resetPlaybackParameters(MediaBrowser mediaBrowser) {
         mediaBrowser.setPlaybackParameters(new PlaybackParameters(Media.MEDIA_PLAYBACK_SPEED_100));
         // TODO Resettare lo skip del silenzio

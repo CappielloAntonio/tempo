@@ -49,7 +49,6 @@ public class MusicUtil {
         return Uri.parse(uri.toString());
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     public static Uri getDownloadUri(String id) {
         Map<String, String> params = App.getSubsonicClientInstance(App.getInstance(), false).getParams();
 
@@ -119,6 +118,18 @@ public class MusicUtil {
                     .replaceAll("&#39;", "'")
                     .replaceAll("&amp;", "'")
                     .replaceAll("<a[\\s]+([^>]+)>((?:.(?!</a>))*.)</a>", "");
+        }
+
+        return "";
+    }
+
+    public static String getReadableLyrics(String string) {
+        if (string != null) {
+            return string
+                    .replaceAll("&#34;", "\"")
+                    .replaceAll("&#39;", "'")
+                    .replaceAll("&amp;", "'")
+                    .replaceAll("&#xA;", "\n");
         }
 
         return "";

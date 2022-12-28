@@ -88,7 +88,6 @@ public class PlayerBottomSheetFragment extends Fragment {
         bind.playerBodyLayout.playerBodyBottomSheetViewPager.setAdapter(new PlayerControllerVerticalPager(this));
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void initializeMediaBrowser() {
         mediaBrowserListenableFuture = new MediaBrowser.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
     }
@@ -97,7 +96,6 @@ public class PlayerBottomSheetFragment extends Fragment {
         MediaController.releaseFuture(mediaBrowserListenableFuture);
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void bindMediaController() {
         mediaBrowserListenableFuture.addListener(() -> {
             try {
@@ -110,7 +108,6 @@ public class PlayerBottomSheetFragment extends Fragment {
         }, MoreExecutors.directExecutor());
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void setMediaControllerListener(MediaBrowser mediaBrowser) {
         defineProgressBarHandler(mediaBrowser);
         setMediaControllerUI(mediaBrowser);
@@ -145,7 +142,6 @@ public class PlayerBottomSheetFragment extends Fragment {
         });
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void setMetadata(MediaMetadata mediaMetadata) {
         if (mediaMetadata.extras != null)
             playerBottomSheetViewModel.setLiveMedia(getViewLifecycleOwner(), mediaMetadata.extras.getString("mediaType"), mediaMetadata.extras.getString("id"));
@@ -162,7 +158,6 @@ public class PlayerBottomSheetFragment extends Fragment {
                 .into(bind.playerHeaderLayout.playerHeaderMediaCoverImage);
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void setMediaControllerUI(MediaBrowser mediaBrowser) {
         if (mediaBrowser.getMediaMetadata().extras != null) {
             switch (mediaBrowser.getMediaMetadata().extras.getString("mediaType", Media.MEDIA_TYPE_MUSIC)) {
@@ -194,7 +189,6 @@ public class PlayerBottomSheetFragment extends Fragment {
         runProgressBarHandler(isPlaying);
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void setHeaderMediaController() {
         bind.playerHeaderLayout.playerHeaderButton.setOnClickListener(view -> bind.getRoot().findViewById(R.id.exo_play_pause).performClick());
         bind.playerHeaderLayout.playerHeaderNextMediaButton.setOnClickListener(view -> bind.getRoot().findViewById(R.id.exo_next).performClick());

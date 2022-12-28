@@ -195,7 +195,6 @@ public class AlbumPageFragment extends Fragment {
         albumPageViewModel.getAlbumSongLiveList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> songHorizontalAdapter.setItems(songs));
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void initializeMediaBrowser() {
         mediaBrowserListenableFuture = new MediaBrowser.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
     }

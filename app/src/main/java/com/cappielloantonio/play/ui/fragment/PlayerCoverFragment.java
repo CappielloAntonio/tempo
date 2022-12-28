@@ -139,7 +139,6 @@ public class PlayerCoverFragment extends Fragment {
         });
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void initializeBrowser() {
         mediaBrowserListenableFuture = new MediaBrowser.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
     }
@@ -160,7 +159,6 @@ public class PlayerCoverFragment extends Fragment {
         }, MoreExecutors.directExecutor());
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void setMediaBrowserListener(MediaBrowser mediaBrowser) {
         setCover(mediaBrowser.getMediaMetadata());
 
@@ -173,7 +171,6 @@ public class PlayerCoverFragment extends Fragment {
         });
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void setCover(MediaMetadata mediaMetadata) {
         CustomGlideRequest.Builder
                 .from(requireContext(), mediaMetadata.extras != null ? mediaMetadata.extras.getString("coverArtId") : null, CustomGlideRequest.SONG_PIC, null)

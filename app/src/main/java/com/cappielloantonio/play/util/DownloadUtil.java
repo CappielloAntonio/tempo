@@ -40,7 +40,6 @@ public final class DownloadUtil {
     private static DownloaderManager downloaderManager;
     private static DownloadNotificationHelper downloadNotificationHelper;
 
-    @SuppressLint("UnsafeOptInUsageError")
     public static synchronized HttpDataSource.Factory getHttpDataSourceFactory() {
         if (httpDataSourceFactory == null) {
             CookieManager cookieManager = new CookieManager();
@@ -52,7 +51,6 @@ public final class DownloadUtil {
         return httpDataSourceFactory;
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     public static synchronized DataSource.Factory getDataSourceFactory(Context context) {
         if (dataSourceFactory == null) {
             context = context.getApplicationContext();
@@ -63,7 +61,6 @@ public final class DownloadUtil {
         return dataSourceFactory;
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     public static synchronized DownloadNotificationHelper getDownloadNotificationHelper(Context context) {
         if (downloadNotificationHelper == null) {
             downloadNotificationHelper = new DownloadNotificationHelper(context, DOWNLOAD_NOTIFICATION_CHANNEL_ID);
@@ -82,7 +79,6 @@ public final class DownloadUtil {
         return downloaderManager;
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private static synchronized Cache getDownloadCache(Context context) {
         if (downloadCache == null) {
             File downloadContentDirectory = new File(getDownloadDirectory(context), DOWNLOAD_CONTENT_DIRECTORY);
@@ -92,7 +88,6 @@ public final class DownloadUtil {
         return downloadCache;
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private static synchronized void ensureDownloadManagerInitialized(Context context) {
         if (downloadManager == null) {
             downloadManager =
@@ -107,7 +102,6 @@ public final class DownloadUtil {
         }
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private static synchronized DatabaseProvider getDatabaseProvider(Context context) {
         if (databaseProvider == null) {
             databaseProvider = new StandaloneDatabaseProvider(context);
@@ -127,7 +121,6 @@ public final class DownloadUtil {
         return downloadDirectory;
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private static CacheDataSource.Factory buildReadOnlyCacheDataSource(DataSource.Factory upstreamFactory, Cache cache) {
         return new CacheDataSource.Factory()
                 .setCache(cache)

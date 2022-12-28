@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.ui.activity.base;
 
-import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +18,7 @@ import com.cappielloantonio.play.service.DownloaderManager;
 import com.cappielloantonio.play.service.DownloaderService;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.util.DownloadUtil;
+import com.cappielloantonio.play.util.UIUtil;
 import com.google.android.gms.cast.framework.CastContext;
 import com.google.android.material.elevation.SurfaceColors;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -83,7 +83,6 @@ public class BaseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void initializeBrowser() {
         mediaBrowserListenableFuture = new MediaBrowser.Builder(this, new SessionToken(this, new ComponentName(this, MediaService.class))).buildAsync();
     }
@@ -96,7 +95,6 @@ public class BaseActivity extends AppCompatActivity {
         return mediaBrowserListenableFuture;
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void initializeDownloader() {
         downloaderManager = DownloadUtil.getDownloadTracker(this);
 
@@ -108,7 +106,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void initializeCastContext() {
-        CastContext.getSharedInstance(this);
+        if (UIUtil.isCastApiAvailable(this)) CastContext.getSharedInstance(this);
     }
 
     private void setNavigationBarColor() {

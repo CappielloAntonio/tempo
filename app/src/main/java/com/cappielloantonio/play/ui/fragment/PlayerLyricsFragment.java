@@ -51,7 +51,7 @@ public class PlayerLyricsFragment extends Fragment {
                     bind.emptyDescriptionImageView.setVisibility(View.VISIBLE);
                     bind.titleEmptyDescriptionLabel.setVisibility(View.VISIBLE);
                 } else {
-                    bind.nowPlayingSongLyricsTextView.setText(MusicUtil.getReadableString(lyrics));
+                    bind.nowPlayingSongLyricsTextView.setText(MusicUtil.getReadableLyrics(lyrics));
                     bind.nowPlayingSongLyricsTextView.setVisibility(View.VISIBLE);
                     bind.emptyDescriptionImageView.setVisibility(View.GONE);
                     bind.titleEmptyDescriptionLabel.setVisibility(View.GONE);

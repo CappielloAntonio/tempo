@@ -171,6 +171,55 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="12dp" />
 
+            <!--  Grid tracks -->
+            <LinearLayout
+                android:id="@+id/home_grid_tracks_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/grid_tracks_pre_text_view"
+                    style="@style/TitleMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingTop="12dp"
+                    android:paddingEnd="16dp"
+                    android:text="Last week"
+                    android:textAllCaps="true" />
+
+                <TextView
+                    android:id="@+id/grid_tracks_text_view"
+                    style="@style/TitleLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="Your top songs" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/grid_tracks_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:clipToPadding="false"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="8dp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/after_grid_divider"
+                style="@style/Divider"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="12dp" />
+
             <!-- Favorites -->
             <LinearLayout
                 android:id="@+id/starred_tracks_sector"

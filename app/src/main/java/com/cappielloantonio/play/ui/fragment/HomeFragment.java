@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.ui.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -31,6 +30,7 @@ import com.cappielloantonio.play.adapter.AlbumHorizontalAdapter;
 import com.cappielloantonio.play.adapter.ArtistAdapter;
 import com.cappielloantonio.play.adapter.ArtistHorizontalAdapter;
 import com.cappielloantonio.play.adapter.DiscoverSongAdapter;
+import com.cappielloantonio.play.adapter.GridTrackAdapter;
 import com.cappielloantonio.play.adapter.PodcastEpisodeAdapter;
 import com.cappielloantonio.play.adapter.SimilarTrackAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
@@ -38,6 +38,7 @@ import com.cappielloantonio.play.adapter.YearAdapter;
 import com.cappielloantonio.play.databinding.FragmentHomeBinding;
 import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.play.helper.recyclerview.DotsIndicatorDecoration;
+import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Media;
@@ -71,6 +72,7 @@ public class HomeFragment extends Fragment {
     private AlbumHorizontalAdapter newReleasesAlbumAdapter;
     private YearAdapter yearAdapter;
     private PodcastEpisodeAdapter podcastEpisodeAdapter;
+    private GridTrackAdapter gridTrackAdapter;
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
@@ -119,6 +121,7 @@ public class HomeFragment extends Fragment {
         initRecentAddedAlbumView();
         initPinnedPlaylistsView();
         initNewestPodcastsView();
+        initGridView();
     }
 
     @Override
@@ -258,11 +261,14 @@ public class HomeFragment extends Fragment {
         bind.discoverSongViewPager.setOffscreenPageLimit(1);
         homeViewModel.getDiscoverSongSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
             if (songs == null) {
-                if (bind != null) bind.homeDiscoveryPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null)
+                    bind.homeDiscoveryPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeDiscoverSector.setVisibility(View.GONE);
             } else {
-                if (bind != null) bind.homeDiscoveryPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null) bind.homeDiscoverSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.homeDiscoveryPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null)
+                    bind.homeDiscoverSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
 
                 discoverSongAdapter.setItems(songs);
             }
@@ -279,11 +285,14 @@ public class HomeFragment extends Fragment {
         bind.similarTracksRecyclerView.setAdapter(similarMusicAdapter);
         homeViewModel.getStarredTracksSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
             if (songs == null) {
-                if (bind != null) bind.homeSimilarTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null)
+                    bind.homeSimilarTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeSimilarTracksSector.setVisibility(View.GONE);
             } else {
-                if (bind != null) bind.homeSimilarTracksPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null) bind.homeSimilarTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.homeSimilarTracksPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null)
+                    bind.homeSimilarTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
 
                 similarMusicAdapter.setItems(songs);
             }
@@ -301,11 +310,14 @@ public class HomeFragment extends Fragment {
         bind.radioArtistRecyclerView.setAdapter(radioArtistAdapter);
         homeViewModel.getStarredArtistsSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> {
             if (artists == null) {
-                if (bind != null) bind.homeRadioArtistPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null)
+                    bind.homeRadioArtistPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeRadioArtistSector.setVisibility(View.GONE);
             } else {
-                if (bind != null) bind.homeRadioArtistPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null) bind.homeRadioArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.homeRadioArtistPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null)
+                    bind.homeRadioArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
 
                 radioArtistAdapter.setItems(artists);
             }
@@ -322,11 +334,14 @@ public class HomeFragment extends Fragment {
         bind.starredTracksRecyclerView.setAdapter(starredSongAdapter);
         homeViewModel.getStarredTracks(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
             if (songs == null) {
-                if (bind != null) bind.starredTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null)
+                    bind.starredTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.starredTracksSector.setVisibility(View.GONE);
             } else {
-                if (bind != null) bind.starredTracksPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null) bind.starredTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.starredTracksPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null)
+                    bind.starredTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
                 if (bind != null)
                     bind.starredTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(songs.size(), 5), GridLayoutManager.HORIZONTAL, false));
 
@@ -354,11 +369,14 @@ public class HomeFragment extends Fragment {
         bind.starredAlbumsRecyclerView.setAdapter(starredAlbumAdapter);
         homeViewModel.getStarredAlbums(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
-                if (bind != null) bind.starredAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null)
+                    bind.starredAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.starredAlbumsSector.setVisibility(View.GONE);
             } else {
-                if (bind != null) bind.starredAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null) bind.starredAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.starredAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null)
+                    bind.starredAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
                 if (bind != null)
                     bind.starredAlbumsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
 
@@ -386,11 +404,14 @@ public class HomeFragment extends Fragment {
         bind.starredArtistsRecyclerView.setAdapter(starredArtistAdapter);
         homeViewModel.getStarredArtists(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> {
             if (artists == null) {
-                if (bind != null) bind.starredArtistsPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null)
+                    bind.starredArtistsPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.starredArtistsSector.setVisibility(View.GONE);
             } else {
-                if (bind != null) bind.starredArtistsPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null) bind.starredArtistsSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.starredArtistsPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null)
+                    bind.starredArtistsSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
                 if (bind != null)
                     bind.starredArtistsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(artists.size(), 5), GridLayoutManager.HORIZONTAL, false));
 
@@ -418,11 +439,14 @@ public class HomeFragment extends Fragment {
         bind.newReleasesRecyclerView.setAdapter(newReleasesAlbumAdapter);
         homeViewModel.getRecentlyReleasedAlbums(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
-                if (bind != null) bind.homeNewReleasesPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null)
+                    bind.homeNewReleasesPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeNewReleasesSector.setVisibility(View.GONE);
             } else {
-                if (bind != null) bind.homeNewReleasesPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null) bind.homeNewReleasesSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.homeNewReleasesPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null)
+                    bind.homeNewReleasesSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
                 if (bind != null)
                     bind.newReleasesRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
 
@@ -457,11 +481,14 @@ public class HomeFragment extends Fragment {
         bind.yearsRecyclerView.setAdapter(yearAdapter);
         homeViewModel.getYearList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), years -> {
             if (years == null) {
-                if (bind != null) bind.homeFlashbackPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null)
+                    bind.homeFlashbackPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeFlashbackSector.setVisibility(View.GONE);
             } else {
-                if (bind != null) bind.homeFlashbackPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null) bind.homeFlashbackSector.setVisibility(!years.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.homeFlashbackPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null)
+                    bind.homeFlashbackSector.setVisibility(!years.isEmpty() ? View.VISIBLE : View.GONE);
 
                 yearAdapter.setItems(years);
             }
@@ -479,12 +506,15 @@ public class HomeFragment extends Fragment {
         bind.mostPlayedAlbumsRecyclerView.setAdapter(mostPlayedAlbumAdapter);
         homeViewModel.getMostPlayedAlbums(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
-                if (bind != null) bind.homeMostPlayedAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null)
+                    bind.homeMostPlayedAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeMostPlayedAlbumsSector.setVisibility(View.GONE);
             } else {
-                if (bind != null) bind.homeMostPlayedAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null) bind.homeMostPlayedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
-                if (albums.size() < 10) reorder();
+                if (bind != null)
+                    bind.homeMostPlayedAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null)
+                    bind.homeMostPlayedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+                if (albums.size() < 5) reorder();
 
                 mostPlayedAlbumAdapter.setItems(albums);
             }
@@ -502,11 +532,14 @@ public class HomeFragment extends Fragment {
         bind.recentlyPlayedAlbumsRecyclerView.setAdapter(recentlyPlayedAlbumAdapter);
         homeViewModel.getRecentlyPlayedAlbumList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
-                if (bind != null) bind.homeRecentlyPlayedAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null)
+                    bind.homeRecentlyPlayedAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeRecentlyPlayedAlbumsSector.setVisibility(View.GONE);
             } else {
-                if (bind != null) bind.homeRecentlyPlayedAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null) bind.homeRecentlyPlayedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.homeRecentlyPlayedAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null)
+                    bind.homeRecentlyPlayedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
 
                 recentlyPlayedAlbumAdapter.setItems(albums);
             }
@@ -524,11 +557,14 @@ public class HomeFragment extends Fragment {
         bind.recentlyAddedAlbumsRecyclerView.setAdapter(recentlyAddedAlbumAdapter);
         homeViewModel.getMostRecentlyAddedAlbums(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
-                if (bind != null) bind.homeRecentlyAddedAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null)
+                    bind.homeRecentlyAddedAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeRecentlyAddedAlbumsSector.setVisibility(View.GONE);
             } else {
-                if (bind != null) bind.homeRecentlyAddedAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null) bind.homeRecentlyAddedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.homeRecentlyAddedAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null)
+                    bind.homeRecentlyAddedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
 
                 recentlyAddedAlbumAdapter.setItems(albums);
             }
@@ -606,13 +642,34 @@ public class HomeFragment extends Fragment {
             if (podcastEpisodes == null) {
                 if (bind != null) bind.homeNewestPodcastsSector.setVisibility(View.GONE);
             } else {
-                if (bind != null) bind.homeNewestPodcastsSector.setVisibility(!podcastEpisodes.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.homeNewestPodcastsSector.setVisibility(!podcastEpisodes.isEmpty() ? View.VISIBLE : View.GONE);
 
                 podcastEpisodeAdapter.setItems(podcastEpisodes);
             }
         });
 
         setSlideViewOffset(bind.newestPodcastsViewPager, 20, 16);
+    }
+
+    private void initGridView() {
+        bind.gridTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
+        bind.gridTracksRecyclerView.addItemDecoration(new GridItemDecoration(3, 8, false));
+        bind.gridTracksRecyclerView.setHasFixedSize(true);
+
+        gridTrackAdapter = new GridTrackAdapter(activity, requireContext());
+        bind.gridTracksRecyclerView.setAdapter(gridTrackAdapter);
+
+        homeViewModel.getGridSongSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), chronologies -> {
+            if (chronologies == null || chronologies.size() == 0) {
+                if (bind != null) bind.homeGridTracksSector.setVisibility(View.GONE);
+                if (bind != null) bind.afterGridDivider.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.homeGridTracksSector.setVisibility(View.VISIBLE);
+                if (bind != null) bind.afterGridDivider.setVisibility(View.VISIBLE);
+                gridTrackAdapter.setItems(chronologies);
+            }
+        });
     }
 
     private void setSlideViewOffset(ViewPager2 viewPager, float pageOffset, float pageMargin) {
@@ -634,7 +691,12 @@ public class HomeFragment extends Fragment {
         if (bind != null) {
             bind.homeLinearLayoutContainer.removeAllViews();
             bind.homeLinearLayoutContainer.addView(bind.homeDiscoverSector);
-            bind.homeLinearLayoutContainer.addView(bind.homeSimilarTracksSector);
+            // bind.homeLinearLayoutContainer.addView(bind.homeSimilarTracksSector);
+            // bind.homeLinearLayoutContainer.addView(bind.homeRadioArtistSector);
+            // bind.homeLinearLayoutContainer.addView(bind.homeGridTracksSector);
+            // bind.homeLinearLayoutContainer.addView(bind.starredTracksSector);
+            // bind.homeLinearLayoutContainer.addView(bind.starredAlbumsSector);
+            // bind.homeLinearLayoutContainer.addView(bind.starredArtistsSector);
             bind.homeLinearLayoutContainer.addView(bind.homeRecentlyAddedAlbumsSector);
             bind.homeLinearLayoutContainer.addView(bind.homeFlashbackSector);
             bind.homeLinearLayoutContainer.addView(bind.homeMostPlayedAlbumsSector);
@@ -643,7 +705,6 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
     private void initializeMediaBrowser() {
         mediaBrowserListenableFuture = new MediaBrowser.Builder(requireContext(), new SessionToken(requireContext(), new ComponentName(requireContext(), MediaService.class))).buildAsync();
     }
@@ -658,5 +719,6 @@ public class HomeFragment extends Fragment {
         starredSongAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
         radioArtistAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
         podcastEpisodeAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
+        gridTrackAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
     }
 }

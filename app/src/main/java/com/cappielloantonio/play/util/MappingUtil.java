@@ -1,16 +1,18 @@
 package com.cappielloantonio.play.util;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.OptIn;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.MediaMetadata;
 import androidx.media3.common.MimeTypes;
+import androidx.media3.common.util.UnstableApi;
 
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Chronology;
 import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.model.Playlist;
@@ -201,7 +203,7 @@ public class MappingUtil {
         return genres;
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
+    @OptIn(markerClass = UnstableApi.class)
     public static MediaItem mapMediaItem(Context context, Media media, boolean stream) {
         boolean isDownloaded = DownloadUtil.getDownloadTracker(context).isDownloaded(MusicUtil.getDownloadUri(media.getId()));
 
@@ -211,6 +213,7 @@ public class MappingUtil {
         bundle.putString("artistId", media.getArtistId());
         bundle.putString("coverArtId", media.getCoverArtId());
         bundle.putString("mediaType", media.getType());
+        bundle.putLong("duration", media.getDuration());
         bundle.putString("container", media.getContainer());
         bundle.putInt("bitrate", media.getBitrate());
         bundle.putString("extension", media.getExtension());
@@ -266,6 +269,36 @@ public class MappingUtil {
         }
 
         return mediaItems;
+    }
+
+    public static Chronology mapChronology(MediaItem item) {
+        return new Chronology(
+                item.mediaId,
+                item.mediaMetadata.title.toString(),
+                item.mediaMetadata.extras.get("albumId").toString(),
+                item.mediaMetadata.albumTitle.toString(),
+                item.mediaMetadata.extras.get("artistId").toString(),
+                item.mediaMetadata.artist.toString(),
+                item.mediaMetadata.extras.get("coverArtId").toString(),
+                (long) item.mediaMetadata.extras.get("duration"),
+                item.mediaMetadata.extras.get("container").toString(),
+                (int) item.mediaMetadata.extras.get("bitrate"),
+                item.mediaMetadata.extras.get("extension").toString()
+        );
+    }
+
+    public static ArrayList<Media> mapChronology(List<Chronology> items) {
+        ArrayList<Media> songs = new ArrayList();
+
+        for (Chronology item : items) {
+            songs.add(mapSong(item));
+        }
+
+        return songs;
+    }
+
+    public static Media mapSong(Chronology item) {
+        return new Media(item);
     }
 
     public static ArrayList<PodcastChannel> mapPodcastChannel(List<com.cappielloantonio.play.subsonic.models.PodcastChannel> subsonicPodcastChannels) {

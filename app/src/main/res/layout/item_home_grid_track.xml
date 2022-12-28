@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cappielloantonio.play.helper.recyclerview.SquareLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/track_cover_image_view"
+        android:layout_width="156dp"
+        android:layout_height="156dp"
+        android:layout_gravity="center" />
+</com.cappielloantonio.play.helper.recyclerview.SquareLayout>

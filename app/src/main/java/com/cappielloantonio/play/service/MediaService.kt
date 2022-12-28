@@ -9,20 +9,21 @@ import android.os.Bundle
 import androidx.media3.cast.CastPlayer
 import androidx.media3.cast.SessionAvailabilityListener
 import androidx.media3.common.*
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.*
 import androidx.media3.session.MediaSession.ControllerInfo
-import com.cappielloantonio.play.App
 import com.cappielloantonio.play.R
 import com.cappielloantonio.play.model.Media
-import com.cappielloantonio.play.repository.QueueRepository
 import com.cappielloantonio.play.ui.activity.MainActivity
+import com.cappielloantonio.play.util.UIUtil
 import com.google.android.gms.cast.framework.CastContext
 import com.google.common.collect.ImmutableList
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 
 
+@UnstableApi
 class MediaService : MediaLibraryService(), SessionAvailabilityListener {
     private val librarySessionCallback = CustomMediaLibrarySessionCallback()
 
@@ -49,7 +50,10 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
         initializeMediaLibrarySession()
         initializePlayerListener()
 
-        setPlayer(null, if (castPlayer.isCastSessionAvailable) castPlayer else player)
+        setPlayer(
+            null,
+            if (this::castPlayer.isInitialized && castPlayer.isCastSessionAvailable) castPlayer else player
+        )
     }
 
     override fun onGetSession(controllerInfo: ControllerInfo): MediaLibrarySession {
@@ -161,7 +165,7 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
 
         override fun onAddMediaItems(
             mediaSession: MediaSession,
-            controller: MediaSession.ControllerInfo,
+            controller: ControllerInfo,
             mediaItems: List<MediaItem>
         ): ListenableFuture<List<MediaItem>> {
             val updatedMediaItems = mediaItems.map {
@@ -198,8 +202,10 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
     }
 
     private fun initializeCastPlayer() {
-        castPlayer = CastPlayer(CastContext.getSharedInstance(this))
-        castPlayer.setSessionAvailabilityListener(this)
+        if (UIUtil.isCastApiAvailable(this)) {
+            castPlayer = CastPlayer(CastContext.getSharedInstance(this))
+            castPlayer.setSessionAvailabilityListener(this)
+        }
     }
 
     private fun initializeMediaLibrarySession() {
@@ -224,8 +230,10 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 if (mediaItem == null) return
                 MediaManager.setLastPlayedTimestamp(mediaItem)
-                if (mediaItem.mediaMetadata.extras!!.getString("mediaType") == Media.MEDIA_TYPE_MUSIC)
+                if (mediaItem.mediaMetadata.extras!!.getString("mediaType") == Media.MEDIA_TYPE_MUSIC) {
                     MediaManager.scrobble(mediaItem)
+                    MediaManager.saveChronology(mediaItem)
+                }
             }
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {
@@ -246,8 +254,8 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
     }
 
     private fun releasePlayer() {
-        castPlayer.setSessionAvailabilityListener(null)
-        castPlayer.release()
+        if (this::castPlayer.isInitialized) castPlayer.setSessionAvailabilityListener(null)
+        if (this::castPlayer.isInitialized) castPlayer.release()
         player.release()
         mediaLibrarySession.release()
     }

@@ -11,10 +11,12 @@ import androidx.lifecycle.MutableLiveData;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.model.Chronology;
 import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
+import com.cappielloantonio.play.repository.ChronologyRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
 import com.cappielloantonio.play.repository.PodcastRepository;
 import com.cappielloantonio.play.repository.SongRepository;
@@ -33,6 +35,7 @@ public class HomeViewModel extends AndroidViewModel {
     private final ArtistRepository artistRepository;
     private final PlaylistRepository playlistRepository;
     private final PodcastRepository podcastRepository;
+    private final ChronologyRepository chronologyRepository;
 
     private final MutableLiveData<List<Media>> dicoverSongSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Album>> newReleasedAlbum = new MutableLiveData<>(null);
@@ -48,6 +51,8 @@ public class HomeViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Playlist>> pinnedPlaylists = new MutableLiveData<>(null);
     private final MutableLiveData<List<Media>> newestPodcastEpisodes = new MutableLiveData<>(null);
 
+    private final MutableLiveData<List<Chronology>> thisGridTopSong = new MutableLiveData<>(null);
+
     public HomeViewModel(@NonNull Application application) {
         super(application);
 
@@ -56,6 +61,7 @@ public class HomeViewModel extends AndroidViewModel {
         artistRepository = new ArtistRepository(application);
         playlistRepository = new PlaylistRepository(application);
         podcastRepository = new PodcastRepository(application);
+        chronologyRepository = new ChronologyRepository(application);
     }
 
     public LiveData<List<Media>> getDiscoverSongSample(LifecycleOwner owner) {
@@ -64,6 +70,21 @@ public class HomeViewModel extends AndroidViewModel {
         }
 
         return dicoverSongSample;
+    }
+
+    public LiveData<List<Chronology>> getGridSongSample(LifecycleOwner owner) {
+        Calendar cal = Calendar.getInstance();
+        int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+
+        if (thisGridTopSong.getValue() == null) {
+            if (dayOfMonth >= 7) {
+                chronologyRepository.getThisWeek().observe(owner, thisGridTopSong::postValue);
+            } else {
+                chronologyRepository.getLastWeek().observe(owner, thisGridTopSong::postValue);
+            }
+        }
+
+        return thisGridTopSong;
     }
 
     public LiveData<List<Album>> getRecentlyReleasedAlbums(LifecycleOwner owner) {

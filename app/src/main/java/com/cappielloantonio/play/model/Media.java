@@ -85,6 +85,7 @@ public class Media implements Parcelable {
         this.playCount = 0;
         this.lastPlay = 0;
         this.rating = child.getUserRating() != null ? child.getUserRating() : 0;
+        // this.type = MEDIA_TYPE_MUSIC;
         this.type = child.getType();
     }
 
@@ -106,6 +107,7 @@ public class Media implements Parcelable {
         this.container = podcastEpisode.getContentType();
         this.bitrate = podcastEpisode.getBitRate();
         this.extension = podcastEpisode.getSuffix();
+        // this.type = MEDIA_TYPE_PODCAST;
         this.type = podcastEpisode.getType();
     }
 
@@ -141,6 +143,21 @@ public class Media implements Parcelable {
         this.bitrate = download.getBitrate();
         this.extension = download.getExtension();
         this.type = download.getType();
+    }
+
+    public Media(Chronology item) {
+        this.id = item.getTrackId();
+        this.title = item.getTitle();
+        this.albumId = item.getAlbumId();
+        this.albumName = item.getAlbumName();
+        this.artistId = item.getArtistId();
+        this.artistName = item.getArtistName();
+        this.coverArtId = item.getCoverArtId();
+        this.duration = item.getDuration();
+        this.container = item.getContainer();
+        this.bitrate = item.getBitrate();
+        this.extension = item.getExtension();
+        this.type = MEDIA_TYPE_MUSIC;
     }
 
     public String getId() {

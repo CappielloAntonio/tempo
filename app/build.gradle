@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 33
-    buildToolsVersion '30.0.3'
+    buildToolsVersion '33.0.0'
 
     defaultConfig {
         applicationId "com.cappielloantonio.playforsubsonic"
@@ -42,40 +42,40 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     // AndroidX
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
     implementation 'androidx.preference:preference-ktx:1.2.0'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.1'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.5.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.room:room-runtime:2.4.3'
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // Google GMS
-    implementation 'com.google.android.gms:play-services-cast-framework:21.1.0'
+    implementation 'com.google.android.gms:play-services-cast-framework:21.2.0'
 
     // Android Material
-    implementation 'com.google.android.material:material:1.7.0-rc01'
+    implementation 'com.google.android.material:material:1.8.0-beta01'
 
     // SearchBar
     implementation 'com.paulrybitskyi.persistentsearchview:persistentsearchview:1.1.4'
     implementation "com.arthurivanets.adapster:adapster:1.0.13"
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.13.2'
-    implementation 'com.github.bumptech.glide:annotations:4.13.2'
+    implementation 'com.github.bumptech.glide:glide:4.14.2'
+    implementation 'com.github.bumptech.glide:annotations:4.14.2'
 
     // Media3
-    implementation 'androidx.media3:media3-session:1.0.0-beta02'
-    implementation 'androidx.media3:media3-common:1.0.0-beta02'
-    implementation 'androidx.media3:media3-exoplayer:1.0.0-beta02'
-    implementation 'androidx.media3:media3-ui:1.0.0-beta02'
-    implementation 'androidx.media3:media3-cast:1.0.0-beta02'
+    implementation 'androidx.media3:media3-session:1.0.0-beta03'
+    implementation 'androidx.media3:media3-common:1.0.0-beta03'
+    implementation 'androidx.media3:media3-exoplayer:1.0.0-beta03'
+    implementation 'androidx.media3:media3-ui:1.0.0-beta03'
+    implementation 'androidx.media3:media3-cast:1.0.0-beta03'
 
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
     annotationProcessor 'androidx.room:room-compiler:2.4.3'
 
     // Retrofit
@@ -90,7 +90,7 @@ dependencies {
     implementation 'com.tickaroo.tikxml:converter-date-rfc3339:0.9.0_11-SNAPSHOT'
 
     // Crash Report
-    debugImplementation 'com.balsikandar.android:crashreporter:1.1.0'
+    // debugImplementation 'com.balsikandar.android:crashreporter:1.1.0'
 
     // DB debug
     // debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'

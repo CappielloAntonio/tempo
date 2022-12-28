@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 
 import androidx.preference.PreferenceManager;
 
-import com.balsikandar.crashreporter.CrashReporter;
 import com.cappielloantonio.play.helper.ThemeHelper;
 import com.cappielloantonio.play.subsonic.Subsonic;
 import com.cappielloantonio.play.subsonic.SubsonicPreferences;
@@ -23,8 +22,6 @@ public class App extends Application {
         super.onCreate();
 
         DynamicColors.applyToActivitiesIfAvailable(this);
-        CrashReporter.initialize(this);
-
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String themePref = sharedPreferences.getString(PreferenceUtil.THEME, ThemeHelper.DEFAULT_MODE);
         ThemeHelper.applyTheme(themePref);

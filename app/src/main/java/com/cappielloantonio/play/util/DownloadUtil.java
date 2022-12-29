@@ -1,18 +1,19 @@
 package com.cappielloantonio.play.util;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.database.DatabaseProvider;
 import androidx.media3.database.StandaloneDatabaseProvider;
 import androidx.media3.datasource.DataSource;
 import androidx.media3.datasource.DefaultDataSource;
 import androidx.media3.datasource.DefaultHttpDataSource;
-import androidx.media3.datasource.HttpDataSource;
 import androidx.media3.datasource.cache.Cache;
 import androidx.media3.datasource.cache.CacheDataSource;
 import androidx.media3.datasource.cache.NoOpCacheEvictor;
 import androidx.media3.datasource.cache.SimpleCache;
+import androidx.media3.exoplayer.DefaultRenderersFactory;
+import androidx.media3.exoplayer.RenderersFactory;
 import androidx.media3.exoplayer.offline.DownloadManager;
 import androidx.media3.exoplayer.offline.DownloadNotificationHelper;
 
@@ -24,6 +25,7 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.util.concurrent.Executors;
 
+@UnstableApi
 public final class DownloadUtil {
 
     public static final String DOWNLOAD_NOTIFICATION_CHANNEL_ID = "download_channel";
@@ -32,7 +34,7 @@ public final class DownloadUtil {
     private static final String DOWNLOAD_CONTENT_DIRECTORY = "downloads";
 
     private static DataSource.Factory dataSourceFactory;
-    private static HttpDataSource.Factory httpDataSourceFactory;
+    private static DataSource.Factory httpDataSourceFactory;
     private static DatabaseProvider databaseProvider;
     private static File downloadDirectory;
     private static Cache downloadCache;
@@ -40,7 +42,21 @@ public final class DownloadUtil {
     private static DownloaderManager downloaderManager;
     private static DownloadNotificationHelper downloadNotificationHelper;
 
-    public static synchronized HttpDataSource.Factory getHttpDataSourceFactory() {
+    public static boolean useExtensionRenderers() {
+        // return true;
+        return false;
+    }
+
+    public static RenderersFactory buildRenderersFactory(Context context, boolean preferExtensionRenderer) {
+        @DefaultRenderersFactory.ExtensionRendererMode int extensionRendererMode =
+                useExtensionRenderers()
+                        ? (preferExtensionRenderer ? DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER : DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
+                        : DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF;
+
+        return new DefaultRenderersFactory(context.getApplicationContext()).setExtensionRendererMode(extensionRendererMode);
+    }
+
+    public static synchronized DataSource.Factory getHttpDataSourceFactory() {
         if (httpDataSourceFactory == null) {
             CookieManager cookieManager = new CookieManager();
             cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ORIGINAL_SERVER);
@@ -90,15 +106,15 @@ public final class DownloadUtil {
 
     private static synchronized void ensureDownloadManagerInitialized(Context context) {
         if (downloadManager == null) {
-            downloadManager =
-                    new DownloadManager(
-                            context,
-                            getDatabaseProvider(context),
-                            getDownloadCache(context),
-                            getHttpDataSourceFactory(),
-                            Executors.newFixedThreadPool(6));
+            downloadManager = new DownloadManager(
+                    context,
+                    getDatabaseProvider(context),
+                    getDownloadCache(context),
+                    getHttpDataSourceFactory(),
+                    Executors.newFixedThreadPool(6)
+            );
 
-            downloaderManager = new DownloaderManager(context, downloadManager);
+            downloaderManager = new DownloaderManager(context, getHttpDataSourceFactory(), downloadManager);
         }
     }
 

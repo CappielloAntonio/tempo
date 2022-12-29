@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.ui.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -12,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.Player;
+import androidx.media3.common.util.UnstableApi;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -32,10 +32,8 @@ import com.google.common.util.concurrent.MoreExecutors;
 
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
+@UnstableApi
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
 
@@ -153,7 +151,8 @@ public class MainActivity extends BaseActivity {
                             hideMusicSession();
                             break;
                         case BottomSheetBehavior.STATE_COLLAPSED:
-                            if (playerBottomSheetFragment != null) playerBottomSheetFragment.goBackToFirstPage();
+                            if (playerBottomSheetFragment != null)
+                                playerBottomSheetFragment.goBackToFirstPage();
                             break;
                         case BottomSheetBehavior.STATE_SETTLING:
                         case BottomSheetBehavior.STATE_EXPANDED:

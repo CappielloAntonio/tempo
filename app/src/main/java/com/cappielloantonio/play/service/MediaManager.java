@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.service;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
@@ -295,15 +294,18 @@ public class MediaManager {
     }
 
     public static void setPlayingPausedTimestamp(MediaItem mediaItem, long ms) {
-        if (mediaItem != null) getQueueRepository().setPlayingPausedTimestamp(mediaItem.mediaId, ms);
+        if (mediaItem != null)
+            getQueueRepository().setPlayingPausedTimestamp(mediaItem.mediaId, ms);
     }
 
     public static void scrobble(MediaItem mediaItem) {
-        if (mediaItem != null) getSongRepository().scrobble(mediaItem.mediaMetadata.extras.getString("id"));
+        if (mediaItem != null)
+            getSongRepository().scrobble(mediaItem.mediaMetadata.extras.getString("id"));
     }
 
     public static void saveChronology(MediaItem mediaItem) {
-        if (mediaItem != null) getChronologyRepository().insert(MappingUtil.mapChronology(mediaItem));
+        if (mediaItem != null)
+            getChronologyRepository().insert(MappingUtil.mapChronology(mediaItem));
     }
 
     private static QueueRepository getQueueRepository() {

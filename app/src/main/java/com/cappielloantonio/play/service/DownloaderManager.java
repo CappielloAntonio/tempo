@@ -2,16 +2,15 @@ package com.cappielloantonio.play.service;
 
 import static androidx.media3.common.util.Assertions.checkNotNull;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.OptIn;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.util.Log;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.common.util.Util;
+import androidx.media3.datasource.DataSource;
 import androidx.media3.exoplayer.offline.Download;
 import androidx.media3.exoplayer.offline.DownloadCursor;
 import androidx.media3.exoplayer.offline.DownloadHelper;
@@ -22,23 +21,24 @@ import androidx.media3.exoplayer.offline.DownloadService;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.repository.DownloadRepository;
-import com.cappielloantonio.play.repository.QueueRepository;
-import com.cappielloantonio.play.util.MappingUtil;
+import com.cappielloantonio.play.util.DownloadUtil;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArraySet;
 
+@UnstableApi
 public class DownloaderManager {
-    private static final String TAG = "DownloadTracker";
+    private static final String TAG = "DownloaderManager";
 
     private final Context context;
+    private final DataSource.Factory dataSourceFactory;
     private final HashMap<Uri, Download> downloads;
     private final DownloadIndex downloadIndex;
 
-    public DownloaderManager(Context context, DownloadManager downloadManager) {
+    public DownloaderManager(Context context, DataSource.Factory dataSourceFactory, DownloadManager downloadManager) {
         this.context = context.getApplicationContext();
+        this.dataSourceFactory = dataSourceFactory;
 
         downloads = new HashMap<>();
         downloadIndex = downloadManager.getDownloadIndex();
@@ -47,10 +47,14 @@ public class DownloaderManager {
     }
 
     private DownloadRequest buildDownloadRequest(MediaItem mediaItem) {
-        return DownloadHelper.forMediaItem(context, mediaItem).getDownloadRequest(Util.getUtf8Bytes(checkNotNull(mediaItem.mediaId)));
+        return DownloadHelper.forMediaItem(
+                context,
+                mediaItem,
+                DownloadUtil.buildRenderersFactory(context, false),
+                dataSourceFactory
+        ).getDownloadRequest(Util.getUtf8Bytes(checkNotNull(mediaItem.mediaId)));
     }
 
-    @OptIn(markerClass = UnstableApi.class)
     public boolean isDownloaded(Uri uri) {
         @Nullable Download download = downloads.get(uri);
         return download != null && download.state != Download.STATE_FAILED;

@@ -51,8 +51,6 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.setIsRecyclable(false);
-
         Artist artist = artists.get(position);
 
         holder.artistName.setText(MusicUtil.getReadableString(artist.getName()));
@@ -78,6 +76,16 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
 
     public Artist getItem(int id) {
         return artists.get(id);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     private void setArtistCover(Artist artist, ImageView cover) {

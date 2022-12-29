@@ -50,8 +50,6 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.setIsRecyclable(false);
-
         Artist artist = artists.get(position);
 
         holder.textArtistName.setText(MusicUtil.getReadableString(artist.getName()));
@@ -71,6 +69,16 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
     public void setItems(List<Artist> artists) {
         this.artists = artists;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     private void setArtistCover(Artist artist, ImageView cover) {

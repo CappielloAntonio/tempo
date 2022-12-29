@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.ui.fragment.bottomsheetdialog;
 
-import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +13,7 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
 import androidx.navigation.fragment.NavHostFragment;
@@ -40,6 +40,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.List;
 
+@UnstableApi
 public class SongBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
     private static final String TAG = "SongBottomSheetDialog";
 

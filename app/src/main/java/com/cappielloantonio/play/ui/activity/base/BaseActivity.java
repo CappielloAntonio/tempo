@@ -9,25 +9,24 @@ import android.provider.Settings;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.exoplayer.offline.DownloadService;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.service.DownloaderManager;
 import com.cappielloantonio.play.service.DownloaderService;
 import com.cappielloantonio.play.service.MediaService;
-import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.UIUtil;
 import com.google.android.gms.cast.framework.CastContext;
 import com.google.android.material.elevation.SurfaceColors;
 import com.google.common.util.concurrent.ListenableFuture;
 
+@UnstableApi
 public class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
-    private DownloaderManager downloaderManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,8 +95,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void initializeDownloader() {
-        downloaderManager = DownloadUtil.getDownloadTracker(this);
-
         try {
             DownloadService.start(this, DownloaderService.class);
         } catch (IllegalStateException e) {

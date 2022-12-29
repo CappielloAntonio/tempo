@@ -1,12 +1,12 @@
 package com.cappielloantonio.play.service;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.media3.common.util.NotificationUtil;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.common.util.Util;
 import androidx.media3.exoplayer.offline.Download;
 import androidx.media3.exoplayer.offline.DownloadManager;
@@ -20,6 +20,7 @@ import com.cappielloantonio.play.util.DownloadUtil;
 
 import java.util.List;
 
+@UnstableApi
 public class DownloaderService extends androidx.media3.exoplayer.offline.DownloadService {
 
     private static final int JOB_ID = 1;

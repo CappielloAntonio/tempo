@@ -35,7 +35,6 @@
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:text="@string/app_name" />
-                android:text="@string/app_name" />
             </LinearLayout>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -45,7 +44,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/empty_description_image_view"

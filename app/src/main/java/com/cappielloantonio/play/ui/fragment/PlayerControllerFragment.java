@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.ui.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +18,7 @@ import androidx.media3.common.MediaMetadata;
 import androidx.media3.common.PlaybackParameters;
 import androidx.media3.common.Player;
 import androidx.media3.common.util.RepeatModeUtil;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
 import androidx.navigation.fragment.NavHostFragment;
@@ -38,6 +38,7 @@ import com.google.android.material.chip.Chip;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 
+@UnstableApi
 public class PlayerControllerFragment extends Fragment {
     private static final String TAG = "PlayerCoverFragment";
 
@@ -154,26 +155,25 @@ public class PlayerControllerFragment extends Fragment {
     }
 
     private void setMediaInfo(MediaMetadata mediaMetadata) {
-        if(mediaMetadata.extras != null) {
+        if (mediaMetadata.extras != null) {
             String extension = mediaMetadata.extras.getString("extension", "Unknown format");
             String bitrate = mediaMetadata.extras.getInt("bitrate", 0) != 0 ? mediaMetadata.extras.getInt("bitrate", 0) + "kbps" : "Original";
 
             playerMediaExtension.setText(extension);
 
-            if(bitrate.equals("Original")) {
+            if (bitrate.equals("Original")) {
                 playerMediaBitrate.setVisibility(View.GONE);
-            }   else {
+            } else {
                 playerMediaBitrate.setVisibility(View.VISIBLE);
 
                 playerMediaBitrate.setText(bitrate);
-
             }
         }
 
         String transcodingExtension = MusicUtil.getTranscodingFormatPreference(requireContext());
         String transcodingBitrate = Integer.parseInt(MusicUtil.getBitratePreference(requireContext())) != 0 ? Integer.parseInt(MusicUtil.getBitratePreference(requireContext())) + "kbps" : "Original";
 
-        if(transcodingExtension.equals("raw") && transcodingBitrate.equals("Original")) {
+        if (transcodingExtension.equals("raw") && transcodingBitrate.equals("Original")) {
             playerMediaTranscodingIcon.setVisibility(View.GONE);
             playerMediaTranscodedBitrate.setVisibility(View.GONE);
             playerMediaTranscodedExtension.setVisibility(View.GONE);
@@ -185,7 +185,6 @@ public class PlayerControllerFragment extends Fragment {
             playerMediaTranscodedExtension.setText(transcodingExtension);
             playerMediaTranscodedBitrate.setText(transcodingBitrate);
         }
-
     }
 
     private void setMediaControllerUI(MediaBrowser mediaBrowser) {

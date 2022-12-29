@@ -1,8 +1,9 @@
 package com.cappielloantonio.play.util;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.Uri;
 import android.text.Html;
 import android.util.Log;
@@ -29,12 +30,18 @@ public class MusicUtil {
         uri.append(App.getSubsonicClientInstance(App.getInstance(), false).getUrl());
         uri.append("stream");
 
-        if(params.containsKey("u") && params.get("u") != null) uri.append("?u=").append(params.get("u"));
-        if(params.containsKey("p") && params.get("p") != null) uri.append("&p=").append(params.get("p"));
-        if(params.containsKey("s") && params.get("s") != null) uri.append("&s=").append(params.get("s"));
-        if(params.containsKey("t") && params.get("t") != null) uri.append("&t=").append(params.get("t"));
-        if(params.containsKey("v") && params.get("v") != null) uri.append("&v=").append(params.get("v"));
-        if(params.containsKey("c") && params.get("c") != null) uri.append("&c=").append(params.get("c"));
+        if (params.containsKey("u") && params.get("u") != null)
+            uri.append("?u=").append(params.get("u"));
+        if (params.containsKey("p") && params.get("p") != null)
+            uri.append("&p=").append(params.get("p"));
+        if (params.containsKey("s") && params.get("s") != null)
+            uri.append("&s=").append(params.get("s"));
+        if (params.containsKey("t") && params.get("t") != null)
+            uri.append("&t=").append(params.get("t"));
+        if (params.containsKey("v") && params.get("v") != null)
+            uri.append("&v=").append(params.get("v"));
+        if (params.containsKey("c") && params.get("c") != null)
+            uri.append("&c=").append(params.get("c"));
         uri.append("&id=").append(id);
 
         if (getConnectivityManager(context).getActiveNetworkInfo() != null) {
@@ -57,12 +64,18 @@ public class MusicUtil {
         uri.append(App.getSubsonicClientInstance(App.getInstance(), false).getUrl());
         uri.append("stream");
 
-        if(params.containsKey("u") && params.get("u") != null) uri.append("?u=").append(params.get("u"));
-        if(params.containsKey("p") && params.get("p") != null) uri.append("&p=").append(params.get("p"));
-        if(params.containsKey("s") && params.get("s") != null) uri.append("&s=").append(params.get("s"));
-        if(params.containsKey("t") && params.get("t") != null) uri.append("&t=").append(params.get("t"));
-        if(params.containsKey("v") && params.get("v") != null) uri.append("&v=").append(params.get("v"));
-        if(params.containsKey("c") && params.get("c") != null) uri.append("&c=").append(params.get("c"));
+        if (params.containsKey("u") && params.get("u") != null)
+            uri.append("?u=").append(params.get("u"));
+        if (params.containsKey("p") && params.get("p") != null)
+            uri.append("&p=").append(params.get("p"));
+        if (params.containsKey("s") && params.get("s") != null)
+            uri.append("&s=").append(params.get("s"));
+        if (params.containsKey("t") && params.get("t") != null)
+            uri.append("&t=").append(params.get("t"));
+        if (params.containsKey("v") && params.get("v") != null)
+            uri.append("&v=").append(params.get("v"));
+        if (params.containsKey("c") && params.get("c") != null)
+            uri.append("&c=").append(params.get("c"));
         uri.append("&id=").append(id);
 
         Log.d(TAG, "getDownloadUri(): " + uri);
@@ -137,8 +150,10 @@ public class MusicUtil {
 
     public static String normalizedArtistName(String string) {
         if (string != null) {
-            if (string.toLowerCase().contains(" feat.")) return Pattern.compile(" feat.", Pattern.CASE_INSENSITIVE).split(string)[0].trim();
-            else if (string.toLowerCase().contains(" featuring")) return Pattern.compile(" featuring", Pattern.CASE_INSENSITIVE).split(string)[0].trim();
+            if (string.toLowerCase().contains(" feat."))
+                return Pattern.compile(" feat.", Pattern.CASE_INSENSITIVE).split(string)[0].trim();
+            else if (string.toLowerCase().contains(" featuring"))
+                return Pattern.compile(" featuring", Pattern.CASE_INSENSITIVE).split(string)[0].trim();
             else return string;
         }
 
@@ -179,28 +194,34 @@ public class MusicUtil {
     }
 
     public static String getBitratePreference(Context context) {
+        Network network = getConnectivityManager(context).getActiveNetwork();
+        NetworkCapabilities networkCapabilities = getConnectivityManager(context).getNetworkCapabilities(network);
         String audioTranscodeFormat = getTranscodingFormatPreference(context);
 
-        if (audioTranscodeFormat.equals("0")) return "0";
+        if (audioTranscodeFormat.equals("raw") || network == null || networkCapabilities == null)
+            return "0";
 
-        switch (getConnectivityManager(context).getActiveNetworkInfo().getType()) {
-            case ConnectivityManager.TYPE_WIFI:
-                return PreferenceUtil.getInstance(context).getMaxBitrateWifi();
-            case ConnectivityManager.TYPE_MOBILE:
-                return PreferenceUtil.getInstance(context).getMaxBitrateMobile();
-            default:
-                return PreferenceUtil.getInstance(context).getMaxBitrateWifi();
+        if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+            return PreferenceUtil.getInstance(context).getMaxBitrateWifi();
+        } else if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+            return PreferenceUtil.getInstance(context).getMaxBitrateMobile();
+        } else {
+            return PreferenceUtil.getInstance(context).getMaxBitrateWifi();
         }
     }
 
     public static String getTranscodingFormatPreference(Context context) {
-        switch (getConnectivityManager(context).getActiveNetworkInfo().getType()) {
-            case ConnectivityManager.TYPE_WIFI:
-                return PreferenceUtil.getInstance(context).getAudioTranscodeFormatWifi();
-            case ConnectivityManager.TYPE_MOBILE:
-                return PreferenceUtil.getInstance(context).getAudioTranscodeFormatMobile();
-            default:
-                return PreferenceUtil.getInstance(context).getAudioTranscodeFormatWifi();
+        Network network = getConnectivityManager(context).getActiveNetwork();
+        NetworkCapabilities networkCapabilities = getConnectivityManager(context).getNetworkCapabilities(network);
+
+        if (network == null || networkCapabilities == null) return "raw";
+
+        if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+            return PreferenceUtil.getInstance(context).getAudioTranscodeFormatWifi();
+        } else if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+            return PreferenceUtil.getInstance(context).getAudioTranscodeFormatMobile();
+        } else {
+            return PreferenceUtil.getInstance(context).getAudioTranscodeFormatWifi();
         }
     }
 

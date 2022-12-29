@@ -11,11 +11,13 @@ import androidx.media3.cast.SessionAvailabilityListener
 import androidx.media3.common.*
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.session.*
 import androidx.media3.session.MediaSession.ControllerInfo
 import com.cappielloantonio.play.R
 import com.cappielloantonio.play.model.Media
 import com.cappielloantonio.play.ui.activity.MainActivity
+import com.cappielloantonio.play.util.DownloadUtil
 import com.cappielloantonio.play.util.UIUtil
 import com.google.android.gms.cast.framework.CastContext
 import com.google.common.collect.ImmutableList
@@ -195,6 +197,8 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
 
     private fun initializePlayer() {
         player = ExoPlayer.Builder(this)
+            .setRenderersFactory(getRenderersFactory())
+            .setMediaSourceFactory(getMediaSourceFactory())
             .setAudioAttributes(AudioAttributes.DEFAULT, true)
             .setHandleAudioBecomingNoisy(true)
             .setWakeMode(C.WAKE_MODE_NETWORK)
@@ -278,6 +282,11 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
     private fun ignoreFuture(customLayout: ListenableFuture<SessionResult>) {
         /* Do nothing. */
     }
+
+    private fun getRenderersFactory() = DownloadUtil.buildRenderersFactory(this, false)
+
+    private fun getMediaSourceFactory() =
+        DefaultMediaSourceFactory(this).setDataSourceFactory(DownloadUtil.getDataSourceFactory(this))
 
     override fun onCastSessionAvailable() {
         setPlayer(player, castPlayer)

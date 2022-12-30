@@ -135,6 +135,8 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
             PreferenceUtil.getInstance(context).setServer(null);
             PreferenceUtil.getInstance(context).setUser(null);
             PreferenceUtil.getInstance(context).setPassword(null);
+            PreferenceUtil.getInstance(context).setToken(null);
+            PreferenceUtil.getInstance(context).setSalt(null);
             PreferenceUtil.getInstance(context).setLowSecurity(false);
 
             App.getSubsonicClientInstance(context, true);

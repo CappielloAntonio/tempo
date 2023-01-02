@@ -103,7 +103,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void initializeCastContext() {
-        if (UIUtil.isCastApiAvailable(this)) CastContext.getSharedInstance();
+        if (UIUtil.isCastApiAvailable(this)) CastContext.getSharedInstance(this);
     }
 
     private void setNavigationBarColor() {

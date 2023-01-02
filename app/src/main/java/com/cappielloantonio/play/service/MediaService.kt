@@ -207,7 +207,7 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
 
     private fun initializeCastPlayer() {
         if (UIUtil.isCastApiAvailable(this)) {
-            castPlayer = CastContext.getSharedInstance()?.let { CastPlayer(it) }!!
+            castPlayer = CastPlayer(CastContext.getSharedInstance(this))
             castPlayer.setSessionAvailabilityListener(this)
         }
     }

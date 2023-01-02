@@ -108,7 +108,6 @@ public class Subsonic {
 
     public String getUrl() {
         String url = preferences.getServerUrl() + "/rest/";
-
         return url.replace("//rest", "/rest");
     }
 

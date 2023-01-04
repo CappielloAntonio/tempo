@@ -9,16 +9,20 @@ import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.util.UnstableApi;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.ArtistHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistListPageBinding;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.ArtistListPageViewModel;
 
-public class ArtistListPageFragment extends Fragment {
+@UnstableApi
+public class ArtistListPageFragment extends Fragment implements ClickCallback {
     private FragmentArtistListPageBinding bind;
 
     private MainActivity activity;
@@ -80,8 +84,18 @@ public class ArtistListPageFragment extends Fragment {
         bind.artistListRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.artistListRecyclerView.setHasFixedSize(true);
 
-        artistHorizontalAdapter = new ArtistHorizontalAdapter(requireContext(), artistListPageViewModel.title.equals(Artist.DOWNLOADED));
+        artistHorizontalAdapter = new ArtistHorizontalAdapter(requireContext(), this);
         bind.artistListRecyclerView.setAdapter(artistHorizontalAdapter);
         artistListPageViewModel.getArtistList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> artistHorizontalAdapter.setItems(artists));
+    }
+
+    @Override
+    public void onArtistClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.albumListPageFragment, bundle);
+    }
+
+    @Override
+    public void onArtistLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.artistBottomSheetDialog, bundle);
     }
 }

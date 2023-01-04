@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,38 +11,32 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.ui.dialog.PlaylistChooserDialog;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlaylistChooserViewModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PlaylistDialogHorizontalAdapter extends RecyclerView.Adapter<PlaylistDialogHorizontalAdapter.ViewHolder> {
-    private static final String TAG = "PlaylistDialogHorizontalAdapter";
-
     private final Context context;
-    private final LayoutInflater mInflater;
-
-    private final PlaylistChooserViewModel playlistChooserViewModel;
-    private final PlaylistChooserDialog playlistChooserDialog;
+    private final ClickCallback click;
 
     private List<Playlist> playlists;
 
-    public PlaylistDialogHorizontalAdapter(Context context, PlaylistChooserViewModel playlistChooserViewModel, PlaylistChooserDialog playlistChooserDialog) {
+    public PlaylistDialogHorizontalAdapter(Context context,ClickCallback click) {
         this.context = context;
-        this.mInflater = LayoutInflater.from(context);
-        this.playlists = new ArrayList<>();
-
-        this.playlistChooserViewModel = playlistChooserViewModel;
-        this.playlistChooserDialog = playlistChooserDialog;
+        this.click = click;
+        this.playlists = Collections.emptyList();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_horizontal_playlist_dialog, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_horizontal_playlist_dialog, parent, false);
         return new ViewHolder(view);
     }
 
@@ -68,7 +63,7 @@ public class PlaylistDialogHorizontalAdapter extends RecyclerView.Adapter<Playli
         return playlists.get(id);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView playlistTitle;
         TextView playlistTrackCount;
         TextView playlistDuration;
@@ -80,15 +75,18 @@ public class PlaylistDialogHorizontalAdapter extends RecyclerView.Adapter<Playli
             playlistTrackCount = itemView.findViewById(R.id.playlist_dialog_count_text_view);
             playlistDuration = itemView.findViewById(R.id.playlist_dialog_duration_text_view);
 
-            itemView.setOnClickListener(this);
-
             playlistTitle.setSelected(true);
+
+            itemView.setOnClickListener(v -> onClick());
         }
 
-        @Override
-        public void onClick(View view) {
-            playlistChooserViewModel.addSongToPlaylist(playlists.get(getBindingAdapterPosition()).getId());
-            playlistChooserDialog.dismiss();
+        public void onClick() {
+
+
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("playlist_object", playlists.get(getBindingAdapterPosition()));
+
+            click.onPlaylistClick(bundle);
         }
     }
 }

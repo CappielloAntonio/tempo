@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,15 +27,12 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.GenreCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentGenreCatalogueBinding;
 import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
-import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Genre;
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.GenreCatalogueViewModel;
 
-public class GenreCatalogueFragment extends Fragment {
-    private static final String TAG = "GenreCatalogueFragment";
-
+public class GenreCatalogueFragment extends Fragment implements ClickCallback {
     private FragmentGenreCatalogueBinding bind;
     private MainActivity activity;
     private GenreCatalogueViewModel genreCatalogueViewModel;
@@ -100,15 +98,9 @@ public class GenreCatalogueFragment extends Fragment {
         bind.genreCatalogueRecyclerView.addItemDecoration(new GridItemDecoration(2, 16, false));
         bind.genreCatalogueRecyclerView.setHasFixedSize(true);
 
-        genreCatalogueAdapter = new GenreCatalogueAdapter(activity, requireContext());
+        genreCatalogueAdapter = new GenreCatalogueAdapter(requireContext(), this);
         genreCatalogueAdapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
         bind.genreCatalogueRecyclerView.setAdapter(genreCatalogueAdapter);
-        genreCatalogueAdapter.setClickListener((view, position) -> {
-            Bundle bundle = new Bundle();
-            bundle.putString(Media.BY_GENRE, Media.BY_GENRE);
-            bundle.putParcelable("genre_object", genreCatalogueAdapter.getItem(position));
-            activity.navController.navigate(R.id.action_genreCatalogueFragment_to_songListPageFragment, bundle);
-        });
 
         genreCatalogueViewModel.getGenreList().observe(getViewLifecycleOwner(), genres -> genreCatalogueAdapter.setItems(genres));
 
@@ -167,5 +159,11 @@ public class GenreCatalogueFragment extends Fragment {
         });
 
         popup.show();
+    }
+
+    @Override
+    public void onGenreClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.songListPageFragment, bundle);
+        hideKeyboard(requireView());
     }
 }

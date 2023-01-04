@@ -18,6 +18,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.ui.activity.MainActivity;
@@ -27,32 +28,28 @@ import com.cappielloantonio.play.util.MusicUtil;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @UnstableApi
 public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAdapter.ViewHolder> {
-    private static final String TAG = "SongHorizontalAdapter";
-
-    private final MainActivity mainActivity;
     private final Context context;
-    private final LayoutInflater mInflater;
+    private final ClickCallback click;
     private final boolean isCoverVisible;
 
-    private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
     private List<Media> songs;
 
-    public SongHorizontalAdapter(MainActivity mainActivity, Context context, boolean isCoverVisible) {
-        this.mainActivity = mainActivity;
+    public SongHorizontalAdapter(Context context, ClickCallback click, boolean isCoverVisible) {
         this.context = context;
-        this.mInflater = LayoutInflater.from(context);
-        this.songs = new ArrayList<>();
+        this.click = click;
         this.isCoverVisible = isCoverVisible;
+        this.songs = Collections.emptyList();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_horizontal_track, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_horizontal_track, parent, false);
         return new ViewHolder(view);
     }
 
@@ -95,15 +92,11 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         notifyDataSetChanged();
     }
 
-    public void setMediaBrowserListenableFuture(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture) {
-        this.mediaBrowserListenableFuture = mediaBrowserListenableFuture;
-    }
-
     public Media getItem(int id) {
         return songs.get(id);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         View differentDiscDivider;
         TextView songTitle;
         TextView songSubtitle;
@@ -125,31 +118,30 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
             cover = itemView.findViewById(R.id.song_cover_image_view);
             coverSeparator = itemView.findViewById(R.id.cover_image_separator);
 
-            itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
-
-            more.setOnClickListener(this::openMore);
-
             songTitle.setSelected(true);
             songSubtitle.setSelected(true);
+
+            itemView.setOnClickListener(v -> onClick());
+            itemView.setOnLongClickListener(v -> onLongClick());
+
+            more.setOnClickListener(v -> onLongClick());
         }
 
-        @Override
-        public void onClick(View view) {
-            MediaManager.startQueue(mediaBrowserListenableFuture, context, songs, getBindingAdapterPosition());
-            mainActivity.setBottomSheetInPeek(true);
+        public void onClick() {
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("songs_object", new ArrayList<>(songs));
+            bundle.putInt("position", getBindingAdapterPosition());
+
+            click.onMediaClick(bundle);
         }
 
-        @Override
-        public boolean onLongClick(View v) {
-            openMore(v);
-            return true;
-        }
-
-        private void openMore(View view) {
+        private boolean onLongClick() {
             Bundle bundle = new Bundle();
             bundle.putParcelable("song_object", songs.get(getBindingAdapterPosition()));
-            Navigation.findNavController(view).navigate(R.id.songBottomSheetDialog, bundle);
+
+            click.onMediaLongClick(bundle);
+
+            return false;
         }
     }
 }

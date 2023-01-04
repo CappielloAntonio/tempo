@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,29 +11,30 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Genre;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.util.MusicUtil;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> {
-    private static final String TAG = "GenreAdapter";
-
-    private final LayoutInflater mInflater;
+    private final Context context;
+    private ClickCallback click;
 
     private List<Genre> genres;
-    private ItemClickListener itemClickListener;
 
-    public GenreAdapter(Context context) {
-        this.mInflater = LayoutInflater.from(context);
-        this.genres = new ArrayList<>();
+    public GenreAdapter(Context context, ClickCallback click) {
+        this.context = context;
+        this.click = click;
+        this.genres = Collections.emptyList();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_library_genre, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_library_genre, parent, false);
         return new ViewHolder(view);
     }
 
@@ -57,15 +59,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
-    }
-
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textGenre;
 
         ViewHolder(View itemView) {
@@ -73,13 +67,15 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
 
             textGenre = itemView.findViewById(R.id.genre_label);
 
-            itemView.setOnClickListener(this);
+            itemView.setOnClickListener(v -> onClick());
         }
 
-        @Override
-        public void onClick(View view) {
-            if (itemClickListener != null)
-                itemClickListener.onItemClick(view, getBindingAdapterPosition());
+        private void onClick() {
+            Bundle bundle = new Bundle();
+            bundle.putString(Media.BY_GENRE, Media.BY_GENRE);
+            bundle.putParcelable("genre_object", genres.get(getBindingAdapterPosition()));
+
+            click.onGenreClick(bundle);
         }
     }
 }

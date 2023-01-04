@@ -23,8 +23,6 @@ import java.util.Collections;
 import java.util.Objects;
 
 public class PlaylistEditorDialog extends DialogFragment {
-    private static final String TAG = "ServerSignupDialog";
-
     private DialogPlaylistEditorBinding bind;
     private PlaylistEditorViewModel playlistEditorViewModel;
 

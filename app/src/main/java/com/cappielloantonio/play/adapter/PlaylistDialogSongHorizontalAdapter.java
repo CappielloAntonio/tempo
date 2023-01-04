@@ -17,26 +17,23 @@ import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.util.MusicUtil;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PlaylistDialogSongHorizontalAdapter extends RecyclerView.Adapter<PlaylistDialogSongHorizontalAdapter.ViewHolder> {
-    private static final String TAG = "PlaylistDialogSongHorizontalAdapter";
+    private final Context context;
 
     private List<Media> songs;
-    private final LayoutInflater mInflater;
-    private final Context context;
 
     public PlaylistDialogSongHorizontalAdapter(Context context) {
         this.context = context;
-        this.mInflater = LayoutInflater.from(context);
-        this.songs = new ArrayList<>();
+        this.songs = Collections.emptyList();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_horizontal_playlist_dialog_track, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_horizontal_playlist_dialog_track, parent, false);
         return new ViewHolder(view);
     }
 

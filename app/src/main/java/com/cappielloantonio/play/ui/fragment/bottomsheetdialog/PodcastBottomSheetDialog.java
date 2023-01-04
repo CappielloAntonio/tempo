@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.ui.fragment.bottomsheetdialog;
 
-import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
 
@@ -31,9 +30,8 @@ import com.cappielloantonio.play.viewmodel.PodcastBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.common.util.concurrent.ListenableFuture;
 
+@UnstableApi
 public class PodcastBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
-    private static final String TAG = "PodcastBottomSheetDialog";
-
     private PodcastBottomSheetViewModel podcastBottomSheetViewModel;
     private Media podcast;
 

@@ -7,22 +7,31 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.util.UnstableApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.ServerAdapter;
 import com.cappielloantonio.play.databinding.FragmentLoginBinding;
+import com.cappielloantonio.play.interfaces.ClickCallback;
+import com.cappielloantonio.play.interfaces.SystemCallback;
+import com.cappielloantonio.play.model.Server;
+import com.cappielloantonio.play.repository.SystemRepository;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.dialog.ServerSignupDialog;
+import com.cappielloantonio.play.util.PreferenceUtil;
 import com.cappielloantonio.play.viewmodel.LoginViewModel;
 
-public class LoginFragment extends Fragment {
+@UnstableApi
+public class LoginFragment extends Fragment implements ClickCallback {
     private static final String TAG = "LoginFragment";
 
     private FragmentLoginBinding bind;
@@ -80,7 +89,7 @@ public class LoginFragment extends Fragment {
         bind.serverListRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.serverListRecyclerView.setHasFixedSize(true);
 
-        serverAdapter = new ServerAdapter(activity, requireContext());
+        serverAdapter = new ServerAdapter(requireContext(), this);
         bind.serverListRecyclerView.setAdapter(serverAdapter);
         loginViewModel.getServerList().observe(getViewLifecycleOwner(), servers -> {
             if (servers.size() > 0) {
@@ -103,5 +112,54 @@ public class LoginFragment extends Fragment {
         }
 
         return false;
+    }
+
+    @Override
+    public void onServerClick(Bundle bundle) {
+        Server server = bundle.getParcelable("server_object");
+        saveServerPreference(server.getServerId(), server.getAddress(), server.getUsername(), server.getPassword(), server.isLowSecurity());
+
+        SystemRepository systemRepository = new SystemRepository(App.getInstance());
+        systemRepository.checkUserCredential(new SystemCallback() {
+            @Override
+            public void onError(Exception exception) {
+                resetServerPreference();
+                Toast.makeText(requireContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(String password, String token, String salt) {
+                activity.goFromLogin();
+            }
+        });
+    }
+
+    @Override
+    public void onServerLongClick(Bundle bundle) {
+        ServerSignupDialog dialog = new ServerSignupDialog();
+        dialog.setArguments(bundle);
+        dialog.show(activity.getSupportFragmentManager(), null);
+    }
+
+    private void saveServerPreference(String serverId, String server, String user, String password, boolean isLowSecurity) {
+        PreferenceUtil.getInstance(requireContext()).setServerId(serverId);
+        PreferenceUtil.getInstance(requireContext()).setServer(server);
+        PreferenceUtil.getInstance(requireContext()).setUser(user);
+        PreferenceUtil.getInstance(requireContext()).setPassword(password);
+        PreferenceUtil.getInstance(requireContext()).setLowSecurity(isLowSecurity);
+
+        App.getSubsonicClientInstance(requireContext(), true);
+    }
+
+    private void resetServerPreference() {
+        PreferenceUtil.getInstance(requireContext()).setServerId(null);
+        PreferenceUtil.getInstance(requireContext()).setServer(null);
+        PreferenceUtil.getInstance(requireContext()).setUser(null);
+        PreferenceUtil.getInstance(requireContext()).setPassword(null);
+        PreferenceUtil.getInstance(requireContext()).setToken(null);
+        PreferenceUtil.getInstance(requireContext()).setSalt(null);
+        PreferenceUtil.getInstance(requireContext()).setLowSecurity(false);
+
+        App.getSubsonicClientInstance(requireContext(), true);
     }
 }

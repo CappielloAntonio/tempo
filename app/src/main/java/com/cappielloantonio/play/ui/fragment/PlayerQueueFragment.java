@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.ui.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.adapter.PlayerSongQueueAdapter;
 import com.cappielloantonio.play.databinding.InnerFragmentPlayerQueueBinding;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.util.MappingUtil;
@@ -26,9 +27,8 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.Collections;
 
-public class PlayerQueueFragment extends Fragment {
-    private static final String TAG = "PlayerCoverFragment";
-
+@UnstableApi
+public class PlayerQueueFragment extends Fragment implements ClickCallback {
     private InnerFragmentPlayerQueueBinding bind;
 
     private PlayerBottomSheetViewModel playerBottomSheetViewModel;
@@ -88,7 +88,7 @@ public class PlayerQueueFragment extends Fragment {
         bind.playerQueueRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.playerQueueRecyclerView.setHasFixedSize(true);
 
-        playerSongQueueAdapter = new PlayerSongQueueAdapter(requireContext());
+        playerSongQueueAdapter = new PlayerSongQueueAdapter(requireContext(), this);
         bind.playerQueueRecyclerView.setAdapter(playerSongQueueAdapter);
         playerBottomSheetViewModel.getQueueSong().observe(getViewLifecycleOwner(), queue -> {
             if (queue != null) {
@@ -146,5 +146,10 @@ public class PlayerQueueFragment extends Fragment {
                 viewHolder.getBindingAdapter().notifyDataSetChanged();
             }
         }).attachToRecyclerView(bind.playerQueueRecyclerView);
+    }
+
+    @Override
+    public void onMediaClick(Bundle bundle) {
+        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList("songs_object"), bundle.getInt("position"));
     }
 }

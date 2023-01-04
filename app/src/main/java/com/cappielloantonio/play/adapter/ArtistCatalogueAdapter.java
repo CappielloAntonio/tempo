@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -14,29 +13,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.repository.ArtistRepository;
-import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogueAdapter.ViewHolder> implements Filterable {
-    private static final String TAG = "ArtistCatalogueAdapter";
-
-    private final LayoutInflater inflater;
-    private final MainActivity activity;
     private final Context context;
+    private final ClickCallback click;
+
     private final Filter filtering = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -71,17 +66,16 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
     private List<Artist> artists;
     private List<Artist> artistFull;
 
-    public ArtistCatalogueAdapter(MainActivity activity, Context context) {
-        this.activity = activity;
+    public ArtistCatalogueAdapter(Context context, ClickCallback click) {
         this.context = context;
-        this.inflater = LayoutInflater.from(context);
-        this.artists = new ArrayList<>();
+        this.click = click;
+        this.artists = Collections.emptyList();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_library_catalogue_artist, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_library_catalogue_artist, parent, false);
         return new ViewHolder(view);
     }
 
@@ -145,7 +139,7 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
         });
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textArtistName;
         ImageView cover;
 
@@ -155,35 +149,26 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
             textArtistName = itemView.findViewById(R.id.artist_name_label);
             cover = itemView.findViewById(R.id.artist_catalogue_cover_image_view);
 
-            itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
-
             textArtistName.setSelected(true);
+
+            itemView.setOnClickListener(v -> onClick());
+            itemView.setOnLongClickListener(v -> onLongClick());
         }
 
-        @Override
-        public void onClick(View view) {
+        public void onClick() {
             Bundle bundle = new Bundle();
             bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
 
-            if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.searchFragment) {
-                Navigation.findNavController(view).navigate(R.id.action_searchFragment_to_artistPageFragment, bundle);
-            } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.libraryFragment) {
-                Navigation.findNavController(view).navigate(R.id.action_libraryFragment_to_artistPageFragment, bundle);
-            } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.artistCatalogueFragment) {
-                Navigation.findNavController(view).navigate(R.id.action_artistCatalogueFragment_to_artistPageFragment, bundle);
-            }
-
-            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            click.onArtistClick(bundle);
         }
 
-        @Override
-        public boolean onLongClick(View v) {
+        public boolean onLongClick() {
             Bundle bundle = new Bundle();
             bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
-            Navigation.findNavController(v).navigate(R.id.artistBottomSheetDialog, bundle);
-            return true;
+
+            click.onArtistLongClick(bundle);
+
+            return false;
         }
     }
 

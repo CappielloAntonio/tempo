@@ -9,14 +9,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -39,21 +42,28 @@ import com.cappielloantonio.play.databinding.FragmentHomeBinding;
 import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.play.helper.recyclerview.DotsIndicatorDecoration;
 import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.HomeViewModel;
 import com.google.android.gms.cast.framework.CastButtonFactory;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.common.util.concurrent.ListenableFuture;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-public class HomeFragment extends Fragment {
+@UnstableApi
+public class HomeFragment extends Fragment implements ClickCallback {
     private static final String TAG = "HomeFragment";
 
     private FragmentHomeBinding bind;
@@ -131,13 +141,6 @@ public class HomeFragment extends Fragment {
         initializeMediaBrowser();
         activity.setBottomNavigationBarVisibility(true);
         activity.setBottomSheetVisibility(true);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        setMediaBrowserListenableFuture();
     }
 
     @Override
@@ -256,7 +259,7 @@ public class HomeFragment extends Fragment {
     private void initDiscoverSongSlideView() {
         bind.discoverSongViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
-        discoverSongAdapter = new DiscoverSongAdapter(activity, requireContext());
+        discoverSongAdapter = new DiscoverSongAdapter(requireContext(), this);
         bind.discoverSongViewPager.setAdapter(discoverSongAdapter);
         bind.discoverSongViewPager.setOffscreenPageLimit(1);
         homeViewModel.getDiscoverSongSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
@@ -281,7 +284,7 @@ public class HomeFragment extends Fragment {
         bind.similarTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.similarTracksRecyclerView.setHasFixedSize(true);
 
-        similarMusicAdapter = new SimilarTrackAdapter(activity, requireContext());
+        similarMusicAdapter = new SimilarTrackAdapter(requireContext(), this);
         bind.similarTracksRecyclerView.setAdapter(similarMusicAdapter);
         homeViewModel.getStarredTracksSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
             if (songs == null) {
@@ -306,7 +309,7 @@ public class HomeFragment extends Fragment {
         bind.radioArtistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.radioArtistRecyclerView.setHasFixedSize(true);
 
-        radioArtistAdapter = new ArtistAdapter((MainActivity) requireActivity(), requireContext());
+        radioArtistAdapter = new ArtistAdapter(requireContext(), this, true);
         bind.radioArtistRecyclerView.setAdapter(radioArtistAdapter);
         homeViewModel.getStarredArtistsSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> {
             if (artists == null) {
@@ -330,7 +333,7 @@ public class HomeFragment extends Fragment {
     private void initStarredTracksView() {
         bind.starredTracksRecyclerView.setHasFixedSize(true);
 
-        starredSongAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
+        starredSongAdapter = new SongHorizontalAdapter(requireContext(), this, true);
         bind.starredTracksRecyclerView.setAdapter(starredSongAdapter);
         homeViewModel.getStarredTracks(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
             if (songs == null) {
@@ -365,7 +368,7 @@ public class HomeFragment extends Fragment {
     private void initStarredAlbumsView() {
         bind.starredAlbumsRecyclerView.setHasFixedSize(true);
 
-        starredAlbumAdapter = new AlbumHorizontalAdapter(requireContext(), false);
+        starredAlbumAdapter = new AlbumHorizontalAdapter(requireContext(), this, false);
         bind.starredAlbumsRecyclerView.setAdapter(starredAlbumAdapter);
         homeViewModel.getStarredAlbums(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
@@ -400,7 +403,7 @@ public class HomeFragment extends Fragment {
     private void initStarredArtistsView() {
         bind.starredArtistsRecyclerView.setHasFixedSize(true);
 
-        starredArtistAdapter = new ArtistHorizontalAdapter(requireContext(), false);
+        starredArtistAdapter = new ArtistHorizontalAdapter(requireContext(), this);
         bind.starredArtistsRecyclerView.setAdapter(starredArtistAdapter);
         homeViewModel.getStarredArtists(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> {
             if (artists == null) {
@@ -435,7 +438,7 @@ public class HomeFragment extends Fragment {
     private void initNewReleasesView() {
         bind.newReleasesRecyclerView.setHasFixedSize(true);
 
-        newReleasesAlbumAdapter = new AlbumHorizontalAdapter(requireContext(), false);
+        newReleasesAlbumAdapter = new AlbumHorizontalAdapter(requireContext(), this, false);
         bind.newReleasesRecyclerView.setAdapter(newReleasesAlbumAdapter);
         homeViewModel.getRecentlyReleasedAlbums(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
@@ -471,13 +474,7 @@ public class HomeFragment extends Fragment {
         bind.yearsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.yearsRecyclerView.setHasFixedSize(true);
 
-        yearAdapter = new YearAdapter(requireContext());
-        yearAdapter.setClickListener((view, position) -> {
-            Bundle bundle = new Bundle();
-            bundle.putString(Media.BY_YEAR, Media.BY_YEAR);
-            bundle.putInt("year_object", yearAdapter.getItem(position));
-            activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
-        });
+        yearAdapter = new YearAdapter(requireContext(), this);
         bind.yearsRecyclerView.setAdapter(yearAdapter);
         homeViewModel.getYearList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), years -> {
             if (years == null) {
@@ -502,7 +499,7 @@ public class HomeFragment extends Fragment {
         bind.mostPlayedAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.mostPlayedAlbumsRecyclerView.setHasFixedSize(true);
 
-        mostPlayedAlbumAdapter = new AlbumAdapter(requireContext());
+        mostPlayedAlbumAdapter = new AlbumAdapter(requireContext(), this);
         bind.mostPlayedAlbumsRecyclerView.setAdapter(mostPlayedAlbumAdapter);
         homeViewModel.getMostPlayedAlbums(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
@@ -528,7 +525,7 @@ public class HomeFragment extends Fragment {
         bind.recentlyPlayedAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.recentlyPlayedAlbumsRecyclerView.setHasFixedSize(true);
 
-        recentlyPlayedAlbumAdapter = new AlbumAdapter(requireContext());
+        recentlyPlayedAlbumAdapter = new AlbumAdapter(requireContext(), this);
         bind.recentlyPlayedAlbumsRecyclerView.setAdapter(recentlyPlayedAlbumAdapter);
         homeViewModel.getRecentlyPlayedAlbumList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
@@ -553,7 +550,7 @@ public class HomeFragment extends Fragment {
         bind.recentlyAddedAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.recentlyAddedAlbumsRecyclerView.setHasFixedSize(true);
 
-        recentlyAddedAlbumAdapter = new AlbumAdapter(requireContext());
+        recentlyAddedAlbumAdapter = new AlbumAdapter(requireContext(), this);
         bind.recentlyAddedAlbumsRecyclerView.setAdapter(recentlyAddedAlbumAdapter);
         homeViewModel.getMostRecentlyAddedAlbums(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
@@ -591,7 +588,7 @@ public class HomeFragment extends Fragment {
                         genericPlaylistTitleTextView.setText(MusicUtil.getReadableString(playlist.getName()));
                         genericPlaylistRecyclerView.setHasFixedSize(true);
 
-                        SongHorizontalAdapter trackAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
+                        SongHorizontalAdapter trackAdapter = new SongHorizontalAdapter(requireContext(), this, true);
                         genericPlaylistRecyclerView.setAdapter(trackAdapter);
 
                         homeViewModel.getPlaylistSongLiveList(playlist.getId()).observe(getViewLifecycleOwner(), songs -> {
@@ -602,8 +599,6 @@ public class HomeFragment extends Fragment {
                                 trackAdapter.setItems(songs.subList(0, songsNumber));
                             }
                         });
-
-                        trackAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
 
                         genericPlaylistCickableTextView.setOnClickListener(view -> {
                             Bundle bundle = new Bundle();
@@ -635,7 +630,7 @@ public class HomeFragment extends Fragment {
     private void initNewestPodcastsView() {
         bind.newestPodcastsViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
-        podcastEpisodeAdapter = new PodcastEpisodeAdapter(activity, requireContext());
+        podcastEpisodeAdapter = new PodcastEpisodeAdapter(requireContext(), this);
         bind.newestPodcastsViewPager.setAdapter(podcastEpisodeAdapter);
         bind.newestPodcastsViewPager.setOffscreenPageLimit(1);
         homeViewModel.getNewestPodcastEpisodes(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), podcastEpisodes -> {
@@ -657,7 +652,7 @@ public class HomeFragment extends Fragment {
         bind.gridTracksRecyclerView.addItemDecoration(new GridItemDecoration(3, 8, false));
         bind.gridTracksRecyclerView.setHasFixedSize(true);
 
-        gridTrackAdapter = new GridTrackAdapter(activity, requireContext());
+        gridTrackAdapter = new GridTrackAdapter(requireContext(), this);
         bind.gridTracksRecyclerView.setAdapter(gridTrackAdapter);
 
         homeViewModel.getGridSongSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), chronologies -> {
@@ -713,12 +708,82 @@ public class HomeFragment extends Fragment {
         MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
     }
 
-    private void setMediaBrowserListenableFuture() {
-        discoverSongAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
-        similarMusicAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
-        starredSongAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
-        radioArtistAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
-        podcastEpisodeAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
-        gridTrackAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
+    @Override
+    public void onMediaClick(Bundle bundle) {
+        if (bundle.containsKey("is_mix")) {
+            MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelable("song_object"));
+            activity.setBottomSheetInPeek(true);
+
+            if (mediaBrowserListenableFuture != null) {
+                homeViewModel.getMediaInstantMix(getViewLifecycleOwner(), bundle.getParcelable("song_object")).observe(getViewLifecycleOwner(), songs -> {
+                    if (songs.size() > 0) {
+                        MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), (ArrayList<Media>) songs, true);
+                    }
+                });
+            }
+        } else if (bundle.containsKey("is_chronology")) {
+            List<Media> media = MappingUtil.mapChronology(bundle.getParcelableArrayList("songs_object"));
+            MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), media, bundle.getInt("position"));
+            activity.setBottomSheetInPeek(true);
+        } else {
+            MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList("songs_object"), bundle.getInt("position"));
+            activity.setBottomSheetInPeek(true);
+        }
+    }
+
+    @Override
+    public void onMediaLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.songBottomSheetDialog, bundle);
+    }
+
+    @Override
+    public void onAlbumClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.albumPageFragment, bundle);
+    }
+
+    @Override
+    public void onAlbumLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.albumBottomSheetDialog, bundle);
+    }
+
+    @Override
+    public void onArtistClick(Bundle bundle) {
+        if (bundle.containsKey("is_mix") && bundle.getBoolean("is_mix")) {
+            Snackbar.make(requireView(), R.string.artist_adapter_radio_station_starting, Snackbar.LENGTH_LONG)
+                    .setAnchorView(activity.bind.playerBottomSheet)
+                    .show();
+
+            if (mediaBrowserListenableFuture != null) {
+                homeViewModel.getArtistInstantMix(getViewLifecycleOwner(), bundle.getParcelable("artist_object")).observe(getViewLifecycleOwner(), songs -> {
+                    if (songs.size() > 0) {
+                        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), (ArrayList<Media>) songs, 0);
+                        activity.setBottomSheetInPeek(true);
+                    }
+                });
+            }
+        } else {
+            Navigation.findNavController(requireView()).navigate(R.id.artistPageFragment, bundle);
+        }
+    }
+
+    @Override
+    public void onArtistLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.artistBottomSheetDialog, bundle);
+    }
+
+    @Override
+    public void onYearClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.songListPageFragment, bundle);
+    }
+
+    @Override
+    public void onPodcastClick(Bundle bundle) {
+        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelable("podcast_object"));
+        activity.setBottomSheetInPeek(true);
+    }
+
+    @Override
+    public void onPodcastLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.podcastBottomSheetDialog, bundle);
     }
 }

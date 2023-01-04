@@ -59,7 +59,9 @@ public class SongRepository {
         return starredSongs;
     }
 
-    public void getInstantMix(Media song, int count, MediaCallback callback) {
+    public MutableLiveData<ArrayList<Media>> getInstantMix(Media song, int count) {
+        MutableLiveData<ArrayList<Media>> instantMix = new MutableLiveData<>();
+
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
                 .getSimilarSongs2(song.getId(), count)
@@ -67,23 +69,17 @@ public class SongRepository {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getSimilarSongs2() != null) {
-                            List<Media> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getSimilarSongs2().getSongs()));
-
-                            if (songs.size() <= 1) {
-                                songs.add(song);
-                            }
-
-                            callback.onLoadMedia(songs);
+                            instantMix.setValue(MappingUtil.mapSong(response.body().getSimilarSongs2().getSongs()));
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
-                        List<Media> songs = new ArrayList<>();
-                        songs.add(song);
-                        callback.onLoadMedia(songs);
+                        instantMix.setValue(null);
                     }
                 });
+
+        return instantMix;
     }
 
     public MutableLiveData<List<Media>> getRandomSample(int number, Integer fromYear, Integer toYear) {

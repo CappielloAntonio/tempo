@@ -20,31 +20,31 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdapter.ViewHolder> {
-    private static final String TAG = "AlbumArtistPageAdapter";
-
-    private final LayoutInflater inflater;
     private final Context context;
+    private final ClickCallback click;
 
     private List<Artist> artists;
 
-    public ArtistSimilarAdapter(Context context) {
+    public ArtistSimilarAdapter(Context context, ClickCallback click) {
         this.context = context;
-        this.inflater = LayoutInflater.from(context);
-        this.artists = new ArrayList<>();
+        this.click = click;
+        this.artists = Collections.emptyList();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_library_similar_artist, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_library_similar_artist, parent, false);
         return new ViewHolder(view);
     }
 
@@ -132,6 +132,22 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
             bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
             Navigation.findNavController(view).navigate(R.id.artistBottomSheetDialog, bundle);
             return true;
+        }
+
+        public void onClick() {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
+
+            click.onArtistClick(bundle);
+        }
+
+        public boolean onLongClick() {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
+
+            click.onArtistLongClick(bundle);
+
+            return false;
         }
     }
 }

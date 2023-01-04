@@ -19,22 +19,25 @@ import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.util.UnstableApi;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.PlaylistHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlaylistCatalogueBinding;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.ui.dialog.PlaylistEditorDialog;
 import com.cappielloantonio.play.viewmodel.PlaylistCatalogueViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaylistCatalogueFragment extends Fragment {
-    private static final String TAG = "GenreCatalogueFragment";
-
+@UnstableApi
+public class PlaylistCatalogueFragment extends Fragment implements ClickCallback {
     private FragmentPlaylistCatalogueBinding bind;
     private MainActivity activity;
     private PlaylistCatalogueViewModel playlistCatalogueViewModel;
@@ -104,7 +107,7 @@ public class PlaylistCatalogueFragment extends Fragment {
         bind.playlistCatalogueRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.playlistCatalogueRecyclerView.setHasFixedSize(true);
 
-        playlistHorizontalAdapter = new PlaylistHorizontalAdapter(activity, requireContext());
+        playlistHorizontalAdapter = new PlaylistHorizontalAdapter(requireContext(), this);
         bind.playlistCatalogueRecyclerView.setAdapter(playlistHorizontalAdapter);
 
         if (getActivity() != null) {
@@ -191,5 +194,20 @@ public class PlaylistCatalogueFragment extends Fragment {
         });
 
         popup.show();
+    }
+
+    @Override
+    public void onPlaylistClick(Bundle bundle) {
+        bundle.putBoolean("is_offline", false);
+        Navigation.findNavController(requireView()).navigate(R.id.playlistPageFragment, bundle);
+        hideKeyboard(requireView());
+    }
+
+    @Override
+    public void onPlaylistLongClick(Bundle bundle) {
+        PlaylistEditorDialog dialog = new PlaylistEditorDialog();
+        dialog.setArguments(bundle);
+        dialog.show(activity.getSupportFragmentManager(), null);
+        hideKeyboard(requireView());
     }
 }

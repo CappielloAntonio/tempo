@@ -1,11 +1,9 @@
 package com.cappielloantonio.play.ui.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +12,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.App;
@@ -26,7 +26,7 @@ import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
-import com.cappielloantonio.play.interfaces.MediaCallback;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.service.MediaManager;
@@ -36,12 +36,8 @@ import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.ArtistPageViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ArtistPageFragment extends Fragment {
-    private static final String TAG = "ArtistPageFragment";
-
+@UnstableApi
+public class ArtistPageFragment extends Fragment implements ClickCallback {
     private FragmentArtistPageBinding bind;
     private MainActivity activity;
     private ArtistPageViewModel artistPageViewModel;
@@ -76,7 +72,6 @@ public class ArtistPageFragment extends Fragment {
         super.onStart();
 
         initializeMediaBrowser();
-        setMediaBrowserListenableFuture();
     }
 
     @Override
@@ -104,7 +99,8 @@ public class ArtistPageFragment extends Fragment {
 
     private void initAppBar() {
         activity.setSupportActionBar(bind.animToolbar);
-        if (activity.getSupportActionBar() != null) activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (activity.getSupportActionBar() != null)
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         bind.collapsingToolbar.setTitle(MusicUtil.getReadableString(artistPageViewModel.getArtist().getName()));
         bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
@@ -115,8 +111,10 @@ public class ArtistPageFragment extends Fragment {
         artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(getViewLifecycleOwner(), artist -> {
             String normalizedBio = MusicUtil.forceReadableString(artist.getBio());
 
-            if (bind != null) bind.artistPageBioSector.setVisibility(!normalizedBio.trim().isEmpty() ? View.VISIBLE : View.GONE);
-            if (bind != null) bind.bioMoreTextViewClickable.setVisibility(artist.getLastfm() != null ? View.VISIBLE : View.GONE);
+            if (bind != null)
+                bind.artistPageBioSector.setVisibility(!normalizedBio.trim().isEmpty() ? View.VISIBLE : View.GONE);
+            if (bind != null)
+                bind.bioMoreTextViewClickable.setVisibility(artist.getLastfm() != null ? View.VISIBLE : View.GONE);
 
             if (getContext() != null && bind != null) CustomGlideRequest.Builder
                     .from(
@@ -138,6 +136,7 @@ public class ArtistPageFragment extends Fragment {
         });
     }
 
+    // TODO Utilizzare il viewmodel come tramite ed evitare le chiamate dirette
     private void initPlayButtons() {
         bind.artistPageShuffleButton.setOnClickListener(v -> {
             ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
@@ -153,20 +152,13 @@ public class ArtistPageFragment extends Fragment {
 
         bind.artistPageRadioButton.setOnClickListener(v -> {
             ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
-            artistRepository.getInstantMix(artistPageViewModel.getArtist(), 20, new MediaCallback() {
-                @Override
-                public void onError(Exception exception) {
-                    Log.e(TAG, "onError() " + exception.getMessage());
-                }
 
-                @Override
-                public void onLoadMedia(List<?> media) {
-                    if (media.size() > 0) {
-                        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), (ArrayList<Media>) media, 0);
-                        activity.setBottomSheetInPeek(true);
-                    } else {
-                        Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_radio), Toast.LENGTH_SHORT).show();
-                    }
+            artistRepository.getInstantMix(artistPageViewModel.getArtist(), 20).observe(getViewLifecycleOwner(), songs -> {
+                if (songs.size() > 0) {
+                    MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
+                    activity.setBottomSheetInPeek(true);
+                } else {
+                    Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_radio), Toast.LENGTH_SHORT).show();
                 }
             });
         });
@@ -175,10 +167,11 @@ public class ArtistPageFragment extends Fragment {
     private void initTopSongsView() {
         bind.mostStreamedSongRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
+        songHorizontalAdapter = new SongHorizontalAdapter(requireContext(), this, true);
         bind.mostStreamedSongRecyclerView.setAdapter(songHorizontalAdapter);
         artistPageViewModel.getArtistTopSongList(10).observe(getViewLifecycleOwner(), songs -> {
-            if (bind != null) bind.artistPageTopSongsSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+            if (bind != null)
+                bind.artistPageTopSongsSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
             songHorizontalAdapter.setItems(songs);
         });
     }
@@ -186,10 +179,11 @@ public class ArtistPageFragment extends Fragment {
     private void initAlbumsView() {
         bind.albumsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        albumArtistPageOrSimilarAdapter = new AlbumArtistPageOrSimilarAdapter(requireContext());
+        albumArtistPageOrSimilarAdapter = new AlbumArtistPageOrSimilarAdapter(requireContext(), this);
         bind.albumsRecyclerView.setAdapter(albumArtistPageOrSimilarAdapter);
         artistPageViewModel.getAlbumList().observe(getViewLifecycleOwner(), albums -> {
-            if (bind != null) bind.artistPageAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+            if (bind != null)
+                bind.artistPageAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
             albumArtistPageOrSimilarAdapter.setItems(albums);
         });
 
@@ -201,10 +195,11 @@ public class ArtistPageFragment extends Fragment {
         bind.similarArtistsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.similarArtistsRecyclerView.setHasFixedSize(true);
 
-        artistSimilarAdapter = new ArtistSimilarAdapter(requireContext());
+        artistSimilarAdapter = new ArtistSimilarAdapter(requireContext(), this);
         bind.similarArtistsRecyclerView.setAdapter(artistSimilarAdapter);
         artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(getViewLifecycleOwner(), artist -> {
-            if (bind != null) bind.similarArtistSector.setVisibility(!artist.getSimilarArtists().isEmpty() ? View.VISIBLE : View.GONE);
+            if (bind != null)
+                bind.similarArtistSector.setVisibility(!artist.getSimilarArtists().isEmpty() ? View.VISIBLE : View.GONE);
             artistSimilarAdapter.setItems(artist.getSimilarArtists());
         });
 
@@ -220,7 +215,34 @@ public class ArtistPageFragment extends Fragment {
         MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
     }
 
-    private void setMediaBrowserListenableFuture() {
-        songHorizontalAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
+    @Override
+    public void onMediaClick(Bundle bundle) {
+        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList("songs_object"), bundle.getInt("position"));
+        activity.setBottomSheetInPeek(true);
+    }
+
+    @Override
+    public void onMediaLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.songBottomSheetDialog, bundle);
+    }
+
+    @Override
+    public void onAlbumClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.albumPageFragment, bundle);
+    }
+
+    @Override
+    public void onAlbumLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.albumBottomSheetDialog, bundle);
+    }
+
+    @Override
+    public void onArtistClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.artistPageFragment, bundle);
+    }
+
+    @Override
+    public void onArtistLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.artistBottomSheetDialog, bundle);
     }
 }

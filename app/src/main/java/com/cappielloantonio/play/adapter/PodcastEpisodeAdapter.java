@@ -10,45 +10,36 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.media3.session.MediaBrowser;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Media;
-import com.cappielloantonio.play.service.MediaManager;
-import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
-import com.google.common.util.concurrent.ListenableFuture;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAdapter.ViewHolder> {
-    private static final String TAG = "DiscoverSongAdapter";
-
-    private final LayoutInflater inflater;
     private final Context context;
-    private final MainActivity activity;
-    private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
+    private final ClickCallback click;
 
     private List<Media> podcastEpisodes;
 
-    public PodcastEpisodeAdapter(MainActivity activity, Context context) {
-        this.activity = activity;
+    public PodcastEpisodeAdapter(Context context, ClickCallback click) {
         this.context = context;
-        this.inflater = LayoutInflater.from(context);
-        this.podcastEpisodes = new ArrayList<>();
+        this.click = click;
+        this.podcastEpisodes = Collections.emptyList();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_home_podcast_episode, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_home_podcast_episode, parent, false);
         return new ViewHolder(view);
     }
 
@@ -79,11 +70,7 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
         notifyDataSetChanged();
     }
 
-    public void setMediaBrowserListenableFuture(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture) {
-        this.mediaBrowserListenableFuture = mediaBrowserListenableFuture;
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textTitle;
         TextView textSubtitle;
         TextView textReleaseAndDuration;
@@ -103,21 +90,25 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
             playButton = itemView.findViewById(R.id.podcast_play_button);
             moreButton = itemView.findViewById(R.id.podcast_more_button);
 
-            playButton.setOnClickListener(this);
+            itemView.setOnClickListener(v -> onClick());
 
-            moreButton.setOnClickListener(this::openMore);
+            moreButton.setOnLongClickListener(v -> openMore());
         }
 
-        @Override
-        public void onClick(View view) {
-            MediaManager.startQueue(mediaBrowserListenableFuture, context, podcastEpisodes.get(getBindingAdapterPosition()));
-            activity.setBottomSheetInPeek(true);
-        }
-
-        private void openMore(View view) {
+        public void onClick() {
             Bundle bundle = new Bundle();
             bundle.putParcelable("podcast_object", podcastEpisodes.get(getBindingAdapterPosition()));
-            Navigation.findNavController(view).navigate(R.id.podcastBottomSheetDialog, bundle);
+
+            click.onPodcastClick(bundle);
+        }
+
+        private boolean openMore() {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("podcast_object", podcastEpisodes.get(getBindingAdapterPosition()));
+
+            click.onPodcastLongClick(bundle);
+
+            return false;
         }
     }
 }

@@ -1,12 +1,10 @@
 package com.cappielloantonio.play.ui.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +14,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.MediaMetadata;
 import androidx.media3.common.Player;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.databinding.InnerFragmentPlayerCoverBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Media;
-import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.dialog.PlaylistChooserDialog;
@@ -38,9 +34,8 @@ import com.google.common.util.concurrent.MoreExecutors;
 
 import java.util.List;
 
+@UnstableApi
 public class PlayerCoverFragment extends Fragment {
-    private static final String TAG = "PlayerCoverFragment";
-
     private PlayerBottomSheetViewModel playerBottomSheetViewModel;
     private InnerFragmentPlayerCoverBinding bind;
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
@@ -113,17 +108,8 @@ public class PlayerCoverFragment extends Fragment {
                 );
 
                 bind.innerButtonBottomLeft.setOnClickListener(view -> {
-                    SongRepository songRepository = new SongRepository(App.getInstance());
-                    songRepository.getInstantMix(song, 20, new MediaCallback() {
-                        @Override
-                        public void onError(Exception exception) {
-                            Log.e(TAG, "onError() " + exception.getMessage());
-                        }
-
-                        @Override
-                        public void onLoadMedia(List<?> media) {
-                            MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), (List<Media>) media, true);
-                        }
+                    playerBottomSheetViewModel.getMediaInstantMix(getViewLifecycleOwner(), song).observe(getViewLifecycleOwner(), media -> {
+                        MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), (List<Media>) media, true);
                     });
                 });
 
@@ -151,10 +137,9 @@ public class PlayerCoverFragment extends Fragment {
         mediaBrowserListenableFuture.addListener(() -> {
             try {
                 MediaBrowser mediaBrowseri = mediaBrowserListenableFuture.get();
-
                 setMediaBrowserListener(mediaBrowseri);
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
         }, MoreExecutors.directExecutor());
     }

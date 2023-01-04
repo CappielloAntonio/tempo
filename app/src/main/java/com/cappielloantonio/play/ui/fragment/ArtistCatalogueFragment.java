@@ -19,6 +19,8 @@ import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.util.UnstableApi;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,11 +28,13 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.ArtistCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistCatalogueBinding;
 import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.ArtistCatalogueViewModel;
 
-public class ArtistCatalogueFragment extends Fragment {
+@UnstableApi
+public class ArtistCatalogueFragment extends Fragment implements ClickCallback {
     private static final String TAG = "ArtistCatalogueFragment";
 
     private FragmentArtistCatalogueBinding bind;
@@ -100,7 +104,7 @@ public class ArtistCatalogueFragment extends Fragment {
         bind.artistCatalogueRecyclerView.addItemDecoration(new GridItemDecoration(2, 20, false));
         bind.artistCatalogueRecyclerView.setHasFixedSize(true);
 
-        artistAdapter = new ArtistCatalogueAdapter(activity, requireContext());
+        artistAdapter = new ArtistCatalogueAdapter(requireContext(), this);
         artistAdapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
         bind.artistCatalogueRecyclerView.setAdapter(artistAdapter);
         artistCatalogueViewModel.getArtistList().observe(getViewLifecycleOwner(), artistList -> artistAdapter.setItems(artistList));
@@ -160,5 +164,16 @@ public class ArtistCatalogueFragment extends Fragment {
         });
 
         popup.show();
+    }
+
+    @Override
+    public void onArtistClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.artistPageFragment, bundle);
+        hideKeyboard(requireView());
+    }
+
+    @Override
+    public void onArtistLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.artistBottomSheetDialog, bundle);
     }
 }

@@ -9,37 +9,35 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.util.MusicUtil;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumArtistPageOrSimilarAdapter.ViewHolder> {
-    private static final String TAG = "AlbumArtistPageAdapter";
-
-    private final LayoutInflater inflater;
     private final Context context;
+    private final ClickCallback click;
 
     private List<Album> albums;
 
-    public AlbumArtistPageOrSimilarAdapter(Context context) {
+    public AlbumArtistPageOrSimilarAdapter(Context context, ClickCallback click) {
         this.context = context;
-        this.inflater = LayoutInflater.from(context);
-        this.albums = new ArrayList<>();
+        this.click = click;
+        this.albums = Collections.emptyList();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_library_artist_page_or_similar_album, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_library_artist_page_or_similar_album, parent, false);
         return new ViewHolder(view);
     }
 
@@ -71,7 +69,7 @@ public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumA
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textAlbumName;
         TextView textArtistName;
         ImageView cover;
@@ -83,27 +81,28 @@ public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumA
             textArtistName = itemView.findViewById(R.id.artist_name_label);
             cover = itemView.findViewById(R.id.artist_page_album_cover_image_view);
 
-            itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
-
             textAlbumName.setSelected(true);
             textArtistName.setSelected(true);
+
+            itemView.setOnClickListener(v -> onClick());
+            itemView.setOnLongClickListener(v -> onLongClick());
         }
 
-        @Override
-        public void onClick(View view) {
+        private void onClick() {
             Bundle bundle = new Bundle();
             bundle.putParcelable("album_object", albums.get(getBindingAdapterPosition()));
             bundle.putBoolean("is_offline", false);
-            Navigation.findNavController(view).navigate(R.id.albumPageFragment, bundle);
+
+            click.onAlbumClick(bundle);
         }
 
-        @Override
-        public boolean onLongClick(View view) {
+        private boolean onLongClick() {
             Bundle bundle = new Bundle();
             bundle.putParcelable("album_object", albums.get(getBindingAdapterPosition()));
-            Navigation.findNavController(view).navigate(R.id.albumBottomSheetDialog, bundle);
-            return true;
+
+            click.onAlbumLongClick(bundle);
+
+            return false;
         }
     }
 }

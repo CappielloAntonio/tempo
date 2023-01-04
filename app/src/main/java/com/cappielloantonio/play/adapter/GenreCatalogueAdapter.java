@@ -1,10 +1,10 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -13,8 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.model.Artist;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Genre;
+import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 
@@ -24,10 +25,9 @@ import java.util.Comparator;
 import java.util.List;
 
 public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAdapter.ViewHolder> implements Filterable {
-    private static final String TAG = "GenreCatalogueAdapter";
+    private final Context context;
+    private final ClickCallback click;
 
-    private final LayoutInflater mInflater;
-    private final MainActivity activity;
     private final Filter filtering = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -61,18 +61,17 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
 
     private List<Genre> genres;
     private List<Genre> genresFull;
-    private ItemClickListener itemClickListener;
 
-    public GenreCatalogueAdapter(MainActivity activity, Context context) {
-        this.activity = activity;
-        this.mInflater = LayoutInflater.from(context);
-        this.genres = new ArrayList<>();
+    public GenreCatalogueAdapter(Context context, ClickCallback click) {
+        this.context = context;
+        this.click = click;
+        this.genres = Collections.emptyList();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_library_catalogue_genre, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_library_catalogue_genre, parent, false);
         return new ViewHolder(view);
     }
 
@@ -98,20 +97,12 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
         notifyDataSetChanged();
     }
 
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
-    }
-
     @Override
     public Filter getFilter() {
         return filtering;
     }
 
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textGenre;
 
         ViewHolder(View itemView) {
@@ -119,17 +110,13 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
 
             textGenre = itemView.findViewById(R.id.genre_label);
 
-            itemView.setOnClickListener(this);
-        }
+            itemView.setOnClickListener(v -> {
+                Bundle bundle = new Bundle();
+                bundle.putString(Media.BY_GENRE, Media.BY_GENRE);
+                bundle.putParcelable("genre_object", genres.get(getBindingAdapterPosition()));
 
-        @Override
-        public void onClick(View view) {
-            if (itemClickListener != null) {
-                itemClickListener.onItemClick(view, getBindingAdapterPosition());
-
-                InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            }
+                click.onGenreClick(bundle);
+            });
         }
     }
 

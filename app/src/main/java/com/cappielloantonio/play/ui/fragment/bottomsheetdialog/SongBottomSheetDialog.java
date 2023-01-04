@@ -2,7 +2,6 @@ package com.cappielloantonio.play.ui.fragment.bottomsheetdialog;
 
 import android.content.ComponentName;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +19,9 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.model.Media;
-import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
@@ -116,16 +112,14 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
             MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), song);
             ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
 
-            SongRepository songRepository = new SongRepository(App.getInstance());
-            songRepository.getInstantMix(song, 20, new MediaCallback() {
-                @Override
-                public void onError(Exception exception) {
-                    Log.e(TAG, "onError() " + exception.getMessage());
+            songBottomSheetViewModel.getInstantMix(getViewLifecycleOwner(), song).observe(getViewLifecycleOwner(), songs -> {
+                if (songs == null) {
+                    dismissBottomSheet();
+                    return;
                 }
 
-                @Override
-                public void onLoadMedia(List<?> media) {
-                    MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), (List<Media>) media, true);
+                if (songs.size() > 0) {
+                    MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), (List<Media>) songs, true);
                     dismissBottomSheet();
                 }
             });

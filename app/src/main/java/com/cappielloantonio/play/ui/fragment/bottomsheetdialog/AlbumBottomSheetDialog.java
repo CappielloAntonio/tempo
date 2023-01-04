@@ -1,9 +1,7 @@
 package com.cappielloantonio.play.ui.fragment.bottomsheetdialog;
 
-import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +13,7 @@ import android.widget.ToggleButton;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.MediaItem;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
 import androidx.navigation.fragment.NavHostFragment;
@@ -43,9 +42,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@UnstableApi
 public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
-    private static final String TAG = "AlbumBottomSheetDialog";
-
     private AlbumBottomSheetViewModel albumBottomSheetViewModel;
     private Album album;
 
@@ -107,8 +105,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
             albumRepository.getInstantMix(album, 20, new MediaCallback() {
                 @Override
                 public void onError(Exception exception) {
-                    Log.e(TAG, "onError() " + exception.getMessage());
-                    dismissBottomSheet();
+                    exception.printStackTrace();
                 }
 
                 @Override
@@ -116,8 +113,6 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
                     if (media.size() > 0) {
                         MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), (ArrayList<Media>) media, 0);
                         ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
-                    } else {
-                        Toast.makeText(requireContext(), getString(R.string.album_error_retrieving_radio), Toast.LENGTH_SHORT).show();
                     }
 
                     dismissBottomSheet();

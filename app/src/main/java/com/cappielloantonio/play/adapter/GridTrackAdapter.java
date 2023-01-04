@@ -1,50 +1,42 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.media3.session.MediaBrowser;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Chronology;
-import com.cappielloantonio.play.model.Media;
-import com.cappielloantonio.play.service.MediaManager;
-import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.util.MappingUtil;
-import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GridTrackAdapter extends RecyclerView.Adapter<GridTrackAdapter.ViewHolder> {
-    private static final String TAG = "SimilarTrackAdapter";
-
-    private final MainActivity activity;
     private final Context context;
-    private final LayoutInflater mInflater;
+    private final ClickCallback click;
 
-    private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
     private List<Chronology> items;
 
-    public GridTrackAdapter(MainActivity activity, Context context) {
-        this.activity = activity;
+    public GridTrackAdapter(Context context, ClickCallback click) {
         this.context = context;
-        this.mInflater = LayoutInflater.from(context);
-        this.items = new ArrayList<>();
+        this.click = click;
+        this.items = Collections.emptyList();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_home_grid_track, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_home_grid_track, parent, false);
         return new ViewHolder(view);
     }
 
@@ -73,11 +65,7 @@ public class GridTrackAdapter extends RecyclerView.Adapter<GridTrackAdapter.View
         notifyDataSetChanged();
     }
 
-    public void setMediaBrowserListenableFuture(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture) {
-        this.mediaBrowserListenableFuture = mediaBrowserListenableFuture;
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView cover;
 
         ViewHolder(View itemView) {
@@ -85,14 +73,16 @@ public class GridTrackAdapter extends RecyclerView.Adapter<GridTrackAdapter.View
 
             cover = itemView.findViewById(R.id.track_cover_image_view);
 
-            itemView.setOnClickListener(this);
+            itemView.setOnClickListener(v -> onClick());
         }
 
-        @Override
-        public void onClick(View view) {
-            List<Media> media = MappingUtil.mapChronology(items);
-            MediaManager.startQueue(mediaBrowserListenableFuture, context, media, getBindingAdapterPosition());
-            activity.setBottomSheetInPeek(true);
+        public void onClick() {
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("songs_object", new ArrayList<>(items));
+            bundle.putBoolean("is_chronology", true);
+            bundle.putInt("position", getBindingAdapterPosition());
+
+            click.onMediaClick(bundle);
         }
     }
 }

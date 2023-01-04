@@ -52,6 +52,8 @@ public class HomeViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Media>> newestPodcastEpisodes = new MutableLiveData<>(null);
 
     private final MutableLiveData<List<Chronology>> thisGridTopSong = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Media>> mediaInstantMix = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Media>> artistInstantMix = new MutableLiveData<>(null);
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
@@ -192,6 +194,22 @@ public class HomeViewModel extends AndroidViewModel {
         }
 
         return newestPodcastEpisodes;
+    }
+
+    public LiveData<List<Media>> getMediaInstantMix(LifecycleOwner owner, Media media) {
+        mediaInstantMix.setValue(Collections.emptyList());
+
+        songRepository.getInstantMix(media, 20).observe(owner, mediaInstantMix::postValue);
+
+        return mediaInstantMix;
+    }
+
+    public LiveData<List<Media>> getArtistInstantMix(LifecycleOwner owner, Artist artist) {
+        artistInstantMix.setValue(Collections.emptyList());
+
+        artistRepository.getInstantMix(artist, 20).observe(owner, artistInstantMix::postValue);
+
+        return artistInstantMix;
     }
 
     public void refreshDiscoverySongSample(LifecycleOwner owner) {

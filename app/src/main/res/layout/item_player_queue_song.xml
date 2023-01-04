@@ -5,10 +5,21 @@
     android:clipChildren="false"
     android:foreground="?attr/selectableItemBackground"
     android:orientation="horizontal"
-    android:paddingStart="24dp"
     android:paddingTop="3dp"
     android:paddingEnd="24dp"
     android:paddingBottom="3dp">
+
+    <ImageView
+        android:id="@+id/queue_song_play_image_view"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_gravity="center"
+        android:layout_margin="4dp"
+        android:src="@drawable/ic_play"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/queue_song_cover_image_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/queue_song_cover_image_view" />
 
     <ImageView
         android:id="@+id/queue_song_cover_image_view"
@@ -17,7 +28,7 @@
         android:layout_gravity="center"
         android:layout_margin="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/queue_song_play_image_view"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

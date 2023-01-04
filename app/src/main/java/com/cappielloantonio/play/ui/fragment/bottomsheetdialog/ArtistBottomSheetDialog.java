@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.ui.fragment.bottomsheetdialog;
 
-import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +13,7 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
 
@@ -37,6 +37,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import java.util.ArrayList;
 import java.util.List;
 
+@UnstableApi
 public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
     private static final String TAG = "AlbumBottomSheetDialog";
 
@@ -73,6 +74,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
         super.onStop();
     }
 
+    // TODO Utilizzare il viewmodel come tramite ed evitare le chiamate dirette
     private void init(View view) {
         ImageView coverArtist = view.findViewById(R.id.artist_cover_image_view);
         CustomGlideRequest.Builder
@@ -95,24 +97,14 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
         TextView playRadio = view.findViewById(R.id.play_radio_text_view);
         playRadio.setOnClickListener(v -> {
             ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
-            artistRepository.getInstantMix(artist, 20, new MediaCallback() {
-                @Override
-                public void onError(Exception exception) {
-                    Log.e(TAG, "onError() " + exception.getMessage());
-                    dismissBottomSheet();
+
+            artistRepository.getInstantMix(artist, 20).observe(getViewLifecycleOwner(), songs -> {
+                if (songs.size() > 0) {
+                    MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
+                    ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
                 }
 
-                @Override
-                public void onLoadMedia(List<?> media) {
-                    if (media.size() > 0) {
-                        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), (ArrayList<Media>) media, 0);
-                        ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
-                    } else {
-                        Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_radio), Toast.LENGTH_SHORT).show();
-                    }
-
-                    dismissBottomSheet();
-                }
+                dismissBottomSheet();
             });
         });
 

@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.ui.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,8 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
@@ -22,19 +23,19 @@ import com.cappielloantonio.play.adapter.ArtistAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentSearchBinding;
 import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
+import com.cappielloantonio.play.interfaces.ClickCallback;
+import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.SearchViewModel;
-import com.google.android.material.elevation.SurfaceColors;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.paulrybitskyi.persistentsearchview.adapters.model.SuggestionItem;
 import com.paulrybitskyi.persistentsearchview.listeners.OnSuggestionChangeListener;
 import com.paulrybitskyi.persistentsearchview.utils.SuggestionCreationUtil;
 
-public class SearchFragment extends Fragment {
-    private static final String TAG = "SearchFragment";
-
+@UnstableApi
+public class SearchFragment extends Fragment implements ClickCallback {
     private FragmentSearchBinding bind;
     private MainActivity activity;
     private SearchViewModel searchViewModel;
@@ -69,7 +70,6 @@ public class SearchFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setMediaBrowserListenableFuture();
         inputFocus();
     }
 
@@ -90,7 +90,7 @@ public class SearchFragment extends Fragment {
         bind.searchResultArtistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.searchResultArtistRecyclerView.setHasFixedSize(true);
 
-        artistAdapter = new ArtistAdapter((MainActivity) requireActivity(), requireContext());
+        artistAdapter = new ArtistAdapter(requireContext(), this, false);
         bind.searchResultArtistRecyclerView.setAdapter(artistAdapter);
 
         CustomLinearSnapHelper artistSnapHelper = new CustomLinearSnapHelper();
@@ -100,7 +100,7 @@ public class SearchFragment extends Fragment {
         bind.searchResultAlbumRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.searchResultAlbumRecyclerView.setHasFixedSize(true);
 
-        albumAdapter = new AlbumAdapter(requireContext());
+        albumAdapter = new AlbumAdapter(requireContext(), this);
         bind.searchResultAlbumRecyclerView.setAdapter(albumAdapter);
 
         CustomLinearSnapHelper albumSnapHelper = new CustomLinearSnapHelper();
@@ -110,7 +110,7 @@ public class SearchFragment extends Fragment {
         bind.searchResultTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.searchResultTracksRecyclerView.setHasFixedSize(true);
 
-        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
+        songHorizontalAdapter = new SongHorizontalAdapter(requireContext(), this, true);
         bind.searchResultTracksRecyclerView.setAdapter(songHorizontalAdapter);
     }
 
@@ -214,7 +214,34 @@ public class SearchFragment extends Fragment {
         MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
     }
 
-    private void setMediaBrowserListenableFuture() {
-        songHorizontalAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
+    @Override
+    public void onMediaClick(Bundle bundle) {
+        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList("songs_object"), bundle.getInt("position"));
+        activity.setBottomSheetInPeek(true);
+    }
+
+    @Override
+    public void onMediaLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.songBottomSheetDialog, bundle);
+    }
+
+    @Override
+    public void onAlbumClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.albumPageFragment, bundle);
+    }
+
+    @Override
+    public void onAlbumLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.albumBottomSheetDialog, bundle);
+    }
+
+    @Override
+    public void onArtistClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.artistPageFragment, bundle);
+    }
+
+    @Override
+    public void onArtistLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.artistBottomSheetDialog, bundle);
     }
 }

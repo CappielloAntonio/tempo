@@ -6,43 +6,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.interfaces.SystemCallback;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Server;
-import com.cappielloantonio.play.repository.SystemRepository;
-import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.ui.dialog.ServerSignupDialog;
-import com.cappielloantonio.play.util.PreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder> {
-    private static final String TAG = "ServerAdapter";
-
-    private final LayoutInflater mInflater;
-    private final MainActivity mainActivity;
     private final Context context;
+    private final ClickCallback click;
 
     private List<Server> servers;
 
-    public ServerAdapter(MainActivity mainActivity, Context context) {
-        this.mInflater = LayoutInflater.from(context);
-        this.servers = new ArrayList<>();
-        this.mainActivity = mainActivity;
+    public ServerAdapter(Context context, ClickCallback click) {
         this.context = context;
+        this.click = click;
+        this.servers = new ArrayList<>();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_login_server, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_login_server, parent, false);
         return new ViewHolder(view);
     }
 
@@ -68,7 +58,7 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
         return servers.get(id);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView serverName;
         TextView serverAddress;
 
@@ -78,68 +68,26 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
             serverName = itemView.findViewById(R.id.server_name_text_view);
             serverAddress = itemView.findViewById(R.id.server_address_text_view);
 
-            itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
-
             serverName.setSelected(true);
+
+            itemView.setOnClickListener(v -> onClick());
+            itemView.setOnLongClickListener(v -> onLongClick());
         }
 
-        @Override
-        public void onClick(View view) {
-            Server server = servers.get(getBindingAdapterPosition());
-            saveServerPreference(server.getServerId(), server.getAddress(), server.getUsername(), server.getPassword(), server.isLowSecurity());
-
-            SystemRepository systemRepository = new SystemRepository(App.getInstance());
-            systemRepository.checkUserCredential(new SystemCallback() {
-                @Override
-                public void onError(Exception exception) {
-                    resetServerPreference();
-                    Toast.makeText(context, exception.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onSuccess(String password, String token, String salt) {
-                    enter();
-                }
-            });
-        }
-
-        @Override
-        public boolean onLongClick(View v) {
+        public void onClick() {
             Bundle bundle = new Bundle();
             bundle.putParcelable("server_object", servers.get(getBindingAdapterPosition()));
 
-            ServerSignupDialog dialog = new ServerSignupDialog();
-            dialog.setArguments(bundle);
-            dialog.show(mainActivity.getSupportFragmentManager(), null);
-
-            return true;
+            click.onServerClick(bundle);
         }
 
-        private void enter() {
-            mainActivity.goFromLogin();
-        }
+        public boolean onLongClick() {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("server_object", servers.get(getBindingAdapterPosition()));
 
-        private void saveServerPreference(String serverId, String server, String user, String password, boolean isLowSecurity) {
-            PreferenceUtil.getInstance(context).setServerId(serverId);
-            PreferenceUtil.getInstance(context).setServer(server);
-            PreferenceUtil.getInstance(context).setUser(user);
-            PreferenceUtil.getInstance(context).setPassword(password);
-            PreferenceUtil.getInstance(context).setLowSecurity(isLowSecurity);
+            click.onServerLongClick(bundle);
 
-            App.getSubsonicClientInstance(context, true);
-        }
-
-        private void resetServerPreference() {
-            PreferenceUtil.getInstance(context).setServerId(null);
-            PreferenceUtil.getInstance(context).setServer(null);
-            PreferenceUtil.getInstance(context).setUser(null);
-            PreferenceUtil.getInstance(context).setPassword(null);
-            PreferenceUtil.getInstance(context).setToken(null);
-            PreferenceUtil.getInstance(context).setSalt(null);
-            PreferenceUtil.getInstance(context).setLowSecurity(false);
-
-            App.getSubsonicClientInstance(context, true);
+            return false;
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.ui.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,13 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentSongListPageBinding;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
@@ -28,8 +30,8 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.Collections;
 
-public class SongListPageFragment extends Fragment {
-
+@UnstableApi
+public class SongListPageFragment extends Fragment implements ClickCallback {
     private FragmentSongListPageBinding bind;
     private MainActivity activity;
     private SongListPageViewModel songListPageViewModel;
@@ -58,12 +60,6 @@ public class SongListPageFragment extends Fragment {
     public void onStart() {
         super.onStart();
         initializeMediaBrowser();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        setMediaBrowserListenableFuture();
     }
 
     @Override
@@ -136,15 +132,17 @@ public class SongListPageFragment extends Fragment {
             activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        if (bind != null) bind.toolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
+        if (bind != null)
+            bind.toolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
 
-        if (bind != null) bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
-            if ((bind.albumInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.toolbar))) {
-                bind.toolbar.setTitle(songListPageViewModel.toolbarTitle);
-            } else {
-                bind.toolbar.setTitle(R.string.empty_string);
-            }
-        });
+        if (bind != null)
+            bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+                if ((bind.albumInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.toolbar))) {
+                    bind.toolbar.setTitle(songListPageViewModel.toolbarTitle);
+                } else {
+                    bind.toolbar.setTitle(R.string.empty_string);
+                }
+            });
     }
 
     private void initButtons() {
@@ -163,7 +161,7 @@ public class SongListPageFragment extends Fragment {
         bind.songListRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.songListRecyclerView.setHasFixedSize(true);
 
-        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
+        songHorizontalAdapter = new SongHorizontalAdapter(requireContext(), this, true);
         bind.songListRecyclerView.setAdapter(songHorizontalAdapter);
         songListPageViewModel.getSongList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> songHorizontalAdapter.setItems(songs));
     }
@@ -176,7 +174,14 @@ public class SongListPageFragment extends Fragment {
         MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
     }
 
-    private void setMediaBrowserListenableFuture() {
-        songHorizontalAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
+    @Override
+    public void onMediaClick(Bundle bundle) {
+        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList("songs_object"), bundle.getInt("position"));
+        activity.setBottomSheetInPeek(true);
+    }
+
+    @Override
+    public void onMediaLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.songBottomSheetDialog, bundle);
     }
 }

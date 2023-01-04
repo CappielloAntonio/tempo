@@ -9,39 +9,37 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.util.MusicUtil;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public class AlbumHorizontalAdapter extends RecyclerView.Adapter<AlbumHorizontalAdapter.ViewHolder> {
-    private static final String TAG = "AlbumHorizontalAdapter";
-
-    private List<Album> albums;
-    private final LayoutInflater mInflater;
     private final Context context;
+    private final ClickCallback click;
     private final boolean isOffline;
 
-    public AlbumHorizontalAdapter(Context context, boolean isOffline) {
+    private List<Album> albums;
+
+    public AlbumHorizontalAdapter(Context context, ClickCallback click, boolean isOffline) {
         this.context = context;
-        this.mInflater = LayoutInflater.from(context);
-        this.albums = new ArrayList<>();
+        this.click = click;
         this.isOffline = isOffline;
+        this.albums = Collections.emptyList();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_horizontal_album, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_horizontal_album, parent, false);
         return new ViewHolder(view);
     }
 
@@ -73,7 +71,7 @@ public class AlbumHorizontalAdapter extends RecyclerView.Adapter<AlbumHorizontal
         return albums.get(id);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView albumTitle;
         TextView albumArtist;
         ImageView more;
@@ -87,41 +85,29 @@ public class AlbumHorizontalAdapter extends RecyclerView.Adapter<AlbumHorizontal
             more = itemView.findViewById(R.id.album_more_button);
             cover = itemView.findViewById(R.id.album_cover_image_view);
 
-            itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
-
-            more.setOnClickListener(this::openMore);
-
             albumTitle.setSelected(true);
+
+            itemView.setOnClickListener(v -> onClick());
+            itemView.setOnLongClickListener(v -> onLongClick());
+
+            more.setOnClickListener(v -> onLongClick());
         }
 
-        @Override
-        public void onClick(View view) {
+        private void onClick() {
             Bundle bundle = new Bundle();
             bundle.putParcelable("album_object", albums.get(getBindingAdapterPosition()));
-            bundle.putBoolean("is_offline", isOffline);
+            bundle.putBoolean("is_offline", false);
 
-            if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.homeFragment) {
-                Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_albumPageFragment, bundle);
-            } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.albumListPageFragment) {
-                Navigation.findNavController(view).navigate(R.id.action_albumListPageFragment_to_albumPageFragment, bundle);
-            } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.downloadFragment) {
-                Navigation.findNavController(view).navigate(R.id.action_downloadFragment_to_albumPageFragment, bundle);
-            } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.libraryFragment) {
-                Navigation.findNavController(view).navigate(R.id.action_libraryFragment_to_albumPageFragment, bundle);
-            }
+            click.onAlbumClick(bundle);
         }
 
-        @Override
-        public boolean onLongClick(View v) {
-            openMore(v);
-            return true;
-        }
-
-        private void openMore(View view) {
+        private boolean onLongClick() {
             Bundle bundle = new Bundle();
             bundle.putParcelable("album_object", albums.get(getBindingAdapterPosition()));
-            Navigation.findNavController(view).navigate(R.id.albumBottomSheetDialog, bundle);
+
+            click.onAlbumLongClick(bundle);
+
+            return false;
         }
     }
 }

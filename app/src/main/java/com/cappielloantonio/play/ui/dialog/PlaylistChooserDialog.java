@@ -14,13 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.PlaylistDialogHorizontalAdapter;
 import com.cappielloantonio.play.databinding.DialogPlaylistChooserBinding;
+import com.cappielloantonio.play.interfaces.ClickCallback;
+import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.viewmodel.PlaylistChooserViewModel;
 
 import java.util.Objects;
 
-public class PlaylistChooserDialog extends DialogFragment {
-    private static final String TAG = "ServerSignupDialog";
-
+public class PlaylistChooserDialog extends DialogFragment implements ClickCallback {
     private DialogPlaylistChooserBinding bind;
     private PlaylistChooserViewModel playlistChooserViewModel;
 
@@ -79,7 +79,7 @@ public class PlaylistChooserDialog extends DialogFragment {
         bind.playlistDialogRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.playlistDialogRecyclerView.setHasFixedSize(true);
 
-        playlistDialogHorizontalAdapter = new PlaylistDialogHorizontalAdapter(requireContext(), playlistChooserViewModel, this);
+        playlistDialogHorizontalAdapter = new PlaylistDialogHorizontalAdapter(requireContext(), this);
         bind.playlistDialogRecyclerView.setAdapter(playlistDialogHorizontalAdapter);
 
         playlistChooserViewModel.getPlaylistList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), playlists -> {
@@ -94,5 +94,12 @@ public class PlaylistChooserDialog extends DialogFragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onPlaylistClick(Bundle bundle) {
+        Playlist playlist = requireArguments().getParcelable("playlist_object");
+        playlistChooserViewModel.addSongToPlaylist(playlist.getId());
+        dismiss();
     }
 }

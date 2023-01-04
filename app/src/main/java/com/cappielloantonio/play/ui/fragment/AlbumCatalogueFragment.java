@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,11 +27,12 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumCatalogueBinding;
 import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.viewmodel.AlbumCatalogueViewModel;
 
-public class AlbumCatalogueFragment extends Fragment {
+public class AlbumCatalogueFragment extends Fragment implements ClickCallback {
     private static final String TAG = "ArtistCatalogueFragment";
 
     private FragmentAlbumCatalogueBinding bind;
@@ -100,7 +102,7 @@ public class AlbumCatalogueFragment extends Fragment {
         bind.albumCatalogueRecyclerView.addItemDecoration(new GridItemDecoration(2, 20, false));
         bind.albumCatalogueRecyclerView.setHasFixedSize(true);
 
-        albumAdapter = new AlbumCatalogueAdapter(activity, requireContext());
+        albumAdapter = new AlbumCatalogueAdapter(requireContext(), this);
         albumAdapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
         bind.albumCatalogueRecyclerView.setAdapter(albumAdapter);
         albumCatalogueViewModel.getAlbumList().observe(getViewLifecycleOwner(), albums -> albumAdapter.setItems(albums));
@@ -139,7 +141,7 @@ public class AlbumCatalogueFragment extends Fragment {
     }
 
     private void hideKeyboard(View view) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
@@ -166,5 +168,16 @@ public class AlbumCatalogueFragment extends Fragment {
         });
 
         popup.show();
+    }
+
+    @Override
+    public void onAlbumClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.albumPageFragment, bundle);
+        hideKeyboard(requireView());
+    }
+
+    @Override
+    public void onAlbumLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.albumBottomSheetDialog, bundle);
     }
 }

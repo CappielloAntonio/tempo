@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,27 +11,28 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.interfaces.ClickCallback;
+import com.cappielloantonio.play.model.Media;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {
-    private static final String TAG = "YearAdapter";
-
-    private final LayoutInflater mInflater;
+    private final Context context;
+    private final ClickCallback click;
 
     private List<Integer> years;
-    private ItemClickListener itemClickListener;
 
-    public YearAdapter(Context context) {
-        this.mInflater = LayoutInflater.from(context);
-        this.years = new ArrayList<>();
+    public YearAdapter(Context context, ClickCallback click) {
+        this.context = context;
+        this.click = click;
+        this.years = Collections.emptyList();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_home_year, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_home_year, parent, false);
         return new ViewHolder(view);
     }
 
@@ -55,15 +57,7 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
-    }
-
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textYear;
 
         ViewHolder(View itemView) {
@@ -71,13 +65,15 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {
 
             textYear = itemView.findViewById(R.id.year_label);
 
-            itemView.setOnClickListener(this);
+            itemView.setOnClickListener(v -> onClick());
         }
 
-        @Override
-        public void onClick(View view) {
-            if (itemClickListener != null)
-                itemClickListener.onItemClick(view, getBindingAdapterPosition());
+        public void onClick() {
+            Bundle bundle = new Bundle();
+            bundle.putString(Media.BY_YEAR, Media.BY_YEAR);
+            bundle.putInt("year_object", years.get(getBindingAdapterPosition()));
+
+            click.onYearClick(bundle);
         }
     }
 }

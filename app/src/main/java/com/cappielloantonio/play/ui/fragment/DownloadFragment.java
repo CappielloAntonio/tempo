@@ -13,8 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -27,10 +29,12 @@ import com.cappielloantonio.play.adapter.PlaylistHorizontalAdapter;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentDownloadBinding;
 import com.cappielloantonio.play.helper.recyclerview.DotsIndicatorDecoration;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.UIUtil;
@@ -40,9 +44,8 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.Objects;
 
-public class DownloadFragment extends Fragment {
-    private static final String TAG = "CategoriesFragment";
-
+@UnstableApi
+public class DownloadFragment extends Fragment implements ClickCallback {
     private FragmentDownloadBinding bind;
     private MainActivity activity;
     private DownloadViewModel downloadViewModel;
@@ -100,13 +103,6 @@ public class DownloadFragment extends Fragment {
         initializeMediaBrowser();
         activity.setBottomNavigationBarVisibility(true);
         activity.setBottomSheetVisibility(true);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        setMediaBrowserListenableFuture();
     }
 
     @Override
@@ -168,7 +164,7 @@ public class DownloadFragment extends Fragment {
     private void initDownloadedArtistView() {
         bind.downloadedArtistRecyclerView.setHasFixedSize(true);
 
-        downloadedArtistAdapter = new ArtistHorizontalAdapter(requireContext(), false);
+        downloadedArtistAdapter = new ArtistHorizontalAdapter(requireContext(), this);
         bind.downloadedArtistRecyclerView.setAdapter(downloadedArtistAdapter);
         downloadViewModel.getDownloadedArtists(getViewLifecycleOwner(), 20).observe(getViewLifecycleOwner(), artists -> {
             if (artists == null) {
@@ -203,7 +199,7 @@ public class DownloadFragment extends Fragment {
     private void initDownloadedAlbumView() {
         bind.downloadedAlbumRecyclerView.setHasFixedSize(true);
 
-        downloadedAlbumAdapter = new AlbumHorizontalAdapter(requireContext(), true);
+        downloadedAlbumAdapter = new AlbumHorizontalAdapter(requireContext(), this, true);
         bind.downloadedAlbumRecyclerView.setAdapter(downloadedAlbumAdapter);
         downloadViewModel.getDownloadedAlbums(getViewLifecycleOwner(), 20).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
@@ -238,7 +234,7 @@ public class DownloadFragment extends Fragment {
     private void initDownloadedSongView() {
         bind.downloadedTracksRecyclerView.setHasFixedSize(true);
 
-        downloadedTrackAdapter = new SongHorizontalAdapter(activity, requireContext(), true);
+        downloadedTrackAdapter = new SongHorizontalAdapter(requireContext(), this, true);
         bind.downloadedTracksRecyclerView.setAdapter(downloadedTrackAdapter);
         downloadViewModel.getDownloadedTracks(getViewLifecycleOwner(), 20).observe(getViewLifecycleOwner(), songs -> {
             if (songs == null) {
@@ -274,7 +270,7 @@ public class DownloadFragment extends Fragment {
         bind.downloadedPlaylistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.downloadedPlaylistRecyclerView.setHasFixedSize(true);
 
-        playlistHorizontalAdapter = new PlaylistHorizontalAdapter(activity, requireContext());
+        playlistHorizontalAdapter = new PlaylistHorizontalAdapter(requireContext(), this);
         bind.downloadedPlaylistRecyclerView.setAdapter(playlistHorizontalAdapter);
         downloadViewModel.getDownloadedPlaylists(getViewLifecycleOwner(), 5).observe(getViewLifecycleOwner(), playlists -> {
             if (playlists == null) {
@@ -312,7 +308,40 @@ public class DownloadFragment extends Fragment {
         MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
     }
 
-    private void setMediaBrowserListenableFuture() {
-        downloadedTrackAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
+    @Override
+    public void onMediaClick(Bundle bundle) {
+        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList("songs_object"), bundle.getInt("position"));
+        activity.setBottomSheetInPeek(true);
+    }
+
+    @Override
+    public void onMediaLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.songBottomSheetDialog, bundle);
+    }
+
+    @Override
+    public void onAlbumClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.albumPageFragment, bundle);
+    }
+
+    @Override
+    public void onAlbumLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.albumBottomSheetDialog, bundle);
+    }
+
+    @Override
+    public void onArtistClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.albumListPageFragment, bundle);
+    }
+
+    @Override
+    public void onArtistLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.artistBottomSheetDialog, bundle);
+    }
+
+    @Override
+    public void onPlaylistClick(Bundle bundle) {
+        bundle.putBoolean("is_offline", true);
+        Navigation.findNavController(requireView()).navigate(R.id.playlistPageFragment, bundle);
     }
 }

@@ -9,17 +9,19 @@ import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumListPageBinding;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.AlbumListPageViewModel;
 
-public class AlbumListPageFragment extends Fragment {
+public class AlbumListPageFragment extends Fragment implements ClickCallback {
     private FragmentAlbumListPageBinding bind;
 
     private MainActivity activity;
@@ -96,11 +98,23 @@ public class AlbumListPageFragment extends Fragment {
         bind.albumListRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.albumListRecyclerView.setHasFixedSize(true);
 
-        albumHorizontalAdapter = new AlbumHorizontalAdapter(requireContext(),
+        albumHorizontalAdapter = new AlbumHorizontalAdapter(
+                requireContext(),
+                this,
                 (albumListPageViewModel.title.equals(Album.DOWNLOADED) || albumListPageViewModel.title.equals(Album.FROM_ARTIST))
         );
 
         bind.albumListRecyclerView.setAdapter(albumHorizontalAdapter);
         albumListPageViewModel.getAlbumList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> albumHorizontalAdapter.setItems(albums));
+    }
+
+    @Override
+    public void onAlbumClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.albumPageFragment, bundle);
+    }
+
+    @Override
+    public void onAlbumLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.albumBottomSheetDialog, bundle);
     }
 }

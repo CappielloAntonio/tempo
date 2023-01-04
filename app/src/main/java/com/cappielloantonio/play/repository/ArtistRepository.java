@@ -245,27 +245,27 @@ public class ArtistRepository {
         return artist;
     }
 
-    public void getInstantMix(Artist artist, int count, MediaCallback callback) {
+    public MutableLiveData<ArrayList<Media>> getInstantMix(Artist artist, int count) {
+        MutableLiveData<ArrayList<Media>> instantMix = new MutableLiveData<>();
+
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
                 .getSimilarSongs2(artist.getId(), count)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        List<Media> songs = new ArrayList<>();
-
                         if (response.isSuccessful() && response.body() != null && response.body().getSimilarSongs2() != null) {
-                            songs.addAll(MappingUtil.mapSong(response.body().getSimilarSongs2().getSongs()));
+                            instantMix.setValue(MappingUtil.mapSong(response.body().getSimilarSongs2().getSongs()));
                         }
-
-                        callback.onLoadMedia(songs);
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
-                        callback.onLoadMedia(new ArrayList<>());
+
                     }
                 });
+
+        return instantMix;
     }
 
     public MutableLiveData<ArrayList<Media>> getArtistRandomSong(LifecycleOwner owner, Artist artist, int count) {

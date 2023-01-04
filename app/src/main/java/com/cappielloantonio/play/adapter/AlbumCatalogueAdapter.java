@@ -5,36 +5,30 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAdapter.ViewHolder> implements Filterable {
-    private static final String TAG = "AlbumCatalogueAdapter";
-
-    private final LayoutInflater inflater;
-    private final MainActivity activity;
     private final Context context;
+    private final ClickCallback click;
     private final Filter filtering = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -69,17 +63,16 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
     private List<Album> albums;
     private List<Album> albumsFull;
 
-    public AlbumCatalogueAdapter(MainActivity activity, Context context) {
-        this.activity = activity;
+    public AlbumCatalogueAdapter(Context context, ClickCallback click) {
         this.context = context;
-        this.inflater = LayoutInflater.from(context);
-        this.albums = new ArrayList<>();
+        this.click = click;
+        this.albums = Collections.emptyList();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_library_catalogue_album, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_library_catalogue_album, parent, false);
         return new ViewHolder(view);
     }
 
@@ -127,7 +120,7 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
         return filtering;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textAlbumName;
         TextView textArtistName;
         ImageView cover;
@@ -139,37 +132,28 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
             textArtistName = itemView.findViewById(R.id.artist_name_label);
             cover = itemView.findViewById(R.id.album_catalogue_cover_image_view);
 
-            itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
-
             textAlbumName.setSelected(true);
             textArtistName.setSelected(true);
+
+            itemView.setOnClickListener(v -> onClick());
+            itemView.setOnLongClickListener(v -> onLongClick());
         }
 
-        @Override
-        public void onClick(View view) {
+        private void onClick() {
             Bundle bundle = new Bundle();
             bundle.putParcelable("album_object", albums.get(getBindingAdapterPosition()));
             bundle.putBoolean("is_offline", false);
 
-            if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.searchFragment) {
-                Navigation.findNavController(view).navigate(R.id.action_searchFragment_to_albumPageFragment, bundle);
-            } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.libraryFragment) {
-                Navigation.findNavController(view).navigate(R.id.action_libraryFragment_to_albumPageFragment, bundle);
-            } else if (Objects.requireNonNull(Navigation.findNavController(view).getCurrentDestination()).getId() == R.id.albumCatalogueFragment) {
-                Navigation.findNavController(view).navigate(R.id.action_albumCatalogueFragment_to_albumPageFragment, bundle);
-            }
-
-            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            click.onAlbumClick(bundle);
         }
 
-        @Override
-        public boolean onLongClick(View v) {
+        private boolean onLongClick() {
             Bundle bundle = new Bundle();
             bundle.putParcelable("album_object", albums.get(getBindingAdapterPosition()));
-            Navigation.findNavController(v).navigate(R.id.albumBottomSheetDialog, bundle);
-            return true;
+
+            click.onAlbumLongClick(bundle);
+
+            return false;
         }
     }
 

@@ -1,7 +1,7 @@
 package com.cappielloantonio.play.adapter;
 
 import android.content.Context;
-import android.util.Log;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,44 +10,33 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.media3.session.MediaBrowser;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.interfaces.MediaCallback;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Media;
-import com.cappielloantonio.play.repository.SongRepository;
-import com.cappielloantonio.play.service.MediaManager;
-import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
-import com.google.common.util.concurrent.ListenableFuture;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapter.ViewHolder> {
-    private static final String TAG = "DiscoverSongAdapter";
-
-    private final LayoutInflater inflater;
     private final Context context;
-    private final MainActivity activity;
-    private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
+    private final ClickCallback click;
 
     private List<Media> songs;
 
-    public DiscoverSongAdapter(MainActivity activity, Context context) {
-        this.activity = activity;
+    public DiscoverSongAdapter(Context context, ClickCallback click) {
         this.context = context;
-        this.inflater = LayoutInflater.from(context);
-        this.songs = new ArrayList<>();
+        this.click = click;
+        this.songs = Collections.emptyList();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_home_discover_song, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_home_discover_song, parent, false);
         return new ViewHolder(view);
     }
 
@@ -80,11 +69,7 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
         notifyDataSetChanged();
     }
 
-    public void setMediaBrowserListenableFuture(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture) {
-        this.mediaBrowserListenableFuture = mediaBrowserListenableFuture;
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textTitle;
         TextView textAlbum;
         ImageView cover;
@@ -96,26 +81,15 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
             textAlbum = itemView.findViewById(R.id.album_discover_song_label);
             cover = itemView.findViewById(R.id.discover_song_cover_image_view);
 
-            itemView.setOnClickListener(this);
+            itemView.setOnClickListener(v -> onClick());
         }
 
-        @Override
-        public void onClick(View view) {
-            MediaManager.startQueue(mediaBrowserListenableFuture, context, songs.get(getBindingAdapterPosition()));
-            activity.setBottomSheetInPeek(true);
+        public void onClick() {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("song_object", songs.get(getBindingAdapterPosition()));
+            bundle.putBoolean("is_mix", true);
 
-            SongRepository songRepository = new SongRepository(App.getInstance());
-            songRepository.getInstantMix(songs.get(getBindingAdapterPosition()), 20, new MediaCallback() {
-                @Override
-                public void onError(Exception exception) {
-                    Log.e(TAG, "onError() " + exception.getMessage());
-                }
-
-                @Override
-                public void onLoadMedia(List<?> media) {
-                    MediaManager.enqueue(mediaBrowserListenableFuture, context, (List<Media>) media,false);
-                }
-            });
+            click.onMediaClick(bundle);
         }
     }
 

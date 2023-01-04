@@ -5,7 +5,10 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.media3.common.util.UnstableApi;
 
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
@@ -17,12 +20,18 @@ import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
+import java.util.Collections;
+import java.util.List;
+
+@UnstableApi
 public class SongBottomSheetViewModel extends AndroidViewModel {
     private final SongRepository songRepository;
     private final AlbumRepository albumRepository;
     private final ArtistRepository artistRepository;
 
     private Media song;
+
+    private final MutableLiveData<List<Media>> instantMix = new MutableLiveData<>(null);
 
     public SongBottomSheetViewModel(@NonNull Application application) {
         super(application);
@@ -63,5 +72,13 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
 
     public LiveData<Artist> getArtist() {
         return artistRepository.getArtist(song.getArtistId());
+    }
+
+    public LiveData<List<Media>> getInstantMix(LifecycleOwner owner, Media media) {
+        instantMix.setValue(Collections.emptyList());
+
+        songRepository.getInstantMix(media, 20).observe(owner, instantMix::postValue);
+
+        return instantMix;
     }
 }

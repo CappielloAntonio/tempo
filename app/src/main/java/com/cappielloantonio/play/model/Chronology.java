@@ -1,11 +1,15 @@
 package com.cappielloantonio.play.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "chronology")
-public class Chronology {
+public class Chronology implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     private int uuid;
 
@@ -163,4 +167,70 @@ public class Chronology {
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Chronology item = (Chronology) o;
+        return trackId.equals(item.trackId);
+    }
+
+    @Override
+    public int hashCode() {
+        return trackId.hashCode();
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return trackId;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.trackId);
+        dest.writeString(this.title);
+        dest.writeString(this.albumId);
+        dest.writeString(this.albumName);
+        dest.writeString(this.artistId);
+        dest.writeString(this.artistName);
+        dest.writeString(this.coverArtId);
+        dest.writeLong(this.duration);
+        dest.writeString(this.container);
+        dest.writeInt(this.bitrate);
+        dest.writeString(this.extension);
+        dest.writeLong(this.timestamp);
+    }
+
+    protected Chronology(Parcel in) {
+        this.trackId = in.readString();
+        this.title = in.readString();
+        this.albumId = in.readString();
+        this.albumName = in.readString();
+        this.artistId = in.readString();
+        this.artistName = in.readString();
+        this.coverArtId = in.readString();
+        this.duration = in.readLong();
+        this.container = in.readString();
+        this.bitrate = in.readInt();
+        this.extension = in.readString();
+        this.timestamp = in.readLong();
+    }
+
+    public static final Creator<Chronology> CREATOR = new Creator<Chronology>() {
+        public Chronology createFromParcel(Parcel source) {
+            return new Chronology(source);
+        }
+
+        public Chronology[] newArray(int size) {
+            return new Chronology[size];
+        }
+    };
 }

@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.ui.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,8 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -25,6 +26,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
@@ -37,9 +39,8 @@ import com.google.common.util.concurrent.ListenableFuture;
 import java.util.Collections;
 import java.util.Objects;
 
-public class AlbumPageFragment extends Fragment {
-    private static final String TAG = "AlbumPageFragment";
-
+@UnstableApi
+public class AlbumPageFragment extends Fragment implements ClickCallback {
     private FragmentAlbumPageBinding bind;
     private MainActivity activity;
     private AlbumPageViewModel albumPageViewModel;
@@ -83,12 +84,6 @@ public class AlbumPageFragment extends Fragment {
         super.onStart();
 
         initializeMediaBrowser();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        setMediaBrowserListenableFuture();
     }
 
     @Override
@@ -189,7 +184,7 @@ public class AlbumPageFragment extends Fragment {
         bind.songRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.songRecyclerView.setHasFixedSize(true);
 
-        songHorizontalAdapter = new SongHorizontalAdapter(activity, requireContext(), false);
+        songHorizontalAdapter = new SongHorizontalAdapter(requireContext(), this, false);
         bind.songRecyclerView.setAdapter(songHorizontalAdapter);
 
         albumPageViewModel.getAlbumSongLiveList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> songHorizontalAdapter.setItems(songs));
@@ -203,7 +198,14 @@ public class AlbumPageFragment extends Fragment {
         MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
     }
 
-    private void setMediaBrowserListenableFuture() {
-        songHorizontalAdapter.setMediaBrowserListenableFuture(mediaBrowserListenableFuture);
+    @Override
+    public void onMediaClick(Bundle bundle) {
+        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList("songs_object"), bundle.getInt("position"));
+        activity.setBottomSheetInPeek(true);
+    }
+
+    @Override
+    public void onMediaLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.songBottomSheetDialog, bundle);
     }
 }

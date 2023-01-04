@@ -19,6 +19,7 @@ import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
+import java.util.Collections;
 import java.util.List;
 
 public class PlayerBottomSheetViewModel extends AndroidViewModel {
@@ -32,6 +33,8 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
 
     private final MutableLiveData<Media> liveMedia = new MutableLiveData<>(null);
     private final MutableLiveData<Artist> liveArtist = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Media>> instantMix = new MutableLiveData<>(null);
+
 
     public PlayerBottomSheetViewModel(@NonNull Application application) {
         super(application);
@@ -104,5 +107,13 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
                     break;
             }
         }
+    }
+
+    public LiveData<List<Media>> getMediaInstantMix(LifecycleOwner owner, Media media) {
+        instantMix.setValue(Collections.emptyList());
+
+        songRepository.getInstantMix(media, 20).observe(owner, instantMix::postValue);
+
+        return instantMix;
     }
 }

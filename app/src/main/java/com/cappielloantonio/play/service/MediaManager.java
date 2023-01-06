@@ -36,7 +36,7 @@ public class MediaManager {
                         clearDatabase();
                     }
                 } catch (ExecutionException | InterruptedException e) {
-                    Log.e(TAG, e.getMessage());
+                    e.printStackTrace();
                 }
             }, MoreExecutors.directExecutor());
         }
@@ -52,7 +52,7 @@ public class MediaManager {
                         }
                     }
                 } catch (ExecutionException | InterruptedException e) {
-                    Log.e(TAG, e.getMessage());
+                    e.printStackTrace();
                 }
             }, MoreExecutors.directExecutor());
         }
@@ -71,7 +71,7 @@ public class MediaManager {
                         }
                     }
                 } catch (ExecutionException | InterruptedException e) {
-                    Log.e(TAG, e.getMessage());
+                    e.printStackTrace();
                 }
             }, MoreExecutors.directExecutor());
         }
@@ -88,7 +88,7 @@ public class MediaManager {
                         mediaBrowserListenableFuture.get().prepare();
                     }
                 } catch (ExecutionException | InterruptedException e) {
-                    Log.e(TAG, e.getMessage());
+                    e.printStackTrace();
                 }
             }, MoreExecutors.directExecutor());
         }
@@ -102,7 +102,7 @@ public class MediaManager {
                         mediaBrowserListenableFuture.get().prepare();
                     }
                 } catch (ExecutionException | InterruptedException e) {
-                    Log.e(TAG, e.getMessage());
+                    e.printStackTrace();
                 }
             }, MoreExecutors.directExecutor());
         }
@@ -116,7 +116,7 @@ public class MediaManager {
                         mediaBrowserListenableFuture.get().play();
                     }
                 } catch (ExecutionException | InterruptedException e) {
-                    Log.e(TAG, e.getMessage());
+                    e.printStackTrace();
                 }
             }, MoreExecutors.directExecutor());
         }
@@ -130,7 +130,7 @@ public class MediaManager {
                         mediaBrowserListenableFuture.get().pause();
                     }
                 } catch (ExecutionException | InterruptedException e) {
-                    Log.e(TAG, e.getMessage());
+                    e.printStackTrace();
                 }
             }, MoreExecutors.directExecutor());
         }
@@ -144,7 +144,7 @@ public class MediaManager {
                         mediaBrowserListenableFuture.get().stop();
                     }
                 } catch (ExecutionException | InterruptedException e) {
-                    Log.e(TAG, e.getMessage());
+                    e.printStackTrace();
                 }
             }, MoreExecutors.directExecutor());
         }
@@ -158,7 +158,7 @@ public class MediaManager {
                         mediaBrowserListenableFuture.get().clearMediaItems();
                     }
                 } catch (ExecutionException | InterruptedException e) {
-                    Log.e(TAG, e.getMessage());
+                    e.printStackTrace();
                 }
             }, MoreExecutors.directExecutor());
         }
@@ -177,7 +177,7 @@ public class MediaManager {
                         enqueueDatabase(media, true, 0);
                     }
                 } catch (ExecutionException | InterruptedException e) {
-                    Log.e(TAG, e.getMessage());
+                    e.printStackTrace();
                 }
             }, MoreExecutors.directExecutor());
         }
@@ -195,7 +195,7 @@ public class MediaManager {
                         enqueueDatabase(media, true, 0);
                     }
                 } catch (ExecutionException | InterruptedException e) {
-                    Log.e(TAG, e.getMessage());
+                    e.printStackTrace();
                 }
             }, MoreExecutors.directExecutor());
         }
@@ -215,7 +215,7 @@ public class MediaManager {
                         }
                     }
                 } catch (ExecutionException | InterruptedException e) {
-                    Log.e(TAG, e.getMessage());
+                    e.printStackTrace();
                 }
             }, MoreExecutors.directExecutor());
         }
@@ -235,7 +235,7 @@ public class MediaManager {
                         }
                     }
                 } catch (ExecutionException | InterruptedException e) {
-                    Log.e(TAG, e.getMessage());
+                    e.printStackTrace();
                 }
             }, MoreExecutors.directExecutor());
         }
@@ -250,7 +250,7 @@ public class MediaManager {
                         swapDatabase(media);
                     }
                 } catch (ExecutionException | InterruptedException e) {
-                    Log.e(TAG, e.getMessage());
+                    e.printStackTrace();
                 }
             }, MoreExecutors.directExecutor());
         }
@@ -269,7 +269,7 @@ public class MediaManager {
                         }
                     }
                 } catch (ExecutionException | InterruptedException e) {
-                    Log.e(TAG, e.getMessage());
+                    e.printStackTrace();
                 }
             }, MoreExecutors.directExecutor());
         }
@@ -283,7 +283,7 @@ public class MediaManager {
                         callback.onRecovery(mediaBrowserListenableFuture.get().getCurrentMediaItemIndex());
                     }
                 } catch (ExecutionException | InterruptedException e) {
-                    Log.e(TAG, e.getMessage());
+                    e.printStackTrace();
                 }
             }, MoreExecutors.directExecutor());
         }

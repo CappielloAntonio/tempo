@@ -126,7 +126,7 @@ public class PlayerControllerFragment extends Fragment {
 
                 setMediaControllerListener(mediaBrowser);
             } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
+                e.printStackTrace();
             }
         }, MoreExecutors.directExecutor());
     }

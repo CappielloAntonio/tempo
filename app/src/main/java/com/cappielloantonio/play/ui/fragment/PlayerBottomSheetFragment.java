@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.ui.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.os.Bundle;
 import android.os.Handler;
@@ -103,7 +102,7 @@ public class PlayerBottomSheetFragment extends Fragment {
 
                 setMediaControllerListener(mediaBrowser);
             } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
+                e.printStackTrace();
             }
         }, MoreExecutors.directExecutor());
     }
@@ -181,7 +180,8 @@ public class PlayerBottomSheetFragment extends Fragment {
     }
 
     private void setProgress(MediaBrowser mediaBrowser) {
-        if (bind != null) bind.playerHeaderLayout.playerHeaderSeekBar.setProgress((int) (mediaBrowser.getCurrentPosition() / 1000), true);
+        if (bind != null)
+            bind.playerHeaderLayout.playerHeaderSeekBar.setProgress((int) (mediaBrowser.getCurrentPosition() / 1000), true);
     }
 
     private void setPlayingState(boolean isPlaying) {

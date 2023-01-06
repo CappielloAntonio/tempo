@@ -169,7 +169,7 @@ public class LibraryFragment extends Fragment implements ClickCallback {
         bind.artistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.artistRecyclerView.setHasFixedSize(true);
 
-        artistAdapter = new ArtistAdapter(requireContext(), this, false);
+        artistAdapter = new ArtistAdapter(requireContext(), this, false, false);
         bind.artistRecyclerView.setAdapter(artistAdapter);
         libraryViewModel.getArtistSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> {
             if (artists == null) {

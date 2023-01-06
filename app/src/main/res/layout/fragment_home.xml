@@ -129,6 +129,51 @@
                 layout="@layout/item_placeholder_album"
                 android:visibility="gone" />
 
+            <!--  Best of -->
+            <LinearLayout
+                android:id="@+id/home_best_of_artist_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/most_streamed_song_pre_text_view"
+                    style="@style/TitleMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingTop="20dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/home_subtitle_best_of"
+                    android:textAllCaps="true" />
+
+                <TextView
+                    android:id="@+id/best_of_artist_text_view_refreshable"
+                    style="@style/TitleLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/home_title_best_of" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/best_of_artist_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:clipToPadding="false"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="8dp" />
+            </LinearLayout>
+
+            <include
+                android:id="@+id/home_best_of_artist_placeholder"
+                layout="@layout/item_placeholder_album"
+                android:visibility="gone" />
+
             <!--  Radio Artist -->
             <LinearLayout
                 android:id="@+id/home_radio_artist_sector"
@@ -137,7 +182,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/recently_radio_artist_text_view_refreshable"
+                    android:id="@+id/radio_artist_text_view_refreshable"
                     style="@style/TitleLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -246,7 +291,6 @@
                         android:paddingEnd="8dp"
                         android:text="@string/home_title_starred_tracks" />
 
-
                     <TextView
                         android:id="@+id/starred_tracks_text_view_clickable"
                         style="@style/TitleMedium"
@@ -255,7 +299,6 @@
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp"
                         android:text="@string/home_title_starred_tracks_see_all_button" />
-
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -300,7 +343,6 @@
                         android:paddingEnd="8dp"
                         android:text="@string/home_title_starred_albums" />
 
-
                     <TextView
                         android:id="@+id/starred_albums_text_view_clickable"
                         style="@style/TitleMedium"
@@ -310,7 +352,6 @@
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
                         android:text="@string/home_title_starred_albums_see_all_button" />
-
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -355,7 +396,6 @@
                         android:paddingEnd="8dp"
                         android:text="@string/home_title_starred_artists" />
 
-
                     <TextView
                         android:id="@+id/starred_artists_text_view_clickable"
                         style="@style/TitleMedium"
@@ -365,7 +405,6 @@
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
                         android:text="@string/home_title_starred_artists_see_all_button" />
-
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -494,7 +533,6 @@
                         android:paddingEnd="8dp"
                         android:text="@string/home_title_most_played" />
 
-
                     <TextView
                         android:id="@+id/most_played_albums_text_view_clickable"
                         style="@style/TitleMedium"
@@ -504,7 +542,6 @@
                         android:paddingTop="12dp"
                         android:paddingEnd="8dp"
                         android:text="@string/home_title_most_played_see_all_button" />
-
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView

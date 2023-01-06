@@ -22,6 +22,7 @@ import com.cappielloantonio.play.repository.PodcastRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.util.PreferenceUtil;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -41,6 +42,7 @@ public class HomeViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Album>> newReleasedAlbum = new MutableLiveData<>(null);
     private final MutableLiveData<List<Media>> starredTracksSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Artist>> starredArtistsSample = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Artist>> bestOfArtists = new MutableLiveData<>(null);
     private final MutableLiveData<List<Media>> starredTracks = new MutableLiveData<>(null);
     private final MutableLiveData<List<Album>> starredAlbums = new MutableLiveData<>(null);
     private final MutableLiveData<List<Artist>> starredArtists = new MutableLiveData<>(null);
@@ -54,6 +56,7 @@ public class HomeViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Chronology>> thisGridTopSong = new MutableLiveData<>(null);
     private final MutableLiveData<List<Media>> mediaInstantMix = new MutableLiveData<>(null);
     private final MutableLiveData<List<Media>> artistInstantMix = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Media>> artistBestOf = new MutableLiveData<>(null);
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
@@ -116,6 +119,14 @@ public class HomeViewModel extends AndroidViewModel {
         }
 
         return starredArtistsSample;
+    }
+
+    public LiveData<List<Artist>> getBestOfArtists(LifecycleOwner owner) {
+        if (bestOfArtists.getValue() == null) {
+            artistRepository.getStarredArtists(true, 20).observe(owner, bestOfArtists::postValue);
+        }
+
+        return bestOfArtists;
     }
 
     public LiveData<List<Media>> getStarredTracks(LifecycleOwner owner) {
@@ -204,12 +215,12 @@ public class HomeViewModel extends AndroidViewModel {
         return mediaInstantMix;
     }
 
-    public LiveData<List<Media>> getArtistInstantMix(LifecycleOwner owner, Artist artist) {
-        artistInstantMix.setValue(Collections.emptyList());
+    public LiveData<ArrayList<Media>> getArtistInstantMix(Artist artist) {
+        return artistRepository.getInstantMix(artist, 20);
+    }
 
-        artistRepository.getInstantMix(artist, 20).observe(owner, artistInstantMix::postValue);
-
-        return artistInstantMix;
+    public LiveData<List<Media>> getArtistBestOf(Artist artist) {
+        return artistRepository.getTopSongs(artist.getName(), 10);
     }
 
     public void refreshDiscoverySongSample(LifecycleOwner owner) {
@@ -222,6 +233,10 @@ public class HomeViewModel extends AndroidViewModel {
 
     public void refreshRadioArtistSample(LifecycleOwner owner) {
         artistRepository.getStarredArtists(true, 10).observe(owner, starredArtistsSample::postValue);
+    }
+
+    public void refreshBestOfArtist(LifecycleOwner owner) {
+        artistRepository.getStarredArtists(true, 20).observe(owner, bestOfArtists::postValue);
     }
 
     public void refreshStarredTracks(LifecycleOwner owner) {

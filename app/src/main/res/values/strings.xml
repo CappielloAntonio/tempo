@@ -210,6 +210,8 @@
     <string name="home_title_radio_artist_see_all_button">See all</string>
     <string name="home_title_radio_station">Radio stations</string>
     <string name="home_title_new_releases">New releases</string>
+    <string name="home_title_best_of">Best of</string>
+    <string name="home_subtitle_best_of">Top songs of your favorite artists</string>
     <string name="home_title_newest_podcasts">Newest podcasts</string>
     <string name="artist_adapter_radio_station_starting">Searching...</string>
     <string name="podcast_bottom_sheet_go_to_channel">Go to channel</string>

@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -58,7 +57,6 @@ import com.google.android.gms.cast.framework.CastButtonFactory;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.common.util.concurrent.ListenableFuture;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -73,6 +71,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
     private DiscoverSongAdapter discoverSongAdapter;
     private SimilarTrackAdapter similarMusicAdapter;
     private ArtistAdapter radioArtistAdapter;
+    private ArtistAdapter bestOfArtistAdapter;
     private SongHorizontalAdapter starredSongAdapter;
     private AlbumHorizontalAdapter starredAlbumAdapter;
     private ArtistHorizontalAdapter starredArtistAdapter;
@@ -121,6 +120,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
         initDiscoverSongSlideView();
         initSimilarSongView();
         initArtistRadio();
+        initArtistBestOf();
         initStarredTracksView();
         initStarredAlbumsView();
         initStarredArtistsView();
@@ -179,8 +179,13 @@ public class HomeFragment extends Fragment implements ClickCallback {
             return true;
         });
 
-        bind.recentlyRadioArtistTextViewRefreshable.setOnLongClickListener(v -> {
+        bind.radioArtistTextViewRefreshable.setOnLongClickListener(v -> {
             homeViewModel.refreshRadioArtistSample(getViewLifecycleOwner());
+            return true;
+        });
+
+        bind.bestOfArtistTextViewRefreshable.setOnLongClickListener(v -> {
+            homeViewModel.refreshBestOfArtist(getViewLifecycleOwner());
             return true;
         });
 
@@ -309,7 +314,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
         bind.radioArtistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.radioArtistRecyclerView.setHasFixedSize(true);
 
-        radioArtistAdapter = new ArtistAdapter(requireContext(), this, true);
+        radioArtistAdapter = new ArtistAdapter(requireContext(), this, true, false);
         bind.radioArtistRecyclerView.setAdapter(radioArtistAdapter);
         homeViewModel.getStarredArtistsSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> {
             if (artists == null) {
@@ -328,6 +333,31 @@ public class HomeFragment extends Fragment implements ClickCallback {
 
         CustomLinearSnapHelper artistRadioSnapHelper = new CustomLinearSnapHelper();
         artistRadioSnapHelper.attachToRecyclerView(bind.radioArtistRecyclerView);
+    }
+
+    private void initArtistBestOf() {
+        bind.bestOfArtistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        bind.bestOfArtistRecyclerView.setHasFixedSize(true);
+
+        bestOfArtistAdapter = new ArtistAdapter(requireContext(), this, false, true);
+        bind.bestOfArtistRecyclerView.setAdapter(bestOfArtistAdapter);
+        homeViewModel.getBestOfArtists(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> {
+            if (artists == null) {
+                if (bind != null)
+                    bind.homeBestOfArtistPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeBestOfArtistSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null)
+                    bind.homeBestOfArtistPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null)
+                    bind.homeBestOfArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+
+                bestOfArtistAdapter.setItems(artists);
+            }
+        });
+
+        CustomLinearSnapHelper artistBestOfSnapHelper = new CustomLinearSnapHelper();
+        artistBestOfSnapHelper.attachToRecyclerView(bind.bestOfArtistRecyclerView);
     }
 
     private void initStarredTracksView() {
@@ -717,7 +747,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
             if (mediaBrowserListenableFuture != null) {
                 homeViewModel.getMediaInstantMix(getViewLifecycleOwner(), bundle.getParcelable("song_object")).observe(getViewLifecycleOwner(), songs -> {
                     if (songs.size() > 0) {
-                        MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), (ArrayList<Media>) songs, true);
+                        MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), songs, true);
                     }
                 });
             }
@@ -754,9 +784,18 @@ public class HomeFragment extends Fragment implements ClickCallback {
                     .show();
 
             if (mediaBrowserListenableFuture != null) {
-                homeViewModel.getArtistInstantMix(getViewLifecycleOwner(), bundle.getParcelable("artist_object")).observe(getViewLifecycleOwner(), songs -> {
+                homeViewModel.getArtistInstantMix(bundle.getParcelable("artist_object")).observe(getViewLifecycleOwner(), songs -> {
                     if (songs.size() > 0) {
-                        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), (ArrayList<Media>) songs, 0);
+                        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
+                        activity.setBottomSheetInPeek(true);
+                    }
+                });
+            }
+        } else if (bundle.containsKey("is_best_of") && bundle.getBoolean("is_best_of")) {
+            if (mediaBrowserListenableFuture != null) {
+                homeViewModel.getArtistBestOf(bundle.getParcelable("artist_object")).observe(getViewLifecycleOwner(), songs -> {
+                    if (songs.size() > 0) {
+                        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
                         activity.setBottomSheetInPeek(true);
                     }
                 });

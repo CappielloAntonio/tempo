@@ -37,13 +37,15 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
     private final Context context;
     private final ClickCallback click;
     private final boolean mix;
+    private final boolean bestOf;
 
     private List<Artist> artists;
 
-    public ArtistAdapter(Context context, ClickCallback click, Boolean mix) {
+    public ArtistAdapter(Context context, ClickCallback click, Boolean mix, Boolean bestOf) {
         this.context = context;
         this.click = click;
         this.mix = mix;
+        this.bestOf = bestOf;
         this.artists = Collections.emptyList();
     }
 
@@ -124,6 +126,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
             Bundle bundle = new Bundle();
             bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
             bundle.putBoolean("is_mix", mix);
+            bundle.putBoolean("is_best_of", bestOf);
 
             click.onArtistClick(bundle);
         }

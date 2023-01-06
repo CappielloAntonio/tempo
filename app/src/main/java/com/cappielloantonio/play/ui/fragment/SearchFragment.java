@@ -90,7 +90,7 @@ public class SearchFragment extends Fragment implements ClickCallback {
         bind.searchResultArtistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.searchResultArtistRecyclerView.setHasFixedSize(true);
 
-        artistAdapter = new ArtistAdapter(requireContext(), this, false);
+        artistAdapter = new ArtistAdapter(requireContext(), this, false, false);
         bind.searchResultArtistRecyclerView.setAdapter(artistAdapter);
 
         CustomLinearSnapHelper artistSnapHelper = new CustomLinearSnapHelper();

@@ -49,7 +49,10 @@ public class Chronology implements Parcelable {
     @ColumnInfo(name = "timestamp")
     private Long timestamp;
 
-    public Chronology(String trackId, String title, String albumId, String albumName, String artistId, String artistName, String coverArtId, long duration, String container, int bitrate, String extension) {
+    @ColumnInfo(name = "server")
+    private String server;
+
+    public Chronology(String trackId, String title, String albumId, String albumName, String artistId, String artistName, String coverArtId, long duration, String container, int bitrate, String extension, String server) {
         this.trackId = trackId;
         this.title = title;
         this.albumId = albumId;
@@ -62,6 +65,7 @@ public class Chronology implements Parcelable {
         this.bitrate = bitrate;
         this.extension = extension;
         this.timestamp = System.currentTimeMillis();
+        this.server = server;
     }
 
     public int getUuid() {
@@ -168,6 +172,14 @@ public class Chronology implements Parcelable {
         this.timestamp = timestamp;
     }
 
+    public String getServer() {
+        return server;
+    }
+
+    public void setServer(String server) {
+        this.server = server;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -207,6 +219,7 @@ public class Chronology implements Parcelable {
         dest.writeInt(this.bitrate);
         dest.writeString(this.extension);
         dest.writeLong(this.timestamp);
+        dest.writeString(this.server);
     }
 
     protected Chronology(Parcel in) {
@@ -222,6 +235,7 @@ public class Chronology implements Parcelable {
         this.bitrate = in.readInt();
         this.extension = in.readString();
         this.timestamp = in.readLong();
+        this.server = in.readString();
     }
 
     public static final Creator<Chronology> CREATOR = new Creator<Chronology>() {

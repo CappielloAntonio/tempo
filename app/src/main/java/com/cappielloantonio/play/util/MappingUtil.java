@@ -217,6 +217,7 @@ public class MappingUtil {
         bundle.putString("container", media.getContainer());
         bundle.putInt("bitrate", media.getBitrate());
         bundle.putString("extension", media.getExtension());
+        bundle.putString("server", PreferenceUtil.getInstance(context).getServerId());
 
         return new MediaItem.Builder()
                 .setMediaId(media.getId())
@@ -283,7 +284,8 @@ public class MappingUtil {
                 (long) item.mediaMetadata.extras.get("duration"),
                 item.mediaMetadata.extras.get("container").toString(),
                 (int) item.mediaMetadata.extras.get("bitrate"),
-                item.mediaMetadata.extras.get("extension").toString()
+                item.mediaMetadata.extras.get("extension").toString(),
+                item.mediaMetadata.extras.get("server").toString()
         );
     }
 

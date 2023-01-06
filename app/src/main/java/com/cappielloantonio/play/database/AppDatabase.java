@@ -23,13 +23,11 @@ import com.cappielloantonio.play.model.Server;
 
 @SuppressLint("RestrictedApi")
 @Database(
-        version = 42,
+        version = 43,
         entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Playlist.class, Chronology.class},
-        autoMigrations = {@AutoMigration(from = 41, to = 42)}
+        autoMigrations = {@AutoMigration(from = 42, to = 43)}
 )
 public abstract class AppDatabase extends RoomDatabase {
-    private static final String TAG = "AppDatabase";
-
     private final static String DB_NAME = "play_db";
     private static AppDatabase instance;
 

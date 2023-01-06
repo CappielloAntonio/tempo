@@ -80,12 +80,13 @@ public class HomeViewModel extends AndroidViewModel {
     public LiveData<List<Chronology>> getGridSongSample(LifecycleOwner owner) {
         Calendar cal = Calendar.getInstance();
         int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+        String server = PreferenceUtil.getInstance(App.getInstance()).getServerId();
 
         if (thisGridTopSong.getValue() == null) {
             if (dayOfMonth >= 7) {
-                chronologyRepository.getThisWeek().observe(owner, thisGridTopSong::postValue);
+                chronologyRepository.getThisWeek(server).observe(owner, thisGridTopSong::postValue);
             } else {
-                chronologyRepository.getLastWeek().observe(owner, thisGridTopSong::postValue);
+                chronologyRepository.getLastWeek(server).observe(owner, thisGridTopSong::postValue);
             }
         }
 

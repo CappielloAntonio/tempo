@@ -21,7 +21,7 @@ public class ChronologyRepository {
         chronologyDao = database.chronologyDao();
     }
 
-    public LiveData<List<Chronology>> getThisWeek() {
+    public LiveData<List<Chronology>> getThisWeek(String server) {
         Calendar calendar = Calendar.getInstance();
 
         Calendar first = (Calendar) calendar.clone();
@@ -30,10 +30,10 @@ public class ChronologyRepository {
         Calendar last = (Calendar) first.clone();
         last.add(Calendar.DAY_OF_YEAR, 6);
 
-        return chronologyDao.getAllFrom(first.getTime().getTime(), last.getTime().getTime());
+        return chronologyDao.getAllFrom(first.getTime().getTime(), last.getTime().getTime(), server);
     }
 
-    public LiveData<List<Chronology>> getLastWeek() {
+    public LiveData<List<Chronology>> getLastWeek(String server) {
         Calendar calendar = Calendar.getInstance();
 
         Calendar first = (Calendar) calendar.clone();
@@ -42,7 +42,7 @@ public class ChronologyRepository {
         Calendar last = (Calendar) first.clone();
         last.add(Calendar.DAY_OF_YEAR, 6);
 
-        return chronologyDao.getAllFrom(first.getTime().getTime(), last.getTime().getTime());
+        return chronologyDao.getAllFrom(first.getTime().getTime(), last.getTime().getTime(), server);
     }
 
     public void insert(Chronology item) {

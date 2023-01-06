@@ -233,11 +233,13 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
         player.addListener(object : Player.Listener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 if (mediaItem == null) return
-                MediaManager.setLastPlayedTimestamp(mediaItem)
+
                 if (mediaItem.mediaMetadata.extras!!.getString("mediaType") == Media.MEDIA_TYPE_MUSIC) {
                     MediaManager.scrobble(mediaItem)
                     MediaManager.saveChronology(mediaItem)
                 }
+
+                MediaManager.setLastPlayedTimestamp(mediaItem)
             }
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {

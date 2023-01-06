@@ -300,12 +300,14 @@ public class MediaManager {
 
     public static void scrobble(MediaItem mediaItem) {
         if (mediaItem != null)
-            getSongRepository().scrobble(mediaItem.mediaMetadata.extras.getString("id"));
+            if (getQueueRepository().isMediaPlayingPlausible(mediaItem))
+                getSongRepository().scrobble(mediaItem.mediaMetadata.extras.getString("id"));
     }
 
     public static void saveChronology(MediaItem mediaItem) {
         if (mediaItem != null)
-            getChronologyRepository().insert(MappingUtil.mapChronology(mediaItem));
+            if (getQueueRepository().isMediaPlayingPlausible(mediaItem))
+                getChronologyRepository().insert(MappingUtil.mapChronology(mediaItem));
     }
 
     private static QueueRepository getQueueRepository() {

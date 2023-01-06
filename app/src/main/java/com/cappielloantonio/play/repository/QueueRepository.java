@@ -1,13 +1,15 @@
 package com.cappielloantonio.play.repository;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+import androidx.media3.common.MediaItem;
 
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.QueueDao;
-import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Media;
+import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.util.MappingUtil;
 
 import java.time.Instant;
@@ -149,7 +151,8 @@ public class QueueRepository {
 
         try {
             thread.join();
-            index = getLastPlayedMediaThreadSafe.getIndex();
+            Queue lastMediaPlayed = getLastPlayedMediaThreadSafe.getQueueItem();
+            index = lastMediaPlayed.getTrackOrder();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -160,18 +163,45 @@ public class QueueRepository {
     public long getLastPlayedMediaTimestamp() {
         long timestamp = 0;
 
-        GetLastPlayedMediaTimestampThreadSafe getLastPlayedMediaTimestampThreadSafe = new GetLastPlayedMediaTimestampThreadSafe(queueDao);
-        Thread thread = new Thread(getLastPlayedMediaTimestampThreadSafe);
+        GetLastPlayedMediaThreadSafe getLastPlayedMediaThreadSafe = new GetLastPlayedMediaThreadSafe(queueDao);
+        Thread thread = new Thread(getLastPlayedMediaThreadSafe);
         thread.start();
 
         try {
             thread.join();
-            timestamp = getLastPlayedMediaTimestampThreadSafe.getTimestamp();
+            Queue lastMediaPlayed = getLastPlayedMediaThreadSafe.getQueueItem();
+            timestamp = lastMediaPlayed.getPlayingChanged();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         return timestamp;
+    }
+
+    public boolean isMediaPlayingPlausible(MediaItem mediaItem) {
+        boolean isPlausible = true;
+
+        GetLastPlayedMediaThreadSafe getLastPlayedMediaThreadSafe = new GetLastPlayedMediaThreadSafe(queueDao);
+        Thread thread = new Thread(getLastPlayedMediaThreadSafe);
+        thread.start();
+
+        try {
+            thread.join();
+            Queue lastMediaPlayed = getLastPlayedMediaThreadSafe.getQueueItem();
+
+            if (mediaItem.mediaId.equals(lastMediaPlayed.getId())) {
+
+                if (System.currentTimeMillis() > lastMediaPlayed.getLastPlay() + lastMediaPlayed.getDuration() * 1000) {
+                    isPlausible = true;
+                } else {
+                    isPlausible = false;
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return isPlausible;
     }
 
     private static class GetMediaThreadSafe implements Runnable {
@@ -287,7 +317,7 @@ public class QueueRepository {
 
     private static class GetLastPlayedMediaThreadSafe implements Runnable {
         private final QueueDao queueDao;
-        private int index;
+        private Queue lastMediaPlayed;
 
         public GetLastPlayedMediaThreadSafe(QueueDao queueDao) {
             this.queueDao = queueDao;
@@ -295,29 +325,11 @@ public class QueueRepository {
 
         @Override
         public void run() {
-            index = queueDao.getLastPlay();
+            lastMediaPlayed = queueDao.getLastPlayed();
         }
 
-        public int getIndex() {
-            return index;
-        }
-    }
-
-    private static class GetLastPlayedMediaTimestampThreadSafe implements Runnable {
-        private final QueueDao queueDao;
-        private long timestamp;
-
-        public GetLastPlayedMediaTimestampThreadSafe(QueueDao queueDao) {
-            this.queueDao = queueDao;
-        }
-
-        @Override
-        public void run() {
-            timestamp = queueDao.getLastPlayedTimestamp();
-        }
-
-        public long getTimestamp() {
-            return timestamp;
+        public Queue getQueueItem() {
+            return lastMediaPlayed;
         }
     }
 }

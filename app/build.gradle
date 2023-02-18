@@ -43,14 +43,14 @@ dependencies {
 
     // AndroidX
     implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
     implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'androidx.room:room-runtime:2.4.3'
+    implementation 'androidx.room:room-runtime:2.5.0'
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
@@ -58,7 +58,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-cast-framework:21.2.0'
 
     // Android Material
-    implementation 'com.google.android.material:material:1.8.0-beta01'
+    implementation 'com.google.android.material:material:1.9.0-alpha01'
 
     // SearchBar
     implementation 'com.paulrybitskyi.persistentsearchview:persistentsearchview:1.1.4'
@@ -69,14 +69,14 @@ dependencies {
     implementation 'com.github.bumptech.glide:annotations:4.14.2'
 
     // Media3
-    implementation 'androidx.media3:media3-session:1.0.0-beta03'
-    implementation 'androidx.media3:media3-common:1.0.0-beta03'
-    implementation 'androidx.media3:media3-exoplayer:1.0.0-beta03'
-    implementation 'androidx.media3:media3-ui:1.0.0-beta03'
-    implementation 'androidx.media3:media3-cast:1.0.0-beta03'
+    implementation 'androidx.media3:media3-session:1.0.0-rc01'
+    implementation 'androidx.media3:media3-common:1.0.0-rc01'
+    implementation 'androidx.media3:media3-exoplayer:1.0.0-rc01'
+    implementation 'androidx.media3:media3-ui:1.0.0-rc01'
+    implementation 'androidx.media3:media3-cast:1.0.0-rc01'
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
-    annotationProcessor 'androidx.room:room-compiler:2.4.3'
+    annotationProcessor 'androidx.room:room-compiler:2.5.0'
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'

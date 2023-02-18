@@ -6,7 +6,6 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.Uri;
 import android.text.Html;
-import android.util.Log;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
@@ -51,7 +50,7 @@ public class MusicUtil {
                     .append(getTranscodingFormatPreference(context));
         }
 
-        Log.d(TAG, "getStreamUri(): " + uri);
+        // Log.d(TAG, "getStreamUri(): " + uri);
 
         return Uri.parse(uri.toString());
     }
@@ -78,7 +77,7 @@ public class MusicUtil {
             uri.append("&c=").append(params.get("c"));
         uri.append("&id=").append(id);
 
-        Log.d(TAG, "getDownloadUri(): " + uri);
+        // Log.d(TAG, "getDownloadUri(): " + uri);
 
         return Uri.parse(uri.toString());
     }

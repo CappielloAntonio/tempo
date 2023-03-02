@@ -102,7 +102,7 @@ public class PlaylistEditorDialog extends DialogFragment {
         playlistDialogSongHorizontalAdapter = new PlaylistDialogSongHorizontalAdapter(requireContext());
         bind.playlistSongRecyclerView.setAdapter(playlistDialogSongHorizontalAdapter);
 
-        playlistEditorViewModel.getPlaylistSongLiveList().observe(getViewLifecycleOwner(), songs -> playlistDialogSongHorizontalAdapter.setItems(songs));
+        playlistEditorViewModel.getPlaylistSongLiveList().observe(requireActivity(), songs -> playlistDialogSongHorizontalAdapter.setItems(songs));
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
             int originalPosition = -1;

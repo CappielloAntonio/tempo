@@ -240,7 +240,7 @@ public class PlayerControllerFragment extends Fragment {
     private void initMediaListenable() {
         playerBottomSheetViewModel.getLiveMedia().observe(getViewLifecycleOwner(), media -> {
             if (media != null) {
-                buttonFavorite.setChecked(media.isStarred());
+                buttonFavorite.setChecked(Boolean.TRUE.equals(media.getStarred()));
                 buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite(requireContext(), media));
                 buttonFavorite.setOnLongClickListener(v -> {
                     Bundle bundle = new Bundle();

@@ -85,25 +85,11 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
     }
 
     private void setArtistCover(Artist artist, ImageView cover) {
-        ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
-        LiveData<Artist> liveData = artistRepository.getArtistFullInfo(artist.getId());
-        liveData.observeForever(new Observer<Artist>() {
-            @Override
-            public void onChanged(Artist artist) {
-                CustomGlideRequest.Builder
-                        .from(
-                                context,
-                                artist.getId(),
-                                CustomGlideRequest.ARTIST_PIC,
-                                artist.getImageUrl()
-                        )
-                        .build()
-                        .transform(new CenterCrop(), new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
-                        .into(cover);
-
-                liveData.removeObserver(this);
-            }
-        });
+        CustomGlideRequest.Builder
+                .from(context, artist.getPrimary(), CustomGlideRequest.ARTIST_PIC, null)
+                .build()
+                .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
+                .into(cover);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

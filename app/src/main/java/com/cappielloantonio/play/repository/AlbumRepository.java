@@ -218,29 +218,6 @@ public class AlbumRepository {
         return album;
     }
 
-    public MutableLiveData<Album> getAlbumInfo(String id) {
-        MutableLiveData<Album> album = new MutableLiveData<>();
-
-        App.getSubsonicClientInstance(application, false)
-                .getBrowsingClient()
-                .getAlbumInfo2(id)
-                .enqueue(new Callback<SubsonicResponse>() {
-                    @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getAlbumInfo() != null) {
-                            album.setValue(MappingUtil.mapAlbum(response.body().getAlbumInfo()));
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
-
-                    }
-                });
-
-        return album;
-    }
-
     public void getInstantMix(Album album, int count, MediaCallback callback) {
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()

@@ -50,7 +50,7 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
     }
 
     public void setFavorite(Context context) {
-        if (song.isStarred()) {
+        if (Boolean.TRUE.equals(song.getStarred())) {
             songRepository.unstar(song.getId());
             song.setStarred(false);
         } else {

@@ -60,10 +60,6 @@ public class MappingUtil {
         return new Album(albumWithSongsID3);
     }
 
-    public static Album mapAlbum(AlbumInfo albumInfo) {
-        return new Album(albumInfo);
-    }
-
     public static ArrayList<Artist> mapArtist(List<ArtistID3> artistID3List) {
         ArrayList<Artist> artists = new ArrayList();
 
@@ -173,7 +169,7 @@ public class MappingUtil {
         ArrayList<Playlist> playlists = new ArrayList();
 
         for (Download download : downloads) {
-            playlists.add(new Playlist(download.getPlaylistId(), download.getPlaylistName()));
+            playlists.add(new Playlist(download.getPlaylistId(), download.getPlaylistName(), null, 0, 0, null));
         }
 
         return playlists;

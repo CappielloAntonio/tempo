@@ -28,12 +28,12 @@ public class ArtistBottomSheetViewModel extends AndroidViewModel {
     }
 
     public void setFavorite() {
-        if (artist.isFavorite()) {
+        if (Boolean.TRUE.equals(artist.getStarred())) {
             albumRepository.unstar(artist.getId());
-            artist.setFavorite(false);
+            artist.setStarred(false);
         } else {
             albumRepository.star(artist.getId());
-            artist.setFavorite(true);
+            artist.setStarred(true);
         }
     }
 }

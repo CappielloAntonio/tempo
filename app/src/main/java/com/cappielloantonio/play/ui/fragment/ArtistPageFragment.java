@@ -140,6 +140,7 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
     private void initPlayButtons() {
         bind.artistPageShuffleButton.setOnClickListener(v -> {
             ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
+
             artistRepository.getArtistRandomSong(getViewLifecycleOwner(), artistPageViewModel.getArtist(), 20).observe(getViewLifecycleOwner(), songs -> {
                 if (songs.size() > 0) {
                     MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);

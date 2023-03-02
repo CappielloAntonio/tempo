@@ -82,7 +82,7 @@ public class PlaylistChooserDialog extends DialogFragment implements ClickCallba
         playlistDialogHorizontalAdapter = new PlaylistDialogHorizontalAdapter(requireContext(), this);
         bind.playlistDialogRecyclerView.setAdapter(playlistDialogHorizontalAdapter);
 
-        playlistChooserViewModel.getPlaylistList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), playlists -> {
+        playlistChooserViewModel.getPlaylistList(requireActivity()).observe(requireActivity(), playlists -> {
             if (playlists != null) {
                 if (playlists.size() > 0) {
                     if (bind != null) bind.noPlaylistsCreatedTextView.setVisibility(View.GONE);

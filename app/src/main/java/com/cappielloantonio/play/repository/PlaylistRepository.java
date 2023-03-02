@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.repository;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -108,12 +109,12 @@ public class PlaylistRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-
+                        Log.d("PLAYLIST", response.toString());
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
-
+                        Log.d("PLAYLIST", t.toString());
                     }
                 });
     }

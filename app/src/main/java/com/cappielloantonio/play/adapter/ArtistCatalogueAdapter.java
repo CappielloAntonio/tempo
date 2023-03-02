@@ -15,6 +15,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
@@ -119,24 +121,11 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
     }
 
     private void setArtistCover(Artist artist, ImageView cover) {
-        ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
-        LiveData<Artist> livedata = artistRepository.getArtistFullInfo(artist.getId());
-        livedata.observeForever(new Observer<Artist>() {
-            @Override
-            public void onChanged(Artist artist) {
-                CustomGlideRequest.Builder
-                        .from(
-                                context,
-                                artist.getId(),
-                                CustomGlideRequest.ARTIST_PIC,
-                                artist.getImageUrl()
-                        )
-                        .build()
-                        .into(cover);
-
-                livedata.removeObserver(this);
-            }
-        });
+        CustomGlideRequest.Builder
+                .from(context, artist.getPrimary(), CustomGlideRequest.ARTIST_PIC, null)
+                .build()
+                .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
+                .into(cover);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -4,10 +4,12 @@ import android.app.Application;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.media3.common.util.UnstableApi;
 
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Queue;
@@ -22,6 +24,7 @@ import com.cappielloantonio.play.util.PreferenceUtil;
 import java.util.Collections;
 import java.util.List;
 
+@OptIn(markerClass = UnstableApi.class)
 public class PlayerBottomSheetViewModel extends AndroidViewModel {
     private static final String TAG = "PlayerBottomSheetViewModel";
 
@@ -50,7 +53,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
 
     public void setFavorite(Context context, Media media) {
         if (media != null) {
-            if (media.isStarred()) {
+            if (Boolean.TRUE.equals(media.getStarred())) {
                 songRepository.unstar(media.getId());
                 media.setStarred(false);
             } else {

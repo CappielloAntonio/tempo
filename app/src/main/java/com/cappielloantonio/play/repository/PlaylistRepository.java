@@ -10,10 +10,9 @@ import androidx.lifecycle.MutableLiveData;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.PlaylistDao;
-import com.cappielloantonio.play.model.Playlist;
-import com.cappielloantonio.play.model.Media;
+import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.subsonic.models.Playlist;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
-import com.cappielloantonio.play.util.MappingUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,7 +43,8 @@ public class PlaylistRepository {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getPlaylists() != null) {
-                            List<Playlist> playlists = new ArrayList<>(MappingUtil.mapPlaylist(response.body().getPlaylists().getPlaylists()));
+                            List<Playlist> playlists = response.body().getPlaylists().getPlaylists();
+
                             if (random) {
                                 Collections.shuffle(playlists);
                                 listLivePlaylists.setValue(playlists.subList(0, Math.min(playlists.size(), size)));
@@ -62,8 +62,8 @@ public class PlaylistRepository {
         return listLivePlaylists;
     }
 
-    public MutableLiveData<List<Media>> getPlaylistSongs(String id) {
-        MutableLiveData<List<Media>> listLivePlaylistSongs = new MutableLiveData<>();
+    public MutableLiveData<List<Child>> getPlaylistSongs(String id) {
+        MutableLiveData<List<Child>> listLivePlaylistSongs = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getPlaylistClient()
@@ -72,7 +72,7 @@ public class PlaylistRepository {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getPlaylist() != null) {
-                            List<Media> songs = new ArrayList<>(MappingUtil.mapSong(response.body().getPlaylist().getEntries()));
+                            List<Child> songs = response.body().getPlaylist().getEntries();
                             listLivePlaylistSongs.setValue(songs);
                         }
                     }
@@ -154,7 +154,8 @@ public class PlaylistRepository {
     }
 
     public LiveData<List<Playlist>> getPinnedPlaylists(String serverId) {
-        return playlistDao.getAll(serverId);
+        // return playlistDao.getAll(serverId);
+        return playlistDao.getAll();
     }
 
     public void insert(Playlist playlist) {

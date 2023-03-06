@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.DialogConnectionAlertBinding;
-import com.cappielloantonio.play.util.PreferenceUtil;
+import com.cappielloantonio.play.util.Preferences;
 
 import java.util.Objects;
 
@@ -31,8 +31,9 @@ public class ConnectionAlertDialog extends DialogFragment {
                 .setPositiveButton(R.string.connection_alert_dialog_positive_button, (dialog, id) -> dialog.cancel())
                 .setNegativeButton(R.string.connection_alert_dialog_negative_button, (dialog, id) -> dialog.cancel());
 
-        if(!PreferenceUtil.getInstance(requireContext()).isDataSavingMode()) {
-            builder.setNeutralButton(R.string.connection_alert_dialog_neutral_button, (dialog, id) -> { });
+        if (!Preferences.isDataSavingMode()) {
+            builder.setNeutralButton(R.string.connection_alert_dialog_neutral_button, (dialog, id) -> {
+            });
         }
 
         return builder.create();
@@ -53,7 +54,7 @@ public class ConnectionAlertDialog extends DialogFragment {
 
     private void setButtonAction() {
         ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
-            PreferenceUtil.getInstance(requireContext()).setDataSavingMode(true);
+            Preferences.setDataSavingMode(true);
             Objects.requireNonNull(getDialog()).dismiss();
         });
     }

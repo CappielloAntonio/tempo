@@ -45,11 +45,11 @@ import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Media;
-import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
+import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.subsonic.models.Playlist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.HomeViewModel;
@@ -752,7 +752,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
                 });
             }
         } else if (bundle.containsKey("is_chronology")) {
-            List<Media> media = MappingUtil.mapChronology(bundle.getParcelableArrayList("songs_object"));
+            List<Child> media = bundle.getParcelableArrayList("songs_object");
             MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), media, bundle.getInt("position"));
             activity.setBottomSheetInPeek(true);
         } else {

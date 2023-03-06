@@ -3,18 +3,16 @@ package com.cappielloantonio.play.repository;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
-import com.cappielloantonio.play.interfaces.MediaCallback;
-import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Media;
+import com.cappielloantonio.play.subsonic.models.AlbumID3;
+import com.cappielloantonio.play.subsonic.models.ArtistID3;
+import com.cappielloantonio.play.subsonic.models.ArtistInfo2;
+import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.subsonic.models.IndexID3;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
-import com.cappielloantonio.play.util.MappingUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,8 +29,8 @@ public class ArtistRepository {
         this.application = application;
     }
 
-    public MutableLiveData<List<Artist>> getStarredArtists(boolean random, int size) {
-        MutableLiveData<List<Artist>> starredArtists = new MutableLiveData<>();
+    public MutableLiveData<List<ArtistID3>> getStarredArtists(boolean random, int size) {
+        MutableLiveData<List<ArtistID3>> starredArtists = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
@@ -41,7 +39,7 @@ public class ArtistRepository {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getStarred2() != null) {
-                            List<Artist> artists = new ArrayList<>(MappingUtil.mapArtist(response.body().getStarred2().getArtists()));
+                            List<ArtistID3> artists = response.body().getStarred2().getArtists();
 
                             if (!random) {
                                 getArtistInfo(artists, starredArtists);
@@ -61,8 +59,8 @@ public class ArtistRepository {
         return starredArtists;
     }
 
-    public MutableLiveData<List<Artist>> getArtists(boolean random, int size) {
-        MutableLiveData<List<Artist>> listLiveArtists = new MutableLiveData<>();
+    public MutableLiveData<List<ArtistID3>> getArtists(boolean random, int size) {
+        MutableLiveData<List<ArtistID3>> listLiveArtists = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
@@ -71,10 +69,10 @@ public class ArtistRepository {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         if (response.isSuccessful() && response.body() != null) {
-                            List<Artist> artists = new ArrayList<>();
+                            List<ArtistID3> artists = new ArrayList<>();
 
                             for (IndexID3 index : response.body().getArtists().getIndices()) {
-                                artists.addAll(MappingUtil.mapArtist(index.getArtists()));
+                                artists.addAll(index.getArtists());
                             }
 
                             if (random) {
@@ -97,12 +95,12 @@ public class ArtistRepository {
     /*
      * Metodo che mi restituisce le informazioni essenzionali dell'artista (cover, numero di album...)
      */
-    public void getArtistInfo(List<Artist> artists, MutableLiveData<List<Artist>> list) {
-        List<Artist> liveArtists = list.getValue();
+    public void getArtistInfo(List<ArtistID3> artists, MutableLiveData<List<ArtistID3>> list) {
+        List<ArtistID3> liveArtists = list.getValue();
         if (liveArtists == null) liveArtists = new ArrayList<>();
         list.setValue(liveArtists);
 
-        for (Artist artist : artists) {
+        for (ArtistID3 artist : artists) {
             App.getSubsonicClientInstance(application, false)
                     .getBrowsingClient()
                     .getArtist(artist.getId())
@@ -110,7 +108,7 @@ public class ArtistRepository {
                         @Override
                         public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                             if (response.isSuccessful() && response.body() != null && response.body().getArtist() != null) {
-                                addToMutableLiveData(list, MappingUtil.mapArtistWithAlbum(response.body().getArtist()));
+                                addToMutableLiveData(list, response.body().getArtist());
                             }
                         }
 
@@ -122,8 +120,8 @@ public class ArtistRepository {
         }
     }
 
-    public MutableLiveData<Artist> getArtistInfo(String id) {
-        MutableLiveData<Artist> artist = new MutableLiveData<>();
+    public MutableLiveData<ArtistID3> getArtistInfo(String id) {
+        MutableLiveData<ArtistID3> artist = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
@@ -132,7 +130,7 @@ public class ArtistRepository {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getArtist() != null) {
-                            artist.setValue(MappingUtil.mapArtistWithAlbum(response.body().getArtist()));
+                            artist.setValue(response.body().getArtist());
                         }
                     }
 
@@ -148,8 +146,8 @@ public class ArtistRepository {
     /*
      * Metodo che mi restituisce le informazioni complete dell'artista (bio, immagini prese da last.fm, artisti simili...)
      */
-    public MutableLiveData<Artist> getArtistFullInfo(String id) {
-        MutableLiveData<Artist> artistFullInfo = new MutableLiveData<>();
+    public MutableLiveData<ArtistInfo2> getArtistFullInfo(String id) {
+        MutableLiveData<ArtistInfo2> artistFullInfo = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
@@ -158,7 +156,7 @@ public class ArtistRepository {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getArtistInfo2() != null) {
-                            artistFullInfo.setValue(MappingUtil.mapArtist(response.body().getArtistInfo2()));
+                            artistFullInfo.setValue(response.body().getArtistInfo2());
                         }
                     }
 
@@ -222,8 +220,8 @@ public class ArtistRepository {
                 });
     }
 
-    public MutableLiveData<Artist> getArtist(String id) {
-        MutableLiveData<Artist> artist = new MutableLiveData<>();
+    public MutableLiveData<ArtistID3> getArtist(String id) {
+        MutableLiveData<ArtistID3> artist = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
@@ -232,7 +230,7 @@ public class ArtistRepository {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getArtist() != null) {
-                            artist.setValue(MappingUtil.mapArtist(response.body().getArtist()));
+                            artist.setValue(response.body().getArtist());
                         }
                     }
 
@@ -245,8 +243,8 @@ public class ArtistRepository {
         return artist;
     }
 
-    public MutableLiveData<ArrayList<Media>> getInstantMix(Artist artist, int count) {
-        MutableLiveData<ArrayList<Media>> instantMix = new MutableLiveData<>();
+    public MutableLiveData<List<Child>> getInstantMix(ArtistID3 artist, int count) {
+        MutableLiveData<List<Child>> instantMix = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
@@ -255,7 +253,7 @@ public class ArtistRepository {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getSimilarSongs2() != null) {
-                            instantMix.setValue(MappingUtil.mapSong(response.body().getSimilarSongs2().getSongs()));
+                            instantMix.setValue(response.body().getSimilarSongs2().getSongs());
                         }
                     }
 
@@ -268,8 +266,8 @@ public class ArtistRepository {
         return instantMix;
     }
 
-    public MutableLiveData<ArrayList<Media>> getArtistRandomSong(LifecycleOwner owner, Artist artist, int count) {
-        MutableLiveData<ArrayList<Media>> randomSongs = new MutableLiveData<>();
+    public MutableLiveData<ArrayList<Child>> getArtistRandomSong(LifecycleOwner owner, ArtistID3 artist, int count) {
+        MutableLiveData<ArrayList<Child>> randomSongs = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
@@ -278,14 +276,14 @@ public class ArtistRepository {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getArtist() != null && response.body().getArtist().getAlbums() != null) {
-                            List<Album> albums = new ArrayList<>(MappingUtil.mapAlbum(response.body().getArtist().getAlbums()));
+                            List<AlbumID3> albums = response.body().getArtist().getAlbums();
 
                             if (albums.size() > 0) {
                                 AlbumRepository albumRepository = new AlbumRepository(App.getInstance());
 
                                 for (int index = 0; index < albums.size(); index++) {
                                     albumRepository.getAlbumTracks(albums.get(index).getId()).observe(owner, songs -> {
-                                        ArrayList<Media> liveSongs = randomSongs.getValue();
+                                        ArrayList<Child> liveSongs = randomSongs.getValue();
                                         if (liveSongs == null) liveSongs = new ArrayList<>();
                                         Collections.shuffle(liveSongs);
                                         liveSongs.addAll(songs);
@@ -305,8 +303,8 @@ public class ArtistRepository {
         return randomSongs;
     }
 
-    public MutableLiveData<List<Media>> getTopSongs(String artistName, int count) {
-        MutableLiveData<List<Media>> topSongs = new MutableLiveData<>();
+    public MutableLiveData<List<Child>> getTopSongs(String artistName, int count) {
+        MutableLiveData<List<Child>> topSongs = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
@@ -315,7 +313,7 @@ public class ArtistRepository {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getTopSongs() != null) {
-                            topSongs.setValue(MappingUtil.mapSong(response.body().getTopSongs().getSongs()));
+                            topSongs.setValue(response.body().getTopSongs().getSongs());
                         }
                     }
 
@@ -328,8 +326,8 @@ public class ArtistRepository {
         return topSongs;
     }
 
-    private void addToMutableLiveData(MutableLiveData<List<Artist>> liveData, Artist artist) {
-        List<Artist> liveArtists = liveData.getValue();
+    private void addToMutableLiveData(MutableLiveData<List<ArtistID3>> liveData, ArtistID3 artist) {
+        List<ArtistID3> liveArtists = liveData.getValue();
         if (liveArtists != null) liveArtists.add(artist);
         liveData.setValue(liveArtists);
     }

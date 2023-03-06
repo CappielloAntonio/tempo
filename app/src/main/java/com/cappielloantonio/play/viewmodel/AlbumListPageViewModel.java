@@ -3,17 +3,16 @@ package com.cappielloantonio.play.viewmodel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.DownloadRepository;
-import com.cappielloantonio.play.util.MappingUtil;
+import com.cappielloantonio.play.subsonic.models.AlbumID3;
+import com.cappielloantonio.play.subsonic.models.ArtistID3;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,9 +24,9 @@ public class AlbumListPageViewModel extends AndroidViewModel {
     private final DownloadRepository downloadRepository;
 
     public String title;
-    public Artist artist;
+    public ArtistID3 artist;
 
-    private MutableLiveData<List<Album>> albumList;
+    private MutableLiveData<List<AlbumID3>> albumList;
 
     public AlbumListPageViewModel(@NonNull Application application) {
         super(application);
@@ -36,7 +35,7 @@ public class AlbumListPageViewModel extends AndroidViewModel {
         downloadRepository = new DownloadRepository(application);
     }
 
-    public LiveData<List<Album>> getAlbumList(LifecycleOwner owner) {
+    public LiveData<List<AlbumID3>> getAlbumList(LifecycleOwner owner) {
         albumList = new MutableLiveData<>(new ArrayList<>());
 
         switch (title) {
@@ -55,15 +54,17 @@ public class AlbumListPageViewModel extends AndroidViewModel {
             case Album.NEW_RELEASES:
                 int currentYear = Calendar.getInstance().get(Calendar.YEAR);
                 albumRepository.getAlbums("byYear", 500, currentYear, currentYear).observe(owner, albums -> {
-                    albums.sort(Comparator.comparing(Album::getCreated).reversed());
+                    albums.sort(Comparator.comparing(AlbumID3::getCreated).reversed());
                     albumList.postValue(albums.subList(0, Math.min(20, albums.size())));
                 });
                 break;
             case Album.DOWNLOADED:
-                downloadRepository.getLiveDownload().observe(owner, downloads -> albumList.setValue(MappingUtil.mapDownloadToAlbum(downloads)));
+                // TODO
+                // downloadRepository.getLiveDownload().observe(owner, downloads -> albumList.setValue(MappingUtil.mapDownloadToAlbum(downloads)));
                 break;
             case Album.FROM_ARTIST:
-                downloadRepository.getLiveDownloadFromArtist(artist.getId()).observe(owner, downloads -> albumList.setValue(MappingUtil.mapDownloadToAlbum(downloads)));
+                // TODO
+                // downloadRepository.getLiveDownloadFromArtist(artist.getId()).observe(owner, downloads -> albumList.setValue(MappingUtil.mapDownloadToAlbum(downloads)));
                 break;
         }
 

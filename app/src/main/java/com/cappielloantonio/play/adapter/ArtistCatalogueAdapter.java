@@ -11,18 +11,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.repository.ArtistRepository;
+import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
@@ -37,14 +34,14 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
     private final Filter filtering = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<Artist> filteredList = new ArrayList<>();
+            List<ArtistID3> filteredList = new ArrayList<>();
 
             if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(artistFull);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (Artist item : artistFull) {
+                for (ArtistID3 item : artistFull) {
                     if (item.getName().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
@@ -65,8 +62,8 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
         }
     };
 
-    private List<Artist> artists;
-    private List<Artist> artistFull;
+    private List<ArtistID3> artists;
+    private List<ArtistID3> artistFull;
 
     public ArtistCatalogueAdapter(Context context, ClickCallback click) {
         this.context = context;
@@ -83,7 +80,7 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Artist artist = artists.get(position);
+        ArtistID3 artist = artists.get(position);
 
         holder.textArtistName.setText(MusicUtil.getReadableString(artist.getName()));
 
@@ -95,11 +92,11 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
         return artists.size();
     }
 
-    public Artist getItem(int position) {
+    public ArtistID3 getItem(int position) {
         return artists.get(position);
     }
 
-    public void setItems(List<Artist> artists) {
+    public void setItems(List<ArtistID3> artists) {
         this.artists = artists;
         this.artistFull = new ArrayList<>(artists);
         notifyDataSetChanged();
@@ -120,9 +117,9 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
         return filtering;
     }
 
-    private void setArtistCover(Artist artist, ImageView cover) {
+    private void setArtistCover(ArtistID3 artist, ImageView cover) {
         CustomGlideRequest.Builder
-                .from(context, artist.getPrimary(), CustomGlideRequest.ARTIST_PIC, null)
+                .from(context, artist.getCoverArtId(), CustomGlideRequest.ARTIST_PIC, null)
                 .build()
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(cover);
@@ -164,7 +161,7 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
     public void sort(String order) {
         switch (order) {
             case Artist.ORDER_BY_NAME:
-                artists.sort(Comparator.comparing(Artist::getName));
+                artists.sort(Comparator.comparing(ArtistID3::getName));
                 break;
             case Artist.ORDER_BY_RANDOM:
                 Collections.shuffle(artists);

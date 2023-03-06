@@ -10,17 +10,15 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.media3.common.util.UnstableApi;
 
-import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.SongRepository;
-import com.cappielloantonio.play.util.DownloadUtil;
-import com.cappielloantonio.play.util.MappingUtil;
-import com.cappielloantonio.play.util.PreferenceUtil;
+import com.cappielloantonio.play.subsonic.models.AlbumID3;
+import com.cappielloantonio.play.subsonic.models.ArtistID3;
+import com.cappielloantonio.play.subsonic.models.Child;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @UnstableApi
@@ -29,9 +27,9 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
     private final AlbumRepository albumRepository;
     private final ArtistRepository artistRepository;
 
-    private Media song;
+    private Child song;
 
-    private final MutableLiveData<List<Media>> instantMix = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Child>> instantMix = new MutableLiveData<>(null);
 
     public SongBottomSheetViewModel(@NonNull Application application) {
         super(application);
@@ -41,40 +39,41 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
         artistRepository = new ArtistRepository(application);
     }
 
-    public Media getSong() {
+    public Child getSong() {
         return song;
     }
 
-    public void setSong(Media song) {
+    public void setSong(Child song) {
         this.song = song;
     }
 
     public void setFavorite(Context context) {
-        if (Boolean.TRUE.equals(song.getStarred())) {
+        if (song.getStarred() != null) {
             songRepository.unstar(song.getId());
-            song.setStarred(false);
+            song.setStarred(null);
         } else {
             songRepository.star(song.getId());
-            song.setStarred(true);
+            song.setStarred(new Date());
 
-            if (PreferenceUtil.getInstance(context).isStarredSyncEnabled()) {
+            // TODO
+            /* if (Preferences.isStarredSyncEnabled()) {
                 DownloadUtil.getDownloadTracker(context).download(
                         MappingUtil.mapMediaItem(context, song, false),
                         MappingUtil.mapDownload(song, null, null)
                 );
-            }
+            } */
         }
     }
 
-    public LiveData<Album> getAlbum() {
+    public LiveData<AlbumID3> getAlbum() {
         return albumRepository.getAlbum(song.getAlbumId());
     }
 
-    public LiveData<Artist> getArtist() {
+    public LiveData<ArtistID3> getArtist() {
         return artistRepository.getArtist(song.getArtistId());
     }
 
-    public LiveData<List<Media>> getInstantMix(LifecycleOwner owner, Media media) {
+    public LiveData<List<Child>> getInstantMix(LifecycleOwner owner, Child media) {
         instantMix.setValue(Collections.emptyList());
 
         songRepository.getInstantMix(media, 20).observe(owner, instantMix::postValue);

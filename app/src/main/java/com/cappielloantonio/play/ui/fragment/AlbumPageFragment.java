@@ -128,10 +128,10 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
             activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        bind.animToolbar.setTitle(MusicUtil.getReadableString(albumPageViewModel.getAlbum().getTitle()));
+        bind.animToolbar.setTitle(MusicUtil.getReadableString(albumPageViewModel.getAlbum().getName()));
 
-        bind.albumNameLabel.setText(MusicUtil.getReadableString(albumPageViewModel.getAlbum().getTitle()));
-        bind.albumArtistLabel.setText(MusicUtil.getReadableString(albumPageViewModel.getAlbum().getArtistName()));
+        bind.albumNameLabel.setText(MusicUtil.getReadableString(albumPageViewModel.getAlbum().getName()));
+        bind.albumArtistLabel.setText(MusicUtil.getReadableString(albumPageViewModel.getAlbum().getArtist()));
         bind.albumReleaseYearLabel.setText(albumPageViewModel.getAlbum().getYear() != 0 ? String.valueOf(albumPageViewModel.getAlbum().getYear()) : "");
 
         bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
@@ -174,7 +174,7 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
 
     private void initBackCover() {
         CustomGlideRequest.Builder
-                .from(requireContext(), albumPageViewModel.getAlbum().getPrimary(), CustomGlideRequest.ALBUM_PIC, null)
+                .from(requireContext(), albumPageViewModel.getAlbum().getCoverArtId(), CustomGlideRequest.ALBUM_PIC, null)
                 .build()
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(bind.albumCoverImageView);

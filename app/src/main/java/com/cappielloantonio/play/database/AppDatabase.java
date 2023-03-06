@@ -1,13 +1,13 @@
 package com.cappielloantonio.play.database;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 
-import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
+import com.cappielloantonio.play.database.converter.DateConverters;
 import com.cappielloantonio.play.database.dao.ChronologyDao;
 import com.cappielloantonio.play.database.dao.DownloadDao;
 import com.cappielloantonio.play.database.dao.PlaylistDao;
@@ -16,17 +16,17 @@ import com.cappielloantonio.play.database.dao.RecentSearchDao;
 import com.cappielloantonio.play.database.dao.ServerDao;
 import com.cappielloantonio.play.model.Chronology;
 import com.cappielloantonio.play.model.Download;
-import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.RecentSearch;
 import com.cappielloantonio.play.model.Server;
+import com.cappielloantonio.play.subsonic.models.Playlist;
 
-@SuppressLint("RestrictedApi")
 @Database(
-        version = 46,
+        version = 48,
         entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Playlist.class, Chronology.class}
         // autoMigrations = {@AutoMigration(from = 43, to = 44)}
 )
+@TypeConverters({DateConverters.class})
 public abstract class AppDatabase extends RoomDatabase {
     private final static String DB_NAME = "play_db";
     private static AppDatabase instance;

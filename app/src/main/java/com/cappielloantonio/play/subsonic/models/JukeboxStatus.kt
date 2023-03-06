@@ -1,70 +1,38 @@
-package com.cappielloantonio.play.subsonic.models;
+package com.cappielloantonio.play.subsonic.models
 
-public class JukeboxStatus {
-    protected int currentIndex;
-    protected boolean playing;
-    protected float gain;
-    protected Integer position;
-
+open class JukeboxStatus {
     /**
      * Gets the value of the currentIndex property.
      */
-    public int getCurrentIndex() {
-        return currentIndex;
-    }
-
     /**
      * Sets the value of the currentIndex property.
      */
-    public void setCurrentIndex(int value) {
-        this.currentIndex = value;
-    }
-
+    var currentIndex = 0
     /**
      * Gets the value of the playing property.
      */
-    public boolean isPlaying() {
-        return playing;
-    }
-
     /**
      * Sets the value of the playing property.
      */
-    public void setPlaying(boolean value) {
-        this.playing = value;
-    }
-
+    var isPlaying = false
     /**
      * Gets the value of the gain property.
      */
-    public float getGain() {
-        return gain;
-    }
-
     /**
      * Sets the value of the gain property.
      */
-    public void setGain(float value) {
-        this.gain = value;
-    }
-
+    var gain = 0f
     /**
      * Gets the value of the position property.
      *
      * @return possible object is
-     * {@link Integer }
+     * [Integer]
      */
-    public Integer getPosition() {
-        return position;
-    }
-
     /**
      * Sets the value of the position property.
      *
      * @param value allowed object is
-     *              {@link Integer }
+     * [Integer]
      */
-    public void setPosition(Integer value) {
-        this.position = value;
-    }
+    var position: Int? = null
 }

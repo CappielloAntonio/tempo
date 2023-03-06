@@ -1,50 +1,16 @@
-package com.cappielloantonio.play.subsonic.models;
+package com.cappielloantonio.play.subsonic.models
 
-import com.tickaroo.tikxml.annotation.Element;
-import com.tickaroo.tikxml.annotation.Xml;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.tickaroo.tikxml.annotation.Element
+import com.tickaroo.tikxml.annotation.Xml
 
 @Xml
-public class SearchResult3 {
+class SearchResult3 {
     @Element(name = "artist")
-    protected List<ArtistID3> artists;
+    var artists: List<ArtistID3>? = null
+
     @Element(name = "album")
-    protected List<AlbumID3> albums;
+    var albums: List<AlbumID3>? = null
+
     @Element(name = "song")
-    protected List<Child> songs;
-
-    public List<ArtistID3> getArtists() {
-        if (artists == null) {
-            artists = new ArrayList<>();
-        }
-        return this.artists;
-    }
-
-    public List<AlbumID3> getAlbums() {
-        if (albums == null) {
-            albums = new ArrayList<>();
-        }
-        return this.albums;
-    }
-
-    public List<Child> getSongs() {
-        if (songs == null) {
-            songs = new ArrayList<>();
-        }
-        return this.songs;
-    }
-
-    public void setArtists(List<ArtistID3> artists) {
-        this.artists = artists;
-    }
-
-    public void setAlbums(List<AlbumID3> albums) {
-        this.albums = albums;
-    }
-
-    public void setSongs(List<Child> songs) {
-        this.songs = songs;
-    }
+    var songs: List<Child>? = null
 }

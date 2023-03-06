@@ -24,12 +24,12 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.MediaCallback;
-import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.model.Download;
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
+import com.cappielloantonio.play.subsonic.models.AlbumID3;
+import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MappingUtil;
@@ -45,7 +45,7 @@ import java.util.List;
 @UnstableApi
 public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
     private AlbumBottomSheetViewModel albumBottomSheetViewModel;
-    private Album album;
+    private AlbumID3 album;
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
@@ -80,17 +80,17 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
     private void init(View view) {
         ImageView coverAlbum = view.findViewById(R.id.album_cover_image_view);
         CustomGlideRequest.Builder
-                .from(requireContext(), albumBottomSheetViewModel.getAlbum().getPrimary(), CustomGlideRequest.ALBUM_PIC, null)
+                .from(requireContext(), albumBottomSheetViewModel.getAlbum().getCoverArtId(), CustomGlideRequest.ALBUM_PIC, null)
                 .build()
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(coverAlbum);
 
         TextView titleAlbum = view.findViewById(R.id.album_title_text_view);
-        titleAlbum.setText(MusicUtil.getReadableString(albumBottomSheetViewModel.getAlbum().getTitle()));
+        titleAlbum.setText(MusicUtil.getReadableString(albumBottomSheetViewModel.getAlbum().getName()));
         titleAlbum.setSelected(true);
 
         TextView artistAlbum = view.findViewById(R.id.album_artist_text_view);
-        artistAlbum.setText(MusicUtil.getReadableString(albumBottomSheetViewModel.getAlbum().getArtistName()));
+        artistAlbum.setText(MusicUtil.getReadableString(albumBottomSheetViewModel.getAlbum().getArtist()));
 
         ToggleButton favoriteToggle = view.findViewById(R.id.button_favorite);
         favoriteToggle.setChecked(Boolean.TRUE.equals(albumBottomSheetViewModel.getAlbum().getStarred()));
@@ -111,7 +111,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
                 @Override
                 public void onLoadMedia(List<?> media) {
                     if (media.size() > 0) {
-                        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), (ArrayList<Media>) media, 0);
+                        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), (ArrayList<Child>) media, 0);
                         ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
                     }
 

@@ -1,112 +1,71 @@
-package com.cappielloantonio.play.subsonic.models;
+package com.cappielloantonio.play.subsonic.models
 
-import java.time.LocalDateTime;
+import java.time.LocalDateTime
 
-public class Artist {
-    protected String id;
-    protected String name;
-    protected LocalDateTime starred;
-    protected Integer userRating;
-    protected Double averageRating;
-
+class Artist {
     /**
      * Gets the value of the id property.
      *
      * @return possible object is
-     * {@link String }
+     * [String]
      */
-    public String getId() {
-        return id;
-    }
-
     /**
      * Sets the value of the id property.
      *
      * @param value allowed object is
-     *              {@link String }
+     * [String]
      */
-    public void setId(String value) {
-        this.id = value;
-    }
-
+    var id: String? = null
     /**
      * Gets the value of the name property.
      *
      * @return possible object is
-     * {@link String }
+     * [String]
      */
-    public String getName() {
-        return name;
-    }
-
     /**
      * Sets the value of the name property.
      *
      * @param value allowed object is
-     *              {@link String }
+     * [String]
      */
-    public void setName(String value) {
-        this.name = value;
-    }
-
+    var name: String? = null
     /**
      * Gets the value of the starred property.
      *
      * @return possible object is
-     * {@link String }
+     * [String]
      */
-    public LocalDateTime getStarred() {
-        return starred;
-    }
-
     /**
      * Sets the value of the starred property.
      *
      * @param value allowed object is
-     *              {@link String }
+     * [String]
      */
-    public void setStarred(LocalDateTime value) {
-        this.starred = value;
-    }
-
+    var starred: LocalDateTime? = null
     /**
      * Gets the value of the userRating property.
      *
      * @return possible object is
-     * {@link Integer }
+     * [Integer]
      */
-    public Integer getUserRating() {
-        return userRating;
-    }
-
     /**
      * Sets the value of the userRating property.
      *
      * @param value allowed object is
-     *              {@link Integer }
+     * [Integer]
      */
-    public void setUserRating(Integer value) {
-        this.userRating = value;
-    }
-
+    var userRating: Int? = null
     /**
      * Gets the value of the averageRating property.
      *
      * @return possible object is
-     * {@link Double }
+     * [Double]
      */
-    public Double getAverageRating() {
-        return averageRating;
-    }
-
     /**
      * Sets the value of the averageRating property.
      *
      * @param value allowed object is
-     *              {@link Double }
+     * [Double]
      */
-    public void setAverageRating(Double value) {
-        this.averageRating = value;
-    }
-
+    var averageRating: Double? = null
 }

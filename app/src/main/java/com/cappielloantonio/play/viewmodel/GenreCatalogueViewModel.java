@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.repository.GenreRepository;
+import com.cappielloantonio.play.subsonic.models.Genre;
 
 import java.util.List;
 

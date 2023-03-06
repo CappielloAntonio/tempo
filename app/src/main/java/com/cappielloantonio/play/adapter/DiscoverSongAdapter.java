@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Media;
+import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.Collections;
@@ -25,7 +25,7 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
     private final Context context;
     private final ClickCallback click;
 
-    private List<Media> songs;
+    private List<Child> songs;
 
     public DiscoverSongAdapter(Context context, ClickCallback click) {
         this.context = context;
@@ -42,10 +42,10 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Media song = songs.get(position);
+        Child song = songs.get(position);
 
         holder.textTitle.setText(MusicUtil.getReadableString(song.getTitle()));
-        holder.textAlbum.setText(MusicUtil.getReadableString(song.getAlbumName()));
+        holder.textAlbum.setText(MusicUtil.getReadableString(song.getAlbum()));
 
         CustomGlideRequest.Builder
                 .from(context, song.getCoverArtId(), CustomGlideRequest.SONG_PIC, null)
@@ -64,7 +64,7 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
         return songs.size();
     }
 
-    public void setItems(List<Media> songs) {
+    public void setItems(List<Child> songs) {
         this.songs = songs;
         notifyDataSetChanged();
     }

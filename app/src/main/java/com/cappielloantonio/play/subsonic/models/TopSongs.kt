@@ -1,24 +1,10 @@
-package com.cappielloantonio.play.subsonic.models;
+package com.cappielloantonio.play.subsonic.models
 
-import com.tickaroo.tikxml.annotation.Element;
-import com.tickaroo.tikxml.annotation.Xml;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.tickaroo.tikxml.annotation.Element
+import com.tickaroo.tikxml.annotation.Xml
 
 @Xml
-public class TopSongs {
+class TopSongs {
     @Element(name = "song")
-    protected List<Child> songs;
-    
-    public List<Child> getSongs() {
-        if (songs == null) {
-            songs = new ArrayList<>();
-        }
-        return this.songs;
-    }
-
-    public void setSongs(List<Child> songs) {
-        this.songs = songs;
-    }
+    var songs: List<Child>? = null
 }

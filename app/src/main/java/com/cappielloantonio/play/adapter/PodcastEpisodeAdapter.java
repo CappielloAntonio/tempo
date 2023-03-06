@@ -17,7 +17,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Media;
+import com.cappielloantonio.play.subsonic.models.PodcastEpisode;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.text.SimpleDateFormat;
@@ -28,7 +28,7 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
     private final Context context;
     private final ClickCallback click;
 
-    private List<Media> podcastEpisodes;
+    private List<PodcastEpisode> podcastEpisodes;
 
     public PodcastEpisodeAdapter(Context context, ClickCallback click) {
         this.context = context;
@@ -45,11 +45,11 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Media podcastEpisode = podcastEpisodes.get(position);
+        PodcastEpisode podcastEpisode = podcastEpisodes.get(position);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d");
 
         holder.textTitle.setText(MusicUtil.getReadableString(podcastEpisode.getTitle()));
-        holder.textSubtitle.setText(MusicUtil.getReadableString(podcastEpisode.getArtistName()));
+        holder.textSubtitle.setText(MusicUtil.getReadableString(podcastEpisode.getArtist()));
         holder.textReleaseAndDuration.setText(context.getString(R.string.podcast_release_date_duration_formatter, simpleDateFormat.format(podcastEpisode.getPublishDate()), MusicUtil.getReadablePodcastDurationString(podcastEpisode.getDuration())));
         holder.textDescription.setText(MusicUtil.getReadableString(podcastEpisode.getDescription()));
 
@@ -65,7 +65,7 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
         return podcastEpisodes.size();
     }
 
-    public void setItems(List<Media> podcastEpisodes) {
+    public void setItems(List<PodcastEpisode> podcastEpisodes) {
         this.podcastEpisodes = podcastEpisodes;
         notifyDataSetChanged();
     }

@@ -6,21 +6,21 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.subsonic.models.AlbumID3;
+import com.cappielloantonio.play.subsonic.models.ArtistID3;
+import com.cappielloantonio.play.subsonic.models.Child;
 
 public class RatingViewModel extends AndroidViewModel {
     private final SongRepository songRepository;
     private final AlbumRepository albumRepository;
     private final ArtistRepository artistRepository;
 
-    private Media song;
-    private Album album;
-    private Artist artist;
+    private Child song;
+    private AlbumID3 album;
+    private ArtistID3 artist;
 
     public RatingViewModel(@NonNull Application application) {
         super(application);
@@ -30,43 +30,43 @@ public class RatingViewModel extends AndroidViewModel {
         artistRepository = new ArtistRepository(application);
     }
 
-    public Media getSong() {
+    public Child getSong() {
         return song;
     }
 
-    public LiveData<Media> getLiveSong() {
+    public LiveData<Child> getLiveSong() {
         return songRepository.getSong(song.getId());
     }
 
-    public void setSong(Media song) {
+    public void setSong(Child song) {
         this.song = song;
         this.album = null;
         this.artist = null;
     }
 
-    public Album getAlbum() {
+    public AlbumID3 getAlbum() {
         return album;
     }
 
-    public LiveData<Album> getLiveAlbum() {
+    public LiveData<AlbumID3> getLiveAlbum() {
         return albumRepository.getAlbum(album.getId());
     }
 
-    public void setAlbum(Album album) {
+    public void setAlbum(AlbumID3 album) {
         this.song = null;
         this.album = album;
         this.artist = null;
     }
 
-    public Artist getArtist() {
+    public ArtistID3 getArtist() {
         return artist;
     }
 
-    public LiveData<Artist> getLiveArtist() {
+    public LiveData<ArtistID3> getLiveArtist() {
         return artistRepository.getArtist(artist.getId());
     }
 
-    public void setArtist(Artist artist) {
+    public void setArtist(ArtistID3 artist) {
         this.song = null;
         this.album = null;
         this.artist = artist;

@@ -1,20 +1,19 @@
 package com.cappielloantonio.play.repository;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.media3.common.MediaItem;
 
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.QueueDao;
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.model.Queue;
-import com.cappielloantonio.play.util.MappingUtil;
+import com.cappielloantonio.play.subsonic.models.Child;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class QueueRepository {
     private static final String TAG = "QueueRepository";
@@ -30,8 +29,8 @@ public class QueueRepository {
         return queueDao.getAll();
     }
 
-    public List<Media> getMedia() {
-        List<Media> media = new ArrayList<>();
+    public List<Child> getMedia() {
+        List<Child> media = new ArrayList<>();
 
         GetMediaThreadSafe getMedia = new GetMediaThreadSafe(queueDao);
         Thread thread = new Thread(getMedia);
@@ -39,7 +38,10 @@ public class QueueRepository {
 
         try {
             thread.join();
-            media = getMedia.getMedia();
+            media = getMedia.getMedia().stream()
+                    .map(Child.class::cast)
+                    .collect(Collectors.toList());
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -47,9 +49,9 @@ public class QueueRepository {
         return media;
     }
 
-    public void insert(Media media, boolean reset, int afterIndex) {
+    public void insert(Child media, boolean reset, int afterIndex) {
         try {
-            List<Media> mediaList = new ArrayList<>();
+            List<Queue> mediaList = new ArrayList<>();
 
             if (!reset) {
                 GetMediaThreadSafe getMediaThreadSafe = new GetMediaThreadSafe(queueDao);
@@ -60,7 +62,7 @@ public class QueueRepository {
                 mediaList = getMediaThreadSafe.getMedia();
             }
 
-            mediaList.add(afterIndex, media);
+            mediaList.add(afterIndex, (Queue) media);
 
             Thread delete = new Thread(new DeleteAllThreadSafe(queueDao));
             delete.start();
@@ -74,9 +76,9 @@ public class QueueRepository {
         }
     }
 
-    public void insertAll(List<Media> toAdd, boolean reset, int afterIndex) {
+    public void insertAll(List<Child> toAdd, boolean reset, int afterIndex) {
         try {
-            List<Media> media = new ArrayList<>();
+            List<Queue> media = new ArrayList<>();
 
             if (!reset) {
                 GetMediaThreadSafe getMediaThreadSafe = new GetMediaThreadSafe(queueDao);
@@ -87,7 +89,9 @@ public class QueueRepository {
                 media = getMediaThreadSafe.getMedia();
             }
 
-            media.addAll(afterIndex, toAdd);
+            for (int i = 0; i < toAdd.size(); i++) {
+                media.add(afterIndex + i, (Queue) toAdd.get(i));
+            }
 
             Thread delete = new Thread(new DeleteAllThreadSafe(queueDao));
             delete.start();
@@ -206,7 +210,7 @@ public class QueueRepository {
 
     private static class GetMediaThreadSafe implements Runnable {
         private final QueueDao queueDao;
-        private List<Media> media;
+        private List<Queue> media;
 
         public GetMediaThreadSafe(QueueDao queueDao) {
             this.queueDao = queueDao;
@@ -214,26 +218,26 @@ public class QueueRepository {
 
         @Override
         public void run() {
-            media = MappingUtil.mapQueue(queueDao.getAllSimple());
+            media = queueDao.getAllSimple();
         }
 
-        public List<Media> getMedia() {
+        public List<Queue> getMedia() {
             return media;
         }
     }
 
     private static class InsertAllThreadSafe implements Runnable {
         private final QueueDao queueDao;
-        private final List<Media> media;
+        private final List<Queue> media;
 
-        public InsertAllThreadSafe(QueueDao queueDao, List<Media> media) {
+        public InsertAllThreadSafe(QueueDao queueDao, List<Queue> media) {
             this.queueDao = queueDao;
             this.media = media;
         }
 
         @Override
         public void run() {
-            queueDao.insertAll(MappingUtil.mapMediaToQueue(media));
+            queueDao.insertAll(media);
         }
     }
 

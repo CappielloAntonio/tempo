@@ -14,9 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Media;
-import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.subsonic.models.Genre;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
                 for (Genre item : genresFull) {
-                    if (item.getName().toLowerCase().contains(filterPattern)) {
+                    if (item.getGenre().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
                 }
@@ -79,7 +78,7 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         Genre genre = genres.get(position);
 
-        holder.textGenre.setText(MusicUtil.getReadableString(genre.getName()));
+        holder.textGenre.setText(MusicUtil.getReadableString(genre.getGenre()));
     }
 
     @Override
@@ -122,10 +121,10 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
 
     public void sort(String order) {
         switch (order) {
-            case Genre.ORDER_BY_NAME:
-                genres.sort(Comparator.comparing(Genre::getName));
+            case com.cappielloantonio.play.model.Genre.ORDER_BY_NAME:
+                genres.sort(Comparator.comparing(Genre::getGenre));
                 break;
-            case Genre.ORDER_BY_RANDOM:
+            case com.cappielloantonio.play.model.Genre.ORDER_BY_RANDOM:
                 Collections.shuffle(genres);
                 break;
         }

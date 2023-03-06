@@ -9,17 +9,18 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.repository.SongRepository;
-import com.cappielloantonio.play.util.MappingUtil;
+import com.cappielloantonio.play.subsonic.models.AlbumID3;
+import com.cappielloantonio.play.subsonic.models.ArtistID3;
+import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.subsonic.models.Genre;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SongListPageViewModel extends AndroidViewModel {
     private final SongRepository songRepository;
@@ -29,10 +30,10 @@ public class SongListPageViewModel extends AndroidViewModel {
     public String title;
     public String toolbarTitle;
     public Genre genre;
-    public Artist artist;
-    public Album album;
+    public ArtistID3 artist;
+    public AlbumID3 album;
 
-    private MutableLiveData<List<Media>> songList;
+    private MutableLiveData<List<Child>> songList;
 
     public ArrayList<String> filters = new ArrayList<>();
     public ArrayList<String> filterNames = new ArrayList<>();
@@ -47,12 +48,12 @@ public class SongListPageViewModel extends AndroidViewModel {
         downloadRepository = new DownloadRepository(application);
     }
 
-    public LiveData<List<Media>> getSongList(LifecycleOwner owner) {
+    public LiveData<List<Child>> getSongList(LifecycleOwner owner) {
         songList = new MutableLiveData<>(new ArrayList<>());
 
         switch (title) {
             case Media.BY_GENRE:
-                songList = songRepository.getSongsByGenre(genre.getId());
+                songList = songRepository.getSongsByGenre(genre.getGenre());
                 break;
             case Media.BY_ARTIST:
                 songList = artistRepository.getTopSongs(artist.getName(), 50);
@@ -67,10 +68,10 @@ public class SongListPageViewModel extends AndroidViewModel {
                 songList = songRepository.getStarredSongs(false, -1);
                 break;
             case Media.DOWNLOADED:
-                downloadRepository.getLiveDownload().observe(owner, downloads -> songList.setValue(MappingUtil.mapDownloadToMedia(downloads)));
+                downloadRepository.getLiveDownload().observe(owner, downloads -> songList.setValue(downloads.stream().map(download -> (Child) download).collect(Collectors.toList())));
                 break;
             case Media.FROM_ALBUM:
-                downloadRepository.getLiveDownloadFromAlbum(album.getId()).observe(owner, downloads -> songList.setValue(MappingUtil.mapDownloadToMedia(downloads)));
+                downloadRepository.getLiveDownloadFromAlbum(album.getId()).observe(owner, downloads -> songList.setValue(downloads.stream().map(download -> (Child) download).collect(Collectors.toList())));
                 break;
         }
 

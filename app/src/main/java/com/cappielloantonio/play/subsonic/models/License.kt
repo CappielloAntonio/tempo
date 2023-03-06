@@ -1,84 +1,52 @@
-package com.cappielloantonio.play.subsonic.models;
+package com.cappielloantonio.play.subsonic.models
 
-import java.time.LocalDateTime;
+import java.time.LocalDateTime
 
-public class License {
-    protected boolean valid;
-    protected String email;
-    protected LocalDateTime licenseExpires;
-    protected LocalDateTime trialExpires;
-
+class License {
     /**
      * Gets the value of the valid property.
      */
-    public boolean isValid() {
-        return valid;
-    }
-
     /**
      * Sets the value of the valid property.
      */
-    public void setValid(boolean value) {
-        this.valid = value;
-    }
-
+    var isValid = false
     /**
      * Gets the value of the email property.
      *
      * @return possible object is
-     * {@link String }
+     * [String]
      */
-    public String getEmail() {
-        return email;
-    }
-
     /**
      * Sets the value of the email property.
      *
      * @param value allowed object is
-     *              {@link String }
+     * [String]
      */
-    public void setEmail(String value) {
-        this.email = value;
-    }
-
+    var email: String? = null
     /**
      * Gets the value of the licenseExpires property.
      *
      * @return possible object is
-     * {@link String }
+     * [String]
      */
-    public LocalDateTime getLicenseExpires() {
-        return licenseExpires;
-    }
-
     /**
      * Sets the value of the licenseExpires property.
      *
      * @param value allowed object is
-     *              {@link String }
+     * [String]
      */
-    public void setLicenseExpires(LocalDateTime value) {
-        this.licenseExpires = value;
-    }
-
+    var licenseExpires: LocalDateTime? = null
     /**
      * Gets the value of the trialExpires property.
      *
      * @return possible object is
-     * {@link String }
+     * [String]
      */
-    public LocalDateTime getTrialExpires() {
-        return trialExpires;
-    }
-
     /**
      * Sets the value of the trialExpires property.
      *
      * @param value allowed object is
-     *              {@link String }
+     * [String]
      */
-    public void setTrialExpires(LocalDateTime value) {
-        this.trialExpires = value;
-    }
+    var trialExpires: LocalDateTime? = null
 }

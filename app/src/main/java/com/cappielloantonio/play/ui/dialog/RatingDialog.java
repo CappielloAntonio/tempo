@@ -13,8 +13,6 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.DialogRatingBinding;
 import com.cappielloantonio.play.viewmodel.RatingViewModel;
 
-import java.util.Objects;
-
 public class RatingDialog extends DialogFragment {
     private static final String TAG = "ServerSignupDialog";
 
@@ -63,7 +61,7 @@ public class RatingDialog extends DialogFragment {
 
     private void setRating() {
         if (ratingViewModel.getSong() != null) {
-            ratingViewModel.getLiveSong().observe(getViewLifecycleOwner(), song -> bind.ratingBar.setRating(song.getRating()));
+            ratingViewModel.getLiveSong().observe(getViewLifecycleOwner(), song -> bind.ratingBar.setRating(song.getUserRating()));
         } else if (ratingViewModel.getAlbum() != null) {
             ratingViewModel.getLiveAlbum().observe(getViewLifecycleOwner(), album -> bind.ratingBar.setRating(/*album.getRating()*/ 0));
         } else if (ratingViewModel.getArtist() != null) {

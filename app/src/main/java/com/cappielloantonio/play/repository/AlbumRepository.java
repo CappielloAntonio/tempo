@@ -8,10 +8,9 @@ import androidx.lifecycle.MutableLiveData;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.DecadesCallback;
 import com.cappielloantonio.play.interfaces.MediaCallback;
-import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Media;
+import com.cappielloantonio.play.subsonic.models.AlbumID3;
+import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
-import com.cappielloantonio.play.util.MappingUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,8 +31,8 @@ public class AlbumRepository {
         this.application = application;
     }
 
-    public MutableLiveData<List<Album>> getAlbums(String type, int size, Integer fromYear, Integer toYear) {
-        MutableLiveData<List<Album>> listLiveAlbums = new MutableLiveData<>();
+    public MutableLiveData<List<AlbumID3>> getAlbums(String type, int size, Integer fromYear, Integer toYear) {
+        MutableLiveData<List<AlbumID3>> listLiveAlbums = new MutableLiveData<>(new ArrayList<>());
 
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
@@ -41,13 +40,9 @@ public class AlbumRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        List<Album> albums = new ArrayList<>();
-
                         if (response.isSuccessful() && response.body() != null && response.body().getAlbumList2() != null) {
-                            albums.addAll(MappingUtil.mapAlbum(response.body().getAlbumList2().getAlbums()));
+                            listLiveAlbums.setValue(response.body().getAlbumList2().getAlbums());
                         }
-
-                        listLiveAlbums.setValue(albums);
                     }
 
                     @Override
@@ -59,8 +54,8 @@ public class AlbumRepository {
         return listLiveAlbums;
     }
 
-    public MutableLiveData<List<Album>> getStarredAlbums(boolean random, int size) {
-        MutableLiveData<List<Album>> starredAlbums = new MutableLiveData<>();
+    public MutableLiveData<List<AlbumID3>> getStarredAlbums(boolean random, int size) {
+        MutableLiveData<List<AlbumID3>> starredAlbums = new MutableLiveData<>(new ArrayList<>());
 
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
@@ -69,13 +64,13 @@ public class AlbumRepository {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getStarred2() != null) {
-                            List<Album> albums = new ArrayList<>(MappingUtil.mapAlbum(response.body().getStarred2().getAlbums()));
+                            List<AlbumID3> albums = response.body().getStarred2().getAlbums();
 
-                            if (!random) {
-                                starredAlbums.setValue(albums);
-                            } else {
+                            if (random) {
                                 Collections.shuffle(albums);
                                 starredAlbums.setValue(albums.subList(0, Math.min(size, albums.size())));
+                            } else {
+                                starredAlbums.setValue(albums);
                             }
                         }
                     }
@@ -140,8 +135,8 @@ public class AlbumRepository {
                 });
     }
 
-    public MutableLiveData<List<Media>> getAlbumTracks(String id) {
-        MutableLiveData<List<Media>> albumTracks = new MutableLiveData<>();
+    public MutableLiveData<List<Child>> getAlbumTracks(String id) {
+        MutableLiveData<List<Child>> albumTracks = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
@@ -149,10 +144,10 @@ public class AlbumRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        List<Media> tracks = new ArrayList<>();
+                        List<Child> tracks = new ArrayList<>();
 
                         if (response.isSuccessful() && response.body() != null && response.body().getAlbum() != null) {
-                            tracks.addAll(MappingUtil.mapSong(response.body().getAlbum().getSongs()));
+                            tracks.addAll(response.body().getAlbum().getSongs());
                         }
 
                         albumTracks.setValue(tracks);
@@ -167,8 +162,8 @@ public class AlbumRepository {
         return albumTracks;
     }
 
-    public MutableLiveData<List<Album>> getArtistAlbums(String id) {
-        MutableLiveData<List<Album>> artistsAlbum = new MutableLiveData<>();
+    public MutableLiveData<List<AlbumID3>> getArtistAlbums(String id) {
+        MutableLiveData<List<AlbumID3>> artistsAlbum = new MutableLiveData<>(new ArrayList<>());
 
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
@@ -176,14 +171,11 @@ public class AlbumRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        List<Album> albums = new ArrayList<>();
-
                         if (response.isSuccessful() && response.body() != null && response.body().getArtist() != null) {
-                            albums.addAll(MappingUtil.mapAlbum(response.body().getArtist().getAlbums()));
-                            albums.sort(Comparator.comparing(Album::getYear));
+                            List<AlbumID3> albums = response.body().getArtist().getAlbums();
+                            albums.sort(Comparator.comparing(AlbumID3::getYear));
+                            artistsAlbum.setValue(albums);
                         }
-
-                        artistsAlbum.setValue(albums);
                     }
 
                     @Override
@@ -195,8 +187,8 @@ public class AlbumRepository {
         return artistsAlbum;
     }
 
-    public MutableLiveData<Album> getAlbum(String id) {
-        MutableLiveData<Album> album = new MutableLiveData<>();
+    public MutableLiveData<AlbumID3> getAlbum(String id) {
+        MutableLiveData<AlbumID3> album = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
@@ -205,7 +197,7 @@ public class AlbumRepository {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getAlbum() != null) {
-                            album.setValue(MappingUtil.mapAlbum(response.body().getAlbum()));
+                            album.setValue(response.body().getAlbum());
                         }
                     }
 
@@ -218,17 +210,17 @@ public class AlbumRepository {
         return album;
     }
 
-    public void getInstantMix(Album album, int count, MediaCallback callback) {
+    public void getInstantMix(AlbumID3 album, int count, MediaCallback callback) {
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
                 .getSimilarSongs2(album.getId(), count)
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        List<Media> songs = new ArrayList<>();
+                        List<Child> songs = new ArrayList<>();
 
                         if (response.isSuccessful() && response.body() != null && response.body().getSimilarSongs2() != null) {
-                            songs.addAll(MappingUtil.mapSong(response.body().getSimilarSongs2().getSongs()));
+                            songs.addAll(response.body().getSimilarSongs2().getSongs());
                         }
 
                         callback.onLoadMedia(songs);

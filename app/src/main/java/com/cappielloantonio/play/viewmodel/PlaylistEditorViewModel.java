@@ -7,9 +7,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.cappielloantonio.play.model.Playlist;
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.PlaylistRepository;
+import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.subsonic.models.Playlist;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,10 +21,10 @@ public class PlaylistEditorViewModel extends AndroidViewModel {
 
     private final PlaylistRepository playlistRepository;
 
-    private Media toAdd;
+    private Child toAdd;
     private Playlist toEdit;
 
-    private MutableLiveData<List<Media>> songLiveList = new MutableLiveData<>();
+    private MutableLiveData<List<Child>> songLiveList = new MutableLiveData<>();
 
     public PlaylistEditorViewModel(@NonNull Application application) {
         super(application);
@@ -45,11 +45,11 @@ public class PlaylistEditorViewModel extends AndroidViewModel {
         if (toEdit != null) playlistRepository.deletePlaylist(toEdit.getId());
     }
 
-    public Media getSongToAdd() {
+    public Child getSongToAdd() {
         return toAdd;
     }
 
-    public void setSongToAdd(Media song) {
+    public void setSongToAdd(Child song) {
         this.toAdd = song;
     }
 
@@ -67,26 +67,26 @@ public class PlaylistEditorViewModel extends AndroidViewModel {
         }
     }
 
-    public LiveData<List<Media>> getPlaylistSongLiveList() {
+    public LiveData<List<Child>> getPlaylistSongLiveList() {
         return songLiveList;
     }
 
     public void removeFromPlaylistSongLiveList(int position) {
-        List<Media> songs = songLiveList.getValue();
+        List<Child> songs = songLiveList.getValue();
         Objects.requireNonNull(songs).remove(position);
         songLiveList.postValue(songs);
     }
 
-    public void orderPlaylistSongLiveListAfterSwap(List<Media> songs) {
+    public void orderPlaylistSongLiveListAfterSwap(List<Child> songs) {
         songLiveList.postValue(songs);
     }
 
     private ArrayList<String> getPlaylistSongIds() {
-        List<Media> songs = songLiveList.getValue();
+        List<Child> songs = songLiveList.getValue();
         ArrayList<String> ids = new ArrayList<>();
 
         if (songs != null && !songs.isEmpty()) {
-            for (Media song : songs) {
+            for (Child song : songs) {
                 ids.add(song.getId());
             }
         }

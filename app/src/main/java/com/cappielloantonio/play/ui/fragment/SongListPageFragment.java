@@ -90,8 +90,8 @@ public class SongListPageFragment extends Fragment implements ClickCallback {
         } else if (requireArguments().getString(Media.BY_GENRE) != null) {
             songListPageViewModel.title = Media.BY_GENRE;
             songListPageViewModel.genre = requireArguments().getParcelable("genre_object");
-            songListPageViewModel.toolbarTitle = MusicUtil.getReadableString(songListPageViewModel.genre.getName());
-            bind.pageTitleLabel.setText(MusicUtil.getReadableString(songListPageViewModel.genre.getName()));
+            songListPageViewModel.toolbarTitle = MusicUtil.getReadableString(songListPageViewModel.genre.getGenre());
+            bind.pageTitleLabel.setText(MusicUtil.getReadableString(songListPageViewModel.genre.getGenre()));
         } else if (requireArguments().getString(Media.BY_ARTIST) != null) {
             songListPageViewModel.title = Media.BY_ARTIST;
             songListPageViewModel.artist = requireArguments().getParcelable("artist_object");
@@ -119,8 +119,8 @@ public class SongListPageFragment extends Fragment implements ClickCallback {
         } else if (requireArguments().getParcelable("album_object") != null) {
             songListPageViewModel.album = requireArguments().getParcelable("album_object");
             songListPageViewModel.title = Media.FROM_ALBUM;
-            songListPageViewModel.toolbarTitle = MusicUtil.getReadableString(songListPageViewModel.album.getTitle());
-            bind.pageTitleLabel.setText(MusicUtil.getReadableString(songListPageViewModel.album.getTitle()));
+            songListPageViewModel.toolbarTitle = MusicUtil.getReadableString(songListPageViewModel.album.getName());
+            bind.pageTitleLabel.setText(MusicUtil.getReadableString(songListPageViewModel.album.getName()));
         }
     }
 

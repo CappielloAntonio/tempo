@@ -1,23 +1,17 @@
-package com.cappielloantonio.play.subsonic.models;
+package com.cappielloantonio.play.subsonic.models
 
-import com.tickaroo.tikxml.annotation.Attribute;
-import com.tickaroo.tikxml.annotation.Xml;
+import com.tickaroo.tikxml.annotation.Attribute
+import com.tickaroo.tikxml.annotation.Xml
 
 @Xml
-public class MediaType {
-    public static String MUSIC = "music";
-    public static String PODCAST = "podcast";
-    public static String AUDIOBOOK = "audiobook";
-    public static String VIDEO = "video";
-
+class MediaType {
     @Attribute
-    private String value;
+    var value: String? = null
 
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
+    companion object {
+        var MUSIC = "music"
+        var PODCAST = "podcast"
+        var AUDIOBOOK = "audiobook"
+        var VIDEO = "video"
     }
 }

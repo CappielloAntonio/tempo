@@ -6,11 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.RecentSearch;
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.SearchingRepository;
+import com.cappielloantonio.play.subsonic.models.SearchResult3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,16 +38,8 @@ public class SearchViewModel extends AndroidViewModel {
         }
     }
 
-    public LiveData<List<Media>> searchSong(String title) {
-        return searchingRepository.getSearchedSongs(title);
-    }
-
-    public LiveData<List<Album>> searchAlbum(String name) {
-        return searchingRepository.getSearchedAlbums(name);
-    }
-
-    public LiveData<List<Artist>> searchArtist(String name) {
-        return searchingRepository.getSearchedArtists(name);
+    public LiveData<SearchResult3> search(String title) {
+        return searchingRepository.search(title);
     }
 
     public void insertNewSearch(String search) {

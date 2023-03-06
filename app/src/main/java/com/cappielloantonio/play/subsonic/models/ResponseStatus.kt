@@ -1,20 +1,16 @@
-package com.cappielloantonio.play.subsonic.models;
+package com.cappielloantonio.play.subsonic.models
 
-import com.tickaroo.tikxml.annotation.Attribute;
-import com.tickaroo.tikxml.annotation.Xml;
+import com.tickaroo.tikxml.annotation.Attribute
+import com.tickaroo.tikxml.annotation.Xml
 
 @Xml
-public class ResponseStatus {
-    public static String OK = "ok";
-    public static String FAILED = "failed";
+class ResponseStatus(@param:Attribute val value: String) {
 
-    private final String value;
+    companion object {
+        @JvmField
+        var OK = "ok"
 
-    public ResponseStatus(@Attribute String value) {
-        this.value = value;
-    }
-
-    public String getValue() {
-        return value;
+        @JvmField
+        var FAILED = "failed"
     }
 }

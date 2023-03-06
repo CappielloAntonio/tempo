@@ -201,11 +201,11 @@ public class MusicUtil {
             return "0";
 
         if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-            return PreferenceUtil.getInstance(context).getMaxBitrateWifi();
+            return Preferences.getMaxBitrateWifi();
         } else if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-            return PreferenceUtil.getInstance(context).getMaxBitrateMobile();
+            return Preferences.getMaxBitrateMobile();
         } else {
-            return PreferenceUtil.getInstance(context).getMaxBitrateWifi();
+            return Preferences.getMaxBitrateWifi();
         }
     }
 
@@ -216,11 +216,11 @@ public class MusicUtil {
         if (network == null || networkCapabilities == null) return "raw";
 
         if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-            return PreferenceUtil.getInstance(context).getAudioTranscodeFormatWifi();
+            return Preferences.getAudioTranscodeFormatWifi();
         } else if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-            return PreferenceUtil.getInstance(context).getAudioTranscodeFormatMobile();
+            return Preferences.getAudioTranscodeFormatMobile();
         } else {
-            return PreferenceUtil.getInstance(context).getAudioTranscodeFormatWifi();
+            return Preferences.getAudioTranscodeFormatWifi();
         }
     }
 

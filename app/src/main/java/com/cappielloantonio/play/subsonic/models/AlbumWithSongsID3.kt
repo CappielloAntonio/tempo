@@ -1,24 +1,13 @@
-package com.cappielloantonio.play.subsonic.models;
+package com.cappielloantonio.play.subsonic.models
 
-import com.tickaroo.tikxml.annotation.Element;
-import com.tickaroo.tikxml.annotation.Xml;
+import android.os.Parcelable
+import com.tickaroo.tikxml.annotation.Element
+import com.tickaroo.tikxml.annotation.Xml
+import kotlinx.android.parcel.Parcelize
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Parcelize
 @Xml
-public class AlbumWithSongsID3 extends AlbumID3 {
+class AlbumWithSongsID3 : AlbumID3(), Parcelable {
     @Element(name = "song")
-    protected List<Child> songs;
-
-    public List<Child> getSongs() {
-        if (songs == null) {
-            songs = new ArrayList<>();
-        }
-        return this.songs;
-    }
-
-    public void setSongs(List<Child> songs) {
-        this.songs = songs;
-    }
+    var songs: List<Child>? = null
 }

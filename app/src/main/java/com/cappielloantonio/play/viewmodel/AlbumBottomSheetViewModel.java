@@ -7,19 +7,20 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
+import com.cappielloantonio.play.subsonic.models.AlbumID3;
+import com.cappielloantonio.play.subsonic.models.ArtistID3;
+import com.cappielloantonio.play.subsonic.models.Child;
 
+import java.util.Date;
 import java.util.List;
 
 public class AlbumBottomSheetViewModel extends AndroidViewModel {
     private final AlbumRepository albumRepository;
     private final ArtistRepository artistRepository;
 
-    private Album album;
+    private AlbumID3 album;
 
     public AlbumBottomSheetViewModel(@NonNull Application application) {
         super(application);
@@ -28,29 +29,29 @@ public class AlbumBottomSheetViewModel extends AndroidViewModel {
         artistRepository = new ArtistRepository(application);
     }
 
-    public Album getAlbum() {
+    public AlbumID3 getAlbum() {
         return album;
     }
 
-    public void setAlbum(Album album) {
+    public void setAlbum(AlbumID3 album) {
         this.album = album;
     }
 
-    public LiveData<Artist> getArtist() {
+    public LiveData<ArtistID3> getArtist() {
         return artistRepository.getArtist(album.getArtistId());
     }
 
-    public MutableLiveData<List<Media>> getAlbumTracks() {
+    public MutableLiveData<List<Child>> getAlbumTracks() {
         return albumRepository.getAlbumTracks(album.getId());
     }
 
     public void setFavorite() {
-        if (Boolean.TRUE.equals(album.getStarred())) {
+        if (album.getStarred() != null) {
             artistRepository.unstar(album.getId());
-            album.setStarred(false);
+            album.setStarred(null);
         } else {
             artistRepository.star(album.getId());
-            album.setStarred(true);
+            album.setStarred(new Date());
         }
     }
 }

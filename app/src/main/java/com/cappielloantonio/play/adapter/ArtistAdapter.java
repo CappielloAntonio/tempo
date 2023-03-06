@@ -9,28 +9,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.media3.common.util.UnstableApi;
-import androidx.media3.session.MediaBrowser;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.repository.ArtistRepository;
-import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.util.MusicUtil;
-import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 @UnstableApi
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder> {
@@ -39,7 +30,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
     private final boolean mix;
     private final boolean bestOf;
 
-    private List<Artist> artists;
+    private List<ArtistID3> artists;
 
     public ArtistAdapter(Context context, ClickCallback click, Boolean mix, Boolean bestOf) {
         this.context = context;
@@ -58,7 +49,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Artist artist = artists.get(position);
+        ArtistID3 artist = artists.get(position);
 
         holder.textArtistName.setText(MusicUtil.getReadableString(artist.getName()));
 
@@ -70,11 +61,11 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
         return artists.size();
     }
 
-    public Artist getItem(int position) {
+    public ArtistID3 getItem(int position) {
         return artists.get(position);
     }
 
-    public void setItems(List<Artist> artists) {
+    public void setItems(List<ArtistID3> artists) {
         this.artists = artists;
         notifyDataSetChanged();
     }
@@ -89,9 +80,9 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
         return position;
     }
 
-    private void setArtistCover(Artist artist, ImageView cover) {
+    private void setArtistCover(ArtistID3 artist, ImageView cover) {
         CustomGlideRequest.Builder
-                .from(context, artist.getPrimary(), CustomGlideRequest.ARTIST_PIC, null)
+                .from(context, artist.getCoverArtId(), CustomGlideRequest.ARTIST_PIC, null)
                 .build()
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(cover);

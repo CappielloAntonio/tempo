@@ -27,7 +27,7 @@ import com.cappielloantonio.play.model.Server;
 import com.cappielloantonio.play.repository.SystemRepository;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.dialog.ServerSignupDialog;
-import com.cappielloantonio.play.util.PreferenceUtil;
+import com.cappielloantonio.play.util.Preferences;
 import com.cappielloantonio.play.viewmodel.LoginViewModel;
 
 @UnstableApi
@@ -142,23 +142,23 @@ public class LoginFragment extends Fragment implements ClickCallback {
     }
 
     private void saveServerPreference(String serverId, String server, String user, String password, boolean isLowSecurity) {
-        PreferenceUtil.getInstance(requireContext()).setServerId(serverId);
-        PreferenceUtil.getInstance(requireContext()).setServer(server);
-        PreferenceUtil.getInstance(requireContext()).setUser(user);
-        PreferenceUtil.getInstance(requireContext()).setPassword(password);
-        PreferenceUtil.getInstance(requireContext()).setLowSecurity(isLowSecurity);
+        Preferences.setServerId(serverId);
+        Preferences.setServer(server);
+        Preferences.setUser(user);
+        Preferences.setPassword(password);
+        Preferences.setLowSecurity(isLowSecurity);
 
         App.getSubsonicClientInstance(requireContext(), true);
     }
 
     private void resetServerPreference() {
-        PreferenceUtil.getInstance(requireContext()).setServerId(null);
-        PreferenceUtil.getInstance(requireContext()).setServer(null);
-        PreferenceUtil.getInstance(requireContext()).setUser(null);
-        PreferenceUtil.getInstance(requireContext()).setPassword(null);
-        PreferenceUtil.getInstance(requireContext()).setToken(null);
-        PreferenceUtil.getInstance(requireContext()).setSalt(null);
-        PreferenceUtil.getInstance(requireContext()).setLowSecurity(false);
+        Preferences.setServerId(null);
+        Preferences.setServer(null);
+        Preferences.setUser(null);
+        Preferences.setPassword(null);
+        Preferences.setToken(null);
+        Preferences.setSalt(null);
+        Preferences.setLowSecurity(false);
 
         App.getSubsonicClientInstance(requireContext(), true);
     }

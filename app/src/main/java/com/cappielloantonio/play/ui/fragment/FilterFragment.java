@@ -8,19 +8,22 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.OptIn;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.util.UnstableApi;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.FragmentFilterBinding;
-import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Media;
+import com.cappielloantonio.play.subsonic.models.Genre;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.FilterViewModel;
 import com.google.android.material.chip.Chip;
 
+@OptIn(markerClass = UnstableApi.class)
 public class FilterFragment extends Fragment {
     private static final String TAG = "FilterFragment";
 
@@ -88,13 +91,13 @@ public class FilterFragment extends Fragment {
             bind.filterContainer.setVisibility(View.VISIBLE);
             for (Genre genre : genres) {
                 Chip chip = (Chip) requireActivity().getLayoutInflater().inflate(R.layout.chip_search_filter_genre, null, false);
-                chip.setText(MusicUtil.getReadableString(genre.getName()));
-                chip.setChecked(filterViewModel.getFilters().contains(genre.getId()));
+                chip.setText(MusicUtil.getReadableString(genre.getGenre()));
+                chip.setChecked(filterViewModel.getFilters().contains(genre.getGenre()));
                 chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     if (isChecked)
-                        filterViewModel.addFilter(genre.getId(), buttonView.getText().toString());
+                        filterViewModel.addFilter(genre.getGenre(), buttonView.getText().toString());
                     else
-                        filterViewModel.removeFilter(genre.getId(), buttonView.getText().toString());
+                        filterViewModel.removeFilter(genre.getGenre(), buttonView.getText().toString());
                 });
                 bind.filtersChipsGroup.addView(chip);
             }

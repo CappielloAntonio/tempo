@@ -15,7 +15,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.PlaylistDialogHorizontalAdapter;
 import com.cappielloantonio.play.databinding.DialogPlaylistChooserBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.subsonic.models.Playlist;
 import com.cappielloantonio.play.viewmodel.PlaylistChooserViewModel;
 
 import java.util.Objects;

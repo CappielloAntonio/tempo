@@ -21,9 +21,9 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
+import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.dialog.PlaylistChooserDialog;
 import com.cappielloantonio.play.ui.dialog.RatingDialog;
@@ -41,7 +41,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
     private static final String TAG = "SongBottomSheetDialog";
 
     private SongBottomSheetViewModel songBottomSheetViewModel;
-    private Media song;
+    private Child song;
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
@@ -87,7 +87,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         titleSong.setSelected(true);
 
         TextView artistSong = view.findViewById(R.id.song_artist_text_view);
-        artistSong.setText(MusicUtil.getReadableString(songBottomSheetViewModel.getSong().getArtistName()));
+        artistSong.setText(MusicUtil.getReadableString(songBottomSheetViewModel.getSong().getArtist()));
 
         ToggleButton favoriteToggle = view.findViewById(R.id.button_favorite);
         favoriteToggle.setChecked(Boolean.TRUE.equals(songBottomSheetViewModel.getSong().getStarred()));
@@ -119,7 +119,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
                 }
 
                 if (songs.size() > 0) {
-                    MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), (List<Media>) songs, true);
+                    MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), (List<Child>) songs, true);
                     dismissBottomSheet();
                 }
             });

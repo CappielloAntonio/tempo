@@ -16,7 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.Collections;
@@ -26,7 +26,7 @@ public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumA
     private final Context context;
     private final ClickCallback click;
 
-    private List<Album> albums;
+    private List<AlbumID3> albums;
 
     public AlbumArtistPageOrSimilarAdapter(Context context, ClickCallback click) {
         this.context = context;
@@ -43,13 +43,13 @@ public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumA
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Album album = albums.get(position);
+        AlbumID3 album = albums.get(position);
 
-        holder.textAlbumName.setText(MusicUtil.getReadableString(album.getTitle()));
-        holder.textArtistName.setText(MusicUtil.getReadableString(album.getArtistName()));
+        holder.textAlbumName.setText(MusicUtil.getReadableString(album.getName()));
+        holder.textArtistName.setText(MusicUtil.getReadableString(album.getArtist()));
 
         CustomGlideRequest.Builder
-                .from(context, album.getPrimary(), CustomGlideRequest.ALBUM_PIC, null)
+                .from(context, album.getCoverArtId(), CustomGlideRequest.ALBUM_PIC, null)
                 .build()
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.cover);
@@ -60,11 +60,11 @@ public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumA
         return albums.size();
     }
 
-    public Album getItem(int position) {
+    public AlbumID3 getItem(int position) {
         return albums.get(position);
     }
 
-    public void setItems(List<Album> albums) {
+    public void setItems(List<AlbumID3> albums) {
         this.albums = albums;
         notifyDataSetChanged();
     }

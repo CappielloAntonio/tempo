@@ -8,13 +8,12 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.DownloadRepository;
-import com.cappielloantonio.play.util.MappingUtil;
+import com.cappielloantonio.play.subsonic.models.AlbumID3;
+import com.cappielloantonio.play.subsonic.models.ArtistID3;
+import com.cappielloantonio.play.subsonic.models.Child;
 
 import java.util.List;
 
@@ -23,9 +22,9 @@ public class AlbumPageViewModel extends AndroidViewModel {
     private final ArtistRepository artistRepository;
     private final DownloadRepository downloadRepository;
 
-    private MutableLiveData<List<Media>> songLiveList = new MutableLiveData<>();
+    private MutableLiveData<List<Child>> songLiveList = new MutableLiveData<>();
 
-    private Album album;
+    private AlbumID3 album;
     private boolean isOffline;
 
     public AlbumPageViewModel(@NonNull Application application) {
@@ -36,9 +35,10 @@ public class AlbumPageViewModel extends AndroidViewModel {
         downloadRepository = new DownloadRepository(application);
     }
 
-    public LiveData<List<Media>> getAlbumSongLiveList(LifecycleOwner owner) {
+    public LiveData<List<Child>> getAlbumSongLiveList(LifecycleOwner owner) {
         if (isOffline) {
-            downloadRepository.getLiveDownloadFromAlbum(album.getId()).observe(owner, downloads -> songLiveList.postValue(MappingUtil.mapDownloadToMedia(downloads)));
+            // TODO
+            //downloadRepository.getLiveDownloadFromAlbum(album.getId()).observe(owner, downloads -> songLiveList.postValue(MappingUtil.mapDownloadToMedia(downloads)));
         } else {
             songLiveList = albumRepository.getAlbumTracks(album.getId());
         }
@@ -46,11 +46,11 @@ public class AlbumPageViewModel extends AndroidViewModel {
         return songLiveList;
     }
 
-    public Album getAlbum() {
+    public AlbumID3 getAlbum() {
         return album;
     }
 
-    public void setAlbum(Album album) {
+    public void setAlbum(AlbumID3 album) {
         this.album = album;
     }
 
@@ -58,7 +58,7 @@ public class AlbumPageViewModel extends AndroidViewModel {
         isOffline = offline;
     }
 
-    public LiveData<Artist> getArtist() {
+    public LiveData<ArtistID3> getArtist() {
         return artistRepository.getArtistInfo(album.getArtistId());
     }
 }

@@ -1,67 +1,43 @@
-package com.cappielloantonio.play.subsonic.models;
+package com.cappielloantonio.play.subsonic.models
 
-public class VideoConversion {
-    protected String id;
-    protected Integer bitRate;
-    protected Integer audioTrackId;
-
+class VideoConversion {
     /**
      * Gets the value of the id property.
      *
      * @return possible object is
-     * {@link String }
+     * [String]
      */
-    public String getId() {
-        return id;
-    }
-
     /**
      * Sets the value of the id property.
      *
      * @param value allowed object is
-     *              {@link String }
+     * [String]
      */
-    public void setId(String value) {
-        this.id = value;
-    }
-
+    var id: String? = null
     /**
      * Gets the value of the bitRate property.
      *
      * @return possible object is
-     * {@link Integer }
+     * [Integer]
      */
-    public Integer getBitRate() {
-        return bitRate;
-    }
-
     /**
      * Sets the value of the bitRate property.
      *
      * @param value allowed object is
-     *              {@link Integer }
+     * [Integer]
      */
-    public void setBitRate(Integer value) {
-        this.bitRate = value;
-    }
-
+    var bitRate: Int? = null
     /**
      * Gets the value of the audioTrackId property.
      *
      * @return possible object is
-     * {@link Integer }
+     * [Integer]
      */
-    public Integer getAudioTrackId() {
-        return audioTrackId;
-    }
-
     /**
      * Sets the value of the audioTrackId property.
      *
      * @param value allowed object is
-     *              {@link Integer }
+     * [Integer]
      */
-    public void setAudioTrackId(Integer value) {
-        this.audioTrackId = value;
-    }
+    var audioTrackId: Int? = null
 }

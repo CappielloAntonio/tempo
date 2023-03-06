@@ -21,11 +21,12 @@ import com.cappielloantonio.play.databinding.InnerFragmentPlayerQueueBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
-import com.cappielloantonio.play.util.MappingUtil;
+import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 @UnstableApi
 public class PlayerQueueFragment extends Fragment implements ClickCallback {
@@ -92,7 +93,7 @@ public class PlayerQueueFragment extends Fragment implements ClickCallback {
         bind.playerQueueRecyclerView.setAdapter(playerSongQueueAdapter);
         playerBottomSheetViewModel.getQueueSong().observe(getViewLifecycleOwner(), queue -> {
             if (queue != null) {
-                playerSongQueueAdapter.setItems(MappingUtil.mapQueue(queue));
+                playerSongQueueAdapter.setItems(queue.stream().map(item -> (Child) item).collect(Collectors.toList()));
             }
         });
 

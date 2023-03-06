@@ -22,7 +22,6 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.databinding.InnerFragmentPlayerCoverBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.dialog.PlaylistChooserDialog;
@@ -31,8 +30,6 @@ import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
-
-import java.util.List;
 
 @UnstableApi
 public class PlayerCoverFragment extends Fragment {
@@ -109,7 +106,7 @@ public class PlayerCoverFragment extends Fragment {
 
                 bind.innerButtonBottomLeft.setOnClickListener(view -> {
                     playerBottomSheetViewModel.getMediaInstantMix(getViewLifecycleOwner(), song).observe(getViewLifecycleOwner(), media -> {
-                        MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), (List<Media>) media, true);
+                        MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), media, true);
                     });
                 });
 

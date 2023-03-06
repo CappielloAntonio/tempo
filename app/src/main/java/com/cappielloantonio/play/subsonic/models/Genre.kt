@@ -1,39 +1,20 @@
-package com.cappielloantonio.play.subsonic.models;
+package com.cappielloantonio.play.subsonic.models
 
-import com.tickaroo.tikxml.annotation.Attribute;
-import com.tickaroo.tikxml.annotation.TextContent;
-import com.tickaroo.tikxml.annotation.Xml;
+import android.os.Parcelable
+import com.tickaroo.tikxml.annotation.Attribute
+import com.tickaroo.tikxml.annotation.TextContent
+import com.tickaroo.tikxml.annotation.Xml
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 @Xml
-public class Genre {
+class Genre : Parcelable {
     @TextContent
-    protected String genre;
+    var genre: String? = null
+
     @Attribute
-    protected int songCount;
+    var songCount = 0
+
     @Attribute
-    protected int albumCount;
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String value) {
-        this.genre = value;
-    }
-
-    public int getSongCount() {
-        return songCount;
-    }
-
-    public void setSongCount(int value) {
-        this.songCount = value;
-    }
-
-    public int getAlbumCount() {
-        return albumCount;
-    }
-
-    public void setAlbumCount(int value) {
-        this.albumCount = value;
-    }
+    var albumCount = 0
 }

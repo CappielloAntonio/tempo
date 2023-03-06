@@ -4,17 +4,14 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.DownloadDao;
 import com.cappielloantonio.play.model.Download;
-import com.cappielloantonio.play.util.PreferenceUtil;
+import com.cappielloantonio.play.util.Preferences;
 
 import java.util.List;
 
 public class DownloadRepository {
-    private static final String TAG = "QueueRepository";
-
     private final DownloadDao downloadDao;
 
     public DownloadRepository(Application application) {
@@ -23,31 +20,31 @@ public class DownloadRepository {
     }
 
     public LiveData<List<Download>> getLiveDownload() {
-        return downloadDao.getAll(PreferenceUtil.getInstance(App.getInstance()).getServerId());
+        return downloadDao.getAll(Preferences.getServerId());
     }
 
     public LiveData<List<Download>> getLiveDownloadSample(int size, boolean isArtist, boolean isAlbum, boolean isTrack, boolean isPlaylist) {
-        if (isArtist) return downloadDao.getSampleArtist(size, PreferenceUtil.getInstance(App.getInstance()).getServerId());
-        else if (isAlbum) return downloadDao.getSampleAlbum(size, PreferenceUtil.getInstance(App.getInstance()).getServerId());
-        else if (isTrack) return downloadDao.getSample(size, PreferenceUtil.getInstance(App.getInstance()).getServerId());
-        else if (isPlaylist) return downloadDao.getSamplePlaylist(size, PreferenceUtil.getInstance(App.getInstance()).getServerId());
-        else return downloadDao.getSample(size, PreferenceUtil.getInstance(App.getInstance()).getServerId());
+        if (isArtist) return downloadDao.getSampleArtist(size, Preferences.getServerId());
+        else if (isAlbum) return downloadDao.getSampleAlbum(size, Preferences.getServerId());
+        else if (isTrack) return downloadDao.getSample(size, Preferences.getServerId());
+        else if (isPlaylist) return downloadDao.getSamplePlaylist(size, Preferences.getServerId());
+        else return downloadDao.getSample(size, Preferences.getServerId());
     }
 
     public LiveData<List<Download>> getLiveDownloadFromArtist(String artistId) {
-        return downloadDao.getAllFromArtist(PreferenceUtil.getInstance(App.getInstance()).getServerId(), artistId);
+        return downloadDao.getAllFromArtist(Preferences.getServerId(), artistId);
     }
 
     public LiveData<List<Download>> getLiveDownloadFromAlbum(String albumId) {
-        return downloadDao.getAllFromAlbum(PreferenceUtil.getInstance(App.getInstance()).getServerId(), albumId);
+        return downloadDao.getAllFromAlbum(Preferences.getServerId(), albumId);
     }
 
     public LiveData<List<Download>> getLiveDownloadFromPlaylist(String playlistId) {
-        return downloadDao.getAllFromPlaylist(PreferenceUtil.getInstance(App.getInstance()).getServerId(), playlistId);
+        return downloadDao.getAllFromPlaylist(Preferences.getServerId(), playlistId);
     }
 
     public LiveData<List<Download>> getLivePlaylist() {
-        return downloadDao.getAllPlaylists(PreferenceUtil.getInstance(App.getInstance()).getServerId());
+        return downloadDao.getAllPlaylists(Preferences.getServerId());
     }
 
     public void insert(Download download) {
@@ -107,7 +104,7 @@ public class DownloadRepository {
 
         @Override
         public void run() {
-            downloadDao.deleteAll(PreferenceUtil.getInstance(App.getInstance()).getServerId());
+            downloadDao.deleteAll(Preferences.getServerId());
         }
     }
 

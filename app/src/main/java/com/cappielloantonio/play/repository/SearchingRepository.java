@@ -8,15 +8,12 @@ import androidx.lifecycle.MutableLiveData;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.RecentSearchDao;
-import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.RecentSearch;
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.subsonic.models.SearchResult3;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
-import com.cappielloantonio.play.util.MappingUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -37,8 +34,8 @@ public class SearchingRepository {
         recentSearchDao = database.recentSearchDao();
     }
 
-    public MutableLiveData<List<Media>> getSearchedSongs(String query) {
-        MutableLiveData<List<Media>> searchedSongs = new MutableLiveData<>();
+    public MutableLiveData<SearchResult3> search(String query) {
+        MutableLiveData<SearchResult3> result = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(application, false)
                 .getSearchingClient()
@@ -46,13 +43,7 @@ public class SearchingRepository {
                 .enqueue(new Callback<SubsonicResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        List<Media> songs = new ArrayList<>();
-
-                        if (response.isSuccessful() && response.body() != null && response.body().getSearchResult3() != null) {
-                            songs.addAll(MappingUtil.mapSong(response.body().getSearchResult3().getSongs()));
-                        }
-
-                        searchedSongs.setValue(songs);
+                        result.setValue(response.body().getSearchResult3());
                     }
 
                     @Override
@@ -61,61 +52,7 @@ public class SearchingRepository {
                     }
                 });
 
-        return searchedSongs;
-    }
-
-    public MutableLiveData<List<Album>> getSearchedAlbums(String query) {
-        MutableLiveData<List<Album>> searchedAlbums = new MutableLiveData<>();
-
-        App.getSubsonicClientInstance(application, false)
-                .getSearchingClient()
-                .search3(query, 0, 20, 0)
-                .enqueue(new Callback<SubsonicResponse>() {
-                    @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        List<Album> albums = new ArrayList<>();
-
-                        if (response.isSuccessful() && response.body() != null && response.body().getSearchResult3() != null) {
-                            albums.addAll(MappingUtil.mapAlbum(response.body().getSearchResult3().getAlbums()));
-                        }
-
-                        searchedAlbums.setValue(albums);
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
-
-                    }
-                });
-
-        return searchedAlbums;
-    }
-
-    public MutableLiveData<List<Artist>> getSearchedArtists(String query) {
-        MutableLiveData<List<Artist>> searchedArtists = new MutableLiveData<>();
-
-        App.getSubsonicClientInstance(application, false)
-                .getSearchingClient()
-                .search3(query, 0, 0, 20)
-                .enqueue(new Callback<SubsonicResponse>() {
-                    @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        List<Artist> artists = new ArrayList<>();
-
-                        if (response.isSuccessful() && response.body() != null && response.body().getSearchResult3() != null) {
-                            artists.addAll(MappingUtil.mapArtist(response.body().getSearchResult3().getArtists()));
-                        }
-
-                        searchedArtists.setValue(artists);
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
-
-                    }
-                });
-
-        return searchedArtists;
+        return result;
     }
 
     public MutableLiveData<List<String>> getSuggestions(String query) {

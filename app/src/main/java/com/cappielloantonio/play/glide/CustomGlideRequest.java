@@ -15,7 +15,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.util.MusicUtil;
-import com.cappielloantonio.play.util.PreferenceUtil;
+import com.cappielloantonio.play.util.Preferences;
 
 import java.util.Map;
 
@@ -71,12 +71,12 @@ public class CustomGlideRequest {
         private Builder(Context context, String item, String category, String custom) {
             this.requestManager = Glide.with(context);
 
-            if (PreferenceUtil.getInstance(context).isDataSavingMode()) {
+            if (Preferences.isDataSavingMode()) {
                 this.item = MusicUtil.getDefaultPicPerCategory(category);
-            } else if (custom != null && !PreferenceUtil.getInstance(context).isDataSavingMode()) {
+            } else if (custom != null && !Preferences.isDataSavingMode()) {
                 this.item = custom;
-            } else if (item != null && !PreferenceUtil.getInstance(context).isDataSavingMode()) {
-                this.item = createUrl(item, PreferenceUtil.getInstance(context).getImageSize());
+            } else if (item != null && !Preferences.isDataSavingMode()) {
+                this.item = createUrl(item, Preferences.getImageSize());
             } else {
                 this.item = MusicUtil.getDefaultPicPerCategory(category);
             }

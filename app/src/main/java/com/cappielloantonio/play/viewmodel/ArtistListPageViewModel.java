@@ -3,7 +3,6 @@ package com.cappielloantonio.play.viewmodel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
@@ -13,7 +12,7 @@ import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.DownloadRepository;
-import com.cappielloantonio.play.util.MappingUtil;
+import com.cappielloantonio.play.subsonic.models.ArtistID3;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -27,7 +26,7 @@ public class ArtistListPageViewModel extends AndroidViewModel {
 
     public String title;
 
-    private MutableLiveData<List<Artist>> artistList;
+    private MutableLiveData<List<ArtistID3>> artistList;
 
     public ArtistListPageViewModel(@NonNull Application application) {
         super(application);
@@ -36,7 +35,7 @@ public class ArtistListPageViewModel extends AndroidViewModel {
         downloadRepository = new DownloadRepository(application);
     }
 
-    public LiveData<List<Artist>> getArtistList(LifecycleOwner owner) {
+    public LiveData<List<ArtistID3>> getArtistList(LifecycleOwner owner) {
         artistList = new MutableLiveData<>(new ArrayList<>());
 
         switch (title) {
@@ -48,10 +47,11 @@ public class ArtistListPageViewModel extends AndroidViewModel {
                     List<Download> unique = downloads
                             .stream()
                             .collect(Collectors.collectingAndThen(
-                                    Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Download::getArtistName))), ArrayList::new)
+                                    Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Download::getArtist))), ArrayList::new)
                             );
 
-                    artistList.setValue(MappingUtil.mapDownloadToArtist(unique));
+                    // TODO
+                    // artistList.setValue(MappingUtil.mapDownloadToArtist(unique));
                 });
                 break;
         }

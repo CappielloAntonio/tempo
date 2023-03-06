@@ -5,13 +5,15 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.repository.AlbumRepository;
+import com.cappielloantonio.play.subsonic.models.ArtistID3;
+
+import java.util.Date;
 
 public class ArtistBottomSheetViewModel extends AndroidViewModel {
     private final AlbumRepository albumRepository;
 
-    private Artist artist;
+    private ArtistID3 artist;
 
     public ArtistBottomSheetViewModel(@NonNull Application application) {
         super(application);
@@ -19,21 +21,21 @@ public class ArtistBottomSheetViewModel extends AndroidViewModel {
         albumRepository = new AlbumRepository(application);
     }
 
-    public Artist getArtist() {
+    public ArtistID3 getArtist() {
         return artist;
     }
 
-    public void setArtist(Artist artist) {
+    public void setArtist(ArtistID3 artist) {
         this.artist = artist;
     }
 
     public void setFavorite() {
-        if (Boolean.TRUE.equals(artist.getStarred())) {
+        if (artist.getStarred() != null) {
             albumRepository.unstar(artist.getId());
-            artist.setStarred(false);
+            artist.setStarred(null);
         } else {
             albumRepository.star(artist.getId());
-            artist.setStarred(true);
+            artist.setStarred(new Date());
         }
     }
 }

@@ -1,125 +1,64 @@
-package com.cappielloantonio.play.subsonic.models;
+package com.cappielloantonio.play.subsonic.models
 
-import com.tickaroo.tikxml.annotation.Attribute;
-import com.tickaroo.tikxml.annotation.Xml;
-import com.tickaroo.tikxml.converters.date.rfc3339.DateRfc3339TypeConverter;
+import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
+import com.tickaroo.tikxml.annotation.Attribute
+import com.tickaroo.tikxml.annotation.Xml
+import com.tickaroo.tikxml.converters.date.rfc3339.DateRfc3339TypeConverter
+import kotlinx.android.parcel.Parcelize
+import java.util.*
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+@Parcelize
+@Entity(tableName = "playlist")
 @Xml
-public class Playlist {
-    protected List<String> allowedUsers;
+open class Playlist : Parcelable {
+    @PrimaryKey
+    @ColumnInfo(name = "id")
     @Attribute
-    protected String id;
+    lateinit var id: String
+
+    @ColumnInfo(name = "name")
     @Attribute
-    protected String name;
+    var name: String? = null
+
+    @Ignore
     @Attribute
-    protected String comment;
+    var comment: String? = null
+
+    @Ignore
     @Attribute
-    protected String owner;
+    var owner: String? = null
+
+    @Ignore
     @Attribute(name = "public")
-    protected Boolean universal;
+    var isUniversal: Boolean? = null
+
+    @Ignore
     @Attribute
-    protected int songCount;
+    var songCount: Int = 0
+
+    @Ignore
+    @ColumnInfo(name = "duration")
     @Attribute
-    protected int duration;
-    @Attribute(converter = DateRfc3339TypeConverter.class)
-    protected Date created;
-    @Attribute(converter = DateRfc3339TypeConverter.class)
-    protected Date changed;
+    var duration: Long = 0
+
+    @Ignore
+    @Attribute(converter = DateRfc3339TypeConverter::class)
+    var created: Date? = null
+
+    @Ignore
+    @Attribute(converter = DateRfc3339TypeConverter::class)
+    var changed: Date? = null
+
+    @Ignore
+    @ColumnInfo(name = "coverArt")
     @Attribute
-    protected String coverArtId;
+    var coverArtId: String? = null
 
-    public List<String> getAllowedUsers() {
-        if (allowedUsers == null) {
-            allowedUsers = new ArrayList<>();
-        }
-        return this.allowedUsers;
-    }
-
-    public void setAllowedUsers(List<String> allowedUsers) {
-        this.allowedUsers = allowedUsers;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String value) {
-        this.id = value;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String value) {
-        this.name = value;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String value) {
-        this.comment = value;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String value) {
-        this.owner = value;
-    }
-
-    public Boolean isUniversal() {
-        return universal;
-    }
-
-    public void setUniversal(Boolean value) {
-        this.universal = value;
-    }
-
-    public int getSongCount() {
-        return songCount;
-    }
-
-    public void setSongCount(int value) {
-        this.songCount = value;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int value) {
-        this.duration = value;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date value) {
-        this.created = value;
-    }
-
-    public Date getChanged() {
-        return changed;
-    }
-
-    public void setChanged(Date value) {
-        this.changed = value;
-    }
-
-    public String getCoverArtId() {
-        return coverArtId;
-    }
-
-    public void setCoverArtId(String value) {
-        this.coverArtId = value;
-    }
+    @Ignore
+    @Attribute
+    var allowedUsers: List<String>? = null
 }

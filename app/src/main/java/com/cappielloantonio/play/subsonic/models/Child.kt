@@ -1,322 +1,139 @@
-package com.cappielloantonio.play.subsonic.models;
+package com.cappielloantonio.play.subsonic.models
 
-import com.tickaroo.tikxml.annotation.Attribute;
-import com.tickaroo.tikxml.annotation.Element;
-import com.tickaroo.tikxml.annotation.Xml;
-import com.tickaroo.tikxml.converters.date.rfc3339.DateRfc3339TypeConverter;
+import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.PrimaryKey
+import com.tickaroo.tikxml.annotation.Attribute
+import com.tickaroo.tikxml.annotation.Xml
+import com.tickaroo.tikxml.converters.date.rfc3339.DateRfc3339TypeConverter
+import kotlinx.android.parcel.Parcelize
+import java.util.*
 
-import java.util.Date;
-
+@Parcelize
 @Xml
-public class Child {
+open class Child(
+    @PrimaryKey
+    @ColumnInfo(name = "id")
     @Attribute
-    protected String id;
+    open val id: String,
+
+    @ColumnInfo(name = "parent_id")
     @Attribute(name = "parent")
-    protected String parentId;
-    @Attribute(name = "isDir")
-    protected boolean dir;
+    var parentId: String? = null,
+
+    @ColumnInfo(name = "is_dir")
     @Attribute
-    protected String title;
+    var isDir: Boolean = false,
+
+    @ColumnInfo
     @Attribute
-    protected String album;
+    var title: String? = null,
+
+    @ColumnInfo
     @Attribute
-    protected String artist;
+    var album: String? = null,
+
+    @ColumnInfo
     @Attribute
-    protected Integer track;
+    var artist: String? = null,
+
+    @ColumnInfo
     @Attribute
-    protected Integer year;
+    var track: Int? = null,
+
+    @ColumnInfo
+    @Attribute
+    var year: Int? = null,
+
+    @ColumnInfo
     @Attribute(name = "genre")
-    protected String genre;
+    var genre: String? = null,
+
+    @ColumnInfo(name = "cover_art_id")
     @Attribute(name = "coverArt")
-    protected String coverArtId;
+    var coverArtId: String? = null,
+
+    @ColumnInfo
     @Attribute
-    protected Long size;
+    var size: Long? = null,
+
+    @ColumnInfo(name = "content_type")
     @Attribute
-    protected String contentType;
+    var contentType: String? = null,
+
+    @ColumnInfo
     @Attribute
-    protected String suffix;
+    var suffix: String? = null,
+
+    @ColumnInfo("transcoding_content_type")
     @Attribute
-    protected String transcodedContentType;
+    var transcodedContentType: String? = null,
+
+    @ColumnInfo(name = "transcoded_suffix")
     @Attribute
-    protected String transcodedSuffix;
+    var transcodedSuffix: String? = null,
+
+    @ColumnInfo
     @Attribute
-    protected Integer duration;
+    var duration: Int? = null,
+
+    @ColumnInfo("bitrate")
+    @Attribute(name = "bitRate")
+    var bitrate: Int? = null,
+
+    @ColumnInfo
     @Attribute
-    protected Integer bitRate;
-    @Attribute
-    protected String path;
+    var path: String? = null,
+
+    @ColumnInfo(name = "is_video")
     @Attribute(name = "isVideo")
-    protected Boolean video;
+    var isVideo: Boolean = false,
+
+    @ColumnInfo(name = "user_rating")
     @Attribute
-    protected Integer userRating;
+    var userRating: Int? = null,
+
+    @ColumnInfo(name = "average_rating")
     @Attribute
-    protected Double averageRating;
+    var averageRating: Double? = null,
+
+    @ColumnInfo(name = "play_count")
     @Attribute
-    protected Long playCount;
+    var playCount: Long? = null,
+
+    @ColumnInfo(name = "disc_number")
     @Attribute
-    protected Integer discNumber;
-    @Attribute(converter = DateRfc3339TypeConverter.class)
-    protected Date created;
-    @Attribute(converter = DateRfc3339TypeConverter.class)
-    protected Date starred;
+    var discNumber: Int? = null,
+
+    @ColumnInfo
+    @Attribute(converter = DateRfc3339TypeConverter::class)
+    var created: Date? = null,
+
+    @ColumnInfo
+    @Attribute(converter = DateRfc3339TypeConverter::class)
+    var starred: Date? = null,
+
+    @ColumnInfo(name = "album_id")
     @Attribute
-    protected String albumId;
+    var albumId: String? = null,
+
+    @ColumnInfo(name = "artist_id")
     @Attribute
-    protected String artistId;
+    var artistId: String? = null,
+
+    @ColumnInfo
     @Attribute
-    protected String type;
+    var type: String? = null,
+
+    @ColumnInfo(name = "bookmark_position")
     @Attribute
-    protected Long bookmarkPosition;
+    var bookmarkPosition: Long? = null,
+
+    @ColumnInfo(name = "original_width")
     @Attribute
-    protected Integer originalWidth;
+    var originalWidth: Int? = null,
+
+    @ColumnInfo(name = "original_height")
     @Attribute
-    protected Integer originalHeight;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String value) {
-        this.id = value;
-    }
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String value) {
-        this.parentId = value;
-    }
-
-    public boolean isDir() {
-        return dir;
-    }
-
-    public void setDir(boolean value) {
-        this.dir = value;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String value) {
-        this.title = value;
-    }
-
-    public String getAlbum() {
-        return album;
-    }
-
-    public void setAlbum(String value) {
-        this.album = value;
-    }
-
-    public String getArtist() {
-        return artist;
-    }
-
-    public void setArtist(String value) {
-        this.artist = value;
-    }
-
-    public Integer getTrack() {
-        return track;
-    }
-
-    public void setTrack(Integer value) {
-        this.track = value;
-    }
-
-    public Integer getYear() {
-        return year;
-    }
-
-    public void setYear(Integer value) {
-        this.year = value;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String value) {
-        this.genre = value;
-    }
-
-    public String getCoverArtId() {
-        return coverArtId;
-    }
-
-    public void setCoverArtId(String value) {
-        this.coverArtId = value;
-    }
-
-    public Long getSize() {
-        return size;
-    }
-
-    public void setSize(Long value) {
-        this.size = value;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String value) {
-        this.contentType = value;
-    }
-
-    public String getSuffix() {
-        return suffix;
-    }
-
-    public void setSuffix(String value) {
-        this.suffix = value;
-    }
-
-    public String getTranscodedContentType() {
-        return transcodedContentType;
-    }
-
-    public void setTranscodedContentType(String value) {
-        this.transcodedContentType = value;
-    }
-
-    public String getTranscodedSuffix() {
-        return transcodedSuffix;
-    }
-
-    public void setTranscodedSuffix(String value) {
-        this.transcodedSuffix = value;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Integer value) {
-        this.duration = value;
-    }
-
-    public Integer getBitRate() {
-        return bitRate;
-    }
-
-    public void setBitRate(Integer value) {
-        this.bitRate = value;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String value) {
-        this.path = value;
-    }
-
-    public Boolean isVideo() {
-        return video;
-    }
-
-    public void setVideo(Boolean value) {
-        this.video = value;
-    }
-
-    public Integer getUserRating() {
-        return userRating;
-    }
-
-    public void setUserRating(Integer value) {
-        this.userRating = value;
-    }
-
-    public Double getAverageRating() {
-        return averageRating;
-    }
-
-    public void setAverageRating(Double value) {
-        this.averageRating = value;
-    }
-
-    public Long getPlayCount() {
-        return playCount;
-    }
-
-    public void setPlayCount(Long value) {
-        this.playCount = value;
-    }
-
-    public Integer getDiscNumber() {
-        return discNumber;
-    }
-
-    public void setDiscNumber(Integer value) {
-        this.discNumber = value;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date value) {
-        this.created = value;
-    }
-
-    public Date getStarred() {
-        return starred;
-    }
-
-    public void setStarred(Date value) {
-        this.starred = value;
-    }
-
-    public String getAlbumId() {
-        return albumId;
-    }
-
-    public void setAlbumId(String value) {
-        this.albumId = value;
-    }
-
-    public String getArtistId() {
-        return artistId;
-    }
-
-    public void setArtistId(String value) {
-        this.artistId = value;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String value) {
-        this.type = value;
-    }
-
-    public Long getBookmarkPosition() {
-        return bookmarkPosition;
-    }
-
-    public void setBookmarkPosition(Long value) {
-        this.bookmarkPosition = value;
-    }
-
-    public Integer getOriginalWidth() {
-        return originalWidth;
-    }
-
-    public void setOriginalWidth(Integer value) {
-        this.originalWidth = value;
-    }
-
-    public Integer getOriginalHeight() {
-        return originalHeight;
-    }
-
-    public void setOriginalHeight(Integer value) {
-        this.originalHeight = value;
-    }
-}
+    var originalHeight: Int? = null
+) : Parcelable

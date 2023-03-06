@@ -8,14 +8,14 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Genre;
-import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.GenreRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
+import com.cappielloantonio.play.subsonic.models.AlbumID3;
+import com.cappielloantonio.play.subsonic.models.ArtistID3;
+import com.cappielloantonio.play.subsonic.models.Genre;
+import com.cappielloantonio.play.subsonic.models.Playlist;
 
 import java.util.List;
 
@@ -28,8 +28,8 @@ public class LibraryViewModel extends AndroidViewModel {
     private final PlaylistRepository playlistRepository;
 
     private final MutableLiveData<List<Playlist>> playlistSample = new MutableLiveData<>(null);
-    private final MutableLiveData<List<Album>> sampleAlbum = new MutableLiveData<>(null);
-    private final MutableLiveData<List<Artist>> sampleArtist = new MutableLiveData<>(null);
+    private final MutableLiveData<List<AlbumID3>> sampleAlbum = new MutableLiveData<>(null);
+    private final MutableLiveData<List<ArtistID3>> sampleArtist = new MutableLiveData<>(null);
     private final MutableLiveData<List<Genre>> sampleGenres = new MutableLiveData<>(null);
 
     public LibraryViewModel(@NonNull Application application) {
@@ -41,7 +41,7 @@ public class LibraryViewModel extends AndroidViewModel {
         playlistRepository = new PlaylistRepository(application);
     }
 
-    public LiveData<List<Album>> getAlbumSample(LifecycleOwner owner) {
+    public LiveData<List<AlbumID3>> getAlbumSample(LifecycleOwner owner) {
         if (sampleAlbum.getValue() == null) {
             albumRepository.getAlbums("random", 10, null, null).observe(owner, sampleAlbum::postValue);
         }
@@ -49,7 +49,7 @@ public class LibraryViewModel extends AndroidViewModel {
         return sampleAlbum;
     }
 
-    public LiveData<List<Artist>> getArtistSample(LifecycleOwner owner) {
+    public LiveData<List<ArtistID3>> getArtistSample(LifecycleOwner owner) {
         if (sampleArtist.getValue() == null) {
             artistRepository.getArtists(true, 10).observe(owner, sampleArtist::postValue);
         }

@@ -9,23 +9,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.repository.ArtistRepository;
+import com.cappielloantonio.play.subsonic.models.SimilarArtistID3;
 import com.cappielloantonio.play.util.MusicUtil;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,7 +27,7 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
     private final Context context;
     private final ClickCallback click;
 
-    private List<Artist> artists;
+    private List<SimilarArtistID3> artists;
 
     public ArtistSimilarAdapter(Context context, ClickCallback click) {
         this.context = context;
@@ -50,7 +44,7 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Artist artist = artists.get(position);
+        SimilarArtistID3 artist = artists.get(position);
 
         holder.textArtistName.setText(MusicUtil.getReadableString(artist.getName()));
 
@@ -62,11 +56,11 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
         return artists.size();
     }
 
-    public Artist getItem(int position) {
+    public SimilarArtistID3 getItem(int position) {
         return artists.get(position);
     }
 
-    public void setItems(List<Artist> artists) {
+    public void setItems(List<SimilarArtistID3> artists) {
         this.artists = artists;
         notifyDataSetChanged();
     }
@@ -81,9 +75,9 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
         return position;
     }
 
-    private void setArtistCover(Artist artist, ImageView cover) {
+    private void setArtistCover(SimilarArtistID3 artist, ImageView cover) {
         CustomGlideRequest.Builder
-                .from(context, artist.getPrimary(), CustomGlideRequest.ARTIST_PIC, null)
+                .from(context, artist.getCoverArtId(), CustomGlideRequest.ARTIST_PIC, null)
                 .build()
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(cover);

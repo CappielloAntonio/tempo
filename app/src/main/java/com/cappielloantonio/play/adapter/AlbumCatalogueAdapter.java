@@ -19,6 +19,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
@@ -32,15 +33,15 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
     private final Filter filtering = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<Album> filteredList = new ArrayList<>();
+            List<AlbumID3> filteredList = new ArrayList<>();
 
             if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(albumsFull);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (Album item : albumsFull) {
-                    if (item.getTitle().toLowerCase().contains(filterPattern)) {
+                for (AlbumID3 item : albumsFull) {
+                    if (item.getName().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
                 }
@@ -60,8 +61,8 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
         }
     };
 
-    private List<Album> albums;
-    private List<Album> albumsFull;
+    private List<AlbumID3> albums;
+    private List<AlbumID3> albumsFull;
 
     public AlbumCatalogueAdapter(Context context, ClickCallback click) {
         this.context = context;
@@ -78,13 +79,13 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Album album = albums.get(position);
+        AlbumID3 album = albums.get(position);
 
-        holder.textAlbumName.setText(MusicUtil.getReadableString(album.getTitle()));
-        holder.textArtistName.setText(MusicUtil.getReadableString(album.getArtistName()));
+        holder.textAlbumName.setText(MusicUtil.getReadableString(album.getName()));
+        holder.textArtistName.setText(MusicUtil.getReadableString(album.getArtist()));
 
         CustomGlideRequest.Builder
-                .from(context, album.getPrimary(), CustomGlideRequest.ALBUM_PIC, null)
+                .from(context, album.getCoverArtId(), CustomGlideRequest.ALBUM_PIC, null)
                 .build()
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.cover);
@@ -95,11 +96,11 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
         return albums.size();
     }
 
-    public Album getItem(int position) {
+    public AlbumID3 getItem(int position) {
         return albums.get(position);
     }
 
-    public void setItems(List<Album> albums) {
+    public void setItems(List<AlbumID3> albums) {
         this.albums = albums;
         this.albumsFull = new ArrayList<>(albums);
         notifyDataSetChanged();
@@ -160,13 +161,13 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
     public void sort(String order) {
         switch (order) {
             case Album.ORDER_BY_NAME:
-                albums.sort(Comparator.comparing(Album::getTitle));
+                albums.sort(Comparator.comparing(AlbumID3::getName));
                 break;
             case Album.ORDER_BY_ARTIST:
-                albums.sort(Comparator.comparing(Album::getArtistName));
+                albums.sort(Comparator.comparing(AlbumID3::getArtist));
                 break;
             case Album.ORDER_BY_YEAR:
-                albums.sort(Comparator.comparing(Album::getYear));
+                albums.sort(Comparator.comparing(AlbumID3::getYear));
                 break;
             case Album.ORDER_BY_RANDOM:
                 Collections.shuffle(albums);

@@ -1,17 +1,16 @@
 package com.cappielloantonio.play.service;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.media3.common.MediaItem;
 import androidx.media3.session.MediaBrowser;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.MediaIndexCallback;
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.ChronologyRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
+import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.util.MappingUtil;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
@@ -64,7 +63,7 @@ public class MediaManager {
                 try {
                     if (mediaBrowserListenableFuture.isDone()) {
                         if (mediaBrowserListenableFuture.get().getMediaItemCount() < 1) {
-                            List<Media> media = getQueueRepository().getMedia();
+                            List<Child> media = getQueueRepository().getMedia();
                             if (media != null && media.size() >= 1) {
                                 init(mediaBrowserListenableFuture, context, media);
                             }
@@ -77,7 +76,7 @@ public class MediaManager {
         }
     }
 
-    public static void init(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, List<Media> media) {
+    public static void init(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, List<Child> media) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
@@ -164,7 +163,7 @@ public class MediaManager {
         }
     }
 
-    public static void startQueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, List<Media> media, int startIndex) {
+    public static void startQueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, List<Child> media, int startIndex) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
@@ -183,7 +182,7 @@ public class MediaManager {
         }
     }
 
-    public static void startQueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, Media media) {
+    public static void startQueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, Child media) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
@@ -201,7 +200,7 @@ public class MediaManager {
         }
     }
 
-    public static void enqueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, List<Media> media, boolean playImmediatelyAfter) {
+    public static void enqueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, List<Child> media, boolean playImmediatelyAfter) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
@@ -221,7 +220,7 @@ public class MediaManager {
         }
     }
 
-    public static void enqueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, Media media, boolean playImmediatelyAfter) {
+    public static void enqueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, Child media, boolean playImmediatelyAfter) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
@@ -241,7 +240,7 @@ public class MediaManager {
         }
     }
 
-    public static void swap(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, List<Media> media, int from, int to) {
+    public static void swap(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, List<Child> media, int from, int to) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
@@ -256,7 +255,7 @@ public class MediaManager {
         }
     }
 
-    public static void remove(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, List<Media> media, int toRemove) {
+    public static void remove(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, List<Child> media, int toRemove) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
@@ -307,7 +306,7 @@ public class MediaManager {
     public static void saveChronology(MediaItem mediaItem) {
         if (mediaItem != null)
             if (getQueueRepository().isMediaPlayingPlausible(mediaItem))
-                getChronologyRepository().insert(MappingUtil.mapChronology(mediaItem));
+                getChronologyRepository().insert(mediaItem.mediaMetadata.extras.getParcelable("child"));
     }
 
     private static QueueRepository getQueueRepository() {
@@ -322,19 +321,19 @@ public class MediaManager {
         return new ChronologyRepository(App.getInstance());
     }
 
-    private static void enqueueDatabase(List<Media> media, boolean reset, int afterIndex) {
+    private static void enqueueDatabase(List<Child> media, boolean reset, int afterIndex) {
         getQueueRepository().insertAll(media, reset, afterIndex);
     }
 
-    private static void enqueueDatabase(Media media, boolean reset, int afterIndex) {
+    private static void enqueueDatabase(Child media, boolean reset, int afterIndex) {
         getQueueRepository().insert(media, reset, afterIndex);
     }
 
-    private static void swapDatabase(List<Media> media) {
+    private static void swapDatabase(List<Child> media) {
         getQueueRepository().insertAll(media, true, 0);
     }
 
-    private static void removeDatabase(List<Media> media, int toRemove) {
+    private static void removeDatabase(List<Child> media, int toRemove) {
         if (toRemove != -1) {
             media.remove(toRemove);
             getQueueRepository().insertAll(media, true, 0);

@@ -3,7 +3,6 @@ package com.cappielloantonio.play.ui.fragment;
 import android.content.Intent;
 import android.media.audiofx.AudioEffect;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,9 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.OptIn;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.util.UnstableApi;
 import androidx.preference.ListPreference;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -21,9 +22,10 @@ import com.cappielloantonio.play.helper.ThemeHelper;
 import com.cappielloantonio.play.interfaces.ScanCallback;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.dialog.StarredSyncDialog;
-import com.cappielloantonio.play.util.PreferenceUtil;
+import com.cappielloantonio.play.util.Preferences;
 import com.cappielloantonio.play.viewmodel.SettingViewModel;
 
+@OptIn(markerClass = UnstableApi.class)
 public class SettingsFragment extends PreferenceFragmentCompat {
     private static final String TAG = "SettingsFragment";
 
@@ -81,7 +83,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 @Override
                 public void onSuccess(boolean isScanning, long count) {
                     if (isScanning) getScanStatus();
-                    else findPreference("scan_library").setSummary("Scanning: counting " + count + " tracks");
+                    else
+                        findPreference("scan_library").setSummary("Scanning: counting " + count + " tracks");
                 }
             });
 
@@ -108,7 +111,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.global_preferences, rootKey);
-        ListPreference themePreference = findPreference(PreferenceUtil.THEME);
+        ListPreference themePreference = findPreference(Preferences.THEME);
         if (themePreference != null) {
             themePreference.setOnPreferenceChangeListener(
                     (preference, newValue) -> {

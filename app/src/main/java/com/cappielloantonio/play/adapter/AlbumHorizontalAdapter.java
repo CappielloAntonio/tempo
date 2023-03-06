@@ -16,7 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Album;
+import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.Collections;
@@ -27,7 +27,7 @@ public class AlbumHorizontalAdapter extends RecyclerView.Adapter<AlbumHorizontal
     private final ClickCallback click;
     private final boolean isOffline;
 
-    private List<Album> albums;
+    private List<AlbumID3> albums;
 
     public AlbumHorizontalAdapter(Context context, ClickCallback click, boolean isOffline) {
         this.context = context;
@@ -45,13 +45,13 @@ public class AlbumHorizontalAdapter extends RecyclerView.Adapter<AlbumHorizontal
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Album album = albums.get(position);
+        AlbumID3 album = albums.get(position);
 
-        holder.albumTitle.setText(MusicUtil.getReadableString(album.getTitle()));
-        holder.albumArtist.setText(MusicUtil.getReadableString(album.getArtistName()));
+        holder.albumTitle.setText(MusicUtil.getReadableString(album.getName()));
+        holder.albumArtist.setText(MusicUtil.getReadableString(album.getArtist()));
 
         CustomGlideRequest.Builder
-                .from(context, album.getPrimary(), CustomGlideRequest.ALBUM_PIC, null)
+                .from(context, album.getCoverArtId(), CustomGlideRequest.ALBUM_PIC, null)
                 .build()
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.cover);
@@ -62,12 +62,12 @@ public class AlbumHorizontalAdapter extends RecyclerView.Adapter<AlbumHorizontal
         return albums.size();
     }
 
-    public void setItems(List<Album> albums) {
+    public void setItems(List<AlbumID3> albums) {
         this.albums = albums;
         notifyDataSetChanged();
     }
 
-    public Album getItem(int id) {
+    public AlbumID3 getItem(int id) {
         return albums.get(id);
     }
 

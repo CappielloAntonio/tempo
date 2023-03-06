@@ -19,12 +19,9 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.model.Media;
-import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
+import com.cappielloantonio.play.subsonic.models.PodcastEpisode;
 import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.util.DownloadUtil;
-import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PodcastBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -33,7 +30,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 @UnstableApi
 public class PodcastBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
     private PodcastBottomSheetViewModel podcastBottomSheetViewModel;
-    private Media podcast;
+    private PodcastEpisode podcast;
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
@@ -67,6 +64,7 @@ public class PodcastBottomSheetDialog extends BottomSheetDialogFragment implemen
 
     private void init(View view) {
         ImageView coverPodcast = view.findViewById(R.id.podcast_cover_image_view);
+
         CustomGlideRequest.Builder
                 .from(requireContext(), podcastBottomSheetViewModel.getPodcast().getCoverArtId(), CustomGlideRequest.SONG_PIC, null)
                 .build()
@@ -79,37 +77,41 @@ public class PodcastBottomSheetDialog extends BottomSheetDialogFragment implemen
         titlePodcast.setSelected(true);
 
         TextView channel = view.findViewById(R.id.podcast_artist_text_view);
-        channel.setText(MusicUtil.getReadableString(podcastBottomSheetViewModel.getPodcast().getArtistName()));
+        channel.setText(MusicUtil.getReadableString(podcastBottomSheetViewModel.getPodcast().getArtist()));
 
         TextView playNext = view.findViewById(R.id.play_next_text_view);
         playNext.setOnClickListener(v -> {
-            MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), podcast, true);
+            // TODO
+            // MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), podcast, true);
             ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
             dismissBottomSheet();
         });
 
         TextView addToQueue = view.findViewById(R.id.add_to_queue_text_view);
         addToQueue.setOnClickListener(v -> {
-            MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), podcast, false);
+            // TODO
+            // MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), podcast, false);
             ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
             dismissBottomSheet();
         });
 
         TextView download = view.findViewById(R.id.download_text_view);
         download.setOnClickListener(v -> {
-            DownloadUtil.getDownloadTracker(requireContext()).download(
+            // TODO
+            /* DownloadUtil.getDownloadTracker(requireContext()).download(
                     MappingUtil.mapMediaItem(requireContext(), podcast, false),
                     MappingUtil.mapDownload(podcast, null, null)
-            );
+            ); */
             dismissBottomSheet();
         });
 
         TextView remove = view.findViewById(R.id.remove_text_view);
         remove.setOnClickListener(v -> {
-            DownloadUtil.getDownloadTracker(requireContext()).remove(
+            // TODO
+            /* DownloadUtil.getDownloadTracker(requireContext()).remove(
                     MappingUtil.mapMediaItem(requireContext(), podcast, false),
                     MappingUtil.mapDownload(podcast, null, null)
-            );
+            ); */
             dismissBottomSheet();
         });
 
@@ -132,13 +134,14 @@ public class PodcastBottomSheetDialog extends BottomSheetDialogFragment implemen
     }
 
     private void initDownloadUI(TextView download, TextView remove) {
-        if (DownloadUtil.getDownloadTracker(requireContext()).isDownloaded(MappingUtil.mapMediaItem(requireContext(), podcast, false))) {
+        // TODO
+        /* if (DownloadUtil.getDownloadTracker(requireContext()).isDownloaded(MappingUtil.mapMediaItem(requireContext(), podcast, false))) {
             download.setVisibility(View.GONE);
             remove.setVisibility(View.VISIBLE);
         } else {
             download.setVisibility(View.VISIBLE);
             remove.setVisibility(View.GONE);
-        }
+        } */
     }
 
     private void initializeMediaBrowser() {

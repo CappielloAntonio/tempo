@@ -14,7 +14,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.DialogConnectionAlertBinding;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MappingUtil;
-import com.cappielloantonio.play.util.PreferenceUtil;
+import com.cappielloantonio.play.util.Preferences;
 import com.cappielloantonio.play.viewmodel.StarredSyncViewModel;
 
 import java.util.Objects;
@@ -71,7 +71,7 @@ public class StarredSyncDialog extends DialogFragment {
         });
 
         ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(v -> {
-            PreferenceUtil.getInstance(requireContext()).setStarredSyncEnabled(false);
+            Preferences.setStarredSyncEnabled(false);
             Objects.requireNonNull(getDialog()).dismiss();
         });
     }

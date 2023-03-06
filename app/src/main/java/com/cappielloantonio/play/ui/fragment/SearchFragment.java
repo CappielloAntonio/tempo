@@ -177,22 +177,17 @@ public class SearchFragment extends Fragment implements ClickCallback {
     }
 
     private void performSearch(String query) {
-        searchViewModel.searchArtist(query).observe(getViewLifecycleOwner(), artists -> {
-            if (bind != null)
-                bind.searchArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
-            artistAdapter.setItems(artists);
-        });
+        searchViewModel.search(query).observe(getViewLifecycleOwner(), result -> {
+            if (bind != null) {
+                bind.searchArtistSector.setVisibility(!result.getArtists().isEmpty() ? View.VISIBLE : View.GONE);
+                artistAdapter.setItems(result.getArtists());
 
-        searchViewModel.searchAlbum(query).observe(getViewLifecycleOwner(), albums -> {
-            if (bind != null)
-                bind.searchAlbumSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
-            albumAdapter.setItems(albums);
-        });
+                bind.searchAlbumSector.setVisibility(!result.getAlbums().isEmpty() ? View.VISIBLE : View.GONE);
+                albumAdapter.setItems(result.getAlbums());
 
-        searchViewModel.searchSong(query).observe(getViewLifecycleOwner(), songs -> {
-            if (bind != null)
-                bind.searchSongSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
-            songHorizontalAdapter.setItems(songs);
+                bind.searchSongSector.setVisibility(!result.getSongs().isEmpty() ? View.VISIBLE : View.GONE);
+                songHorizontalAdapter.setItems(result.getSongs());
+            }
         });
 
         bind.searchResultLayout.setVisibility(View.VISIBLE);

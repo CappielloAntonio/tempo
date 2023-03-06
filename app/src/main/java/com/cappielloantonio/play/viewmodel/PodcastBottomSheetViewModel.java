@@ -1,21 +1,17 @@
 package com.cappielloantonio.play.viewmodel;
 
 import android.app.Application;
-import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.PodcastRepository;
-import com.cappielloantonio.play.util.DownloadUtil;
-import com.cappielloantonio.play.util.MappingUtil;
-import com.cappielloantonio.play.util.PreferenceUtil;
+import com.cappielloantonio.play.subsonic.models.PodcastEpisode;
 
 public class PodcastBottomSheetViewModel extends AndroidViewModel {
     private final PodcastRepository podcastRepository;
 
-    private Media podcast;
+    private PodcastEpisode podcast;
 
     public PodcastBottomSheetViewModel(@NonNull Application application) {
         super(application);
@@ -23,11 +19,11 @@ public class PodcastBottomSheetViewModel extends AndroidViewModel {
         podcastRepository = new PodcastRepository(application);
     }
 
-    public Media getPodcast() {
+    public PodcastEpisode getPodcast() {
         return podcast;
     }
 
-    public void setPodcast(Media podcast) {
+    public void setPodcast(PodcastEpisode podcast) {
         this.podcast = podcast;
     }
 }

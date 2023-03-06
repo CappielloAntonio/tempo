@@ -8,9 +8,9 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.cappielloantonio.play.model.Media;
-import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.repository.PlaylistRepository;
+import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.subsonic.models.Playlist;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +20,7 @@ public class PlaylistChooserViewModel extends AndroidViewModel {
     private final PlaylistRepository playlistRepository;
 
     private final MutableLiveData<List<Playlist>> playlists = new MutableLiveData<>(null);
-    private Media toAdd;
+    private Child toAdd;
 
     public PlaylistChooserViewModel(@NonNull Application application) {
         super(application);
@@ -37,11 +37,11 @@ public class PlaylistChooserViewModel extends AndroidViewModel {
         playlistRepository.addSongToPlaylist(playlistId, new ArrayList(Collections.singletonList(toAdd.getId())));
     }
 
-    public void setSongToAdd(Media song) {
+    public void setSongToAdd(Child song) {
         toAdd = song;
     }
 
-    public Media getSongToAdd() {
+    public Child getSongToAdd() {
         return toAdd;
     }
 }

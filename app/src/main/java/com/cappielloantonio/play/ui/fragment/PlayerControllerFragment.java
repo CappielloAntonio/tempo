@@ -2,7 +2,6 @@ package com.cappielloantonio.play.ui.fragment;
 
 import android.content.ComponentName;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +31,7 @@ import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.dialog.RatingDialog;
 import com.cappielloantonio.play.ui.fragment.pager.PlayerControllerHorizontalPager;
 import com.cappielloantonio.play.util.MusicUtil;
-import com.cappielloantonio.play.util.PreferenceUtil;
+import com.cappielloantonio.play.util.Preferences;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 import com.google.android.material.chip.Chip;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -275,37 +274,37 @@ public class PlayerControllerFragment extends Fragment {
 
     private void initPlaybackSpeedButton(MediaBrowser mediaBrowser) {
         playbackSpeedButton.setOnClickListener(view -> {
-            float currentSpeed = PreferenceUtil.getInstance(requireContext()).getPlaybackSpeed();
+            float currentSpeed = Preferences.getPlaybackSpeed();
 
             if (currentSpeed == Media.MEDIA_PLAYBACK_SPEED_080) {
                 mediaBrowser.setPlaybackParameters(new PlaybackParameters(Media.MEDIA_PLAYBACK_SPEED_100));
                 playbackSpeedButton.setText(getString(R.string.player_playback_speed, Media.MEDIA_PLAYBACK_SPEED_100));
-                PreferenceUtil.getInstance(requireContext()).setPlaybackSpeed(Media.MEDIA_PLAYBACK_SPEED_100);
+                Preferences.setPlaybackSpeed(Media.MEDIA_PLAYBACK_SPEED_100);
             } else if (currentSpeed == Media.MEDIA_PLAYBACK_SPEED_100) {
                 mediaBrowser.setPlaybackParameters(new PlaybackParameters(Media.MEDIA_PLAYBACK_SPEED_125));
                 playbackSpeedButton.setText(getString(R.string.player_playback_speed, Media.MEDIA_PLAYBACK_SPEED_125));
-                PreferenceUtil.getInstance(requireContext()).setPlaybackSpeed(Media.MEDIA_PLAYBACK_SPEED_125);
+                Preferences.setPlaybackSpeed(Media.MEDIA_PLAYBACK_SPEED_125);
             } else if (currentSpeed == Media.MEDIA_PLAYBACK_SPEED_125) {
                 mediaBrowser.setPlaybackParameters(new PlaybackParameters(Media.MEDIA_PLAYBACK_SPEED_150));
                 playbackSpeedButton.setText(getString(R.string.player_playback_speed, Media.MEDIA_PLAYBACK_SPEED_150));
-                PreferenceUtil.getInstance(requireContext()).setPlaybackSpeed(Media.MEDIA_PLAYBACK_SPEED_150);
+                Preferences.setPlaybackSpeed(Media.MEDIA_PLAYBACK_SPEED_150);
             } else if (currentSpeed == Media.MEDIA_PLAYBACK_SPEED_150) {
                 mediaBrowser.setPlaybackParameters(new PlaybackParameters(Media.MEDIA_PLAYBACK_SPEED_175));
                 playbackSpeedButton.setText(getString(R.string.player_playback_speed, Media.MEDIA_PLAYBACK_SPEED_175));
-                PreferenceUtil.getInstance(requireContext()).setPlaybackSpeed(Media.MEDIA_PLAYBACK_SPEED_175);
+                Preferences.setPlaybackSpeed(Media.MEDIA_PLAYBACK_SPEED_175);
             } else if (currentSpeed == Media.MEDIA_PLAYBACK_SPEED_175) {
                 mediaBrowser.setPlaybackParameters(new PlaybackParameters(Media.MEDIA_PLAYBACK_SPEED_200));
                 playbackSpeedButton.setText(getString(R.string.player_playback_speed, Media.MEDIA_PLAYBACK_SPEED_200));
-                PreferenceUtil.getInstance(requireContext()).setPlaybackSpeed(Media.MEDIA_PLAYBACK_SPEED_200);
+                Preferences.setPlaybackSpeed(Media.MEDIA_PLAYBACK_SPEED_200);
             } else if (currentSpeed == Media.MEDIA_PLAYBACK_SPEED_200) {
                 mediaBrowser.setPlaybackParameters(new PlaybackParameters(Media.MEDIA_PLAYBACK_SPEED_080));
                 playbackSpeedButton.setText(getString(R.string.player_playback_speed, Media.MEDIA_PLAYBACK_SPEED_080));
-                PreferenceUtil.getInstance(requireContext()).setPlaybackSpeed(Media.MEDIA_PLAYBACK_SPEED_080);
+                Preferences.setPlaybackSpeed(Media.MEDIA_PLAYBACK_SPEED_080);
             }
         });
 
         skipSilenceToggleButton.setOnClickListener(view -> {
-            PreferenceUtil.getInstance(requireContext()).setSkipSilenceMode(!skipSilenceToggleButton.isChecked());
+            Preferences.setSkipSilenceMode(!skipSilenceToggleButton.isChecked());
         });
     }
 
@@ -319,8 +318,8 @@ public class PlayerControllerFragment extends Fragment {
 
     private void setPlaybackParameters(MediaBrowser mediaBrowser) {
         Button playbackSpeedButton = bind.getRoot().findViewById(R.id.player_playback_speed_button);
-        float currentSpeed = PreferenceUtil.getInstance(requireContext()).getPlaybackSpeed();
-        boolean skipSilence = PreferenceUtil.getInstance(requireContext()).isSkipSilenceMode();
+        float currentSpeed = Preferences.getPlaybackSpeed();
+        boolean skipSilence = Preferences.isSkipSilenceMode();
 
         mediaBrowser.setPlaybackParameters(new PlaybackParameters(currentSpeed));
         playbackSpeedButton.setText(getString(R.string.player_playback_speed, currentSpeed));

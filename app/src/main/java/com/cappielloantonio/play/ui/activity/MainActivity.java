@@ -24,7 +24,7 @@ import com.cappielloantonio.play.ui.activity.base.BaseActivity;
 import com.cappielloantonio.play.ui.dialog.ConnectionAlertDialog;
 import com.cappielloantonio.play.ui.dialog.ServerUnreachableDialog;
 import com.cappielloantonio.play.ui.fragment.PlayerBottomSheetFragment;
-import com.cappielloantonio.play.util.PreferenceUtil;
+import com.cappielloantonio.play.util.Preferences;
 import com.cappielloantonio.play.viewmodel.MainViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -98,7 +98,7 @@ public class MainActivity extends BaseActivity {
         initBottomSheet();
         initNavigation();
 
-        if (PreferenceUtil.getInstance(this).getPassword() != null || (PreferenceUtil.getInstance(this).getToken() != null && PreferenceUtil.getInstance(this).getSalt() != null)) {
+        if (Preferences.getPassword() != null || (Preferences.getToken() != null && Preferences.getSalt() != null)) {
             goFromLogin();
         } else {
             goToLogin();
@@ -258,12 +258,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private void resetUserSession() {
-        PreferenceUtil.getInstance(this).setServerId(null);
-        PreferenceUtil.getInstance(this).setSalt(null);
-        PreferenceUtil.getInstance(this).setToken(null);
-        PreferenceUtil.getInstance(this).setPassword(null);
-        PreferenceUtil.getInstance(this).setServer(null);
-        PreferenceUtil.getInstance(this).setUser(null);
+        Preferences.setServerId(null);
+        Preferences.setSalt(null);
+        Preferences.setToken(null);
+        Preferences.setPassword(null);
+        Preferences.setServer(null);
+        Preferences.setUser(null);
     }
 
     private void resetMusicSession() {
@@ -289,7 +289,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void pingServer() {
-        if (PreferenceUtil.getInstance(this).getToken() != null) {
+        if (Preferences.getToken() != null) {
             mainViewModel.ping().observe(this, isPingSuccessfull -> {
                 if (!isPingSuccessfull) {
                     ServerUnreachableDialog dialog = new ServerUnreachableDialog();
@@ -300,7 +300,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void checkConnectionType() {
-        if (PreferenceUtil.getInstance(this).isWifiOnly()) {
+        if (Preferences.isWifiOnly()) {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             if (connectivityManager.getActiveNetworkInfo().getType() != ConnectivityManager.TYPE_WIFI) {
                 ConnectionAlertDialog dialog = new ConnectionAlertDialog();

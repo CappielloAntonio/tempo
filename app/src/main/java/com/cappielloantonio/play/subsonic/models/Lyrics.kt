@@ -1,39 +1,17 @@
-package com.cappielloantonio.play.subsonic.models;
+package com.cappielloantonio.play.subsonic.models
 
-import com.tickaroo.tikxml.annotation.Attribute;
-import com.tickaroo.tikxml.annotation.TextContent;
-import com.tickaroo.tikxml.annotation.Xml;
+import com.tickaroo.tikxml.annotation.Attribute
+import com.tickaroo.tikxml.annotation.TextContent
+import com.tickaroo.tikxml.annotation.Xml
 
 @Xml(name = "lyrics")
-public class Lyrics {
+class Lyrics {
     @TextContent
-    protected String content;
+    var content: String? = null
+
     @Attribute
-    protected String artist;
+    var artist: String? = null
+
     @Attribute
-    protected String title;
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String value) {
-        this.content = value;
-    }
-
-    public String getArtist() {
-        return artist;
-    }
-
-    public void setArtist(String value) {
-        this.artist = value;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String value) {
-        this.title = value;
-    }
+    var title: String? = null
 }

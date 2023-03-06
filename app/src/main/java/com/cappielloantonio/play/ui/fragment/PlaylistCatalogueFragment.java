@@ -28,7 +28,7 @@ import com.cappielloantonio.play.adapter.PlaylistHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlaylistCatalogueBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Genre;
-import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.subsonic.models.Playlist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.dialog.PlaylistEditorDialog;
 import com.cappielloantonio.play.viewmodel.PlaylistCatalogueViewModel;
@@ -72,10 +72,10 @@ public class PlaylistCatalogueFragment extends Fragment implements ClickCallback
     }
 
     private void init() {
-        if (requireArguments().getString(Playlist.ALL) != null) {
-            playlistCatalogueViewModel.setType(Playlist.ALL);
-        } else if (requireArguments().getString(Playlist.DOWNLOADED) != null) {
-            playlistCatalogueViewModel.setType(Playlist.DOWNLOADED);
+        if (requireArguments().getString(com.cappielloantonio.play.model.Playlist.ALL) != null) {
+            playlistCatalogueViewModel.setType(com.cappielloantonio.play.model.Playlist.ALL);
+        } else if (requireArguments().getString(com.cappielloantonio.play.model.Playlist.DOWNLOADED) != null) {
+            playlistCatalogueViewModel.setType(com.cappielloantonio.play.model.Playlist.DOWNLOADED);
         }
     }
 

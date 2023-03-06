@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.model.Media;
+import com.cappielloantonio.play.subsonic.models.Genre;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.Collections;
@@ -42,7 +42,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         Genre genre = genres.get(position);
 
-        holder.textGenre.setText(MusicUtil.getReadableString(genre.getName()));
+        holder.textGenre.setText(MusicUtil.getReadableString(genre.getGenre()));
     }
 
     @Override

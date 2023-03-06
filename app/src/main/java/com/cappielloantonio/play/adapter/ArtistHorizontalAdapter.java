@@ -9,18 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.repository.ArtistRepository;
+import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.Collections;
@@ -30,7 +26,7 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
     private final Context context;
     private final ClickCallback click;
 
-    private List<Artist> artists;
+    private List<ArtistID3> artists;
 
     public ArtistHorizontalAdapter(Context context, ClickCallback click) {
         this.context = context;
@@ -47,7 +43,7 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Artist artist = artists.get(position);
+        ArtistID3 artist = artists.get(position);
 
         holder.artistName.setText(MusicUtil.getReadableString(artist.getName()));
 
@@ -65,12 +61,12 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
         return artists.size();
     }
 
-    public void setItems(List<Artist> artists) {
+    public void setItems(List<ArtistID3> artists) {
         this.artists = artists;
         notifyDataSetChanged();
     }
 
-    public Artist getItem(int id) {
+    public ArtistID3 getItem(int id) {
         return artists.get(id);
     }
 
@@ -84,9 +80,9 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
         return position;
     }
 
-    private void setArtistCover(Artist artist, ImageView cover) {
+    private void setArtistCover(ArtistID3 artist, ImageView cover) {
         CustomGlideRequest.Builder
-                .from(context, artist.getPrimary(), CustomGlideRequest.ARTIST_PIC, null)
+                .from(context, artist.getCoverArtId(), CustomGlideRequest.ARTIST_PIC, null)
                 .build()
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(cover);

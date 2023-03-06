@@ -179,7 +179,8 @@ public class DownloadFragment extends Fragment implements ClickCallback {
                 if (bind != null)
                     bind.downloadedArtistRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(artists.size(), 5), GridLayoutManager.HORIZONTAL, false));
 
-                downloadedArtistAdapter.setItems(artists);
+                // TODO
+                // downloadedArtistAdapter.setItems(artists);
             }
         });
 
@@ -214,7 +215,8 @@ public class DownloadFragment extends Fragment implements ClickCallback {
                 if (bind != null)
                     bind.downloadedAlbumRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
 
-                downloadedAlbumAdapter.setItems(albums);
+                // TODO
+                //downloadedAlbumAdapter.setItems(albums);
             }
         });
 
@@ -283,7 +285,8 @@ public class DownloadFragment extends Fragment implements ClickCallback {
                 if (bind != null)
                     bind.downloadDownloadedPlaylistSector.setVisibility(!playlists.isEmpty() ? View.VISIBLE : View.GONE);
 
-                playlistHorizontalAdapter.setItems(playlists);
+                // TODO
+                // playlistHorizontalAdapter.setItems(playlists);
             }
         });
     }

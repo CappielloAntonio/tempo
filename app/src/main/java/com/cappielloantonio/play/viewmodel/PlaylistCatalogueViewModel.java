@@ -3,18 +3,15 @@ package com.cappielloantonio.play.viewmodel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.cappielloantonio.play.App;
-import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
-import com.cappielloantonio.play.util.MappingUtil;
-import com.cappielloantonio.play.util.PreferenceUtil;
+import com.cappielloantonio.play.subsonic.models.Playlist;
+import com.cappielloantonio.play.util.Preferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,11 +36,12 @@ public class PlaylistCatalogueViewModel extends AndroidViewModel {
         playlistList = new MutableLiveData<>(new ArrayList<>());
 
         switch (type) {
-            case Playlist.ALL:
+            case com.cappielloantonio.play.model.Playlist.ALL:
                 playlistRepository.getPlaylists(false, -1).observe(owner, playlists -> playlistList.postValue(playlists));
                 break;
-            case Playlist.DOWNLOADED:
-                downloadRepository.getLivePlaylist().observe(owner, downloads -> playlistList.setValue(MappingUtil.mapDownloadToPlaylist(downloads)));
+            case com.cappielloantonio.play.model.Playlist.DOWNLOADED:
+                // TODO
+                //downloadRepository.getLivePlaylist().observe(owner, downloads -> playlistList.setValue(MappingUtil.mapDownloadToPlaylist(downloads)));
                 break;
         }
 
@@ -54,13 +52,13 @@ public class PlaylistCatalogueViewModel extends AndroidViewModel {
 
     public LiveData<List<Playlist>> getPinnedPlaylistList(LifecycleOwner owner) {
         pinnedPlaylistList = new MutableLiveData<>(new ArrayList<>());
-        playlistRepository.getPinnedPlaylists(PreferenceUtil.getInstance(App.getInstance()).getServerId()).observe(owner, playlists -> pinnedPlaylistList.postValue(playlists));
+        playlistRepository.getPinnedPlaylists(Preferences.getServerId()).observe(owner, playlists -> pinnedPlaylistList.postValue(playlists));
         return pinnedPlaylistList;
     }
 
     public void unpinPlaylist(List<Playlist> playlists) {
-        if(type.equals(Playlist.ALL)) {
-            for(Playlist playlist: playlists) {
+        if (type.equals(com.cappielloantonio.play.model.Playlist.ALL)) {
+            for (Playlist playlist : playlists) {
                 playlistRepository.delete(playlist);
             }
         }

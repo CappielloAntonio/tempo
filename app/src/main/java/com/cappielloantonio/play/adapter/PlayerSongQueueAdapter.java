@@ -17,8 +17,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.service.MediaManager;
+import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -31,7 +31,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
     private final ClickCallback click;
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
-    private List<Media> songs;
+    private List<Child> songs;
 
     public PlayerSongQueueAdapter(Context context, ClickCallback click) {
         this.context = context;
@@ -48,10 +48,10 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Media song = songs.get(position);
+        Child song = songs.get(position);
 
         holder.songTitle.setText(MusicUtil.getReadableString(song.getTitle()));
-        holder.songSubtitle.setText(context.getString(R.string.song_subtitle_formatter, MusicUtil.getReadableString(song.getArtistName()), MusicUtil.getReadableDurationString(song.getDuration(), false)));
+        holder.songSubtitle.setText(context.getString(R.string.song_subtitle_formatter, MusicUtil.getReadableString(song.getArtist()), MusicUtil.getReadableDurationString(song.getDuration(), false)));
 
         CustomGlideRequest.Builder
                 .from(context, song.getCoverArtId(), CustomGlideRequest.SONG_PIC, null)
@@ -69,11 +69,11 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
         return songs.size();
     }
 
-    public List<Media> getItems() {
+    public List<Child> getItems() {
         return this.songs;
     }
 
-    public void setItems(List<Media> songs) {
+    public void setItems(List<Child> songs) {
         this.songs = songs;
         notifyDataSetChanged();
     }
@@ -82,7 +82,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
         this.mediaBrowserListenableFuture = mediaBrowserListenableFuture;
     }
 
-    public Media getItem(int id) {
+    public Child getItem(int id) {
         return songs.get(id);
     }
 

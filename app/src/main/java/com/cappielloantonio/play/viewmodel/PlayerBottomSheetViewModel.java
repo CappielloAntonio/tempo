@@ -11,17 +11,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.media3.common.util.UnstableApi;
 
-import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.Media;
+import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
-import com.cappielloantonio.play.util.DownloadUtil;
-import com.cappielloantonio.play.util.MappingUtil;
-import com.cappielloantonio.play.util.PreferenceUtil;
+import com.cappielloantonio.play.subsonic.models.ArtistID3;
+import com.cappielloantonio.play.subsonic.models.Child;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @OptIn(markerClass = UnstableApi.class)
@@ -34,9 +33,9 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
 
     private final MutableLiveData<String> lyricsLiveData = new MutableLiveData<>(null);
 
-    private final MutableLiveData<Media> liveMedia = new MutableLiveData<>(null);
-    private final MutableLiveData<Artist> liveArtist = new MutableLiveData<>(null);
-    private final MutableLiveData<List<Media>> instantMix = new MutableLiveData<>(null);
+    private final MutableLiveData<Child> liveMedia = new MutableLiveData<>(null);
+    private final MutableLiveData<ArtistID3> liveArtist = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Child>> instantMix = new MutableLiveData<>(null);
 
 
     public PlayerBottomSheetViewModel(@NonNull Application application) {
@@ -51,21 +50,22 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         return queueRepository.getLiveQueue();
     }
 
-    public void setFavorite(Context context, Media media) {
+    public void setFavorite(Context context, Child media) {
         if (media != null) {
-            if (Boolean.TRUE.equals(media.getStarred())) {
+            if (media.getStarred() != null) {
                 songRepository.unstar(media.getId());
-                media.setStarred(false);
+                media.setStarred(null);
             } else {
                 songRepository.star(media.getId());
-                media.setStarred(true);
+                media.setStarred(new Date());
 
-                if (PreferenceUtil.getInstance(context).isStarredSyncEnabled()) {
+                // TODO
+                /* if (Preferences.isStarredSyncEnabled()) {
                     DownloadUtil.getDownloadTracker(context).download(
                             MappingUtil.mapMediaItem(context, media, false),
                             MappingUtil.mapDownload(media, null, null)
                     );
-                }
+                } */
             }
         }
     }
@@ -74,16 +74,16 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         return lyricsLiveData;
     }
 
-    public void refreshMediaInfo(LifecycleOwner owner, Media media) {
+    public void refreshMediaInfo(LifecycleOwner owner, Child media) {
         songRepository.getSongLyrics(media).observe(owner, lyricsLiveData::postValue);
     }
 
-    public LiveData<Media> getLiveMedia() {
+    public LiveData<Child> getLiveMedia() {
         return liveMedia;
     }
 
     public void setLiveMedia(LifecycleOwner owner, String mediaType, String mediaId) {
-        if(mediaType != null) {
+        if (mediaType != null) {
             switch (mediaType) {
                 case Media.MEDIA_TYPE_MUSIC:
                     songRepository.getSong(mediaId).observe(owner, liveMedia::postValue);
@@ -95,12 +95,12 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         }
     }
 
-    public LiveData<Artist> getLiveArtist() {
+    public LiveData<ArtistID3> getLiveArtist() {
         return liveArtist;
     }
 
     public void setLiveArtist(LifecycleOwner owner, String mediaType, String ArtistId) {
-        if(mediaType != null) {
+        if (mediaType != null) {
             switch (mediaType) {
                 case Media.MEDIA_TYPE_MUSIC:
                     artistRepository.getArtist(ArtistId).observe(owner, liveArtist::postValue);
@@ -112,7 +112,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         }
     }
 
-    public LiveData<List<Media>> getMediaInstantMix(LifecycleOwner owner, Media media) {
+    public LiveData<List<Child>> getMediaInstantMix(LifecycleOwner owner, Child media) {
         instantMix.setValue(Collections.emptyList());
 
         songRepository.getInstantMix(media, 20).observe(owner, instantMix::postValue);

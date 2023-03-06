@@ -1,48 +1,22 @@
-package com.cappielloantonio.play.subsonic.models;
+package com.cappielloantonio.play.subsonic.models
 
-import com.tickaroo.tikxml.annotation.Attribute;
-import com.tickaroo.tikxml.annotation.Xml;
+import android.os.Parcelable
+import com.tickaroo.tikxml.annotation.Attribute
+import com.tickaroo.tikxml.annotation.Xml
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 @Xml(name = "similarArtist")
-public class SimilarArtistID3 {
+class SimilarArtistID3 : Parcelable {
     @Attribute
-    protected String id;
+    var id: String? = null
+
     @Attribute
-    protected String name;
+    var name: String? = null
+
     @Attribute(name = "coverArt")
-    protected String coverArtId;
+    var coverArtId: String? = null
+
     @Attribute
-    protected int albumCount;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String value) {
-        this.id = value;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String value) {
-        this.name = value;
-    }
-
-    public String getCoverArtId() {
-        return coverArtId;
-    }
-
-    public void setCoverArtId(String value) {
-        this.coverArtId = value;
-    }
-
-    public int getAlbumCount() {
-        return albumCount;
-    }
-
-    public void setAlbumCount(int value) {
-        this.albumCount = value;
-    }
+    var albumCount = 0
 }

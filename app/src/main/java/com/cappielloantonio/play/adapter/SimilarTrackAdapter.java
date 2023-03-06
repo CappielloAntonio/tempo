@@ -16,8 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Media;
-import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.Collections;
@@ -27,7 +26,7 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
     private final Context context;
     private final ClickCallback click;
 
-    private List<Media> songs;
+    private List<Child> songs;
 
     public SimilarTrackAdapter(Context context, ClickCallback click) {
         this.context = context;
@@ -44,7 +43,7 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Media song = songs.get(position);
+        Child song = songs.get(position);
 
         holder.textTitle.setText(MusicUtil.getReadableString(song.getTitle()));
 
@@ -60,11 +59,11 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
         return songs.size();
     }
 
-    public Media getItem(int position) {
+    public Child getItem(int position) {
         return songs.get(position);
     }
 
-    public void setItems(List<Media> songs) {
+    public void setItems(List<Child> songs) {
         this.songs = songs;
         notifyDataSetChanged();
     }

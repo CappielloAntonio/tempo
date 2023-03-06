@@ -108,20 +108,20 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
     }
 
     private void initArtistInfo() {
-        artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(getViewLifecycleOwner(), artist -> {
-            String normalizedBio = MusicUtil.forceReadableString(artist.getBio());
+        artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(getViewLifecycleOwner(), artistInfo -> {
+            String normalizedBio = MusicUtil.forceReadableString(artistInfo.getBiography());
 
             if (bind != null)
                 bind.artistPageBioSector.setVisibility(!normalizedBio.trim().isEmpty() ? View.VISIBLE : View.GONE);
             if (bind != null)
-                bind.bioMoreTextViewClickable.setVisibility(artist.getLastfm() != null ? View.VISIBLE : View.GONE);
+                bind.bioMoreTextViewClickable.setVisibility(artistInfo.getLastFmUrl() != null ? View.VISIBLE : View.GONE);
 
             if (getContext() != null && bind != null) CustomGlideRequest.Builder
                     .from(
                             requireContext(),
                             artistPageViewModel.getArtist().getId(),
                             CustomGlideRequest.ARTIST_PIC,
-                            artist.getImageUrl()
+                            artistInfo.getLargeImageUrl()
                     )
                     .build()
                     .into(bind.artistBackdropImageView);
@@ -130,7 +130,7 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
 
             if (bind != null) bind.bioMoreTextViewClickable.setOnClickListener(v -> {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(artist.getLastfm()));
+                intent.setData(Uri.parse(artistInfo.getLastFmUrl()));
                 startActivity(intent);
             });
         });

@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.media3.common.util.UnstableApi;
-import androidx.media3.session.MediaBrowser;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -19,13 +17,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Media;
-import com.cappielloantonio.play.service.MediaManager;
-import com.cappielloantonio.play.ui.activity.MainActivity;
-import com.cappielloantonio.play.util.DownloadUtil;
-import com.cappielloantonio.play.util.MappingUtil;
+import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.util.MusicUtil;
-import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,7 +30,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
     private final ClickCallback click;
     private final boolean isCoverVisible;
 
-    private List<Media> songs;
+    private List<Child> songs;
 
     public SongHorizontalAdapter(Context context, ClickCallback click, boolean isCoverVisible) {
         this.context = context;
@@ -55,17 +48,18 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Media song = songs.get(position);
+        Child song = songs.get(position);
 
         holder.songTitle.setText(MusicUtil.getReadableString(song.getTitle()));
-        holder.songSubtitle.setText(context.getString(R.string.song_subtitle_formatter, MusicUtil.getReadableString(song.getArtistName()), MusicUtil.getReadableDurationString(song.getDuration(), false)));
-        holder.trackNumber.setText(String.valueOf(song.getTrackNumber()));
+        holder.songSubtitle.setText(context.getString(R.string.song_subtitle_formatter, MusicUtil.getReadableString(song.getArtist()), MusicUtil.getReadableDurationString(song.getDuration(), false)));
+        holder.trackNumber.setText(String.valueOf(song.getTrack()));
 
-        if (DownloadUtil.getDownloadTracker(context).isDownloaded(MappingUtil.mapMediaItem(context, song, false))) {
+        // TODO
+        /* if (DownloadUtil.getDownloadTracker(context).isDownloaded(MappingUtil.mapMediaItem(context, song, false))) {
             holder.downloadIndicator.setVisibility(View.VISIBLE);
         } else {
             holder.downloadIndicator.setVisibility(View.GONE);
-        }
+        } */
 
         if (isCoverVisible) CustomGlideRequest.Builder
                 .from(context, song.getCoverArtId(), CustomGlideRequest.SONG_PIC, null)
@@ -87,12 +81,12 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         return songs.size();
     }
 
-    public void setItems(List<Media> songs) {
+    public void setItems(List<Child> songs) {
         this.songs = songs;
         notifyDataSetChanged();
     }
 
-    public Media getItem(int id) {
+    public Child getItem(int id) {
         return songs.get(id);
     }
 

@@ -10,7 +10,7 @@ import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.cache.DiskLruCacheFactory;
 import com.bumptech.glide.module.AppGlideModule;
 import com.bumptech.glide.request.RequestOptions;
-import com.cappielloantonio.play.util.PreferenceUtil;
+import com.cappielloantonio.play.util.Preferences;
 
 import java.io.File;
 
@@ -19,7 +19,7 @@ public class CustomGlideModule extends AppGlideModule {
     @Override
     public void applyOptions(@NonNull Context context, GlideBuilder builder) {
         File file = new File(context.getCacheDir() + "glide");
-        int size = PreferenceUtil.getInstance(context).getImageCacheSize();
+        int size = Preferences.getImageCacheSize();
 
         builder.setDiskCache(new DiskLruCacheFactory(() -> file, size));
         builder.setDefaultRequestOptions(new RequestOptions().format(DecodeFormat.PREFER_RGB_565));

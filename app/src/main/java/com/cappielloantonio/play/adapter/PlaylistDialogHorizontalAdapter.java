@@ -12,12 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Playlist;
-import com.cappielloantonio.play.ui.dialog.PlaylistChooserDialog;
+import com.cappielloantonio.play.subsonic.models.Playlist;
 import com.cappielloantonio.play.util.MusicUtil;
-import com.cappielloantonio.play.viewmodel.PlaylistChooserViewModel;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,7 +24,7 @@ public class PlaylistDialogHorizontalAdapter extends RecyclerView.Adapter<Playli
 
     private List<Playlist> playlists;
 
-    public PlaylistDialogHorizontalAdapter(Context context,ClickCallback click) {
+    public PlaylistDialogHorizontalAdapter(Context context, ClickCallback click) {
         this.context = context;
         this.click = click;
         this.playlists = Collections.emptyList();

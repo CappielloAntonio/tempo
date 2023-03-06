@@ -10,10 +10,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.MediaCallback;
-import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
-import com.cappielloantonio.play.util.MappingUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +20,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class AlbumCatalogueViewModel extends AndroidViewModel {
-    private final MutableLiveData<List<Album>> albumList = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<List<AlbumID3>> albumList = new MutableLiveData<>(new ArrayList<>());
 
     private int page = 0;
 
@@ -30,7 +28,7 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public LiveData<List<Album>> getAlbumList() {
+    public LiveData<List<AlbumID3>> getAlbumList() {
         return albumList;
     }
 
@@ -42,9 +40,11 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
 
             @Override
             public void onLoadMedia(List<?> media) {
-                List<Album> liveAlbum = albumList.getValue();
+                List<AlbumID3> liveAlbum = albumList.getValue();
+
                 if (liveAlbum == null) liveAlbum = new ArrayList<>();
-                liveAlbum.addAll(MappingUtil.mapAlbum((List<AlbumID3>) media));
+
+                liveAlbum.addAll((List<AlbumID3>) media);
                 albumList.setValue(liveAlbum);
 
                 if (media.size() == size) {

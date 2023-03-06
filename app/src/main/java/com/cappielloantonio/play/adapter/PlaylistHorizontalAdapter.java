@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Playlist;
+import com.cappielloantonio.play.subsonic.models.Playlist;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
@@ -139,10 +139,10 @@ public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHori
 
     public void sort(String order) {
         switch (order) {
-            case Playlist.ORDER_BY_NAME:
+            case com.cappielloantonio.play.model.Playlist.ORDER_BY_NAME:
                 playlists.sort(Comparator.comparing(Playlist::getName));
                 break;
-            case Playlist.ORDER_BY_RANDOM:
+            case com.cappielloantonio.play.model.Playlist.ORDER_BY_RANDOM:
                 Collections.shuffle(playlists);
                 break;
         }

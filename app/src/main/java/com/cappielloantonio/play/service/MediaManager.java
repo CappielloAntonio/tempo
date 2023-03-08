@@ -7,6 +7,7 @@ import androidx.media3.session.MediaBrowser;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.MediaIndexCallback;
+import com.cappielloantonio.play.model.Chronology;
 import com.cappielloantonio.play.repository.ChronologyRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
@@ -306,7 +307,7 @@ public class MediaManager {
     public static void saveChronology(MediaItem mediaItem) {
         if (mediaItem != null)
             if (getQueueRepository().isMediaPlayingPlausible(mediaItem))
-                getChronologyRepository().insert(mediaItem.mediaMetadata.extras.getParcelable("child"));
+                getChronologyRepository().insert(new Chronology(mediaItem));
     }
 
     private static QueueRepository getQueueRepository() {

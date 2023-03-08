@@ -1,10 +1,9 @@
 package com.cappielloantonio.play.subsonic.models
 
-import com.tickaroo.tikxml.annotation.Element
-import com.tickaroo.tikxml.annotation.Xml
+import com.google.gson.annotations.SerializedName
+import java.util.*
 
-@Xml
 class ArtistInfo2 : ArtistInfoBase() {
-    @Element(name = "similarArtist")
-    var similarArtists: List<SimilarArtistID3>? = null
+    @SerializedName("similarArtist")
+    var similarArtists: List<SimilarArtistID3>? = emptyList()
 }

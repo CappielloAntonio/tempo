@@ -3,17 +3,18 @@ package com.cappielloantonio.play.ui.fragment;
 import android.content.ComponentName;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.OptIn;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.MediaMetadata;
 import androidx.media3.common.Player;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.MediaController;
 import androidx.media3.session.SessionToken;
@@ -33,9 +34,8 @@ import com.google.android.material.elevation.SurfaceColors;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 
+@OptIn(markerClass = UnstableApi.class)
 public class PlayerBottomSheetFragment extends Fragment {
-    private static final String TAG = "PlayerBottomSheetFragment";
-
     private FragmentPlayerBottomSheetBinding bind;
 
     private PlayerBottomSheetViewModel playerBottomSheetViewModel;
@@ -142,24 +142,24 @@ public class PlayerBottomSheetFragment extends Fragment {
     }
 
     private void setMetadata(MediaMetadata mediaMetadata) {
-        if (mediaMetadata.extras != null)
-            playerBottomSheetViewModel.setLiveMedia(getViewLifecycleOwner(), mediaMetadata.extras.getString("mediaType"), mediaMetadata.extras.getString("id"));
-        if (mediaMetadata.extras != null)
-            playerBottomSheetViewModel.setLiveArtist(getViewLifecycleOwner(), mediaMetadata.extras.getString("mediaType"), mediaMetadata.extras.getString("artistId"));
+        if (mediaMetadata.extras != null) {
+            playerBottomSheetViewModel.setLiveMedia(getViewLifecycleOwner(), mediaMetadata.extras.getString("type"), mediaMetadata.extras.getString("id"));
+            playerBottomSheetViewModel.setLiveArtist(getViewLifecycleOwner(), mediaMetadata.extras.getString("type"), mediaMetadata.extras.getString("artistId"));
 
-        bind.playerHeaderLayout.playerHeaderMediaTitleLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.title)));
-        bind.playerHeaderLayout.playerHeaderMediaArtistLabel.setText(MusicUtil.getReadableString(String.valueOf(mediaMetadata.artist)));
+            bind.playerHeaderLayout.playerHeaderMediaTitleLabel.setText(MusicUtil.getReadableString(mediaMetadata.extras.getString("title")));
+            bind.playerHeaderLayout.playerHeaderMediaArtistLabel.setText(MusicUtil.getReadableString(mediaMetadata.extras.getString("artist")));
 
-        if (mediaMetadata.extras != null) CustomGlideRequest.Builder
-                .from(requireContext(), mediaMetadata.extras.getString("coverArtId"), CustomGlideRequest.SONG_PIC, null)
-                .build()
-                .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
-                .into(bind.playerHeaderLayout.playerHeaderMediaCoverImage);
+            CustomGlideRequest.Builder
+                    .from(requireContext(), mediaMetadata.extras.getString("coverArtId"), CustomGlideRequest.SONG_PIC, null)
+                    .build()
+                    .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
+                    .into(bind.playerHeaderLayout.playerHeaderMediaCoverImage);
+        }
     }
 
     private void setMediaControllerUI(MediaBrowser mediaBrowser) {
         if (mediaBrowser.getMediaMetadata().extras != null) {
-            switch (mediaBrowser.getMediaMetadata().extras.getString("mediaType", Media.MEDIA_TYPE_MUSIC)) {
+            switch (mediaBrowser.getMediaMetadata().extras.getString("type", Media.MEDIA_TYPE_MUSIC)) {
                 case Media.MEDIA_TYPE_PODCAST:
                     bind.playerHeaderLayout.playerHeaderFastForwardMediaButton.setVisibility(View.VISIBLE);
                     bind.playerHeaderLayout.playerHeaderRewindMediaButton.setVisibility(View.VISIBLE);

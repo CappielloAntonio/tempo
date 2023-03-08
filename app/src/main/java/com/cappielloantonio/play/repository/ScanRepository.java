@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.ScanCallback;
+import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 
 import retrofit2.Call;
@@ -24,16 +25,16 @@ public class ScanRepository {
         App.getSubsonicClientInstance(application, false)
                 .getMediaLibraryScanningClient()
                 .startScan()
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull retrofit2.Response<SubsonicResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getScanStatus() != null) {
-                            callback.onSuccess(response.body().getScanStatus().isScanning(), response.body().getScanStatus().getCount());
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull retrofit2.Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getScanStatus() != null) {
+                            callback.onSuccess(response.body().getSubsonicResponse().getScanStatus().isScanning(), response.body().getSubsonicResponse().getScanStatus().getCount());
                         }
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
                         callback.onError(new Exception(t.getMessage()));
                     }
                 });
@@ -43,16 +44,16 @@ public class ScanRepository {
         App.getSubsonicClientInstance(application, false)
                 .getMediaLibraryScanningClient()
                 .startScan()
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull retrofit2.Response<SubsonicResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getScanStatus() != null) {
-                            callback.onSuccess(response.body().getScanStatus().isScanning(), response.body().getScanStatus().getCount());
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull retrofit2.Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getScanStatus() != null) {
+                            callback.onSuccess(response.body().getSubsonicResponse().getScanStatus().isScanning(), response.body().getSubsonicResponse().getScanStatus().getCount());
                         }
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
                         callback.onError(new Exception(t.getMessage()));
                     }
                 });

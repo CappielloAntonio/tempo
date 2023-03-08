@@ -1,11 +1,9 @@
 package com.cappielloantonio.play.subsonic.models
 
-import com.tickaroo.tikxml.annotation.Element
-import com.tickaroo.tikxml.annotation.Xml
+import com.google.gson.annotations.SerializedName
 
-@Xml
 class ArtistsID3 {
-    @Element(name = "index")
+    @SerializedName("index")
     var indices: List<IndexID3>? = null
     var ignoredArticles: String? = null
 }

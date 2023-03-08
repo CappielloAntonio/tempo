@@ -9,6 +9,7 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.RecentSearchDao;
 import com.cappielloantonio.play.model.RecentSearch;
+import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.Child;
@@ -39,15 +40,15 @@ public class SearchingRepository {
 
         App.getSubsonicClientInstance(application, false)
                 .getSearchingClient()
-                .search3(query, 20, 0, 0)
-                .enqueue(new Callback<SubsonicResponse>() {
+                .search3(query, 20, 20, 20)
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        result.setValue(response.body().getSearchResult3());
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        result.setValue(response.body().getSubsonicResponse().getSearchResult3());
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
 
                     }
                 });
@@ -61,22 +62,28 @@ public class SearchingRepository {
         App.getSubsonicClientInstance(application, false)
                 .getSearchingClient()
                 .search3(query, 5, 5, 5)
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
                         List<String> newSuggestions = new ArrayList();
 
                         if (response.isSuccessful() && response.body() != null) {
-                            for (ArtistID3 artistID3 : response.body().getSearchResult3().getArtists()) {
-                                newSuggestions.add(artistID3.getName());
+                            if(response.body().getSubsonicResponse().getSearchResult3().getArtists() != null) {
+                                for (ArtistID3 artistID3 : response.body().getSubsonicResponse().getSearchResult3().getArtists()) {
+                                    newSuggestions.add(artistID3.getName());
+                                }
                             }
 
-                            for (AlbumID3 albumID3 : response.body().getSearchResult3().getAlbums()) {
-                                newSuggestions.add(albumID3.getName());
+                            if(response.body().getSubsonicResponse().getSearchResult3().getAlbums() != null) {
+                                for (AlbumID3 albumID3 : response.body().getSubsonicResponse().getSearchResult3().getAlbums()) {
+                                    newSuggestions.add(albumID3.getName());
+                                }
                             }
 
-                            for (Child song : response.body().getSearchResult3().getSongs()) {
-                                newSuggestions.add(song.getTitle());
+                            if(response.body().getSubsonicResponse().getSearchResult3().getSongs() != null) {
+                                for (Child song : response.body().getSubsonicResponse().getSearchResult3().getSongs()) {
+                                    newSuggestions.add(song.getTitle());
+                                }
                             }
 
                             LinkedHashSet<String> hashSet = new LinkedHashSet<>(newSuggestions);
@@ -87,7 +94,7 @@ public class SearchingRepository {
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
 
                     }
                 });

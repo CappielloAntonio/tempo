@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
+import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.PodcastChannel;
 import com.cappielloantonio.play.subsonic.models.PodcastEpisode;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
@@ -32,16 +33,16 @@ public class PodcastRepository {
         App.getSubsonicClientInstance(application, false)
                 .getPodcastClient()
                 .getPodcasts(includeEpisodes, channelId)
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getPodcasts() != null) {
-                            livePodcastChannel.setValue(response.body().getPodcasts().getChannels());
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getPodcasts() != null) {
+                            livePodcastChannel.setValue(response.body().getSubsonicResponse().getPodcasts().getChannels());
                         }
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
 
                     }
                 });
@@ -55,16 +56,16 @@ public class PodcastRepository {
         App.getSubsonicClientInstance(application, false)
                 .getPodcastClient()
                 .getNewestPodcasts(count)
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getNewestPodcasts() != null) {
-                            liveNewestPodcastEpisodes.setValue(response.body().getNewestPodcasts().getEpisodes());
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getNewestPodcasts() != null) {
+                            liveNewestPodcastEpisodes.setValue(response.body().getSubsonicResponse().getNewestPodcasts().getEpisodes());
                         }
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
                         Log.d(TAG, "onFailure()");
                     }
                 });
@@ -76,14 +77,14 @@ public class PodcastRepository {
         App.getSubsonicClientInstance(application, false)
                 .getPodcastClient()
                 .refreshPodcasts()
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
 
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
 
                     }
                 });

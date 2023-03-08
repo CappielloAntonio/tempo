@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.MediaCallback;
+import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 
@@ -59,18 +60,18 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
         App.getSubsonicClientInstance(context, false)
                 .getAlbumSongListClient()
                 .getAlbumList2("alphabeticalByName", size, offset, null, null)
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull retrofit2.Response<SubsonicResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getAlbumList2() != null) {
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull retrofit2.Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getAlbumList2() != null) {
                             List<AlbumID3> albumList = new ArrayList<>();
-                            albumList.addAll(response.body().getAlbumList2().getAlbums());
+                            albumList.addAll(response.body().getSubsonicResponse().getAlbumList2().getAlbums());
                             callback.onLoadMedia(albumList);
                         }
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
                         callback.onError(new Exception(t.getMessage()));
                     }
                 });

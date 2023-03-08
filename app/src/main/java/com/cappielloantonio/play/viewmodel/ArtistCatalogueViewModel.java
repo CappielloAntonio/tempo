@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
+import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.IndexID3;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
@@ -34,13 +35,13 @@ public class ArtistCatalogueViewModel extends AndroidViewModel {
         App.getSubsonicClientInstance(context, false)
                 .getBrowsingClient()
                 .getArtists()
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull retrofit2.Response<SubsonicResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getArtists() != null) {
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull retrofit2.Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getArtists() != null) {
                             List<ArtistID3> artists = new ArrayList<>();
 
-                            for (IndexID3 index : response.body().getArtists().getIndices()) {
+                            for (IndexID3 index : response.body().getSubsonicResponse().getArtists().getIndices()) {
                                 artists.addAll(index.getArtists());
                             }
 
@@ -49,7 +50,7 @@ public class ArtistCatalogueViewModel extends AndroidViewModel {
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
 
                     }
                 });

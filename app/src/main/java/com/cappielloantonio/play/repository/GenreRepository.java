@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
+import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.Genre;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 
@@ -31,11 +32,11 @@ public class GenreRepository {
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
                 .getGenres()
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getGenres() != null) {
-                            List<Genre> genreList = response.body().getGenres().getGenres();
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getGenres() != null) {
+                            List<Genre> genreList = response.body().getSubsonicResponse().getGenres().getGenres();
 
                             if (random) {
                                 Collections.shuffle(genreList);
@@ -50,7 +51,7 @@ public class GenreRepository {
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
 
                     }
                 });

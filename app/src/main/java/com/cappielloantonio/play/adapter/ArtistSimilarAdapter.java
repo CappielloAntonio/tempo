@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -83,7 +82,7 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
                 .into(cover);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textArtistName;
         ImageView cover;
 
@@ -93,25 +92,10 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
             textArtistName = itemView.findViewById(R.id.artist_name_label);
             cover = itemView.findViewById(R.id.similar_artist_cover_image_view);
 
-            itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
+            itemView.setOnClickListener(v -> onClick());
+            itemView.setOnLongClickListener(v -> onLongClick());
 
             textArtistName.setSelected(true);
-        }
-
-        @Override
-        public void onClick(View view) {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
-            Navigation.findNavController(view).navigate(R.id.artistPageFragment, bundle);
-        }
-
-        @Override
-        public boolean onLongClick(View view) {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
-            Navigation.findNavController(view).navigate(R.id.artistBottomSheetDialog, bundle);
-            return true;
         }
 
         public void onClick() {

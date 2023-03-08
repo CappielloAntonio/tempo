@@ -4,9 +4,10 @@ import android.content.Context;
 import android.util.Log;
 
 import com.cappielloantonio.play.subsonic.Subsonic;
+import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.subsonic.utils.CacheUtil;
-import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory;
+import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +16,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BrowsingClient {
     private static final String TAG = "BrowsingClient";
@@ -29,94 +31,94 @@ public class BrowsingClient {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(subsonic.getUrl())
-                .addConverterFactory(TikXmlConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
                 .client(getOkHttpClient())
                 .build();
 
         this.browsingService = retrofit.create(BrowsingService.class);
     }
 
-    public Call<SubsonicResponse> getMusicFolders() {
+    public Call<ApiResponse> getMusicFolders() {
         Log.d(TAG, "getMusicFolders()");
         return browsingService.getMusicFolders(subsonic.getParams());
     }
 
-    public Call<SubsonicResponse> getIndexes() {
+    public Call<ApiResponse> getIndexes() {
         Log.d(TAG, "getIndexes()");
         return browsingService.getIndexes(subsonic.getParams());
     }
 
-    public Call<SubsonicResponse> getMusicDirectory(String id) {
+    public Call<ApiResponse> getMusicDirectory(String id) {
         Log.d(TAG, "getMusicDirectory()");
         return browsingService.getMusicDirectory(subsonic.getParams(), id);
     }
 
-    public Call<SubsonicResponse> getGenres() {
+    public Call<ApiResponse> getGenres() {
         Log.d(TAG, "getGenres()");
         return browsingService.getGenres(subsonic.getParams());
     }
 
-    public Call<SubsonicResponse> getArtists() {
+    public Call<ApiResponse> getArtists() {
         Log.d(TAG, "getArtists()");
         return browsingService.getArtists(subsonic.getParams());
     }
 
-    public Call<SubsonicResponse> getArtist(String id) {
+    public Call<ApiResponse> getArtist(String id) {
         Log.d(TAG, "getArtist()");
         return browsingService.getArtist(subsonic.getParams(), id);
     }
 
-    public Call<SubsonicResponse> getAlbum(String id) {
+    public Call<ApiResponse> getAlbum(String id) {
         Log.d(TAG, "getAlbum()");
         return browsingService.getAlbum(subsonic.getParams(), id);
     }
 
-    public Call<SubsonicResponse> getSong(String id) {
+    public Call<ApiResponse> getSong(String id) {
         Log.d(TAG, "getSong()");
         return browsingService.getSong(subsonic.getParams(), id);
     }
 
-    public Call<SubsonicResponse> getVideos() {
+    public Call<ApiResponse> getVideos() {
         Log.d(TAG, "getVideos()");
         return browsingService.getVideos(subsonic.getParams());
     }
 
-    public Call<SubsonicResponse> getVideoInfo(String id) {
+    public Call<ApiResponse> getVideoInfo(String id) {
         Log.d(TAG, "getVideoInfo()");
         return browsingService.getVideoInfo(subsonic.getParams(), id);
     }
 
-    public Call<SubsonicResponse> getArtistInfo(String id) {
+    public Call<ApiResponse> getArtistInfo(String id) {
         Log.d(TAG, "getArtistInfo()");
         return browsingService.getArtistInfo(subsonic.getParams(), id);
     }
 
-    public Call<SubsonicResponse> getArtistInfo2(String id) {
+    public Call<ApiResponse> getArtistInfo2(String id) {
         Log.d(TAG, "getArtistInfo2()");
         return browsingService.getArtistInfo2(subsonic.getParams(), id);
     }
 
-    public Call<SubsonicResponse> getAlbumInfo(String id) {
+    public Call<ApiResponse> getAlbumInfo(String id) {
         Log.d(TAG, "getAlbumInfo()");
         return browsingService.getAlbumInfo(subsonic.getParams(), id);
     }
 
-    public Call<SubsonicResponse> getAlbumInfo2(String id) {
+    public Call<ApiResponse> getAlbumInfo2(String id) {
         Log.d(TAG, "getAlbumInfo2()");
         return browsingService.getAlbumInfo2(subsonic.getParams(), id);
     }
 
-    public Call<SubsonicResponse> getSimilarSongs(String id, int count) {
+    public Call<ApiResponse> getSimilarSongs(String id, int count) {
         Log.d(TAG, "getSimilarSongs()");
         return browsingService.getSimilarSongs(subsonic.getParams(), id, count);
     }
 
-    public Call<SubsonicResponse> getSimilarSongs2(String id, int limit) {
+    public Call<ApiResponse> getSimilarSongs2(String id, int limit) {
         Log.d(TAG, "getSimilarSongs2()");
         return browsingService.getSimilarSongs2(subsonic.getParams(), id, limit);
     }
 
-    public Call<SubsonicResponse> getTopSongs(String artist, int count) {
+    public Call<ApiResponse> getTopSongs(String artist, int count) {
         Log.d(TAG, "getTopSongs()");
         return browsingService.getTopSongs(subsonic.getParams(), artist, count);
     }

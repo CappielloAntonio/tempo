@@ -1,16 +1,14 @@
 package com.cappielloantonio.play.subsonic.models
 
-import com.tickaroo.tikxml.annotation.Element
-import com.tickaroo.tikxml.annotation.Xml
+import com.google.gson.annotations.SerializedName
 
-@Xml
 class Starred2 {
-    @Element(name = "artist")
+    @SerializedName("artist")
     var artists: List<ArtistID3>? = null
 
-    @Element(name = "album")
+    @SerializedName("album")
     var albums: List<AlbumID3>? = null
 
-    @Element(name = "song")
+    @SerializedName("song")
     var songs: List<Child>? = null
 }

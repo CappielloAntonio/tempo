@@ -4,9 +4,10 @@ import android.content.Context;
 import android.util.Log;
 
 import com.cappielloantonio.play.subsonic.Subsonic;
+import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.subsonic.utils.CacheUtil;
-import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory;
+import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +16,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MediaLibraryScanningClient {
     private static final String TAG = "SystemClient";
@@ -29,19 +31,19 @@ public class MediaLibraryScanningClient {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(subsonic.getUrl())
-                .addConverterFactory(TikXmlConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
                 .client(getOkHttpClient())
                 .build();
 
         this.mediaLibraryScanningService = retrofit.create(MediaLibraryScanningService.class);
     }
 
-    public Call<SubsonicResponse> startScan() {
+    public Call<ApiResponse> startScan() {
         Log.d(TAG, "startScan()");
         return mediaLibraryScanningService.startScan(subsonic.getParams());
     }
 
-    public Call<SubsonicResponse> getScanStatus() {
+    public Call<ApiResponse> getScanStatus() {
         Log.d(TAG, "getScanStatus()");
         return mediaLibraryScanningService.getScanStatus(subsonic.getParams());
     }

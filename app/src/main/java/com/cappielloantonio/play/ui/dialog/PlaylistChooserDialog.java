@@ -98,7 +98,7 @@ public class PlaylistChooserDialog extends DialogFragment implements ClickCallba
 
     @Override
     public void onPlaylistClick(Bundle bundle) {
-        Playlist playlist = requireArguments().getParcelable("playlist_object");
+        Playlist playlist = bundle.getParcelable("playlist_object");
         playlistChooserViewModel.addSongToPlaylist(playlist.getId());
         dismiss();
     }

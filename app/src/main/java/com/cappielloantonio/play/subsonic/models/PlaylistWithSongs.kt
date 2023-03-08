@@ -1,13 +1,14 @@
 package com.cappielloantonio.play.subsonic.models
 
 import android.os.Parcelable
-import com.tickaroo.tikxml.annotation.Element
-import com.tickaroo.tikxml.annotation.Xml
+import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-@Xml
-class PlaylistWithSongs : Playlist(), Parcelable {
-    @Element(name = "entry")
+class PlaylistWithSongs(
+    @SerializedName("_id")
+    override var id: String
+) : Playlist(id), Parcelable {
+    @SerializedName("entry")
     var entries: List<Child>? = null
 }

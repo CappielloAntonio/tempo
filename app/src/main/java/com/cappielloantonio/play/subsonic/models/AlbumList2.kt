@@ -1,10 +1,8 @@
 package com.cappielloantonio.play.subsonic.models
 
-import com.tickaroo.tikxml.annotation.Element
-import com.tickaroo.tikxml.annotation.Xml
+import com.google.gson.annotations.SerializedName
 
-@Xml
 class AlbumList2 {
-    @Element
+    @SerializedName("album")
     var albums: List<AlbumID3>? = null
 }

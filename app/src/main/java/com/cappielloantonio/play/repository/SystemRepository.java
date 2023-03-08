@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.SystemCallback;
+import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.ResponseStatus;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 
@@ -27,13 +28,13 @@ public class SystemRepository {
         App.getSubsonicClientInstance(application, false)
                 .getSystemClient()
                 .ping()
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull retrofit2.Response<SubsonicResponse> response) {
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull retrofit2.Response<ApiResponse> response) {
                         if (response.body() != null) {
-                            if (response.body().getStatus().getValue().equals(ResponseStatus.FAILED)) {
-                                callback.onError(new Exception(response.body().getError().getCode().getValue() + " - " + response.body().getError().getMessage()));
-                            } else if (response.body().getStatus().getValue().equals(ResponseStatus.OK)) {
+                            if (response.body().getSubsonicResponse().getStatus().equals(ResponseStatus.FAILED)) {
+                                callback.onError(new Exception(response.body().getSubsonicResponse().getError().getCode().getValue() + " - " + response.body().getSubsonicResponse().getError().getMessage()));
+                            } else if (response.body().getSubsonicResponse().getStatus().equals(ResponseStatus.OK)) {
                                 String password = response.raw().request().url().queryParameter("p");
                                 String token = response.raw().request().url().queryParameter("t");
                                 String salt = response.raw().request().url().queryParameter("s");
@@ -47,7 +48,7 @@ public class SystemRepository {
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
                         callback.onError(new Exception(t.getMessage()));
                     }
                 });
@@ -59,16 +60,16 @@ public class SystemRepository {
         App.getSubsonicClientInstance(application, false)
                 .getSystemClient()
                 .ping()
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
                         if (response.isSuccessful() && response.body() != null) {
                             pingResult.postValue(true);
                         }
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
                         pingResult.postValue(false);
                     }
                 });

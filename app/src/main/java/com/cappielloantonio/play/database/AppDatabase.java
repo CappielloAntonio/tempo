@@ -22,7 +22,7 @@ import com.cappielloantonio.play.model.Server;
 import com.cappielloantonio.play.subsonic.models.Playlist;
 
 @Database(
-        version = 48,
+        version = 52,
         entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Playlist.class, Chronology.class}
         // autoMigrations = {@AutoMigration(from = 43, to = 44)}
 )

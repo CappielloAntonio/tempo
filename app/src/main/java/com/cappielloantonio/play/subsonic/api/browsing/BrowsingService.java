@@ -1,5 +1,6 @@
 package com.cappielloantonio.play.subsonic.api.browsing;
 
+import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 
 import java.util.Map;
@@ -11,53 +12,53 @@ import retrofit2.http.QueryMap;
 
 public interface BrowsingService {
     @GET("getMusicFolders")
-    Call<SubsonicResponse> getMusicFolders(@QueryMap Map<String, String> params);
+    Call<ApiResponse> getMusicFolders(@QueryMap Map<String, String> params);
 
     @GET("getIndexes")
-    Call<SubsonicResponse> getIndexes(@QueryMap Map<String, String> params);
+    Call<ApiResponse> getIndexes(@QueryMap Map<String, String> params);
 
     @GET("getMusicDirectory")
-    Call<SubsonicResponse> getMusicDirectory(@QueryMap Map<String, String> params, @Query("id") String id);
+    Call<ApiResponse> getMusicDirectory(@QueryMap Map<String, String> params, @Query("id") String id);
 
     @GET("getGenres")
-    Call<SubsonicResponse> getGenres(@QueryMap Map<String, String> params);
+    Call<ApiResponse> getGenres(@QueryMap Map<String, String> params);
 
     @GET("getArtists")
-    Call<SubsonicResponse> getArtists(@QueryMap Map<String, String> params);
+    Call<ApiResponse> getArtists(@QueryMap Map<String, String> params);
 
     @GET("getArtist")
-    Call<SubsonicResponse> getArtist(@QueryMap Map<String, String> params, @Query("id") String id);
+    Call<ApiResponse> getArtist(@QueryMap Map<String, String> params, @Query("id") String id);
 
     @GET("getAlbum")
-    Call<SubsonicResponse> getAlbum(@QueryMap Map<String, String> params, @Query("id") String id);
+    Call<ApiResponse> getAlbum(@QueryMap Map<String, String> params, @Query("id") String id);
 
     @GET("getSong")
-    Call<SubsonicResponse> getSong(@QueryMap Map<String, String> params, @Query("id") String id);
+    Call<ApiResponse> getSong(@QueryMap Map<String, String> params, @Query("id") String id);
 
     @GET("getVideos")
-    Call<SubsonicResponse> getVideos(@QueryMap Map<String, String> params);
+    Call<ApiResponse> getVideos(@QueryMap Map<String, String> params);
 
     @GET("getVideoInfo")
-    Call<SubsonicResponse> getVideoInfo(@QueryMap Map<String, String> params, @Query("id") String id);
+    Call<ApiResponse> getVideoInfo(@QueryMap Map<String, String> params, @Query("id") String id);
 
     @GET("getArtistInfo")
-    Call<SubsonicResponse> getArtistInfo(@QueryMap Map<String, String> params, @Query("id") String id);
+    Call<ApiResponse> getArtistInfo(@QueryMap Map<String, String> params, @Query("id") String id);
 
     @GET("getArtistInfo2")
-    Call<SubsonicResponse> getArtistInfo2(@QueryMap Map<String, String> params, @Query("id") String id);
+    Call<ApiResponse> getArtistInfo2(@QueryMap Map<String, String> params, @Query("id") String id);
 
     @GET("getAlbumInfo")
-    Call<SubsonicResponse> getAlbumInfo(@QueryMap Map<String, String> params, @Query("id") String id);
+    Call<ApiResponse> getAlbumInfo(@QueryMap Map<String, String> params, @Query("id") String id);
 
     @GET("getAlbumInfo2")
-    Call<SubsonicResponse> getAlbumInfo2(@QueryMap Map<String, String> params, @Query("id") String id);
+    Call<ApiResponse> getAlbumInfo2(@QueryMap Map<String, String> params, @Query("id") String id);
 
     @GET("getSimilarSongs")
-    Call<SubsonicResponse> getSimilarSongs(@QueryMap Map<String, String> params, @Query("id") String id, @Query("count") int count);
+    Call<ApiResponse> getSimilarSongs(@QueryMap Map<String, String> params, @Query("id") String id, @Query("count") int count);
 
     @GET("getSimilarSongs2")
-    Call<SubsonicResponse> getSimilarSongs2(@QueryMap Map<String, String> params, @Query("id") String id, @Query("count") int count);
+    Call<ApiResponse> getSimilarSongs2(@QueryMap Map<String, String> params, @Query("id") String id, @Query("count") int count);
 
     @GET("getTopSongs")
-    Call<SubsonicResponse> getTopSongs(@QueryMap Map<String, String> params, @Query("artist") String artist, @Query("count") int count);
+    Call<ApiResponse> getTopSongs(@QueryMap Map<String, String> params, @Query("artist") String artist, @Query("count") int count);
 }

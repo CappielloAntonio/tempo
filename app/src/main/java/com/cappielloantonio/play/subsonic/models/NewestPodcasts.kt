@@ -1,10 +1,8 @@
 package com.cappielloantonio.play.subsonic.models
 
-import com.tickaroo.tikxml.annotation.Element
-import com.tickaroo.tikxml.annotation.Xml
+import com.google.gson.annotations.SerializedName
 
-@Xml
 class NewestPodcasts {
-    @Element(name = "episode")
+    @SerializedName("episode")
     var episodes: List<PodcastEpisode>? = null
 }

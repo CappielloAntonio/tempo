@@ -10,9 +10,9 @@ import androidx.lifecycle.MutableLiveData;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.PlaylistDao;
+import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.subsonic.models.Playlist;
-import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,16 +34,16 @@ public class PlaylistRepository {
     }
 
     public MutableLiveData<List<Playlist>> getPlaylists(boolean random, int size) {
-        MutableLiveData<List<Playlist>> listLivePlaylists = new MutableLiveData<>();
+        MutableLiveData<List<Playlist>> listLivePlaylists = new MutableLiveData<>(new ArrayList<>());
 
         App.getSubsonicClientInstance(application, false)
                 .getPlaylistClient()
                 .getPlaylists()
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getPlaylists() != null) {
-                            List<Playlist> playlists = response.body().getPlaylists().getPlaylists();
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getPlaylists() != null && response.body().getSubsonicResponse().getPlaylists().getPlaylists() != null) {
+                            List<Playlist> playlists = response.body().getSubsonicResponse().getPlaylists().getPlaylists();
 
                             if (random) {
                                 Collections.shuffle(playlists);
@@ -55,7 +55,7 @@ public class PlaylistRepository {
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
                     }
                 });
 
@@ -68,17 +68,17 @@ public class PlaylistRepository {
         App.getSubsonicClientInstance(application, false)
                 .getPlaylistClient()
                 .getPlaylist(id)
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getPlaylist() != null) {
-                            List<Child> songs = response.body().getPlaylist().getEntries();
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getPlaylist() != null) {
+                            List<Child> songs = response.body().getSubsonicResponse().getPlaylist().getEntries();
                             listLivePlaylistSongs.setValue(songs);
                         }
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
                     }
                 });
 
@@ -89,14 +89,14 @@ public class PlaylistRepository {
         App.getSubsonicClientInstance(application, false)
                 .getPlaylistClient()
                 .updatePlaylist(playlistId, null, true, songsId, null)
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
 
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
 
                     }
                 });
@@ -106,14 +106,14 @@ public class PlaylistRepository {
         App.getSubsonicClientInstance(application, false)
                 .getPlaylistClient()
                 .createPlaylist(playlistId, name, songsId)
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
                         Log.d("PLAYLIST", response.toString());
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
                         Log.d("PLAYLIST", t.toString());
                     }
                 });
@@ -123,14 +123,14 @@ public class PlaylistRepository {
         App.getSubsonicClientInstance(application, false)
                 .getPlaylistClient()
                 .updatePlaylist(playlistId, name, isPublic, songIdToAdd, songIndexToRemove)
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
 
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
 
                     }
                 });
@@ -140,14 +140,14 @@ public class PlaylistRepository {
         App.getSubsonicClientInstance(application, false)
                 .getPlaylistClient()
                 .deletePlaylist(playlistId)
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
 
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
 
                     }
                 });

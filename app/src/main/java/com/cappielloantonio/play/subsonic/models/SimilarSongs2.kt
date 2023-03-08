@@ -1,10 +1,8 @@
 package com.cappielloantonio.play.subsonic.models
 
-import com.tickaroo.tikxml.annotation.Element
-import com.tickaroo.tikxml.annotation.Xml
+import com.google.gson.annotations.SerializedName
 
-@Xml
 class SimilarSongs2 {
-    @Element(name = "song")
+    @SerializedName("song")
     var songs: List<Child>? = null
 }

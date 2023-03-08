@@ -34,6 +34,8 @@ import com.paulrybitskyi.persistentsearchview.adapters.model.SuggestionItem;
 import com.paulrybitskyi.persistentsearchview.listeners.OnSuggestionChangeListener;
 import com.paulrybitskyi.persistentsearchview.utils.SuggestionCreationUtil;
 
+import java.util.Collections;
+
 @UnstableApi
 public class SearchFragment extends Fragment implements ClickCallback {
     private FragmentSearchBinding bind;
@@ -179,14 +181,29 @@ public class SearchFragment extends Fragment implements ClickCallback {
     private void performSearch(String query) {
         searchViewModel.search(query).observe(getViewLifecycleOwner(), result -> {
             if (bind != null) {
-                bind.searchArtistSector.setVisibility(!result.getArtists().isEmpty() ? View.VISIBLE : View.GONE);
-                artistAdapter.setItems(result.getArtists());
+                if (result.getArtists() != null) {
+                    bind.searchArtistSector.setVisibility(!result.getArtists().isEmpty() ? View.VISIBLE : View.GONE);
+                    artistAdapter.setItems(result.getArtists());
+                } else {
+                    artistAdapter.setItems(Collections.emptyList());
+                    bind.searchArtistSector.setVisibility(View.GONE);
+                }
 
-                bind.searchAlbumSector.setVisibility(!result.getAlbums().isEmpty() ? View.VISIBLE : View.GONE);
-                albumAdapter.setItems(result.getAlbums());
+                if (result.getAlbums() != null) {
+                    bind.searchAlbumSector.setVisibility(!result.getAlbums().isEmpty() ? View.VISIBLE : View.GONE);
+                    albumAdapter.setItems(result.getAlbums());
+                } else {
+                    albumAdapter.setItems(Collections.emptyList());
+                    bind.searchAlbumSector.setVisibility(View.GONE);
+                }
 
-                bind.searchSongSector.setVisibility(!result.getSongs().isEmpty() ? View.VISIBLE : View.GONE);
-                songHorizontalAdapter.setItems(result.getSongs());
+                if (result.getSongs() != null) {
+                    bind.searchSongSector.setVisibility(!result.getSongs().isEmpty() ? View.VISIBLE : View.GONE);
+                    songHorizontalAdapter.setItems(result.getSongs());
+                } else {
+                    songHorizontalAdapter.setItems(Collections.emptyList());
+                    bind.searchSongSector.setVisibility(View.GONE);
+                }
             }
         });
 

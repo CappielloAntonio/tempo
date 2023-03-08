@@ -4,9 +4,10 @@ import android.content.Context;
 import android.util.Log;
 
 import com.cappielloantonio.play.subsonic.Subsonic;
+import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.subsonic.utils.CacheUtil;
-import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory;
+import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +16,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchingClient {
     private static final String TAG = "BrowsingClient";
@@ -29,19 +31,19 @@ public class SearchingClient {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(subsonic.getUrl())
-                .addConverterFactory(TikXmlConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
                 .client(getOkHttpClient())
                 .build();
 
         this.searchingService = retrofit.create(SearchingService.class);
     }
 
-    public Call<SubsonicResponse> search2(String query, int songCount, int albumCount, int artistCount) {
+    public Call<ApiResponse> search2(String query, int songCount, int albumCount, int artistCount) {
         Log.d(TAG, "search2()");
         return searchingService.search2(subsonic.getParams(), query, songCount, albumCount, artistCount);
     }
 
-    public Call<SubsonicResponse> search3(String query, int songCount, int albumCount, int artistCount) {
+    public Call<ApiResponse> search3(String query, int songCount, int albumCount, int artistCount) {
         Log.d(TAG, "search3()");
         return searchingService.search3(subsonic.getParams(), query, songCount, albumCount, artistCount);
     }

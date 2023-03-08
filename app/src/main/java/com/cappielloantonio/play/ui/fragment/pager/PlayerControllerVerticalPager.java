@@ -10,8 +10,6 @@ import com.cappielloantonio.play.ui.fragment.PlayerQueueFragment;
 import java.util.HashMap;
 
 public class PlayerControllerVerticalPager extends FragmentStateAdapter {
-    private static final String TAG = "PlayerControllerVerticalPager";
-
     private final HashMap<Integer, Fragment> maps;
 
     public PlayerControllerVerticalPager(@NonNull Fragment fragment) {

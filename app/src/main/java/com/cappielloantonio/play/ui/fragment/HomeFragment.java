@@ -541,7 +541,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
                     bind.homeMostPlayedAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null)
                     bind.homeMostPlayedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
-                if (albums.size() < 5) reorder();
+                // if (albums.size() < 5) reorder();
 
                 mostPlayedAlbumAdapter.setItems(albums);
             }
@@ -714,19 +714,21 @@ public class HomeFragment extends Fragment implements ClickCallback {
 
     public void reorder() {
         if (bind != null) {
-            bind.homeLinearLayoutContainer.removeAllViews();
-            bind.homeLinearLayoutContainer.addView(bind.homeDiscoverSector);
+            // bind.homeLinearLayoutContainer.removeAllViews();
+            // bind.homeLinearLayoutContainer.addView(bind.homeDiscoverSector);
+
             // bind.homeLinearLayoutContainer.addView(bind.homeSimilarTracksSector);
             // bind.homeLinearLayoutContainer.addView(bind.homeRadioArtistSector);
             // bind.homeLinearLayoutContainer.addView(bind.homeGridTracksSector);
             // bind.homeLinearLayoutContainer.addView(bind.starredTracksSector);
             // bind.homeLinearLayoutContainer.addView(bind.starredAlbumsSector);
             // bind.homeLinearLayoutContainer.addView(bind.starredArtistsSector);
-            bind.homeLinearLayoutContainer.addView(bind.homeRecentlyAddedAlbumsSector);
-            bind.homeLinearLayoutContainer.addView(bind.homeFlashbackSector);
-            bind.homeLinearLayoutContainer.addView(bind.homeMostPlayedAlbumsSector);
-            bind.homeLinearLayoutContainer.addView(bind.homeRecentlyPlayedAlbumsSector);
-            bind.homeLinearLayoutContainer.addView(bind.homeNewestPodcastsSector);
+
+            // bind.homeLinearLayoutContainer.addView(bind.homeRecentlyAddedAlbumsSector);
+            // bind.homeLinearLayoutContainer.addView(bind.homeFlashbackSector);
+            // bind.homeLinearLayoutContainer.addView(bind.homeMostPlayedAlbumsSector);
+            // bind.homeLinearLayoutContainer.addView(bind.homeRecentlyPlayedAlbumsSector);
+            // bind.homeLinearLayoutContainer.addView(bind.homeNewestPodcastsSector);
         }
     }
 

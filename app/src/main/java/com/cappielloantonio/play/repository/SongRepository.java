@@ -1,19 +1,23 @@
 package com.cappielloantonio.play.repository;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
+import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.Child;
-import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import kotlin.collections.EmptyList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,28 +32,30 @@ public class SongRepository {
     }
 
     public MutableLiveData<List<Child>> getStarredSongs(boolean random, int size) {
-        MutableLiveData<List<Child>> starredSongs = new MutableLiveData<>();
+        MutableLiveData<List<Child>> starredSongs = new MutableLiveData<>(Collections.EMPTY_LIST);
 
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
                 .getStarred2()
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getStarred2() != null) {
-                            List<Child> songs = response.body().getStarred2().getSongs();
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getStarred2() != null) {
+                            List<Child> songs = response.body().getSubsonicResponse().getStarred2().getSongs();
 
-                            if (!random) {
-                                starredSongs.setValue(songs);
-                            } else {
-                                Collections.shuffle(songs);
-                                starredSongs.setValue(songs.subList(0, Math.min(size, songs.size())));
+                            if (songs != null) {
+                                if (!random) {
+                                    starredSongs.setValue(songs);
+                                } else {
+                                    Collections.shuffle(songs);
+                                    starredSongs.setValue(songs.subList(0, Math.min(size, songs.size())));
+                                }
                             }
                         }
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
 
                     }
                 });
@@ -63,16 +69,16 @@ public class SongRepository {
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
                 .getSimilarSongs2(song.getId(), count)
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getSimilarSongs2() != null) {
-                            instantMix.setValue(response.body().getSimilarSongs2().getSongs());
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getSimilarSongs2() != null) {
+                            instantMix.setValue(response.body().getSubsonicResponse().getSimilarSongs2().getSongs());
                         }
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
                         instantMix.setValue(null);
                     }
                 });
@@ -86,21 +92,21 @@ public class SongRepository {
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
                 .getRandomSongs(number, fromYear, toYear)
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
                         List<Child> songs = new ArrayList<>();
 
-                        if (response.isSuccessful() && response.body() != null && response.body().getRandomSongs() != null) {
-                            songs.addAll(response.body().getRandomSongs().getSongs());
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getRandomSongs() != null) {
+                            songs.addAll(response.body().getSubsonicResponse().getRandomSongs().getSongs());
                         }
 
                         randomSongsSample.setValue(songs);
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
-
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
+                        Log.d(TAG, "onFailure: ");
                     }
                 });
 
@@ -111,14 +117,14 @@ public class SongRepository {
         App.getSubsonicClientInstance(application, false)
                 .getMediaAnnotationClient()
                 .scrobble(id)
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
 
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
 
                     }
                 });
@@ -128,14 +134,14 @@ public class SongRepository {
         App.getSubsonicClientInstance(application, false)
                 .getMediaAnnotationClient()
                 .star(id, null, null)
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
 
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
 
                     }
                 });
@@ -145,14 +151,14 @@ public class SongRepository {
         App.getSubsonicClientInstance(application, false)
                 .getMediaAnnotationClient()
                 .unstar(id, null, null)
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
 
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
 
                     }
                 });
@@ -162,14 +168,14 @@ public class SongRepository {
         App.getSubsonicClientInstance(application, false)
                 .getMediaAnnotationClient()
                 .setRating(id, rating)
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
 
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
 
                     }
                 });
@@ -181,11 +187,11 @@ public class SongRepository {
         App.getSubsonicClientInstance(application, false)
                 .getAlbumSongListClient()
                 .getSongsByGenre(id, 500, 0)
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getSongsByGenre() != null) {
-                            List<Child> newSongs = response.body().getSongsByGenre().getSongs();
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getSongsByGenre() != null) {
+                            List<Child> newSongs = response.body().getSubsonicResponse().getSongsByGenre().getSongs();
                             List<Child> songs = songsByGenre.getValue();
 
                             if (songs == null) songs = new ArrayList<>();
@@ -200,7 +206,7 @@ public class SongRepository {
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
 
                     }
                 });
@@ -215,20 +221,20 @@ public class SongRepository {
             App.getSubsonicClientInstance(application, false)
                     .getAlbumSongListClient()
                     .getSongsByGenre(id, 500, 0)
-                    .enqueue(new Callback<SubsonicResponse>() {
+                    .enqueue(new Callback<ApiResponse>() {
                         @Override
-                        public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                        public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
                             List<Child> songs = new ArrayList<>();
 
-                            if (response.isSuccessful() && response.body() != null && response.body().getSongsByGenre() != null) {
-                                songs.addAll(response.body().getSongsByGenre().getSongs());
+                            if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getSongsByGenre() != null) {
+                                songs.addAll(response.body().getSubsonicResponse().getSongsByGenre().getSongs());
                             }
 
                             songsByGenre.setValue(songs);
                         }
 
                         @Override
-                        public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                        public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
 
                         }
                     });
@@ -242,17 +248,17 @@ public class SongRepository {
         App.getSubsonicClientInstance(application, false)
                 .getBrowsingClient()
                 .getSong(id)
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
                         if (response.isSuccessful() && response.body() != null) {
-                            song.setValue(response.body().getSong());
+                            song.setValue(response.body().getSubsonicResponse().getSong());
                         }
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
-
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
+                        Log.d(TAG, "onFailure: ");
                     }
                 });
 
@@ -265,16 +271,16 @@ public class SongRepository {
         App.getSubsonicClientInstance(application, false)
                 .getMediaRetrievalClient()
                 .getLyrics(song.getArtist(), song.getTitle())
-                .enqueue(new Callback<SubsonicResponse>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<SubsonicResponse> call, @NonNull Response<SubsonicResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getLyrics() != null) {
-                            lyrics.setValue(response.body().getLyrics().getContent());
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getLyrics() != null) {
+                            lyrics.setValue(response.body().getSubsonicResponse().getLyrics().getContent());
                         }
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<SubsonicResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
 
                     }
                 });

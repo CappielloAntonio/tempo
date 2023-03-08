@@ -1,5 +1,6 @@
 package com.cappielloantonio.play.subsonic.api.podcast;
 
+import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 
 import java.util.Map;
@@ -11,11 +12,11 @@ import retrofit2.http.QueryMap;
 
 public interface PodcastService {
     @GET("getPodcasts")
-    Call<SubsonicResponse> getPodcasts(@QueryMap Map<String, String> params, @Query("includeEpisodes") boolean includeEpisodes, @Query("id") String id);
+    Call<ApiResponse> getPodcasts(@QueryMap Map<String, String> params, @Query("includeEpisodes") boolean includeEpisodes, @Query("id") String id);
 
     @GET("getNewestPodcasts")
-    Call<SubsonicResponse> getNewestPodcasts(@QueryMap Map<String, String> params, @Query("count") int count);
+    Call<ApiResponse> getNewestPodcasts(@QueryMap Map<String, String> params, @Query("count") int count);
 
     @GET("refreshPodcasts")
-    Call<SubsonicResponse> refreshPodcasts(@QueryMap Map<String, String> params);
+    Call<ApiResponse> refreshPodcasts(@QueryMap Map<String, String> params);
 }

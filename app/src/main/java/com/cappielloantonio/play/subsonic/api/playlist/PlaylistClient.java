@@ -4,9 +4,10 @@ import android.content.Context;
 import android.util.Log;
 
 import com.cappielloantonio.play.subsonic.Subsonic;
+import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.subsonic.utils.CacheUtil;
-import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -16,6 +17,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PlaylistClient {
     private static final String TAG = "BrowsingClient";
@@ -30,34 +32,34 @@ public class PlaylistClient {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(subsonic.getUrl())
-                .addConverterFactory(TikXmlConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
                 .client(getOkHttpClient())
                 .build();
 
         this.playlistService = retrofit.create(PlaylistService.class);
     }
 
-    public Call<SubsonicResponse> getPlaylists() {
+    public Call<ApiResponse> getPlaylists() {
         Log.d(TAG, "getPlaylists()");
         return playlistService.getPlaylists(subsonic.getParams());
     }
 
-    public Call<SubsonicResponse> getPlaylist(String id) {
+    public Call<ApiResponse> getPlaylist(String id) {
         Log.d(TAG, "getPlaylist()");
         return playlistService.getPlaylist(subsonic.getParams(), id);
     }
 
-    public Call<SubsonicResponse> createPlaylist(String playlistId, String name, ArrayList<String> songsId) {
+    public Call<ApiResponse> createPlaylist(String playlistId, String name, ArrayList<String> songsId) {
         Log.d(TAG, "createPlaylist()");
         return playlistService.createPlaylist(subsonic.getParams(), playlistId, name, songsId);
     }
 
-    public Call<SubsonicResponse> updatePlaylist(String playlistId, String name, boolean isPublic, ArrayList<String> songIdToAdd, ArrayList<Integer> songIndexToRemove) {
+    public Call<ApiResponse> updatePlaylist(String playlistId, String name, boolean isPublic, ArrayList<String> songIdToAdd, ArrayList<Integer> songIndexToRemove) {
         Log.d(TAG, "updatePlaylist()");
         return playlistService.updatePlaylist(subsonic.getParams(), playlistId, name, isPublic, songIdToAdd, songIndexToRemove);
     }
 
-    public Call<SubsonicResponse> deletePlaylist(String id) {
+    public Call<ApiResponse> deletePlaylist(String id) {
         Log.d(TAG, "deletePlaylist()");
         return playlistService.deletePlaylist(subsonic.getParams(), id);
     }

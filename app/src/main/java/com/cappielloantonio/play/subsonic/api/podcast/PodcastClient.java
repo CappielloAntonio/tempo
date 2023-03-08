@@ -4,9 +4,10 @@ import android.content.Context;
 import android.util.Log;
 
 import com.cappielloantonio.play.subsonic.Subsonic;
+import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.subsonic.utils.CacheUtil;
-import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory;
+import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +16,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PodcastClient {
     private static final String TAG = "SystemClient";
@@ -29,27 +31,28 @@ public class PodcastClient {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(subsonic.getUrl())
-                .addConverterFactory(TikXmlConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
                 .client(getOkHttpClient())
                 .build();
 
         this.podcastService = retrofit.create(PodcastService.class);
     }
 
-    public Call<SubsonicResponse> getPodcasts(boolean includeEpisodes, String channelId) {
+    public Call<ApiResponse> getPodcasts(boolean includeEpisodes, String channelId) {
         Log.d(TAG, "getPodcasts()");
         return podcastService.getPodcasts(subsonic.getParams(), includeEpisodes, channelId);
     }
 
-    public Call<SubsonicResponse> getNewestPodcasts(int count) {
+    public Call<ApiResponse> getNewestPodcasts(int count) {
         Log.d(TAG, "getNewestPodcasts()");
         return podcastService.getNewestPodcasts(subsonic.getParams(), count);
     }
 
-    public Call<SubsonicResponse> refreshPodcasts() {
+    public Call<ApiResponse> refreshPodcasts() {
         Log.d(TAG, "refreshPodcasts()");
         return podcastService.refreshPodcasts(subsonic.getParams());
     }
+
     private OkHttpClient getOkHttpClient() {
         CacheUtil cacheUtil = new CacheUtil(context, 60, 60 * 60 * 24 * 30);
 

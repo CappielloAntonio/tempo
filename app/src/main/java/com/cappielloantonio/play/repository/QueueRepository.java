@@ -62,7 +62,12 @@ public class QueueRepository {
                 mediaList = getMediaThreadSafe.getMedia();
             }
 
-            mediaList.add(afterIndex, (Queue) media);
+            Queue queueItem = new Queue(media);
+            mediaList.add(afterIndex, queueItem);
+
+            for (int i = 0; i < mediaList.size(); i++) {
+                mediaList.get(i).setTrackOrder(i);
+            }
 
             Thread delete = new Thread(new DeleteAllThreadSafe(queueDao));
             delete.start();
@@ -90,7 +95,12 @@ public class QueueRepository {
             }
 
             for (int i = 0; i < toAdd.size(); i++) {
-                media.add(afterIndex + i, (Queue) toAdd.get(i));
+                Queue queueItem = new Queue(toAdd.get(i));
+                media.add(afterIndex + i, queueItem);
+            }
+
+            for (int i = 0; i < media.size(); i++) {
+                media.get(i).setTrackOrder(i);
             }
 
             Thread delete = new Thread(new DeleteAllThreadSafe(queueDao));

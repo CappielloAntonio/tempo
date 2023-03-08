@@ -234,7 +234,7 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 if (mediaItem == null) return
 
-                if (mediaItem.mediaMetadata.extras!!.getString("mediaType") == Media.MEDIA_TYPE_MUSIC) {
+                if (mediaItem.mediaMetadata.extras?.getString("type") == Media.MEDIA_TYPE_MUSIC) {
                     MediaManager.scrobble(mediaItem)
                     MediaManager.saveChronology(mediaItem)
                 }
@@ -243,7 +243,7 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
             }
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {
-                if (isPlaying) {
+                if (!isPlaying) {
                     MediaManager.setPlayingPausedTimestamp(
                         player.currentMediaItem,
                         player.currentPosition

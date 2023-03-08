@@ -1,5 +1,6 @@
 package com.cappielloantonio.play.subsonic.api.mediaannotation;
 
+import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 
 import java.util.Map;
@@ -11,14 +12,14 @@ import retrofit2.http.QueryMap;
 
 public interface MediaAnnotationService {
     @GET("star")
-    Call<SubsonicResponse> star(@QueryMap Map<String, String> params, @Query("id") String id, @Query("albumId") String albumId, @Query("artistId") String artistId);
+    Call<ApiResponse> star(@QueryMap Map<String, String> params, @Query("id") String id, @Query("albumId") String albumId, @Query("artistId") String artistId);
 
     @GET("unstar")
-    Call<SubsonicResponse> unstar(@QueryMap Map<String, String> params, @Query("id") String id, @Query("albumId") String albumId, @Query("artistId") String artistId);
+    Call<ApiResponse> unstar(@QueryMap Map<String, String> params, @Query("id") String id, @Query("albumId") String albumId, @Query("artistId") String artistId);
 
     @GET("setRating")
-    Call<SubsonicResponse> setRating(@QueryMap Map<String, String> params, @Query("id") String id, @Query("rating") int rating);
+    Call<ApiResponse> setRating(@QueryMap Map<String, String> params, @Query("id") String id, @Query("rating") int rating);
 
     @GET("scrobble")
-    Call<SubsonicResponse> scrobble(@QueryMap Map<String, String> params, @Query("id") String id);
+    Call<ApiResponse> scrobble(@QueryMap Map<String, String> params, @Query("id") String id);
 }

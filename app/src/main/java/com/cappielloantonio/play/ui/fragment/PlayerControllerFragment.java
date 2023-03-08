@@ -27,6 +27,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.InnerFragmentPlayerControllerBinding;
 import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.service.MediaService;
+import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.dialog.RatingDialog;
 import com.cappielloantonio.play.ui.fragment.pager.PlayerControllerHorizontalPager;
@@ -155,7 +156,7 @@ public class PlayerControllerFragment extends Fragment {
 
     private void setMediaInfo(MediaMetadata mediaMetadata) {
         if (mediaMetadata.extras != null) {
-            String extension = mediaMetadata.extras.getString("extension", "Unknown format");
+            String extension = mediaMetadata.extras.getString("suffix", "Unknown format");
             String bitrate = mediaMetadata.extras.getInt("bitrate", 0) != 0 ? mediaMetadata.extras.getInt("bitrate", 0) + "kbps" : "Original";
 
             playerMediaExtension.setText(extension);
@@ -190,7 +191,7 @@ public class PlayerControllerFragment extends Fragment {
         initPlaybackSpeedButton(mediaBrowser);
 
         if (mediaBrowser.getMediaMetadata().extras != null) {
-            switch (mediaBrowser.getMediaMetadata().extras.getString("mediaType", Media.MEDIA_TYPE_MUSIC)) {
+            switch (mediaBrowser.getMediaMetadata().extras.getString("type", Media.MEDIA_TYPE_MUSIC)) {
                 case Media.MEDIA_TYPE_PODCAST:
                     bind.getRoot().setShowShuffleButton(false);
                     bind.getRoot().setShowRewindButton(true);
@@ -239,7 +240,7 @@ public class PlayerControllerFragment extends Fragment {
     private void initMediaListenable() {
         playerBottomSheetViewModel.getLiveMedia().observe(getViewLifecycleOwner(), media -> {
             if (media != null) {
-                buttonFavorite.setChecked(Boolean.TRUE.equals(media.getStarred()));
+                buttonFavorite.setChecked(media.getStarred() != null);
                 buttonFavorite.setOnClickListener(v -> playerBottomSheetViewModel.setFavorite(requireContext(), media));
                 buttonFavorite.setOnLongClickListener(v -> {
                     Bundle bundle = new Bundle();

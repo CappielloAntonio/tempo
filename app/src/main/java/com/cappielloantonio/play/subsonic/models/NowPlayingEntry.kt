@@ -5,7 +5,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class NowPlayingEntry(
-    // TODO
     @SerializedName("_id")
     override val id: String
 ) : Child(id) {

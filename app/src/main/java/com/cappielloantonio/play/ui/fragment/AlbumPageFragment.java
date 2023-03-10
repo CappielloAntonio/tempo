@@ -103,13 +103,11 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_download_album) {
-            albumPageViewModel.getAlbumSongLiveList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
-                if (isVisible() && getActivity() != null) {
-                    DownloadUtil.getDownloadTracker(requireContext()).download(
-                            MappingUtil.mapMediaItems(songs, false),
-                            songs.stream().map(Download::new).collect(Collectors.toList())
-                    );
-                }
+            albumPageViewModel.getAlbumSongLiveList().observe(getViewLifecycleOwner(), songs -> {
+                DownloadUtil.getDownloadTracker(requireContext()).download(
+                        MappingUtil.mapMediaItems(songs, false),
+                        songs.stream().map(Download::new).collect(Collectors.toList())
+                );
             });
             return true;
         }
@@ -119,7 +117,6 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
 
     private void init() {
         albumPageViewModel.setAlbum(requireArguments().getParcelable("album_object"));
-        albumPageViewModel.setOffline(requireArguments().getBoolean("is_offline"));
     }
 
     private void initAppBar() {
@@ -153,7 +150,7 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
     }
 
     private void initMusicButton() {
-        albumPageViewModel.getAlbumSongLiveList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
+        albumPageViewModel.getAlbumSongLiveList().observe(getViewLifecycleOwner(), songs -> {
             if (bind != null && !songs.isEmpty()) {
                 bind.albumPagePlayButton.setOnClickListener(v -> {
                     MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
@@ -189,7 +186,7 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
         songHorizontalAdapter = new SongHorizontalAdapter(this, false);
         bind.songRecyclerView.setAdapter(songHorizontalAdapter);
 
-        albumPageViewModel.getAlbumSongLiveList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> songHorizontalAdapter.setItems(songs));
+        albumPageViewModel.getAlbumSongLiveList().observe(getViewLifecycleOwner(), songs -> songHorizontalAdapter.setItems(songs));
     }
 
     private void initializeMediaBrowser() {

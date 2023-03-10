@@ -84,7 +84,6 @@ public class AlbumHorizontalAdapter extends RecyclerView.Adapter<AlbumHorizontal
         private void onClick() {
             Bundle bundle = new Bundle();
             bundle.putParcelable("album_object", albums.get(getBindingAdapterPosition()));
-            bundle.putBoolean("is_offline", false);
 
             click.onAlbumClick(bundle);
         }

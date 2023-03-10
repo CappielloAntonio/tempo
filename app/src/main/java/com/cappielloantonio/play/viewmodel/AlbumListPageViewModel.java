@@ -58,14 +58,6 @@ public class AlbumListPageViewModel extends AndroidViewModel {
                     albumList.postValue(albums.subList(0, Math.min(20, albums.size())));
                 });
                 break;
-            case Album.DOWNLOADED:
-                // TODO
-                // downloadRepository.getLiveDownload().observe(owner, downloads -> albumList.setValue(MappingUtil.mapDownloadToAlbum(downloads)));
-                break;
-            case Album.FROM_ARTIST:
-                // TODO
-                // downloadRepository.getLiveDownloadFromArtist(artist.getId()).observe(owner, downloads -> albumList.setValue(MappingUtil.mapDownloadToAlbum(downloads)));
-                break;
         }
 
         return albumList;

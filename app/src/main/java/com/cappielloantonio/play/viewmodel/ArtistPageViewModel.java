@@ -36,8 +36,16 @@ public class ArtistPageViewModel extends AndroidViewModel {
         return artistRepository.getArtistFullInfo(id);
     }
 
-    public LiveData<List<Child>> getArtistTopSongList(int count) {
-        return artistRepository.getTopSongs(artist.getName(), count);
+    public LiveData<List<Child>> getArtistTopSongList() {
+        return artistRepository.getTopSongs(artist.getName(), 20);
+    }
+
+    public LiveData<List<Child>> getArtistShuffleList() {
+        return artistRepository.getRandomSong(artist, 50);
+    }
+
+    public LiveData<List<Child>> getArtistInstantMix() {
+        return artistRepository.getInstantMix(artist, 20);
     }
 
     public ArtistID3 getArtist() {

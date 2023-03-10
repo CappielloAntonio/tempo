@@ -19,18 +19,17 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.ui.adapter.AlbumArtistPageOrSimilarAdapter;
-import com.cappielloantonio.play.ui.adapter.ArtistSimilarAdapter;
-import com.cappielloantonio.play.ui.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Media;
-import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.ui.adapter.AlbumArtistPageOrSimilarAdapter;
+import com.cappielloantonio.play.ui.adapter.ArtistSimilarAdapter;
+import com.cappielloantonio.play.ui.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.ArtistPageViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -135,12 +134,9 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
         });
     }
 
-    // TODO Utilizzare il viewmodel come tramite ed evitare le chiamate dirette
     private void initPlayButtons() {
         bind.artistPageShuffleButton.setOnClickListener(v -> {
-            ArtistRepository artistRepository = new ArtistRepository();
-
-            artistRepository.getArtistRandomSong(getViewLifecycleOwner(), artistPageViewModel.getArtist(), 20).observe(getViewLifecycleOwner(), songs -> {
+            artistPageViewModel.getArtistShuffleList().observe(getViewLifecycleOwner(), songs -> {
                 if (songs.size() > 0) {
                     MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
                     activity.setBottomSheetInPeek(true);
@@ -151,9 +147,7 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
         });
 
         bind.artistPageRadioButton.setOnClickListener(v -> {
-            ArtistRepository artistRepository = new ArtistRepository();
-
-            artistRepository.getInstantMix(artistPageViewModel.getArtist(), 20).observe(getViewLifecycleOwner(), songs -> {
+            artistPageViewModel.getArtistInstantMix().observe(getViewLifecycleOwner(), songs -> {
                 if (songs.size() > 0) {
                     MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
                     activity.setBottomSheetInPeek(true);
@@ -169,7 +163,7 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
 
         songHorizontalAdapter = new SongHorizontalAdapter(this, true);
         bind.mostStreamedSongRecyclerView.setAdapter(songHorizontalAdapter);
-        artistPageViewModel.getArtistTopSongList(10).observe(getViewLifecycleOwner(), songs -> {
+        artistPageViewModel.getArtistTopSongList().observe(getViewLifecycleOwner(), songs -> {
             if (bind != null)
                 bind.artistPageTopSongsSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
             songHorizontalAdapter.setItems(songs);

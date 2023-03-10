@@ -1,12 +1,10 @@
 package com.cappielloantonio.play.repository;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.subsonic.base.ApiResponse;
-import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.ArtistInfo2;
 import com.cappielloantonio.play.subsonic.models.Child;
@@ -258,31 +256,23 @@ public class ArtistRepository {
         return instantMix;
     }
 
-    public MutableLiveData<ArrayList<Child>> getArtistRandomSong(LifecycleOwner owner, ArtistID3 artist, int count) {
-        MutableLiveData<ArrayList<Child>> randomSongs = new MutableLiveData<>();
+    public MutableLiveData<List<Child>> getRandomSong(ArtistID3 artist, int count) {
+        MutableLiveData<List<Child>> randomSongs = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(false)
                 .getBrowsingClient()
-                .getArtist(artist.getId())
+                .getTopSongs(artist.getName(), count)
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getArtist() != null && response.body().getSubsonicResponse().getArtist().getAlbums() != null) {
-                            List<AlbumID3> albums = response.body().getSubsonicResponse().getArtist().getAlbums();
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getTopSongs() != null && response.body().getSubsonicResponse().getTopSongs().getSongs() != null) {
+                            List<Child> songs = response.body().getSubsonicResponse().getTopSongs().getSongs();
 
-                            if (albums.size() > 0) {
-                                AlbumRepository albumRepository = new AlbumRepository();
-
-                                for (int index = 0; index < albums.size(); index++) {
-                                    albumRepository.getAlbumTracks(albums.get(index).getId()).observe(owner, songs -> {
-                                        ArrayList<Child> liveSongs = randomSongs.getValue();
-                                        if (liveSongs == null) liveSongs = new ArrayList<>();
-                                        Collections.shuffle(liveSongs);
-                                        liveSongs.addAll(songs);
-                                        randomSongs.setValue(liveSongs);
-                                    });
-                                }
+                            if (songs != null && !songs.isEmpty()) {
+                                Collections.shuffle(songs);
                             }
+
+                            randomSongs.setValue(songs);
                         }
                     }
 

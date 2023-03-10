@@ -13,7 +13,6 @@ import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.Child;
-import com.cappielloantonio.play.util.MappingUtil;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,7 +30,7 @@ public class DownloadViewModel extends AndroidViewModel {
     public DownloadViewModel(@NonNull Application application) {
         super(application);
 
-        downloadRepository = new DownloadRepository(application);
+        downloadRepository = new DownloadRepository();
     }
 
     public LiveData<List<Child>> getDownloadedTracks(LifecycleOwner owner) {

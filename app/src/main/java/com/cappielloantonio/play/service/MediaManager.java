@@ -5,7 +5,6 @@ import android.content.Context;
 import androidx.media3.common.MediaItem;
 import androidx.media3.session.MediaBrowser;
 
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.MediaIndexCallback;
 import com.cappielloantonio.play.model.Chronology;
 import com.cappielloantonio.play.repository.ChronologyRepository;
@@ -83,7 +82,7 @@ public class MediaManager {
                 try {
                     if (mediaBrowserListenableFuture.isDone()) {
                         mediaBrowserListenableFuture.get().clearMediaItems();
-                        mediaBrowserListenableFuture.get().setMediaItems(MappingUtil.mapMediaItems(context, media, true));
+                        mediaBrowserListenableFuture.get().setMediaItems(MappingUtil.mapMediaItems(media, true));
                         mediaBrowserListenableFuture.get().seekTo(getQueueRepository().getLastPlayedMediaIndex(), getQueueRepository().getLastPlayedMediaTimestamp());
                         mediaBrowserListenableFuture.get().prepare();
                     }
@@ -170,7 +169,7 @@ public class MediaManager {
                 try {
                     if (mediaBrowserListenableFuture.isDone()) {
                         mediaBrowserListenableFuture.get().clearMediaItems();
-                        mediaBrowserListenableFuture.get().setMediaItems(MappingUtil.mapMediaItems(context, media, true));
+                        mediaBrowserListenableFuture.get().setMediaItems(MappingUtil.mapMediaItems(media, true));
                         mediaBrowserListenableFuture.get().prepare();
                         mediaBrowserListenableFuture.get().seekTo(startIndex, 0);
                         mediaBrowserListenableFuture.get().play();
@@ -189,7 +188,7 @@ public class MediaManager {
                 try {
                     if (mediaBrowserListenableFuture.isDone()) {
                         mediaBrowserListenableFuture.get().clearMediaItems();
-                        mediaBrowserListenableFuture.get().setMediaItem(MappingUtil.mapMediaItem(context, media, true));
+                        mediaBrowserListenableFuture.get().setMediaItem(MappingUtil.mapMediaItem(media, true));
                         mediaBrowserListenableFuture.get().prepare();
                         mediaBrowserListenableFuture.get().play();
                         enqueueDatabase(media, true, 0);
@@ -208,10 +207,10 @@ public class MediaManager {
                     if (mediaBrowserListenableFuture.isDone()) {
                         if (playImmediatelyAfter && mediaBrowserListenableFuture.get().getNextMediaItemIndex() != -1) {
                             enqueueDatabase(media, false, mediaBrowserListenableFuture.get().getNextMediaItemIndex());
-                            mediaBrowserListenableFuture.get().addMediaItems(mediaBrowserListenableFuture.get().getNextMediaItemIndex(), MappingUtil.mapMediaItems(context, media, true));
+                            mediaBrowserListenableFuture.get().addMediaItems(mediaBrowserListenableFuture.get().getNextMediaItemIndex(), MappingUtil.mapMediaItems(media, true));
                         } else {
                             enqueueDatabase(media, false, mediaBrowserListenableFuture.get().getMediaItemCount());
-                            mediaBrowserListenableFuture.get().addMediaItems(MappingUtil.mapMediaItems(context, media, true));
+                            mediaBrowserListenableFuture.get().addMediaItems(MappingUtil.mapMediaItems(media, true));
                         }
                     }
                 } catch (ExecutionException | InterruptedException e) {
@@ -228,10 +227,10 @@ public class MediaManager {
                     if (mediaBrowserListenableFuture.isDone()) {
                         if (playImmediatelyAfter && mediaBrowserListenableFuture.get().getNextMediaItemIndex() != -1) {
                             enqueueDatabase(media, false, mediaBrowserListenableFuture.get().getNextMediaItemIndex());
-                            mediaBrowserListenableFuture.get().addMediaItem(mediaBrowserListenableFuture.get().getNextMediaItemIndex(), MappingUtil.mapMediaItem(context, media, true));
+                            mediaBrowserListenableFuture.get().addMediaItem(mediaBrowserListenableFuture.get().getNextMediaItemIndex(), MappingUtil.mapMediaItem(media, true));
                         } else {
                             enqueueDatabase(media, false, mediaBrowserListenableFuture.get().getMediaItemCount());
-                            mediaBrowserListenableFuture.get().addMediaItem(MappingUtil.mapMediaItem(context, media, true));
+                            mediaBrowserListenableFuture.get().addMediaItem(MappingUtil.mapMediaItem(media, true));
                         }
                     }
                 } catch (ExecutionException | InterruptedException e) {
@@ -311,15 +310,15 @@ public class MediaManager {
     }
 
     private static QueueRepository getQueueRepository() {
-        return new QueueRepository(App.getInstance());
+        return new QueueRepository();
     }
 
     private static SongRepository getSongRepository() {
-        return new SongRepository(App.getInstance());
+        return new SongRepository();
     }
 
     private static ChronologyRepository getChronologyRepository() {
-        return new ChronologyRepository(App.getInstance());
+        return new ChronologyRepository();
     }
 
     private static void enqueueDatabase(List<Child> media, boolean reset, int afterIndex) {

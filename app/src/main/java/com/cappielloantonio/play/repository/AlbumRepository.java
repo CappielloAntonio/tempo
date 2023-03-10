@@ -1,7 +1,5 @@
 package com.cappielloantonio.play.repository;
 
-import android.app.Application;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
@@ -11,7 +9,6 @@ import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.Child;
-import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,16 +23,10 @@ import retrofit2.Response;
 public class AlbumRepository {
     private static final String TAG = "AlbumRepository";
 
-    private final Application application;
-
-    public AlbumRepository(Application application) {
-        this.application = application;
-    }
-
     public MutableLiveData<List<AlbumID3>> getAlbums(String type, int size, Integer fromYear, Integer toYear) {
         MutableLiveData<List<AlbumID3>> listLiveAlbums = new MutableLiveData<>();
 
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getAlbumSongListClient()
                 .getAlbumList2(type, size, 0, fromYear, toYear)
                 .enqueue(new Callback<ApiResponse>() {
@@ -58,7 +49,7 @@ public class AlbumRepository {
     public MutableLiveData<List<AlbumID3>> getStarredAlbums(boolean random, int size) {
         MutableLiveData<List<AlbumID3>> starredAlbums = new MutableLiveData<>(new ArrayList<>());
 
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getAlbumSongListClient()
                 .getStarred2()
                 .enqueue(new Callback<ApiResponse>() {
@@ -86,7 +77,7 @@ public class AlbumRepository {
     }
 
     public void star(String id) {
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getMediaAnnotationClient()
                 .star(null, id, null)
                 .enqueue(new Callback<ApiResponse>() {
@@ -103,7 +94,7 @@ public class AlbumRepository {
     }
 
     public void unstar(String id) {
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getMediaAnnotationClient()
                 .unstar(null, id, null)
                 .enqueue(new Callback<ApiResponse>() {
@@ -120,7 +111,7 @@ public class AlbumRepository {
     }
 
     public void setRating(String id, int rating) {
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getMediaAnnotationClient()
                 .setRating(id, rating)
                 .enqueue(new Callback<ApiResponse>() {
@@ -139,7 +130,7 @@ public class AlbumRepository {
     public MutableLiveData<List<Child>> getAlbumTracks(String id) {
         MutableLiveData<List<Child>> albumTracks = new MutableLiveData<>();
 
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getBrowsingClient()
                 .getAlbum(id)
                 .enqueue(new Callback<ApiResponse>() {
@@ -166,7 +157,7 @@ public class AlbumRepository {
     public MutableLiveData<List<AlbumID3>> getArtistAlbums(String id) {
         MutableLiveData<List<AlbumID3>> artistsAlbum = new MutableLiveData<>(new ArrayList<>());
 
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getBrowsingClient()
                 .getArtist(id)
                 .enqueue(new Callback<ApiResponse>() {
@@ -191,7 +182,7 @@ public class AlbumRepository {
     public MutableLiveData<AlbumID3> getAlbum(String id) {
         MutableLiveData<AlbumID3> album = new MutableLiveData<>();
 
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getBrowsingClient()
                 .getAlbum(id)
                 .enqueue(new Callback<ApiResponse>() {
@@ -212,7 +203,7 @@ public class AlbumRepository {
     }
 
     public void getInstantMix(AlbumID3 album, int count, MediaCallback callback) {
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getBrowsingClient()
                 .getSimilarSongs2(album.getId(), count)
                 .enqueue(new Callback<ApiResponse>() {
@@ -257,7 +248,7 @@ public class AlbumRepository {
     }
 
     private void getFirstAlbum(DecadesCallback callback) {
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getAlbumSongListClient()
                 .getAlbumList2("byYear", 1, 0, 1900, Calendar.getInstance().get(Calendar.YEAR))
                 .enqueue(new Callback<ApiResponse>() {
@@ -276,7 +267,7 @@ public class AlbumRepository {
     }
 
     private void getLastAlbum(DecadesCallback callback) {
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getAlbumSongListClient()
                 .getAlbumList2("byYear", 1, 0, Calendar.getInstance().get(Calendar.YEAR), 1900)
                 .enqueue(new Callback<ApiResponse>() {

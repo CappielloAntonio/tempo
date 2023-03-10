@@ -21,7 +21,7 @@ public class FilterViewModel extends AndroidViewModel {
     public FilterViewModel(@NonNull Application application) {
         super(application);
 
-        genreRepository = new GenreRepository(application);
+        genreRepository = new GenreRepository();
     }
 
     public LiveData<List<Genre>> getGenreList() {

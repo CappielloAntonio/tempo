@@ -1,7 +1,5 @@
 package com.cappielloantonio.play.repository;
 
-import android.app.Application;
-
 import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.database.AppDatabase;
@@ -13,12 +11,7 @@ import java.util.List;
 public class ServerRepository {
     private static final String TAG = "QueueRepository";
 
-    private final ServerDao serverDao;
-
-    public ServerRepository(Application application) {
-        AppDatabase database = AppDatabase.getInstance(application);
-        serverDao = database.serverDao();
-    }
+    private final ServerDao serverDao = AppDatabase.getInstance().serverDao();
 
     public LiveData<List<Server>> getLiveServer() {
         return serverDao.getAll();

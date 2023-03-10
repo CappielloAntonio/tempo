@@ -20,7 +20,6 @@ import com.cappielloantonio.play.subsonic.models.Genre;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SongListPageViewModel extends AndroidViewModel {
     private final SongRepository songRepository;
@@ -43,9 +42,9 @@ public class SongListPageViewModel extends AndroidViewModel {
     public SongListPageViewModel(@NonNull Application application) {
         super(application);
 
-        songRepository = new SongRepository(application);
-        artistRepository = new ArtistRepository(application);
-        downloadRepository = new DownloadRepository(application);
+        songRepository = new SongRepository();
+        artistRepository = new ArtistRepository();
+        downloadRepository = new DownloadRepository();
     }
 
     public LiveData<List<Child>> getSongList(LifecycleOwner owner) {

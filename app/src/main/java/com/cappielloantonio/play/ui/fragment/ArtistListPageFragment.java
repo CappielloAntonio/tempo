@@ -84,7 +84,7 @@ public class ArtistListPageFragment extends Fragment implements ClickCallback {
         bind.artistListRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.artistListRecyclerView.setHasFixedSize(true);
 
-        artistHorizontalAdapter = new ArtistHorizontalAdapter(requireContext(), this);
+        artistHorizontalAdapter = new ArtistHorizontalAdapter(this);
         bind.artistListRecyclerView.setAdapter(artistHorizontalAdapter);
         artistListPageViewModel.getArtistList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> artistHorizontalAdapter.setItems(artists));
     }

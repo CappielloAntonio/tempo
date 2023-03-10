@@ -1,16 +1,13 @@
 package com.cappielloantonio.play.adapter;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.databinding.ItemHomeYearBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Media;
 
@@ -18,13 +15,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {
-    private final Context context;
     private final ClickCallback click;
 
     private List<Integer> years;
 
-    public YearAdapter(Context context, ClickCallback click) {
-        this.context = context;
+    public YearAdapter(ClickCallback click) {
         this.click = click;
         this.years = Collections.emptyList();
     }
@@ -32,7 +27,7 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_home_year, parent, false);
+        ItemHomeYearBinding view = ItemHomeYearBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(view);
     }
 
@@ -40,7 +35,7 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         int year = years.get(position);
 
-        holder.textYear.setText(Integer.toString(year));
+        holder.item.yearLabel.setText(Integer.toString(year));
     }
 
     @Override
@@ -58,12 +53,12 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textYear;
+        ItemHomeYearBinding item;
 
-        ViewHolder(View itemView) {
-            super(itemView);
+        ViewHolder(ItemHomeYearBinding item) {
+            super(item.getRoot());
 
-            textYear = itemView.findViewById(R.id.year_label);
+            this.item = item;
 
             itemView.setOnClickListener(v -> onClick());
         }

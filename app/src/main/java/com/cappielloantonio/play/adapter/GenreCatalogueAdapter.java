@@ -1,18 +1,15 @@
 package com.cappielloantonio.play.adapter;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.databinding.ItemLibraryCatalogueGenreBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.subsonic.models.Genre;
@@ -24,7 +21,6 @@ import java.util.Comparator;
 import java.util.List;
 
 public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAdapter.ViewHolder> implements Filterable {
-    private final Context context;
     private final ClickCallback click;
 
     private final Filter filtering = new Filter() {
@@ -61,8 +57,7 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
     private List<Genre> genres;
     private List<Genre> genresFull;
 
-    public GenreCatalogueAdapter(Context context, ClickCallback click) {
-        this.context = context;
+    public GenreCatalogueAdapter(ClickCallback click) {
         this.click = click;
         this.genres = Collections.emptyList();
     }
@@ -70,7 +65,7 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_library_catalogue_genre, parent, false);
+        ItemLibraryCatalogueGenreBinding view = ItemLibraryCatalogueGenreBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(view);
     }
 
@@ -78,7 +73,7 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         Genre genre = genres.get(position);
 
-        holder.textGenre.setText(MusicUtil.getReadableString(genre.getGenre()));
+        holder.item.genreLabel.setText(MusicUtil.getReadableString(genre.getGenre()));
     }
 
     @Override
@@ -102,12 +97,12 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textGenre;
+        ItemLibraryCatalogueGenreBinding item;
 
-        ViewHolder(View itemView) {
-            super(itemView);
+        ViewHolder(ItemLibraryCatalogueGenreBinding item) {
+            super(item.getRoot());
 
-            textGenre = itemView.findViewById(R.id.genre_label);
+            this.item = item;
 
             itemView.setOnClickListener(v -> {
                 Bundle bundle = new Bundle();

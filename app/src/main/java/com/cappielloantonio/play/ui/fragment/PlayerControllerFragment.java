@@ -27,7 +27,6 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.InnerFragmentPlayerControllerBinding;
 import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.service.MediaService;
-import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.dialog.RatingDialog;
 import com.cappielloantonio.play.ui.fragment.pager.PlayerControllerHorizontalPager;
@@ -170,8 +169,8 @@ public class PlayerControllerFragment extends Fragment {
             }
         }
 
-        String transcodingExtension = MusicUtil.getTranscodingFormatPreference(requireContext());
-        String transcodingBitrate = Integer.parseInt(MusicUtil.getBitratePreference(requireContext())) != 0 ? Integer.parseInt(MusicUtil.getBitratePreference(requireContext())) + "kbps" : "Original";
+        String transcodingExtension = MusicUtil.getTranscodingFormatPreference();
+        String transcodingBitrate = Integer.parseInt(MusicUtil.getBitratePreference()) != 0 ? Integer.parseInt(MusicUtil.getBitratePreference()) + "kbps" : "Original";
 
         if (transcodingExtension.equals("raw") && transcodingBitrate.equals("Original")) {
             playerMediaTranscodingIcon.setVisibility(View.GONE);

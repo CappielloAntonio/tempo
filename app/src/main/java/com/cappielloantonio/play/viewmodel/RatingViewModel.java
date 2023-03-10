@@ -25,9 +25,9 @@ public class RatingViewModel extends AndroidViewModel {
     public RatingViewModel(@NonNull Application application) {
         super(application);
 
-        songRepository = new SongRepository(application);
-        albumRepository = new AlbumRepository(application);
-        artistRepository = new ArtistRepository(application);
+        songRepository = new SongRepository();
+        albumRepository = new AlbumRepository();
+        artistRepository = new ArtistRepository();
     }
 
     public Child getSong() {

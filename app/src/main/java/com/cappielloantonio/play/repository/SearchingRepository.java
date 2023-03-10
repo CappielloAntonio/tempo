@@ -1,7 +1,5 @@
 package com.cappielloantonio.play.repository;
 
-import android.app.Application;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
@@ -14,7 +12,6 @@ import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.subsonic.models.SearchResult3;
-import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -25,20 +22,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SearchingRepository {
-    private final RecentSearchDao recentSearchDao;
-    private final Application application;
-
-    public SearchingRepository(Application application) {
-        this.application = application;
-
-        AppDatabase database = AppDatabase.getInstance(application);
-        recentSearchDao = database.recentSearchDao();
-    }
+    private final RecentSearchDao recentSearchDao = AppDatabase.getInstance().recentSearchDao();
 
     public MutableLiveData<SearchResult3> search(String query) {
         MutableLiveData<SearchResult3> result = new MutableLiveData<>();
 
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getSearchingClient()
                 .search3(query, 20, 20, 20)
                 .enqueue(new Callback<ApiResponse>() {
@@ -59,7 +48,7 @@ public class SearchingRepository {
     public MutableLiveData<List<String>> getSuggestions(String query) {
         MutableLiveData<List<String>> suggestions = new MutableLiveData<>();
 
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getSearchingClient()
                 .search3(query, 5, 5, 5)
                 .enqueue(new Callback<ApiResponse>() {
@@ -68,19 +57,19 @@ public class SearchingRepository {
                         List<String> newSuggestions = new ArrayList();
 
                         if (response.isSuccessful() && response.body() != null) {
-                            if(response.body().getSubsonicResponse().getSearchResult3().getArtists() != null) {
+                            if (response.body().getSubsonicResponse().getSearchResult3().getArtists() != null) {
                                 for (ArtistID3 artistID3 : response.body().getSubsonicResponse().getSearchResult3().getArtists()) {
                                     newSuggestions.add(artistID3.getName());
                                 }
                             }
 
-                            if(response.body().getSubsonicResponse().getSearchResult3().getAlbums() != null) {
+                            if (response.body().getSubsonicResponse().getSearchResult3().getAlbums() != null) {
                                 for (AlbumID3 albumID3 : response.body().getSubsonicResponse().getSearchResult3().getAlbums()) {
                                     newSuggestions.add(albumID3.getName());
                                 }
                             }
 
-                            if(response.body().getSubsonicResponse().getSearchResult3().getSongs() != null) {
+                            if (response.body().getSubsonicResponse().getSearchResult3().getSongs() != null) {
                                 for (Child song : response.body().getSubsonicResponse().getSearchResult3().getSongs()) {
                                     newSuggestions.add(song.getTitle());
                                 }

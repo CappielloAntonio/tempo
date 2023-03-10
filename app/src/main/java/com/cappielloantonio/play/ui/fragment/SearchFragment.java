@@ -92,7 +92,7 @@ public class SearchFragment extends Fragment implements ClickCallback {
         bind.searchResultArtistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.searchResultArtistRecyclerView.setHasFixedSize(true);
 
-        artistAdapter = new ArtistAdapter(requireContext(), this, false, false);
+        artistAdapter = new ArtistAdapter(this, false, false);
         bind.searchResultArtistRecyclerView.setAdapter(artistAdapter);
 
         CustomLinearSnapHelper artistSnapHelper = new CustomLinearSnapHelper();
@@ -102,7 +102,7 @@ public class SearchFragment extends Fragment implements ClickCallback {
         bind.searchResultAlbumRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.searchResultAlbumRecyclerView.setHasFixedSize(true);
 
-        albumAdapter = new AlbumAdapter(requireContext(), this);
+        albumAdapter = new AlbumAdapter(this);
         bind.searchResultAlbumRecyclerView.setAdapter(albumAdapter);
 
         CustomLinearSnapHelper albumSnapHelper = new CustomLinearSnapHelper();
@@ -112,7 +112,7 @@ public class SearchFragment extends Fragment implements ClickCallback {
         bind.searchResultTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.searchResultTracksRecyclerView.setHasFixedSize(true);
 
-        songHorizontalAdapter = new SongHorizontalAdapter(requireContext(), this, true);
+        songHorizontalAdapter = new SongHorizontalAdapter(this, true);
         bind.searchResultTracksRecyclerView.setAdapter(songHorizontalAdapter);
     }
 

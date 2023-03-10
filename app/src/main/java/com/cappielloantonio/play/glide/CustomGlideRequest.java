@@ -40,8 +40,8 @@ public class CustomGlideRequest {
     }
 
     public static String createUrl(String item, int size) {
-        String url = App.getSubsonicClientInstance(App.getInstance(), false).getUrl();
-        Map<String, String> params = App.getSubsonicClientInstance(App.getInstance(), false).getParams();
+        String url = App.getSubsonicClientInstance(false).getUrl();
+        Map<String, String> params = App.getSubsonicClientInstance(false).getParams();
 
         url = url + "getCoverArt" +
                 "?u=" + params.get("u") +

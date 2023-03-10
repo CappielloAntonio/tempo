@@ -48,6 +48,7 @@ public class MainActivity extends BaseActivity {
 
     ConnectivityStatusBroadcastReceiver connectivityStatusBroadcastReceiver;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

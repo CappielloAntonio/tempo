@@ -1,7 +1,6 @@
 package com.cappielloantonio.play.viewmodel;
 
 import android.app.Application;
-import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -12,7 +11,6 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.MediaCallback;
 import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
-import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +31,8 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
         return albumList;
     }
 
-    public void loadAlbums(Context context, int size) {
-        retrieveAlbums(context, new MediaCallback() {
+    public void loadAlbums(int size) {
+        retrieveAlbums(new MediaCallback() {
             @Override
             public void onError(Exception exception) {
             }
@@ -49,15 +47,15 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
                 albumList.setValue(liveAlbum);
 
                 if (media.size() == size) {
-                    loadAlbums(context, size);
+                    loadAlbums(size);
                 }
             }
         }, size, size * page++);
     }
 
 
-    private void retrieveAlbums(Context context, MediaCallback callback, int size, int offset) {
-        App.getSubsonicClientInstance(context, false)
+    private void retrieveAlbums(MediaCallback callback, int size, int offset) {
+        App.getSubsonicClientInstance(false)
                 .getAlbumSongListClient()
                 .getAlbumList2("alphabeticalByName", size, offset, null, null)
                 .enqueue(new Callback<ApiResponse>() {

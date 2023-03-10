@@ -1,7 +1,5 @@
 package com.cappielloantonio.play.repository;
 
-import android.app.Application;
-
 import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.database.AppDatabase;
@@ -11,12 +9,7 @@ import com.cappielloantonio.play.model.Download;
 import java.util.List;
 
 public class DownloadRepository {
-    private final DownloadDao downloadDao;
-
-    public DownloadRepository(Application application) {
-        AppDatabase database = AppDatabase.getInstance(application);
-        downloadDao = database.downloadDao();
-    }
+    private final DownloadDao downloadDao = AppDatabase.getInstance().downloadDao();
 
     public LiveData<List<Download>> getLiveDownload() {
         return downloadDao.getAll();

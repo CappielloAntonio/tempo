@@ -21,12 +21,12 @@ import java.util.stream.Collectors;
 public class MusicUtil {
     private static final String TAG = "MusicUtil";
 
-    public static Uri getStreamUri(Context context, String id) {
-        Map<String, String> params = App.getSubsonicClientInstance(App.getInstance(), false).getParams();
+    public static Uri getStreamUri(String id) {
+        Map<String, String> params = App.getSubsonicClientInstance(false).getParams();
 
         StringBuilder uri = new StringBuilder();
 
-        uri.append(App.getSubsonicClientInstance(App.getInstance(), false).getUrl());
+        uri.append(App.getSubsonicClientInstance(false).getUrl());
         uri.append("stream");
 
         if (params.containsKey("u") && params.get("u") != null)
@@ -42,19 +42,19 @@ public class MusicUtil {
         if (params.containsKey("c") && params.get("c") != null)
             uri.append("&c=").append(params.get("c"));
 
-        uri.append("&maxBitRate=").append(getBitratePreference(context));
-        uri.append("&format=").append(getTranscodingFormatPreference(context));
+        uri.append("&maxBitRate=").append(getBitratePreference());
+        uri.append("&format=").append(getTranscodingFormatPreference());
         uri.append("&id=").append(id);
 
         return Uri.parse(uri.toString());
     }
 
     public static Uri getDownloadUri(String id) {
-        Map<String, String> params = App.getSubsonicClientInstance(App.getInstance(), false).getParams();
+        Map<String, String> params = App.getSubsonicClientInstance(false).getParams();
 
         StringBuilder uri = new StringBuilder();
 
-        uri.append(App.getSubsonicClientInstance(App.getInstance(), false).getUrl());
+        uri.append(App.getSubsonicClientInstance(false).getUrl());
         uri.append("download");
 
         if (params.containsKey("u") && params.get("u") != null)
@@ -185,10 +185,10 @@ public class MusicUtil {
         }
     }
 
-    public static String getBitratePreference(Context context) {
-        Network network = getConnectivityManager(context).getActiveNetwork();
-        NetworkCapabilities networkCapabilities = getConnectivityManager(context).getNetworkCapabilities(network);
-        String audioTranscodeFormat = getTranscodingFormatPreference(context);
+    public static String getBitratePreference() {
+        Network network = getConnectivityManager().getActiveNetwork();
+        NetworkCapabilities networkCapabilities = getConnectivityManager().getNetworkCapabilities(network);
+        String audioTranscodeFormat = getTranscodingFormatPreference();
 
         if (audioTranscodeFormat.equals("raw") || network == null || networkCapabilities == null)
             return "0";
@@ -202,9 +202,9 @@ public class MusicUtil {
         }
     }
 
-    public static String getTranscodingFormatPreference(Context context) {
-        Network network = getConnectivityManager(context).getActiveNetwork();
-        NetworkCapabilities networkCapabilities = getConnectivityManager(context).getNetworkCapabilities(network);
+    public static String getTranscodingFormatPreference() {
+        Network network = getConnectivityManager().getActiveNetwork();
+        NetworkCapabilities networkCapabilities = getConnectivityManager().getNetworkCapabilities(network);
 
         if (network == null || networkCapabilities == null) return "raw";
 
@@ -217,7 +217,7 @@ public class MusicUtil {
         }
     }
 
-    private static ConnectivityManager getConnectivityManager(Context context) {
-        return (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    private static ConnectivityManager getConnectivityManager() {
+        return (ConnectivityManager) App.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 }

@@ -1,12 +1,8 @@
 package com.cappielloantonio.play.adapter;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.media3.common.util.UnstableApi;
@@ -14,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.databinding.ItemLibraryArtistBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
@@ -25,15 +21,13 @@ import java.util.List;
 
 @UnstableApi
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder> {
-    private final Context context;
     private final ClickCallback click;
     private final boolean mix;
     private final boolean bestOf;
 
     private List<ArtistID3> artists;
 
-    public ArtistAdapter(Context context, ClickCallback click, Boolean mix, Boolean bestOf) {
-        this.context = context;
+    public ArtistAdapter(ClickCallback click, Boolean mix, Boolean bestOf) {
         this.click = click;
         this.mix = mix;
         this.bestOf = bestOf;
@@ -43,7 +37,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_library_artist, parent, false);
+        ItemLibraryArtistBinding view = ItemLibraryArtistBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(view);
     }
 
@@ -51,9 +45,13 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         ArtistID3 artist = artists.get(position);
 
-        holder.textArtistName.setText(MusicUtil.getReadableString(artist.getName()));
+        holder.item.artistNameLabel.setText(MusicUtil.getReadableString(artist.getName()));
 
-        setArtistCover(artist, holder.cover);
+        CustomGlideRequest.Builder
+                .from(holder.itemView.getContext(), artist.getCoverArtId(), CustomGlideRequest.ARTIST_PIC, null)
+                .build()
+                .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
+                .into(holder.item.artistCoverImageView);
     }
 
     @Override
@@ -80,25 +78,15 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
         return position;
     }
 
-    private void setArtistCover(ArtistID3 artist, ImageView cover) {
-        CustomGlideRequest.Builder
-                .from(context, artist.getCoverArtId(), CustomGlideRequest.ARTIST_PIC, null)
-                .build()
-                .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
-                .into(cover);
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textArtistName;
-        ImageView cover;
+        ItemLibraryArtistBinding item;
 
-        ViewHolder(View itemView) {
-            super(itemView);
+        ViewHolder(ItemLibraryArtistBinding item) {
+            super(item.getRoot());
 
-            textArtistName = itemView.findViewById(R.id.artist_name_label);
-            cover = itemView.findViewById(R.id.artist_cover_image_view);
+            this.item = item;
 
-            textArtistName.setSelected(true);
+            item.artistNameLabel.setSelected(true);
 
             itemView.setOnClickListener(v -> onClick());
             itemView.setOnLongClickListener(v -> onLongClick());

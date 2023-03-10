@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.repository;
 
-import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -23,20 +22,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PlaylistRepository {
-    private final Application application;
-    private final PlaylistDao playlistDao;
-
-    public PlaylistRepository(Application application) {
-        this.application = application;
-
-        AppDatabase database = AppDatabase.getInstance(application);
-        this.playlistDao = database.playlistDao();
-    }
+    private final PlaylistDao playlistDao = AppDatabase.getInstance().playlistDao();
 
     public MutableLiveData<List<Playlist>> getPlaylists(boolean random, int size) {
         MutableLiveData<List<Playlist>> listLivePlaylists = new MutableLiveData<>(new ArrayList<>());
 
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getPlaylistClient()
                 .getPlaylists()
                 .enqueue(new Callback<ApiResponse>() {
@@ -65,7 +56,7 @@ public class PlaylistRepository {
     public MutableLiveData<List<Child>> getPlaylistSongs(String id) {
         MutableLiveData<List<Child>> listLivePlaylistSongs = new MutableLiveData<>();
 
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getPlaylistClient()
                 .getPlaylist(id)
                 .enqueue(new Callback<ApiResponse>() {
@@ -86,7 +77,7 @@ public class PlaylistRepository {
     }
 
     public void addSongToPlaylist(String playlistId, ArrayList<String> songsId) {
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getPlaylistClient()
                 .updatePlaylist(playlistId, null, true, songsId, null)
                 .enqueue(new Callback<ApiResponse>() {
@@ -103,7 +94,7 @@ public class PlaylistRepository {
     }
 
     public void createPlaylist(String playlistId, String name, ArrayList<String> songsId) {
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getPlaylistClient()
                 .createPlaylist(playlistId, name, songsId)
                 .enqueue(new Callback<ApiResponse>() {
@@ -120,7 +111,7 @@ public class PlaylistRepository {
     }
 
     public void updatePlaylist(String playlistId, String name, boolean isPublic, ArrayList<String> songIdToAdd, ArrayList<Integer> songIndexToRemove) {
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getPlaylistClient()
                 .updatePlaylist(playlistId, name, isPublic, songIdToAdd, songIndexToRemove)
                 .enqueue(new Callback<ApiResponse>() {
@@ -137,7 +128,7 @@ public class PlaylistRepository {
     }
 
     public void deletePlaylist(String playlistId) {
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getPlaylistClient()
                 .deletePlaylist(playlistId)
                 .enqueue(new Callback<ApiResponse>() {

@@ -72,7 +72,7 @@ public class ArtistCatalogueFragment extends Fragment implements ClickCallback {
 
     private void initData() {
         artistCatalogueViewModel = new ViewModelProvider(requireActivity()).get(ArtistCatalogueViewModel.class);
-        artistCatalogueViewModel.loadArtists(requireContext());
+        artistCatalogueViewModel.loadArtists();
     }
 
     private void initAppBar() {
@@ -104,7 +104,7 @@ public class ArtistCatalogueFragment extends Fragment implements ClickCallback {
         bind.artistCatalogueRecyclerView.addItemDecoration(new GridItemDecoration(2, 20, false));
         bind.artistCatalogueRecyclerView.setHasFixedSize(true);
 
-        artistAdapter = new ArtistCatalogueAdapter(requireContext(), this);
+        artistAdapter = new ArtistCatalogueAdapter(this);
         artistAdapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
         bind.artistCatalogueRecyclerView.setAdapter(artistAdapter);
         artistCatalogueViewModel.getArtistList().observe(getViewLifecycleOwner(), artistList -> artistAdapter.setItems(artistList));

@@ -102,7 +102,6 @@ public class AlbumListPageFragment extends Fragment implements ClickCallback {
         bind.albumListRecyclerView.setHasFixedSize(true);
 
         albumHorizontalAdapter = new AlbumHorizontalAdapter(
-                requireContext(),
                 this,
                 (albumListPageViewModel.title.equals(Album.DOWNLOADED) || albumListPageViewModel.title.equals(Album.FROM_ARTIST))
         );

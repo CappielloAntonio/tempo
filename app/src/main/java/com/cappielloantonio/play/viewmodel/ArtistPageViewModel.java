@@ -24,8 +24,8 @@ public class ArtistPageViewModel extends AndroidViewModel {
     public ArtistPageViewModel(@NonNull Application application) {
         super(application);
 
-        albumRepository = new AlbumRepository(application);
-        artistRepository = new ArtistRepository(application);
+        albumRepository = new AlbumRepository();
+        artistRepository = new ArtistRepository();
     }
 
     public LiveData<List<AlbumID3>> getAlbumList() {

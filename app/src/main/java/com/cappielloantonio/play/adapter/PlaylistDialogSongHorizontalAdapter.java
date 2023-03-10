@@ -1,18 +1,14 @@
 package com.cappielloantonio.play.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.databinding.ItemHorizontalPlaylistDialogTrackBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.util.MusicUtil;
@@ -21,19 +17,16 @@ import java.util.Collections;
 import java.util.List;
 
 public class PlaylistDialogSongHorizontalAdapter extends RecyclerView.Adapter<PlaylistDialogSongHorizontalAdapter.ViewHolder> {
-    private final Context context;
-
     private List<Child> songs;
 
-    public PlaylistDialogSongHorizontalAdapter(Context context) {
-        this.context = context;
+    public PlaylistDialogSongHorizontalAdapter() {
         this.songs = Collections.emptyList();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_horizontal_playlist_dialog_track, parent, false);
+        ItemHorizontalPlaylistDialogTrackBinding view = ItemHorizontalPlaylistDialogTrackBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(view);
     }
 
@@ -41,15 +34,15 @@ public class PlaylistDialogSongHorizontalAdapter extends RecyclerView.Adapter<Pl
     public void onBindViewHolder(ViewHolder holder, int position) {
         Child song = songs.get(position);
 
-        holder.songTitle.setText(MusicUtil.getReadableString(song.getTitle()));
-        holder.songArtist.setText(MusicUtil.getReadableString(song.getArtist()));
-        holder.songDuration.setText(MusicUtil.getReadableDurationString(song.getDuration(), false));
+        holder.item.playlistDialogSongTitleTextView.setText(MusicUtil.getReadableString(song.getTitle()));
+        holder.item.playlistDialogAlbumArtistTextView.setText(MusicUtil.getReadableString(song.getArtist()));
+        holder.item.playlistDialogSongDurationTextView.setText(MusicUtil.getReadableDurationString(song.getDuration(), false));
 
         CustomGlideRequest.Builder
-                .from(context, song.getCoverArtId(), CustomGlideRequest.SONG_PIC, null)
+                .from(holder.itemView.getContext(), song.getCoverArtId(), CustomGlideRequest.SONG_PIC, null)
                 .build()
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
-                .into(holder.cover);
+                .into(holder.item.playlistDialogSongCoverImageView);
     }
 
     @Override
@@ -71,20 +64,14 @@ public class PlaylistDialogSongHorizontalAdapter extends RecyclerView.Adapter<Pl
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView songTitle;
-        TextView songArtist;
-        TextView songDuration;
-        ImageView cover;
+        ItemHorizontalPlaylistDialogTrackBinding item;
 
-        ViewHolder(View itemView) {
-            super(itemView);
+        ViewHolder(ItemHorizontalPlaylistDialogTrackBinding item) {
+            super(item.getRoot());
 
-            songTitle = itemView.findViewById(R.id.playlist_dialog_song_title_text_view);
-            songArtist = itemView.findViewById(R.id.playlist_dialog_album_artist_text_view);
-            songDuration = itemView.findViewById(R.id.playlist_dialog_song_duration_text_view);
-            cover = itemView.findViewById(R.id.playlist_dialog_song_cover_image_view);
+            this.item = item;
 
-            songTitle.setSelected(true);
+            item.playlistDialogSongTitleTextView.setSelected(true);
         }
     }
 }

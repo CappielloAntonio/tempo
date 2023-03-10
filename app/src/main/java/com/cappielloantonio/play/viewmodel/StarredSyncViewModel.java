@@ -21,7 +21,7 @@ public class StarredSyncViewModel extends AndroidViewModel {
     public StarredSyncViewModel(@NonNull Application application) {
         super(application);
 
-        songRepository = new SongRepository(application);
+        songRepository = new SongRepository();
     }
 
     public LiveData<List<Child>> getStarredTracks(LifecycleOwner owner) {

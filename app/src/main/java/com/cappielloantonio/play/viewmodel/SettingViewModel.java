@@ -16,7 +16,7 @@ public class SettingViewModel extends AndroidViewModel {
     public SettingViewModel(@NonNull Application application) {
         super(application);
 
-        scanRepository = new ScanRepository(application);
+        scanRepository = new ScanRepository();
     }
 
     public void launchScan(ScanCallback callback) {

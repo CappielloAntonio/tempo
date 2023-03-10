@@ -1,19 +1,15 @@
 package com.cappielloantonio.play.adapter;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.databinding.ItemLibraryArtistPageOrSimilarAlbumBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
@@ -23,13 +19,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumArtistPageOrSimilarAdapter.ViewHolder> {
-    private final Context context;
     private final ClickCallback click;
 
     private List<AlbumID3> albums;
 
-    public AlbumArtistPageOrSimilarAdapter(Context context, ClickCallback click) {
-        this.context = context;
+    public AlbumArtistPageOrSimilarAdapter(ClickCallback click) {
         this.click = click;
         this.albums = Collections.emptyList();
     }
@@ -37,7 +31,7 @@ public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumA
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_library_artist_page_or_similar_album, parent, false);
+        ItemLibraryArtistPageOrSimilarAlbumBinding view = ItemLibraryArtistPageOrSimilarAlbumBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(view);
     }
 
@@ -45,14 +39,14 @@ public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumA
     public void onBindViewHolder(ViewHolder holder, int position) {
         AlbumID3 album = albums.get(position);
 
-        holder.textAlbumName.setText(MusicUtil.getReadableString(album.getName()));
-        holder.textArtistName.setText(MusicUtil.getReadableString(album.getArtist()));
+        holder.item.albumNameLabel.setText(MusicUtil.getReadableString(album.getName()));
+        holder.item.artistNameLabel.setText(MusicUtil.getReadableString(album.getArtist()));
 
         CustomGlideRequest.Builder
-                .from(context, album.getCoverArtId(), CustomGlideRequest.ALBUM_PIC, null)
+                .from(holder.itemView.getContext(), album.getCoverArtId(), CustomGlideRequest.ALBUM_PIC, null)
                 .build()
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
-                .into(holder.cover);
+                .into(holder.item.artistPageAlbumCoverImageView);
     }
 
     @Override
@@ -70,19 +64,15 @@ public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumA
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textAlbumName;
-        TextView textArtistName;
-        ImageView cover;
+        ItemLibraryArtistPageOrSimilarAlbumBinding item;
 
-        ViewHolder(View itemView) {
-            super(itemView);
+        ViewHolder(ItemLibraryArtistPageOrSimilarAlbumBinding item) {
+            super(item.getRoot());
 
-            textAlbumName = itemView.findViewById(R.id.album_name_label);
-            textArtistName = itemView.findViewById(R.id.artist_name_label);
-            cover = itemView.findViewById(R.id.artist_page_album_cover_image_view);
+            this.item = item;
 
-            textAlbumName.setSelected(true);
-            textArtistName.setSelected(true);
+            item.albumNameLabel.setSelected(true);
+            item.artistNameLabel.setSelected(true);
 
             itemView.setOnClickListener(v -> onClick());
             itemView.setOnLongClickListener(v -> onLongClick());

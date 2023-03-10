@@ -28,8 +28,8 @@ public class PlaylistPageViewModel extends AndroidViewModel {
     public PlaylistPageViewModel(@NonNull Application application) {
         super(application);
 
-        playlistRepository = new PlaylistRepository(application);
-        downloadRepository = new DownloadRepository(application);
+        playlistRepository = new PlaylistRepository();
+        downloadRepository = new DownloadRepository();
     }
 
     public LiveData<List<Child>> getPlaylistSongLiveList(LifecycleOwner owner) {

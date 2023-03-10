@@ -20,7 +20,6 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.MediaCallback;
@@ -102,7 +101,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
         TextView playRadio = view.findViewById(R.id.play_radio_text_view);
         playRadio.setOnClickListener(v -> {
-            AlbumRepository albumRepository = new AlbumRepository(App.getInstance());
+            AlbumRepository albumRepository = new AlbumRepository();
             albumRepository.getInstantMix(album, 20, new MediaCallback() {
                 @Override
                 public void onError(Exception exception) {
@@ -123,7 +122,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
         TextView playRandom = view.findViewById(R.id.play_random_text_view);
         playRandom.setOnClickListener(v -> {
-            AlbumRepository albumRepository = new AlbumRepository(App.getInstance());
+            AlbumRepository albumRepository = new AlbumRepository();
             albumRepository.getAlbumTracks(album.getId()).observe(getViewLifecycleOwner(), songs -> {
                 Collections.shuffle(songs);
 
@@ -154,7 +153,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
         TextView removeAll = view.findViewById(R.id.remove_all_text_view);
 
         albumBottomSheetViewModel.getAlbumTracks().observe(getViewLifecycleOwner(), songs -> {
-            List<MediaItem> mediaItems = MappingUtil.mapMediaItems(requireContext(), songs, false);
+            List<MediaItem> mediaItems = MappingUtil.mapMediaItems(songs, false);
             List<Download> downloads = songs.stream().map(Download::new).collect(Collectors.toList());
 
             downloadAll.setOnClickListener(v -> {

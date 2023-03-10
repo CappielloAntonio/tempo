@@ -101,7 +101,7 @@ public class GenreCatalogueFragment extends Fragment implements ClickCallback {
         bind.genreCatalogueRecyclerView.addItemDecoration(new GridItemDecoration(2, 16, false));
         bind.genreCatalogueRecyclerView.setHasFixedSize(true);
 
-        genreCatalogueAdapter = new GenreCatalogueAdapter(requireContext(), this);
+        genreCatalogueAdapter = new GenreCatalogueAdapter(this);
         genreCatalogueAdapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
         bind.genreCatalogueRecyclerView.setAdapter(genreCatalogueAdapter);
 

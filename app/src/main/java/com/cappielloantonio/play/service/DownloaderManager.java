@@ -19,7 +19,6 @@ import androidx.media3.exoplayer.offline.DownloadManager;
 import androidx.media3.exoplayer.offline.DownloadRequest;
 import androidx.media3.exoplayer.offline.DownloadService;
 
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.util.DownloadUtil;
 
@@ -110,7 +109,7 @@ public class DownloaderManager {
     }
 
     private static DownloadRepository getDownloadRepository() {
-        return new DownloadRepository(App.getInstance());
+        return new DownloadRepository();
     }
 
     private static void downloadDatabase(com.cappielloantonio.play.model.Download download) {

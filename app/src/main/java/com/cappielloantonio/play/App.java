@@ -15,6 +15,7 @@ import com.google.android.material.color.DynamicColors;
 
 public class App extends Application {
     private static App instance;
+    private static Context context;
     private static Subsonic subsonic;
     private static SharedPreferences preferences;
 
@@ -27,6 +28,8 @@ public class App extends Application {
         String themePref = sharedPreferences.getString(Preferences.THEME, ThemeHelper.DEFAULT_MODE);
         ThemeHelper.applyTheme(themePref);
 
+        instance = new App();
+        context = getApplicationContext();
         preferences = getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE);
     }
 
@@ -34,12 +37,21 @@ public class App extends Application {
         if (instance == null) {
             instance = new App();
         }
+
         return instance;
     }
 
-    public static Subsonic getSubsonicClientInstance(Context context, boolean override) {
+    public static Context getContext() {
+        if (context == null) {
+            context = getInstance();
+        }
+
+        return context;
+    }
+
+    public static Subsonic getSubsonicClientInstance(boolean override) {
         if (subsonic == null || override) {
-            subsonic = getSubsonicClient(context);
+            subsonic = getSubsonicClient();
         }
         return subsonic;
     }
@@ -52,7 +64,7 @@ public class App extends Application {
         return preferences;
     }
 
-    private static Subsonic getSubsonicClient(Context context) {
+    private static Subsonic getSubsonicClient() {
         String server = Preferences.getServer();
         String username = Preferences.getUser();
         String password = Preferences.getPassword();
@@ -74,6 +86,6 @@ public class App extends Application {
                 Preferences.setSalt(preferences.getAuthentication().getSalt());
         }
 
-        return new Subsonic(context, preferences);
+        return new Subsonic(preferences);
     }
 }

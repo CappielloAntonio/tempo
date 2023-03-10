@@ -89,7 +89,7 @@ public class PlayerQueueFragment extends Fragment implements ClickCallback {
         bind.playerQueueRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.playerQueueRecyclerView.setHasFixedSize(true);
 
-        playerSongQueueAdapter = new PlayerSongQueueAdapter(requireContext(), this);
+        playerSongQueueAdapter = new PlayerSongQueueAdapter(this);
         bind.playerQueueRecyclerView.setAdapter(playerSongQueueAdapter);
         playerBottomSheetViewModel.getQueueSong().observe(getViewLifecycleOwner(), queue -> {
             if (queue != null) {

@@ -1,7 +1,6 @@
 package com.cappielloantonio.play.viewmodel;
 
 import android.app.Application;
-import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -12,7 +11,6 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.IndexID3;
-import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +29,8 @@ public class ArtistCatalogueViewModel extends AndroidViewModel {
         return artistList;
     }
 
-    public void loadArtists(Context context) {
-        App.getSubsonicClientInstance(context, false)
+    public void loadArtists() {
+        App.getSubsonicClientInstance(false)
                 .getBrowsingClient()
                 .getArtists()
                 .enqueue(new Callback<ApiResponse>() {

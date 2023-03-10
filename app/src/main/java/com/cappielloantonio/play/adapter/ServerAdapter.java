@@ -1,16 +1,13 @@
 package com.cappielloantonio.play.adapter;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.databinding.ItemLoginServerBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Server;
 
@@ -18,13 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder> {
-    private final Context context;
     private final ClickCallback click;
 
     private List<Server> servers;
 
-    public ServerAdapter(Context context, ClickCallback click) {
-        this.context = context;
+    public ServerAdapter(ClickCallback click) {
         this.click = click;
         this.servers = new ArrayList<>();
     }
@@ -32,7 +27,7 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_login_server, parent, false);
+        ItemLoginServerBinding view = ItemLoginServerBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(view);
     }
 
@@ -40,8 +35,8 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         Server server = servers.get(position);
 
-        holder.serverName.setText(server.getServerName());
-        holder.serverAddress.setText(server.getAddress());
+        holder.item.serverNameTextView.setText(server.getServerName());
+        holder.item.serverAddressTextView.setText(server.getAddress());
     }
 
     @Override
@@ -59,16 +54,14 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView serverName;
-        TextView serverAddress;
+        ItemLoginServerBinding item;
 
-        ViewHolder(View itemView) {
-            super(itemView);
+        ViewHolder(ItemLoginServerBinding item) {
+            super(item.getRoot());
 
-            serverName = itemView.findViewById(R.id.server_name_text_view);
-            serverAddress = itemView.findViewById(R.id.server_address_text_view);
+            this.item = item;
 
-            serverName.setSelected(true);
+            item.serverNameTextView.setSelected(true);
 
             itemView.setOnClickListener(v -> onClick());
             itemView.setOnLongClickListener(v -> onLongClick());

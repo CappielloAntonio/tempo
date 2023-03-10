@@ -99,7 +99,7 @@ public class PodcastBottomSheetDialog extends BottomSheetDialogFragment implemen
         download.setOnClickListener(v -> {
             // TODO
             /* DownloadUtil.getDownloadTracker(requireContext()).download(
-                    MappingUtil.mapMediaItem(requireContext(), podcast, false),
+                    MappingUtil.mapMediaItem(podcast, false),
                     MappingUtil.mapDownload(podcast, null, null)
             ); */
             dismissBottomSheet();
@@ -109,7 +109,7 @@ public class PodcastBottomSheetDialog extends BottomSheetDialogFragment implemen
         remove.setOnClickListener(v -> {
             // TODO
             /* DownloadUtil.getDownloadTracker(requireContext()).remove(
-                    MappingUtil.mapMediaItem(requireContext(), podcast, false),
+                    MappingUtil.mapMediaItem(podcast, false),
                     MappingUtil.mapDownload(podcast, null, null)
             ); */
             dismissBottomSheet();
@@ -135,7 +135,7 @@ public class PodcastBottomSheetDialog extends BottomSheetDialogFragment implemen
 
     private void initDownloadUI(TextView download, TextView remove) {
         // TODO
-        /* if (DownloadUtil.getDownloadTracker(requireContext()).isDownloaded(MappingUtil.mapMediaItem(requireContext(), podcast, false))) {
+        /* if (DownloadUtil.getDownloadTracker(requireContext()).isDownloaded(MappingUtil.mapMediaItem(podcast, false))) {
             download.setVisibility(View.GONE);
             remove.setVisibility(View.VISIBLE);
         } else {

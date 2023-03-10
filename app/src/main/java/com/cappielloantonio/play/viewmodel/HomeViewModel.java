@@ -60,12 +60,12 @@ public class HomeViewModel extends AndroidViewModel {
     public HomeViewModel(@NonNull Application application) {
         super(application);
 
-        songRepository = new SongRepository(application);
-        albumRepository = new AlbumRepository(application);
-        artistRepository = new ArtistRepository(application);
-        playlistRepository = new PlaylistRepository(application);
-        podcastRepository = new PodcastRepository(application);
-        chronologyRepository = new ChronologyRepository(application);
+        songRepository = new SongRepository();
+        albumRepository = new AlbumRepository();
+        artistRepository = new ArtistRepository();
+        playlistRepository = new PlaylistRepository();
+        podcastRepository = new PodcastRepository();
+        chronologyRepository = new ChronologyRepository();
     }
 
     public LiveData<List<Child>> getDiscoverSongSample(LifecycleOwner owner) {

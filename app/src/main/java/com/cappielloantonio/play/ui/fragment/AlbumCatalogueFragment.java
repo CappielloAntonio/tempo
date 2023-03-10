@@ -70,7 +70,7 @@ public class AlbumCatalogueFragment extends Fragment implements ClickCallback {
 
     private void initData() {
         albumCatalogueViewModel = new ViewModelProvider(requireActivity()).get(AlbumCatalogueViewModel.class);
-        albumCatalogueViewModel.loadAlbums(requireContext(), 500);
+        albumCatalogueViewModel.loadAlbums(500);
     }
 
     private void initAppBar() {
@@ -102,7 +102,7 @@ public class AlbumCatalogueFragment extends Fragment implements ClickCallback {
         bind.albumCatalogueRecyclerView.addItemDecoration(new GridItemDecoration(2, 20, false));
         bind.albumCatalogueRecyclerView.setHasFixedSize(true);
 
-        albumAdapter = new AlbumCatalogueAdapter(requireContext(), this);
+        albumAdapter = new AlbumCatalogueAdapter(this);
         albumAdapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
         bind.albumCatalogueRecyclerView.setAdapter(albumAdapter);
         albumCatalogueViewModel.getAlbumList().observe(getViewLifecycleOwner(), albums -> albumAdapter.setItems(albums));

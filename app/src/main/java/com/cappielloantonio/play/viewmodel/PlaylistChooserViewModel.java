@@ -25,7 +25,7 @@ public class PlaylistChooserViewModel extends AndroidViewModel {
     public PlaylistChooserViewModel(@NonNull Application application) {
         super(application);
 
-        playlistRepository = new PlaylistRepository(application);
+        playlistRepository = new PlaylistRepository();
     }
 
     public LiveData<List<Playlist>> getPlaylistList(LifecycleOwner owner) {

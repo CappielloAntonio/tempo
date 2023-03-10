@@ -117,7 +117,7 @@ public class DownloadFragment extends Fragment implements ClickCallback {
     private void initDownloadedSongView() {
         bind.downloadedTracksRecyclerView.setHasFixedSize(true);
 
-        downloadHorizontalAdapter = new DownloadHorizontalAdapter(requireContext(), this);
+        downloadHorizontalAdapter = new DownloadHorizontalAdapter(this);
         bind.downloadedTracksRecyclerView.setAdapter(downloadHorizontalAdapter);
         downloadViewModel.getDownloadedTracks(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
             if (songs == null || songs.isEmpty()) {

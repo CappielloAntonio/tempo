@@ -1,11 +1,10 @@
 package com.cappielloantonio.play.subsonic.api.searching;
 
-import android.content.Context;
 import android.util.Log;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.subsonic.Subsonic;
 import com.cappielloantonio.play.subsonic.base.ApiResponse;
-import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 import com.cappielloantonio.play.subsonic.utils.CacheUtil;
 import com.google.gson.GsonBuilder;
 
@@ -21,12 +20,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SearchingClient {
     private static final String TAG = "BrowsingClient";
 
-    private final Context context;
     private final Subsonic subsonic;
     private final SearchingService searchingService;
 
-    public SearchingClient(Context context, Subsonic subsonic) {
-        this.context = context;
+    public SearchingClient(Subsonic subsonic) {
         this.subsonic = subsonic;
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -49,7 +46,7 @@ public class SearchingClient {
     }
 
     private OkHttpClient getOkHttpClient() {
-        CacheUtil cacheUtil = new CacheUtil(context, 60, 60 * 60 * 24 * 30);
+        CacheUtil cacheUtil = new CacheUtil(60, 60 * 60 * 24 * 30);
 
         return new OkHttpClient.Builder()
                 .callTimeout(2, TimeUnit.MINUTES)
@@ -72,6 +69,6 @@ public class SearchingClient {
 
     private Cache getCache() {
         int cacheSize = 10 * 1024 * 1024;
-        return context != null ? new Cache(context.getCacheDir(), cacheSize) : null;
+        return new Cache(App.getContext().getCacheDir(), cacheSize);
     }
 }

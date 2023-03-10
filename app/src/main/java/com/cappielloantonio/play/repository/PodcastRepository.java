@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.repository;
 
-import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -10,7 +9,6 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.PodcastChannel;
 import com.cappielloantonio.play.subsonic.models.PodcastEpisode;
-import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 
 import java.util.List;
 
@@ -19,18 +17,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PodcastRepository {
-    private static final String TAG = "SongRepository";
-
-    private final Application application;
-
-    public PodcastRepository(Application application) {
-        this.application = application;
-    }
+    private static final String TAG = "PodcastRepository";
 
     public MutableLiveData<List<PodcastChannel>> getPodcastChannels(boolean includeEpisodes, String channelId) {
         MutableLiveData<List<PodcastChannel>> livePodcastChannel = new MutableLiveData<>();
 
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getPodcastClient()
                 .getPodcasts(includeEpisodes, channelId)
                 .enqueue(new Callback<ApiResponse>() {
@@ -53,7 +45,7 @@ public class PodcastRepository {
     public MutableLiveData<List<PodcastEpisode>> getNewestPodcastEpisodes(int count) {
         MutableLiveData<List<PodcastEpisode>> liveNewestPodcastEpisodes = new MutableLiveData<>();
 
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getPodcastClient()
                 .getNewestPodcasts(count)
                 .enqueue(new Callback<ApiResponse>() {
@@ -74,7 +66,7 @@ public class PodcastRepository {
     }
 
     public void refreshPodcasts() {
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getPodcastClient()
                 .refreshPodcasts()
                 .enqueue(new Callback<ApiResponse>() {

@@ -63,7 +63,7 @@ public class StarredSyncDialog extends DialogFragment {
             starredSyncViewModel.getStarredTracks(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
                 if (songs != null) {
                     DownloadUtil.getDownloadTracker(context).download(
-                            MappingUtil.mapMediaItems(context, songs, false),
+                            MappingUtil.mapMediaItems(songs, false),
                             songs.stream().map(Download::new).collect(Collectors.toList())
                     );
                 }

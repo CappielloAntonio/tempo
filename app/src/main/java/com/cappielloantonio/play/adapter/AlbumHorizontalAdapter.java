@@ -1,19 +1,15 @@
 package com.cappielloantonio.play.adapter;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.databinding.ItemHorizontalAlbumBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
@@ -23,14 +19,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class AlbumHorizontalAdapter extends RecyclerView.Adapter<AlbumHorizontalAdapter.ViewHolder> {
-    private final Context context;
     private final ClickCallback click;
     private final boolean isOffline;
 
     private List<AlbumID3> albums;
 
-    public AlbumHorizontalAdapter(Context context, ClickCallback click, boolean isOffline) {
-        this.context = context;
+    public AlbumHorizontalAdapter(ClickCallback click, boolean isOffline) {
         this.click = click;
         this.isOffline = isOffline;
         this.albums = Collections.emptyList();
@@ -39,7 +33,7 @@ public class AlbumHorizontalAdapter extends RecyclerView.Adapter<AlbumHorizontal
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_horizontal_album, parent, false);
+        ItemHorizontalAlbumBinding view = ItemHorizontalAlbumBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(view);
     }
 
@@ -47,14 +41,14 @@ public class AlbumHorizontalAdapter extends RecyclerView.Adapter<AlbumHorizontal
     public void onBindViewHolder(ViewHolder holder, int position) {
         AlbumID3 album = albums.get(position);
 
-        holder.albumTitle.setText(MusicUtil.getReadableString(album.getName()));
-        holder.albumArtist.setText(MusicUtil.getReadableString(album.getArtist()));
+        holder.item.albumTitleTextView.setText(MusicUtil.getReadableString(album.getName()));
+        holder.item.albumArtistTextView.setText(MusicUtil.getReadableString(album.getArtist()));
 
         CustomGlideRequest.Builder
-                .from(context, album.getCoverArtId(), CustomGlideRequest.ALBUM_PIC, null)
+                .from(holder.itemView.getContext(), album.getCoverArtId(), CustomGlideRequest.ALBUM_PIC, null)
                 .build()
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
-                .into(holder.cover);
+                .into(holder.item.albumCoverImageView);
     }
 
     @Override
@@ -72,25 +66,19 @@ public class AlbumHorizontalAdapter extends RecyclerView.Adapter<AlbumHorizontal
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView albumTitle;
-        TextView albumArtist;
-        ImageView more;
-        ImageView cover;
+        ItemHorizontalAlbumBinding item;
 
-        ViewHolder(View itemView) {
-            super(itemView);
+        ViewHolder(ItemHorizontalAlbumBinding item) {
+            super(item.getRoot());
 
-            albumTitle = itemView.findViewById(R.id.album_title_text_view);
-            albumArtist = itemView.findViewById(R.id.album_artist_text_view);
-            more = itemView.findViewById(R.id.album_more_button);
-            cover = itemView.findViewById(R.id.album_cover_image_view);
+            this.item = item;
 
-            albumTitle.setSelected(true);
+            item.albumTitleTextView.setSelected(true);
 
             itemView.setOnClickListener(v -> onClick());
             itemView.setOnLongClickListener(v -> onLongClick());
 
-            more.setOnClickListener(v -> onLongClick());
+            item.albumMoreButton.setOnClickListener(v -> onLongClick());
         }
 
         private void onClick() {

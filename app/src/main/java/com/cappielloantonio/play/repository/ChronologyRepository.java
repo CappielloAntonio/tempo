@@ -1,7 +1,5 @@
 package com.cappielloantonio.play.repository;
 
-import android.app.Application;
-
 import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.play.database.AppDatabase;
@@ -12,14 +10,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class ChronologyRepository {
-    private static final String TAG = "ChronologyRepository";
-
-    private final ChronologyDao chronologyDao;
-
-    public ChronologyRepository(Application application) {
-        AppDatabase database = AppDatabase.getInstance(application);
-        chronologyDao = database.chronologyDao();
-    }
+    private final ChronologyDao chronologyDao = AppDatabase.getInstance().chronologyDao();
 
     public LiveData<List<Chronology>> getThisWeek(String server) {
         Calendar calendar = Calendar.getInstance();

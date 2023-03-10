@@ -30,9 +30,9 @@ public class AlbumPageViewModel extends AndroidViewModel {
     public AlbumPageViewModel(@NonNull Application application) {
         super(application);
 
-        albumRepository = new AlbumRepository(application);
-        artistRepository = new ArtistRepository(application);
-        downloadRepository = new DownloadRepository(application);
+        albumRepository = new AlbumRepository();
+        artistRepository = new ArtistRepository();
+        downloadRepository = new DownloadRepository();
     }
 
     public LiveData<List<Child>> getAlbumSongLiveList(LifecycleOwner owner) {

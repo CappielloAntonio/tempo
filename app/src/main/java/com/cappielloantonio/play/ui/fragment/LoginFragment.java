@@ -89,7 +89,7 @@ public class LoginFragment extends Fragment implements ClickCallback {
         bind.serverListRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.serverListRecyclerView.setHasFixedSize(true);
 
-        serverAdapter = new ServerAdapter(requireContext(), this);
+        serverAdapter = new ServerAdapter(this);
         bind.serverListRecyclerView.setAdapter(serverAdapter);
         loginViewModel.getServerList().observe(getViewLifecycleOwner(), servers -> {
             if (servers.size() > 0) {
@@ -119,7 +119,7 @@ public class LoginFragment extends Fragment implements ClickCallback {
         Server server = bundle.getParcelable("server_object");
         saveServerPreference(server.getServerId(), server.getAddress(), server.getUsername(), server.getPassword(), server.isLowSecurity());
 
-        SystemRepository systemRepository = new SystemRepository(App.getInstance());
+        SystemRepository systemRepository = new SystemRepository();
         systemRepository.checkUserCredential(new SystemCallback() {
             @Override
             public void onError(Exception exception) {
@@ -148,7 +148,7 @@ public class LoginFragment extends Fragment implements ClickCallback {
         Preferences.setPassword(password);
         Preferences.setLowSecurity(isLowSecurity);
 
-        App.getSubsonicClientInstance(requireContext(), true);
+        App.getSubsonicClientInstance(true);
     }
 
     private void resetServerPreference() {
@@ -160,6 +160,6 @@ public class LoginFragment extends Fragment implements ClickCallback {
         Preferences.setSalt(null);
         Preferences.setLowSecurity(false);
 
-        App.getSubsonicClientInstance(requireContext(), true);
+        App.getSubsonicClientInstance(true);
     }
 }

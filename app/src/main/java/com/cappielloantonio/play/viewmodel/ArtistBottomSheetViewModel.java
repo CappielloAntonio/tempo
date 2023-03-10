@@ -18,7 +18,7 @@ public class ArtistBottomSheetViewModel extends AndroidViewModel {
     public ArtistBottomSheetViewModel(@NonNull Application application) {
         super(application);
 
-        albumRepository = new AlbumRepository(application);
+        albumRepository = new AlbumRepository();
     }
 
     public ArtistID3 getArtist() {

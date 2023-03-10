@@ -1,7 +1,5 @@
 package com.cappielloantonio.play.repository;
 
-import android.app.Application;
-
 import androidx.lifecycle.LiveData;
 import androidx.media3.common.MediaItem;
 
@@ -18,12 +16,7 @@ import java.util.stream.Collectors;
 public class QueueRepository {
     private static final String TAG = "QueueRepository";
 
-    private final QueueDao queueDao;
-
-    public QueueRepository(Application application) {
-        AppDatabase database = AppDatabase.getInstance(application);
-        queueDao = database.queueDao();
-    }
+    private final QueueDao queueDao = AppDatabase.getInstance().queueDao();
 
     public LiveData<List<Queue>> getLiveQueue() {
         return queueDao.getAll();
@@ -205,11 +198,7 @@ public class QueueRepository {
 
             if (mediaItem.mediaId.equals(lastMediaPlayed.getId())) {
 
-                if (System.currentTimeMillis() > lastMediaPlayed.getLastPlay() + lastMediaPlayed.getDuration() * 1000) {
-                    isPlausible = true;
-                } else {
-                    isPlausible = false;
-                }
+                isPlausible = System.currentTimeMillis() > lastMediaPlayed.getLastPlay() + lastMediaPlayed.getDuration() * 1000;
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.repository;
 
-import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -11,13 +10,10 @@ import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.Child;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import kotlin.collections.EmptyList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,16 +21,10 @@ import retrofit2.Response;
 public class SongRepository {
     private static final String TAG = "SongRepository";
 
-    private final Application application;
-
-    public SongRepository(Application application) {
-        this.application = application;
-    }
-
     public MutableLiveData<List<Child>> getStarredSongs(boolean random, int size) {
         MutableLiveData<List<Child>> starredSongs = new MutableLiveData<>(Collections.EMPTY_LIST);
 
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getAlbumSongListClient()
                 .getStarred2()
                 .enqueue(new Callback<ApiResponse>() {
@@ -66,7 +56,7 @@ public class SongRepository {
     public MutableLiveData<List<Child>> getInstantMix(Child song, int count) {
         MutableLiveData<List<Child>> instantMix = new MutableLiveData<>();
 
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getBrowsingClient()
                 .getSimilarSongs2(song.getId(), count)
                 .enqueue(new Callback<ApiResponse>() {
@@ -89,7 +79,7 @@ public class SongRepository {
     public MutableLiveData<List<Child>> getRandomSample(int number, Integer fromYear, Integer toYear) {
         MutableLiveData<List<Child>> randomSongsSample = new MutableLiveData<>();
 
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getAlbumSongListClient()
                 .getRandomSongs(number, fromYear, toYear)
                 .enqueue(new Callback<ApiResponse>() {
@@ -114,7 +104,7 @@ public class SongRepository {
     }
 
     public void scrobble(String id) {
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getMediaAnnotationClient()
                 .scrobble(id)
                 .enqueue(new Callback<ApiResponse>() {
@@ -131,7 +121,7 @@ public class SongRepository {
     }
 
     public void star(String id) {
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getMediaAnnotationClient()
                 .star(id, null, null)
                 .enqueue(new Callback<ApiResponse>() {
@@ -148,7 +138,7 @@ public class SongRepository {
     }
 
     public void unstar(String id) {
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getMediaAnnotationClient()
                 .unstar(id, null, null)
                 .enqueue(new Callback<ApiResponse>() {
@@ -165,7 +155,7 @@ public class SongRepository {
     }
 
     public void setRating(String id, int rating) {
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getMediaAnnotationClient()
                 .setRating(id, rating)
                 .enqueue(new Callback<ApiResponse>() {
@@ -184,7 +174,7 @@ public class SongRepository {
     public MutableLiveData<List<Child>> getSongsByGenre(String id) {
         MutableLiveData<List<Child>> songsByGenre = new MutableLiveData<>();
 
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getAlbumSongListClient()
                 .getSongsByGenre(id, 500, 0)
                 .enqueue(new Callback<ApiResponse>() {
@@ -218,7 +208,7 @@ public class SongRepository {
         MutableLiveData<List<Child>> songsByGenre = new MutableLiveData<>();
 
         for (String id : genresId)
-            App.getSubsonicClientInstance(application, false)
+            App.getSubsonicClientInstance(false)
                     .getAlbumSongListClient()
                     .getSongsByGenre(id, 500, 0)
                     .enqueue(new Callback<ApiResponse>() {
@@ -245,7 +235,7 @@ public class SongRepository {
     public MutableLiveData<Child> getSong(String id) {
         MutableLiveData<Child> song = new MutableLiveData<>();
 
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getBrowsingClient()
                 .getSong(id)
                 .enqueue(new Callback<ApiResponse>() {
@@ -268,7 +258,7 @@ public class SongRepository {
     public MutableLiveData<String> getSongLyrics(Child song) {
         MutableLiveData<String> lyrics = new MutableLiveData<>(null);
 
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getMediaRetrievalClient()
                 .getLyrics(song.getArtist(), song.getTitle())
                 .enqueue(new Callback<ApiResponse>() {

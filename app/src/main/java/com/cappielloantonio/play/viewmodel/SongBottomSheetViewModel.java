@@ -38,9 +38,9 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
     public SongBottomSheetViewModel(@NonNull Application application) {
         super(application);
 
-        songRepository = new SongRepository(application);
-        albumRepository = new AlbumRepository(application);
-        artistRepository = new ArtistRepository(application);
+        songRepository = new SongRepository();
+        albumRepository = new AlbumRepository();
+        artistRepository = new ArtistRepository();
     }
 
     public Child getSong() {
@@ -61,7 +61,7 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
 
             if (Preferences.isStarredSyncEnabled()) {
                 DownloadUtil.getDownloadTracker(context).download(
-                        MappingUtil.mapMediaItem(context, song, false),
+                        MappingUtil.mapMediaItem(song, false),
                         new Download(song)
                 );
             }

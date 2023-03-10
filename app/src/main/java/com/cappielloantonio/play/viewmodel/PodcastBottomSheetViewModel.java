@@ -16,7 +16,7 @@ public class PodcastBottomSheetViewModel extends AndroidViewModel {
     public PodcastBottomSheetViewModel(@NonNull Application application) {
         super(application);
 
-        podcastRepository = new PodcastRepository(application);
+        podcastRepository = new PodcastRepository();
     }
 
     public PodcastEpisode getPodcast() {

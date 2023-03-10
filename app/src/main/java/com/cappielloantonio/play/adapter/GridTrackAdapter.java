@@ -1,18 +1,15 @@
 package com.cappielloantonio.play.adapter;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.databinding.ItemHomeGridTrackBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Chronology;
@@ -22,13 +19,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class GridTrackAdapter extends RecyclerView.Adapter<GridTrackAdapter.ViewHolder> {
-    private final Context context;
     private final ClickCallback click;
 
     private List<Chronology> items;
 
-    public GridTrackAdapter(Context context, ClickCallback click) {
-        this.context = context;
+    public GridTrackAdapter(ClickCallback click) {
         this.click = click;
         this.items = Collections.emptyList();
     }
@@ -36,7 +31,7 @@ public class GridTrackAdapter extends RecyclerView.Adapter<GridTrackAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_home_grid_track, parent, false);
+        ItemHomeGridTrackBinding view = ItemHomeGridTrackBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(view);
     }
 
@@ -45,10 +40,10 @@ public class GridTrackAdapter extends RecyclerView.Adapter<GridTrackAdapter.View
         Chronology item = items.get(position);
 
         CustomGlideRequest.Builder
-                .from(context, item.getCoverArtId(), CustomGlideRequest.SONG_PIC, null)
+                .from(holder.itemView.getContext(), item.getCoverArtId(), CustomGlideRequest.SONG_PIC, null)
                 .build()
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
-                .into(holder.cover);
+                .into(holder.item.trackCoverImageView);
     }
 
     @Override
@@ -66,12 +61,12 @@ public class GridTrackAdapter extends RecyclerView.Adapter<GridTrackAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView cover;
+        ItemHomeGridTrackBinding item;
 
-        ViewHolder(View itemView) {
-            super(itemView);
+        ViewHolder(ItemHomeGridTrackBinding item) {
+            super(item.getRoot());
 
-            cover = itemView.findViewById(R.id.track_cover_image_view);
+            this.item = item;
 
             itemView.setOnClickListener(v -> onClick());
         }

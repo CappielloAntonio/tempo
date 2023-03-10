@@ -145,7 +145,7 @@ public class LibraryFragment extends Fragment implements ClickCallback {
         bind.albumRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.albumRecyclerView.setHasFixedSize(true);
 
-        albumAdapter = new AlbumAdapter(requireContext(), this);
+        albumAdapter = new AlbumAdapter(this);
         bind.albumRecyclerView.setAdapter(albumAdapter);
         libraryViewModel.getAlbumSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
@@ -169,7 +169,7 @@ public class LibraryFragment extends Fragment implements ClickCallback {
         bind.artistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.artistRecyclerView.setHasFixedSize(true);
 
-        artistAdapter = new ArtistAdapter(requireContext(), this, false, false);
+        artistAdapter = new ArtistAdapter(this, false, false);
         bind.artistRecyclerView.setAdapter(artistAdapter);
         libraryViewModel.getArtistSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> {
             if (artists == null) {
@@ -194,7 +194,7 @@ public class LibraryFragment extends Fragment implements ClickCallback {
         bind.genreRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3, GridLayoutManager.HORIZONTAL, false));
         bind.genreRecyclerView.setHasFixedSize(true);
 
-        genreAdapter = new GenreAdapter(requireContext(), this);
+        genreAdapter = new GenreAdapter(this);
         bind.genreRecyclerView.setAdapter(genreAdapter);
 
         libraryViewModel.getGenreSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), genres -> {
@@ -219,7 +219,7 @@ public class LibraryFragment extends Fragment implements ClickCallback {
         bind.playlistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.playlistRecyclerView.setHasFixedSize(true);
 
-        playlistHorizontalAdapter = new PlaylistHorizontalAdapter(requireContext(), this);
+        playlistHorizontalAdapter = new PlaylistHorizontalAdapter(this);
         bind.playlistRecyclerView.setAdapter(playlistHorizontalAdapter);
         libraryViewModel.getPlaylistSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), playlists -> {
             if (playlists == null) {

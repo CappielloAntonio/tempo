@@ -106,7 +106,7 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
             albumPageViewModel.getAlbumSongLiveList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
                 if (isVisible() && getActivity() != null) {
                     DownloadUtil.getDownloadTracker(requireContext()).download(
-                            MappingUtil.mapMediaItems(requireContext(), songs, false),
+                            MappingUtil.mapMediaItems(songs, false),
                             songs.stream().map(Download::new).collect(Collectors.toList())
                     );
                 }
@@ -186,7 +186,7 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
         bind.songRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.songRecyclerView.setHasFixedSize(true);
 
-        songHorizontalAdapter = new SongHorizontalAdapter(requireContext(), this, false);
+        songHorizontalAdapter = new SongHorizontalAdapter(this, false);
         bind.songRecyclerView.setAdapter(songHorizontalAdapter);
 
         albumPageViewModel.getAlbumSongLiveList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> songHorizontalAdapter.setItems(songs));

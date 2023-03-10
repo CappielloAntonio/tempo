@@ -1,16 +1,13 @@
 package com.cappielloantonio.play.adapter;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.databinding.ItemLibraryGenreBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.subsonic.models.Genre;
@@ -20,13 +17,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> {
-    private final Context context;
-    private ClickCallback click;
+    private final ClickCallback click;
 
     private List<Genre> genres;
 
-    public GenreAdapter(Context context, ClickCallback click) {
-        this.context = context;
+    public GenreAdapter(ClickCallback click) {
         this.click = click;
         this.genres = Collections.emptyList();
     }
@@ -34,7 +29,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_library_genre, parent, false);
+        ItemLibraryGenreBinding view = ItemLibraryGenreBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(view);
     }
 
@@ -42,7 +37,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         Genre genre = genres.get(position);
 
-        holder.textGenre.setText(MusicUtil.getReadableString(genre.getGenre()));
+        holder.item.genreLabel.setText(MusicUtil.getReadableString(genre.getGenre()));
     }
 
     @Override
@@ -60,12 +55,12 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textGenre;
+        ItemLibraryGenreBinding item;
 
-        ViewHolder(View itemView) {
-            super(itemView);
+        ViewHolder(ItemLibraryGenreBinding item) {
+            super(item.getRoot());
 
-            textGenre = itemView.findViewById(R.id.genre_label);
+            this.item = item;
 
             itemView.setOnClickListener(v -> onClick());
         }

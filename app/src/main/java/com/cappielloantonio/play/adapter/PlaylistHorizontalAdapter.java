@@ -1,18 +1,16 @@
 package com.cappielloantonio.play.adapter;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.databinding.ItemHorizontalPlaylistBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.subsonic.models.Playlist;
 import com.cappielloantonio.play.util.MusicUtil;
@@ -23,7 +21,6 @@ import java.util.Comparator;
 import java.util.List;
 
 public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHorizontalAdapter.ViewHolder> implements Filterable {
-    private final Context context;
     private final ClickCallback click;
 
     private List<Playlist> playlists;
@@ -60,8 +57,7 @@ public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHori
         }
     };
 
-    public PlaylistHorizontalAdapter(Context context, ClickCallback click) {
-        this.context = context;
+    public PlaylistHorizontalAdapter(ClickCallback click) {
         this.click = click;
         this.playlists = Collections.emptyList();
     }
@@ -69,7 +65,7 @@ public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHori
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_horizontal_playlist, parent, false);
+        ItemHorizontalPlaylistBinding view = ItemHorizontalPlaylistBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(view);
     }
 
@@ -77,9 +73,9 @@ public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHori
     public void onBindViewHolder(ViewHolder holder, int position) {
         Playlist playlist = playlists.get(position);
 
-        holder.playlistTitle.setText(MusicUtil.getReadableString(playlist.getName()));
-        holder.playlistTrackCount.setText(context.getString(R.string.playlist_counted_tracks, playlist.getSongCount()));
-        holder.playlistDuration.setText(MusicUtil.getReadableDurationString(playlist.getDuration(), false));
+        holder.item.playlistDialogTitleTextView.setText(MusicUtil.getReadableString(playlist.getName()));
+        holder.item.playlistDialogCountTextView.setText(holder.itemView.getContext().getString(R.string.playlist_counted_tracks, playlist.getSongCount()));
+        holder.item.playlistDialogDurationTextView.setText(MusicUtil.getReadableDurationString(playlist.getDuration(), false));
     }
 
     @Override
@@ -103,18 +99,14 @@ public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHori
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView playlistTitle;
-        TextView playlistTrackCount;
-        TextView playlistDuration;
+        ItemHorizontalPlaylistBinding item;
 
-        ViewHolder(View itemView) {
-            super(itemView);
+        ViewHolder(ItemHorizontalPlaylistBinding item) {
+            super(item.getRoot());
 
-            playlistTitle = itemView.findViewById(R.id.playlist_dialog_title_text_view);
-            playlistTrackCount = itemView.findViewById(R.id.playlist_dialog_count_text_view);
-            playlistDuration = itemView.findViewById(R.id.playlist_dialog_duration_text_view);
+            this.item = item;
 
-            playlistTitle.setSelected(true);
+            item.playlistDialogTitleTextView.setSelected(true);
 
             itemView.setOnClickListener(v -> onClick());
             itemView.setOnLongClickListener(v -> onLongClick());

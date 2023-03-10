@@ -35,10 +35,10 @@ public class LibraryViewModel extends AndroidViewModel {
     public LibraryViewModel(@NonNull Application application) {
         super(application);
 
-        albumRepository = new AlbumRepository(application);
-        artistRepository = new ArtistRepository(application);
-        genreRepository = new GenreRepository(application);
-        playlistRepository = new PlaylistRepository(application);
+        albumRepository = new AlbumRepository();
+        artistRepository = new ArtistRepository();
+        genreRepository = new GenreRepository();
+        playlistRepository = new PlaylistRepository();
     }
 
     public LiveData<List<AlbumID3>> getAlbumSample(LifecycleOwner owner) {

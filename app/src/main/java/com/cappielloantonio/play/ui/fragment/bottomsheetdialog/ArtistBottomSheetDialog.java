@@ -18,7 +18,6 @@ import androidx.media3.session.SessionToken;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.repository.ArtistRepository;
@@ -90,7 +89,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
 
         TextView playRadio = view.findViewById(R.id.play_radio_text_view);
         playRadio.setOnClickListener(v -> {
-            ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
+            ArtistRepository artistRepository = new ArtistRepository();
 
             artistRepository.getInstantMix(artist, 20).observe(getViewLifecycleOwner(), songs -> {
                 if (songs.size() > 0) {
@@ -104,7 +103,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
 
         TextView playRandom = view.findViewById(R.id.play_random_text_view);
         playRandom.setOnClickListener(v -> {
-            ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
+            ArtistRepository artistRepository = new ArtistRepository();
             artistRepository.getArtistRandomSong(getViewLifecycleOwner(), artist, 20).observe(getViewLifecycleOwner(), songs -> {
                 if (songs.size() > 0) {
                     MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);

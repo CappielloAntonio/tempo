@@ -23,7 +23,7 @@ public class SearchViewModel extends AndroidViewModel {
     public SearchViewModel(@NonNull Application application) {
         super(application);
 
-        searchingRepository = new SearchingRepository(application);
+        searchingRepository = new SearchingRepository();
     }
 
     public String getQuery() {

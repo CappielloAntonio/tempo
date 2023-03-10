@@ -17,7 +17,7 @@ public class GenreCatalogueViewModel extends AndroidViewModel {
     public GenreCatalogueViewModel(@NonNull Application application) {
         super(application);
 
-        genreRepository = new GenreRepository(application);
+        genreRepository = new GenreRepository();
     }
 
     public LiveData<List<Genre>> getGenreList() {

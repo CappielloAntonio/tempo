@@ -264,7 +264,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
     private void initDiscoverSongSlideView() {
         bind.discoverSongViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
-        discoverSongAdapter = new DiscoverSongAdapter(requireContext(), this);
+        discoverSongAdapter = new DiscoverSongAdapter(this);
         bind.discoverSongViewPager.setAdapter(discoverSongAdapter);
         bind.discoverSongViewPager.setOffscreenPageLimit(1);
         homeViewModel.getDiscoverSongSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
@@ -289,7 +289,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
         bind.similarTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.similarTracksRecyclerView.setHasFixedSize(true);
 
-        similarMusicAdapter = new SimilarTrackAdapter(requireContext(), this);
+        similarMusicAdapter = new SimilarTrackAdapter(this);
         bind.similarTracksRecyclerView.setAdapter(similarMusicAdapter);
         homeViewModel.getStarredTracksSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
             if (songs == null) {
@@ -314,7 +314,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
         bind.radioArtistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.radioArtistRecyclerView.setHasFixedSize(true);
 
-        radioArtistAdapter = new ArtistAdapter(requireContext(), this, true, false);
+        radioArtistAdapter = new ArtistAdapter(this, true, false);
         bind.radioArtistRecyclerView.setAdapter(radioArtistAdapter);
         homeViewModel.getStarredArtistsSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> {
             if (artists == null) {
@@ -339,7 +339,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
         bind.bestOfArtistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.bestOfArtistRecyclerView.setHasFixedSize(true);
 
-        bestOfArtistAdapter = new ArtistAdapter(requireContext(), this, false, true);
+        bestOfArtistAdapter = new ArtistAdapter(this, false, true);
         bind.bestOfArtistRecyclerView.setAdapter(bestOfArtistAdapter);
         homeViewModel.getBestOfArtists(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> {
             if (artists == null) {
@@ -363,7 +363,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
     private void initStarredTracksView() {
         bind.starredTracksRecyclerView.setHasFixedSize(true);
 
-        starredSongAdapter = new SongHorizontalAdapter(requireContext(), this, true);
+        starredSongAdapter = new SongHorizontalAdapter(this, true);
         bind.starredTracksRecyclerView.setAdapter(starredSongAdapter);
         homeViewModel.getStarredTracks(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
             if (songs == null) {
@@ -398,7 +398,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
     private void initStarredAlbumsView() {
         bind.starredAlbumsRecyclerView.setHasFixedSize(true);
 
-        starredAlbumAdapter = new AlbumHorizontalAdapter(requireContext(), this, false);
+        starredAlbumAdapter = new AlbumHorizontalAdapter(this, false);
         bind.starredAlbumsRecyclerView.setAdapter(starredAlbumAdapter);
         homeViewModel.getStarredAlbums(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
@@ -433,7 +433,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
     private void initStarredArtistsView() {
         bind.starredArtistsRecyclerView.setHasFixedSize(true);
 
-        starredArtistAdapter = new ArtistHorizontalAdapter(requireContext(), this);
+        starredArtistAdapter = new ArtistHorizontalAdapter(this);
         bind.starredArtistsRecyclerView.setAdapter(starredArtistAdapter);
         homeViewModel.getStarredArtists(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> {
             if (artists == null) {
@@ -468,7 +468,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
     private void initNewReleasesView() {
         bind.newReleasesRecyclerView.setHasFixedSize(true);
 
-        newReleasesAlbumAdapter = new AlbumHorizontalAdapter(requireContext(), this, false);
+        newReleasesAlbumAdapter = new AlbumHorizontalAdapter(this, false);
         bind.newReleasesRecyclerView.setAdapter(newReleasesAlbumAdapter);
         homeViewModel.getRecentlyReleasedAlbums(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
@@ -504,7 +504,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
         bind.yearsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.yearsRecyclerView.setHasFixedSize(true);
 
-        yearAdapter = new YearAdapter(requireContext(), this);
+        yearAdapter = new YearAdapter(this);
         bind.yearsRecyclerView.setAdapter(yearAdapter);
         homeViewModel.getYearList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), years -> {
             if (years == null) {
@@ -529,7 +529,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
         bind.mostPlayedAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.mostPlayedAlbumsRecyclerView.setHasFixedSize(true);
 
-        mostPlayedAlbumAdapter = new AlbumAdapter(requireContext(), this);
+        mostPlayedAlbumAdapter = new AlbumAdapter(this);
         bind.mostPlayedAlbumsRecyclerView.setAdapter(mostPlayedAlbumAdapter);
         homeViewModel.getMostPlayedAlbums(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
@@ -555,7 +555,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
         bind.recentlyPlayedAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.recentlyPlayedAlbumsRecyclerView.setHasFixedSize(true);
 
-        recentlyPlayedAlbumAdapter = new AlbumAdapter(requireContext(), this);
+        recentlyPlayedAlbumAdapter = new AlbumAdapter(this);
         bind.recentlyPlayedAlbumsRecyclerView.setAdapter(recentlyPlayedAlbumAdapter);
         homeViewModel.getRecentlyPlayedAlbumList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
@@ -580,7 +580,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
         bind.recentlyAddedAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.recentlyAddedAlbumsRecyclerView.setHasFixedSize(true);
 
-        recentlyAddedAlbumAdapter = new AlbumAdapter(requireContext(), this);
+        recentlyAddedAlbumAdapter = new AlbumAdapter(this);
         bind.recentlyAddedAlbumsRecyclerView.setAdapter(recentlyAddedAlbumAdapter);
         homeViewModel.getMostRecentlyAddedAlbums(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
@@ -618,7 +618,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
                         genericPlaylistTitleTextView.setText(MusicUtil.getReadableString(playlist.getName()));
                         genericPlaylistRecyclerView.setHasFixedSize(true);
 
-                        SongHorizontalAdapter trackAdapter = new SongHorizontalAdapter(requireContext(), this, true);
+                        SongHorizontalAdapter trackAdapter = new SongHorizontalAdapter(this, true);
                         genericPlaylistRecyclerView.setAdapter(trackAdapter);
 
                         homeViewModel.getPlaylistSongLiveList(playlist.getId()).observe(getViewLifecycleOwner(), songs -> {
@@ -660,7 +660,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
     private void initNewestPodcastsView() {
         bind.newestPodcastsViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
-        podcastEpisodeAdapter = new PodcastEpisodeAdapter(requireContext(), this);
+        podcastEpisodeAdapter = new PodcastEpisodeAdapter(this);
         bind.newestPodcastsViewPager.setAdapter(podcastEpisodeAdapter);
         bind.newestPodcastsViewPager.setOffscreenPageLimit(1);
         homeViewModel.getNewestPodcastEpisodes(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), podcastEpisodes -> {
@@ -682,7 +682,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
         bind.gridTracksRecyclerView.addItemDecoration(new GridItemDecoration(3, 8, false));
         bind.gridTracksRecyclerView.setHasFixedSize(true);
 
-        gridTrackAdapter = new GridTrackAdapter(requireContext(), this);
+        gridTrackAdapter = new GridTrackAdapter(this);
         bind.gridTracksRecyclerView.setAdapter(gridTrackAdapter);
 
         homeViewModel.getGridSongSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), chronologies -> {

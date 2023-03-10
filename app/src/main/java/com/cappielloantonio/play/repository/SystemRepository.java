@@ -1,7 +1,5 @@
 package com.cappielloantonio.play.repository;
 
-import android.app.Application;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
@@ -9,23 +7,14 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.interfaces.SystemCallback;
 import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.ResponseStatus;
-import com.cappielloantonio.play.subsonic.models.SubsonicResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SystemRepository {
-    private static final String TAG = "SongRepository";
-
-    private final Application application;
-
-    public SystemRepository(Application application) {
-        this.application = application;
-    }
-
     public void checkUserCredential(SystemCallback callback) {
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getSystemClient()
                 .ping()
                 .enqueue(new Callback<ApiResponse>() {
@@ -57,7 +46,7 @@ public class SystemRepository {
     public MutableLiveData<Boolean> ping() {
         MutableLiveData<Boolean> pingResult = new MutableLiveData<>();
 
-        App.getSubsonicClientInstance(application, false)
+        App.getSubsonicClientInstance(false)
                 .getSystemClient()
                 .ping()
                 .enqueue(new Callback<ApiResponse>() {

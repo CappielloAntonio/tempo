@@ -1,13 +1,12 @@
 package com.cappielloantonio.play.database;
 
-import android.content.Context;
-
 import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.database.converter.DateConverters;
 import com.cappielloantonio.play.database.dao.ChronologyDao;
 import com.cappielloantonio.play.database.dao.DownloadDao;
@@ -32,9 +31,9 @@ public abstract class AppDatabase extends RoomDatabase {
     private final static String DB_NAME = "play_db";
     private static AppDatabase instance;
 
-    public static synchronized AppDatabase getInstance(Context context) {
-        if (instance == null && context != null) {
-            instance = Room.databaseBuilder(context, AppDatabase.class, DB_NAME)
+    public static synchronized AppDatabase getInstance() {
+        if (instance == null) {
+            instance = Room.databaseBuilder(App.getContext(), AppDatabase.class, DB_NAME)
                     .fallbackToDestructiveMigration()
                     .build();
         }

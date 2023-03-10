@@ -1,13 +1,8 @@
 package com.cappielloantonio.play.adapter;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.databinding.ItemHomePodcastEpisodeBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.subsonic.models.PodcastEpisode;
@@ -25,13 +21,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAdapter.ViewHolder> {
-    private final Context context;
     private final ClickCallback click;
 
     private List<PodcastEpisode> podcastEpisodes;
 
-    public PodcastEpisodeAdapter(Context context, ClickCallback click) {
-        this.context = context;
+    public PodcastEpisodeAdapter(ClickCallback click) {
         this.click = click;
         this.podcastEpisodes = Collections.emptyList();
     }
@@ -39,7 +33,7 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_home_podcast_episode, parent, false);
+        ItemHomePodcastEpisodeBinding view = ItemHomePodcastEpisodeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(view);
     }
 
@@ -48,16 +42,16 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
         PodcastEpisode podcastEpisode = podcastEpisodes.get(position);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d");
 
-        holder.textTitle.setText(MusicUtil.getReadableString(podcastEpisode.getTitle()));
-        holder.textSubtitle.setText(MusicUtil.getReadableString(podcastEpisode.getArtist()));
-        holder.textReleaseAndDuration.setText(context.getString(R.string.podcast_release_date_duration_formatter, simpleDateFormat.format(podcastEpisode.getPublishDate()), MusicUtil.getReadablePodcastDurationString(podcastEpisode.getDuration())));
-        holder.textDescription.setText(MusicUtil.getReadableString(podcastEpisode.getDescription()));
+        holder.item.podcastTitleLabel.setText(MusicUtil.getReadableString(podcastEpisode.getTitle()));
+        holder.item.podcastSubtitleLabel.setText(MusicUtil.getReadableString(podcastEpisode.getArtist()));
+        holder.item.podcastReleasesAndDurationLabel.setText(holder.itemView.getContext().getString(R.string.podcast_release_date_duration_formatter, simpleDateFormat.format(podcastEpisode.getPublishDate()), MusicUtil.getReadablePodcastDurationString(podcastEpisode.getDuration())));
+        holder.item.podcastDescriptionLabel.setText(MusicUtil.getReadableString(podcastEpisode.getDescription()));
 
         CustomGlideRequest.Builder
-                .from(context, podcastEpisode.getCoverArtId(), CustomGlideRequest.SONG_PIC, null)
+                .from(holder.itemView.getContext(), podcastEpisode.getCoverArtId(), CustomGlideRequest.SONG_PIC, null)
                 .build()
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
-                .into(holder.cover);
+                .into(holder.item.podcastCoverImageView);
     }
 
     @Override
@@ -71,28 +65,16 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textTitle;
-        TextView textSubtitle;
-        TextView textReleaseAndDuration;
-        TextView textDescription;
-        ImageView cover;
-        Button playButton;
-        Button moreButton;
+        ItemHomePodcastEpisodeBinding item;
 
-        ViewHolder(View itemView) {
-            super(itemView);
+        ViewHolder(ItemHomePodcastEpisodeBinding item) {
+            super(item.getRoot());
 
-            textTitle = itemView.findViewById(R.id.podcast_title_label);
-            textSubtitle = itemView.findViewById(R.id.podcast_subtitle_label);
-            textReleaseAndDuration = itemView.findViewById(R.id.podcast_releases_and_duration_label);
-            textDescription = itemView.findViewById(R.id.podcast_description_label);
-            cover = itemView.findViewById(R.id.podcast_cover_image_view);
-            playButton = itemView.findViewById(R.id.podcast_play_button);
-            moreButton = itemView.findViewById(R.id.podcast_more_button);
+            this.item = item;
 
             itemView.setOnClickListener(v -> onClick());
 
-            moreButton.setOnLongClickListener(v -> openMore());
+            item.podcastMoreButton.setOnLongClickListener(v -> openMore());
         }
 
         public void onClick() {

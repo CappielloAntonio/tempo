@@ -29,7 +29,7 @@ public class PlaylistEditorViewModel extends AndroidViewModel {
     public PlaylistEditorViewModel(@NonNull Application application) {
         super(application);
 
-        playlistRepository = new PlaylistRepository(application);
+        playlistRepository = new PlaylistRepository();
     }
 
     public void createPlaylist(String name) {

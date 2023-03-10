@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.util;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -10,6 +9,7 @@ import androidx.media3.common.MediaMetadata;
 import androidx.media3.common.MimeTypes;
 import androidx.media3.common.util.UnstableApi;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.subsonic.models.Child;
 
 import java.util.ArrayList;
@@ -17,18 +17,18 @@ import java.util.List;
 
 @OptIn(markerClass = UnstableApi.class)
 public class MappingUtil {
-    public static ArrayList<MediaItem> mapMediaItems(Context context, List<Child> items, boolean stream) {
+    public static ArrayList<MediaItem> mapMediaItems(List<Child> items, boolean stream) {
         ArrayList<MediaItem> mediaItems = new ArrayList();
 
         for (int i = 0; i < items.size(); i++) {
-            mediaItems.add(mapMediaItem(context, items.get(i), stream));
+            mediaItems.add(mapMediaItem(items.get(i), stream));
         }
 
         return mediaItems;
     }
 
-    public static MediaItem mapMediaItem(Context context, Child media, boolean stream) {
-        boolean isDownloaded = DownloadUtil.getDownloadTracker(context).isDownloaded(MusicUtil.getDownloadUri(media.getId()));
+    public static MediaItem mapMediaItem(Child media, boolean stream) {
+        boolean isDownloaded = DownloadUtil.getDownloadTracker(App.getContext()).isDownloaded(MusicUtil.getDownloadUri(media.getId()));
 
         Bundle bundle = new Bundle();
         bundle.putString("id", media.getId());
@@ -78,18 +78,18 @@ public class MappingUtil {
                 )
                 .setRequestMetadata(
                         new MediaItem.RequestMetadata.Builder()
-                                .setMediaUri(getUri(context, media, stream && !isDownloaded))
+                                .setMediaUri(getUri(media, stream && !isDownloaded))
                                 .setExtras(bundle)
                                 .build()
                 )
                 .setMimeType(MimeTypes.BASE_TYPE_AUDIO)
-                .setUri(getUri(context, media, stream && !isDownloaded))
+                .setUri(getUri(media, stream && !isDownloaded))
                 .build();
     }
 
-    private static Uri getUri(Context context, Child media, boolean stream) {
+    private static Uri getUri(Child media, boolean stream) {
         if (stream) {
-            return MusicUtil.getStreamUri(context, media.getId());
+            return MusicUtil.getStreamUri(media.getId());
         } else {
             return MusicUtil.getDownloadUri(media.getId());
         }

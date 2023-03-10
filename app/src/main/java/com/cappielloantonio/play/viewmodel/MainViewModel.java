@@ -20,11 +20,11 @@ public class MainViewModel extends AndroidViewModel {
         super(application);
         this.application = application;
 
-        systemRepository = new SystemRepository(application);
+        systemRepository = new SystemRepository();
     }
 
     public boolean isQueueLoaded() {
-        QueueRepository queueRepository = new QueueRepository(application);
+        QueueRepository queueRepository = new QueueRepository();
         return queueRepository.count() != 0;
     }
 

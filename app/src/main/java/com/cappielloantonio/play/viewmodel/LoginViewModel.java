@@ -19,7 +19,7 @@ public class LoginViewModel extends AndroidViewModel {
     public LoginViewModel(@NonNull Application application) {
         super(application);
 
-        serverRepository = new ServerRepository(application);
+        serverRepository = new ServerRepository();
     }
 
     public LiveData<List<Server>> getServerList() {

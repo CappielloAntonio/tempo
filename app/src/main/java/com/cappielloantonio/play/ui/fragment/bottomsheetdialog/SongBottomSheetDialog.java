@@ -120,7 +120,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
                 }
 
                 if (songs.size() > 0) {
-                    MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), (List<Child>) songs, true);
+                    MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), songs, true);
                     dismissBottomSheet();
                 }
             });
@@ -155,7 +155,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         TextView download = view.findViewById(R.id.download_text_view);
         download.setOnClickListener(v -> {
             DownloadUtil.getDownloadTracker(requireContext()).download(
-                    MappingUtil.mapMediaItem(requireContext(), song, false),
+                    MappingUtil.mapMediaItem(song, false),
                     new Download(song)
             );
             dismissBottomSheet();
@@ -164,7 +164,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         TextView remove = view.findViewById(R.id.remove_text_view);
         remove.setOnClickListener(v -> {
             DownloadUtil.getDownloadTracker(requireContext()).remove(
-                    MappingUtil.mapMediaItem(requireContext(), song, false),
+                    MappingUtil.mapMediaItem(song, false),
                     new Download(song)
             );
             dismissBottomSheet();
@@ -219,7 +219,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
     }
 
     private void initDownloadUI(TextView download, TextView remove) {
-        if (DownloadUtil.getDownloadTracker(requireContext()).isDownloaded(MappingUtil.mapMediaItem(requireContext(), song, false))) {
+        if (DownloadUtil.getDownloadTracker(requireContext()).isDownloaded(MappingUtil.mapMediaItem(song, false))) {
             download.setVisibility(View.GONE);
             remove.setVisibility(View.VISIBLE);
         } else {

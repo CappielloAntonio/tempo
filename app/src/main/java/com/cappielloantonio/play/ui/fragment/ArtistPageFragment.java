@@ -18,7 +18,6 @@ import androidx.media3.session.SessionToken;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.adapter.AlbumArtistPageOrSimilarAdapter;
 import com.cappielloantonio.play.adapter.ArtistSimilarAdapter;
@@ -139,7 +138,7 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
     // TODO Utilizzare il viewmodel come tramite ed evitare le chiamate dirette
     private void initPlayButtons() {
         bind.artistPageShuffleButton.setOnClickListener(v -> {
-            ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
+            ArtistRepository artistRepository = new ArtistRepository();
 
             artistRepository.getArtistRandomSong(getViewLifecycleOwner(), artistPageViewModel.getArtist(), 20).observe(getViewLifecycleOwner(), songs -> {
                 if (songs.size() > 0) {
@@ -152,7 +151,7 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
         });
 
         bind.artistPageRadioButton.setOnClickListener(v -> {
-            ArtistRepository artistRepository = new ArtistRepository(App.getInstance());
+            ArtistRepository artistRepository = new ArtistRepository();
 
             artistRepository.getInstantMix(artistPageViewModel.getArtist(), 20).observe(getViewLifecycleOwner(), songs -> {
                 if (songs.size() > 0) {
@@ -168,7 +167,7 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
     private void initTopSongsView() {
         bind.mostStreamedSongRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        songHorizontalAdapter = new SongHorizontalAdapter(requireContext(), this, true);
+        songHorizontalAdapter = new SongHorizontalAdapter(this, true);
         bind.mostStreamedSongRecyclerView.setAdapter(songHorizontalAdapter);
         artistPageViewModel.getArtistTopSongList(10).observe(getViewLifecycleOwner(), songs -> {
             if (bind != null)
@@ -180,7 +179,7 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
     private void initAlbumsView() {
         bind.albumsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        albumArtistPageOrSimilarAdapter = new AlbumArtistPageOrSimilarAdapter(requireContext(), this);
+        albumArtistPageOrSimilarAdapter = new AlbumArtistPageOrSimilarAdapter(this);
         bind.albumsRecyclerView.setAdapter(albumArtistPageOrSimilarAdapter);
         artistPageViewModel.getAlbumList().observe(getViewLifecycleOwner(), albums -> {
             if (bind != null)
@@ -196,7 +195,7 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
         bind.similarArtistsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.similarArtistsRecyclerView.setHasFixedSize(true);
 
-        artistSimilarAdapter = new ArtistSimilarAdapter(requireContext(), this);
+        artistSimilarAdapter = new ArtistSimilarAdapter(this);
         bind.similarArtistsRecyclerView.setAdapter(artistSimilarAdapter);
         artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(getViewLifecycleOwner(), artist -> {
             if (bind != null)

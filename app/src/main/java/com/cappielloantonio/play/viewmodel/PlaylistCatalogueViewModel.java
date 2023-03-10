@@ -28,8 +28,8 @@ public class PlaylistCatalogueViewModel extends AndroidViewModel {
     public PlaylistCatalogueViewModel(@NonNull Application application) {
         super(application);
 
-        playlistRepository = new PlaylistRepository(application);
-        downloadRepository = new DownloadRepository(application);
+        playlistRepository = new PlaylistRepository();
+        downloadRepository = new DownloadRepository();
     }
 
     public LiveData<List<Playlist>> getPlaylistList(LifecycleOwner owner) {

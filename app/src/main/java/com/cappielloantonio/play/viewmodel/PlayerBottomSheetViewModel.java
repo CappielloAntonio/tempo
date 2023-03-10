@@ -41,9 +41,9 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     public PlayerBottomSheetViewModel(@NonNull Application application) {
         super(application);
 
-        songRepository = new SongRepository(application);
-        artistRepository = new ArtistRepository(application);
-        queueRepository = new QueueRepository(application);
+        songRepository = new SongRepository();
+        artistRepository = new ArtistRepository();
+        queueRepository = new QueueRepository();
     }
 
     public LiveData<List<Queue>> getQueueSong() {
@@ -62,7 +62,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
                 // TODO
                 /* if (Preferences.isStarredSyncEnabled()) {
                     DownloadUtil.getDownloadTracker(context).download(
-                            MappingUtil.mapMediaItem(context, media, false),
+                            MappingUtil.mapMediaItem(media, false),
                             MappingUtil.mapDownload(media, null, null)
                     );
                 } */

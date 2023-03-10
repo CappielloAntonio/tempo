@@ -2,6 +2,7 @@ package com.cappielloantonio.play.database;
 
 import android.content.Context;
 
+import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -22,9 +23,9 @@ import com.cappielloantonio.play.model.Server;
 import com.cappielloantonio.play.subsonic.models.Playlist;
 
 @Database(
-        version = 53,
-        entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Playlist.class, Chronology.class}
-        // autoMigrations = {@AutoMigration(from = 43, to = 44)}
+        version = 59,
+        entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Playlist.class, Chronology.class},
+        autoMigrations = {@AutoMigration(from = 58, to = 59)}
 )
 @TypeConverters({DateConverters.class})
 public abstract class AppDatabase extends RoomDatabase {

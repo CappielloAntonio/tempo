@@ -12,12 +12,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.DialogConnectionAlertBinding;
+import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.Preferences;
 import com.cappielloantonio.play.viewmodel.StarredSyncViewModel;
 
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class StarredSyncDialog extends DialogFragment {
     private static final String TAG = "ServerUnreachableDialog";
@@ -62,7 +64,7 @@ public class StarredSyncDialog extends DialogFragment {
                 if (songs != null) {
                     DownloadUtil.getDownloadTracker(context).download(
                             MappingUtil.mapMediaItems(context, songs, false),
-                            MappingUtil.mapDownload(songs, null, null)
+                            songs.stream().map(Download::new).collect(Collectors.toList())
                     );
                 }
             });

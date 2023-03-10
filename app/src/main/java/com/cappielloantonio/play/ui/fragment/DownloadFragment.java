@@ -179,8 +179,7 @@ public class DownloadFragment extends Fragment implements ClickCallback {
                 if (bind != null)
                     bind.downloadedArtistRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(artists.size(), 5), GridLayoutManager.HORIZONTAL, false));
 
-                // TODO
-                // downloadedArtistAdapter.setItems(artists);
+                downloadedArtistAdapter.setItems(artists);
             }
         });
 
@@ -215,8 +214,7 @@ public class DownloadFragment extends Fragment implements ClickCallback {
                 if (bind != null)
                     bind.downloadedAlbumRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
 
-                // TODO
-                //downloadedAlbumAdapter.setItems(albums);
+                downloadedAlbumAdapter.setItems(albums);
             }
         });
 

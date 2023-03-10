@@ -27,6 +27,7 @@ import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
+import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
@@ -38,6 +39,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.Collections;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @UnstableApi
 public class AlbumPageFragment extends Fragment implements ClickCallback {
@@ -105,7 +107,7 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
                 if (isVisible() && getActivity() != null) {
                     DownloadUtil.getDownloadTracker(requireContext()).download(
                             MappingUtil.mapMediaItems(requireContext(), songs, false),
-                            MappingUtil.mapDownload(songs, null, null)
+                            songs.stream().map(Download::new).collect(Collectors.toList())
                     );
                 }
             });

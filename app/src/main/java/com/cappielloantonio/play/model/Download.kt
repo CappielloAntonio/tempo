@@ -11,12 +11,42 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(tableName = "download")
 class Download(@PrimaryKey override val id: String) : Child(id) {
-    @ColumnInfo(name = "media_id")
-    var mediaID: String? = null
-
-    @ColumnInfo
-    var server: String? = null
-
     @ColumnInfo(name = "playlist_id")
     var playlistId: String? = null
+
+    @ColumnInfo(name = "playlist_name")
+    var playlistName: String? = null
+
+    constructor(child: Child) : this(child.id) {
+        parentId = child.parentId
+        isDir = child.isDir
+        title = child.title
+        album = child.album
+        artist = child.artist
+        track = child.track
+        year = child.year
+        genre = child.genre
+        coverArtId = child.coverArtId
+        size = child.size
+        contentType = child.contentType
+        suffix = child.suffix
+        transcodedContentType = child.transcodedContentType
+        transcodedSuffix = child.transcodedSuffix
+        duration = child.duration
+        bitrate = child.bitrate
+        path = child.path
+        isVideo = child.isVideo
+        userRating = child.userRating
+        averageRating = child.averageRating
+        playCount = child.playCount
+        discNumber = child.discNumber
+        created = child.created
+        starred = child.starred
+        albumId = child.albumId
+        artistId = child.artistId
+        type = child.type
+        bookmarkPosition = child.bookmarkPosition
+        originalWidth = child.originalWidth
+        originalHeight = child.originalHeight
+    }
 }

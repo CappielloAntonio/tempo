@@ -22,6 +22,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.databinding.InnerFragmentPlayerCoverBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.dialog.PlaylistChooserDialog;
@@ -90,7 +91,7 @@ public class PlayerCoverFragment extends Fragment {
                 bind.innerButtonTopLeft.setOnClickListener(view -> {
                     DownloadUtil.getDownloadTracker(requireContext()).download(
                             MappingUtil.mapMediaItem(requireContext(), song, false),
-                            MappingUtil.mapDownload(song, null, null)
+                            new Download(song)
                     );
                 });
 

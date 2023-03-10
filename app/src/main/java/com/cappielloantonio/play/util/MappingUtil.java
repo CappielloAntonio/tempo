@@ -60,28 +60,6 @@ public class MappingUtil {
         return playlists;
     }
 
-    public static ArrayList<Download> mapDownload(List<Child> media, String playlistId, String playlistName) {
-        ArrayList<Download> downloads = new ArrayList();
-
-        // TODO
-        /* for (Child item : media) {
-            Download download = (Download) item;
-            download.setMediaID();
-            download.setServer();
-            download.setPlaylistId();
-            downloads.add(download);
-        } */
-
-        return downloads;
-    }
-
-    public static Download mapDownload(Child media, String playlistId, String playlistName) {
-        // TODO
-        //return new Download(media, playlistId, playlistName);
-
-        return null;
-    }
-
     @OptIn(markerClass = UnstableApi.class)
     public static MediaItem mapMediaItem(Context context, Child media, boolean stream) {
         boolean isDownloaded = DownloadUtil.getDownloadTracker(context).isDownloaded(MusicUtil.getDownloadUri(media.getId()));

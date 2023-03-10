@@ -21,6 +21,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.subsonic.models.Child;
@@ -155,7 +156,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         download.setOnClickListener(v -> {
             DownloadUtil.getDownloadTracker(requireContext()).download(
                     MappingUtil.mapMediaItem(requireContext(), song, false),
-                    MappingUtil.mapDownload(song, null, null)
+                    new Download(song)
             );
             dismissBottomSheet();
         });
@@ -164,7 +165,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         remove.setOnClickListener(v -> {
             DownloadUtil.getDownloadTracker(requireContext()).remove(
                     MappingUtil.mapMediaItem(requireContext(), song, false),
-                    MappingUtil.mapDownload(song, null, null)
+                    new Download(song)
             );
             dismissBottomSheet();
         });

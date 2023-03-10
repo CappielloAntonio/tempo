@@ -15,11 +15,11 @@ open class AlbumID3 : Parcelable {
     @SerializedName("coverArt")
     var coverArtId: String? = null
 
-    var songCount = 0
-    var duration = 0
+    var songCount: Int? = 0
+    var duration: Int? = 0
     var playCount: Long? = null
     var created: Date? = null
     var starred: Date? = null
-    var year: Int? = null
+    var year: Int = 0
     var genre: String? = null
 }

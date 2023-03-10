@@ -20,31 +20,31 @@ public class DownloadRepository {
     }
 
     public LiveData<List<Download>> getLiveDownload() {
-        return downloadDao.getAll(Preferences.getServerId());
+        return downloadDao.getAll();
     }
 
     public LiveData<List<Download>> getLiveDownloadSample(int size, boolean isArtist, boolean isAlbum, boolean isTrack, boolean isPlaylist) {
-        if (isArtist) return downloadDao.getSampleArtist(size, Preferences.getServerId());
-        else if (isAlbum) return downloadDao.getSampleAlbum(size, Preferences.getServerId());
-        else if (isTrack) return downloadDao.getSample(size, Preferences.getServerId());
-        else if (isPlaylist) return downloadDao.getSamplePlaylist(size, Preferences.getServerId());
-        else return downloadDao.getSample(size, Preferences.getServerId());
+        if (isArtist) return downloadDao.getSampleArtist(size);
+        else if (isAlbum) return downloadDao.getSampleAlbum(size);
+        else if (isTrack) return downloadDao.getSample(size);
+        else if (isPlaylist) return downloadDao.getSamplePlaylist(size);
+        else return downloadDao.getSample(size);
     }
 
     public LiveData<List<Download>> getLiveDownloadFromArtist(String artistId) {
-        return downloadDao.getAllFromArtist(Preferences.getServerId(), artistId);
+        return downloadDao.getAllFromArtist(artistId);
     }
 
     public LiveData<List<Download>> getLiveDownloadFromAlbum(String albumId) {
-        return downloadDao.getAllFromAlbum(Preferences.getServerId(), albumId);
+        return downloadDao.getAllFromAlbum(albumId);
     }
 
     public LiveData<List<Download>> getLiveDownloadFromPlaylist(String playlistId) {
-        return downloadDao.getAllFromPlaylist(Preferences.getServerId(), playlistId);
+        return downloadDao.getAllFromPlaylist(playlistId);
     }
 
     public LiveData<List<Download>> getLivePlaylist() {
-        return downloadDao.getAllPlaylists(Preferences.getServerId());
+        return downloadDao.getAllPlaylists();
     }
 
     public void insert(Download download) {
@@ -104,7 +104,7 @@ public class DownloadRepository {
 
         @Override
         public void run() {
-            downloadDao.deleteAll(Preferences.getServerId());
+            downloadDao.deleteAll();
         }
     }
 
@@ -125,7 +125,7 @@ public class DownloadRepository {
 
         @Override
         public void run() {
-            downloadDao.delete(download.getMediaID());
+            downloadDao.delete(download.getId());
         }
     }
 }

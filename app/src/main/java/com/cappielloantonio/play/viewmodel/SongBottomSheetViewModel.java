@@ -10,12 +10,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.media3.common.util.UnstableApi;
 
+import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.util.DownloadUtil;
+import com.cappielloantonio.play.util.MappingUtil;
+import com.cappielloantonio.play.util.Preferences;
 
 import java.util.Collections;
 import java.util.Date;
@@ -55,13 +59,12 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
             songRepository.star(song.getId());
             song.setStarred(new Date());
 
-            // TODO
-            /* if (Preferences.isStarredSyncEnabled()) {
+            if (Preferences.isStarredSyncEnabled()) {
                 DownloadUtil.getDownloadTracker(context).download(
                         MappingUtil.mapMediaItem(context, song, false),
-                        MappingUtil.mapDownload(song, null, null)
+                        new Download(song)
                 );
-            } */
+            }
         }
     }
 

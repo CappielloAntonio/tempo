@@ -41,6 +41,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @UnstableApi
 public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
@@ -154,7 +155,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
         albumBottomSheetViewModel.getAlbumTracks().observe(getViewLifecycleOwner(), songs -> {
             List<MediaItem> mediaItems = MappingUtil.mapMediaItems(requireContext(), songs, false);
-            List<Download> downloads = MappingUtil.mapDownload(songs, null, null);
+            List<Download> downloads = songs.stream().map(Download::new).collect(Collectors.toList());
 
             downloadAll.setOnClickListener(v -> {
                 DownloadUtil.getDownloadTracker(requireContext()).download(mediaItems, downloads);

@@ -8,4 +8,5 @@
     android:gravity="center"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
-    app:chipStrokeWidth="1.5dp" />
+    app:chipStrokeWidth="1.5dp"
+    app:ensureMinTouchTargetSize="false" />

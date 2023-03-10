@@ -23,9 +23,9 @@ import com.cappielloantonio.play.model.Server;
 import com.cappielloantonio.play.subsonic.models.Playlist;
 
 @Database(
-        version = 59,
+        version = 60,
         entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Playlist.class, Chronology.class},
-        autoMigrations = {@AutoMigration(from = 58, to = 59)}
+        autoMigrations = {@AutoMigration(from = 59, to = 60)}
 )
 @TypeConverters({DateConverters.class})
 public abstract class AppDatabase extends RoomDatabase {

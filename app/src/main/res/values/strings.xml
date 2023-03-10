@@ -56,7 +56,7 @@
     <string name="download_title_artist_see_all_button">See all</string>
     <string name="download_title_playlist_section">Playlists</string>
     <string name="download_title_playlist_see_all_button">See all</string>
-    <string name="download_title_tracks_section">Tracks</string>
+    <string name="download_title_section">Downloads</string>
     <string name="download_title_tracks_see_all_button">See all</string>
     <string name="empty_string" />
     <string name="error_required">Required</string>

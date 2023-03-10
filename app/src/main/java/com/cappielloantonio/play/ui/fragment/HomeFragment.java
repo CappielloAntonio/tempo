@@ -8,7 +8,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,7 +21,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -35,7 +33,6 @@ import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.subsonic.models.Child;
-import com.cappielloantonio.play.subsonic.models.Playlist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.adapter.AlbumAdapter;
 import com.cappielloantonio.play.ui.adapter.AlbumHorizontalAdapter;
@@ -48,7 +45,6 @@ import com.cappielloantonio.play.ui.adapter.SimilarTrackAdapter;
 import com.cappielloantonio.play.ui.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.ui.adapter.YearAdapter;
 import com.cappielloantonio.play.util.Constants;
-import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.HomeViewModel;
 import com.google.android.gms.cast.framework.CastButtonFactory;
@@ -127,7 +123,6 @@ public class HomeFragment extends Fragment implements ClickCallback {
         initNewReleasesView();
         initYearSongView();
         initRecentAddedAlbumView();
-        initPinnedPlaylistsView();
         initNewestPodcastsView();
         initGridView();
     }
@@ -599,62 +594,6 @@ public class HomeFragment extends Fragment implements ClickCallback {
         recentAddedAlbumSnapHelper.attachToRecyclerView(bind.recentlyAddedAlbumsRecyclerView);
     }
 
-    public void initPinnedPlaylistsView() {
-        homeViewModel.getPinnedPlaylistList(getViewLifecycleOwner(), 5, true).observe(getViewLifecycleOwner(), playlists -> {
-            if (bind != null && playlists != null) {
-                for (Playlist playlist : playlists) {
-                    int playlistViewHashCode = playlist.getId().hashCode();
-                    if (requireView().findViewById(playlistViewHashCode) == null) {
-                        View genericPlaylistView = activity.getLayoutInflater().inflate(R.layout.generic_playlist_sector, null);
-                        genericPlaylistView.setId(playlistViewHashCode);
-                        genericPlaylistView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-                        TextView genericPlaylistTitleTextView = genericPlaylistView.findViewById(R.id.generic_playlist_title_text_view);
-                        TextView genericPlaylistCickableTextView = genericPlaylistView.findViewById(R.id.generic_playlist_text_view_clickable);
-                        RecyclerView genericPlaylistRecyclerView = genericPlaylistView.findViewById(R.id.generic_playlist_recycler_view);
-
-                        genericPlaylistTitleTextView.setText(MusicUtil.getReadableString(playlist.getName()));
-                        genericPlaylistRecyclerView.setHasFixedSize(true);
-
-                        SongHorizontalAdapter trackAdapter = new SongHorizontalAdapter(this, true);
-                        genericPlaylistRecyclerView.setAdapter(trackAdapter);
-
-                        homeViewModel.getPlaylistSongLiveList(playlist.getId()).observe(getViewLifecycleOwner(), songs -> {
-                            if (songs.size() > 0) {
-                                int songsNumber = Math.min(20, songs.size());
-
-                                genericPlaylistRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(songsNumber, 5), GridLayoutManager.HORIZONTAL, false));
-                                trackAdapter.setItems(songs.subList(0, songsNumber));
-                            }
-                        });
-
-                        genericPlaylistCickableTextView.setOnClickListener(view -> {
-                            Bundle bundle = new Bundle();
-                            bundle.putParcelable(Constants.PLAYLIST_OBJECT, playlist);
-                            bundle.putBoolean("is_offline", false);
-                            activity.navController.navigate(R.id.action_homeFragment_to_playlistPageFragment, bundle);
-                        });
-
-                        SnapHelper genericPlaylistSnapHelper = new PagerSnapHelper();
-                        genericPlaylistSnapHelper.attachToRecyclerView(genericPlaylistRecyclerView);
-
-                        genericPlaylistRecyclerView.addItemDecoration(
-                                new DotsIndicatorDecoration(
-                                        getResources().getDimensionPixelSize(R.dimen.radius),
-                                        getResources().getDimensionPixelSize(R.dimen.radius) * 4,
-                                        getResources().getDimensionPixelSize(R.dimen.dots_height),
-                                        requireContext().getResources().getColor(R.color.titleTextColor, null),
-                                        requireContext().getResources().getColor(R.color.titleTextColor, null))
-                        );
-
-
-                        bind.homeLinearLayoutContainer.addView(genericPlaylistView);
-                    }
-                }
-            }
-        });
-    }
-
     private void initNewestPodcastsView() {
         bind.newestPodcastsViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
@@ -740,7 +679,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
 
     @Override
     public void onMediaClick(Bundle bundle) {
-        if (bundle.containsKey("is_mix")) {
+        if (bundle.containsKey(Constants.MEDIA_MIX)) {
             MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelable(Constants.TRACK_OBJECT));
             activity.setBottomSheetInPeek(true);
 
@@ -751,7 +690,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
                     }
                 });
             }
-        } else if (bundle.containsKey("is_chronology")) {
+        } else if (bundle.containsKey(Constants.MEDIA_CHRONOLOGY)) {
             List<Child> media = bundle.getParcelableArrayList(Constants.TRACKS_OBJECT);
             MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), media, bundle.getInt(Constants.ITEM_POSITION));
             activity.setBottomSheetInPeek(true);
@@ -778,22 +717,22 @@ public class HomeFragment extends Fragment implements ClickCallback {
 
     @Override
     public void onArtistClick(Bundle bundle) {
-        if (bundle.containsKey("is_mix") && bundle.getBoolean("is_mix")) {
+        if (bundle.containsKey(Constants.MEDIA_MIX) && bundle.getBoolean(Constants.MEDIA_MIX)) {
             Snackbar.make(requireView(), R.string.artist_adapter_radio_station_starting, Snackbar.LENGTH_LONG)
                     .setAnchorView(activity.bind.playerBottomSheet)
                     .show();
 
             if (mediaBrowserListenableFuture != null) {
-                homeViewModel.getArtistInstantMix(bundle.getParcelable(Constants.ARTIST_OBJECT)).observe(getViewLifecycleOwner(), songs -> {
+                homeViewModel.getArtistInstantMix(getViewLifecycleOwner(), bundle.getParcelable(Constants.ARTIST_OBJECT)).observe(getViewLifecycleOwner(), songs -> {
                     if (songs.size() > 0) {
                         MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
                         activity.setBottomSheetInPeek(true);
                     }
                 });
             }
-        } else if (bundle.containsKey("is_best_of") && bundle.getBoolean("is_best_of")) {
+        } else if (bundle.containsKey(Constants.MEDIA_BEST_OF) && bundle.getBoolean(Constants.MEDIA_BEST_OF)) {
             if (mediaBrowserListenableFuture != null) {
-                homeViewModel.getArtistBestOf(bundle.getParcelable(Constants.ARTIST_OBJECT)).observe(getViewLifecycleOwner(), songs -> {
+                homeViewModel.getArtistBestOf(getViewLifecycleOwner(), bundle.getParcelable(Constants.ARTIST_OBJECT)).observe(getViewLifecycleOwner(), songs -> {
                     if (songs.size() > 0) {
                         MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
                         activity.setBottomSheetInPeek(true);
@@ -817,7 +756,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
 
     @Override
     public void onPodcastClick(Bundle bundle) {
-        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelable("podcast_object"));
+        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelable(Constants.PODCAST_OBJECT));
         activity.setBottomSheetInPeek(true);
     }
 

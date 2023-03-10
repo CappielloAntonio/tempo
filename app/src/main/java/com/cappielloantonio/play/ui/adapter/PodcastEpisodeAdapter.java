@@ -14,6 +14,7 @@ import com.cappielloantonio.play.databinding.ItemHomePodcastEpisodeBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.subsonic.models.PodcastEpisode;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.text.SimpleDateFormat;
@@ -79,14 +80,14 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
 
         public void onClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("podcast_object", podcastEpisodes.get(getBindingAdapterPosition()));
+            bundle.putParcelable(Constants.PODCAST_OBJECT, podcastEpisodes.get(getBindingAdapterPosition()));
 
             click.onPodcastClick(bundle);
         }
 
         private boolean openMore() {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("podcast_object", podcastEpisodes.get(getBindingAdapterPosition()));
+            bundle.putParcelable(Constants.PODCAST_OBJECT, podcastEpisodes.get(getBindingAdapterPosition()));
 
             click.onPodcastLongClick(bundle);
 

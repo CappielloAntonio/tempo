@@ -264,7 +264,6 @@ public class LibraryFragment extends Fragment implements ClickCallback {
 
     @Override
     public void onPlaylistClick(Bundle bundle) {
-        bundle.putBoolean("is_offline", false);
         Navigation.findNavController(requireView()).navigate(R.id.playlistPageFragment, bundle);
     }
 

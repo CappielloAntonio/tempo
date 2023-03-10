@@ -10,7 +10,6 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.database.converter.DateConverters;
 import com.cappielloantonio.play.database.dao.ChronologyDao;
 import com.cappielloantonio.play.database.dao.DownloadDao;
-import com.cappielloantonio.play.database.dao.PlaylistDao;
 import com.cappielloantonio.play.database.dao.QueueDao;
 import com.cappielloantonio.play.database.dao.RecentSearchDao;
 import com.cappielloantonio.play.database.dao.ServerDao;
@@ -19,12 +18,11 @@ import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.model.RecentSearch;
 import com.cappielloantonio.play.model.Server;
-import com.cappielloantonio.play.subsonic.models.Playlist;
 
 @Database(
-        version = 60,
-        entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Playlist.class, Chronology.class},
-        autoMigrations = {@AutoMigration(from = 59, to = 60)}
+        version = 61,
+        entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Chronology.class},
+        autoMigrations = {@AutoMigration(from = 60, to = 61)}
 )
 @TypeConverters({DateConverters.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -48,8 +46,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract RecentSearchDao recentSearchDao();
 
     public abstract DownloadDao downloadDao();
-
-    public abstract PlaylistDao playlistDao();
 
     public abstract ChronologyDao chronologyDao();
 }

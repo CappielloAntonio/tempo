@@ -104,7 +104,7 @@
                     android:paddingStart="16dp"
                     android:paddingTop="8dp"
                     android:paddingEnd="16dp"
-                    android:text="@string/download_title_tracks_section" />
+                    android:text="@string/download_title_section" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/downloaded_tracks_recycler_view"

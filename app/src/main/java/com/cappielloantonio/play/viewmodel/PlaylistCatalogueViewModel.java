@@ -8,61 +8,30 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
 import com.cappielloantonio.play.subsonic.models.Playlist;
-import com.cappielloantonio.play.util.Constants;
-import com.cappielloantonio.play.util.Preferences;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PlaylistCatalogueViewModel extends AndroidViewModel {
     private final PlaylistRepository playlistRepository;
-    private final DownloadRepository downloadRepository;
 
     private String type;
 
-    private MutableLiveData<List<Playlist>> playlistList;
-    private MutableLiveData<List<Playlist>> pinnedPlaylistList;
+    private final MutableLiveData<List<Playlist>> playlistList = new MutableLiveData<>(null);
 
     public PlaylistCatalogueViewModel(@NonNull Application application) {
         super(application);
 
         playlistRepository = new PlaylistRepository();
-        downloadRepository = new DownloadRepository();
     }
 
     public LiveData<List<Playlist>> getPlaylistList(LifecycleOwner owner) {
-        playlistList = new MutableLiveData<>(new ArrayList<>());
-
-        switch (type) {
-            case Constants.PLAYLIST_ALL:
-                playlistRepository.getPlaylists(false, -1).observe(owner, playlists -> playlistList.postValue(playlists));
-                break;
-            case Constants.PLAYLIST_DOWNLOADED:
-                // TODO
-                //downloadRepository.getLivePlaylist().observe(owner, downloads -> playlistList.setValue(MappingUtil.mapDownloadToPlaylist(downloads)));
-                break;
+        if (playlistList.getValue() == null) {
+            playlistRepository.getPlaylists(false, -1).observe(owner, playlistList::postValue);
         }
-
-        playlistRepository.getPlaylists(false, -1);
 
         return playlistList;
-    }
-
-    public LiveData<List<Playlist>> getPinnedPlaylistList(LifecycleOwner owner) {
-        pinnedPlaylistList = new MutableLiveData<>(new ArrayList<>());
-        playlistRepository.getPinnedPlaylists(Preferences.getServerId()).observe(owner, playlists -> pinnedPlaylistList.postValue(playlists));
-        return pinnedPlaylistList;
-    }
-
-    public void unpinPlaylist(List<Playlist> playlists) {
-        if (type.equals(Constants.PLAYLIST_ALL)) {
-            for (Playlist playlist : playlists) {
-                playlistRepository.delete(playlist);
-            }
-        }
     }
 
     public void setType(String type) {

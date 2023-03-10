@@ -75,7 +75,7 @@ public class GridTrackAdapter extends RecyclerView.Adapter<GridTrackAdapter.View
         public void onClick() {
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(Constants.TRACKS_OBJECT, new ArrayList<>(items));
-            bundle.putBoolean("is_chronology", true);
+            bundle.putBoolean(Constants.MEDIA_CHRONOLOGY, true);
             bundle.putInt(Constants.ITEM_POSITION, getBindingAdapterPosition());
 
             click.onMediaClick(bundle);

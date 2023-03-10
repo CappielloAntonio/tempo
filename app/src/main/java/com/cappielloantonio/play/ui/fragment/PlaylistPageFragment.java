@@ -61,7 +61,6 @@ public class PlaylistPageFragment extends Fragment implements ClickCallback {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.playlist_page_menu, menu);
-        initMenuOption(menu);
     }
 
     @Override
@@ -103,7 +102,7 @@ public class PlaylistPageFragment extends Fragment implements ClickCallback {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_download_playlist) {
-            playlistPageViewModel.getPlaylistSongLiveList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
+            playlistPageViewModel.getPlaylistSongLiveList().observe(getViewLifecycleOwner(), songs -> {
                 if (isVisible() && getActivity() != null) {
                     DownloadUtil.getDownloadTracker(requireContext()).download(
                             MappingUtil.mapMediaItems(songs, false),
@@ -117,12 +116,6 @@ public class PlaylistPageFragment extends Fragment implements ClickCallback {
                 }
             });
             return true;
-        } else if (item.getItemId() == R.id.action_pin_playlist) {
-            playlistPageViewModel.setPinned(true);
-            return true;
-        } else if (item.getItemId() == R.id.action_unpin_playlist) {
-            playlistPageViewModel.setPinned(false);
-            return true;
         }
 
         return false;
@@ -130,14 +123,6 @@ public class PlaylistPageFragment extends Fragment implements ClickCallback {
 
     private void init() {
         playlistPageViewModel.setPlaylist(requireArguments().getParcelable(Constants.PLAYLIST_OBJECT));
-        playlistPageViewModel.setOffline(requireArguments().getBoolean("is_offline"));
-    }
-
-    private void initMenuOption(Menu menu) {
-        playlistPageViewModel.isPinned(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), isPinned -> {
-            menu.findItem(R.id.action_unpin_playlist).setVisible(isPinned);
-            menu.findItem(R.id.action_pin_playlist).setVisible(!isPinned);
-        });
     }
 
     private void initAppBar() {
@@ -154,18 +139,13 @@ public class PlaylistPageFragment extends Fragment implements ClickCallback {
         bind.playlistSongCountLabel.setText(getString(R.string.playlist_song_count, playlistPageViewModel.getPlaylist().getSongCount()));
         bind.playlistDurationLabel.setText(getString(R.string.playlist_duration, MusicUtil.getReadableDurationString(playlistPageViewModel.getPlaylist().getDuration(), false)));
 
-        if (playlistPageViewModel.isOffline()) {
-            bind.playlistSongCountLabel.setVisibility(View.GONE);
-            bind.playlistDurationLabel.setVisibility(View.GONE);
-        }
-
         bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
 
         Objects.requireNonNull(bind.animToolbar.getOverflowIcon()).setTint(requireContext().getResources().getColor(R.color.titleTextColor, null));
     }
 
     private void initMusicButton() {
-        playlistPageViewModel.getPlaylistSongLiveList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
+        playlistPageViewModel.getPlaylistSongLiveList().observe(getViewLifecycleOwner(), songs -> {
             if (bind != null) {
                 bind.playlistPagePlayButton.setOnClickListener(v -> {
                     MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
@@ -182,39 +162,11 @@ public class PlaylistPageFragment extends Fragment implements ClickCallback {
     }
 
     private void initBackCover() {
-        playlistPageViewModel.getPlaylistSongLiveList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
-            if (bind != null) {
-                Collections.shuffle(songs);
-
-                // Pic top-left
-                CustomGlideRequest.Builder
-                        .from(requireContext(), songs.size() > 0 ? songs.get(0).getCoverArtId() : playlistPageViewModel.getPlaylist().getCoverArtId(), CustomGlideRequest.PLAYLIST_PIC, null)
-                        .build()
-                        .transform(new CenterCrop(), new GranularRoundedCorners(CustomGlideRequest.CORNER_RADIUS, 0, 0, 0))
-                        .into(bind.playlistCoverImageViewTopLeft);
-
-                // Pic top-right
-                CustomGlideRequest.Builder
-                        .from(requireContext(), songs.size() > 1 ? songs.get(1).getCoverArtId() : playlistPageViewModel.getPlaylist().getCoverArtId(), CustomGlideRequest.PLAYLIST_PIC, null)
-                        .build()
-                        .transform(new CenterCrop(), new GranularRoundedCorners(0, CustomGlideRequest.CORNER_RADIUS, 0, 0))
-                        .into(bind.playlistCoverImageViewTopRight);
-
-                // Pic bottom-left
-                CustomGlideRequest.Builder
-                        .from(requireContext(), songs.size() > 2 ? songs.get(2).getCoverArtId() : playlistPageViewModel.getPlaylist().getCoverArtId(), CustomGlideRequest.PLAYLIST_PIC, null)
-                        .build()
-                        .transform(new CenterCrop(), new GranularRoundedCorners(0, 0, 0, CustomGlideRequest.CORNER_RADIUS))
-                        .into(bind.playlistCoverImageViewBottomLeft);
-
-                // Pic bottom-right
-                CustomGlideRequest.Builder
-                        .from(requireContext(), songs.size() > 3 ? songs.get(3).getCoverArtId() : playlistPageViewModel.getPlaylist().getCoverArtId(), CustomGlideRequest.PLAYLIST_PIC, null)
-                        .build()
-                        .transform(new CenterCrop(), new GranularRoundedCorners(0, 0, CustomGlideRequest.CORNER_RADIUS, 0))
-                        .into(bind.playlistCoverImageViewBottomRight);
-            }
-        });
+        CustomGlideRequest.Builder
+                .from(requireContext(), playlistPageViewModel.getPlaylist().getCoverArtId(), CustomGlideRequest.PLAYLIST_PIC, null)
+                .build()
+                .transform(new CenterCrop(), new GranularRoundedCorners(CustomGlideRequest.CORNER_RADIUS, 0, 0, 0))
+                .into(bind.playlistCoverImageView);
     }
 
     private void initSongsView() {
@@ -224,7 +176,7 @@ public class PlaylistPageFragment extends Fragment implements ClickCallback {
         songHorizontalAdapter = new SongHorizontalAdapter(this, true);
         bind.songRecyclerView.setAdapter(songHorizontalAdapter);
 
-        playlistPageViewModel.getPlaylistSongLiveList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> songHorizontalAdapter.setItems(songs));
+        playlistPageViewModel.getPlaylistSongLiveList().observe(getViewLifecycleOwner(), songs -> songHorizontalAdapter.setItems(songs));
     }
 
     private void initializeMediaBrowser() {

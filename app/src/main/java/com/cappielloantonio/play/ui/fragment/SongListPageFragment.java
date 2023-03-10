@@ -146,7 +146,7 @@ public class SongListPageFragment extends Fragment implements ClickCallback {
     }
 
     private void initButtons() {
-        songListPageViewModel.getSongList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
+        songListPageViewModel.getSongList().observe(getViewLifecycleOwner(), songs -> {
             if (bind != null) {
                 bind.songListShuffleImageView.setOnClickListener(v -> {
                     Collections.shuffle(songs);
@@ -163,7 +163,7 @@ public class SongListPageFragment extends Fragment implements ClickCallback {
 
         songHorizontalAdapter = new SongHorizontalAdapter(this, true);
         bind.songListRecyclerView.setAdapter(songHorizontalAdapter);
-        songListPageViewModel.getSongList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> songHorizontalAdapter.setItems(songs));
+        songListPageViewModel.getSongList().observe(getViewLifecycleOwner(), songs -> songHorizontalAdapter.setItems(songs));
     }
 
     private void initializeMediaBrowser() {

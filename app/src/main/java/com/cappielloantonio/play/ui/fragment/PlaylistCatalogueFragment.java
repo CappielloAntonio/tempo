@@ -26,15 +26,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.FragmentPlaylistCatalogueBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.subsonic.models.Playlist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.adapter.PlaylistHorizontalAdapter;
 import com.cappielloantonio.play.ui.dialog.PlaylistEditorDialog;
 import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.viewmodel.PlaylistCatalogueViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @UnstableApi
 public class PlaylistCatalogueFragment extends Fragment implements ClickCallback {
@@ -111,32 +107,7 @@ public class PlaylistCatalogueFragment extends Fragment implements ClickCallback
         bind.playlistCatalogueRecyclerView.setAdapter(playlistHorizontalAdapter);
 
         if (getActivity() != null) {
-            playlistCatalogueViewModel.getPlaylistList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), playlists ->
-                    playlistCatalogueViewModel.getPinnedPlaylistList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(),
-                            pinnedPlaylists -> {
-                                List<Playlist> sortedList = new ArrayList<>();
-                                List<Playlist> unsortedList = new ArrayList<>(playlists);
-
-                                List<Playlist> pinnedPlaylistsVerified = new ArrayList<>();
-                                List<Playlist> pinnedPlaylistsNotFound = new ArrayList<>();
-
-                                if (unsortedList.size() > 0) {
-                                    for (Playlist pinnedPlaylist : pinnedPlaylists) {
-                                        if (playlists.contains(pinnedPlaylist)) {
-                                            pinnedPlaylistsVerified.add(pinnedPlaylist);
-                                        } else {
-                                            pinnedPlaylistsNotFound.add(pinnedPlaylist);
-                                        }
-                                    }
-
-                                    unsortedList.removeAll(pinnedPlaylistsVerified);
-                                    sortedList.addAll(pinnedPlaylistsVerified);
-                                    sortedList.addAll(unsortedList);
-                                }
-
-                                playlistHorizontalAdapter.setItems(sortedList);
-                                playlistCatalogueViewModel.unpinPlaylist(pinnedPlaylistsNotFound);
-                            }));
+            playlistCatalogueViewModel.getPlaylistList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), playlists -> playlistHorizontalAdapter.setItems(playlists));
         }
 
         bind.playlistCatalogueRecyclerView.setOnTouchListener((v, event) -> {

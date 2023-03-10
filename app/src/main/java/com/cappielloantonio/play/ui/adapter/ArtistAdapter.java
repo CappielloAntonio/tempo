@@ -96,8 +96,8 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
         public void onClick() {
             Bundle bundle = new Bundle();
             bundle.putParcelable(Constants.ARTIST_OBJECT, artists.get(getBindingAdapterPosition()));
-            bundle.putBoolean("is_mix", mix);
-            bundle.putBoolean("is_best_of", bestOf);
+            bundle.putBoolean(Constants.MEDIA_MIX, mix);
+            bundle.putBoolean(Constants.MEDIA_BEST_OF, bestOf);
 
             click.onArtistClick(bundle);
         }

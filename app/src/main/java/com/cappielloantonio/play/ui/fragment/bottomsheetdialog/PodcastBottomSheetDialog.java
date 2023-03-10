@@ -22,6 +22,7 @@ import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.subsonic.models.PodcastEpisode;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PodcastBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -39,7 +40,7 @@ public class PodcastBottomSheetDialog extends BottomSheetDialogFragment implemen
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet_podcast_dialog, container, false);
 
-        podcast = requireArguments().getParcelable("podcast_object");
+        podcast = requireArguments().getParcelable(Constants.PODCAST_OBJECT);
 
         podcastBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(PodcastBottomSheetViewModel.class);
         podcastBottomSheetViewModel.setPodcast(podcast);

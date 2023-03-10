@@ -5,12 +5,10 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.repository.ArtistRepository;
-import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
@@ -24,7 +22,6 @@ import java.util.List;
 public class SongListPageViewModel extends AndroidViewModel {
     private final SongRepository songRepository;
     private final ArtistRepository artistRepository;
-    private final DownloadRepository downloadRepository;
 
     public String title;
     public String toolbarTitle;
@@ -44,10 +41,9 @@ public class SongListPageViewModel extends AndroidViewModel {
 
         songRepository = new SongRepository();
         artistRepository = new ArtistRepository();
-        downloadRepository = new DownloadRepository();
     }
 
-    public LiveData<List<Child>> getSongList(LifecycleOwner owner) {
+    public LiveData<List<Child>> getSongList() {
         songList = new MutableLiveData<>(new ArrayList<>());
 
         switch (title) {

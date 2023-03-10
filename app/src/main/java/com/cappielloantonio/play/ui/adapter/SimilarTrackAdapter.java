@@ -78,7 +78,7 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
         public void onClick() {
             Bundle bundle = new Bundle();
             bundle.putParcelable(Constants.TRACK_OBJECT, songs.get(getBindingAdapterPosition()));
-            bundle.putBoolean("is_mix", true);
+            bundle.putBoolean(Constants.MEDIA_MIX, true);
 
             click.onMediaClick(bundle);
         }

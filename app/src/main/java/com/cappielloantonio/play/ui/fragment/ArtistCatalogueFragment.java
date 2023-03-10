@@ -25,12 +25,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.ui.adapter.ArtistCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistCatalogueBinding;
 import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.ui.adapter.ArtistCatalogueAdapter;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.viewmodel.ArtistCatalogueViewModel;
 
 @UnstableApi
@@ -153,10 +153,10 @@ public class ArtistCatalogueFragment extends Fragment implements ClickCallback {
 
         popup.setOnMenuItemClickListener(menuItem -> {
             if (menuItem.getItemId() == R.id.menu_artist_sort_name) {
-                artistAdapter.sort(Artist.ORDER_BY_NAME);
+                artistAdapter.sort(Constants.ARTIST_ORDER_BY_NAME);
                 return true;
             } else if (menuItem.getItemId() == R.id.menu_artist_sort_random) {
-                artistAdapter.sort(Artist.ORDER_BY_RANDOM);
+                artistAdapter.sort(Constants.ARTIST_ORDER_BY_RANDOM);
                 return true;
             }
 

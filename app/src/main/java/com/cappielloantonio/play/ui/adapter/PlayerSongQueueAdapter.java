@@ -17,6 +17,7 @@ import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -98,8 +99,8 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
 
         public void onClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("songs_object", new ArrayList<>(songs));
-            bundle.putInt("position", getBindingAdapterPosition());
+            bundle.putParcelableArrayList(Constants.TRACKS_OBJECT, new ArrayList<>(songs));
+            bundle.putInt(Constants.ITEM_POSITION, getBindingAdapterPosition());
 
             click.onMediaClick(bundle);
         }

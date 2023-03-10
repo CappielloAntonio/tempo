@@ -11,6 +11,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.ItemHorizontalPlaylistDialogBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.subsonic.models.Playlist;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.Collections;
@@ -71,7 +72,7 @@ public class PlaylistDialogHorizontalAdapter extends RecyclerView.Adapter<Playli
 
         public void onClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("playlist_object", playlists.get(getBindingAdapterPosition()));
+            bundle.putParcelable(Constants.PLAYLIST_OBJECT, playlists.get(getBindingAdapterPosition()));
 
             click.onPlaylistClick(bundle);
         }

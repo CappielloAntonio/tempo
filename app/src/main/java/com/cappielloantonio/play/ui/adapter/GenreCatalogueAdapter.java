@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.databinding.ItemLibraryCatalogueGenreBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.subsonic.models.Genre;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
@@ -106,8 +106,8 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
 
             itemView.setOnClickListener(v -> {
                 Bundle bundle = new Bundle();
-                bundle.putString(Media.BY_GENRE, Media.BY_GENRE);
-                bundle.putParcelable("genre_object", genres.get(getBindingAdapterPosition()));
+                bundle.putString(Constants.MEDIA_BY_GENRE, Constants.MEDIA_BY_GENRE);
+                bundle.putParcelable(Constants.GENRE_OBJECT, genres.get(getBindingAdapterPosition()));
 
                 click.onGenreClick(bundle);
             });
@@ -116,10 +116,10 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
 
     public void sort(String order) {
         switch (order) {
-            case com.cappielloantonio.play.model.Genre.ORDER_BY_NAME:
+            case Constants.GENRE_ORDER_BY_NAME:
                 genres.sort(Comparator.comparing(Genre::getGenre));
                 break;
-            case com.cappielloantonio.play.model.Genre.ORDER_BY_RANDOM:
+            case Constants.GENRE_ORDER_BY_RANDOM:
                 Collections.shuffle(genres);
                 break;
         }

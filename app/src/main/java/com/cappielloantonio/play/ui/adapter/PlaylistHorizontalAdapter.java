@@ -13,6 +13,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.ItemHorizontalPlaylistBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.subsonic.models.Playlist;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
@@ -114,14 +115,14 @@ public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHori
 
         public void onClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("playlist_object", playlists.get(getBindingAdapterPosition()));
+            bundle.putParcelable(Constants.PLAYLIST_OBJECT, playlists.get(getBindingAdapterPosition()));
 
             click.onPlaylistClick(bundle);
         }
 
         public boolean onLongClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("playlist_object", playlists.get(getBindingAdapterPosition()));
+            bundle.putParcelable(Constants.PLAYLIST_OBJECT, playlists.get(getBindingAdapterPosition()));
 
             click.onPlaylistLongClick(bundle);
 
@@ -131,10 +132,10 @@ public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHori
 
     public void sort(String order) {
         switch (order) {
-            case com.cappielloantonio.play.model.Playlist.ORDER_BY_NAME:
+            case Constants.PLAYLIST_ORDER_BY_NAME:
                 playlists.sort(Comparator.comparing(Playlist::getName));
                 break;
-            case com.cappielloantonio.play.model.Playlist.ORDER_BY_RANDOM:
+            case Constants.PLAYLIST_ORDER_BY_RANDOM:
                 Collections.shuffle(playlists);
                 break;
         }

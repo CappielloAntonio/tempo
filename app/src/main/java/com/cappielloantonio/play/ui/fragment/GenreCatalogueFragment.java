@@ -26,12 +26,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.ui.adapter.GenreCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentGenreCatalogueBinding;
 import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.ui.adapter.GenreCatalogueAdapter;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.viewmodel.GenreCatalogueViewModel;
 
 @OptIn(markerClass = UnstableApi.class)
@@ -151,10 +151,10 @@ public class GenreCatalogueFragment extends Fragment implements ClickCallback {
 
         popup.setOnMenuItemClickListener(menuItem -> {
             if (menuItem.getItemId() == R.id.menu_genre_sort_name) {
-                genreCatalogueAdapter.sort(Genre.ORDER_BY_NAME);
+                genreCatalogueAdapter.sort(Constants.GENRE_ORDER_BY_NAME);
                 return true;
             } else if (menuItem.getItemId() == R.id.menu_genre_sort_random) {
-                genreCatalogueAdapter.sort(Genre.ORDER_BY_RANDOM);
+                genreCatalogueAdapter.sort(Constants.GENRE_ORDER_BY_RANDOM);
                 return true;
             }
 

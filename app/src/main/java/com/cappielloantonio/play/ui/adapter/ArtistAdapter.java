@@ -14,6 +14,7 @@ import com.cappielloantonio.play.databinding.ItemLibraryArtistBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.Collections;
@@ -94,7 +95,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
 
         public void onClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
+            bundle.putParcelable(Constants.ARTIST_OBJECT, artists.get(getBindingAdapterPosition()));
             bundle.putBoolean("is_mix", mix);
             bundle.putBoolean("is_best_of", bestOf);
 
@@ -103,7 +104,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
 
         public boolean onLongClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
+            bundle.putParcelable(Constants.ARTIST_OBJECT, artists.get(getBindingAdapterPosition()));
 
             click.onArtistLongClick(bundle);
 

@@ -17,13 +17,13 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.ui.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentSongListPageBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.ui.adapter.SongHorizontalAdapter;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.SongListPageViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -75,50 +75,50 @@ public class SongListPageFragment extends Fragment implements ClickCallback {
     }
 
     private void init() {
-        if (requireArguments().getString(Media.RECENTLY_PLAYED) != null) {
-            songListPageViewModel.title = Media.RECENTLY_PLAYED;
+        if (requireArguments().getString(Constants.MEDIA_RECENTLY_PLAYED) != null) {
+            songListPageViewModel.title = Constants.MEDIA_RECENTLY_PLAYED;
             songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_recently_played);
             bind.pageTitleLabel.setText(R.string.song_list_page_recently_played);
-        } else if (requireArguments().getString(Media.MOST_PLAYED) != null) {
-            songListPageViewModel.title = Media.MOST_PLAYED;
+        } else if (requireArguments().getString(Constants.MEDIA_MOST_PLAYED) != null) {
+            songListPageViewModel.title = Constants.MEDIA_MOST_PLAYED;
             songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_most_played);
             bind.pageTitleLabel.setText(R.string.song_list_page_most_played);
-        } else if (requireArguments().getString(Media.RECENTLY_ADDED) != null) {
-            songListPageViewModel.title = Media.RECENTLY_ADDED;
+        } else if (requireArguments().getString(Constants.MEDIA_RECENTLY_ADDED) != null) {
+            songListPageViewModel.title = Constants.MEDIA_RECENTLY_ADDED;
             songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_recently_added);
             bind.pageTitleLabel.setText(R.string.song_list_page_recently_added);
-        } else if (requireArguments().getString(Media.BY_GENRE) != null) {
-            songListPageViewModel.title = Media.BY_GENRE;
-            songListPageViewModel.genre = requireArguments().getParcelable("genre_object");
+        } else if (requireArguments().getString(Constants.MEDIA_BY_GENRE) != null) {
+            songListPageViewModel.title = Constants.MEDIA_BY_GENRE;
+            songListPageViewModel.genre = requireArguments().getParcelable(Constants.GENRE_OBJECT);
             songListPageViewModel.toolbarTitle = MusicUtil.getReadableString(songListPageViewModel.genre.getGenre());
             bind.pageTitleLabel.setText(MusicUtil.getReadableString(songListPageViewModel.genre.getGenre()));
-        } else if (requireArguments().getString(Media.BY_ARTIST) != null) {
-            songListPageViewModel.title = Media.BY_ARTIST;
-            songListPageViewModel.artist = requireArguments().getParcelable("artist_object");
+        } else if (requireArguments().getString(Constants.MEDIA_BY_ARTIST) != null) {
+            songListPageViewModel.title = Constants.MEDIA_BY_ARTIST;
+            songListPageViewModel.artist = requireArguments().getParcelable(Constants.ARTIST_OBJECT);
             songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_top, MusicUtil.getReadableString(songListPageViewModel.artist.getName()));
             bind.pageTitleLabel.setText(getString(R.string.song_list_page_top, MusicUtil.getReadableString(songListPageViewModel.artist.getName())));
-        } else if (requireArguments().getString(Media.BY_GENRES) != null) {
-            songListPageViewModel.title = Media.BY_GENRES;
+        } else if (requireArguments().getString(Constants.MEDIA_BY_GENRES) != null) {
+            songListPageViewModel.title = Constants.MEDIA_BY_GENRES;
             songListPageViewModel.filters = requireArguments().getStringArrayList("filters_list");
             songListPageViewModel.filterNames = requireArguments().getStringArrayList("filter_name_list");
             songListPageViewModel.toolbarTitle = songListPageViewModel.getFiltersTitle();
             bind.pageTitleLabel.setText(songListPageViewModel.getFiltersTitle());
-        } else if (requireArguments().getString(Media.BY_YEAR) != null) {
-            songListPageViewModel.title = Media.BY_YEAR;
+        } else if (requireArguments().getString(Constants.MEDIA_BY_YEAR) != null) {
+            songListPageViewModel.title = Constants.MEDIA_BY_YEAR;
             songListPageViewModel.year = requireArguments().getInt("year_object");
             songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_year, songListPageViewModel.year);
             bind.pageTitleLabel.setText(getString(R.string.song_list_page_year, songListPageViewModel.year));
-        } else if (requireArguments().getString(Media.STARRED) != null) {
-            songListPageViewModel.title = Media.STARRED;
+        } else if (requireArguments().getString(Constants.MEDIA_STARRED) != null) {
+            songListPageViewModel.title = Constants.MEDIA_STARRED;
             songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_starred);
             bind.pageTitleLabel.setText(R.string.song_list_page_starred);
-        } else if (requireArguments().getString(Media.DOWNLOADED) != null) {
-            songListPageViewModel.title = Media.DOWNLOADED;
+        } else if (requireArguments().getString(Constants.MEDIA_DOWNLOADED) != null) {
+            songListPageViewModel.title = Constants.MEDIA_DOWNLOADED;
             songListPageViewModel.toolbarTitle = getString(R.string.song_list_page_downloaded);
             bind.pageTitleLabel.setText(getString(R.string.song_list_page_downloaded));
-        } else if (requireArguments().getParcelable("album_object") != null) {
-            songListPageViewModel.album = requireArguments().getParcelable("album_object");
-            songListPageViewModel.title = Media.FROM_ALBUM;
+        } else if (requireArguments().getParcelable(Constants.ALBUM_OBJECT) != null) {
+            songListPageViewModel.album = requireArguments().getParcelable(Constants.ALBUM_OBJECT);
+            songListPageViewModel.title = Constants.MEDIA_FROM_ALBUM;
             songListPageViewModel.toolbarTitle = MusicUtil.getReadableString(songListPageViewModel.album.getName());
             bind.pageTitleLabel.setText(MusicUtil.getReadableString(songListPageViewModel.album.getName()));
         }
@@ -176,7 +176,7 @@ public class SongListPageFragment extends Fragment implements ClickCallback {
 
     @Override
     public void onMediaClick(Bundle bundle) {
-        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList("songs_object"), bundle.getInt("position"));
+        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList(Constants.TRACKS_OBJECT), bundle.getInt(Constants.ITEM_POSITION));
         activity.setBottomSheetInPeek(true);
     }
 

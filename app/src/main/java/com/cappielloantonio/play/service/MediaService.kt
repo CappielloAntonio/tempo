@@ -15,8 +15,8 @@ import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.session.*
 import androidx.media3.session.MediaSession.ControllerInfo
 import com.cappielloantonio.play.R
-import com.cappielloantonio.play.model.Media
 import com.cappielloantonio.play.ui.activity.MainActivity
+import com.cappielloantonio.play.util.Constants
 import com.cappielloantonio.play.util.DownloadUtil
 import com.cappielloantonio.play.util.UIUtil
 import com.google.android.gms.cast.framework.CastContext
@@ -234,7 +234,7 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 if (mediaItem == null) return
 
-                if (mediaItem.mediaMetadata.extras?.getString("type") == Media.MEDIA_TYPE_MUSIC) {
+                if (mediaItem.mediaMetadata.extras?.getString("type") == Constants.MEDIA_TYPE_MUSIC) {
                     MediaManager.scrobble(mediaItem)
                     MediaManager.saveChronology(mediaItem)
                 }

@@ -14,8 +14,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.databinding.ItemLibraryCatalogueAlbumBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
@@ -132,14 +132,14 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
 
         private void onClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("album_object", albums.get(getBindingAdapterPosition()));
+            bundle.putParcelable(Constants.ALBUM_OBJECT, albums.get(getBindingAdapterPosition()));
 
             click.onAlbumClick(bundle);
         }
 
         private boolean onLongClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("album_object", albums.get(getBindingAdapterPosition()));
+            bundle.putParcelable(Constants.ALBUM_OBJECT, albums.get(getBindingAdapterPosition()));
 
             click.onAlbumLongClick(bundle);
 
@@ -149,16 +149,16 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
 
     public void sort(String order) {
         switch (order) {
-            case Album.ORDER_BY_NAME:
+            case Constants.ALBUM_ORDER_BY_NAME:
                 albums.sort(Comparator.comparing(AlbumID3::getName));
                 break;
-            case Album.ORDER_BY_ARTIST:
+            case Constants.ALBUM_ORDER_BY_ARTIST:
                 albums.sort(Comparator.comparing(AlbumID3::getArtist));
                 break;
-            case Album.ORDER_BY_YEAR:
+            case Constants.ALBUM_ORDER_BY_YEAR:
                 albums.sort(Comparator.comparing(AlbumID3::getYear));
                 break;
-            case Album.ORDER_BY_RANDOM:
+            case Constants.ALBUM_ORDER_BY_RANDOM:
                 Collections.shuffle(albums);
                 break;
         }

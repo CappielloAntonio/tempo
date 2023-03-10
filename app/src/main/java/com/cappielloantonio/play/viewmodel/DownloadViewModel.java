@@ -8,10 +8,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.cappielloantonio.play.model.Playlist;
 import com.cappielloantonio.play.repository.DownloadRepository;
-import com.cappielloantonio.play.subsonic.models.AlbumID3;
-import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.Child;
 
 import java.util.List;
@@ -22,10 +19,7 @@ public class DownloadViewModel extends AndroidViewModel {
 
     private final DownloadRepository downloadRepository;
 
-    private final MutableLiveData<List<ArtistID3>> downloadedArtistSample = new MutableLiveData<>(null);
-    private final MutableLiveData<List<AlbumID3>> downloadedAlbumSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<Child>> downloadedTrackSample = new MutableLiveData<>(null);
-    private final MutableLiveData<List<Playlist>> downloadedPlaylistSample = new MutableLiveData<>(null);
 
     public DownloadViewModel(@NonNull Application application) {
         super(application);

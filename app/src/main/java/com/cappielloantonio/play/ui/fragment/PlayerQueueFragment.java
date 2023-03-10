@@ -16,12 +16,13 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cappielloantonio.play.ui.adapter.PlayerSongQueueAdapter;
 import com.cappielloantonio.play.databinding.InnerFragmentPlayerQueueBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.ui.adapter.PlayerSongQueueAdapter;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -151,6 +152,6 @@ public class PlayerQueueFragment extends Fragment implements ClickCallback {
 
     @Override
     public void onMediaClick(Bundle bundle) {
-        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList("songs_object"), bundle.getInt("position"));
+        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList(Constants.TRACKS_OBJECT), bundle.getInt(Constants.ITEM_POSITION));
     }
 }

@@ -12,10 +12,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.ui.adapter.PlaylistDialogHorizontalAdapter;
 import com.cappielloantonio.play.databinding.DialogPlaylistChooserBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.subsonic.models.Playlist;
+import com.cappielloantonio.play.ui.adapter.PlaylistDialogHorizontalAdapter;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.viewmodel.PlaylistChooserViewModel;
 
 import java.util.Objects;
@@ -59,13 +60,13 @@ public class PlaylistChooserDialog extends DialogFragment implements ClickCallba
     }
 
     private void setSongInfo() {
-        playlistChooserViewModel.setSongToAdd(requireArguments().getParcelable("song_object"));
+        playlistChooserViewModel.setSongToAdd(requireArguments().getParcelable(Constants.TRACK_OBJECT));
     }
 
     private void setButtonAction() {
         ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("song_object", playlistChooserViewModel.getSongToAdd());
+            bundle.putParcelable(Constants.TRACK_OBJECT, playlistChooserViewModel.getSongToAdd());
 
             PlaylistEditorDialog dialog = new PlaylistEditorDialog();
             dialog.setArguments(bundle);
@@ -98,7 +99,7 @@ public class PlaylistChooserDialog extends DialogFragment implements ClickCallba
 
     @Override
     public void onPlaylistClick(Bundle bundle) {
-        Playlist playlist = bundle.getParcelable("playlist_object");
+        Playlist playlist = bundle.getParcelable(Constants.PLAYLIST_OBJECT);
         playlistChooserViewModel.addSongToPlaylist(playlist.getId());
         dismiss();
     }

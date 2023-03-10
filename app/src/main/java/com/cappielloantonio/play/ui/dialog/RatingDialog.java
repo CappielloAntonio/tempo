@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.DialogRatingBinding;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.viewmodel.RatingViewModel;
 
 public class RatingDialog extends DialogFragment {
@@ -50,12 +51,12 @@ public class RatingDialog extends DialogFragment {
     }
 
     private void setElementInfo() {
-        if (requireArguments().getParcelable("song_object") != null) {
-            ratingViewModel.setSong(requireArguments().getParcelable("song_object"));
-        } else if (requireArguments().getParcelable("album_object") != null) {
-            ratingViewModel.setAlbum(requireArguments().getParcelable("album_object"));
-        } else if (requireArguments().getParcelable("artist_object") != null) {
-            ratingViewModel.setArtist(requireArguments().getParcelable("artist_object"));
+        if (requireArguments().getParcelable(Constants.TRACK_OBJECT) != null) {
+            ratingViewModel.setSong(requireArguments().getParcelable(Constants.TRACK_OBJECT));
+        } else if (requireArguments().getParcelable(Constants.ALBUM_OBJECT) != null) {
+            ratingViewModel.setAlbum(requireArguments().getParcelable(Constants.ALBUM_OBJECT));
+        } else if (requireArguments().getParcelable(Constants.ARTIST_OBJECT) != null) {
+            ratingViewModel.setArtist(requireArguments().getParcelable(Constants.ARTIST_OBJECT));
         }
     }
 

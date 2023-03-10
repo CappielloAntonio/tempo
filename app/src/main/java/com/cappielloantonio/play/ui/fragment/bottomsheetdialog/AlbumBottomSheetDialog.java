@@ -30,6 +30,7 @@ import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
@@ -54,7 +55,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet_album_dialog, container, false);
 
-        album = this.requireArguments().getParcelable("album_object");
+        album = this.requireArguments().getParcelable(Constants.ALBUM_OBJECT);
 
         albumBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(AlbumBottomSheetViewModel.class);
         albumBottomSheetViewModel.setAlbum(album);
@@ -175,7 +176,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
         goToArtist.setOnClickListener(v -> albumBottomSheetViewModel.getArtist().observe(getViewLifecycleOwner(), artist -> {
             if (artist != null) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("artist_object", artist);
+                bundle.putParcelable(Constants.ARTIST_OBJECT, artist);
                 NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
             } else {
                 Toast.makeText(requireContext(), getString(R.string.album_error_retrieving_artist), Toast.LENGTH_SHORT).show();

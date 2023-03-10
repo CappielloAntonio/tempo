@@ -14,11 +14,11 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.ui.adapter.ArtistHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistListPageBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.ui.adapter.ArtistHorizontalAdapter;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.viewmodel.ArtistListPageViewModel;
 
 @UnstableApi
@@ -52,11 +52,11 @@ public class ArtistListPageFragment extends Fragment implements ClickCallback {
     }
 
     private void init() {
-        if (requireArguments().getString(Artist.STARRED) != null) {
-            artistListPageViewModel.title = Artist.STARRED;
+        if (requireArguments().getString(Constants.ARTIST_STARRED) != null) {
+            artistListPageViewModel.title = Constants.ARTIST_STARRED;
             bind.pageTitleLabel.setText(R.string.artist_list_page_starred);
-        } else if (requireArguments().getString(Artist.DOWNLOADED) != null) {
-            artistListPageViewModel.title = Artist.DOWNLOADED;
+        } else if (requireArguments().getString(Constants.ARTIST_DOWNLOADED) != null) {
+            artistListPageViewModel.title = Constants.ARTIST_DOWNLOADED;
             bind.pageTitleLabel.setText(R.string.artist_list_page_downloaded);
         }
     }

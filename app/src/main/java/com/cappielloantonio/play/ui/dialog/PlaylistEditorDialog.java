@@ -14,8 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.ui.adapter.PlaylistDialogSongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.DialogPlaylistEditorBinding;
+import com.cappielloantonio.play.ui.adapter.PlaylistDialogSongHorizontalAdapter;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlaylistEditorViewModel;
 
@@ -63,12 +64,12 @@ public class PlaylistEditorDialog extends DialogFragment {
     }
 
     private void setParameterInfo() {
-        if (requireArguments().getParcelable("song_object") != null) {
-            playlistEditorViewModel.setSongToAdd(requireArguments().getParcelable("song_object"));
+        if (requireArguments().getParcelable(Constants.TRACK_OBJECT) != null) {
+            playlistEditorViewModel.setSongToAdd(requireArguments().getParcelable(Constants.TRACK_OBJECT));
             playlistEditorViewModel.setPlaylistToEdit(null);
-        } else if (requireArguments().getParcelable("playlist_object") != null) {
+        } else if (requireArguments().getParcelable(Constants.PLAYLIST_OBJECT) != null) {
             playlistEditorViewModel.setSongToAdd(null);
-            playlistEditorViewModel.setPlaylistToEdit(requireArguments().getParcelable("playlist_object"));
+            playlistEditorViewModel.setPlaylistToEdit(requireArguments().getParcelable(Constants.PLAYLIST_OBJECT));
 
             if (playlistEditorViewModel.getPlaylistToEdit() != null) {
                 bind.playlistNameTextView.setText(MusicUtil.getReadableString(playlistEditorViewModel.getPlaylistToEdit().getName()));

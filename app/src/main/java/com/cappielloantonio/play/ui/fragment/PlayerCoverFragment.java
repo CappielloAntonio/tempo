@@ -26,6 +26,7 @@ import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.dialog.PlaylistChooserDialog;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
@@ -97,7 +98,7 @@ public class PlayerCoverFragment extends Fragment {
 
                 bind.innerButtonTopRight.setOnClickListener(view -> {
                             Bundle bundle = new Bundle();
-                            bundle.putParcelable("song_object", song);
+                            bundle.putParcelable(Constants.TRACK_OBJECT, song);
 
                             PlaylistChooserDialog dialog = new PlaylistChooserDialog();
                             dialog.setArguments(bundle);

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.databinding.ItemHomeYearBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Media;
+import com.cappielloantonio.play.util.Constants;
 
 import java.util.Collections;
 import java.util.List;
@@ -65,7 +65,7 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {
 
         public void onClick() {
             Bundle bundle = new Bundle();
-            bundle.putString(Media.BY_YEAR, Media.BY_YEAR);
+            bundle.putString(Constants.MEDIA_BY_YEAR, Constants.MEDIA_BY_YEAR);
             bundle.putInt("year_object", years.get(getBindingAdapterPosition()));
 
             click.onYearClick(bundle);

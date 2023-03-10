@@ -16,9 +16,9 @@ import androidx.media3.common.util.UnstableApi;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.FragmentFilterBinding;
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.subsonic.models.Genre;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.FilterViewModel;
 import com.google.android.material.chip.Chip;
@@ -54,7 +54,7 @@ public class FilterFragment extends Fragment {
 
     private void init() {
         Bundle bundle = new Bundle();
-        bundle.putString(Media.BY_GENRES, Media.BY_GENRES);
+        bundle.putString(Constants.MEDIA_BY_GENRES, Constants.MEDIA_BY_GENRES);
         bundle.putStringArrayList("filters_list", filterViewModel.getFilters());
         bundle.putStringArrayList("filter_name_list", filterViewModel.getFilterNames());
         bind.finishFilteringTextViewClickable.setOnClickListener(v -> {

@@ -16,6 +16,7 @@ import com.cappielloantonio.play.databinding.ItemHorizontalTrackBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
@@ -106,15 +107,15 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
 
         public void onClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("songs_object", new ArrayList<>(songs));
-            bundle.putInt("position", getBindingAdapterPosition());
+            bundle.putParcelableArrayList(Constants.TRACKS_OBJECT, new ArrayList<>(songs));
+            bundle.putInt(Constants.ITEM_POSITION, getBindingAdapterPosition());
 
             click.onMediaClick(bundle);
         }
 
         private boolean onLongClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("song_object", songs.get(getBindingAdapterPosition()));
+            bundle.putParcelable(Constants.TRACK_OBJECT, songs.get(getBindingAdapterPosition()));
 
             click.onMediaLongClick(bundle);
 

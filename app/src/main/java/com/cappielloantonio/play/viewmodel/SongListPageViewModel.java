@@ -9,7 +9,6 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.repository.SongRepository;
@@ -17,6 +16,7 @@ import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.subsonic.models.Genre;
+import com.cappielloantonio.play.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,19 +51,19 @@ public class SongListPageViewModel extends AndroidViewModel {
         songList = new MutableLiveData<>(new ArrayList<>());
 
         switch (title) {
-            case Media.BY_GENRE:
+            case Constants.MEDIA_BY_GENRE:
                 songList = songRepository.getSongsByGenre(genre.getGenre());
                 break;
-            case Media.BY_ARTIST:
+            case Constants.MEDIA_BY_ARTIST:
                 songList = artistRepository.getTopSongs(artist.getName(), 50);
                 break;
-            case Media.BY_GENRES:
+            case Constants.MEDIA_BY_GENRES:
                 songList = songRepository.getSongsByGenres(filters);
                 break;
-            case Media.BY_YEAR:
+            case Constants.MEDIA_BY_YEAR:
                 songList = songRepository.getRandomSample(500, year, year + 10);
                 break;
-            case Media.STARRED:
+            case Constants.MEDIA_STARRED:
                 songList = songRepository.getStarredSongs(false, -1);
                 break;
         }

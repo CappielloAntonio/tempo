@@ -27,6 +27,16 @@ import androidx.recyclerview.widget.SnapHelper;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.databinding.FragmentHomeBinding;
+import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
+import com.cappielloantonio.play.helper.recyclerview.DotsIndicatorDecoration;
+import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
+import com.cappielloantonio.play.interfaces.ClickCallback;
+import com.cappielloantonio.play.service.MediaManager;
+import com.cappielloantonio.play.service.MediaService;
+import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.subsonic.models.Playlist;
+import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.adapter.AlbumAdapter;
 import com.cappielloantonio.play.ui.adapter.AlbumHorizontalAdapter;
 import com.cappielloantonio.play.ui.adapter.ArtistAdapter;
@@ -37,19 +47,7 @@ import com.cappielloantonio.play.ui.adapter.PodcastEpisodeAdapter;
 import com.cappielloantonio.play.ui.adapter.SimilarTrackAdapter;
 import com.cappielloantonio.play.ui.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.ui.adapter.YearAdapter;
-import com.cappielloantonio.play.databinding.FragmentHomeBinding;
-import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
-import com.cappielloantonio.play.helper.recyclerview.DotsIndicatorDecoration;
-import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
-import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Album;
-import com.cappielloantonio.play.model.Artist;
-import com.cappielloantonio.play.model.Media;
-import com.cappielloantonio.play.service.MediaManager;
-import com.cappielloantonio.play.service.MediaService;
-import com.cappielloantonio.play.subsonic.models.Child;
-import com.cappielloantonio.play.subsonic.models.Playlist;
-import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.HomeViewModel;
@@ -191,37 +189,37 @@ public class HomeFragment extends Fragment implements ClickCallback {
 
         bind.starredTracksTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Media.STARRED, Media.STARRED);
+            bundle.putString(Constants.MEDIA_STARRED, Constants.MEDIA_STARRED);
             activity.navController.navigate(R.id.action_homeFragment_to_songListPageFragment, bundle);
         });
 
         bind.starredAlbumsTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Album.STARRED, Album.STARRED);
+            bundle.putString(Constants.ALBUM_STARRED, Constants.ALBUM_STARRED);
             activity.navController.navigate(R.id.action_homeFragment_to_albumListPageFragment, bundle);
         });
 
         bind.starredArtistsTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Artist.STARRED, Artist.STARRED);
+            bundle.putString(Constants.ARTIST_STARRED, Constants.ARTIST_STARRED);
             activity.navController.navigate(R.id.action_homeFragment_to_artistListPageFragment, bundle);
         });
 
         bind.recentlyAddedAlbumsTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Album.RECENTLY_ADDED, Album.RECENTLY_ADDED);
+            bundle.putString(Constants.ALBUM_RECENTLY_ADDED, Constants.ALBUM_RECENTLY_ADDED);
             activity.navController.navigate(R.id.action_homeFragment_to_albumListPageFragment, bundle);
         });
 
         bind.recentlyPlayedAlbumsTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Album.RECENTLY_PLAYED, Album.RECENTLY_PLAYED);
+            bundle.putString(Constants.ALBUM_RECENTLY_PLAYED, Constants.ALBUM_RECENTLY_PLAYED);
             activity.navController.navigate(R.id.action_homeFragment_to_albumListPageFragment, bundle);
         });
 
         bind.mostPlayedAlbumsTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Album.MOST_PLAYED, Album.MOST_PLAYED);
+            bundle.putString(Constants.ALBUM_MOST_PLAYED, Constants.ALBUM_MOST_PLAYED);
             activity.navController.navigate(R.id.action_homeFragment_to_albumListPageFragment, bundle);
         });
 
@@ -632,7 +630,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
 
                         genericPlaylistCickableTextView.setOnClickListener(view -> {
                             Bundle bundle = new Bundle();
-                            bundle.putParcelable("playlist_object", playlist);
+                            bundle.putParcelable(Constants.PLAYLIST_OBJECT, playlist);
                             bundle.putBoolean("is_offline", false);
                             activity.navController.navigate(R.id.action_homeFragment_to_playlistPageFragment, bundle);
                         });
@@ -743,22 +741,22 @@ public class HomeFragment extends Fragment implements ClickCallback {
     @Override
     public void onMediaClick(Bundle bundle) {
         if (bundle.containsKey("is_mix")) {
-            MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelable("song_object"));
+            MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelable(Constants.TRACK_OBJECT));
             activity.setBottomSheetInPeek(true);
 
             if (mediaBrowserListenableFuture != null) {
-                homeViewModel.getMediaInstantMix(getViewLifecycleOwner(), bundle.getParcelable("song_object")).observe(getViewLifecycleOwner(), songs -> {
+                homeViewModel.getMediaInstantMix(getViewLifecycleOwner(), bundle.getParcelable(Constants.TRACK_OBJECT)).observe(getViewLifecycleOwner(), songs -> {
                     if (songs.size() > 0) {
                         MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), songs, true);
                     }
                 });
             }
         } else if (bundle.containsKey("is_chronology")) {
-            List<Child> media = bundle.getParcelableArrayList("songs_object");
-            MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), media, bundle.getInt("position"));
+            List<Child> media = bundle.getParcelableArrayList(Constants.TRACKS_OBJECT);
+            MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), media, bundle.getInt(Constants.ITEM_POSITION));
             activity.setBottomSheetInPeek(true);
         } else {
-            MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList("songs_object"), bundle.getInt("position"));
+            MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList(Constants.TRACKS_OBJECT), bundle.getInt(Constants.ITEM_POSITION));
             activity.setBottomSheetInPeek(true);
         }
     }
@@ -786,7 +784,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
                     .show();
 
             if (mediaBrowserListenableFuture != null) {
-                homeViewModel.getArtistInstantMix(bundle.getParcelable("artist_object")).observe(getViewLifecycleOwner(), songs -> {
+                homeViewModel.getArtistInstantMix(bundle.getParcelable(Constants.ARTIST_OBJECT)).observe(getViewLifecycleOwner(), songs -> {
                     if (songs.size() > 0) {
                         MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
                         activity.setBottomSheetInPeek(true);
@@ -795,7 +793,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
             }
         } else if (bundle.containsKey("is_best_of") && bundle.getBoolean("is_best_of")) {
             if (mediaBrowserListenableFuture != null) {
-                homeViewModel.getArtistBestOf(bundle.getParcelable("artist_object")).observe(getViewLifecycleOwner(), songs -> {
+                homeViewModel.getArtistBestOf(bundle.getParcelable(Constants.ARTIST_OBJECT)).observe(getViewLifecycleOwner(), songs -> {
                     if (songs.size() > 0) {
                         MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
                         activity.setBottomSheetInPeek(true);

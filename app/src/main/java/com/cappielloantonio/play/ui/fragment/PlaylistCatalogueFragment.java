@@ -24,13 +24,13 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.ui.adapter.PlaylistHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlaylistCatalogueBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Genre;
 import com.cappielloantonio.play.subsonic.models.Playlist;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.ui.adapter.PlaylistHorizontalAdapter;
 import com.cappielloantonio.play.ui.dialog.PlaylistEditorDialog;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.viewmodel.PlaylistCatalogueViewModel;
 
 import java.util.ArrayList;
@@ -72,10 +72,10 @@ public class PlaylistCatalogueFragment extends Fragment implements ClickCallback
     }
 
     private void init() {
-        if (requireArguments().getString(com.cappielloantonio.play.model.Playlist.ALL) != null) {
-            playlistCatalogueViewModel.setType(com.cappielloantonio.play.model.Playlist.ALL);
-        } else if (requireArguments().getString(com.cappielloantonio.play.model.Playlist.DOWNLOADED) != null) {
-            playlistCatalogueViewModel.setType(com.cappielloantonio.play.model.Playlist.DOWNLOADED);
+        if (requireArguments().getString(Constants.PLAYLIST_ALL) != null) {
+            playlistCatalogueViewModel.setType(Constants.PLAYLIST_ALL);
+        } else if (requireArguments().getString(Constants.PLAYLIST_DOWNLOADED) != null) {
+            playlistCatalogueViewModel.setType(Constants.PLAYLIST_DOWNLOADED);
         }
     }
 
@@ -183,10 +183,10 @@ public class PlaylistCatalogueFragment extends Fragment implements ClickCallback
 
         popup.setOnMenuItemClickListener(menuItem -> {
             if (menuItem.getItemId() == R.id.menu_playlist_sort_name) {
-                playlistHorizontalAdapter.sort(Genre.ORDER_BY_NAME);
+                playlistHorizontalAdapter.sort(Constants.GENRE_ORDER_BY_NAME);
                 return true;
             } else if (menuItem.getItemId() == R.id.menu_playlist_sort_random) {
-                playlistHorizontalAdapter.sort(Genre.ORDER_BY_RANDOM);
+                playlistHorizontalAdapter.sort(Constants.GENRE_ORDER_BY_RANDOM);
                 return true;
             }
 

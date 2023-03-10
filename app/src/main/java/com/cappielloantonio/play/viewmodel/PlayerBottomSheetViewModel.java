@@ -11,13 +11,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.media3.common.util.UnstableApi;
 
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.util.Constants;
 
 import java.util.Collections;
 import java.util.Date;
@@ -85,10 +85,10 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     public void setLiveMedia(LifecycleOwner owner, String mediaType, String mediaId) {
         if (mediaType != null) {
             switch (mediaType) {
-                case Media.MEDIA_TYPE_MUSIC:
+                case Constants.MEDIA_TYPE_MUSIC:
                     songRepository.getSong(mediaId).observe(owner, liveMedia::postValue);
                     break;
-                case Media.MEDIA_TYPE_PODCAST:
+                case Constants.MEDIA_TYPE_PODCAST:
                     liveMedia.postValue(null);
                     break;
             }
@@ -102,10 +102,10 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     public void setLiveArtist(LifecycleOwner owner, String mediaType, String ArtistId) {
         if (mediaType != null) {
             switch (mediaType) {
-                case Media.MEDIA_TYPE_MUSIC:
+                case Constants.MEDIA_TYPE_MUSIC:
                     artistRepository.getArtist(ArtistId).observe(owner, liveArtist::postValue);
                     break;
-                case Media.MEDIA_TYPE_PODCAST:
+                case Constants.MEDIA_TYPE_PODCAST:
                     liveArtist.postValue(null);
                     break;
             }

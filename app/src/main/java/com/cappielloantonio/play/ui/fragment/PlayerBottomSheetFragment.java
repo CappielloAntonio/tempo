@@ -25,9 +25,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.FragmentPlayerBottomSheetBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.fragment.pager.PlayerControllerVerticalPager;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 import com.google.android.material.elevation.SurfaceColors;
@@ -159,13 +159,13 @@ public class PlayerBottomSheetFragment extends Fragment {
 
     private void setMediaControllerUI(MediaBrowser mediaBrowser) {
         if (mediaBrowser.getMediaMetadata().extras != null) {
-            switch (mediaBrowser.getMediaMetadata().extras.getString("type", Media.MEDIA_TYPE_MUSIC)) {
-                case Media.MEDIA_TYPE_PODCAST:
+            switch (mediaBrowser.getMediaMetadata().extras.getString("type", Constants.MEDIA_TYPE_MUSIC)) {
+                case Constants.MEDIA_TYPE_PODCAST:
                     bind.playerHeaderLayout.playerHeaderFastForwardMediaButton.setVisibility(View.VISIBLE);
                     bind.playerHeaderLayout.playerHeaderRewindMediaButton.setVisibility(View.VISIBLE);
                     bind.playerHeaderLayout.playerHeaderNextMediaButton.setVisibility(View.GONE);
                     break;
-                case Media.MEDIA_TYPE_MUSIC:
+                case Constants.MEDIA_TYPE_MUSIC:
                 default:
                     bind.playerHeaderLayout.playerHeaderFastForwardMediaButton.setVisibility(View.GONE);
                     bind.playerHeaderLayout.playerHeaderRewindMediaButton.setVisibility(View.GONE);

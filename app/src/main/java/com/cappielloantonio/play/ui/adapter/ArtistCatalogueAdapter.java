@@ -14,8 +14,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.databinding.ItemLibraryCatalogueArtistBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.ArrayList;
@@ -131,14 +131,14 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
 
         public void onClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
+            bundle.putParcelable(Constants.ARTIST_OBJECT, artists.get(getBindingAdapterPosition()));
 
             click.onArtistClick(bundle);
         }
 
         public boolean onLongClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
+            bundle.putParcelable(Constants.ARTIST_OBJECT, artists.get(getBindingAdapterPosition()));
 
             click.onArtistLongClick(bundle);
 
@@ -148,10 +148,10 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
 
     public void sort(String order) {
         switch (order) {
-            case Artist.ORDER_BY_NAME:
+            case Constants.ARTIST_ORDER_BY_NAME:
                 artists.sort(Comparator.comparing(ArtistID3::getName));
                 break;
-            case Artist.ORDER_BY_RANDOM:
+            case Constants.ARTIST_ORDER_BY_RANDOM:
                 Collections.shuffle(artists);
                 break;
         }

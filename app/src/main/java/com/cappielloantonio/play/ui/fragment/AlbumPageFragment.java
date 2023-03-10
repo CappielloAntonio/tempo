@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.ui.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
@@ -31,6 +30,8 @@ import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.ui.adapter.SongHorizontalAdapter;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
@@ -116,7 +117,7 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
     }
 
     private void init() {
-        albumPageViewModel.setAlbum(requireArguments().getParcelable("album_object"));
+        albumPageViewModel.setAlbum(requireArguments().getParcelable(Constants.ALBUM_OBJECT));
     }
 
     private void initAppBar() {
@@ -142,7 +143,7 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
         bind.albumArtistLabel.setOnClickListener(v -> albumPageViewModel.getArtist().observe(getViewLifecycleOwner(), artist -> {
             if (artist != null) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("artist_object", artist);
+                bundle.putParcelable(Constants.ARTIST_OBJECT, artist);
                 activity.navController.navigate(R.id.action_albumPageFragment_to_artistPageFragment, bundle);
             } else
                 Toast.makeText(requireContext(), getString(R.string.album_error_retrieving_artist), Toast.LENGTH_SHORT).show();
@@ -199,7 +200,7 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
 
     @Override
     public void onMediaClick(Bundle bundle) {
-        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList("songs_object"), bundle.getInt("position"));
+        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList(Constants.TRACKS_OBJECT), bundle.getInt(Constants.ITEM_POSITION));
         activity.setBottomSheetInPeek(true);
     }
 

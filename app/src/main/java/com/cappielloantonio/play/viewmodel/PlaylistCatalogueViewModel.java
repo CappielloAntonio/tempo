@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
 import com.cappielloantonio.play.subsonic.models.Playlist;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.Preferences;
 
 import java.util.ArrayList;
@@ -36,10 +37,10 @@ public class PlaylistCatalogueViewModel extends AndroidViewModel {
         playlistList = new MutableLiveData<>(new ArrayList<>());
 
         switch (type) {
-            case com.cappielloantonio.play.model.Playlist.ALL:
+            case Constants.PLAYLIST_ALL:
                 playlistRepository.getPlaylists(false, -1).observe(owner, playlists -> playlistList.postValue(playlists));
                 break;
-            case com.cappielloantonio.play.model.Playlist.DOWNLOADED:
+            case Constants.PLAYLIST_DOWNLOADED:
                 // TODO
                 //downloadRepository.getLivePlaylist().observe(owner, downloads -> playlistList.setValue(MappingUtil.mapDownloadToPlaylist(downloads)));
                 break;
@@ -57,7 +58,7 @@ public class PlaylistCatalogueViewModel extends AndroidViewModel {
     }
 
     public void unpinPlaylist(List<Playlist> playlists) {
-        if (type.equals(com.cappielloantonio.play.model.Playlist.ALL)) {
+        if (type.equals(Constants.PLAYLIST_ALL)) {
             for (Playlist playlist : playlists) {
                 playlistRepository.delete(playlist);
             }

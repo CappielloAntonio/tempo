@@ -8,11 +8,11 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
+import com.cappielloantonio.play.util.Constants;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,19 +39,19 @@ public class AlbumListPageViewModel extends AndroidViewModel {
         albumList = new MutableLiveData<>(new ArrayList<>());
 
         switch (title) {
-            case Album.RECENTLY_PLAYED:
+            case Constants.ALBUM_RECENTLY_PLAYED:
                 albumRepository.getAlbums("recent", 500, null, null).observe(owner, albums -> albumList.setValue(albums));
                 break;
-            case Album.MOST_PLAYED:
+            case Constants.ALBUM_MOST_PLAYED:
                 albumRepository.getAlbums("frequent", 500, null, null).observe(owner, albums -> albumList.setValue(albums));
                 break;
-            case Album.RECENTLY_ADDED:
+            case Constants.ALBUM_RECENTLY_ADDED:
                 albumRepository.getAlbums("newest", 500, null, null).observe(owner, albums -> albumList.setValue(albums));
                 break;
-            case Album.STARRED:
+            case Constants.ALBUM_STARRED:
                 albumList = albumRepository.getStarredAlbums(false, -1);
                 break;
-            case Album.NEW_RELEASES:
+            case Constants.ALBUM_NEW_RELEASES:
                 int currentYear = Calendar.getInstance().get(Calendar.YEAR);
                 albumRepository.getAlbums("byYear", 500, currentYear, currentYear).observe(owner, albums -> {
                     albums.sort(Comparator.comparing(AlbumID3::getCreated).reversed());

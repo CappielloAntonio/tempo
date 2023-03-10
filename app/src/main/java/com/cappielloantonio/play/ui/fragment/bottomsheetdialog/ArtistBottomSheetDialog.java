@@ -25,6 +25,7 @@ import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.ArtistBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -44,7 +45,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet_artist_dialog, container, false);
 
-        artist = this.requireArguments().getParcelable("artist_object");
+        artist = this.requireArguments().getParcelable(Constants.ARTIST_OBJECT);
 
         artistBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(ArtistBottomSheetViewModel.class);
         artistBottomSheetViewModel.setArtist(artist);

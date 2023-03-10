@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.ui.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlaylistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
@@ -30,6 +29,8 @@ import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.ui.adapter.SongHorizontalAdapter;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
@@ -128,7 +129,7 @@ public class PlaylistPageFragment extends Fragment implements ClickCallback {
     }
 
     private void init() {
-        playlistPageViewModel.setPlaylist(requireArguments().getParcelable("playlist_object"));
+        playlistPageViewModel.setPlaylist(requireArguments().getParcelable(Constants.PLAYLIST_OBJECT));
         playlistPageViewModel.setOffline(requireArguments().getBoolean("is_offline"));
     }
 
@@ -236,7 +237,7 @@ public class PlaylistPageFragment extends Fragment implements ClickCallback {
 
     @Override
     public void onMediaClick(Bundle bundle) {
-        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList("songs_object"), bundle.getInt("position"));
+        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList(Constants.TRACKS_OBJECT), bundle.getInt(Constants.ITEM_POSITION));
         activity.setBottomSheetInPeek(true);
     }
 

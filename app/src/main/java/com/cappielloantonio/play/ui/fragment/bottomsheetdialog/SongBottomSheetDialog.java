@@ -28,14 +28,13 @@ import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.dialog.PlaylistChooserDialog;
 import com.cappielloantonio.play.ui.dialog.RatingDialog;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.SongBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.common.util.concurrent.ListenableFuture;
-
-import java.util.List;
 
 @UnstableApi
 public class SongBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
@@ -51,7 +50,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet_song_dialog, container, false);
 
-        song = requireArguments().getParcelable("song_object");
+        song = requireArguments().getParcelable(Constants.TRACK_OBJECT);
 
         songBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(SongBottomSheetViewModel.class);
         songBottomSheetViewModel.setSong(song);
@@ -98,7 +97,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         });
         favoriteToggle.setOnLongClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("song_object", song);
+            bundle.putParcelable(Constants.TRACK_OBJECT, song);
 
             RatingDialog dialog = new RatingDialog();
             dialog.setArguments(bundle);
@@ -143,7 +142,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         TextView rate = view.findViewById(R.id.rate_text_view);
         rate.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("song_object", song);
+            bundle.putParcelable(Constants.TRACK_OBJECT, song);
 
             RatingDialog dialog = new RatingDialog();
             dialog.setArguments(bundle);
@@ -175,7 +174,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         TextView addToPlaylist = view.findViewById(R.id.add_to_playlist_text_view);
         addToPlaylist.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("song_object", song);
+            bundle.putParcelable(Constants.TRACK_OBJECT, song);
 
             PlaylistChooserDialog dialog = new PlaylistChooserDialog();
             dialog.setArguments(bundle);
@@ -188,7 +187,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         goToAlbum.setOnClickListener(v -> songBottomSheetViewModel.getAlbum().observe(getViewLifecycleOwner(), album -> {
             if (album != null) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("album_object", album);
+                bundle.putParcelable(Constants.ALBUM_OBJECT, album);
                 NavHostFragment.findNavController(this).navigate(R.id.albumPageFragment, bundle);
             } else
                 Toast.makeText(requireContext(), getString(R.string.song_bottom_sheet_error_retrieving_album), Toast.LENGTH_SHORT).show();
@@ -200,7 +199,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         goToArtist.setOnClickListener(v -> songBottomSheetViewModel.getArtist().observe(getViewLifecycleOwner(), artist -> {
             if (artist != null) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("artist_object", artist);
+                bundle.putParcelable(Constants.ARTIST_OBJECT, artist);
                 NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
             } else
                 Toast.makeText(requireContext(), getString(R.string.song_bottom_sheet_error_retrieving_artist), Toast.LENGTH_SHORT).show();

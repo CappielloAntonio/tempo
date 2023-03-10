@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.databinding.ItemLibraryGenreBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.subsonic.models.Genre;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.Collections;
@@ -67,8 +67,8 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
 
         private void onClick() {
             Bundle bundle = new Bundle();
-            bundle.putString(Media.BY_GENRE, Media.BY_GENRE);
-            bundle.putParcelable("genre_object", genres.get(getBindingAdapterPosition()));
+            bundle.putString(Constants.MEDIA_BY_GENRES, Constants.MEDIA_BY_GENRE);
+            bundle.putParcelable(Constants.GENRE_OBJECT, genres.get(getBindingAdapterPosition()));
 
             click.onGenreClick(bundle);
         }

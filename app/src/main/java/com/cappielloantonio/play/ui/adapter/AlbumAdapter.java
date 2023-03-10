@@ -13,6 +13,7 @@ import com.cappielloantonio.play.databinding.ItemLibraryAlbumBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.Collections;
@@ -80,14 +81,14 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
         private void onClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("album_object", albums.get(getBindingAdapterPosition()));
+            bundle.putParcelable(Constants.ALBUM_OBJECT, albums.get(getBindingAdapterPosition()));
 
             click.onAlbumClick(bundle);
         }
 
         private boolean onLongClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("album_object", albums.get(getBindingAdapterPosition()));
+            bundle.putParcelable(Constants.ALBUM_OBJECT, albums.get(getBindingAdapterPosition()));
 
             click.onAlbumLongClick(bundle);
 

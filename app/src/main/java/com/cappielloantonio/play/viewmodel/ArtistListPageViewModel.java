@@ -8,11 +8,11 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.cappielloantonio.play.model.Artist;
 import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.DownloadRepository;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
+import com.cappielloantonio.play.util.Constants;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -39,10 +39,10 @@ public class ArtistListPageViewModel extends AndroidViewModel {
         artistList = new MutableLiveData<>(new ArrayList<>());
 
         switch (title) {
-            case Artist.STARRED:
+            case Constants.ARTIST_STARRED:
                 artistList = artistRepository.getStarredArtists(false, -1);
                 break;
-            case Artist.DOWNLOADED:
+            case Constants.ARTIST_DOWNLOADED:
                 downloadRepository.getLiveDownload().observe(owner, downloads -> {
                     List<Download> unique = downloads
                             .stream()

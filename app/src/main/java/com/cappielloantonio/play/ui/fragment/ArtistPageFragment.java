@@ -23,13 +23,13 @@ import com.cappielloantonio.play.databinding.FragmentArtistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Media;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.adapter.AlbumArtistPageOrSimilarAdapter;
 import com.cappielloantonio.play.ui.adapter.ArtistSimilarAdapter;
 import com.cappielloantonio.play.ui.adapter.SongHorizontalAdapter;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.ArtistPageViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -85,12 +85,12 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
     }
 
     private void init() {
-        artistPageViewModel.setArtist(requireArguments().getParcelable("artist_object"));
+        artistPageViewModel.setArtist(requireArguments().getParcelable(Constants.ARTIST_OBJECT));
 
         bind.mostStreamedSongTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Media.BY_ARTIST, Media.BY_ARTIST);
-            bundle.putParcelable("artist_object", artistPageViewModel.getArtist());
+            bundle.putString(Constants.MEDIA_BY_ARTIST, Constants.MEDIA_BY_ARTIST);
+            bundle.putParcelable(Constants.ARTIST_OBJECT, artistPageViewModel.getArtist());
             activity.navController.navigate(R.id.action_artistPageFragment_to_songListPageFragment, bundle);
         });
     }
@@ -211,7 +211,7 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
 
     @Override
     public void onMediaClick(Bundle bundle) {
-        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList("songs_object"), bundle.getInt("position"));
+        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList(Constants.TRACKS_OBJECT), bundle.getInt(Constants.ITEM_POSITION));
         activity.setBottomSheetInPeek(true);
     }
 

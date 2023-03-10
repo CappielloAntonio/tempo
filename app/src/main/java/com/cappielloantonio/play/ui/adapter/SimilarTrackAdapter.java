@@ -13,6 +13,7 @@ import com.cappielloantonio.play.databinding.ItemHomeSimilarTrackBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.Collections;
@@ -76,7 +77,7 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
 
         public void onClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("song_object", songs.get(getBindingAdapterPosition()));
+            bundle.putParcelable(Constants.TRACK_OBJECT, songs.get(getBindingAdapterPosition()));
             bundle.putBoolean("is_mix", true);
 
             click.onMediaClick(bundle);
@@ -84,7 +85,7 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
 
         public boolean onLongClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("song_object", songs.get(getBindingAdapterPosition()));
+            bundle.putParcelable(Constants.TRACK_OBJECT, songs.get(getBindingAdapterPosition()));
 
             click.onMediaLongClick(bundle);
 

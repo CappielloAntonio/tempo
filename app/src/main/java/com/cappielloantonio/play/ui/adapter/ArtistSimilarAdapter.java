@@ -13,6 +13,7 @@ import com.cappielloantonio.play.databinding.ItemLibrarySimilarArtistBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.subsonic.models.SimilarArtistID3;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 
 import java.util.Collections;
@@ -88,14 +89,14 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
 
         public void onClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
+            bundle.putParcelable(Constants.ARTIST_OBJECT, artists.get(getBindingAdapterPosition()));
 
             click.onArtistClick(bundle);
         }
 
         public boolean onLongClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
+            bundle.putParcelable(Constants.ARTIST_OBJECT, artists.get(getBindingAdapterPosition()));
 
             click.onArtistLongClick(bundle);
 

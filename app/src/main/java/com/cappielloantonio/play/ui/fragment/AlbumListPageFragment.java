@@ -15,11 +15,11 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.ui.adapter.AlbumHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumListPageBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.ui.adapter.AlbumHorizontalAdapter;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.AlbumListPageViewModel;
 
@@ -53,27 +53,27 @@ public class AlbumListPageFragment extends Fragment implements ClickCallback {
     }
 
     private void init() {
-        if (requireArguments().getString(Album.RECENTLY_PLAYED) != null) {
-            albumListPageViewModel.title = Album.RECENTLY_PLAYED;
+        if (requireArguments().getString(Constants.ALBUM_RECENTLY_PLAYED) != null) {
+            albumListPageViewModel.title = Constants.ALBUM_RECENTLY_PLAYED;
             bind.pageTitleLabel.setText(R.string.album_list_page_recently_played);
-        } else if (requireArguments().getString(Album.MOST_PLAYED) != null) {
-            albumListPageViewModel.title = Album.MOST_PLAYED;
+        } else if (requireArguments().getString(Constants.ALBUM_MOST_PLAYED) != null) {
+            albumListPageViewModel.title = Constants.ALBUM_MOST_PLAYED;
             bind.pageTitleLabel.setText(R.string.album_list_page_most_played);
-        } else if (requireArguments().getString(Album.RECENTLY_ADDED) != null) {
-            albumListPageViewModel.title = Album.RECENTLY_ADDED;
+        } else if (requireArguments().getString(Constants.ALBUM_RECENTLY_ADDED) != null) {
+            albumListPageViewModel.title = Constants.ALBUM_RECENTLY_ADDED;
             bind.pageTitleLabel.setText(R.string.album_list_page_recently_added);
-        } else if (requireArguments().getString(Album.STARRED) != null) {
-            albumListPageViewModel.title = Album.STARRED;
+        } else if (requireArguments().getString(Constants.ALBUM_STARRED) != null) {
+            albumListPageViewModel.title = Constants.ALBUM_STARRED;
             bind.pageTitleLabel.setText(R.string.album_list_page_starred);
-        } else if (requireArguments().getString(Album.NEW_RELEASES) != null) {
-            albumListPageViewModel.title = Album.NEW_RELEASES;
+        } else if (requireArguments().getString(Constants.ALBUM_NEW_RELEASES) != null) {
+            albumListPageViewModel.title = Constants.ALBUM_NEW_RELEASES;
             bind.pageTitleLabel.setText(R.string.album_list_page_new_releases);
-        } else if (requireArguments().getString(Album.DOWNLOADED) != null) {
-            albumListPageViewModel.title = Album.DOWNLOADED;
+        } else if (requireArguments().getString(Constants.ALBUM_DOWNLOADED) != null) {
+            albumListPageViewModel.title = Constants.ALBUM_DOWNLOADED;
             bind.pageTitleLabel.setText(R.string.album_list_page_downloaded);
-        } else if (requireArguments().getParcelable("artist_object") != null) {
-            albumListPageViewModel.artist = requireArguments().getParcelable("artist_object");
-            albumListPageViewModel.title = Album.FROM_ARTIST;
+        } else if (requireArguments().getParcelable(Constants.ARTIST_OBJECT) != null) {
+            albumListPageViewModel.artist = requireArguments().getParcelable(Constants.ARTIST_OBJECT);
+            albumListPageViewModel.title = Constants.ALBUM_FROM_ARTIST;
             bind.pageTitleLabel.setText(MusicUtil.getReadableString(albumListPageViewModel.artist.getName()));
         }
     }
@@ -103,7 +103,7 @@ public class AlbumListPageFragment extends Fragment implements ClickCallback {
 
         albumHorizontalAdapter = new AlbumHorizontalAdapter(
                 this,
-                (albumListPageViewModel.title.equals(Album.DOWNLOADED) || albumListPageViewModel.title.equals(Album.FROM_ARTIST))
+                (albumListPageViewModel.title.equals(Constants.ALBUM_DOWNLOADED) || albumListPageViewModel.title.equals(Constants.ALBUM_FROM_ARTIST))
         );
 
         bind.albumListRecyclerView.setAdapter(albumHorizontalAdapter);

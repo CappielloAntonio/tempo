@@ -18,15 +18,16 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.ui.adapter.AlbumAdapter;
-import com.cappielloantonio.play.ui.adapter.ArtistAdapter;
-import com.cappielloantonio.play.ui.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentSearchBinding;
 import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.ui.adapter.AlbumAdapter;
+import com.cappielloantonio.play.ui.adapter.ArtistAdapter;
+import com.cappielloantonio.play.ui.adapter.SongHorizontalAdapter;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.SearchViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -228,7 +229,7 @@ public class SearchFragment extends Fragment implements ClickCallback {
 
     @Override
     public void onMediaClick(Bundle bundle) {
-        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList("songs_object"), bundle.getInt("position"));
+        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList(Constants.TRACKS_OBJECT), bundle.getInt(Constants.ITEM_POSITION));
         activity.setBottomSheetInPeek(true);
     }
 

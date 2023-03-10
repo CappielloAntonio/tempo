@@ -18,16 +18,16 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
+import com.cappielloantonio.play.databinding.FragmentLibraryBinding;
+import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
+import com.cappielloantonio.play.interfaces.ClickCallback;
+import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.adapter.AlbumAdapter;
 import com.cappielloantonio.play.ui.adapter.ArtistAdapter;
 import com.cappielloantonio.play.ui.adapter.GenreAdapter;
 import com.cappielloantonio.play.ui.adapter.PlaylistHorizontalAdapter;
-import com.cappielloantonio.play.databinding.FragmentLibraryBinding;
-import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
-import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Playlist;
-import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.dialog.PlaylistEditorDialog;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.viewmodel.LibraryViewModel;
 import com.google.android.gms.cast.framework.CastButtonFactory;
 
@@ -114,7 +114,7 @@ public class LibraryFragment extends Fragment implements ClickCallback {
         bind.genreCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_genreCatalogueFragment));
         bind.playlistCatalogueTextViewClickable.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(Playlist.ALL, Playlist.ALL);
+            bundle.putString(Constants.PLAYLIST_ALL, Constants.PLAYLIST_ALL);
             activity.navController.navigate(R.id.action_libraryFragment_to_playlistCatalogueFragment, bundle);
         });
 

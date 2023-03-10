@@ -29,9 +29,9 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.FragmentAlbumCatalogueBinding;
 import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
 import com.cappielloantonio.play.interfaces.ClickCallback;
-import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.adapter.AlbumCatalogueAdapter;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.viewmodel.AlbumCatalogueViewModel;
 
 @OptIn(markerClass = UnstableApi.class)
@@ -154,16 +154,16 @@ public class AlbumCatalogueFragment extends Fragment implements ClickCallback {
 
         popup.setOnMenuItemClickListener(menuItem -> {
             if (menuItem.getItemId() == R.id.menu_album_sort_name) {
-                albumAdapter.sort(Album.ORDER_BY_NAME);
+                albumAdapter.sort(Constants.ALBUM_ORDER_BY_NAME);
                 return true;
             } else if (menuItem.getItemId() == R.id.menu_album_sort_artist) {
-                albumAdapter.sort(Album.ORDER_BY_ARTIST);
+                albumAdapter.sort(Constants.ALBUM_ORDER_BY_ARTIST);
                 return true;
             } else if (menuItem.getItemId() == R.id.menu_album_sort_year) {
-                albumAdapter.sort(Album.ORDER_BY_YEAR);
+                albumAdapter.sort(Constants.ALBUM_ORDER_BY_YEAR);
                 return true;
             } else if (menuItem.getItemId() == R.id.menu_album_sort_random) {
-                albumAdapter.sort(Album.ORDER_BY_RANDOM);
+                albumAdapter.sort(Constants.ALBUM_ORDER_BY_RANDOM);
                 return true;
             }
 

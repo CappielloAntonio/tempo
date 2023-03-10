@@ -13,6 +13,7 @@ import com.cappielloantonio.play.databinding.ItemHomeGridTrackBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Chronology;
+import com.cappielloantonio.play.util.Constants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -73,9 +74,9 @@ public class GridTrackAdapter extends RecyclerView.Adapter<GridTrackAdapter.View
 
         public void onClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("songs_object", new ArrayList<>(items));
+            bundle.putParcelableArrayList(Constants.TRACKS_OBJECT, new ArrayList<>(items));
             bundle.putBoolean("is_chronology", true);
-            bundle.putInt("position", getBindingAdapterPosition());
+            bundle.putInt(Constants.ITEM_POSITION, getBindingAdapterPosition());
 
             click.onMediaClick(bundle);
         }

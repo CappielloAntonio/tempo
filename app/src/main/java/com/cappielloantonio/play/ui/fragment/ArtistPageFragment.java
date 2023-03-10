@@ -138,7 +138,7 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
         bind.artistPageShuffleButton.setOnClickListener(v -> {
             artistPageViewModel.getArtistShuffleList().observe(getViewLifecycleOwner(), songs -> {
                 if (songs.size() > 0) {
-                    MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
+                    MediaManager.startQueue(mediaBrowserListenableFuture, songs, 0);
                     activity.setBottomSheetInPeek(true);
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_tracks), Toast.LENGTH_SHORT).show();
@@ -149,7 +149,7 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
         bind.artistPageRadioButton.setOnClickListener(v -> {
             artistPageViewModel.getArtistInstantMix().observe(getViewLifecycleOwner(), songs -> {
                 if (songs.size() > 0) {
-                    MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
+                    MediaManager.startQueue(mediaBrowserListenableFuture, songs, 0);
                     activity.setBottomSheetInPeek(true);
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.artist_error_retrieving_radio), Toast.LENGTH_SHORT).show();
@@ -211,7 +211,7 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
 
     @Override
     public void onMediaClick(Bundle bundle) {
-        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList(Constants.TRACKS_OBJECT), bundle.getInt(Constants.ITEM_POSITION));
+        MediaManager.startQueue(mediaBrowserListenableFuture, bundle.getParcelableArrayList(Constants.TRACKS_OBJECT), bundle.getInt(Constants.ITEM_POSITION));
         activity.setBottomSheetInPeek(true);
     }
 

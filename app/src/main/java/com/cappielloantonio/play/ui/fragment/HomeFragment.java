@@ -680,22 +680,22 @@ public class HomeFragment extends Fragment implements ClickCallback {
     @Override
     public void onMediaClick(Bundle bundle) {
         if (bundle.containsKey(Constants.MEDIA_MIX)) {
-            MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelable(Constants.TRACK_OBJECT));
+            MediaManager.startQueue(mediaBrowserListenableFuture, bundle.getParcelable(Constants.TRACK_OBJECT));
             activity.setBottomSheetInPeek(true);
 
             if (mediaBrowserListenableFuture != null) {
                 homeViewModel.getMediaInstantMix(getViewLifecycleOwner(), bundle.getParcelable(Constants.TRACK_OBJECT)).observe(getViewLifecycleOwner(), songs -> {
-                    if (songs.size() > 0) {
-                        MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), songs, true);
+                    if (songs != null && songs.size() > 0) {
+                        MediaManager.enqueue(mediaBrowserListenableFuture, songs, true);
                     }
                 });
             }
         } else if (bundle.containsKey(Constants.MEDIA_CHRONOLOGY)) {
             List<Child> media = bundle.getParcelableArrayList(Constants.TRACKS_OBJECT);
-            MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), media, bundle.getInt(Constants.ITEM_POSITION));
+            MediaManager.startQueue(mediaBrowserListenableFuture, media, bundle.getInt(Constants.ITEM_POSITION));
             activity.setBottomSheetInPeek(true);
         } else {
-            MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList(Constants.TRACKS_OBJECT), bundle.getInt(Constants.ITEM_POSITION));
+            MediaManager.startQueue(mediaBrowserListenableFuture, bundle.getParcelableArrayList(Constants.TRACKS_OBJECT), bundle.getInt(Constants.ITEM_POSITION));
             activity.setBottomSheetInPeek(true);
         }
     }
@@ -725,7 +725,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
             if (mediaBrowserListenableFuture != null) {
                 homeViewModel.getArtistInstantMix(getViewLifecycleOwner(), bundle.getParcelable(Constants.ARTIST_OBJECT)).observe(getViewLifecycleOwner(), songs -> {
                     if (songs.size() > 0) {
-                        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
+                        MediaManager.startQueue(mediaBrowserListenableFuture, songs, 0);
                         activity.setBottomSheetInPeek(true);
                     }
                 });
@@ -734,7 +734,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
             if (mediaBrowserListenableFuture != null) {
                 homeViewModel.getArtistBestOf(getViewLifecycleOwner(), bundle.getParcelable(Constants.ARTIST_OBJECT)).observe(getViewLifecycleOwner(), songs -> {
                     if (songs.size() > 0) {
-                        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
+                        MediaManager.startQueue(mediaBrowserListenableFuture, songs, 0);
                         activity.setBottomSheetInPeek(true);
                     }
                 });
@@ -756,7 +756,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
 
     @Override
     public void onPodcastClick(Bundle bundle) {
-        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelable(Constants.PODCAST_OBJECT));
+        MediaManager.startQueue(mediaBrowserListenableFuture, bundle.getParcelable(Constants.PODCAST_OBJECT));
         activity.setBottomSheetInPeek(true);
     }
 

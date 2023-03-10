@@ -109,7 +109,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
         TextView playRadio = view.findViewById(R.id.play_radio_text_view);
         playRadio.setOnClickListener(v -> {
-            MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), song);
+            MediaManager.startQueue(mediaBrowserListenableFuture, song);
             ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
 
             songBottomSheetViewModel.getInstantMix(getViewLifecycleOwner(), song).observe(getViewLifecycleOwner(), songs -> {
@@ -119,7 +119,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
                 }
 
                 if (songs.size() > 0) {
-                    MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), songs, true);
+                    MediaManager.enqueue(mediaBrowserListenableFuture, songs, true);
                     dismissBottomSheet();
                 }
             });
@@ -127,14 +127,14 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
         TextView playNext = view.findViewById(R.id.play_next_text_view);
         playNext.setOnClickListener(v -> {
-            MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), song, true);
+            MediaManager.enqueue(mediaBrowserListenableFuture, song, true);
             ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
             dismissBottomSheet();
         });
 
         TextView addToQueue = view.findViewById(R.id.add_to_queue_text_view);
         addToQueue.setOnClickListener(v -> {
-            MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), song, false);
+            MediaManager.enqueue(mediaBrowserListenableFuture, song, false);
             ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
             dismissBottomSheet();
         });

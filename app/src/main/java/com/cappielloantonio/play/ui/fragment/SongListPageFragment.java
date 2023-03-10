@@ -150,7 +150,7 @@ public class SongListPageFragment extends Fragment implements ClickCallback {
             if (bind != null) {
                 bind.songListShuffleImageView.setOnClickListener(v -> {
                     Collections.shuffle(songs);
-                    MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs.subList(0, Math.min(25, songs.size())), 0);
+                    MediaManager.startQueue(mediaBrowserListenableFuture, songs.subList(0, Math.min(25, songs.size())), 0);
                     activity.setBottomSheetInPeek(true);
                 });
             }
@@ -176,7 +176,7 @@ public class SongListPageFragment extends Fragment implements ClickCallback {
 
     @Override
     public void onMediaClick(Bundle bundle) {
-        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList(Constants.TRACKS_OBJECT), bundle.getInt(Constants.ITEM_POSITION));
+        MediaManager.startQueue(mediaBrowserListenableFuture, bundle.getParcelableArrayList(Constants.TRACKS_OBJECT), bundle.getInt(Constants.ITEM_POSITION));
         activity.setBottomSheetInPeek(true);
     }
 

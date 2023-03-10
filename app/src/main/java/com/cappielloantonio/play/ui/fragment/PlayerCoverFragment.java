@@ -108,7 +108,7 @@ public class PlayerCoverFragment extends Fragment {
 
                 bind.innerButtonBottomLeft.setOnClickListener(view -> {
                     playerBottomSheetViewModel.getMediaInstantMix(getViewLifecycleOwner(), song).observe(getViewLifecycleOwner(), media -> {
-                        MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), media, true);
+                        MediaManager.enqueue(mediaBrowserListenableFuture, media, true);
                     });
                 });
 

@@ -22,7 +22,7 @@ public class SongRepository {
     private static final String TAG = "SongRepository";
 
     public MutableLiveData<List<Child>> getStarredSongs(boolean random, int size) {
-        MutableLiveData<List<Child>> starredSongs = new MutableLiveData<>(Collections.EMPTY_LIST);
+        MutableLiveData<List<Child>> starredSongs = new MutableLiveData<>(Collections.emptyList());
 
         App.getSubsonicClientInstance(false)
                 .getAlbumSongListClient()

@@ -112,7 +112,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
                 @Override
                 public void onLoadMedia(List<?> media) {
                     if (media.size() > 0) {
-                        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), (ArrayList<Child>) media, 0);
+                        MediaManager.startQueue(mediaBrowserListenableFuture, (ArrayList<Child>) media, 0);
                         ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
                     }
 
@@ -127,7 +127,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
             albumRepository.getAlbumTracks(album.getId()).observe(getViewLifecycleOwner(), songs -> {
                 Collections.shuffle(songs);
 
-                MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
+                MediaManager.startQueue(mediaBrowserListenableFuture, songs, 0);
                 ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
 
                 dismissBottomSheet();
@@ -136,7 +136,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
         TextView playNext = view.findViewById(R.id.play_next_text_view);
         playNext.setOnClickListener(v -> albumBottomSheetViewModel.getAlbumTracks().observe(getViewLifecycleOwner(), songs -> {
-            MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), songs, true);
+            MediaManager.enqueue(mediaBrowserListenableFuture, songs, true);
             ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
 
             dismissBottomSheet();
@@ -144,7 +144,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
         TextView addToQueue = view.findViewById(R.id.add_to_queue_text_view);
         addToQueue.setOnClickListener(v -> albumBottomSheetViewModel.getAlbumTracks().observe(getViewLifecycleOwner(), songs -> {
-            MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), songs, false);
+            MediaManager.enqueue(mediaBrowserListenableFuture, songs, false);
             ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
 
             dismissBottomSheet();

@@ -55,7 +55,7 @@ public class MusicUtil {
         StringBuilder uri = new StringBuilder();
 
         uri.append(App.getSubsonicClientInstance(false).getUrl());
-        uri.append("download");
+        uri.append("stream");
 
         if (params.containsKey("u") && params.get("u") != null)
             uri.append("?u=").append(params.get("u"));

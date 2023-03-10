@@ -57,7 +57,7 @@ public class MediaManager {
         }
     }
 
-    public static void check(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context) {
+    public static void check(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
@@ -65,7 +65,7 @@ public class MediaManager {
                         if (mediaBrowserListenableFuture.get().getMediaItemCount() < 1) {
                             List<Child> media = getQueueRepository().getMedia();
                             if (media != null && media.size() >= 1) {
-                                init(mediaBrowserListenableFuture, context, media);
+                                init(mediaBrowserListenableFuture, media);
                             }
                         }
                     }
@@ -76,7 +76,7 @@ public class MediaManager {
         }
     }
 
-    public static void init(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, List<Child> media) {
+    public static void init(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, List<Child> media) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
@@ -163,7 +163,7 @@ public class MediaManager {
         }
     }
 
-    public static void startQueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, List<Child> media, int startIndex) {
+    public static void startQueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, List<Child> media, int startIndex) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
@@ -182,7 +182,7 @@ public class MediaManager {
         }
     }
 
-    public static void startQueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, Child media) {
+    public static void startQueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Child media) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
@@ -200,7 +200,7 @@ public class MediaManager {
         }
     }
 
-    public static void enqueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, List<Child> media, boolean playImmediatelyAfter) {
+    public static void enqueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, List<Child> media, boolean playImmediatelyAfter) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {
@@ -220,7 +220,7 @@ public class MediaManager {
         }
     }
 
-    public static void enqueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Context context, Child media, boolean playImmediatelyAfter) {
+    public static void enqueue(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, Child media, boolean playImmediatelyAfter) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
                 try {

@@ -197,17 +197,17 @@ public class HomeViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Child>> getArtistInstantMix(LifecycleOwner owner, ArtistID3 artist) {
-        if (artistInstantMix.getValue() == null) {
-            artistRepository.getTopSongs(artist.getName(), 10).observe(owner, artistInstantMix::postValue);
-        }
+        artistInstantMix.setValue(Collections.emptyList());
+
+        artistRepository.getTopSongs(artist.getName(), 10).observe(owner, artistInstantMix::postValue);
 
         return artistInstantMix;
     }
 
     public LiveData<List<Child>> getArtistBestOf(LifecycleOwner owner, ArtistID3 artist) {
-        if (bestOfArtists.getValue() == null) {
-            artistRepository.getTopSongs(artist.getName(), 10).observe(owner, artistBestOf::postValue);
-        }
+        artistBestOf.setValue(Collections.emptyList());
+
+        artistRepository.getTopSongs(artist.getName(), 10).observe(owner, artistBestOf::postValue);
 
         return artistBestOf;
     }

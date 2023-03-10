@@ -154,13 +154,13 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
         albumPageViewModel.getAlbumSongLiveList().observe(getViewLifecycleOwner(), songs -> {
             if (bind != null && !songs.isEmpty()) {
                 bind.albumPagePlayButton.setOnClickListener(v -> {
-                    MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
+                    MediaManager.startQueue(mediaBrowserListenableFuture, songs, 0);
                     activity.setBottomSheetInPeek(true);
                 });
 
                 bind.albumPageShuffleButton.setOnClickListener(v -> {
                     Collections.shuffle(songs);
-                    MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), songs, 0);
+                    MediaManager.startQueue(mediaBrowserListenableFuture, songs, 0);
                     activity.setBottomSheetInPeek(true);
                 });
             }
@@ -200,7 +200,7 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
 
     @Override
     public void onMediaClick(Bundle bundle) {
-        MediaManager.startQueue(mediaBrowserListenableFuture, requireContext(), bundle.getParcelableArrayList(Constants.TRACKS_OBJECT), bundle.getInt(Constants.ITEM_POSITION));
+        MediaManager.startQueue(mediaBrowserListenableFuture, bundle.getParcelableArrayList(Constants.TRACKS_OBJECT), bundle.getInt(Constants.ITEM_POSITION));
         activity.setBottomSheetInPeek(true);
     }
 

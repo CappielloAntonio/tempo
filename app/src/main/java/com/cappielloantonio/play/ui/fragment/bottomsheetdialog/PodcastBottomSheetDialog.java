@@ -83,7 +83,7 @@ public class PodcastBottomSheetDialog extends BottomSheetDialogFragment implemen
         TextView playNext = view.findViewById(R.id.play_next_text_view);
         playNext.setOnClickListener(v -> {
             // TODO
-            // MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), podcast, true);
+            // MediaManager.enqueue(mediaBrowserListenableFuture, podcast, true);
             ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
             dismissBottomSheet();
         });
@@ -91,7 +91,7 @@ public class PodcastBottomSheetDialog extends BottomSheetDialogFragment implemen
         TextView addToQueue = view.findViewById(R.id.add_to_queue_text_view);
         addToQueue.setOnClickListener(v -> {
             // TODO
-            // MediaManager.enqueue(mediaBrowserListenableFuture, requireContext(), podcast, false);
+            // MediaManager.enqueue(mediaBrowserListenableFuture, podcast, false);
             ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
             dismissBottomSheet();
         });

@@ -205,7 +205,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initService() {
-        MediaManager.check(getMediaBrowserListenableFuture(), this);
+        MediaManager.check(getMediaBrowserListenableFuture());
 
         getMediaBrowserListenableFuture().addListener(() -> {
             try {

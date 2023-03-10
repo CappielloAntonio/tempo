@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
+import com.cappielloantonio.play.ui.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;

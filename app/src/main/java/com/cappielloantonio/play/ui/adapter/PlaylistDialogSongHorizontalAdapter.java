@@ -1,4 +1,4 @@
-package com.cappielloantonio.play.adapter;
+package com.cappielloantonio.play.ui.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;

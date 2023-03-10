@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.adapter.PlaylistDialogSongHorizontalAdapter;
+import com.cappielloantonio.play.ui.adapter.PlaylistDialogSongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.DialogPlaylistEditorBinding;
 import com.cappielloantonio.play.util.MusicUtil;
 import com.cappielloantonio.play.viewmodel.PlaylistEditorViewModel;

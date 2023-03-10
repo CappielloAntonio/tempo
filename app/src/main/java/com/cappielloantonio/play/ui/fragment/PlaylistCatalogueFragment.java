@@ -24,7 +24,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.adapter.PlaylistHorizontalAdapter;
+import com.cappielloantonio.play.ui.adapter.PlaylistHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentPlaylistCatalogueBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Genre;

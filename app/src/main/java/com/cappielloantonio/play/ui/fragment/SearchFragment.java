@@ -18,9 +18,9 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.adapter.AlbumAdapter;
-import com.cappielloantonio.play.adapter.ArtistAdapter;
-import com.cappielloantonio.play.adapter.SongHorizontalAdapter;
+import com.cappielloantonio.play.ui.adapter.AlbumAdapter;
+import com.cappielloantonio.play.ui.adapter.ArtistAdapter;
+import com.cappielloantonio.play.ui.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentSearchBinding;
 import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.play.interfaces.ClickCallback;

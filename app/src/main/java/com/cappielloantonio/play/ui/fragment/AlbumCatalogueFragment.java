@@ -16,22 +16,25 @@ import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.OptIn;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.util.UnstableApi;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.adapter.AlbumCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentAlbumCatalogueBinding;
 import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Album;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.ui.adapter.AlbumCatalogueAdapter;
 import com.cappielloantonio.play.viewmodel.AlbumCatalogueViewModel;
 
+@OptIn(markerClass = UnstableApi.class)
 public class AlbumCatalogueFragment extends Fragment implements ClickCallback {
     private static final String TAG = "ArtistCatalogueFragment";
 

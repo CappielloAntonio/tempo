@@ -1,16 +1,16 @@
-package com.cappielloantonio.play.adapter;
+package com.cappielloantonio.play.ui.adapter;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.media3.common.util.UnstableApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.cappielloantonio.play.databinding.ItemHorizontalArtistBinding;
+import com.cappielloantonio.play.databinding.ItemLibraryArtistBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
@@ -19,20 +19,25 @@ import com.cappielloantonio.play.util.MusicUtil;
 import java.util.Collections;
 import java.util.List;
 
-public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizontalAdapter.ViewHolder> {
+@UnstableApi
+public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder> {
     private final ClickCallback click;
+    private final boolean mix;
+    private final boolean bestOf;
 
     private List<ArtistID3> artists;
 
-    public ArtistHorizontalAdapter(ClickCallback click) {
+    public ArtistAdapter(ClickCallback click, Boolean mix, Boolean bestOf) {
         this.click = click;
+        this.mix = mix;
+        this.bestOf = bestOf;
         this.artists = Collections.emptyList();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemHorizontalArtistBinding view = ItemHorizontalArtistBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ItemLibraryArtistBinding view = ItemLibraryArtistBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(view);
     }
 
@@ -40,13 +45,7 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
     public void onBindViewHolder(ViewHolder holder, int position) {
         ArtistID3 artist = artists.get(position);
 
-        holder.item.artistNameTextView.setText(MusicUtil.getReadableString(artist.getName()));
-
-        if (artist.getAlbumCount() > 0) {
-            holder.item.artistInfoTextView.setText("Album count: " + artist.getAlbumCount());
-        } else {
-            holder.item.artistInfoTextView.setVisibility(View.GONE);
-        }
+        holder.item.artistNameLabel.setText(MusicUtil.getReadableString(artist.getName()));
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), artist.getCoverArtId(), CustomGlideRequest.ARTIST_PIC, null)
@@ -60,13 +59,13 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
         return artists.size();
     }
 
+    public ArtistID3 getItem(int position) {
+        return artists.get(position);
+    }
+
     public void setItems(List<ArtistID3> artists) {
         this.artists = artists;
         notifyDataSetChanged();
-    }
-
-    public ArtistID3 getItem(int id) {
-        return artists.get(id);
     }
 
     @Override
@@ -80,24 +79,24 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ItemHorizontalArtistBinding item;
+        ItemLibraryArtistBinding item;
 
-        ViewHolder(ItemHorizontalArtistBinding item) {
+        ViewHolder(ItemLibraryArtistBinding item) {
             super(item.getRoot());
 
             this.item = item;
 
-            item.artistNameTextView.setSelected(true);
+            item.artistNameLabel.setSelected(true);
 
             itemView.setOnClickListener(v -> onClick());
             itemView.setOnLongClickListener(v -> onLongClick());
-
-            item.artistMoreButton.setOnClickListener(v -> onLongClick());
         }
 
-        private void onClick() {
+        public void onClick() {
             Bundle bundle = new Bundle();
             bundle.putParcelable("artist_object", artists.get(getBindingAdapterPosition()));
+            bundle.putBoolean("is_mix", mix);
+            bundle.putBoolean("is_best_of", bestOf);
 
             click.onArtistClick(bundle);
         }

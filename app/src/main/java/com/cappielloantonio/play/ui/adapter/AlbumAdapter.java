@@ -1,4 +1,4 @@
-package com.cappielloantonio.play.adapter;
+package com.cappielloantonio.play.ui.adapter;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.cappielloantonio.play.databinding.ItemLibraryArtistPageOrSimilarAlbumBinding;
+import com.cappielloantonio.play.databinding.ItemLibraryAlbumBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
@@ -18,12 +18,12 @@ import com.cappielloantonio.play.util.MusicUtil;
 import java.util.Collections;
 import java.util.List;
 
-public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumArtistPageOrSimilarAdapter.ViewHolder> {
+public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
     private final ClickCallback click;
 
     private List<AlbumID3> albums;
 
-    public AlbumArtistPageOrSimilarAdapter(ClickCallback click) {
+    public AlbumAdapter(ClickCallback click) {
         this.click = click;
         this.albums = Collections.emptyList();
     }
@@ -31,7 +31,7 @@ public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumA
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemLibraryArtistPageOrSimilarAlbumBinding view = ItemLibraryArtistPageOrSimilarAlbumBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ItemLibraryAlbumBinding view = ItemLibraryAlbumBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(view);
     }
 
@@ -46,7 +46,7 @@ public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumA
                 .from(holder.itemView.getContext(), album.getCoverArtId(), CustomGlideRequest.ALBUM_PIC, null)
                 .build()
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
-                .into(holder.item.artistPageAlbumCoverImageView);
+                .into(holder.item.albumCoverImageView);
     }
 
     @Override
@@ -64,9 +64,9 @@ public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumA
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ItemLibraryArtistPageOrSimilarAlbumBinding item;
+        ItemLibraryAlbumBinding item;
 
-        ViewHolder(ItemLibraryArtistPageOrSimilarAlbumBinding item) {
+        ViewHolder(ItemLibraryAlbumBinding item) {
             super(item.getRoot());
 
             this.item = item;

@@ -20,7 +20,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.adapter.DownloadHorizontalAdapter;
+import com.cappielloantonio.play.ui.adapter.DownloadHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentDownloadBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.service.MediaManager;

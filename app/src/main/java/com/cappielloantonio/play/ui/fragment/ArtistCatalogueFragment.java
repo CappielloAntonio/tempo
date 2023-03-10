@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.adapter.ArtistCatalogueAdapter;
+import com.cappielloantonio.play.ui.adapter.ArtistCatalogueAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistCatalogueBinding;
 import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
 import com.cappielloantonio.play.interfaces.ClickCallback;

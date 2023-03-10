@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.adapter.PlaylistDialogHorizontalAdapter;
+import com.cappielloantonio.play.ui.adapter.PlaylistDialogHorizontalAdapter;
 import com.cappielloantonio.play.databinding.DialogPlaylistChooserBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.subsonic.models.Playlist;

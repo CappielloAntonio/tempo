@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cappielloantonio.play.adapter.PlayerSongQueueAdapter;
+import com.cappielloantonio.play.ui.adapter.PlayerSongQueueAdapter;
 import com.cappielloantonio.play.databinding.InnerFragmentPlayerQueueBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.service.MediaManager;

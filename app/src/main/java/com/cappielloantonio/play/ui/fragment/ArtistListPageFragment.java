@@ -14,7 +14,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.adapter.ArtistHorizontalAdapter;
+import com.cappielloantonio.play.ui.adapter.ArtistHorizontalAdapter;
 import com.cappielloantonio.play.databinding.FragmentArtistListPageBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.model.Artist;

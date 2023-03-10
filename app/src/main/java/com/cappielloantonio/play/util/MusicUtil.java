@@ -41,16 +41,10 @@ public class MusicUtil {
             uri.append("&v=").append(params.get("v"));
         if (params.containsKey("c") && params.get("c") != null)
             uri.append("&c=").append(params.get("c"));
+
+        uri.append("&maxBitRate=").append(getBitratePreference(context));
+        uri.append("&format=").append(getTranscodingFormatPreference(context));
         uri.append("&id=").append(id);
-
-        if (getConnectivityManager(context).getActiveNetworkInfo() != null) {
-            uri.append("&maxBitRate=")
-                    .append(getBitratePreference(context))
-                    .append("&format=")
-                    .append(getTranscodingFormatPreference(context));
-        }
-
-        // Log.d(TAG, "getStreamUri(): " + uri);
 
         return Uri.parse(uri.toString());
     }
@@ -61,7 +55,7 @@ public class MusicUtil {
         StringBuilder uri = new StringBuilder();
 
         uri.append(App.getSubsonicClientInstance(App.getInstance(), false).getUrl());
-        uri.append("stream");
+        uri.append("download");
 
         if (params.containsKey("u") && params.get("u") != null)
             uri.append("?u=").append(params.get("u"));
@@ -75,9 +69,8 @@ public class MusicUtil {
             uri.append("&v=").append(params.get("v"));
         if (params.containsKey("c") && params.get("c") != null)
             uri.append("&c=").append(params.get("c"));
-        uri.append("&id=").append(id);
 
-        // Log.d(TAG, "getDownloadUri(): " + uri);
+        uri.append("&id=").append(id);
 
         return Uri.parse(uri.toString());
     }

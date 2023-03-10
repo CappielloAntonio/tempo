@@ -67,6 +67,12 @@
         <item name="android:textColor">@color/subtitleTextColor</item>
     </style>
 
+    <style name="LabelExtraSmall" parent="InterFontFamily">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textFontWeight">300</item>
+        <item name="android:textColor">@color/subtitleTextColor</item>
+    </style>
+
 
     <style name="BodyLarge" parent="InterFontFamily">
         <item name="android:textSize">24sp</item>

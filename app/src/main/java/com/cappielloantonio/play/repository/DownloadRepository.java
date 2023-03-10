@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData;
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.DownloadDao;
 import com.cappielloantonio.play.model.Download;
-import com.cappielloantonio.play.util.Preferences;
 
 import java.util.List;
 
@@ -21,30 +20,6 @@ public class DownloadRepository {
 
     public LiveData<List<Download>> getLiveDownload() {
         return downloadDao.getAll();
-    }
-
-    public LiveData<List<Download>> getLiveDownloadSample(int size, boolean isArtist, boolean isAlbum, boolean isTrack, boolean isPlaylist) {
-        if (isArtist) return downloadDao.getSampleArtist(size);
-        else if (isAlbum) return downloadDao.getSampleAlbum(size);
-        else if (isTrack) return downloadDao.getSample(size);
-        else if (isPlaylist) return downloadDao.getSamplePlaylist(size);
-        else return downloadDao.getSample(size);
-    }
-
-    public LiveData<List<Download>> getLiveDownloadFromArtist(String artistId) {
-        return downloadDao.getAllFromArtist(artistId);
-    }
-
-    public LiveData<List<Download>> getLiveDownloadFromAlbum(String albumId) {
-        return downloadDao.getAllFromAlbum(albumId);
-    }
-
-    public LiveData<List<Download>> getLiveDownloadFromPlaylist(String playlistId) {
-        return downloadDao.getAllFromPlaylist(playlistId);
-    }
-
-    public LiveData<List<Download>> getLivePlaylist() {
-        return downloadDao.getAllPlaylists();
     }
 
     public void insert(Download download) {

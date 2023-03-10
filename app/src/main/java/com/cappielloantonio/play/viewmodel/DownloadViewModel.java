@@ -34,50 +34,8 @@ public class DownloadViewModel extends AndroidViewModel {
         downloadRepository = new DownloadRepository(application);
     }
 
-    public LiveData<List<ArtistID3>> getDownloadedArtists(LifecycleOwner owner, int size) {
-        downloadRepository.getLiveDownloadSample(size, true, false, false, false)
-                .observe(owner, downloads -> downloadedArtistSample.postValue(downloads.stream().map(download -> {
-                    ArtistID3 artist = new ArtistID3();
-                    artist.setId(download.getArtistId());
-                    artist.setName(download.getArtist());
-                    artist.setCoverArtId(download.getCoverArtId());
-                    // artist.setAlbumCount(0);
-                    // artist.setStarred(null);
-                    return artist;
-                }).collect(Collectors.toList())));
-
-        return downloadedArtistSample;
-    }
-
-    public LiveData<List<AlbumID3>> getDownloadedAlbums(LifecycleOwner owner, int size) {
-        downloadRepository.getLiveDownloadSample(size, false, true, false, false)
-                .observe(owner, downloads -> downloadedAlbumSample.postValue(downloads.stream().map(download -> {
-                    AlbumID3 album = new AlbumID3();
-                    album.setId(download.getAlbumId());
-                    album.setName(download.getAlbum());
-                    album.setArtist(album.getArtist());
-                    album.setArtistId(album.getArtistId());
-                    album.setCoverArtId(album.getCoverArtId());
-                    // album.setSongCount(0);
-                    // album.setDuration(0);
-                    // album.setPlayCount(null);
-                    // album.setCreated(null);
-                    // album.setStarred(null);
-                    album.setYear(album.getYear());
-                    // album.setGenre(null);
-                    return album;
-                }).collect(Collectors.toList())));
-
-        return downloadedAlbumSample;
-    }
-
-    public LiveData<List<Child>> getDownloadedTracks(LifecycleOwner owner, int size) {
-        downloadRepository.getLiveDownloadSample(size, false, false, true, false).observe(owner, downloads -> downloadedTrackSample.postValue(downloads.stream().map(download -> (Child) download).collect(Collectors.toList())));
+    public LiveData<List<Child>> getDownloadedTracks(LifecycleOwner owner) {
+        downloadRepository.getLiveDownload().observe(owner, downloads -> downloadedTrackSample.postValue(downloads.stream().map(download -> (Child) download).collect(Collectors.toList())));
         return downloadedTrackSample;
-    }
-
-    public LiveData<List<Playlist>> getDownloadedPlaylists(LifecycleOwner owner, int size) {
-        downloadRepository.getLiveDownloadSample(size, false, false, false, true).observe(owner, downloads -> downloadedPlaylistSample.postValue(MappingUtil.mapDownloadToPlaylist(downloads)));
-        return downloadedPlaylistSample;
     }
 }

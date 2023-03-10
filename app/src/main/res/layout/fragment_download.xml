@@ -79,7 +79,6 @@
         android:id="@+id/fragment_download_nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -89,118 +88,6 @@
             android:orientation="vertical"
             android:paddingBottom="@dimen/global_padding_bottom">
 
-            <!--  Downloaded artist -->
-            <LinearLayout
-                android:id="@+id/download_downloaded_artist_sector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <!--  Label and button  -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp">
-
-                    <TextView
-                        android:id="@+id/downloaded_artist_text_view_refreshable"
-                        style="@style/TitleLarge"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingStart="8dp"
-                        android:paddingTop="8dp"
-                        android:paddingEnd="8dp"
-                        android:text="@string/download_title_artist_section" />
-
-
-                    <TextView
-                        android:id="@+id/downloaded_artist_text_view_clickable"
-                        style="@style/TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="8dp"
-                        android:paddingTop="8dp"
-                        android:paddingEnd="8dp"
-                        android:text="@string/download_title_artist_see_all_button" />
-
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/downloaded_artist_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:clipToPadding="false"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp" />
-            </LinearLayout>
-
-            <include
-                android:id="@+id/download_downloaded_artist_placeholder"
-                layout="@layout/item_placeholder_album"
-                android:visibility="gone" />
-
-            <!--  Downloaded albums -->
-            <LinearLayout
-                android:id="@+id/download_downloaded_album_sector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <!--  Label and button  -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingStart="8dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="8dp">
-
-                    <TextView
-                        android:id="@+id/downloaded_album_text_view_refreshable"
-                        style="@style/TitleLarge"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingStart="8dp"
-                        android:paddingTop="12dp"
-                        android:paddingEnd="8dp"
-                        android:text="@string/download_title_album_section" />
-
-
-                    <TextView
-                        android:id="@+id/downloaded_album_text_view_clickable"
-                        style="@style/TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="8dp"
-                        android:paddingTop="12dp"
-                        android:paddingEnd="8dp"
-                        android:text="@string/download_title_album_see_all" />
-
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/downloaded_album_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:clipToPadding="false"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp" />
-            </LinearLayout>
-
-            <include
-                android:id="@+id/download_downloaded_album_placeholder"
-                layout="@layout/item_placeholder_album"
-                android:visibility="gone" />
-
             <!-- Downloaded tracks -->
             <LinearLayout
                 android:id="@+id/download_downloaded_tracks_sector"
@@ -208,108 +95,27 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!--  Label and button  -->
-                <LinearLayout
+                <TextView
+                    android:id="@+id/downloaded_tracks_text_view_refreshable"
+                    style="@style/TitleLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingStart="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:paddingStart="16dp"
                     android:paddingTop="8dp"
-                    android:paddingEnd="8dp">
-
-                    <TextView
-                        android:id="@+id/downloaded_tracks_text_view_refreshable"
-                        style="@style/TitleLarge"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingStart="8dp"
-                        android:paddingTop="12dp"
-                        android:paddingEnd="8dp"
-                        android:text="@string/download_title_tracks_section" />
-
-
-                    <TextView
-                        android:id="@+id/downloaded_tracks_text_view_clickable"
-                        style="@style/TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="8dp"
-                        android:paddingTop="12dp"
-                        android:paddingEnd="8dp"
-                        android:text="@string/download_title_tracks_see_all_button" />
-
-                </LinearLayout>
+                    android:paddingEnd="16dp"
+                    android:text="@string/download_title_tracks_section" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/downloaded_tracks_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
                     android:clipToPadding="false"
-                    android:paddingTop="8dp"
                     android:paddingBottom="8dp" />
             </LinearLayout>
 
             <include
                 android:id="@+id/download_downloaded_tracks_placeholder"
-                layout="@layout/item_placeholder_horizontal"
-                android:visibility="gone" />
-
-            <LinearLayout
-                android:id="@+id/download_downloaded_playlist_sector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="8dp">
-
-                <!--  Label and button  -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingStart="8dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="8dp">
-
-                    <TextView
-                        android:id="@+id/downloaded_playlist_text_view_refreshable"
-                        style="@style/TitleLarge"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingStart="8dp"
-                        android:paddingTop="12dp"
-                        android:paddingEnd="8dp"
-                        android:text="@string/download_title_playlist_section" />
-
-
-                    <TextView
-                        android:id="@+id/downloaded_playlist_text_view_clickable"
-                        style="@style/TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="8dp"
-                        android:paddingTop="12dp"
-                        android:paddingEnd="8dp"
-                        android:text="@string/download_title_playlist_see_all_button" />
-
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/downloaded_playlist_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:clipToPadding="false"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp" />
-            </LinearLayout>
-
-            <include
-                android:id="@+id/download_downloaded_playlist_placeholder"
                 layout="@layout/item_placeholder_horizontal"
                 android:visibility="gone" />
         </LinearLayout>

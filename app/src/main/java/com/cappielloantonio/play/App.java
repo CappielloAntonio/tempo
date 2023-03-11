@@ -9,7 +9,6 @@ import androidx.preference.PreferenceManager;
 import com.cappielloantonio.play.helper.ThemeHelper;
 import com.cappielloantonio.play.subsonic.Subsonic;
 import com.cappielloantonio.play.subsonic.SubsonicPreferences;
-import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.Preferences;
 import com.google.android.material.color.DynamicColors;
 
@@ -30,7 +29,7 @@ public class App extends Application {
 
         instance = new App();
         context = getApplicationContext();
-        preferences = getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE);
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     public static App getInstance() {
@@ -58,7 +57,7 @@ public class App extends Application {
 
     public SharedPreferences getPreferences() {
         if (preferences == null) {
-            preferences = getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE);
+            preferences = PreferenceManager.getDefaultSharedPreferences(context);
         }
 
         return preferences;

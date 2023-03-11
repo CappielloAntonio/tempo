@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class MusicUtil {
@@ -122,7 +121,7 @@ public class MusicUtil {
                     .replaceAll("&#34;", "\"")
                     .replaceAll("&#39;", "'")
                     .replaceAll("&amp;", "'")
-                    .replaceAll("<a[\\s]+([^>]+)>((?:.(?!</a>))*.)</a>", "");
+                    .replaceAll("<a\\s+([^>]+)>((?:.(?!</a>))*.)</a>", "");
         }
 
         return "";
@@ -135,18 +134,6 @@ public class MusicUtil {
                     .replaceAll("&#39;", "'")
                     .replaceAll("&amp;", "'")
                     .replaceAll("&#xA;", "\n");
-        }
-
-        return "";
-    }
-
-    public static String normalizedArtistName(String string) {
-        if (string != null) {
-            if (string.toLowerCase().contains(" feat."))
-                return Pattern.compile(" feat.", Pattern.CASE_INSENSITIVE).split(string)[0].trim();
-            else if (string.toLowerCase().contains(" featuring"))
-                return Pattern.compile(" featuring", Pattern.CASE_INSENSITIVE).split(string)[0].trim();
-            else return string;
         }
 
         return "";

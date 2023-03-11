@@ -7,7 +7,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.cappielloantonio.play.subsonic.models.Child
 import com.cappielloantonio.play.util.Preferences
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import java.util.*
 
 @Keep

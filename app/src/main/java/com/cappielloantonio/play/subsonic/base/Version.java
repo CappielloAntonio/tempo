@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 public class Version implements Comparable<Version> {
 
-    private static final String VERSION_PATTERN = "[0-9]+(\\.[0-9]+)*";
+    private static final String VERSION_PATTERN = "\\d+(\\.\\d+)*";
     private final String versionString;
 
     public static Version of(String versionString) {

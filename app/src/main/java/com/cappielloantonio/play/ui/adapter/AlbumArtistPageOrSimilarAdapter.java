@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cappielloantonio.play.databinding.ItemLibraryArtistPageOrSimilarAlbumBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
@@ -44,8 +45,9 @@ public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumA
         holder.item.artistNameLabel.setText(MusicUtil.getReadableString(album.getArtist()));
 
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), album.getCoverArtId(), CustomGlideRequest.ALBUM_PIC, null)
+                .from(holder.itemView.getContext(), album.getCoverArtId(), CustomGlideRequest.ALBUM_PIC)
                 .build()
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.item.artistPageAlbumCoverImageView);
     }

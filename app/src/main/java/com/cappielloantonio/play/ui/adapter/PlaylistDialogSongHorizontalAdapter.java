@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cappielloantonio.play.databinding.ItemHorizontalPlaylistDialogTrackBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.subsonic.models.Child;
@@ -39,8 +40,9 @@ public class PlaylistDialogSongHorizontalAdapter extends RecyclerView.Adapter<Pl
         holder.item.playlistDialogSongDurationTextView.setText(MusicUtil.getReadableDurationString(song.getDuration(), false));
 
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), song.getCoverArtId(), CustomGlideRequest.SONG_PIC, null)
+                .from(holder.itemView.getContext(), song.getCoverArtId(), CustomGlideRequest.SONG_PIC)
                 .build()
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.item.playlistDialogSongCoverImageView);
     }

@@ -20,6 +20,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.MediaCallback;
@@ -81,8 +82,9 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
     private void init(View view) {
         ImageView coverAlbum = view.findViewById(R.id.album_cover_image_view);
         CustomGlideRequest.Builder
-                .from(requireContext(), albumBottomSheetViewModel.getAlbum().getCoverArtId(), CustomGlideRequest.ALBUM_PIC, null)
+                .from(requireContext(), albumBottomSheetViewModel.getAlbum().getCoverArtId(), CustomGlideRequest.ALBUM_PIC)
                 .build()
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(coverAlbum);
 

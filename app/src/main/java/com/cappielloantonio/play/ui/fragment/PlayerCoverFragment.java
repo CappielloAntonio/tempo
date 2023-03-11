@@ -20,6 +20,7 @@ import androidx.media3.session.SessionToken;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cappielloantonio.play.databinding.InnerFragmentPlayerCoverBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Download;
@@ -157,8 +158,9 @@ public class PlayerCoverFragment extends Fragment {
 
     private void setCover(MediaMetadata mediaMetadata) {
         CustomGlideRequest.Builder
-                .from(requireContext(), mediaMetadata.extras != null ? mediaMetadata.extras.getString("coverArtId") : null, CustomGlideRequest.SONG_PIC, null)
+                .from(requireContext(), mediaMetadata.extras != null ? mediaMetadata.extras.getString("coverArtId") : null, CustomGlideRequest.SONG_PIC)
                 .build()
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(bind.nowPlayingSongCoverImageView);
     }

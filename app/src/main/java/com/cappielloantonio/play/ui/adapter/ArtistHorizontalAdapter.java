@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cappielloantonio.play.databinding.ItemHorizontalArtistBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
@@ -50,8 +51,9 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
         }
 
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), artist.getCoverArtId(), CustomGlideRequest.ARTIST_PIC, null)
+                .from(holder.itemView.getContext(), artist.getCoverArtId(), CustomGlideRequest.ARTIST_PIC)
                 .build()
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.item.artistCoverImageView);
     }

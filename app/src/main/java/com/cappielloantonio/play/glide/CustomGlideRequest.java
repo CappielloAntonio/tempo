@@ -68,14 +68,12 @@ public class CustomGlideRequest {
         private final RequestManager requestManager;
         private final Object item;
 
-        private Builder(Context context, String item, String category, String custom) {
+        private Builder(Context context, String item, String category) {
             this.requestManager = Glide.with(context);
 
             if (Preferences.isDataSavingMode()) {
                 this.item = MusicUtil.getDefaultPicPerCategory(category);
-            } else if (custom != null && !Preferences.isDataSavingMode()) {
-                this.item = custom;
-            } else if (item != null && !Preferences.isDataSavingMode()) {
+            } else if (item != null) {
                 this.item = createUrl(item, Preferences.getImageSize());
             } else {
                 this.item = MusicUtil.getDefaultPicPerCategory(category);
@@ -85,8 +83,8 @@ public class CustomGlideRequest {
             requestManager.applyDefaultRequestOptions(createRequestOptions(item, drawable));
         }
 
-        public static Builder from(Context context, String item, String category, String custom) {
-            return new Builder(context, item, category, custom);
+        public static Builder from(Context context, String item, String category) {
+            return new Builder(context, item, category);
         }
 
         public BitmapBuilder bitmap() {

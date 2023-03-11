@@ -22,6 +22,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.FragmentPlayerBottomSheetBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
@@ -150,8 +151,9 @@ public class PlayerBottomSheetFragment extends Fragment {
             bind.playerHeaderLayout.playerHeaderMediaArtistLabel.setText(MusicUtil.getReadableString(mediaMetadata.extras.getString("artist")));
 
             CustomGlideRequest.Builder
-                    .from(requireContext(), mediaMetadata.extras.getString("coverArtId"), CustomGlideRequest.SONG_PIC, null)
+                    .from(requireContext(), mediaMetadata.extras.getString("coverArtId"), CustomGlideRequest.SONG_PIC)
                     .build()
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                     .into(bind.playerHeaderLayout.playerHeaderMediaCoverImage);
         }

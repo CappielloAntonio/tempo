@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.ItemPlayerQueueSongBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
@@ -51,8 +52,9 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
         holder.item.queueSongSubtitleTextView.setText(holder.itemView.getContext().getString(R.string.song_subtitle_formatter, MusicUtil.getReadableString(song.getArtist()), MusicUtil.getReadableDurationString(song.getDuration(), false)));
 
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), song.getCoverArtId(), CustomGlideRequest.SONG_PIC, null)
+                .from(holder.itemView.getContext(), song.getCoverArtId(), CustomGlideRequest.SONG_PIC)
                 .build()
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.item.queueSongCoverImageView);
 

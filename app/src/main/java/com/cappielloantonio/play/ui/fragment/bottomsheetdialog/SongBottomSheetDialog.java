@@ -19,6 +19,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.model.Download;
@@ -76,8 +77,9 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
     private void init(View view) {
         ImageView coverSong = view.findViewById(R.id.song_cover_image_view);
         CustomGlideRequest.Builder
-                .from(requireContext(), songBottomSheetViewModel.getSong().getCoverArtId(), CustomGlideRequest.SONG_PIC, null)
+                .from(requireContext(), songBottomSheetViewModel.getSong().getCoverArtId(), CustomGlideRequest.SONG_PIC)
                 .build()
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(coverSong);
 

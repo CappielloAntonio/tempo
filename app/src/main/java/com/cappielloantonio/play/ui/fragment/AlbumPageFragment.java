@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.FragmentAlbumPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
@@ -174,8 +175,9 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
 
     private void initBackCover() {
         CustomGlideRequest.Builder
-                .from(requireContext(), albumPageViewModel.getAlbum().getCoverArtId(), CustomGlideRequest.ALBUM_PIC, null)
+                .from(requireContext(), albumPageViewModel.getAlbum().getCoverArtId(), CustomGlideRequest.ALBUM_PIC)
                 .build()
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(bind.albumCoverImageView);
     }

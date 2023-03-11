@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.FragmentPlaylistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
@@ -163,8 +164,9 @@ public class PlaylistPageFragment extends Fragment implements ClickCallback {
 
     private void initBackCover() {
         CustomGlideRequest.Builder
-                .from(requireContext(), playlistPageViewModel.getPlaylist().getCoverArtId(), CustomGlideRequest.PLAYLIST_PIC, null)
+                .from(requireContext(), playlistPageViewModel.getPlaylist().getCoverArtId(), CustomGlideRequest.PLAYLIST_PIC)
                 .build()
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .transform(new CenterCrop(), new GranularRoundedCorners(CustomGlideRequest.CORNER_RADIUS, 0, 0, 0))
                 .into(bind.playlistCoverImageView);
     }

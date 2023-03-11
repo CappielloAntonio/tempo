@@ -18,6 +18,7 @@ import androidx.media3.session.SessionToken;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.FragmentArtistPageBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
@@ -115,13 +116,9 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
                 bind.bioMoreTextViewClickable.setVisibility(artistInfo.getLastFmUrl() != null ? View.VISIBLE : View.GONE);
 
             if (getContext() != null && bind != null) CustomGlideRequest.Builder
-                    .from(
-                            requireContext(),
-                            artistPageViewModel.getArtist().getId(),
-                            CustomGlideRequest.ARTIST_PIC,
-                            artistInfo.getLargeImageUrl()
-                    )
+                    .from(requireContext(), artistPageViewModel.getArtist().getId(), CustomGlideRequest.ARTIST_PIC)
                     .build()
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(bind.artistBackdropImageView);
 
             if (bind != null) bind.bioTextView.setText(normalizedBio);

@@ -18,6 +18,7 @@ import androidx.media3.session.SessionToken;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.repository.ArtistRepository;
@@ -72,8 +73,9 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
     private void init(View view) {
         ImageView coverArtist = view.findViewById(R.id.artist_cover_image_view);
         CustomGlideRequest.Builder
-                .from(requireContext(), artistBottomSheetViewModel.getArtist().getCoverArtId(), CustomGlideRequest.ARTIST_PIC, null)
+                .from(requireContext(), artistBottomSheetViewModel.getArtist().getCoverArtId(), CustomGlideRequest.ARTIST_PIC)
                 .build()
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(coverArtist);
 

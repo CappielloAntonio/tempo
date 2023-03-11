@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cappielloantonio.play.databinding.ItemHomeGridTrackBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
@@ -41,8 +42,9 @@ public class GridTrackAdapter extends RecyclerView.Adapter<GridTrackAdapter.View
         Chronology item = items.get(position);
 
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), item.getCoverArtId(), CustomGlideRequest.SONG_PIC, null)
+                .from(holder.itemView.getContext(), item.getCoverArtId(), CustomGlideRequest.SONG_PIC)
                 .build()
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.item.trackCoverImageView);
     }

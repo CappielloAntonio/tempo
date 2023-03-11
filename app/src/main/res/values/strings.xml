@@ -117,7 +117,7 @@
     <string name="playlist_chooser_dialog_negative_button">Cancel</string>
     <string name="playlist_chooser_dialog_neutral_button">Create</string>
     <string name="playlist_chooser_dialog_title">Add to a playlist</string>
-    <string name="playlist_counted_tracks">%1$d tracks</string>
+    <string name="playlist_counted_tracks">%1$d tracks •  %2$s</string>
     <string name="playlist_duration">Duration  •  %1$s</string>
     <string name="playlist_editor_dialog_hint_name">Playlist Name</string>
     <string name="playlist_editor_dialog_negative_button">Cancel</string>

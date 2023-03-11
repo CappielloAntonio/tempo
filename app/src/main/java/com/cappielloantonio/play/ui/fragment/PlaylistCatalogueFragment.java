@@ -107,7 +107,9 @@ public class PlaylistCatalogueFragment extends Fragment implements ClickCallback
         bind.playlistCatalogueRecyclerView.setAdapter(playlistHorizontalAdapter);
 
         if (getActivity() != null) {
-            playlistCatalogueViewModel.getPlaylistList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), playlists -> playlistHorizontalAdapter.setItems(playlists));
+            playlistCatalogueViewModel.getPlaylistList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), playlists -> {
+                if (playlists != null) playlistHorizontalAdapter.setItems(playlists);
+            });
         }
 
         bind.playlistCatalogueRecyclerView.setOnTouchListener((v, event) -> {

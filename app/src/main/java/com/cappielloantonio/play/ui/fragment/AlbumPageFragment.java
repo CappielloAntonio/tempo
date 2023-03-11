@@ -175,7 +175,7 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
 
     private void initBackCover() {
         CustomGlideRequest.Builder
-                .from(requireContext(), albumPageViewModel.getAlbum().getCoverArtId(), CustomGlideRequest.ALBUM_PIC)
+                .from(requireContext(), albumPageViewModel.getAlbum().getCoverArtId())
                 .build()
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))

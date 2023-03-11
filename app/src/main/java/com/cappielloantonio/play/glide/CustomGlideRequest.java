@@ -1,7 +1,6 @@
 package com.cappielloantonio.play.glide;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -14,18 +13,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.cappielloantonio.play.App;
-import com.cappielloantonio.play.util.MusicUtil;
+import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.util.Preferences;
 
 import java.util.Map;
 
 public class CustomGlideRequest {
     private static final String TAG = "CustomGlideRequest";
-
-    public static final String SONG_PIC = "SONG";
-    public static final String ALBUM_PIC = "ALBUM";
-    public static final String ARTIST_PIC = "ARTIST";
-    public static final String PLAYLIST_PIC = "PLAYLIST";
 
     public static final int CORNER_RADIUS = 12;
 
@@ -40,71 +34,60 @@ public class CustomGlideRequest {
     }
 
     public static String createUrl(String item, int size) {
-        String url = App.getSubsonicClientInstance(false).getUrl();
         Map<String, String> params = App.getSubsonicClientInstance(false).getParams();
 
-        url = url + "getCoverArt" +
-                "?u=" + params.get("u") +
-                "&s=" + params.get("s") +
-                "&t=" + params.get("t") +
-                "&v=" + params.get("v") +
-                "&c=" + params.get("c") +
-                "&id=" + item;
+        StringBuilder uri = new StringBuilder();
 
-        if (size != -1) {
-            url = url + "&size=" + size;
-        }
+        uri.append(App.getSubsonicClientInstance(false).getUrl());
+        uri.append("getCoverArt");
 
-        if (params.get("p") != null) {
-            url = url + "&p=" + params.get("p");
-        }
+        if (params.containsKey("u") && params.get("u") != null)
+            uri.append("?u=").append(params.get("u"));
+        if (params.containsKey("p") && params.get("p") != null)
+            uri.append("&p=").append(params.get("p"));
+        if (params.containsKey("s") && params.get("s") != null)
+            uri.append("&s=").append(params.get("s"));
+        if (params.containsKey("t") && params.get("t") != null)
+            uri.append("&t=").append(params.get("t"));
+        if (params.containsKey("v") && params.get("v") != null)
+            uri.append("&v=").append(params.get("v"));
+        if (params.containsKey("c") && params.get("c") != null)
+            uri.append("&c=").append(params.get("c"));
+        if (size != -1)
+            uri.append("&size=").append(size);
 
-        Log.d(TAG, "createUrl() " + url);
+        uri.append("&id=").append(item);
 
-        return url;
+        Log.d(TAG, "createUrl() " + uri);
+
+        return uri.toString();
     }
 
     public static class Builder {
         private final RequestManager requestManager;
         private final Object item;
 
-        private Builder(Context context, String item, String category) {
+        private Builder(Context context, String item) {
             this.requestManager = Glide.with(context);
 
             if (Preferences.isDataSavingMode()) {
-                this.item = MusicUtil.getDefaultPicPerCategory(category);
+                this.item = R.drawable.default_album_art;
             } else if (item != null) {
                 this.item = createUrl(item, Preferences.getImageSize());
             } else {
-                this.item = MusicUtil.getDefaultPicPerCategory(category);
+                this.item = R.drawable.default_album_art;
             }
 
-            Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), MusicUtil.getDefaultPicPerCategory(category), null);
+            Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.default_album_art, null);
             requestManager.applyDefaultRequestOptions(createRequestOptions(item, drawable));
         }
 
-        public static Builder from(Context context, String item, String category) {
-            return new Builder(context, item, category);
-        }
-
-        public BitmapBuilder bitmap() {
-            return new BitmapBuilder(this);
+        public static Builder from(Context context, String item) {
+            return new Builder(context, item);
         }
 
         public RequestBuilder<Drawable> build() {
             return requestManager.load(item);
-        }
-    }
-
-    public static class BitmapBuilder {
-        private final Builder builder;
-
-        public BitmapBuilder(Builder builder) {
-            this.builder = builder;
-        }
-
-        public RequestBuilder<Bitmap> build() {
-            return builder.requestManager.asBitmap().load(builder.item);
         }
     }
 }

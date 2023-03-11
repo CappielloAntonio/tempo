@@ -157,21 +157,6 @@ public class MusicUtil {
         return "enc:" + plainPassword.chars().mapToObj(Integer::toHexString).collect(Collectors.joining());
     }
 
-    public static int getDefaultPicPerCategory(String category) {
-        switch (category) {
-            case CustomGlideRequest.SONG_PIC:
-                return R.drawable.default_album_art;
-            case CustomGlideRequest.ALBUM_PIC:
-                return R.drawable.default_album_art;
-            case CustomGlideRequest.ARTIST_PIC:
-                return R.drawable.default_album_art;
-            case CustomGlideRequest.PLAYLIST_PIC:
-                return R.drawable.default_album_art;
-            default:
-                return R.drawable.default_album_art;
-        }
-    }
-
     public static String getBitratePreference() {
         Network network = getConnectivityManager().getActiveNetwork();
         NetworkCapabilities networkCapabilities = getConnectivityManager().getNetworkCapabilities(network);

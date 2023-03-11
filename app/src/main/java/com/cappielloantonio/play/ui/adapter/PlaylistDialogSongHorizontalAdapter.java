@@ -40,7 +40,7 @@ public class PlaylistDialogSongHorizontalAdapter extends RecyclerView.Adapter<Pl
         holder.item.playlistDialogSongDurationTextView.setText(MusicUtil.getReadableDurationString(song.getDuration(), false));
 
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), song.getCoverArtId(), CustomGlideRequest.SONG_PIC)
+                .from(holder.itemView.getContext(), song.getCoverArtId())
                 .build()
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))

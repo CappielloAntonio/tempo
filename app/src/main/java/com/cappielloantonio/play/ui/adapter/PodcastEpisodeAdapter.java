@@ -50,7 +50,7 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
         holder.item.podcastDescriptionLabel.setText(MusicUtil.getReadableString(podcastEpisode.getDescription()));
 
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), podcastEpisode.getCoverArtId(), CustomGlideRequest.SONG_PIC)
+                .from(holder.itemView.getContext(), podcastEpisode.getCoverArtId())
                 .build()
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))

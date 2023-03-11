@@ -80,7 +80,7 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
         holder.item.artistNameLabel.setText(MusicUtil.getReadableString(artist.getName()));
 
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), artist.getCoverArtId(), CustomGlideRequest.ARTIST_PIC)
+                .from(holder.itemView.getContext(), artist.getCoverArtId())
                 .build()
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))

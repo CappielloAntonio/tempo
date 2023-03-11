@@ -68,7 +68,7 @@ public class PodcastBottomSheetDialog extends BottomSheetDialogFragment implemen
         ImageView coverPodcast = view.findViewById(R.id.podcast_cover_image_view);
 
         CustomGlideRequest.Builder
-                .from(requireContext(), podcastBottomSheetViewModel.getPodcast().getCoverArtId(), CustomGlideRequest.SONG_PIC)
+                .from(requireContext(), podcastBottomSheetViewModel.getPodcast().getCoverArtId())
                 .build()
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))

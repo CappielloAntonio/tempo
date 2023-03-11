@@ -116,7 +116,7 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
                 bind.bioMoreTextViewClickable.setVisibility(artistInfo.getLastFmUrl() != null ? View.VISIBLE : View.GONE);
 
             if (getContext() != null && bind != null) CustomGlideRequest.Builder
-                    .from(requireContext(), artistPageViewModel.getArtist().getId(), CustomGlideRequest.ARTIST_PIC)
+                    .from(requireContext(), artistPageViewModel.getArtist().getId())
                     .build()
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(bind.artistBackdropImageView);

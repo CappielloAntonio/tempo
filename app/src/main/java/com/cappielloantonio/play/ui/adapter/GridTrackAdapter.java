@@ -42,7 +42,7 @@ public class GridTrackAdapter extends RecyclerView.Adapter<GridTrackAdapter.View
         Chronology item = items.get(position);
 
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), item.getCoverArtId(), CustomGlideRequest.SONG_PIC)
+                .from(holder.itemView.getContext(), item.getCoverArtId())
                 .build()
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))

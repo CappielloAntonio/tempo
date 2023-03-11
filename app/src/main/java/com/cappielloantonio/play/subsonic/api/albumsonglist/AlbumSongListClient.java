@@ -3,6 +3,7 @@ package com.cappielloantonio.play.subsonic.api.albumsonglist;
 import android.util.Log;
 
 import com.cappielloantonio.play.App;
+import com.cappielloantonio.play.subsonic.RetrofitClient;
 import com.cappielloantonio.play.subsonic.Subsonic;
 import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.utils.CacheUtil;
@@ -25,14 +26,7 @@ public class AlbumSongListClient {
 
     public AlbumSongListClient(Subsonic subsonic) {
         this.subsonic = subsonic;
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(subsonic.getUrl())
-                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
-                .client(getOkHttpClient())
-                .build();
-
-        this.albumSongListService = retrofit.create(AlbumSongListService.class);
+        this.albumSongListService = new RetrofitClient(subsonic).getRetrofit().create(AlbumSongListService.class);
     }
 
     public Call<ApiResponse> getAlbumList(String type, int size, int offset) {
@@ -68,36 +62,5 @@ public class AlbumSongListClient {
     public Call<ApiResponse> getStarred2() {
         Log.d(TAG, "getStarred2()");
         return albumSongListService.getStarred2(subsonic.getParams());
-    }
-
-    private OkHttpClient getOkHttpClient() {
-        CacheUtil cacheUtil = new CacheUtil(60, 60 * 60 * 24 * 30);
-
-        return new OkHttpClient.Builder()
-                .callTimeout(2, TimeUnit.MINUTES)
-                .connectTimeout(20, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-                .callTimeout(2, TimeUnit.MINUTES)
-                .connectTimeout(20, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-                .addInterceptor(getHttpLoggingInterceptor())
-                .addInterceptor(cacheUtil.offlineInterceptor)
-                .addNetworkInterceptor(cacheUtil.onlineInterceptor)
-                .cache(getCache())
-                .build();
-    }
-
-    private HttpLoggingInterceptor getHttpLoggingInterceptor() {
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        return loggingInterceptor;
-    }
-
-    private Cache getCache() {
-        int cacheSize = 10 * 1024 * 1024;
-        return new Cache(App.getContext().getCacheDir(), cacheSize);
     }
 }

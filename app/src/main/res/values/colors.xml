@@ -54,14 +54,10 @@
     <color name="md_theme_dark_inverseSurface">#E6E1E5</color>
     <color name="md_theme_dark_primaryInverse">#6750A4</color>
 
-    <color name="seed">#6750A4</color>
-    <color name="error">#B3261E</color>
-
     <color name="gradientTitleColor">#FFFFFF</color>
     <color name="gradientSubtitleColor">#BFBFBF</color>
     <color name="titleTextColor">#252525</color>
     <color name="subtitleTextColor">#646464</color>
-    <color name="songToPlayTextColor">#ABABAB</color>
     <color name="dividerColor">#e0e0e0</color>
     <color name="white">#FFFFFF</color>
 

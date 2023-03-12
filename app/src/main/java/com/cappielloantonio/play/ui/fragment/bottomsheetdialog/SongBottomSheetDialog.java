@@ -156,7 +156,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         TextView download = view.findViewById(R.id.download_text_view);
         download.setOnClickListener(v -> {
             DownloadUtil.getDownloadTracker(requireContext()).download(
-                    MappingUtil.mapMediaItem(song, false),
+                    MappingUtil.mapDownload(song),
                     new Download(song)
             );
             dismissBottomSheet();
@@ -165,7 +165,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         TextView remove = view.findViewById(R.id.remove_text_view);
         remove.setOnClickListener(v -> {
             DownloadUtil.getDownloadTracker(requireContext()).remove(
-                    MappingUtil.mapMediaItem(song, false),
+                    MappingUtil.mapDownload(song),
                     new Download(song)
             );
             dismissBottomSheet();
@@ -220,7 +220,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
     }
 
     private void initDownloadUI(TextView download, TextView remove) {
-        if (DownloadUtil.getDownloadTracker(requireContext()).isDownloaded(MappingUtil.mapMediaItem(song, false))) {
+        if (DownloadUtil.getDownloadTracker(requireContext()).isDownloaded(song.getId())) {
             download.setVisibility(View.GONE);
             remove.setVisibility(View.VISIBLE);
         } else {

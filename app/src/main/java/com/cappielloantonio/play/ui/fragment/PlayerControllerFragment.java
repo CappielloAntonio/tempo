@@ -156,7 +156,9 @@ public class PlayerControllerFragment extends Fragment {
     private void setMediaInfo(MediaMetadata mediaMetadata) {
         if (mediaMetadata.extras != null) {
             String extension = mediaMetadata.extras.getString("suffix", "Unknown format");
-            String bitrate = mediaMetadata.extras.getInt("bitrate", 0) != 0 ? mediaMetadata.extras.getInt("bitrate", 0) + "kbps" : "Original";
+            String bitrate = mediaMetadata.extras.getInt("bitrate", 0) != 0
+                    ? mediaMetadata.extras.getInt("bitrate", 0) + "kbps"
+                    : "Original";
 
             playerMediaExtension.setText(extension);
 
@@ -170,7 +172,9 @@ public class PlayerControllerFragment extends Fragment {
         }
 
         String transcodingExtension = MusicUtil.getTranscodingFormatPreference();
-        String transcodingBitrate = Integer.parseInt(MusicUtil.getBitratePreference()) != 0 ? Integer.parseInt(MusicUtil.getBitratePreference()) + "kbps" : "Original";
+        String transcodingBitrate = Integer.parseInt(MusicUtil.getBitratePreference()) != 0
+                ? Integer.parseInt(MusicUtil.getBitratePreference()) + "kbps"
+                : "Original";
 
         if (transcodingExtension.equals("raw") && transcodingBitrate.equals("Original")) {
             playerMediaTranscodingIcon.setVisibility(View.GONE);
@@ -183,6 +187,12 @@ public class PlayerControllerFragment extends Fragment {
 
             playerMediaTranscodedExtension.setText(transcodingExtension);
             playerMediaTranscodedBitrate.setText(transcodingBitrate);
+        }
+
+        if (mediaMetadata.extras != null && mediaMetadata.extras.getString("uri", "").contains(Constants.DOWNLOAD_URI)) {
+            playerMediaTranscodingIcon.setVisibility(View.GONE);
+            playerMediaTranscodedBitrate.setVisibility(View.GONE);
+            playerMediaTranscodedExtension.setVisibility(View.GONE);
         }
     }
 

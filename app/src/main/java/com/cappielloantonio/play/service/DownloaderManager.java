@@ -32,7 +32,7 @@ public class DownloaderManager {
 
     private final Context context;
     private final DataSource.Factory dataSourceFactory;
-    private final HashMap<Uri, Download> downloads;
+    private final HashMap<String, Download> downloads;
     private final DownloadIndex downloadIndex;
 
     public DownloaderManager(Context context, DataSource.Factory dataSourceFactory, DownloadManager downloadManager) {
@@ -46,27 +46,29 @@ public class DownloaderManager {
     }
 
     private DownloadRequest buildDownloadRequest(MediaItem mediaItem) {
-        return DownloadHelper.forMediaItem(
-                context,
-                mediaItem,
-                DownloadUtil.buildRenderersFactory(context, false),
-                dataSourceFactory
-        ).getDownloadRequest(Util.getUtf8Bytes(checkNotNull(mediaItem.mediaId)));
+        return DownloadHelper
+                .forMediaItem(
+                        context,
+                        mediaItem,
+                        DownloadUtil.buildRenderersFactory(context, false),
+                        dataSourceFactory)
+                .getDownloadRequest(Util.getUtf8Bytes(checkNotNull(mediaItem.mediaId)))
+                .copyWithId(mediaItem.mediaId);
     }
 
-    public boolean isDownloaded(Uri uri) {
-        @Nullable Download download = downloads.get(uri);
+    public boolean isDownloaded(String mediaId) {
+        @Nullable Download download = downloads.get(mediaId);
         return download != null && download.state != Download.STATE_FAILED;
     }
 
     public boolean isDownloaded(MediaItem mediaItem) {
-        @Nullable Download download = downloads.get(checkNotNull(mediaItem.localConfiguration).uri);
+        @Nullable Download download = downloads.get(mediaItem.mediaId);
         return download != null && download.state != Download.STATE_FAILED;
     }
 
     public boolean areDownloaded(List<MediaItem> mediaItems) {
         for (MediaItem mediaItem : mediaItems) {
-            @Nullable Download download = downloads.get(checkNotNull(mediaItem.localConfiguration).uri);
+            @Nullable Download download = downloads.get(mediaItem.mediaId);
             if (download != null && download.state != Download.STATE_FAILED) {
                 return true;
             }
@@ -101,7 +103,7 @@ public class DownloaderManager {
         try (DownloadCursor loadedDownloads = downloadIndex.getDownloads()) {
             while (loadedDownloads.moveToNext()) {
                 Download download = loadedDownloads.getDownload();
-                downloads.put(download.request.uri, download);
+                downloads.put(download.request.id, download);
             }
         } catch (IOException e) {
             Log.w(TAG, "Failed to query downloads", e);

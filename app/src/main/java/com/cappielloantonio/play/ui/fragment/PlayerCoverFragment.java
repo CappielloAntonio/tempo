@@ -92,7 +92,7 @@ public class PlayerCoverFragment extends Fragment {
             if (song != null && bind != null) {
                 bind.innerButtonTopLeft.setOnClickListener(view -> {
                     DownloadUtil.getDownloadTracker(requireContext()).download(
-                            MappingUtil.mapMediaItem(song, false),
+                            MappingUtil.mapDownload(song),
                             new Download(song)
                     );
                 });

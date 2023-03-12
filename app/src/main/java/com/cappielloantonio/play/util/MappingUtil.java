@@ -17,18 +17,18 @@ import java.util.List;
 
 @OptIn(markerClass = UnstableApi.class)
 public class MappingUtil {
-    public static ArrayList<MediaItem> mapMediaItems(List<Child> items, boolean stream) {
-        ArrayList<MediaItem> mediaItems = new ArrayList();
+    public static List<MediaItem> mapMediaItems(List<Child> items) {
+        ArrayList<MediaItem> mediaItems = new ArrayList<>();
 
         for (int i = 0; i < items.size(); i++) {
-            mediaItems.add(mapMediaItem(items.get(i), stream));
+            mediaItems.add(mapMediaItem(items.get(i)));
         }
 
         return mediaItems;
     }
 
-    public static MediaItem mapMediaItem(Child media, boolean stream) {
-        boolean isDownloaded = DownloadUtil.getDownloadTracker(App.getContext()).isDownloaded(MusicUtil.getDownloadUri(media.getId()));
+    public static MediaItem mapMediaItem(Child media) {
+        Uri uri = getUri(media);
 
         Bundle bundle = new Bundle();
         bundle.putString("id", media.getId());
@@ -62,6 +62,7 @@ public class MappingUtil {
         bundle.putLong("bookmarkPosition", media.getBookmarkPosition() != null ? media.getBookmarkPosition() : 0);
         bundle.putInt("originalWidth", media.getOriginalWidth() != null ? media.getOriginalWidth() : 0);
         bundle.putInt("originalHeight", media.getOriginalHeight() != null ? media.getOriginalHeight() : 0);
+        bundle.putString("uri", uri.toString());
 
         return new MediaItem.Builder()
                 .setMediaId(media.getId())
@@ -78,20 +79,51 @@ public class MappingUtil {
                 )
                 .setRequestMetadata(
                         new MediaItem.RequestMetadata.Builder()
-                                .setMediaUri(getUri(media, stream && !isDownloaded))
+                                .setMediaUri(uri)
                                 .setExtras(bundle)
                                 .build()
                 )
                 .setMimeType(MimeTypes.BASE_TYPE_AUDIO)
-                .setUri(getUri(media, stream && !isDownloaded))
+                .setUri(uri)
                 .build();
     }
 
-    private static Uri getUri(Child media, boolean stream) {
-        if (stream) {
-            return MusicUtil.getStreamUri(media.getId());
-        } else {
-            return MusicUtil.getDownloadUri(media.getId());
+    public static List<MediaItem> mapDownloads(List<Child> items) {
+        ArrayList<MediaItem> downloads = new ArrayList<>();
+
+        for (int i = 0; i < items.size(); i++) {
+            downloads.add(mapDownload(items.get(i)));
         }
+
+        return downloads;
+    }
+
+    public static MediaItem mapDownload(Child media) {
+        return new MediaItem.Builder()
+                .setMediaId(media.getId())
+                .setMediaMetadata(
+                        new MediaMetadata.Builder()
+                                .setTitle(MusicUtil.getReadableString(media.getTitle()))
+                                .setTrackNumber(media.getTrack())
+                                .setDiscNumber(media.getDiscNumber())
+                                .setReleaseYear(media.getYear())
+                                .setAlbumTitle(MusicUtil.getReadableString(media.getAlbum()))
+                                .setArtist(MusicUtil.getReadableString(media.getArtist()))
+                                .build()
+                )
+                .setRequestMetadata(
+                        new MediaItem.RequestMetadata.Builder()
+                                .setMediaUri(MusicUtil.getDownloadUri(media.getId()))
+                                .build()
+                )
+                .setMimeType(MimeTypes.BASE_TYPE_AUDIO)
+                .setUri(MusicUtil.getDownloadUri(media.getId()))
+                .build();
+    }
+
+    private static Uri getUri(Child media) {
+        return DownloadUtil.getDownloadTracker(App.getContext()).isDownloaded(media.getId())
+                ? MusicUtil.getDownloadUri(media.getId())
+                : MusicUtil.getStreamUri(media.getId());
     }
 }

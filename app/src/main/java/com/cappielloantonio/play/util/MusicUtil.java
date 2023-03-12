@@ -6,10 +6,9 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.Uri;
 import android.text.Html;
+import android.util.Log;
 
 import com.cappielloantonio.play.App;
-import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.glide.CustomGlideRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +44,8 @@ public class MusicUtil {
         uri.append("&format=").append(getTranscodingFormatPreference());
         uri.append("&id=").append(id);
 
+        Log.d(TAG, "getStreamUri: " + uri);
+
         return Uri.parse(uri.toString());
     }
 
@@ -54,7 +55,7 @@ public class MusicUtil {
         StringBuilder uri = new StringBuilder();
 
         uri.append(App.getSubsonicClientInstance(false).getUrl());
-        uri.append("stream");
+        uri.append("download");
 
         if (params.containsKey("u") && params.get("u") != null)
             uri.append("?u=").append(params.get("u"));
@@ -70,6 +71,8 @@ public class MusicUtil {
             uri.append("&c=").append(params.get("c"));
 
         uri.append("&id=").append(id);
+
+        Log.d(TAG, "getDownloadUri: " + uri);
 
         return Uri.parse(uri.toString());
     }

@@ -61,7 +61,7 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
 
             if (Preferences.isStarredSyncEnabled()) {
                 DownloadUtil.getDownloadTracker(context).download(
-                        MappingUtil.mapMediaItem(song, false),
+                        MappingUtil.mapDownload(song),
                         new Download(song)
                 );
             }

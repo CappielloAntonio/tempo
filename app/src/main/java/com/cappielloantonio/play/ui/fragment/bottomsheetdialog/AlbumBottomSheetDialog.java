@@ -156,7 +156,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
         TextView removeAll = view.findViewById(R.id.remove_all_text_view);
 
         albumBottomSheetViewModel.getAlbumTracks().observe(getViewLifecycleOwner(), songs -> {
-            List<MediaItem> mediaItems = MappingUtil.mapMediaItems(songs, false);
+            List<MediaItem> mediaItems = MappingUtil.mapDownloads(songs);
             List<Download> downloads = songs.stream().map(Download::new).collect(Collectors.toList());
 
             downloadAll.setOnClickListener(v -> {

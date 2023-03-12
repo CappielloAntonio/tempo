@@ -63,4 +63,6 @@ object Constants {
     const val MEDIA_MIX = "MEDIA_MIX"
     const val MEDIA_CHRONOLOGY = "MEDIA_CHRONOLOGY"
     const val MEDIA_BEST_OF = "MEDIA_BEST_OF"
+
+    const val DOWNLOAD_URI = "rest/download"
 }

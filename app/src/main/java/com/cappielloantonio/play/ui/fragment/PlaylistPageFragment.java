@@ -106,7 +106,7 @@ public class PlaylistPageFragment extends Fragment implements ClickCallback {
             playlistPageViewModel.getPlaylistSongLiveList().observe(getViewLifecycleOwner(), songs -> {
                 if (isVisible() && getActivity() != null) {
                     DownloadUtil.getDownloadTracker(requireContext()).download(
-                            MappingUtil.mapMediaItems(songs, false),
+                            MappingUtil.mapDownloads(songs),
                             songs.stream().map(child -> {
                                 Download toDownload = new Download(child);
                                 toDownload.setPlaylistId(playlistPageViewModel.getPlaylist().getId());

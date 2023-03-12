@@ -107,7 +107,7 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
         if (item.getItemId() == R.id.action_download_album) {
             albumPageViewModel.getAlbumSongLiveList().observe(getViewLifecycleOwner(), songs -> {
                 DownloadUtil.getDownloadTracker(requireContext()).download(
-                        MappingUtil.mapMediaItems(songs, false),
+                        MappingUtil.mapDownloads(songs),
                         songs.stream().map(Download::new).collect(Collectors.toList())
                 );
             });

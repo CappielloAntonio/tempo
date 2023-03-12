@@ -1,47 +1,50 @@
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/Widget.Material3.CardView.Filled"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="14dp"
-    android:layout_marginBottom="4dp"
-    android:checkable="true"
-    android:clickable="true"
-    android:focusable="true">
+    android:background="?attr/selectableItemBackground"
+    android:clipChildren="false"
+    android:orientation="horizontal"
+    android:paddingHorizontal="16dp"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/playlist_cover_image_view"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_gravity="center"
+        android:layout_margin="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/playlist_title_text_view"
+        style="@style/LabelMedium"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clipChildren="false"
-        android:padding="4dp">
+        android:ellipsize="marquee"
+        android:paddingHorizontal="12dp"
+        android:singleLine="true"
+        android:text="@string/label_placeholder"
+        app:layout_constraintBottom_toTopOf="@id/playlist_subtitle_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/playlist_cover_image_view"
+        app:layout_constraintTop_toTopOf="@+id/playlist_cover_image_view"
+        app:layout_constraintVertical_chainStyle="packed" />
 
-        <TextView
-            android:id="@+id/playlist_dialog_title_text_view"
-            style="@style/LabelMedium"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:paddingStart="12dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="12dp"
-            android:singleLine="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/playlist_dialog_count_text_view"
-            style="@style/LabelSmall"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:paddingBottom="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/playlist_dialog_title_text_view" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+    <TextView
+        android:id="@+id/playlist_subtitle_text_view"
+        style="@style/LabelSmall"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:paddingHorizontal="12dp"
+        android:singleLine="true"
+        android:text="@string/label_placeholder"
+        app:layout_constraintBottom_toBottomOf="@+id/playlist_cover_image_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/playlist_cover_image_view"
+        app:layout_constraintTop_toBottomOf="@+id/playlist_title_text_view" />
+</androidx.constraintlayout.widget.ConstraintLayout>

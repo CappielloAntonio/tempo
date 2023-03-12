@@ -9,8 +9,12 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.ItemHorizontalPlaylistBinding;
+import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.subsonic.models.Playlist;
 import com.cappielloantonio.play.util.Constants;
@@ -74,8 +78,15 @@ public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHori
     public void onBindViewHolder(ViewHolder holder, int position) {
         Playlist playlist = playlists.get(position);
 
-        holder.item.playlistDialogTitleTextView.setText(MusicUtil.getReadableString(playlist.getName()));
-        holder.item.playlistDialogCountTextView.setText(holder.itemView.getContext().getString(R.string.playlist_counted_tracks, playlist.getSongCount(), MusicUtil.getReadableDurationString(playlist.getDuration(), false)));
+        holder.item.playlistTitleTextView.setText(MusicUtil.getReadableString(playlist.getName()));
+        holder.item.playlistSubtitleTextView.setText(holder.itemView.getContext().getString(R.string.playlist_counted_tracks, playlist.getSongCount(), MusicUtil.getReadableDurationString(playlist.getDuration(), false)));
+
+        CustomGlideRequest.Builder
+                .from(holder.itemView.getContext(), playlist.getCoverArtId())
+                .build()
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
+                .into(holder.item.playlistCoverImageView);
     }
 
     @Override
@@ -106,7 +117,7 @@ public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHori
 
             this.item = item;
 
-            item.playlistDialogTitleTextView.setSelected(true);
+            item.playlistTitleTextView.setSelected(true);
 
             itemView.setOnClickListener(v -> onClick());
             itemView.setOnLongClickListener(v -> onLongClick());

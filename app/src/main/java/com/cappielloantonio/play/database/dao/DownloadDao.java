@@ -12,7 +12,7 @@ import java.util.List;
 
 @Dao
 public interface DownloadDao {
-    @Query("SELECT * FROM download ORDER BY album, track ASC")
+    @Query("SELECT * FROM download WHERE download_state = 1 ORDER BY artist, album, track ASC")
     LiveData<List<Download>> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -20,6 +20,9 @@ public interface DownloadDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<Download> downloads);
+
+    @Query("UPDATE download SET download_state = 1 WHERE id = :id")
+    void update(String id);
 
     @Query("DELETE FROM download WHERE id = :id")
     void delete(String id);

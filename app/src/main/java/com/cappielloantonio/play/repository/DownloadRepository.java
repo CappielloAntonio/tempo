@@ -36,6 +36,27 @@ public class DownloadRepository {
         }
     }
 
+    public void update(String id) {
+        UpdateThreadSafe update = new UpdateThreadSafe(downloadDao, id);
+        Thread thread = new Thread(update);
+        thread.start();
+    }
+
+    private static class UpdateThreadSafe implements Runnable {
+        private final DownloadDao downloadDao;
+        private final String id;
+
+        public UpdateThreadSafe(DownloadDao downloadDao, String id) {
+            this.downloadDao = downloadDao;
+            this.id = id;
+        }
+
+        @Override
+        public void run() {
+            downloadDao.update(id);
+        }
+    }
+
     public void insertAll(List<Download> downloads) {
         InsertAllThreadSafe insertAll = new InsertAllThreadSafe(downloadDao, downloads);
         Thread thread = new Thread(insertAll);
@@ -76,24 +97,24 @@ public class DownloadRepository {
         }
     }
 
-    public void delete(Download download) {
-        DeleteThreadSafe delete = new DeleteThreadSafe(downloadDao, download);
+    public void delete(String id) {
+        DeleteThreadSafe delete = new DeleteThreadSafe(downloadDao, id);
         Thread thread = new Thread(delete);
         thread.start();
     }
 
     private static class DeleteThreadSafe implements Runnable {
         private final DownloadDao downloadDao;
-        private final Download download;
+        private final String id;
 
-        public DeleteThreadSafe(DownloadDao downloadDao, Download download) {
+        public DeleteThreadSafe(DownloadDao downloadDao, String id) {
             this.downloadDao = downloadDao;
-            this.download = download;
+            this.id = id;
         }
 
         @Override
         public void run() {
-            downloadDao.delete(download.getId());
+            downloadDao.delete(id);
         }
     }
 }

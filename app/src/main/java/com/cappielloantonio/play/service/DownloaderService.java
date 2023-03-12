@@ -69,6 +69,7 @@ public class DownloaderService extends androidx.media3.exoplayer.offline.Downloa
 
             if (download.state == Download.STATE_COMPLETED) {
                 notification = notificationHelper.buildDownloadCompletedNotification(context, R.drawable.ic_check_circle, null, Util.fromUtf8Bytes(download.request.data));
+                DownloaderManager.updateDatabase(download.request.id);
             } else if (download.state == Download.STATE_FAILED) {
                 notification = notificationHelper.buildDownloadFailedNotification(context, R.drawable.ic_error, null, Util.fromUtf8Bytes(download.request.data));
             } else {
@@ -76,6 +77,11 @@ public class DownloaderService extends androidx.media3.exoplayer.offline.Downloa
             }
 
             NotificationUtil.setNotification(context, nextNotificationId++, notification);
+        }
+
+        @Override
+        public void onDownloadRemoved(@NonNull DownloadManager downloadManager, Download download) {
+            DownloaderManager.deleteDatabase(download.request.id);
         }
     }
 }

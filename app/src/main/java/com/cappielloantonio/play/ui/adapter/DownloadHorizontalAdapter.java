@@ -68,6 +68,16 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
         return songs.get(id);
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         ItemHorizontalDownloadBinding item;
 

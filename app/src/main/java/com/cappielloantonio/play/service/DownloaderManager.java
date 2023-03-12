@@ -79,7 +79,7 @@ public class DownloaderManager {
 
     public void download(MediaItem mediaItem, com.cappielloantonio.play.model.Download download) {
         DownloadService.sendAddDownload(context, DownloaderService.class, buildDownloadRequest(mediaItem), false);
-        downloadDatabase(download);
+        insertDatabase(download);
     }
 
     public void download(List<MediaItem> mediaItems, List<com.cappielloantonio.play.model.Download> downloads) {
@@ -90,7 +90,6 @@ public class DownloaderManager {
 
     public void remove(MediaItem mediaItem, com.cappielloantonio.play.model.Download download) {
         DownloadService.sendRemoveDownload(context, DownloaderService.class, buildDownloadRequest(mediaItem).id, false);
-        removeDatabase(download);
     }
 
     public void remove(List<MediaItem> mediaItems, List<com.cappielloantonio.play.model.Download> downloads) {
@@ -114,11 +113,15 @@ public class DownloaderManager {
         return new DownloadRepository();
     }
 
-    private static void downloadDatabase(com.cappielloantonio.play.model.Download download) {
+    public static void insertDatabase(com.cappielloantonio.play.model.Download download) {
         getDownloadRepository().insert(download);
     }
 
-    private static void removeDatabase(com.cappielloantonio.play.model.Download download) {
-        getDownloadRepository().delete(download);
+    public static void deleteDatabase(String id) {
+        getDownloadRepository().delete(id);
+    }
+
+    public static void updateDatabase(String id) {
+        getDownloadRepository().update(id);
     }
 }

@@ -20,9 +20,9 @@ import com.cappielloantonio.play.model.RecentSearch;
 import com.cappielloantonio.play.model.Server;
 
 @Database(
-        version = 61,
+        version = 62,
         entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Chronology.class},
-        autoMigrations = {@AutoMigration(from = 60, to = 61)}
+        autoMigrations = {@AutoMigration(from = 61, to = 62)}
 )
 @TypeConverters({DateConverters.class})
 public abstract class AppDatabase extends RoomDatabase {

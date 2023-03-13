@@ -19,7 +19,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
-            android:layout_weight="8" />
+            android:layout_weight="8"
+            android:background="?attr/colorSurfaceContainer" />
 
         <ImageView
             android:layout_width="12dp"
@@ -27,7 +28,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="22dp"
             android:layout_marginEnd="8dp"
-            android:layout_weight="2" />
+            android:layout_weight="2"
+            android:background="?attr/colorSurfaceContainer" />
     </LinearLayout>
 
     <LinearLayout
@@ -50,17 +52,20 @@
             <ImageView
                 android:layout_width="172dp"
                 android:layout_height="172dp"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:background="?attr/colorSurfaceContainer" />
 
             <ImageView
                 android:layout_width="124dp"
                 android:layout_height="14dp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:background="?attr/colorSurfaceContainer" />
 
             <ImageView
                 android:layout_width="112dp"
                 android:layout_height="12dp"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="4dp"
+                android:background="?attr/colorSurfaceContainer" />
         </LinearLayout>
 
         <LinearLayout
@@ -72,17 +77,20 @@
             <ImageView
                 android:layout_width="172dp"
                 android:layout_height="172dp"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:background="?attr/colorSurfaceContainer" />
 
             <ImageView
                 android:layout_width="124dp"
                 android:layout_height="14dp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:background="?attr/colorSurfaceContainer" />
 
             <ImageView
                 android:layout_width="112dp"
                 android:layout_height="12dp"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="4dp"
+                android:background="?attr/colorSurfaceContainer" />
         </LinearLayout>
 
         <LinearLayout
@@ -93,17 +101,20 @@
             <ImageView
                 android:layout_width="172dp"
                 android:layout_height="172dp"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:background="?attr/colorSurfaceContainer" />
 
             <ImageView
                 android:layout_width="124dp"
                 android:layout_height="14dp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:background="?attr/colorSurfaceContainer" />
 
             <ImageView
                 android:layout_width="112dp"
                 android:layout_height="12dp"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="4dp"
+                android:background="?attr/colorSurfaceContainer" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

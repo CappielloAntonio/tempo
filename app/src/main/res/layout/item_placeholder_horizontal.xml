@@ -20,7 +20,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
-            android:layout_weight="8" />
+            android:layout_weight="8"
+            android:background="?attr/colorSurfaceContainer" />
 
         <ImageView
             android:layout_width="12dp"
@@ -28,7 +29,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="22dp"
             android:layout_marginEnd="8dp"
-            android:layout_weight="2" />
+            android:layout_weight="2"
+            android:background="?attr/colorSurfaceContainer" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,6 +46,7 @@
             android:layout_height="52dp"
             android:layout_gravity="center"
             android:layout_margin="2dp"
+            android:background="?attr/colorSurfaceContainer"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -55,16 +58,17 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="12dp"
+            android:background="?attr/colorSurfaceContainer"
             app:layout_constraintStart_toEndOf="@+id/album_cover_placeholder_1"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-        <TextView
+        <ImageView
             android:layout_width="124dp"
             android:layout_height="12dp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
+            android:background="?attr/colorSurfaceContainer"
             app:layout_constraintStart_toEndOf="@+id/album_cover_placeholder_1"
             app:layout_constraintTop_toBottomOf="@+id/album_title_placeholder_1" />
 
@@ -73,6 +77,7 @@
             android:layout_height="18dp"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
+            android:background="?attr/colorSurfaceContainer"
             android:gravity="center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -93,6 +98,7 @@
             android:layout_height="52dp"
             android:layout_gravity="center"
             android:layout_margin="2dp"
+            android:background="?attr/colorSurfaceContainer"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -104,16 +110,17 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="12dp"
+            android:background="?attr/colorSurfaceContainer"
             app:layout_constraintStart_toEndOf="@+id/album_cover_placeholder_2"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-        <TextView
+        <ImageView
             android:layout_width="124dp"
             android:layout_height="12dp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
+            android:background="?attr/colorSurfaceContainer"
             app:layout_constraintStart_toEndOf="@+id/album_cover_placeholder_2"
             app:layout_constraintTop_toBottomOf="@+id/album_title_placeholder_2" />
 
@@ -122,6 +129,7 @@
             android:layout_height="18dp"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
+            android:background="?attr/colorSurfaceContainer"
             android:gravity="center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -142,6 +150,7 @@
             android:layout_height="52dp"
             android:layout_gravity="center"
             android:layout_margin="2dp"
+            android:background="?attr/colorSurfaceContainer"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -153,16 +162,17 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="12dp"
+            android:background="?attr/colorSurfaceContainer"
             app:layout_constraintStart_toEndOf="@+id/album_cover_placeholder_3"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-        <TextView
+        <ImageView
             android:layout_width="124dp"
             android:layout_height="12dp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
+            android:background="?attr/colorSurfaceContainer"
             app:layout_constraintStart_toEndOf="@+id/album_cover_placeholder_3"
             app:layout_constraintTop_toBottomOf="@+id/album_title_placeholder_3" />
 
@@ -171,6 +181,7 @@
             android:layout_height="18dp"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
+            android:background="?attr/colorSurfaceContainer"
             android:gravity="center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -191,6 +202,7 @@
             android:layout_height="52dp"
             android:layout_gravity="center"
             android:layout_margin="2dp"
+            android:background="?attr/colorSurfaceContainer"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -202,16 +214,17 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="12dp"
+            android:background="?attr/colorSurfaceContainer"
             app:layout_constraintStart_toEndOf="@+id/album_cover_placeholder_4"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-        <TextView
+        <ImageView
             android:layout_width="124dp"
             android:layout_height="12dp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
+            android:background="?attr/colorSurfaceContainer"
             app:layout_constraintStart_toEndOf="@+id/album_cover_placeholder_4"
             app:layout_constraintTop_toBottomOf="@+id/album_title_placeholder_4" />
 
@@ -220,6 +233,7 @@
             android:layout_height="18dp"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
+            android:background="?attr/colorSurfaceContainer"
             android:gravity="center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -240,6 +254,7 @@
             android:layout_height="52dp"
             android:layout_gravity="center"
             android:layout_margin="2dp"
+            android:background="?attr/colorSurfaceContainer"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -251,16 +266,17 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="12dp"
+            android:background="?attr/colorSurfaceContainer"
             app:layout_constraintStart_toEndOf="@+id/album_cover_placeholder_5"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-        <TextView
+        <ImageView
             android:layout_width="124dp"
             android:layout_height="12dp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
+            android:background="?attr/colorSurfaceContainer"
             app:layout_constraintStart_toEndOf="@+id/album_cover_placeholder_5"
             app:layout_constraintTop_toBottomOf="@+id/album_title_placeholder_5" />
 
@@ -269,6 +285,7 @@
             android:layout_height="18dp"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
+            android:background="?attr/colorSurfaceContainer"
             android:gravity="center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

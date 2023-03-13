@@ -212,6 +212,10 @@ public class HomeViewModel extends AndroidViewModel {
         return artistBestOf;
     }
 
+    public LiveData<List<Child>> getAllStarredTracks() {
+        return songRepository.getStarredSongs(false, -1);
+    }
+
     public void refreshDiscoverySongSample(LifecycleOwner owner) {
         songRepository.getRandomSample(10, null, null).observe(owner, dicoverSongSample::postValue);
     }

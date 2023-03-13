@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.session.MediaBrowser;
@@ -30,6 +31,8 @@ import com.cappielloantonio.play.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.play.helper.recyclerview.DotsIndicatorDecoration;
 import com.cappielloantonio.play.helper.recyclerview.GridItemDecoration;
 import com.cappielloantonio.play.interfaces.ClickCallback;
+import com.cappielloantonio.play.model.Download;
+import com.cappielloantonio.play.service.DownloaderManager;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.subsonic.models.Child;
@@ -45,6 +48,9 @@ import com.cappielloantonio.play.ui.adapter.SimilarTrackAdapter;
 import com.cappielloantonio.play.ui.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.ui.adapter.YearAdapter;
 import com.cappielloantonio.play.util.Constants;
+import com.cappielloantonio.play.util.DownloadUtil;
+import com.cappielloantonio.play.util.MappingUtil;
+import com.cappielloantonio.play.util.Preferences;
 import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.HomeViewModel;
 import com.google.android.gms.cast.framework.CastButtonFactory;
@@ -111,6 +117,7 @@ public class HomeFragment extends Fragment implements ClickCallback {
         super.onViewCreated(view, savedInstanceState);
 
         initAppBar();
+        initSyncStarredView();
         initDiscoverSongSlideView();
         initSimilarSongView();
         initArtistRadio();
@@ -252,6 +259,56 @@ public class HomeFragment extends Fragment implements ClickCallback {
     private void initAppBar() {
         activity.setSupportActionBar(bind.toolbar);
         Objects.requireNonNull(bind.toolbar.getOverflowIcon()).setTint(requireContext().getResources().getColor(R.color.titleTextColor, null));
+    }
+
+    private void initSyncStarredView() {
+        if (Preferences.isStarredSyncEnabled()) {
+            homeViewModel.getAllStarredTracks().observeForever(new Observer<List<Child>>() {
+                @Override
+                public void onChanged(List<Child> songs) {
+                    if (songs != null) {
+                        boolean showAlert = false;
+                        DownloaderManager manager = DownloadUtil.getDownloadTracker(requireContext());
+
+                        for (Child song : songs) {
+                            if (!manager.isDownloaded(song.getId())) {
+                                showAlert = true;
+                                break;
+                            }
+                        }
+
+                        if (showAlert) bind.homeSyncStarredCard.setVisibility(View.VISIBLE);
+                    }
+
+                    homeViewModel.getAllStarredTracks().removeObserver(this);
+                }
+            });
+        }
+
+        bind.homeSyncStarredCancel.setOnClickListener(v -> bind.homeSyncStarredCard.setVisibility(View.GONE));
+
+        bind.homeSyncStarredDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                homeViewModel.getAllStarredTracks().observeForever(new Observer<List<Child>>() {
+                    @Override
+                    public void onChanged(List<Child> songs) {
+                        if (songs != null) {
+                            DownloaderManager manager = DownloadUtil.getDownloadTracker(requireContext());
+
+                            for (Child song : songs) {
+                                if (!manager.isDownloaded(song.getId())) {
+                                    manager.download(MappingUtil.mapDownload(song), new Download(song));
+                                }
+                            }
+                        }
+
+                        homeViewModel.getAllStarredTracks().removeObserver(this);
+                        bind.homeSyncStarredCard.setVisibility(View.GONE);
+                    }
+                });
+            }
+        });
     }
 
     private void initDiscoverSongSlideView() {

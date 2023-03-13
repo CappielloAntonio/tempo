@@ -170,6 +170,13 @@ object Preferences {
     }
 
     @JvmStatic
+    fun setStarredSyncEnabled(isStarredSyncEnabled: Boolean) {
+        App.getInstance().preferences.edit().putBoolean(
+            SYNC_STARRED_TRACKS_FOR_OFFLINE_USE, isStarredSyncEnabled
+        ).apply()
+    }
+
+    @JvmStatic
     fun showServerUnreachableDialog(): Boolean {
         return App.getInstance().preferences.getLong(
             SERVER_UNREACHABLE,

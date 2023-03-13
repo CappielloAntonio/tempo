@@ -59,6 +59,10 @@
     <string name="genre_catalogue_title">Genre Catalogue</string>
     <string name="genre_catalogue_title_expanded">Browse Genres</string>
     <string name="home_subtitle_made_for_you">Start mix from a song you liked</string>
+    <string name="home_sync_starred_title">Start mix from a song you liked</string>
+    <string name="home_sync_starred_subtitle">Start mix from a song you liked</string>
+    <string name="home_sync_starred_cancel">Cancel</string>
+    <string name="home_sync_starred_download">Download</string>
     <string name="home_title_flashback">Flashback</string>
     <string name="home_title_last_played">Last played</string>
     <string name="home_title_last_played_see_all_button">See all</string>
@@ -185,6 +189,7 @@
     <string name="song_subtitle_formatter">%1$s  •  %2$s</string>
     <string name="starred_sync_dialog_negative_button">Cancel</string>
     <string name="starred_sync_dialog_positive_button">Continue</string>
+    <string name="starred_sync_dialog_summary">Downloading starry tracks may require a large amount of data.</string>
     <string name="starred_sync_dialog_title">Sync starred tracks</string>
     <string name="undraw_url">https://undraw.co/</string>
     <string name="undraw_page">unDraw</string>

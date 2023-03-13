@@ -121,25 +121,30 @@ public class DownloadFragment extends Fragment implements ClickCallback {
         downloadHorizontalAdapter = new DownloadHorizontalAdapter(this);
         bind.downloadedTracksRecyclerView.setAdapter(downloadHorizontalAdapter);
         downloadViewModel.getDownloadedTracks(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
-            if (songs == null || songs.isEmpty()) {
-                if (bind != null) {
-                    bind.emptyDownloadLayout.setVisibility(View.VISIBLE);
-                    bind.fragmentDownloadNestedScrollView.setVisibility(View.GONE);
+            if (songs != null) {
+                if (songs.isEmpty()) {
+                    if (bind != null) {
+                        bind.emptyDownloadLayout.setVisibility(View.VISIBLE);
+                        bind.fragmentDownloadNestedScrollView.setVisibility(View.GONE);
 
-                    bind.downloadDownloadedTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
-                    bind.downloadDownloadedTracksSector.setVisibility(View.GONE);
+                        bind.downloadDownloadedTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                        bind.downloadDownloadedTracksSector.setVisibility(View.GONE);
+                    }
+                } else {
+                    if (bind != null) {
+                        bind.emptyDownloadLayout.setVisibility(View.GONE);
+                        bind.fragmentDownloadNestedScrollView.setVisibility(View.VISIBLE);
+
+                        bind.downloadDownloadedTracksPlaceholder.placeholder.setVisibility(View.GONE);
+                        bind.downloadDownloadedTracksSector.setVisibility(View.VISIBLE);
+
+                        bind.downloadedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+                        downloadHorizontalAdapter.setItems(songs);
+                    }
                 }
-            } else {
-                if (bind != null) {
-                    bind.emptyDownloadLayout.setVisibility(View.GONE);
-                    bind.fragmentDownloadNestedScrollView.setVisibility(View.VISIBLE);
 
-                    bind.downloadDownloadedTracksPlaceholder.placeholder.setVisibility(View.GONE);
-                    bind.downloadDownloadedTracksSector.setVisibility(View.VISIBLE);
-                    bind.downloadedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
-                    downloadHorizontalAdapter.setItems(songs);
-                }
+                if (bind != null) bind.loadingProgressBar.setVisibility(View.GONE);
             }
         });
     }

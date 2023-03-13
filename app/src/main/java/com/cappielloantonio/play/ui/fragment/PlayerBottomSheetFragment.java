@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.MediaMetadata;
 import androidx.media3.common.Player;
@@ -26,7 +27,9 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.FragmentPlayerBottomSheetBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
+import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
+import com.cappielloantonio.play.subsonic.models.PlayQueue;
 import com.cappielloantonio.play.ui.fragment.pager.PlayerControllerVerticalPager;
 import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
@@ -34,6 +37,8 @@ import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 import com.google.android.material.elevation.SurfaceColors;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
+
+import java.util.stream.IntStream;
 
 @OptIn(markerClass = UnstableApi.class)
 public class PlayerBottomSheetFragment extends Fragment {
@@ -55,6 +60,7 @@ public class PlayerBottomSheetFragment extends Fragment {
 
         customizeBottomSheetBackground();
         initViewPager();
+        setHeaderBookmarksButton();
 
         return view;
     }
@@ -246,5 +252,36 @@ public class PlayerBottomSheetFragment extends Fragment {
         } else {
             progressBarHandler.removeCallbacks(progressBarRunnable);
         }
+    }
+
+    private void setHeaderBookmarksButton() {
+        playerBottomSheetViewModel.getPlayQueue().observeForever(new Observer<PlayQueue>() {
+            @Override
+            public void onChanged(PlayQueue playQueue) {
+                if (playQueue != null && !playQueue.getEntries().isEmpty()) {
+                    int index = IntStream.range(0, playQueue.getEntries().size()).filter(ix -> playQueue.getEntries().get(ix).getId().equals(playQueue.getCurrent())).findFirst().orElse(-1);
+
+                    if (index != -1) {
+                        bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setVisibility(View.VISIBLE);
+                        bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setOnClickListener(v -> {
+                            MediaManager.startQueue(mediaBrowserListenableFuture, playQueue.getEntries(), index);
+                            bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setVisibility(View.GONE);
+                        });
+                    }
+                } else {
+                    bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setVisibility(View.GONE);
+                    bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setOnClickListener(null);
+                }
+
+                playerBottomSheetViewModel.getPlayQueue().removeObserver(this);
+            }
+        });
+
+        bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setOnLongClickListener(v -> {
+            bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setVisibility(View.GONE);
+            return false;
+        });
+
+        new Handler().postDelayed(() -> bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setVisibility(View.GONE), 5000);
     }
 }

@@ -98,7 +98,7 @@
             android:insetRight="0dp"
             android:insetBottom="0dp"
             app:cornerRadius="30dp"
-            app:icon="@drawable/ic_lyrics"
+            app:icon="@drawable/ic_bookmark"
             app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
             app:layout_constraintTop_toBottomOf="@+id/horizontal_guideline" />
 

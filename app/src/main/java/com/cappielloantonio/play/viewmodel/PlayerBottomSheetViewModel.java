@@ -11,17 +11,23 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.media3.common.util.UnstableApi;
 
+import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.model.Queue;
 import com.cappielloantonio.play.repository.ArtistRepository;
 import com.cappielloantonio.play.repository.QueueRepository;
 import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.subsonic.models.PlayQueue;
 import com.cappielloantonio.play.util.Constants;
+import com.cappielloantonio.play.util.DownloadUtil;
+import com.cappielloantonio.play.util.MappingUtil;
+import com.cappielloantonio.play.util.Preferences;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @OptIn(markerClass = UnstableApi.class)
 public class PlayerBottomSheetViewModel extends AndroidViewModel {
@@ -59,13 +65,12 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
                 songRepository.star(media.getId());
                 media.setStarred(new Date());
 
-                // TODO
-                /* if (Preferences.isStarredSyncEnabled()) {
+                if (Preferences.isStarredSyncEnabled()) {
                     DownloadUtil.getDownloadTracker(context).download(
-                            MappingUtil.mapMediaItem(media, false),
-                            MappingUtil.mapDownload(media, null, null)
+                            MappingUtil.mapDownload(media),
+                            new Download(media)
                     );
-                } */
+                }
             }
         }
     }
@@ -118,5 +123,26 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         songRepository.getInstantMix(media, 20).observe(owner, instantMix::postValue);
 
         return instantMix;
+    }
+
+    public LiveData<PlayQueue> getPlayQueue() {
+        return queueRepository.getPlayQueue();
+    }
+
+    public boolean savePlayQueue() {
+        Child media = getLiveMedia().getValue();
+        List<Child> queue = queueRepository.getMedia();
+        List<String> ids = queue.stream().map(Child::getId).collect(Collectors.toList());
+
+        if (media != null) {
+            queueRepository.savePlayQueue(ids, media.getId(), 0);
+            return true;
+        }
+
+        return false;
+    }
+
+    public void emptyPlayQueue() {
+        queueRepository.savePlayQueue(null, null, 0);
     }
 }

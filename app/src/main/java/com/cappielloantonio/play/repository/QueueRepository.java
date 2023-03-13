@@ -1,17 +1,29 @@
 package com.cappielloantonio.play.repository;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.media3.common.MediaItem;
 
+import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.database.AppDatabase;
 import com.cappielloantonio.play.database.dao.QueueDao;
 import com.cappielloantonio.play.model.Queue;
+import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.subsonic.models.PlayQueue;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class QueueRepository {
     private static final String TAG = "QueueRepository";
@@ -40,6 +52,46 @@ public class QueueRepository {
         }
 
         return media;
+    }
+
+    public MutableLiveData<PlayQueue> getPlayQueue() {
+        MutableLiveData<PlayQueue> playQueue = new MutableLiveData<>();
+
+        App.getSubsonicClientInstance(false)
+                .getBookmarksClient()
+                .getPlayQueue()
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getPlayQueue() != null) {
+                            playQueue.setValue(response.body().getSubsonicResponse().getPlayQueue());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
+                        playQueue.setValue(null);
+                    }
+                });
+
+        return playQueue;
+    }
+
+    public void savePlayQueue(List<String> ids, String current, long position) {
+        App.getSubsonicClientInstance(false)
+                .getBookmarksClient()
+                .savePlayQueue(ids, current, position)
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
+
+                    }
+                });
     }
 
     public void insert(Child media, boolean reset, int afterIndex) {

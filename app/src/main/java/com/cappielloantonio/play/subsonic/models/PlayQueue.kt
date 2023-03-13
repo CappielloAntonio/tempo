@@ -1,12 +1,14 @@
 package com.cappielloantonio.play.subsonic.models
 
-import java.time.LocalDateTime
+import com.google.gson.annotations.SerializedName
+import java.util.*
 
 class PlayQueue {
+    @SerializedName("entry")
     var entries: List<Child>? = null
-    var current: Int? = null
+    var current: String? = null
     var position: Long? = null
     var username: String? = null
-    var changed: LocalDateTime? = null
+    var changed: Date? = null
     var changedBy: String? = null
 }

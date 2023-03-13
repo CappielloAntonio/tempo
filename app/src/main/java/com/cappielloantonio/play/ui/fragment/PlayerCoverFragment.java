@@ -31,6 +31,7 @@ import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MappingUtil;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 
@@ -114,11 +115,8 @@ public class PlayerCoverFragment extends Fragment {
                 });
 
                 bind.innerButtonBottomRight.setOnClickListener(view -> {
-                    if (getActivity() != null) {
-                        PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) requireActivity().getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
-                        if (playerBottomSheetFragment != null) {
-                            playerBottomSheetFragment.goToLyricsPage();
-                        }
+                    if (playerBottomSheetViewModel.savePlayQueue()) {
+                        Snackbar.make(requireView(), "Salvato", Snackbar.LENGTH_LONG).show();
                     }
                 });
             }
@@ -136,8 +134,8 @@ public class PlayerCoverFragment extends Fragment {
     private void bindMediaController() {
         mediaBrowserListenableFuture.addListener(() -> {
             try {
-                MediaBrowser mediaBrowseri = mediaBrowserListenableFuture.get();
-                setMediaBrowserListener(mediaBrowseri);
+                MediaBrowser mediaBrowser = mediaBrowserListenableFuture.get();
+                setMediaBrowserListener(mediaBrowser);
             } catch (Exception exception) {
                 exception.printStackTrace();
             }

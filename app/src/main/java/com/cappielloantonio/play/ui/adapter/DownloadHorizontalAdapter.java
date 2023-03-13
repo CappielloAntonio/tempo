@@ -48,7 +48,7 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
         holder.item.downloadedSongAlbumTextView.setText(MusicUtil.getReadableString(song.getAlbum()));
 
         if (position > 0 && songs.get(position - 1) != null && !Objects.equals(songs.get(position - 1).getAlbum(), songs.get(position).getAlbum())) {
-            holder.item.divider.setPadding(0, 32, 0, 0);
+            holder.item.divider.setPadding(0, (int) holder.itemView.getContext().getResources().getDimension(R.dimen.downloaded_item_padding), 0, 0);
         } else {
             if (position > 0) holder.item.divider.setVisibility(View.GONE);
         }

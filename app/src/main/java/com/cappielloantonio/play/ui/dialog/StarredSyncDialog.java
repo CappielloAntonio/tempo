@@ -12,10 +12,11 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.cappielloantonio.play.R;
-import com.cappielloantonio.play.databinding.DialogConnectionAlertBinding;
+import com.cappielloantonio.play.databinding.DialogStarredSyncBinding;
 import com.cappielloantonio.play.model.Download;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MappingUtil;
+import com.cappielloantonio.play.util.Preferences;
 import com.cappielloantonio.play.viewmodel.StarredSyncViewModel;
 
 import java.util.stream.Collectors;
@@ -23,13 +24,13 @@ import java.util.stream.Collectors;
 public class StarredSyncDialog extends DialogFragment {
     private static final String TAG = "ServerUnreachableDialog";
 
-    private DialogConnectionAlertBinding bind;
+    private DialogStarredSyncBinding bind;
     private StarredSyncViewModel starredSyncViewModel;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        bind = DialogConnectionAlertBinding.inflate(LayoutInflater.from(requireContext()));
+        bind = DialogStarredSyncBinding.inflate(LayoutInflater.from(requireContext()));
         starredSyncViewModel = new ViewModelProvider(requireActivity()).get(StarredSyncViewModel.class);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -70,6 +71,12 @@ public class StarredSyncDialog extends DialogFragment {
 
                     dialog.dismiss();
                 });
+            });
+
+            Button negativeButton = dialog.getButton(Dialog.BUTTON_NEGATIVE);
+            negativeButton.setOnClickListener(v -> {
+                Preferences.setStarredSyncEnabled(false);
+                dialog.dismiss();
             });
         }
     }

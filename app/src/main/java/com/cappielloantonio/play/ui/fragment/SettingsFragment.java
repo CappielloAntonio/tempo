@@ -82,9 +82,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
                 @Override
                 public void onSuccess(boolean isScanning, long count) {
-                    if (isScanning) getScanStatus();
-                    else
-                        findPreference("scan_library").setSummary("Scanning: counting " + count + " tracks");
+                    getScanStatus();
                 }
             });
 

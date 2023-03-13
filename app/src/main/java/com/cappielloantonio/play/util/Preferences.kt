@@ -23,6 +23,7 @@ object Preferences {
     private const val AUDIO_TRANSCODE_FORMAT_MOBILE = "audio_transcode_format_mobile"
     private const val WIFI_ONLY = "wifi_only"
     private const val DATA_SAVING_MODE = "data_saving_mode"
+    private const val SERVER_UNREACHABLE = "server_unreachable"
     private const val SYNC_STARRED_TRACKS_FOR_OFFLINE_USE = "sync_starred_tracks_for_offline_use"
 
     @JvmStatic
@@ -185,5 +186,16 @@ object Preferences {
         App.getInstance().preferences.edit().putBoolean(
             SYNC_STARRED_TRACKS_FOR_OFFLINE_USE, isStarredSyncEnabled
         ).apply()
+    }
+
+    @JvmStatic
+    fun showServerUnreachableDialog(): Boolean {
+        return App.getInstance().preferences.getLong(SERVER_UNREACHABLE, 0) + 360000 < System.currentTimeMillis()
+    }
+
+    @JvmStatic
+    fun setServerUnreachableDatetime(datetime: Long) {
+        App.getInstance().preferences.edit()
+            .putLong(SERVER_UNREACHABLE, datetime).apply()
     }
 }

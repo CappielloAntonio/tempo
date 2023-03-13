@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.DialogServerUnreachableBinding;
 import com.cappielloantonio.play.ui.activity.MainActivity;
+import com.cappielloantonio.play.util.Preferences;
 
 import java.util.Objects;
 
@@ -28,8 +29,8 @@ public class ServerUnreachableDialog extends DialogFragment {
 
         builder.setView(bind.getRoot())
                 .setTitle(R.string.server_unreachable_dialog_title)
-                .setPositiveButton(R.string.server_unreachable_dialog_positive_button, (dialog, id) -> dialog.cancel())
-                .setNeutralButton(R.string.server_unreachable_dialog_neutral_button, (dialog, id) -> { })
+                .setPositiveButton(R.string.server_unreachable_dialog_positive_button, null)
+                .setNeutralButton(R.string.server_unreachable_dialog_neutral_button, null)
                 .setNegativeButton(R.string.server_unreachable_dialog_negative_button, (dialog, id) -> dialog.cancel());
 
         AlertDialog popup = builder.create();
@@ -54,14 +55,19 @@ public class ServerUnreachableDialog extends DialogFragment {
     }
 
     private void setButtonAction() {
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
-            MainActivity activity = (MainActivity) getActivity();
+        AlertDialog dialog = (AlertDialog) getDialog();
 
-            if (activity != null) {
-                activity.quit();
-            }
+        if(dialog != null) {
+            (dialog).getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
+                MainActivity activity = (MainActivity) getActivity();
+                if (activity != null) activity.quit();
+                dialog.dismiss();
+            });
 
-            Objects.requireNonNull(getDialog()).dismiss();
-        });
+            (dialog).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+                Preferences.setServerUnreachableDatetime(System.currentTimeMillis());
+                dialog.dismiss();
+            });
+        }
     }
 }

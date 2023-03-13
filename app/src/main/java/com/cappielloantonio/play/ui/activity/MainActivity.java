@@ -292,7 +292,7 @@ public class MainActivity extends BaseActivity {
     private void pingServer() {
         if (Preferences.getToken() != null) {
             mainViewModel.ping().observe(this, isPingSuccessfull -> {
-                if (!isPingSuccessfull) {
+                if (!isPingSuccessfull && Preferences.showServerUnreachableDialog()) {
                     ServerUnreachableDialog dialog = new ServerUnreachableDialog();
                     dialog.show(getSupportFragmentManager(), null);
                 }

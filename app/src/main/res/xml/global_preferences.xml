@@ -26,21 +26,12 @@
 
     <PreferenceCategory app:title="@string/settings_title_data">
         <ListPreference
-            app:defaultValue="200000000"
+            app:defaultValue="500"
             app:dialogTitle="@string/settings_covers_cache"
             app:entries="@array/pref_cache_size_titles"
             app:entryValues="@array/pref_cache_size_values"
             app:key="image_cache_size"
             app:title="@string/settings_covers_cache"
-            app:useSimpleSummaryProvider="true" />
-
-        <ListPreference
-            app:defaultValue="200000000"
-            app:dialogTitle="@string/settings_media_cache"
-            app:entries="@array/pref_media_cache_size_titles"
-            app:entryValues="@array/pref_media_cache_size_values"
-            app:key="media_cache_size"
-            app:title="@string/settings_media_cache"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference

@@ -16,20 +16,9 @@
         <item>Low</item>
     </string-array>
     <string-array name="pref_cache_size_values">
-        <item>4000000000</item>
-        <item>1000000000</item>
-        <item>200000000</item>
-    </string-array>
-
-    <string-array name="pref_media_cache_size_titles">
-        <item>High</item>
-        <item>Medium</item>
-        <item>Low</item>
-    </string-array>
-    <string-array name="pref_media_cache_size_values">
-        <item>4000000000</item>
-        <item>1000000000</item>
-        <item>200000000</item>
+        <item>500</item>
+        <item>250</item>
+        <item>125</item>
     </string-array>
 
     <string-array name="pref_image_size_titles">

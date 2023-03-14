@@ -20,7 +20,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="9"
-            android:background="?attr/colorSurfaceContainer" />
+            android:background="?attr/colorSurface" />
 
         <ImageView
             android:layout_width="12dp"
@@ -29,7 +29,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:background="?attr/colorSurfaceContainer" />
+            android:background="?attr/colorSurface" />
     </LinearLayout>
 
     <ImageView
@@ -39,5 +39,5 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:background="?attr/colorSurfaceContainer" />
+        android:background="?attr/colorSurface" />
 </LinearLayout>

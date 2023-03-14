@@ -1,10 +1,9 @@
 package com.cappielloantonio.play.glide;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
-
-import androidx.core.content.res.ResourcesCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
@@ -15,6 +14,7 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.util.Preferences;
+import com.google.android.material.elevation.SurfaceColors;
 
 import java.util.Map;
 
@@ -25,9 +25,11 @@ public class CustomGlideRequest {
 
     public static final DiskCacheStrategy DEFAULT_DISK_CACHE_STRATEGY = DiskCacheStrategy.ALL;
 
-    public static RequestOptions createRequestOptions(String item, Drawable placeholder) {
+    public static RequestOptions createRequestOptions(Context context, String item) {
         return new RequestOptions()
-                .error(placeholder)
+                .placeholder(new ColorDrawable(SurfaceColors.SURFACE_5.getColor(context)))
+                .fallback(new ColorDrawable(SurfaceColors.SURFACE_5.getColor(context)))
+                .error(new ColorDrawable(SurfaceColors.SURFACE_5.getColor(context)))
                 .diskCacheStrategy(DEFAULT_DISK_CACHE_STRATEGY)
                 .signature(new ObjectKey(item != null ? item : 0))
                 .centerCrop();
@@ -78,8 +80,7 @@ public class CustomGlideRequest {
                 this.item = R.drawable.default_album_art;
             }
 
-            Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.default_album_art, null);
-            requestManager.applyDefaultRequestOptions(createRequestOptions(item, drawable));
+            requestManager.applyDefaultRequestOptions(createRequestOptions(context, item));
         }
 
         public static Builder from(Context context, String item) {

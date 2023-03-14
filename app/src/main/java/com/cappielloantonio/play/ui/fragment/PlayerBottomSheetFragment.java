@@ -258,6 +258,10 @@ public class PlayerBottomSheetFragment extends Fragment {
         playerBottomSheetViewModel.getPlayQueue().observeForever(new Observer<PlayQueue>() {
             @Override
             public void onChanged(PlayQueue playQueue) {
+                playerBottomSheetViewModel.getPlayQueue().removeObserver(this);
+
+                if (bind == null) return;
+
                 if (playQueue != null && !playQueue.getEntries().isEmpty()) {
                     int index = IntStream.range(0, playQueue.getEntries().size()).filter(ix -> playQueue.getEntries().get(ix).getId().equals(playQueue.getCurrent())).findFirst().orElse(-1);
 
@@ -272,8 +276,6 @@ public class PlayerBottomSheetFragment extends Fragment {
                     bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setVisibility(View.GONE);
                     bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setOnClickListener(null);
                 }
-
-                playerBottomSheetViewModel.getPlayQueue().removeObserver(this);
             }
         });
 
@@ -282,6 +284,9 @@ public class PlayerBottomSheetFragment extends Fragment {
             return false;
         });
 
-        new Handler().postDelayed(() -> bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setVisibility(View.GONE), 5000);
+        new Handler().postDelayed(() -> {
+            if (bind != null)
+                bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setVisibility(View.GONE);
+        }, 5000);
     }
 }

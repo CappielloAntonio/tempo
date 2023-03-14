@@ -12,7 +12,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.cappielloantonio.play.App;
-import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.util.Preferences;
 import com.google.android.material.elevation.SurfaceColors;
 
@@ -67,17 +66,13 @@ public class CustomGlideRequest {
 
     public static class Builder {
         private final RequestManager requestManager;
-        private final Object item;
+        private Object item;
 
         private Builder(Context context, String item) {
             this.requestManager = Glide.with(context);
 
-            if (Preferences.isDataSavingMode()) {
-                this.item = R.drawable.default_album_art;
-            } else if (item != null) {
+            if (item != null && !Preferences.isDataSavingMode()) {
                 this.item = createUrl(item, Preferences.getImageSize());
-            } else {
-                this.item = R.drawable.default_album_art;
             }
 
             requestManager.applyDefaultRequestOptions(createRequestOptions(context, item));

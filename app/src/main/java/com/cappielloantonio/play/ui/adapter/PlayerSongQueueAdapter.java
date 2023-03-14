@@ -2,7 +2,6 @@ package com.cappielloantonio.play.ui.adapter;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -59,13 +58,11 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
                 .into(holder.item.queueSongCoverImageView);
 
         MediaManager.getCurrentIndex(mediaBrowserListenableFuture, index -> {
-            holder.item.queueSongPlayImageView.setVisibility(position == index ? View.VISIBLE : View.INVISIBLE);
+            if (position < index) {
+                holder.item.queueSongTitleTextView.setAlpha(0.2f);
+                holder.item.queueSongSubtitleTextView.setAlpha(0.2f);
+            }
         });
-    }
-
-    @Override
-    public int getItemCount() {
-        return songs.size();
     }
 
     public List<Child> getItems() {
@@ -75,6 +72,24 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
     public void setItems(List<Child> songs) {
         this.songs = songs;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemCount() {
+        if (songs == null) {
+            return 0;
+        }
+        return songs.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     public void setMediaBrowserListenableFuture(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture) {

@@ -30,6 +30,7 @@ import com.cappielloantonio.play.ui.dialog.PlaylistChooserDialog;
 import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.DownloadUtil;
 import com.cappielloantonio.play.util.MappingUtil;
+import com.cappielloantonio.play.util.Preferences;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -86,6 +87,9 @@ public class PlayerCoverFragment extends Fragment {
 
         TransitionManager.beginDelayedTransition(bind.getRoot(), transition);
         bind.nowPlayingSongCoverButtonGroup.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+
+        bind.innerButtonBottomRight.setVisibility(Preferences.isSyncronizationEnabled() ? View.VISIBLE : View.GONE);
+        bind.innerButtonBottomRightAlternative.setVisibility(Preferences.isSyncronizationEnabled() ? View.GONE : View.VISIBLE);
     }
 
     private void initInnerButton() {
@@ -117,6 +121,15 @@ public class PlayerCoverFragment extends Fragment {
                 bind.innerButtonBottomRight.setOnClickListener(view -> {
                     if (playerBottomSheetViewModel.savePlayQueue()) {
                         Snackbar.make(requireView(), "Salvato", Snackbar.LENGTH_LONG).show();
+                    }
+                });
+
+                bind.innerButtonBottomRightAlternative.setOnClickListener(view -> {
+                    if (getActivity() != null) {
+                        PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) requireActivity().getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
+                        if (playerBottomSheetFragment != null) {
+                            playerBottomSheetFragment.goToLyricsPage();
+                        }
                     }
                 });
             }

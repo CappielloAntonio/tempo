@@ -1,7 +1,6 @@
 package com.cappielloantonio.play.util
 
 import com.cappielloantonio.play.App
-import com.cappielloantonio.play.helper.ThemeHelper
 
 object Preferences {
     const val THEME = "theme"
@@ -24,6 +23,8 @@ object Preferences {
     private const val DATA_SAVING_MODE = "data_saving_mode"
     private const val SERVER_UNREACHABLE = "server_unreachable"
     private const val SYNC_STARRED_TRACKS_FOR_OFFLINE_USE = "sync_starred_tracks_for_offline_use"
+    private const val QUEUE_SYNCING = "queue_syncing"
+    private const val QUEUE_SYNCING_COUNTDOWN = "queue_syncing_countdown"
 
     @JvmStatic
     fun getServer(): String? {
@@ -112,14 +113,12 @@ object Preferences {
 
     @JvmStatic
     fun setSkipSilenceMode(isSkipSilenceMode: Boolean) {
-        App.getInstance().preferences.edit().putBoolean(SKIP_SILENCE, isSkipSilenceMode)
-            .apply()
+        App.getInstance().preferences.edit().putBoolean(SKIP_SILENCE, isSkipSilenceMode).apply()
     }
 
     @JvmStatic
     fun getImageCacheSize(): Int {
-        return App.getInstance().preferences.getString(IMAGE_CACHE_SIZE, "500")!!
-            .toInt()
+        return App.getInstance().preferences.getString(IMAGE_CACHE_SIZE, "500")!!.toInt()
     }
 
     @JvmStatic
@@ -159,14 +158,13 @@ object Preferences {
 
     @JvmStatic
     fun setDataSavingMode(isDataSavingModeEnabled: Boolean) {
-        App.getInstance().preferences.edit()
-            .putBoolean(DATA_SAVING_MODE, isDataSavingModeEnabled).apply()
+        App.getInstance().preferences.edit().putBoolean(DATA_SAVING_MODE, isDataSavingModeEnabled)
+            .apply()
     }
 
     @JvmStatic
     fun isStarredSyncEnabled(): Boolean {
-        return App.getInstance().preferences
-            .getBoolean(SYNC_STARRED_TRACKS_FOR_OFFLINE_USE, false)
+        return App.getInstance().preferences.getBoolean(SYNC_STARRED_TRACKS_FOR_OFFLINE_USE, false)
     }
 
     @JvmStatic
@@ -179,14 +177,22 @@ object Preferences {
     @JvmStatic
     fun showServerUnreachableDialog(): Boolean {
         return App.getInstance().preferences.getLong(
-            SERVER_UNREACHABLE,
-            0
+            SERVER_UNREACHABLE, 0
         ) + 360000 < System.currentTimeMillis()
     }
 
     @JvmStatic
     fun setServerUnreachableDatetime(datetime: Long) {
-        App.getInstance().preferences.edit()
-            .putLong(SERVER_UNREACHABLE, datetime).apply()
+        App.getInstance().preferences.edit().putLong(SERVER_UNREACHABLE, datetime).apply()
+    }
+
+    @JvmStatic
+    fun isSyncronizationEnabled(): Boolean {
+        return App.getInstance().preferences.getBoolean(QUEUE_SYNCING, false)
+    }
+
+    @JvmStatic
+    fun getSyncCountdownTimer(): Int {
+        return App.getInstance().preferences.getString(QUEUE_SYNCING_COUNTDOWN, "5")!!.toInt()
     }
 }

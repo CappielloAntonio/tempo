@@ -33,6 +33,7 @@ import com.cappielloantonio.play.subsonic.models.PlayQueue;
 import com.cappielloantonio.play.ui.fragment.pager.PlayerControllerVerticalPager;
 import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.MusicUtil;
+import com.cappielloantonio.play.util.Preferences;
 import com.cappielloantonio.play.viewmodel.PlayerBottomSheetViewModel;
 import com.google.android.material.elevation.SurfaceColors;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -255,38 +256,40 @@ public class PlayerBottomSheetFragment extends Fragment {
     }
 
     private void setHeaderBookmarksButton() {
-        playerBottomSheetViewModel.getPlayQueue().observeForever(new Observer<PlayQueue>() {
-            @Override
-            public void onChanged(PlayQueue playQueue) {
-                playerBottomSheetViewModel.getPlayQueue().removeObserver(this);
+        if (Preferences.isSyncronizationEnabled()) {
+            playerBottomSheetViewModel.getPlayQueue().observeForever(new Observer<PlayQueue>() {
+                @Override
+                public void onChanged(PlayQueue playQueue) {
+                    playerBottomSheetViewModel.getPlayQueue().removeObserver(this);
 
-                if (bind == null) return;
+                    if (bind == null) return;
 
-                if (playQueue != null && !playQueue.getEntries().isEmpty()) {
-                    int index = IntStream.range(0, playQueue.getEntries().size()).filter(ix -> playQueue.getEntries().get(ix).getId().equals(playQueue.getCurrent())).findFirst().orElse(-1);
+                    if (playQueue != null && !playQueue.getEntries().isEmpty()) {
+                        int index = IntStream.range(0, playQueue.getEntries().size()).filter(ix -> playQueue.getEntries().get(ix).getId().equals(playQueue.getCurrent())).findFirst().orElse(-1);
 
-                    if (index != -1) {
-                        bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setVisibility(View.VISIBLE);
-                        bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setOnClickListener(v -> {
-                            MediaManager.startQueue(mediaBrowserListenableFuture, playQueue.getEntries(), index);
-                            bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setVisibility(View.GONE);
-                        });
+                        if (index != -1) {
+                            bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setVisibility(View.VISIBLE);
+                            bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setOnClickListener(v -> {
+                                MediaManager.startQueue(mediaBrowserListenableFuture, playQueue.getEntries(), index);
+                                bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setVisibility(View.GONE);
+                            });
+                        }
+                    } else {
+                        bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setVisibility(View.GONE);
+                        bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setOnClickListener(null);
                     }
-                } else {
-                    bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setVisibility(View.GONE);
-                    bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setOnClickListener(null);
                 }
-            }
-        });
+            });
 
-        bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setOnLongClickListener(v -> {
-            bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setVisibility(View.GONE);
-            return false;
-        });
-
-        new Handler().postDelayed(() -> {
-            if (bind != null)
+            bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setOnLongClickListener(v -> {
                 bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setVisibility(View.GONE);
-        }, 5000);
+                return false;
+            });
+
+            new Handler().postDelayed(() -> {
+                if (bind != null)
+                    bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setVisibility(View.GONE);
+            }, Preferences.getSyncCountdownTimer() * 1000L);
+        }
     }
 }

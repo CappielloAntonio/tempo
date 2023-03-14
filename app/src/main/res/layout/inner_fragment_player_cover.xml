@@ -102,5 +102,20 @@
             app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
             app:layout_constraintTop_toBottomOf="@+id/horizontal_guideline" />
 
+        <Button
+            android:id="@+id/inner_button_bottom_right_alternative"
+            style="@style/Widget.Material3.Button.TonalButton.Icon"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_margin="4dp"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:cornerRadius="30dp"
+            app:icon="@drawable/ic_lyrics"
+            app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
+            app:layout_constraintTop_toBottomOf="@+id/horizontal_guideline" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

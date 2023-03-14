@@ -104,6 +104,27 @@
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/settings_title_syncing">
+        <Preference
+            app:selectable="false"
+            app:summary="@string/settings_summary_syncing" />
+
+        <SwitchPreference
+            android:title="@string/settings_queue_syncing_title"
+            android:defaultValue="false"
+            android:summary="@string/settings_sync_starred_tracks_for_offline_use_summary"
+            android:key="queue_syncing" />
+
+        <ListPreference
+            app:defaultValue="5"
+            app:dialogTitle="@string/settings_queue_syncing_countdown"
+            app:entries="@array/queue_syncing_countdown_titles"
+            app:entryValues="@array/queue_syncing_countdown_values"
+            app:key="queue_syncing_countdown"
+            app:title="@string/settings_queue_syncing_countdown"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="@string/settings_about_title">
         <Preference
             app:selectable="false"

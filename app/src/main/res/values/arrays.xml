@@ -119,4 +119,15 @@
         <item>mp3</item>
         <item>flac</item>
     </string-array>
+
+    <string-array name="queue_syncing_countdown_titles">
+        <item>Ten seconds</item>
+        <item>Five seconds</item>
+        <item>Two seconds</item>
+    </string-array>
+    <string-array name="queue_syncing_countdown_values">
+        <item>10</item>
+        <item>5</item>
+        <item>2</item>
+    </string-array>
 </resources>

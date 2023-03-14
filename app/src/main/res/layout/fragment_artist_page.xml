@@ -146,6 +146,11 @@
                     android:paddingBottom="8dp" />
             </LinearLayout>
 
+            <include
+                android:id="@+id/artist_page_bio_placeholder"
+                layout="@layout/item_placehoder_biography"
+                android:visibility="gone" />
+
             <!--  Label and button  -->
             <LinearLayout
                 android:id="@+id/artist_page_top_songs_sector"
@@ -187,6 +192,11 @@
                     android:paddingTop="8dp" />
             </LinearLayout>
 
+            <include
+                android:id="@+id/artist_page_top_tracks_placeholder"
+                layout="@layout/item_placeholder_horizontal"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:id="@+id/artist_page_albums_sector"
                 android:layout_width="match_parent"
@@ -214,6 +224,11 @@
                     android:paddingEnd="8dp"
                     android:paddingBottom="8dp" />
             </LinearLayout>
+
+            <include
+                android:id="@+id/artist_page_album_placeholder"
+                layout="@layout/item_placeholder_album"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/similar_artist_sector"
@@ -243,6 +258,12 @@
                     android:paddingBottom="8dp" />
 
             </LinearLayout>
+
+            <include
+                android:id="@+id/artist_page_similar_artist_placeholder"
+                layout="@layout/item_placeholder_album"
+                android:visibility="gone" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

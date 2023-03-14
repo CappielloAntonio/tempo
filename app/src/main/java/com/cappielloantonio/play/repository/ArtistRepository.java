@@ -137,7 +137,7 @@ public class ArtistRepository {
      * Metodo che mi restituisce le informazioni complete dell'artista (bio, immagini prese da last.fm, artisti simili...)
      */
     public MutableLiveData<ArtistInfo2> getArtistFullInfo(String id) {
-        MutableLiveData<ArtistInfo2> artistFullInfo = new MutableLiveData<>();
+        MutableLiveData<ArtistInfo2> artistFullInfo = new MutableLiveData<>(null);
 
         App.getSubsonicClientInstance(false)
                 .getBrowsingClient()

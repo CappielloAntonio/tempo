@@ -108,26 +108,34 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
 
     private void initArtistInfo() {
         artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(getViewLifecycleOwner(), artistInfo -> {
-            String normalizedBio = MusicUtil.forceReadableString(artistInfo.getBiography());
+            if(artistInfo == null) {
+                if (bind != null) bind.artistPageBioPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.artistPageBioSector.setVisibility(View.GONE);
+            } else {
+                String normalizedBio = MusicUtil.forceReadableString(artistInfo.getBiography());
 
-            if (bind != null)
-                bind.artistPageBioSector.setVisibility(!normalizedBio.trim().isEmpty() ? View.VISIBLE : View.GONE);
-            if (bind != null)
-                bind.bioMoreTextViewClickable.setVisibility(artistInfo.getLastFmUrl() != null ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.artistPageBioSector.setVisibility(!normalizedBio.trim().isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.bioMoreTextViewClickable.setVisibility(artistInfo.getLastFmUrl() != null ? View.VISIBLE : View.GONE);
 
-            if (getContext() != null && bind != null) CustomGlideRequest.Builder
-                    .from(requireContext(), artistPageViewModel.getArtist().getId())
-                    .build()
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(bind.artistBackdropImageView);
+                if (getContext() != null && bind != null) CustomGlideRequest.Builder
+                        .from(requireContext(), artistPageViewModel.getArtist().getId())
+                        .build()
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(bind.artistBackdropImageView);
 
-            if (bind != null) bind.bioTextView.setText(normalizedBio);
+                if (bind != null) bind.bioTextView.setText(normalizedBio);
 
-            if (bind != null) bind.bioMoreTextViewClickable.setOnClickListener(v -> {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(artistInfo.getLastFmUrl()));
-                startActivity(intent);
-            });
+                if (bind != null) bind.bioMoreTextViewClickable.setOnClickListener(v -> {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(artistInfo.getLastFmUrl()));
+                    startActivity(intent);
+                });
+
+                if (bind != null) bind.artistPageBioPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.artistPageBioSector.setVisibility(View.VISIBLE);
+            }
         });
     }
 
@@ -161,9 +169,14 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
         songHorizontalAdapter = new SongHorizontalAdapter(this, true);
         bind.mostStreamedSongRecyclerView.setAdapter(songHorizontalAdapter);
         artistPageViewModel.getArtistTopSongList().observe(getViewLifecycleOwner(), songs -> {
-            if (bind != null)
-                bind.artistPageTopSongsSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
-            songHorizontalAdapter.setItems(songs);
+            if (songs == null) {
+                if (bind != null) bind.artistPageTopTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.artistPageTopSongsSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.artistPageTopTracksPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.artistPageTopSongsSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+                songHorizontalAdapter.setItems(songs);
+            }
         });
     }
 
@@ -173,9 +186,14 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
         albumArtistPageOrSimilarAdapter = new AlbumArtistPageOrSimilarAdapter(this);
         bind.albumsRecyclerView.setAdapter(albumArtistPageOrSimilarAdapter);
         artistPageViewModel.getAlbumList().observe(getViewLifecycleOwner(), albums -> {
-            if (bind != null)
-                bind.artistPageAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
-            albumArtistPageOrSimilarAdapter.setItems(albums);
+            if (albums == null) {
+                if (bind != null) bind.artistPageAlbumPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.artistPageAlbumsSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.artistPageAlbumPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.artistPageAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+                albumArtistPageOrSimilarAdapter.setItems(albums);
+            }
         });
 
         CustomLinearSnapHelper albumSnapHelper = new CustomLinearSnapHelper();
@@ -189,9 +207,14 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
         artistSimilarAdapter = new ArtistSimilarAdapter(this);
         bind.similarArtistsRecyclerView.setAdapter(artistSimilarAdapter);
         artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(getViewLifecycleOwner(), artist -> {
-            if (bind != null)
-                bind.similarArtistSector.setVisibility(!artist.getSimilarArtists().isEmpty() ? View.VISIBLE : View.GONE);
-            artistSimilarAdapter.setItems(artist.getSimilarArtists());
+            if (artist == null) {
+                if (bind != null) bind.artistPageSimilarArtistPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.similarArtistSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.artistPageSimilarArtistPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.similarArtistSector.setVisibility(!artist.getSimilarArtists().isEmpty() ? View.VISIBLE : View.GONE);
+                artistSimilarAdapter.setItems(artist.getSimilarArtists());
+            }
         });
 
         CustomLinearSnapHelper similarArtistSnapHelper = new CustomLinearSnapHelper();

@@ -5,8 +5,8 @@
     android:clipChildren="false"
     android:foreground="?attr/selectableItemBackground"
     android:orientation="horizontal"
-    android:paddingTop="3dp"
     android:paddingHorizontal="24dp"
+    android:paddingTop="3dp"
     android:paddingBottom="3dp">
 
     <ImageView

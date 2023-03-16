@@ -9,9 +9,9 @@
         android:id="@+id/player_media_quality_sector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
         android:layout_marginVertical="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -19,45 +19,45 @@
         <com.google.android.material.chip.Chip
             android:id="@+id/player_media_extension"
             style="@style/Widget.Material3.Chip.Suggestion"
-            android:checked="true"
-            android:clickable="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:chipStrokeWidth="0dp"
-            android:text="Unknown"/>
+            android:checked="true"
+            android:clickable="false"
+            android:text="Unknown"
+            app:chipStrokeWidth="0dp" />
 
         <TextView
             android:id="@+id/player_media_bitrate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/player_media_transcoding_audio"
             android:layout_width="24dp"
             android:layout_height="20dp"
-            android:src="@drawable/ic_transcode"
             android:layout_margin="12dp"
-            android:visibility="gone"/>
+            android:src="@drawable/ic_transcode"
+            android:visibility="gone" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/player_media_transcoded_extension"
             style="@style/Widget.Material3.Chip.Suggestion"
-            android:checked="true"
-            android:clickable="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:chipStrokeWidth="0dp"
+            android:checked="true"
+            android:clickable="false"
             android:text="Unknown"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            app:chipStrokeWidth="0dp" />
 
         <TextView
             android:id="@+id/player_media_transcoded_bitrate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </LinearLayout>
 
     <androidx.viewpager2.widget.ViewPager2
@@ -65,6 +65,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:clipToPadding="false"
         app:layout_constraintBottom_toTopOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,9 +117,9 @@
         android:ellipsize="marquee"
         android:singleLine="true"
         android:text="@string/label_placeholder"
+        app:layout_constraintEnd_toStartOf="@+id/button_favorite"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player_media_title_label"
-        app:layout_constraintEnd_toStartOf="@+id/button_favorite"/>
+        app:layout_constraintTop_toBottomOf="@+id/player_media_title_label" />
 
     <TextView
         android:id="@+id/exo_position"
@@ -126,7 +127,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="24dp"
-        android:paddingTop="4dp"
         android:paddingBottom="4dp"
         android:text="@string/label_placeholder"
         android:textColor="@color/titleTextColor"
@@ -139,7 +139,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
         app:bar_height="2dp"
         app:buffered_color="?attr/colorOnSecondaryContainer"
@@ -156,7 +156,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginEnd="24dp"
-        android:paddingTop="4dp"
         android:paddingBottom="4dp"
         android:text="@string/label_placeholder"
         android:textColor="@color/titleTextColor"
@@ -187,7 +186,7 @@
         android:id="@+id/player_play_pause_placeholder_view"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -275,7 +274,7 @@
         style="@style/ExoStyledControls.Button.Center.PlayPause"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

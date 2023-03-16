@@ -1,7 +1,9 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.content.ComponentName;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

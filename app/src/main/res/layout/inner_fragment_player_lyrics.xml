@@ -2,8 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="24dp"
-    android:paddingEnd="24dp">
+    android:paddingHorizontal="24dp">
 
     <ImageView
         android:id="@+id/empty_description_image_view"
@@ -33,8 +32,13 @@
         app:layout_constraintTop_toBottomOf="@+id/empty_description_image_view" />
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/now_playing_song_lyrics_text_view"

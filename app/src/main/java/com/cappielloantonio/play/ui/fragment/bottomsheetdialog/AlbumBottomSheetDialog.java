@@ -84,8 +84,6 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
         CustomGlideRequest.Builder
                 .from(requireContext(), albumBottomSheetViewModel.getAlbum().getCoverArtId())
                 .build()
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(coverAlbum);
 
         TextView titleAlbum = view.findViewById(R.id.album_title_text_view);

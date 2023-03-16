@@ -8,6 +8,8 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cappielloantonio.play.databinding.ItemHomeDiscoverSongBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
@@ -46,7 +48,6 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), song.getCoverArtId())
                 .build()
-                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.item.discoverSongCoverImageView);
     }
 

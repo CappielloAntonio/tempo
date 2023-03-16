@@ -44,8 +44,6 @@ public class GridTrackAdapter extends RecyclerView.Adapter<GridTrackAdapter.View
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), item.getCoverArtId())
                 .build()
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.item.trackCoverImageView);
     }
 

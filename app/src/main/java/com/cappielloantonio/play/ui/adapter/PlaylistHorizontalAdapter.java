@@ -84,8 +84,6 @@ public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHori
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), playlist.getCoverArtId())
                 .build()
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.item.playlistCoverImageView);
     }
 

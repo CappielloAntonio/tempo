@@ -9,6 +9,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.cappielloantonio.play.App;
@@ -20,7 +23,8 @@ import java.util.Map;
 public class CustomGlideRequest {
     private static final String TAG = "CustomGlideRequest";
 
-    public static final int CORNER_RADIUS = 12;
+    public static final int CORNER_RADIUS = Preferences.isCornerRoundingEnabled() ? Preferences.getRoundedCornerSize() : 1;
+    //public static final int CORNER_RADIUS = 12;
 
     public static final DiskCacheStrategy DEFAULT_DISK_CACHE_STRATEGY = DiskCacheStrategy.ALL;
 
@@ -31,7 +35,7 @@ public class CustomGlideRequest {
                 .error(new ColorDrawable(SurfaceColors.SURFACE_5.getColor(context)))
                 .diskCacheStrategy(DEFAULT_DISK_CACHE_STRATEGY)
                 .signature(new ObjectKey(item != null ? item : 0))
-                .centerCrop();
+                .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS));
     }
 
     public static String createUrl(String item, int size) {
@@ -83,7 +87,9 @@ public class CustomGlideRequest {
         }
 
         public RequestBuilder<Drawable> build() {
-            return requestManager.load(item);
+            return requestManager
+                    .load(item)
+                    .transition(DrawableTransitionOptions.withCrossFade());
         }
     }
 }

@@ -75,8 +75,6 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
         CustomGlideRequest.Builder
                 .from(requireContext(), artistBottomSheetViewModel.getArtist().getCoverArtId())
                 .build()
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(coverArtist);
 
         TextView nameArtist = view.findViewById(R.id.song_title_text_view);

@@ -160,8 +160,6 @@ public class PlayerBottomSheetFragment extends Fragment {
             CustomGlideRequest.Builder
                     .from(requireContext(), mediaMetadata.extras.getString("coverArtId"))
                     .build()
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                     .into(bind.playerHeaderLayout.playerHeaderMediaCoverImage);
         }
     }

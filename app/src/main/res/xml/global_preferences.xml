@@ -1,15 +1,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory app:title="@string/settings_title_general">
-        <ListPreference
-            app:defaultValue="default"
-            app:dialogTitle="@string/settings_theme"
-            app:entries="@array/theme_list_titles"
-            app:entryValues="@array/theme_list_values"
-            app:key="theme"
-            app:title="@string/settings_theme"
-            app:useSimpleSummaryProvider="true" />
-
         <Preference
             android:key="equalizer"
             android:title="@string/settings_equalizer_title"
@@ -22,6 +13,32 @@
         <Preference
             android:key="logout"
             android:title="@string/settings_logout_title"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/settings_title_ui">
+        <ListPreference
+            app:defaultValue="default"
+            app:dialogTitle="@string/settings_theme"
+            app:entries="@array/theme_list_titles"
+            app:entryValues="@array/theme_list_values"
+            app:key="theme"
+            app:title="@string/settings_theme"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            android:title="@string/settings_rounded_corner"
+            android:defaultValue="true"
+            android:summary="@string/settings_rounded_corner_summary"
+            android:key="rounded_corner" />
+
+        <ListPreference
+            app:defaultValue="6"
+            app:dialogTitle="@string/settings_rounded_corner_size"
+            app:entries="@array/rounded_corner_size_titles"
+            app:entryValues="@array/rounded_corner_size_values"
+            app:key="rounded_corner_size"
+            app:title="@string/settings_rounded_corner_size"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_title_data">

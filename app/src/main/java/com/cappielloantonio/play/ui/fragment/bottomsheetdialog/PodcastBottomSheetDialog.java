@@ -70,8 +70,6 @@ public class PodcastBottomSheetDialog extends BottomSheetDialogFragment implemen
         CustomGlideRequest.Builder
                 .from(requireContext(), podcastBottomSheetViewModel.getPodcast().getCoverArtId())
                 .build()
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(coverPodcast);
 
         TextView titlePodcast = view.findViewById(R.id.podcast_title_text_view);

@@ -122,7 +122,6 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
                 if (getContext() != null && bind != null) CustomGlideRequest.Builder
                         .from(requireContext(), artistPageViewModel.getArtist().getId())
                         .build()
-                        .transition(DrawableTransitionOptions.withCrossFade())
                         .into(bind.artistBackdropImageView);
 
                 if (bind != null) bind.bioTextView.setText(normalizedBio);

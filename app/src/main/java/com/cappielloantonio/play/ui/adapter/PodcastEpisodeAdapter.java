@@ -52,8 +52,6 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), podcastEpisode.getCoverArtId())
                 .build()
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.item.podcastCoverImageView);
     }
 

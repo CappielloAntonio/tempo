@@ -46,8 +46,6 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), song.getCoverArtId())
                 .build()
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.item.trackCoverImageView);
     }
 

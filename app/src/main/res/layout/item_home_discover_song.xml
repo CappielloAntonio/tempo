@@ -1,56 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="16dp"
-    android:layout_marginBottom="16dp"
-    app:cardCornerRadius="4dp">
+    android:paddingHorizontal="16dp">
 
     <ImageView
         android:id="@+id/discover_song_cover_image_view"
         android:layout_width="match_parent"
-        android:layout_height="196dp" />
-
-    <View
-        android:layout_width="match_parent"
         android:layout_height="196dp"
-        android:background="@drawable/gradient_discover_background_image" />
+        android:foreground="@drawable/gradient_discover_background_image" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="196dp">
+    <TextView
+        android:id="@+id/title_discover_song_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginRight="16dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/inter"
+        android:maxLines="2"
+        android:textColor="@color/gradientTitleColor"
+        android:textFontWeight="400"
+        android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/title_discover_song_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginRight="16dp"
-            android:ellipsize="end"
-            android:fontFamily="@font/inter"
-            android:maxLines="2"
-            android:textColor="@color/gradientTitleColor"
-            android:textFontWeight="400"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/album_discover_song_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/title_discover_song_label"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:drawablePadding="10dp"
-            android:ellipsize="end"
-            android:fontFamily="@font/inter"
-            android:maxLines="1"
-            android:textColor="@color/gradientSubtitleColor"
-            android:textFontWeight="400"
-            android:textSize="14sp" />
-
-    </RelativeLayout>
-</androidx.cardview.widget.CardView>
+    <TextView
+        android:id="@+id/album_discover_song_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_discover_song_label"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:drawablePadding="10dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/inter"
+        android:maxLines="1"
+        android:textColor="@color/gradientSubtitleColor"
+        android:textFontWeight="400"
+        android:textSize="14sp" />
+</RelativeLayout>

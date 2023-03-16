@@ -166,7 +166,6 @@ public class PlaylistPageFragment extends Fragment implements ClickCallback {
         CustomGlideRequest.Builder
                 .from(requireContext(), playlistPageViewModel.getPlaylist().getCoverArtId())
                 .build()
-                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(bind.playlistCoverImageView);
     }
 

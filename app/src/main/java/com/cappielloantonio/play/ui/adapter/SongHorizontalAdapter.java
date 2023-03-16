@@ -63,8 +63,6 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         if (isCoverVisible) CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), song.getCoverArtId())
                 .build()
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(holder.item.songCoverImageView);
 
         if (isCoverVisible) holder.item.trackNumberTextView.setVisibility(View.INVISIBLE);

@@ -25,6 +25,8 @@ object Preferences {
     private const val SYNC_STARRED_TRACKS_FOR_OFFLINE_USE = "sync_starred_tracks_for_offline_use"
     private const val QUEUE_SYNCING = "queue_syncing"
     private const val QUEUE_SYNCING_COUNTDOWN = "queue_syncing_countdown"
+    private const val ROUNDED_CORNER = "rounded_corner"
+    private const val ROUNDED_CORNER_SIZE = "rounded_corner_size"
 
     @JvmStatic
     fun getServer(): String? {
@@ -194,5 +196,15 @@ object Preferences {
     @JvmStatic
     fun getSyncCountdownTimer(): Int {
         return App.getInstance().preferences.getString(QUEUE_SYNCING_COUNTDOWN, "5")!!.toInt()
+    }
+
+    @JvmStatic
+    fun isCornerRoundingEnabled(): Boolean {
+        return App.getInstance().preferences.getBoolean(ROUNDED_CORNER, false)
+    }
+
+    @JvmStatic
+    fun getRoundedCornerSize(): Int {
+        return App.getInstance().preferences.getString(ROUNDED_CORNER_SIZE, "12")!!.toInt()
     }
 }

@@ -1,6 +1,6 @@
 package com.cappielloantonio.play.subsonic.models
 
-import java.time.LocalDateTime
+import java.util.*
 
 class User {
     var folders: List<Int>? = null
@@ -20,5 +20,5 @@ class User {
     var isJukeboxRole = false
     var isShareRole = false
     var isVideoConversionRole = false
-    var avatarLastChanged: LocalDateTime? = null
+    var avatarLastChanged: Date? = null
 }

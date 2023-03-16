@@ -1,7 +1,5 @@
 package com.cappielloantonio.play.repository;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -15,9 +13,7 @@ import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.Child;
 import com.cappielloantonio.play.subsonic.models.PlayQueue;
 
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -349,7 +345,7 @@ public class QueueRepository {
 
         @Override
         public void run() {
-            queueDao.setLastPlay(mediaId, Instant.now().toEpochMilli());
+            queueDao.setLastPlay(mediaId, System.currentTimeMillis());
         }
     }
 

@@ -172,7 +172,6 @@ public class PlayerCoverFragment extends Fragment {
                 .from(requireContext(), mediaMetadata.extras != null ? mediaMetadata.extras.getString("coverArtId") : null)
                 .build()
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS))
                 .into(bind.nowPlayingSongCoverImageView);
     }
 }

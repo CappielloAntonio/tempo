@@ -24,7 +24,6 @@ public class CustomGlideRequest {
     private static final String TAG = "CustomGlideRequest";
 
     public static final int CORNER_RADIUS = Preferences.isCornerRoundingEnabled() ? Preferences.getRoundedCornerSize() : 1;
-    //public static final int CORNER_RADIUS = 12;
 
     public static final DiskCacheStrategy DEFAULT_DISK_CACHE_STRATEGY = DiskCacheStrategy.ALL;
 

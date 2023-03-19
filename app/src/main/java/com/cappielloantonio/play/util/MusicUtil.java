@@ -9,6 +9,7 @@ import android.text.Html;
 import android.util.Log;
 
 import com.cappielloantonio.play.App;
+import com.cappielloantonio.play.subsonic.models.Child;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -190,6 +191,21 @@ public class MusicUtil {
         } else {
             return Preferences.getAudioTranscodeFormatWifi();
         }
+    }
+
+    public static List<Child> limitPlayableMedia(List<Child> toLimit, int position) {
+        if (!toLimit.isEmpty() && toLimit.size() > Constants.PLAYABLE_MEDIA_LIMIT) {
+            int from = position < Constants.PRE_PLAYABLE_MEDIA ? 0 : position - Constants.PRE_PLAYABLE_MEDIA;
+            int to = Math.min(from + Constants.PLAYABLE_MEDIA_LIMIT, toLimit.size());
+
+            return toLimit.subList(from, to);
+        }
+
+        return toLimit;
+    }
+
+    public static int getPlayableMediaPosition(int initialPosition) {
+        return initialPosition > Constants.PLAYABLE_MEDIA_LIMIT ? Constants.PRE_PLAYABLE_MEDIA : initialPosition;
     }
 
     private static ConnectivityManager getConnectivityManager() {

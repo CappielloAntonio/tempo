@@ -65,4 +65,7 @@ object Constants {
     const val MEDIA_BEST_OF = "MEDIA_BEST_OF"
 
     const val DOWNLOAD_URI = "rest/download"
+
+    const val PLAYABLE_MEDIA_LIMIT = 100
+    const val PRE_PLAYABLE_MEDIA = 15
 }

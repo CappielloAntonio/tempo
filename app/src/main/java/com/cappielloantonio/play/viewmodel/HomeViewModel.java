@@ -72,18 +72,8 @@ public class HomeViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Chronology>> getGridSongSample(LifecycleOwner owner) {
-        Calendar cal = Calendar.getInstance();
-        int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
         String server = Preferences.getServerId();
-
-        if (thisGridTopSong.getValue() == null) {
-            if (dayOfMonth >= 7) {
-                chronologyRepository.getThisWeek(server).observe(owner, thisGridTopSong::postValue);
-            } else {
-                chronologyRepository.getLastWeek(server).observe(owner, thisGridTopSong::postValue);
-            }
-        }
-
+        chronologyRepository.getLastWeek(server).observe(owner, thisGridTopSong::postValue);
         return thisGridTopSong;
     }
 

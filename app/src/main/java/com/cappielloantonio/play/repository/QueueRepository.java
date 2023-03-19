@@ -233,28 +233,6 @@ public class QueueRepository {
         return timestamp;
     }
 
-    public boolean isMediaPlayingPlausible(MediaItem mediaItem) {
-        boolean isPlausible = true;
-
-        GetLastPlayedMediaThreadSafe getLastPlayedMediaThreadSafe = new GetLastPlayedMediaThreadSafe(queueDao);
-        Thread thread = new Thread(getLastPlayedMediaThreadSafe);
-        thread.start();
-
-        try {
-            thread.join();
-            Queue lastMediaPlayed = getLastPlayedMediaThreadSafe.getQueueItem();
-
-            if (mediaItem.mediaId.equals(lastMediaPlayed.getId())) {
-
-                isPlausible = System.currentTimeMillis() > lastMediaPlayed.getLastPlay() + lastMediaPlayed.getDuration() * 1000;
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return isPlausible;
-    }
-
     private static class GetMediaThreadSafe implements Runnable {
         private final QueueDao queueDao;
         private List<Queue> media;

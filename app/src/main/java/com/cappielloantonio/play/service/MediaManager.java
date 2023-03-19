@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MediaManager {
+    private static final String TAG = "MediaManager";
+
     public static void reset(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
@@ -225,17 +227,13 @@ public class MediaManager {
 
     public static void scrobble(MediaItem mediaItem) {
         if (mediaItem != null) {
-            if (getQueueRepository().isMediaPlayingPlausible(mediaItem)) {
-                getSongRepository().scrobble(mediaItem.mediaMetadata.extras.getString("id"));
-            }
+            getSongRepository().scrobble(mediaItem.mediaMetadata.extras.getString("id"));
         }
     }
 
     public static void saveChronology(MediaItem mediaItem) {
         if (mediaItem != null) {
-            if (getQueueRepository().isMediaPlayingPlausible(mediaItem)) {
-                getChronologyRepository().insert(new Chronology(mediaItem));
-            }
+            getChronologyRepository().insert(new Chronology(mediaItem));
         }
     }
 

@@ -6,6 +6,8 @@ import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.app.TaskStackBuilder
 import android.content.Intent
 import android.os.Bundle
+import android.os.Looper
+import android.util.Log
 import androidx.media3.cast.CastPlayer
 import androidx.media3.cast.SessionAvailabilityListener
 import androidx.media3.common.*
@@ -27,6 +29,8 @@ import com.google.common.util.concurrent.ListenableFuture
 
 @UnstableApi
 class MediaService : MediaLibraryService(), SessionAvailabilityListener {
+    private val TAG = "MediaService"
+
     private val librarySessionCallback = CustomMediaLibrarySessionCallback()
 
     private lateinit var player: ExoPlayer
@@ -234,12 +238,9 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 if (mediaItem == null) return
 
-                if (mediaItem.mediaMetadata.extras?.getString("type") == Constants.MEDIA_TYPE_MUSIC) {
-                    MediaManager.scrobble(mediaItem)
-                    MediaManager.saveChronology(mediaItem)
+                if(reason == Player.MEDIA_ITEM_TRANSITION_REASON_SEEK || reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO) {
+                    MediaManager.setLastPlayedTimestamp(mediaItem)
                 }
-
-                MediaManager.setLastPlayedTimestamp(mediaItem)
             }
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {
@@ -248,6 +249,25 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
                         player.currentMediaItem,
                         player.currentPosition
                     )
+                }
+            }
+
+            override fun onPositionDiscontinuity(
+                oldPosition: Player.PositionInfo,
+                newPosition: Player.PositionInfo,
+                reason: Int
+            ) {
+                super.onPositionDiscontinuity(oldPosition, newPosition, reason)
+
+                if(reason == Player.DISCONTINUITY_REASON_AUTO_TRANSITION) {
+                    if (oldPosition.mediaItem?.mediaMetadata?.extras?.getString("type") == Constants.MEDIA_TYPE_MUSIC) {
+                        MediaManager.scrobble(oldPosition.mediaItem)
+                        MediaManager.saveChronology(oldPosition.mediaItem)
+                    }
+
+                    if (newPosition.mediaItem?.mediaMetadata?.extras?.getString("type") == Constants.MEDIA_TYPE_MUSIC) {
+                        MediaManager.setLastPlayedTimestamp(newPosition.mediaItem)
+                    }
                 }
             }
         })

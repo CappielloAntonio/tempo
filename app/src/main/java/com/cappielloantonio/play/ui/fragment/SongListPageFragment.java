@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.FragmentSongListPageBinding;
+import com.cappielloantonio.play.helper.recyclerview.PaginationScrollListener;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
@@ -32,6 +33,8 @@ import java.util.Collections;
 
 @UnstableApi
 public class SongListPageFragment extends Fragment implements ClickCallback {
+    private static final String TAG = "SongListPageFragment";
+
     private FragmentSongListPageBinding bind;
     private MainActivity activity;
     private SongListPageViewModel songListPageViewModel;
@@ -39,6 +42,8 @@ public class SongListPageFragment extends Fragment implements ClickCallback {
     private SongHorizontalAdapter songHorizontalAdapter;
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
+
+    private boolean isLoading = true;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -163,7 +168,23 @@ public class SongListPageFragment extends Fragment implements ClickCallback {
 
         songHorizontalAdapter = new SongHorizontalAdapter(this, true);
         bind.songListRecyclerView.setAdapter(songHorizontalAdapter);
-        songListPageViewModel.getSongList().observe(getViewLifecycleOwner(), songs -> songHorizontalAdapter.setItems(songs));
+        songListPageViewModel.getSongList().observe(getViewLifecycleOwner(), songs -> {
+            isLoading = false;
+            songHorizontalAdapter.setItems(songs);
+        });
+
+        bind.songListRecyclerView.addOnScrollListener(new PaginationScrollListener((LinearLayoutManager) bind.songListRecyclerView.getLayoutManager()) {
+            @Override
+            protected void loadMoreItems() {
+                isLoading = true;
+                songListPageViewModel.getSongsByPage(getViewLifecycleOwner());
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+        });
     }
 
     private void initializeMediaBrowser() {

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -48,7 +49,7 @@ public class SongListPageViewModel extends AndroidViewModel {
 
         switch (title) {
             case Constants.MEDIA_BY_GENRE:
-                songList = songRepository.getSongsByGenre(genre.getGenre());
+                songList = songRepository.getSongsByGenre(genre.getGenre(), 0);
                 break;
             case Constants.MEDIA_BY_ARTIST:
                 songList = artistRepository.getTopSongs(artist.getName(), 50);
@@ -65,6 +66,24 @@ public class SongListPageViewModel extends AndroidViewModel {
         }
 
         return songList;
+    }
+
+    public void getSongsByPage(LifecycleOwner owner) {
+        switch (title) {
+            case Constants.MEDIA_BY_GENRE:
+                int page = (songList.getValue() != null ? songList.getValue().size() : 0) / 100;
+                songRepository.getSongsByGenre(genre.getGenre(), page).observe(owner, children -> {
+                    List<Child> currentMedia = songList.getValue();
+                    currentMedia.addAll(children);
+                    songList.setValue(currentMedia);
+                });
+                break;
+            case Constants.MEDIA_BY_ARTIST:
+            case Constants.MEDIA_BY_GENRES:
+            case Constants.MEDIA_BY_YEAR:
+            case Constants.MEDIA_STARRED:
+                break;
+        }
     }
 
     public String getFiltersTitle() {

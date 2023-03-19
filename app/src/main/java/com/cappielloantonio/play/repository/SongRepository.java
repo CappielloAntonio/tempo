@@ -11,7 +11,6 @@ import com.cappielloantonio.play.subsonic.models.Child;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 import retrofit2.Call;
@@ -171,27 +170,19 @@ public class SongRepository {
                 });
     }
 
-    public MutableLiveData<List<Child>> getSongsByGenre(String id) {
+    public MutableLiveData<List<Child>> getSongsByGenre(String id, int page) {
         MutableLiveData<List<Child>> songsByGenre = new MutableLiveData<>();
+
+        Log.d(TAG, "onScrolled PAGE: " + page);
 
         App.getSubsonicClientInstance(false)
                 .getAlbumSongListClient()
-                .getSongsByGenre(id, 500, 0)
+                .getSongsByGenre(id, 100, 100 * page)
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getSongsByGenre() != null) {
-                            List<Child> newSongs = response.body().getSubsonicResponse().getSongsByGenre().getSongs();
-                            List<Child> songs = songsByGenre.getValue();
-
-                            if (songs == null) songs = new ArrayList<>();
-                            songs.addAll(newSongs);
-                            Collections.shuffle(songs);
-
-                            LinkedHashSet<Child> hashSet = new LinkedHashSet<>(songs);
-                            ArrayList<Child> songsWithoutDuplicates = new ArrayList<>(hashSet);
-
-                            songsByGenre.setValue(songsWithoutDuplicates);
+                            songsByGenre.setValue(response.body().getSubsonicResponse().getSongsByGenre().getSongs());
                         }
                     }
 

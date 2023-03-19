@@ -59,8 +59,8 @@
     <string name="genre_catalogue_title">Genre Catalogue</string>
     <string name="genre_catalogue_title_expanded">Browse Genres</string>
     <string name="home_subtitle_made_for_you">Start mix from a song you liked</string>
-    <string name="home_sync_starred_title">Start mix from a song you liked</string>
-    <string name="home_sync_starred_subtitle">Start mix from a song you liked</string>
+    <string name="home_sync_starred_title">Looks like there are some starred tracks to sync</string>
+    <string name="home_sync_starred_subtitle">Downloading these tracks may involve significant data usage</string>
     <string name="home_sync_starred_cancel">Cancel</string>
     <string name="home_sync_starred_download">Download</string>
     <string name="home_title_flashback">Flashback</string>

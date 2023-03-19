@@ -57,6 +57,7 @@ import com.google.android.gms.cast.framework.CastButtonFactory;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.common.util.concurrent.ListenableFuture;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -267,17 +268,19 @@ public class HomeFragment extends Fragment implements ClickCallback {
                 @Override
                 public void onChanged(List<Child> songs) {
                     if (songs != null) {
-                        boolean showAlert = false;
                         DownloaderManager manager = DownloadUtil.getDownloadTracker(requireContext());
+                        List<String> toSync = new ArrayList<>();
 
                         for (Child song : songs) {
                             if (!manager.isDownloaded(song.getId())) {
-                                showAlert = true;
-                                break;
+                                toSync.add(song.getTitle());
                             }
                         }
 
-                        if (showAlert) bind.homeSyncStarredCard.setVisibility(View.VISIBLE);
+                        if (!toSync.isEmpty()) {
+                            bind.homeSyncStarredCard.setVisibility(View.VISIBLE);
+                            bind.homeSyncStarredTracksToSync.setText(String.join(", ", toSync));
+                        }
                     }
 
                     homeViewModel.getAllStarredTracks().removeObserver(this);

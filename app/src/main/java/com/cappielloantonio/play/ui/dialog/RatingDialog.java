@@ -23,7 +23,7 @@ public class RatingDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        bind = DialogRatingBinding.inflate(LayoutInflater.from(requireContext()));
+        bind = DialogRatingBinding.inflate(getLayoutInflater());
         ratingViewModel = new ViewModelProvider(requireActivity()).get(RatingViewModel.class);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

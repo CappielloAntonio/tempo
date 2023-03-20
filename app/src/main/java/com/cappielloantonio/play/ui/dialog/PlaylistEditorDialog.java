@@ -33,7 +33,7 @@ public class PlaylistEditorDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        bind = DialogPlaylistEditorBinding.inflate(LayoutInflater.from(requireContext()));
+        bind = DialogPlaylistEditorBinding.inflate(getLayoutInflater());
         playlistEditorViewModel = new ViewModelProvider(requireActivity()).get(PlaylistEditorViewModel.class);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

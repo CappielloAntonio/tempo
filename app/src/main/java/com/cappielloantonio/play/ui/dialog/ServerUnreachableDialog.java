@@ -23,7 +23,7 @@ public class ServerUnreachableDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        bind = DialogServerUnreachableBinding.inflate(LayoutInflater.from(requireContext()));
+        bind = DialogServerUnreachableBinding.inflate(getLayoutInflater());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 

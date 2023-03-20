@@ -30,7 +30,7 @@ public class PlaylistChooserDialog extends DialogFragment implements ClickCallba
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        bind = DialogPlaylistChooserBinding.inflate(LayoutInflater.from(requireContext()));
+        bind = DialogPlaylistChooserBinding.inflate(getLayoutInflater());
         playlistChooserViewModel = new ViewModelProvider(requireActivity()).get(PlaylistChooserViewModel.class);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

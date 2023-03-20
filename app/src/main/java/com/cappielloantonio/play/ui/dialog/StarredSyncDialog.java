@@ -30,7 +30,7 @@ public class StarredSyncDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        bind = DialogStarredSyncBinding.inflate(LayoutInflater.from(requireContext()));
+        bind = DialogStarredSyncBinding.inflate(getLayoutInflater());
         starredSyncViewModel = new ViewModelProvider(requireActivity()).get(StarredSyncViewModel.class);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

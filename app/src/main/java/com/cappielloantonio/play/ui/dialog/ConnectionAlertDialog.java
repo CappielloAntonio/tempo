@@ -22,7 +22,7 @@ public class ConnectionAlertDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        bind = DialogConnectionAlertBinding.inflate(LayoutInflater.from(requireContext()));
+        bind = DialogConnectionAlertBinding.inflate(getLayoutInflater());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 

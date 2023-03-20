@@ -38,6 +38,7 @@ public class StarredSyncDialog extends DialogFragment {
         builder.setView(bind.getRoot())
                 .setTitle(R.string.starred_sync_dialog_title)
                 .setPositiveButton(R.string.starred_sync_dialog_positive_button, null)
+                .setNeutralButton(R.string.starred_sync_dialog_neutral_button, null)
                 .setNegativeButton(R.string.starred_sync_dialog_negative_button, null);
 
         return builder.create();
@@ -71,6 +72,12 @@ public class StarredSyncDialog extends DialogFragment {
 
                     dialog.dismiss();
                 });
+            });
+
+            Button neutralButton = dialog.getButton(Dialog.BUTTON_NEUTRAL);
+            neutralButton.setOnClickListener(v -> {
+                Preferences.setStarredSyncEnabled(true);
+                dialog.dismiss();
             });
 
             Button negativeButton = dialog.getButton(Dialog.BUTTON_NEGATIVE);

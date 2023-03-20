@@ -8,9 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.media3.session.MediaBrowser;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.ItemPlayerQueueSongBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
@@ -59,6 +56,9 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
             if (position < index) {
                 holder.item.queueSongTitleTextView.setAlpha(0.2f);
                 holder.item.queueSongSubtitleTextView.setAlpha(0.2f);
+            } else {
+                holder.item.queueSongTitleTextView.setAlpha(1.0f);
+                holder.item.queueSongSubtitleTextView.setAlpha(1.0f);
             }
         });
     }
@@ -78,11 +78,6 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
             return 0;
         }
         return songs.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return position;
     }
 
     @Override

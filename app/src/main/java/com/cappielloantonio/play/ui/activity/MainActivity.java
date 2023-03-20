@@ -24,6 +24,7 @@ import com.cappielloantonio.play.ui.activity.base.BaseActivity;
 import com.cappielloantonio.play.ui.dialog.ConnectionAlertDialog;
 import com.cappielloantonio.play.ui.dialog.ServerUnreachableDialog;
 import com.cappielloantonio.play.ui.fragment.PlayerBottomSheetFragment;
+import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.Preferences;
 import com.cappielloantonio.play.viewmodel.MainViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -265,6 +266,13 @@ public class MainActivity extends BaseActivity {
         Preferences.setPassword(null);
         Preferences.setServer(null);
         Preferences.setUser(null);
+
+        // TODO Enter all settings to be reset
+        Preferences.setServerId(null);
+        Preferences.setPlaybackSpeed(Constants.MEDIA_PLAYBACK_SPEED_100);
+        Preferences.setSkipSilenceMode(false);
+        Preferences.setDataSavingMode(false);
+        Preferences.setStarredSyncEnabled(false);
     }
 
     private void resetMusicSession() {

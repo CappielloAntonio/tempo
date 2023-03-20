@@ -60,14 +60,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="28dp"
+                android:layout_marginBottom="24dp"
                 android:visibility="gone">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="12dp">
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="20dp">
 
                     <!-- Title, secondary and supporting text -->
                     <TextView
@@ -87,7 +88,6 @@
                         style="@style/TitleMedium"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:paddingTop="4dp"
                         android:text="@string/home_sync_starred_subtitle"
                         android:textAppearance="?attr/textAppearanceBodyMedium"
                         android:textColor="?android:attr/textColorSecondary"
@@ -100,7 +100,7 @@
                         style="@style/TitleSmall"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:paddingTop="8dp"
+                        android:paddingTop="16dp"
                         android:text="@string/home_sync_starred_subtitle"
                         android:textAppearance="?attr/textAppearanceBodyMedium"
                         android:textColor="?android:attr/textColorSecondary"
@@ -111,7 +111,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:gravity="end"
                         android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"

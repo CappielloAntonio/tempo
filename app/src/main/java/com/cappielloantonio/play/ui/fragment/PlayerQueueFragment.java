@@ -60,6 +60,7 @@ public class PlayerQueueFragment extends Fragment implements ClickCallback {
     public void onResume() {
         super.onResume();
         setMediaBrowserListenableFuture();
+        updateNowPlayingItem();
     }
 
     @Override
@@ -148,6 +149,10 @@ public class PlayerQueueFragment extends Fragment implements ClickCallback {
                 viewHolder.getBindingAdapter().notifyDataSetChanged();
             }
         }).attachToRecyclerView(bind.playerQueueRecyclerView);
+    }
+
+    private void updateNowPlayingItem() {
+        playerSongQueueAdapter.notifyDataSetChanged();
     }
 
     @Override

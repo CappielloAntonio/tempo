@@ -39,6 +39,14 @@ jobs:
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
+
+      - name: Build Release bundle
+        env:
+          KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
+          KEY_ALIAS_GITHUB: ${{ secrets.KEY_ALIAS_GITHUB }}
+          KEY_PASSWORD_GITHUB: ${{ secrets.KEY_PASSWORD_GITHUB }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: ./gradlew bundleRelease
           
       - name: Build Release apk
         env:
@@ -47,14 +55,6 @@ jobs:
           KEY_PASSWORD_GITHUB: ${{ secrets.KEY_PASSWORD_GITHUB }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
         run: ./gradlew assembleRelease
- 
-      - name: Build Release bundle
-        env:
-          KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
-          KEY_ALIAS_GITHUB: ${{ secrets.KEY_ALIAS_GITHUB }}
-          KEY_PASSWORD_GITHUB: ${{ secrets.KEY_PASSWORD_GITHUB }}
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        run: ./gradlew bundleRelease
 
       - name: Upload Release Build to Artifacts
         uses: actions/upload-artifact@v3

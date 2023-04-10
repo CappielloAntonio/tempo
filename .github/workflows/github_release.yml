@@ -75,7 +75,7 @@ jobs:
           name: release-artifacts
 
       - name: List Files
-        run: ls release-files
+        run: ls release-artifacts
 
       - name: Create Github Release
         uses: softprops/action-gh-release@v1

@@ -9,8 +9,6 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
       - name: Setup JDK 8
         uses: actions/setup-java@v3
         with:
@@ -24,6 +22,8 @@ jobs:
         run: |
           echo $ENCODED_STRING > keystore-b64.txt
           base64 -di keystore-b64.txt > $KEYSTORE_PATH
+
+      - uses: actions/checkout@v3
       
       - name: Cache Gradle and wrapper
         uses: actions/cache@v3

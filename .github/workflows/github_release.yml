@@ -61,8 +61,8 @@ jobs:
         with:
           name: release-artifacts
           path: |
-            app/**/*.apk
-            app/**/*.aab
+            app/build/outputs/apk/release/
+            app/build/outputs/bundle/release/
           if-no-files-found: error
         
         
@@ -81,6 +81,6 @@ jobs:
           generate_release_notes: true
           prerelease: true
           files: |
-            app/**/*.apk
-            app/**/*.aab
+            app/build/outputs/apk/release/app-release.apk
+            app/build/outputs/bundle/release/app-release.aab
           # body_path: app/src/main/play/release-notes/en-GB/default.txt

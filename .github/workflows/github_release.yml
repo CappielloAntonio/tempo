@@ -14,21 +14,17 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 8
-          
-          
-  decode:
-    runs-on: ubuntu-latest
-    steps:
+
       - name: Decode Keystore
-        env:
-          ENCODED_STRING: ${{ secrets.KEYSTORE_BASE64 }}
-          KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
-        run: |
-          echo $ENCODED_STRING > keystore-b64.txt
-          base64 -di keystore-b64.txt > $KEYSTORE_PATH
+          env:
+            ENCODED_STRING: ${{ secrets.KEYSTORE_BASE64 }}
+            KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
+          run: |
+            echo $ENCODED_STRING > keystore-b64.txt
+            base64 -di keystore-b64.txt > $KEYSTORE_PATH
 
   build:
-    needs: [ setup, decode ]
+    needs: setup
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -70,8 +66,9 @@ jobs:
         with:
           name: release-artifacts
           path: |
-            app/build/outputs/apk/release/
-            app/build/outputs/bundle/release/
+            app/**/*.apk
+            app/**/*.aab
+        if-no-files-found: error
 
       - name: Create Github Release
         uses: softprops/action-gh-release@v1
@@ -80,6 +77,6 @@ jobs:
           generate_release_notes: true
           prerelease: true
           files: |
-            app/build/outputs/apk/release/app-release.apk
-            app/build/outputs/bundle/release/app-release.aab
+            app/**/*.apk
+            app/**/*.aab
           # body_path: app/src/main/play/release-notes/en-GB/default.txt

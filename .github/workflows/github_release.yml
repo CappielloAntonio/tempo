@@ -1,0 +1,88 @@
+name: Github Release Workflow
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup JDK 8
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 8
+          
+          
+  decode:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decode Keystore
+        env:
+          ENCODED_STRING: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
+        run: |
+          echo $ENCODED_STRING > keystore-b64.txt
+          base64 -d keystore-b64.txt > $KEYSTORE_PATH 
+      
+          
+  build:
+    needs: [ setup, decode ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Cache Gradle and wrapper
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          
+      - name: Build Release apk
+        env:
+          KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
+          KEY_ALIAS_GITHUB: ${{ secrets.KEY_ALIAS_GITHUB }}
+          KEY_PASSWORD_GITHUB: ${{ secrets.KEY_PASSWORD_GITHUB }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: ./gradlew assembleRelease
+ 
+      - name: Build Release bundle
+        env:
+          KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
+          KEY_ALIAS_GITHUB: ${{ secrets.KEY_ALIAS_GITHUB }}
+          KEY_PASSWORD_GITHUB: ${{ secrets.KEY_PASSWORD_GITHUB }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: ./gradlew bundleRelease
+        
+        
+  upload:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:  
+      - name: Upload Release Build to Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-artifacts
+          paths: |
+            app/build/outputs/apk/release/
+            app/build/outputs/bundle/release/
+          
+          
+  release:
+    needs: upload
+    runs-on: ubuntu-latest
+    steps:  
+      - name: Create Github Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: v${{ github.ref_name }}
+          generate_release_notes: true
+          prerelease: true
+          files: |
+            app/build/outputs/apk/release/app-release.apk
+            app/build/outputs/bundle/release/app-release.aab
+          # body_path: app/src/main/play/release-notes/en-GB/default.txt

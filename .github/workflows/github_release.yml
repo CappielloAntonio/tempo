@@ -68,7 +68,7 @@ jobs:
           path: |
             app/**/*.apk
             app/**/*.aab
-        if-no-files-found: error
+          if-no-files-found: error
 
       - name: Create Github Release
         uses: softprops/action-gh-release@v1

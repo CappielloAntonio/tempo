@@ -11,7 +11,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 33
         versionCode 4
-        versionName '3.1.0'
+        versionName '3.2.0'
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
@@ -22,6 +22,15 @@ android {
                         "room.incremental"   : "true"
                 ]
             }
+        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("keystore.jks")
+            storePassword System.getenv("SIGNING_STORE_PASSWORD")
+            keyAlias System.getenv("SIGNING_KEY_ALIAS")
+            keyPassword System.getenv("SIGNING_KEY_PASSWORD")
         }
     }
 

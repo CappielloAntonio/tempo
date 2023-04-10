@@ -77,6 +77,6 @@ jobs:
           generate_release_notes: true
           prerelease: true
           files: |
-            app/build/outputs/apk/release/*.apk
-            app/build/outputs/bundle/release/*.aab
+            **/*.apk
+            **/*.aab
           # body_path: app/src/main/play/release-notes/en-GB/default.txt

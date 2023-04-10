@@ -74,6 +74,9 @@ jobs:
         with:
           name: release-artifacts
 
+      - name: List Files
+        run: ls release-files
+
       - name: Create Github Release
         uses: softprops/action-gh-release@v1
         with:
@@ -81,6 +84,6 @@ jobs:
           generate_release_notes: true
           prerelease: true
           files: |
-            app/**/*.apk
-            app/**/*.aab
+            **/*.apk
+            **/*.aab
           # body_path: app/src/main/play/release-notes/en-GB/default.txt

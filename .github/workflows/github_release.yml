@@ -70,10 +70,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v3
-        with:
-          name: release-artifacts
-
       - name: Create Github Release
         uses: softprops/action-gh-release@v1
         with:
@@ -81,6 +77,6 @@ jobs:
           generate_release_notes: true
           prerelease: true
           files: |
-            **/*.apk
-            **/*.aab
+            app/build/outputs/apk/release/*.apk
+            app/build/outputs/bundle/release/*.aab
           # body_path: app/src/main/play/release-notes/en-GB/default.txt

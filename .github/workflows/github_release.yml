@@ -6,7 +6,7 @@ on:
       - '[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
-  release:
+  setup:
     runs-on: ubuntu-latest
     steps:
       - name: Setup JDK 8
@@ -23,6 +23,10 @@ jobs:
           echo $ENCODED_STRING > keystore-b64.txt
           base64 -di keystore-b64.txt > $KEYSTORE_PATH
 
+  build:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v3
       
       - name: Cache Gradle and wrapper
@@ -60,6 +64,15 @@ jobs:
             app/build/outputs/apk/release/
             app/build/outputs/bundle/release/
           if-no-files-found: error
+
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: release-artifacts
 
       - name: Create Github Release
         uses: softprops/action-gh-release@v1

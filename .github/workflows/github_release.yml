@@ -61,7 +61,7 @@ jobs:
         run: ./gradlew bundleRelease
         
         
-  upload:
+  release:
     needs: build
     runs-on: ubuntu-latest
     steps:  
@@ -72,12 +72,7 @@ jobs:
           path: |
             app/build/outputs/apk/release/
             app/build/outputs/bundle/release/
-          
-          
-  release:
-    needs: upload
-    runs-on: ubuntu-latest
-    steps:  
+
       - name: Create Github Release
         uses: softprops/action-gh-release@v1
         with:

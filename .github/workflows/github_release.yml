@@ -84,7 +84,5 @@ jobs:
           name: v${{ github.ref_name }}
           generate_release_notes: true
           prerelease: true
-          files: |
-            app/build/outputs/apk/release/app-release.apk
-            app/build/outputs/bundle/release/app-release.aab
+          files: app/build/outputs/apk/release/app-release.apk
           # body_path: app/src/main/play/release-notes/en-GB/default.txt

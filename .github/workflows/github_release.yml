@@ -55,12 +55,7 @@ jobs:
           KEY_PASSWORD_GITHUB: ${{ secrets.KEY_PASSWORD_GITHUB }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
         run: ./gradlew bundleRelease
-        
-        
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:  
+
       - name: Upload Release Build to Artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -69,6 +64,15 @@ jobs:
             app/**/*.apk
             app/**/*.aab
           if-no-files-found: error
+        
+        
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: release-bundle
 
       - name: Create Github Release
         uses: softprops/action-gh-release@v1

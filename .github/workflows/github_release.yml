@@ -25,7 +25,7 @@ jobs:
           KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
         run: |
           echo $ENCODED_STRING > keystore-b64.txt
-          base64 -d keystore-b64.txt > $KEYSTORE_PATH
+          base64 -di keystore-b64.txt > $KEYSTORE_PATH
 
   build:
     needs: [ setup, decode ]

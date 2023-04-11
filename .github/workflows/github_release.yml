@@ -52,24 +52,24 @@ jobs:
           name: app-release-signed
           path: ${{steps.sign_apk.outputs.signedReleaseFile}}
 
-      - name: Build AAB
-        run: bash ./gradlew bundleRelease
+#      - name: Build AAB
+#        run: bash ./gradlew bundleRelease
 
-      - name: Sign AAB
-        id: sign_aab
-        uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: app/build/outputs/bundle/release
-          signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
-          alias: ${{ secrets.KEY_ALIAS_GITHUB }}
-          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD_GITHUB }}
+#      - name: Sign AAB
+#        id: sign_aab
+#        uses: r0adkll/sign-android-release@v1
+#        with:
+#          releaseDirectory: app/build/outputs/bundle/release
+#          signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
+#          alias: ${{ secrets.KEY_ALIAS_GITHUB }}
+#          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+#          keyPassword: ${{ secrets.KEY_PASSWORD_GITHUB }}
 
-      - name: Make artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-release-signed
-          path: ${{steps.sign_aab.outputs.signedReleaseFile}}
+#      - name: Make artifact
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: app-release-signed
+#          path: ${{steps.sign_aab.outputs.signedReleaseFile}}
 
       - name: Build Changelog
         id: changelog
@@ -97,15 +97,15 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{steps.sign_apk.outputs.signedReleaseFile}}
-          asset_name: app-release-signed-${{ steps.var.outputs.tag }}.apk
+          asset_name: app-release.apk
           asset_content_type: application/zip
 
-      - name: Upload AAB
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{steps.sign_aab.outputs.signedReleaseFile}}
-          asset_name: app-release-signed-${{ steps.var.outputs.tag }}.aab
-          asset_content_type: application/zip
+#      - name: Upload AAB
+#        uses: actions/upload-release-asset@v1
+#        env:
+#          GITHUB_TOKEN: ${{ github.token }}
+#        with:
+#          upload_url: ${{ steps.create_release.outputs.upload_url }}
+#          asset_path: ${{steps.sign_aab.outputs.signedReleaseFile}}
+#          asset_name: app-release.aab
+#          asset_content_type: application/zip

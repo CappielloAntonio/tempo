@@ -71,6 +71,10 @@ jobs:
           name: app-release-signed
           path: ${{steps.sign_aab.outputs.signedReleaseFile}}
 
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: Build Changelog
         id: changelog
         uses: ardalanamini/auto-changelog@v3

@@ -53,7 +53,7 @@ jobs:
           path: ${{steps.sign_apk.outputs.signedReleaseFile}}
 
       - name: Build AAB
-          run: bash ./gradlew bundleRelease
+        run: bash ./gradlew bundleRelease
 
       - name: Sign AAB
         id: sign_aab

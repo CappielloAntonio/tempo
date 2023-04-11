@@ -71,22 +71,23 @@ jobs:
 #          name: app-release-signed
 #          path: ${{steps.sign_aab.outputs.signedReleaseFile}}
 
-      - name: Build Changelog
-        id: changelog
-        uses: ardalanamini/auto-changelog@v3
-        with:
-          mention-authors: false
-          mention-new-contributors: false
-          include-compare: false
-          semver: false
+#      - name: Build Changelog
+#        id: changelog
+#        uses: ardalanamini/auto-changelog@v3
+#        with:
+#          mention-authors: false
+#          mention-new-contributors: false
+#          include-compare: false
+#          semver: false
 
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         with:
           tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: ${{ steps.changelog.outputs.changelog }}
+          release_name: Release v${{ github.ref }}
+          body: '> Changelog coming soon'
+#          body: ${{ steps.changelog.outputs.changelog }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
 

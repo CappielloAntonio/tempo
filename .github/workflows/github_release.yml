@@ -6,7 +6,7 @@ on:
       - '[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
-  setup:
+  release:
     runs-on: ubuntu-latest
     steps:
       - name: Setup JDK 8
@@ -15,10 +15,6 @@ jobs:
           distribution: 'temurin'
           java-version: 8
 
-  build:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
       - uses: actions/checkout@v3
 
       - name: Cache Gradle and wrapper
@@ -71,10 +67,6 @@ jobs:
           name: app-release-signed
           path: ${{steps.sign_aab.outputs.signedReleaseFile}}
 
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
       - name: Build Changelog
         id: changelog
         uses: ardalanamini/auto-changelog@v3

@@ -6,7 +6,7 @@ on:
       - '[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
-  setup:
+  release:
     runs-on: ubuntu-latest
     steps:
       - name: Setup JDK 8
@@ -28,10 +28,6 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-  build-apk:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
       - name: Build APK
         id: build
         run: bash ./gradlew assembleRelease
@@ -52,10 +48,6 @@ jobs:
           name: app-release-signed
           path: ${{steps.sign_apk.outputs.signedReleaseFile}}
 
-  build-aab:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
       - name: Build AAB
         run: bash ./gradlew bundleRelease
 
@@ -75,10 +67,6 @@ jobs:
           name: app-release-signed
           path: ${{steps.sign_aab.outputs.signedReleaseFile}}
 
-  release:
-    needs: [ build-apk, build-aab ]
-    runs-on: ubuntu-latest
-    steps:
       - name: Build Changelog
         id: changelog
         uses: ardalanamini/auto-changelog@v3

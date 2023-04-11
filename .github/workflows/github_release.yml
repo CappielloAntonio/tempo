@@ -15,14 +15,6 @@ jobs:
           distribution: 'temurin'
           java-version: 8
 
-      - name: Decode Keystore
-        env:
-          ENCODED_STRING: ${{ secrets.KEYSTORE_BASE64 }}
-          KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
-        run: |
-          echo $ENCODED_STRING > keystore-b64.txt
-          base64 -di keystore-b64.txt > $KEYSTORE_PATH
-
   build:
     needs: setup
     runs-on: ubuntu-latest
@@ -40,43 +32,80 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Build Release bundle
-        env:
-          KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
-          KEY_ALIAS_GITHUB: ${{ secrets.KEY_ALIAS_GITHUB }}
-          KEY_PASSWORD_GITHUB: ${{ secrets.KEY_PASSWORD_GITHUB }}
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        run: ./gradlew bundleRelease
-          
-      - name: Build Release apk
-        env:
-          KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
-          KEY_ALIAS_GITHUB: ${{ secrets.KEY_ALIAS_GITHUB }}
-          KEY_PASSWORD_GITHUB: ${{ secrets.KEY_PASSWORD_GITHUB }}
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        run: ./gradlew assembleRelease
+      - name: Build APK
+        id: build
+        run: bash ./gradlew assembleRelease
 
-      - name: Upload Release Build to Artifacts
-        uses: actions/upload-artifact@v3
+      - name: Sign APK
+        id: sign_apk
+        uses: r0adkll/sign-android-release@v1
         with:
-          name: release-artifacts
-          path: |
-            app/build/outputs/apk/release/
-            app/build/outputs/bundle/release/
-          if-no-files-found: error
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
+          alias: ${{ secrets.KEY_ALIAS_GITHUB }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD_GITHUB }}
 
-
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create Github Release
-        uses: softprops/action-gh-release@v1
+      - name: Make artifact
+        uses: actions/upload-artifact@v2
         with:
-          name: v${{ github.ref_name }}
-          generate_release_notes: true
-          prerelease: true
-          files: |
-            **/*.apk
-            **/*.aab
-          # body_path: app/src/main/play/release-notes/en-GB/default.txt
+          name: app-release-signed
+          path: ${{steps.sign_apk.outputs.signedReleaseFile}}
+
+      - name: Build AAB
+          run: bash ./gradlew bundleRelease
+
+      - name: Sign AAB
+        id: sign_aab
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/bundle/release
+          signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
+          alias: ${{ secrets.KEY_ALIAS_GITHUB }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD_GITHUB }}
+
+      - name: Make artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release-signed
+          path: ${{steps.sign_aab.outputs.signedReleaseFile}}
+
+      - name: Build Changelog
+        id: changelog
+        uses: ardalanamini/auto-changelog@v3
+        with:
+          mention-authors: false
+          mention-new-contributors: false
+          include-compare: false
+          semver: false
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: ${{ steps.changelog.outputs.changelog }} &#x20;
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Upload APK
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{steps.sign_apk.outputs.signedReleaseFile}}
+          asset_name: app-release-signed-${{ steps.var.outputs.tag }}.apk
+          asset_content_type: application/zip
+
+      - name: Upload AAB
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{steps.sign_aab.outputs.signedReleaseFile}}
+          asset_name: app-release-signed-${{ steps.var.outputs.tag }}.aab
+          asset_content_type: application/zip

@@ -25,15 +25,6 @@ android {
         }
     }
 
-    signingConfigs {
-        release {
-            storeFile file("keystore.jks")
-            storePassword System.getenv("KEYSTORE_PASSWORD")
-            keyAlias System.getenv("KEY_ALIAS_GITHUB")
-            keyPassword System.getenv("KEY_PASSWORD_GITHUB")
-        }
-    }
-
     buildTypes {
         release {
             shrinkResources true

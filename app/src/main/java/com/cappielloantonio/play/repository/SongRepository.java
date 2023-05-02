@@ -256,7 +256,7 @@ public class SongRepository {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getLyrics() != null) {
-                            lyrics.setValue(response.body().getSubsonicResponse().getLyrics().getContent());
+                            lyrics.setValue(response.body().getSubsonicResponse().getLyrics().getValue());
                         }
                     }
 

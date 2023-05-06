@@ -136,7 +136,7 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     }
 
     private void init() {
-        bind.musicDiscoveryTextViewRefreshable.setOnLongClickListener(v -> {
+        bind.discoveryTextViewRefreshable.setOnLongClickListener(v -> {
             homeViewModel.refreshDiscoverySongSample(getViewLifecycleOwner());
             return true;
         });

@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="24dp"
             android:visibility="gone">
 
@@ -114,15 +114,15 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/music_discovery_text_view_refreshable"
+                android:id="@+id/discovery_text_view_refreshable"
                 style="@style/TitleLarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:paddingStart="16dp"
-                android:paddingTop="8dp"
+                android:paddingTop="16dp"
                 android:paddingEnd="16dp"
-                android:text="@string/home_title_music_discovery" />
+                android:text="@string/home_title_discovery" />
 
             <!--  slideview  -->
             <androidx.viewpager2.widget.ViewPager2

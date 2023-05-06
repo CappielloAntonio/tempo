@@ -24,19 +24,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:behavior_hideable="true"
-            app:behavior_peekHeight="@dimen/bottom_sheet_peek_height"
+            app:behavior_peekHeight="@dimen/bottom_sheet_behavior_peek_height"
             app:layout_behavior="@string/bottom_sheet_behavior" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:layout_gravity="bottom"
+            android:visibility="gone"
+            app:menu="@menu/bottom_nav_menu" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
-        android:visibility="gone"
-        app:menu="@menu/bottom_nav_menu" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <TextView
         android:id="@+id/offline_mode_text_view"

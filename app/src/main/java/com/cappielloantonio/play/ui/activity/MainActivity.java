@@ -147,6 +147,8 @@ public class MainActivity extends BaseActivity {
 
     private final BottomSheetBehavior.BottomSheetCallback bottomSheetCallback =
             new BottomSheetBehavior.BottomSheetCallback() {
+                int navigationHeight;
+
                 @Override
                 public void onStateChanged(@NonNull View view, int state) {
                     PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
@@ -169,14 +171,31 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 public void onSlide(@NonNull View view, float slideOffset) {
-                    PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
-                    if (playerBottomSheetFragment != null) {
-                        float condensedSlideOffset = Math.max(0.0f, Math.min(0.2f, slideOffset - 0.2f)) / 0.2f;
-                        playerBottomSheetFragment.getPlayerHeader().setAlpha(1 - condensedSlideOffset);
-                        playerBottomSheetFragment.getPlayerHeader().setVisibility(condensedSlideOffset > 0.99 ? View.GONE : View.VISIBLE);
-                    }
+                    animateBottomSheet(slideOffset);
+                    animateBottomNavigation(slideOffset, navigationHeight);
                 }
             };
+
+    private void animateBottomSheet(float slideOffset) {
+        PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
+        if (playerBottomSheetFragment != null) {
+            float condensedSlideOffset = Math.max(0.0f, Math.min(0.2f, slideOffset - 0.2f)) / 0.2f;
+            playerBottomSheetFragment.getPlayerHeader().setAlpha(1 - condensedSlideOffset);
+            playerBottomSheetFragment.getPlayerHeader().setVisibility(condensedSlideOffset > 0.99 ? View.GONE : View.VISIBLE);
+        }
+    }
+
+    private void animateBottomNavigation(float slideOffset, int navigationHeight) {
+        if (slideOffset < 0) return;
+
+        if (navigationHeight == 0) {
+            navigationHeight = bind.bottomNavigation.getHeight();
+        }
+
+        float slideY = navigationHeight - navigationHeight * (1 - slideOffset);
+
+        bind.bottomNavigation.setTranslationY(slideY);
+    }
 
     private void initNavigation() {
         bottomNavigationView = findViewById(R.id.bottom_navigation);

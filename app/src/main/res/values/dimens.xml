@@ -1,8 +1,9 @@
 <resources>
     <dimen name="appbar_header_height">296dp</dimen>
     <dimen name="activity_margin_content">24dp</dimen>
+    <dimen name="bottom_sheet_behavior_peek_height">136dp</dimen>
     <dimen name="bottom_sheet_peek_height">56dp</dimen>
-    <dimen name="global_padding_bottom">128dp</dimen>
+    <dimen name="global_padding_bottom">164dp</dimen>
     <dimen name="radius">2dp</dimen>
     <dimen name="dots_height">2dp</dimen>
     <dimen name="downloaded_item_padding">12dp</dimen>

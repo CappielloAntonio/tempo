@@ -65,6 +65,7 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.5.1'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.core:core-splashscreen:1.0.1'
 
     // Google GMS
     implementation 'com.google.android.gms:play-services-cast-framework:21.3.0'

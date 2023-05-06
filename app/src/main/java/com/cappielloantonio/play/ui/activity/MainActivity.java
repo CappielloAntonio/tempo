@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.splashscreen.SplashScreen;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.Player;
@@ -52,6 +53,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen.installSplashScreen(this);
+
         super.onCreate(savedInstanceState);
 
         bind = ActivityMainBinding.inflate(getLayoutInflater());

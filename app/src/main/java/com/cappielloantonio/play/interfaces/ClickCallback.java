@@ -28,9 +28,13 @@ public interface ClickCallback {
 
     default void onServerLongClick(Bundle bundle) {}
 
-    default void onPodcastClick(Bundle bundle) {}
+    default void onPodcastEpisodeClick(Bundle bundle) {}
 
-    default void onPodcastLongClick(Bundle bundle) {}
+    default void onPodcastEpisodeLongClick(Bundle bundle) {}
+
+    default void onPodcastChannelClick(Bundle bundle) {}
+
+    default void onPodcastChannelLongClick(Bundle bundle) {}
 
     default void onInternetRadioStationClick(Bundle bundle) {}
 

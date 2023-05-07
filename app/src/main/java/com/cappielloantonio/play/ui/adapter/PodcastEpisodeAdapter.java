@@ -7,9 +7,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.ItemHomePodcastEpisodeBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
@@ -47,7 +44,7 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
         holder.item.podcastTitleLabel.setText(MusicUtil.getReadableString(podcastEpisode.getTitle()));
         holder.item.podcastSubtitleLabel.setText(MusicUtil.getReadableString(podcastEpisode.getArtist()));
         holder.item.podcastReleasesAndDurationLabel.setText(holder.itemView.getContext().getString(R.string.podcast_release_date_duration_formatter, simpleDateFormat.format(podcastEpisode.getPublishDate()), MusicUtil.getReadablePodcastDurationString(podcastEpisode.getDuration())));
-        holder.item.podcastDescriptionLabel.setText(MusicUtil.getReadableString(podcastEpisode.getDescription()));
+        holder.item.podcastDescriptionText.setText(MusicUtil.getReadableString(podcastEpisode.getDescription()));
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), podcastEpisode.getCoverArtId())
@@ -74,22 +71,24 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
             this.item = item;
 
             itemView.setOnClickListener(v -> onClick());
+            itemView.setOnLongClickListener(v -> openMore());
 
-            item.podcastMoreButton.setOnLongClickListener(v -> openMore());
+            item.podcastPlayButton.setOnClickListener(v -> onClick());
+            item.podcastMoreButton.setOnClickListener(v -> openMore());
         }
 
         public void onClick() {
             Bundle bundle = new Bundle();
             bundle.putParcelable(Constants.PODCAST_OBJECT, podcastEpisodes.get(getBindingAdapterPosition()));
 
-            click.onPodcastClick(bundle);
+            click.onPodcastEpisodeClick(bundle);
         }
 
         private boolean openMore() {
             Bundle bundle = new Bundle();
             bundle.putParcelable(Constants.PODCAST_OBJECT, podcastEpisodes.get(getBindingAdapterPosition()));
 
-            click.onPodcastLongClick(bundle);
+            click.onPodcastEpisodeLongClick(bundle);
 
             return true;
         }

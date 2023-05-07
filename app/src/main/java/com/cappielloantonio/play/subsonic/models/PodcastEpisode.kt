@@ -1,6 +1,7 @@
 package com.cappielloantonio.play.subsonic.models
 
 import android.os.Parcelable
+import androidx.room.ColumnInfo
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import java.util.*
@@ -29,11 +30,14 @@ class PodcastEpisode : Parcelable {
     var transcodedContentType: String? = null
     var transcodedSuffix: String? = null
     var duration: Int? = null
-    var bitRate: Int? = null
+    @ColumnInfo("bitrate")
+    @SerializedName("bitRate")
+    var bitrate: Int? = null
     var path: String? = null
 
+    @ColumnInfo(name = "is_video")
     @SerializedName("isVideo")
-    var video: Boolean? = null
+    var isVideo: Boolean = false
     var userRating: Int? = null
     var averageRating: Double? = null
     var playCount: Long? = null

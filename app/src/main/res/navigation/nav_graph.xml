@@ -65,6 +65,9 @@
         <action
             android:id="@+id/action_homeFragment_to_playlistPageFragment"
             app:destination="@id/playlistPageFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_podcastChannelCatalogueFragment"
+            app:destination="@id/podcastChannelCatalogueFragment" />
     </fragment>
     <fragment
         android:id="@+id/libraryFragment"
@@ -127,7 +130,7 @@
             app:destination="@id/settingsFragment" />
         <action
             android:id="@+id/action_downloadFragment_to_searchFragment"
-            app:destination="@id/searchFragment"/>
+            app:destination="@id/searchFragment" />
         <action
             android:id="@+id/action_downloadFragment_to_playlistPageFragment"
             app:destination="@id/playlistPageFragment" />
@@ -262,6 +265,20 @@
         android:name="com.cappielloantonio.play.ui.fragment.PlaylistPageFragment"
         android:label="PlaylistPageFragment"
         tools:layout="@layout/fragment_playlist_page" />
+    <fragment
+        android:id="@+id/podcastChannelCatalogueFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.PodcastChannelCatalogueFragment"
+        android:label="PodcastChannelCatalogueFragment"
+        tools:layout="@layout/fragment_podcast_channel_catalogue">
+        <action
+            android:id="@+id/action_podcastChannelCatalogueFragment_to_podcastChannelPageFragment"
+            app:destination="@id/podcastChannelPageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/podcastChannelPageFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.PodcastChannelPageFragment"
+        android:label="PodcastChannelPageFragment"
+        tools:layout="@layout/fragment_podcast_channel_page" />
     <dialog
         android:id="@+id/songBottomSheetDialog"
         android:name="com.cappielloantonio.play.ui.fragment.bottomsheetdialog.SongBottomSheetDialog"

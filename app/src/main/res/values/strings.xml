@@ -80,6 +80,7 @@
     <string name="home_title_starred_tracks">★ Starred tracks</string>
     <string name="home_title_starred_tracks_see_all_button">See all</string>
     <string name="home_title_internet_radio_station">Internet radio stations</string>
+    <string name="home_title_podcast_channels_see_all_button">See all</string>
     <string name="label_dot_separator">•</string>
     <string name="label_placeholder">--</string>
     <string name="library_title_album">Albums</string>
@@ -118,6 +119,10 @@
     <string name="playlist_page_play_button">Play</string>
     <string name="playlist_page_shuffle_button">Shuffle</string>
     <string name="playlist_song_count">Playlist  •  %1$d songs</string>
+    <string name="podcast_channel_catalogue_title_expanded">Browse Channels</string>
+    <string name="podcast_channel_catalogue_title">Channels</string>
+    <string name="podcast_channel_page_title_description_section">Description</string>
+    <string name="podcast_channel_page_title_episode_section">Episodes</string>
     <string name="podcast_release_date_duration_formatter">%1$s  •  %2$s</string>
     <string name="radio_editor_dialog_hint_name">Radio Name</string>
     <string name="radio_editor_dialog_hint_stream_url">Radio Stream URL</string>
@@ -219,6 +224,7 @@
     <string name="home_title_best_of">Best of</string>
     <string name="home_subtitle_best_of">Top songs of your favorite artists</string>
     <string name="home_title_newest_podcasts">Newest podcasts</string>
+    <string name="home_title_podcast_channels">Channels</string>
     <string name="artist_adapter_radio_station_starting">Searching…</string>
     <string name="podcast_bottom_sheet_go_to_channel">Go to channel</string>
     <string name="podcast_bottom_sheet_remove">Remove</string>

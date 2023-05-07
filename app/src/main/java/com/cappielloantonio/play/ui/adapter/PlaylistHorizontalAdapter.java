@@ -9,9 +9,6 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.ItemHorizontalPlaylistBinding;
 import com.cappielloantonio.play.glide.CustomGlideRequest;
@@ -114,11 +111,12 @@ public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHori
             super(item.getRoot());
 
             this.item = item;
-
             item.playlistTitleTextView.setSelected(true);
 
             itemView.setOnClickListener(v -> onClick());
             itemView.setOnLongClickListener(v -> onLongClick());
+
+            item.playlistMoreButton.setOnClickListener(v -> onLongClick());
         }
 
         public void onClick() {

@@ -29,7 +29,7 @@
         android:singleLine="true"
         android:text="@string/label_placeholder"
         app:layout_constraintBottom_toTopOf="@id/playlist_subtitle_text_view"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/playlist_more_button"
         app:layout_constraintStart_toEndOf="@+id/playlist_cover_image_view"
         app:layout_constraintTop_toTopOf="@+id/playlist_cover_image_view"
         app:layout_constraintVertical_chainStyle="packed" />
@@ -44,7 +44,18 @@
         android:singleLine="true"
         android:text="@string/label_placeholder"
         app:layout_constraintBottom_toBottomOf="@+id/playlist_cover_image_view"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/playlist_more_button"
         app:layout_constraintStart_toEndOf="@+id/playlist_cover_image_view"
         app:layout_constraintTop_toBottomOf="@+id/playlist_title_text_view" />
+
+    <ImageView
+        android:id="@+id/playlist_more_button"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/ic_more_vert"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

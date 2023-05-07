@@ -12,6 +12,7 @@ object Constants {
     const val GENRE_OBJECT = "GENRE_OBJECT"
     const val PLAYLIST_OBJECT = "PLAYLIST_OBJECT"
     const val PODCAST_OBJECT = "PODCAST_OBJECT"
+    const val INTERNET_RADIO_STATION_OBJECT = "INTERNET_RADIO_STATION_OBJECT"
 
     const val ALBUM_RECENTLY_PLAYED = "ALBUM_RECENTLY_PLAYED"
     const val ALBUM_MOST_PLAYED = "ALBUM_MOST_PLAYED"
@@ -42,6 +43,7 @@ object Constants {
     const val MEDIA_TYPE_PODCAST = "podcast"
     const val MEDIA_TYPE_AUDIOBOOK = "audiobook"
     const val MEDIA_TYPE_VIDEO = "video"
+    const val MEDIA_TYPE_RADIO = "radio"
 
     const val MEDIA_PLAYBACK_SPEED_080 = 0.8f
     const val MEDIA_PLAYBACK_SPEED_100 = 1.0f

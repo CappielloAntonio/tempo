@@ -1,9 +1,7 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.content.ComponentName;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -212,6 +210,17 @@ public class PlayerControllerFragment extends Fragment {
                     bind.getRoot().setRepeatToggleModes(RepeatModeUtil.REPEAT_TOGGLE_MODE_NONE);
                     bind.getRoot().findViewById(R.id.player_playback_speed_button).setVisibility(View.VISIBLE);
                     bind.getRoot().findViewById(R.id.player_skip_silence_toggle_button).setVisibility(View.VISIBLE);
+                    setPlaybackParameters(mediaBrowser);
+                    break;
+                case Constants.MEDIA_TYPE_RADIO:
+                    bind.getRoot().setShowShuffleButton(false);
+                    bind.getRoot().setShowRewindButton(false);
+                    bind.getRoot().setShowPreviousButton(false);
+                    bind.getRoot().setShowNextButton(false);
+                    bind.getRoot().setShowFastForwardButton(false);
+                    bind.getRoot().setRepeatToggleModes(RepeatModeUtil.REPEAT_TOGGLE_MODE_NONE);
+                    bind.getRoot().findViewById(R.id.player_playback_speed_button).setVisibility(View.GONE);
+                    bind.getRoot().findViewById(R.id.player_skip_silence_toggle_button).setVisibility(View.GONE);
                     setPlaybackParameters(mediaBrowser);
                     break;
                 case Constants.MEDIA_TYPE_MUSIC:

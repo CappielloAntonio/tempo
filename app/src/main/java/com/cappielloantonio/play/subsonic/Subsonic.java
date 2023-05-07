@@ -3,6 +3,7 @@ package com.cappielloantonio.play.subsonic;
 import com.cappielloantonio.play.subsonic.api.albumsonglist.AlbumSongListClient;
 import com.cappielloantonio.play.subsonic.api.bookmarks.BookmarksClient;
 import com.cappielloantonio.play.subsonic.api.browsing.BrowsingClient;
+import com.cappielloantonio.play.subsonic.api.internetradio.InternetRadioClient;
 import com.cappielloantonio.play.subsonic.api.mediaannotation.MediaAnnotationClient;
 import com.cappielloantonio.play.subsonic.api.medialibraryscanning.MediaLibraryScanningClient;
 import com.cappielloantonio.play.subsonic.api.mediaretrieval.MediaRetrievalClient;
@@ -31,6 +32,7 @@ public class Subsonic {
     private PodcastClient podcastClient;
     private MediaLibraryScanningClient mediaLibraryScanningClient;
     private BookmarksClient bookmarksClient;
+    private InternetRadioClient internetRadioClient;
 
     public Subsonic(SubsonicPreferences preferences) {
         this.preferences = preferences;
@@ -108,6 +110,13 @@ public class Subsonic {
             bookmarksClient = new BookmarksClient(this);
         }
         return bookmarksClient;
+    }
+
+    public InternetRadioClient getInternetRadioClient() {
+        if (internetRadioClient == null) {
+            internetRadioClient = new InternetRadioClient(this);
+        }
+        return internetRadioClient;
     }
 
     public String getUrl() {

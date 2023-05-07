@@ -11,6 +11,7 @@ import androidx.media3.common.util.UnstableApi;
 
 import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.subsonic.models.Child;
+import com.cappielloantonio.play.subsonic.models.InternetRadioStation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,6 +119,36 @@ public class MappingUtil {
                 )
                 .setMimeType(MimeTypes.BASE_TYPE_AUDIO)
                 .setUri(MusicUtil.getDownloadUri(media.getId()))
+                .build();
+    }
+
+    public static MediaItem mapInternetRadioStation(InternetRadioStation internetRadioStation) {
+        Uri uri = Uri.parse(internetRadioStation.getStreamUrl());
+
+        Bundle bundle = new Bundle();
+        bundle.putString("id", internetRadioStation.getId());
+        bundle.putString("title", internetRadioStation.getName());
+        bundle.putString("artist", uri.toString());
+        bundle.putString("uri", uri.toString());
+        bundle.putString("type", Constants.MEDIA_TYPE_RADIO);
+
+        return new MediaItem.Builder()
+                .setMediaId(internetRadioStation.getId())
+                .setMediaMetadata(
+                        new MediaMetadata.Builder()
+                                .setTitle(internetRadioStation.getName())
+                                .setArtist(internetRadioStation.getStreamUrl())
+                                .setExtras(bundle)
+                                .build()
+                )
+                .setRequestMetadata(
+                        new MediaItem.RequestMetadata.Builder()
+                                .setMediaUri(uri)
+                                .setExtras(bundle)
+                                .build()
+                )
+                .setMimeType(MimeTypes.BASE_TYPE_AUDIO)
+                .setUri(uri)
                 .build();
     }
 

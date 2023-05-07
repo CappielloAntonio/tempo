@@ -31,4 +31,8 @@ public interface ClickCallback {
     default void onPodcastClick(Bundle bundle) {}
 
     default void onPodcastLongClick(Bundle bundle) {}
+
+    default void onInternetRadioStationClick(Bundle bundle) {}
+
+    default void onInternetRadioStationLongClick(Bundle bundle) {}
 }

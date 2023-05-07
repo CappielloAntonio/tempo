@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +21,7 @@ import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.adapter.InternetRadioStationAdapter;
+import com.cappielloantonio.play.ui.dialog.RadioEditorDialog;
 import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.viewmodel.RadioViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -54,6 +54,7 @@ public class HomeTabRadioFragment extends Fragment implements ClickCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        init();
         initRadioStationView();
     }
 
@@ -76,13 +77,20 @@ public class HomeTabRadioFragment extends Fragment implements ClickCallback {
         bind = null;
     }
 
+    private void init() {
+        bind.internetRadioStationPreTextView.setOnClickListener(v -> {
+            RadioEditorDialog dialog = new RadioEditorDialog(() -> radioViewModel.getInternetRadioStations(getViewLifecycleOwner()));
+            dialog.show(activity.getSupportFragmentManager(), null);
+        });
+    }
+
     private void initRadioStationView() {
         bind.internetRadioStationRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.internetRadioStationRecyclerView.setHasFixedSize(true);
 
         internetRadioStationAdapter = new InternetRadioStationAdapter(this);
         bind.internetRadioStationRecyclerView.setAdapter(internetRadioStationAdapter);
-        radioViewModel.getInternetRadioStations().observe(getViewLifecycleOwner(), internetRadioStations -> {
+        radioViewModel.getInternetRadioStations(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), internetRadioStations -> {
             if (internetRadioStations == null) {
                 if (bind != null)
                     bind.internetRadioStationPlaceholder.placeholder.setVisibility(View.VISIBLE);
@@ -114,6 +122,8 @@ public class HomeTabRadioFragment extends Fragment implements ClickCallback {
 
     @Override
     public void onInternetRadioStationLongClick(Bundle bundle) {
-        Toast.makeText(requireContext(), "Long click!", Toast.LENGTH_SHORT).show();
+        RadioEditorDialog dialog = new RadioEditorDialog(() -> radioViewModel.getInternetRadioStations(getViewLifecycleOwner()));
+        dialog.setArguments(bundle);
+        dialog.show(activity.getSupportFragmentManager(), null);
     }
 }

@@ -17,11 +17,21 @@
             android:paddingBottom="@dimen/global_padding_bottom">
 
             <TextView
-                style="@style/TitleLarge"
+                android:id="@+id/internet_radio_station_pre_text_view"
+                style="@style/TitleMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
                 android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/home_subtitle_new_internet_radio_station"
+                android:textAllCaps="true" />
+
+            <TextView
+                style="@style/TitleLarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:text="@string/home_title_internet_radio_station" />
 
@@ -29,7 +39,6 @@
                 android:id="@+id/internet_radio_station_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:clipToPadding="false"
                 android:paddingTop="8dp"

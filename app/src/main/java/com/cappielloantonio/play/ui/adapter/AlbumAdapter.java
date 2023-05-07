@@ -92,7 +92,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
             click.onAlbumLongClick(bundle);
 
-            return false;
+            return true;
         }
     }
 }

@@ -143,7 +143,7 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
 
             click.onAlbumLongClick(bundle);
 
-            return false;
+            return true;
         }
     }
 

@@ -281,7 +281,7 @@ public class PlayerBottomSheetFragment extends Fragment {
 
             bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setOnLongClickListener(v -> {
                 bind.playerHeaderLayout.playerHeaderBookmarkMediaButton.setVisibility(View.GONE);
-                return false;
+                return true;
             });
 
             new Handler().postDelayed(() -> {

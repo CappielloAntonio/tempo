@@ -115,7 +115,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
 
             click.onMediaLongClick(bundle);
 
-            return false;
+            return true;
         }
     }
 }

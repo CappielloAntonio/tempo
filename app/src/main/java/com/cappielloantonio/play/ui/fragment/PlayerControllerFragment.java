@@ -270,7 +270,7 @@ public class PlayerControllerFragment extends Fragment {
                     dialog.setArguments(bundle);
                     dialog.show(requireActivity().getSupportFragmentManager(), null);
 
-                    return false;
+                    return true;
                 });
 
                 if (getActivity() != null) {

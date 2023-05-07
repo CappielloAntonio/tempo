@@ -80,7 +80,7 @@ public class ServerAdapter extends RecyclerView.Adapter<ServerAdapter.ViewHolder
 
             click.onServerLongClick(bundle);
 
-            return false;
+            return true;
         }
     }
 }

@@ -95,7 +95,7 @@ public class AlbumHorizontalAdapter extends RecyclerView.Adapter<AlbumHorizontal
 
             click.onAlbumLongClick(bundle);
 
-            return false;
+            return true;
         }
     }
 }

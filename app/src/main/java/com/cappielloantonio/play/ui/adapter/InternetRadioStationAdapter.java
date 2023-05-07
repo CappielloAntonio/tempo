@@ -93,7 +93,7 @@ public class InternetRadioStationAdapter extends RecyclerView.Adapter<InternetRa
 
             click.onInternetRadioStationLongClick(bundle);
 
-            return false;
+            return true;
         }
     }
 }

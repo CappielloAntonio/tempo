@@ -109,7 +109,7 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
 
             click.onArtistLongClick(bundle);
 
-            return false;
+            return true;
         }
     }
 }

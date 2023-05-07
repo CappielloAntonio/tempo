@@ -91,7 +91,7 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
 
             click.onPodcastLongClick(bundle);
 
-            return false;
+            return true;
         }
     }
 }

@@ -108,7 +108,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
 
             click.onArtistLongClick(bundle);
 
-            return false;
+            return true;
         }
     }
 }

@@ -109,7 +109,7 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
 
             click.onMediaLongClick(bundle);
 
-            return false;
+            return true;
         }
     }
 }

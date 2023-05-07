@@ -89,7 +89,7 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
 
             click.onMediaLongClick(bundle);
 
-            return false;
+            return true;
         }
     }
 }

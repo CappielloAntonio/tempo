@@ -132,7 +132,7 @@ public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHori
 
             click.onPlaylistLongClick(bundle);
 
-            return false;
+            return true;
         }
     }
 

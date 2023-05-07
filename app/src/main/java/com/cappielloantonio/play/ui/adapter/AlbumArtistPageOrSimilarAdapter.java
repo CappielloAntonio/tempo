@@ -92,7 +92,7 @@ public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumA
 
             click.onAlbumLongClick(bundle);
 
-            return false;
+            return true;
         }
     }
 }

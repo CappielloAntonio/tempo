@@ -100,7 +100,7 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
 
             click.onArtistLongClick(bundle);
 
-            return false;
+            return true;
         }
     }
 }

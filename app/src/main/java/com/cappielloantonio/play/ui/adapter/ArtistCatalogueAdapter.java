@@ -142,7 +142,7 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
 
             click.onArtistLongClick(bundle);
 
-            return false;
+            return true;
         }
     }
 

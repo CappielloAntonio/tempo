@@ -28,6 +28,7 @@
                 android:textAllCaps="true" />
 
             <TextView
+                android:id="@+id/internet_radio_station_title_text_view"
                 style="@style/TitleLarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

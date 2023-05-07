@@ -82,6 +82,11 @@ public class HomeTabRadioFragment extends Fragment implements ClickCallback {
             RadioEditorDialog dialog = new RadioEditorDialog(() -> radioViewModel.getInternetRadioStations(getViewLifecycleOwner()));
             dialog.show(activity.getSupportFragmentManager(), null);
         });
+
+        bind.internetRadioStationTitleTextView.setOnLongClickListener(v -> {
+            radioViewModel.getInternetRadioStations(getViewLifecycleOwner());
+            return true;
+        });
     }
 
     private void initRadioStationView() {

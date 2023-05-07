@@ -58,6 +58,7 @@
     <string name="filter_title_expanded">Filter Genres</string>
     <string name="genre_catalogue_title">Genre Catalogue</string>
     <string name="genre_catalogue_title_expanded">Browse Genres</string>
+    <string name="home_subtitle_new_internet_radio_station">Add a new radio</string>
     <string name="home_subtitle_made_for_you">Start mix from a song you liked</string>
     <string name="home_sync_starred_title">Looks like there are some starred tracks to sync</string>
     <string name="home_sync_starred_subtitle">Downloading these tracks may involve significant data usage</string>
@@ -118,6 +119,13 @@
     <string name="playlist_page_shuffle_button">Shuffle</string>
     <string name="playlist_song_count">Playlist  •  %1$d songs</string>
     <string name="podcast_release_date_duration_formatter">%1$s  •  %2$s</string>
+    <string name="radio_editor_dialog_hint_name">Radio Name</string>
+    <string name="radio_editor_dialog_hint_stream_url">Radio Stream URL</string>
+    <string name="radio_editor_dialog_hint_homepage_url">Radio Homepage URL</string>
+    <string name="radio_editor_dialog_negative_button">Cancel</string>
+    <string name="radio_editor_dialog_neutral_button">Delete</string>
+    <string name="radio_editor_dialog_positive_button">Save</string>
+    <string name="radio_editor_dialog_title">Internet Radio Station</string>
     <string name="rating_dialog_negative_button">Cancel</string>
     <string name="rating_dialog_positive_button">Save</string>
     <string name="rating_dialog_title">Rate</string>

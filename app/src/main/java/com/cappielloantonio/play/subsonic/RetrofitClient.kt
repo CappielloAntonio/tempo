@@ -41,7 +41,7 @@ class RetrofitClient(subsonic: Subsonic) {
             .writeTimeout(30, TimeUnit.SECONDS)
             .addInterceptor(getHttpLoggingInterceptor())
             .addInterceptor(cacheUtil.offlineInterceptor)
-            .addNetworkInterceptor(cacheUtil.onlineInterceptor)
+            // .addNetworkInterceptor(cacheUtil.onlineInterceptor)
             .cache(getCache())
             .build()
     }

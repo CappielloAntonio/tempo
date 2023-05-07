@@ -40,7 +40,6 @@ import com.cappielloantonio.play.ui.adapter.ArtistAdapter;
 import com.cappielloantonio.play.ui.adapter.ArtistHorizontalAdapter;
 import com.cappielloantonio.play.ui.adapter.DiscoverSongAdapter;
 import com.cappielloantonio.play.ui.adapter.GridTrackAdapter;
-import com.cappielloantonio.play.ui.adapter.PodcastEpisodeAdapter;
 import com.cappielloantonio.play.ui.adapter.SimilarTrackAdapter;
 import com.cappielloantonio.play.ui.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.play.ui.adapter.YearAdapter;
@@ -76,7 +75,6 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     private AlbumAdapter mostPlayedAlbumAdapter;
     private AlbumHorizontalAdapter newReleasesAlbumAdapter;
     private YearAdapter yearAdapter;
-    private PodcastEpisodeAdapter podcastEpisodeAdapter;
     private GridTrackAdapter gridTrackAdapter;
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
@@ -112,7 +110,6 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         initNewReleasesView();
         initYearSongView();
         initRecentAddedAlbumView();
-        initNewestPodcastsView();
         initGridView();
     }
 
@@ -615,26 +612,6 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         recentAddedAlbumSnapHelper.attachToRecyclerView(bind.recentlyAddedAlbumsRecyclerView);
     }
 
-    private void initNewestPodcastsView() {
-        bind.newestPodcastsViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-
-        podcastEpisodeAdapter = new PodcastEpisodeAdapter(this);
-        bind.newestPodcastsViewPager.setAdapter(podcastEpisodeAdapter);
-        bind.newestPodcastsViewPager.setOffscreenPageLimit(1);
-        homeViewModel.getNewestPodcastEpisodes(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), podcastEpisodes -> {
-            if (podcastEpisodes == null) {
-                if (bind != null) bind.homeNewestPodcastsSector.setVisibility(View.GONE);
-            } else {
-                if (bind != null)
-                    bind.homeNewestPodcastsSector.setVisibility(!podcastEpisodes.isEmpty() ? View.VISIBLE : View.GONE);
-
-                podcastEpisodeAdapter.setItems(podcastEpisodes);
-            }
-        });
-
-        setSlideViewOffset(bind.newestPodcastsViewPager, 20, 16);
-    }
-
     private void initGridView() {
         bind.gridTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
         bind.gridTracksRecyclerView.addItemDecoration(new GridItemDecoration(3, 8, false));
@@ -686,7 +663,6 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
             // bind.homeLinearLayoutContainer.addView(bind.homeFlashbackSector);
             // bind.homeLinearLayoutContainer.addView(bind.homeMostPlayedAlbumsSector);
             // bind.homeLinearLayoutContainer.addView(bind.homeRecentlyPlayedAlbumsSector);
-            // bind.homeLinearLayoutContainer.addView(bind.homeNewestPodcastsSector);
         }
     }
 
@@ -773,16 +749,5 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     @Override
     public void onYearClick(Bundle bundle) {
         Navigation.findNavController(requireView()).navigate(R.id.songListPageFragment, bundle);
-    }
-
-    @Override
-    public void onPodcastClick(Bundle bundle) {
-        MediaManager.startQueue(mediaBrowserListenableFuture, bundle.getParcelable(Constants.PODCAST_OBJECT));
-        activity.setBottomSheetInPeek(true);
-    }
-
-    @Override
-    public void onPodcastLongClick(Bundle bundle) {
-        Navigation.findNavController(requireView()).navigate(R.id.podcastBottomSheetDialog, bundle);
     }
 }

@@ -78,6 +78,7 @@
     <string name="home_title_starred_artists_see_all_button">See all</string>
     <string name="home_title_starred_tracks">★ Starred tracks</string>
     <string name="home_title_starred_tracks_see_all_button">See all</string>
+    <string name="home_title_internet_radio_station">Internet radio stations</string>
     <string name="label_dot_separator">•</string>
     <string name="label_placeholder">--</string>
     <string name="library_title_album">Albums</string>

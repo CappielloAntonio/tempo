@@ -31,11 +31,13 @@ public class ArtistRepository {
                         if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getStarred2() != null) {
                             List<ArtistID3> artists = response.body().getSubsonicResponse().getStarred2().getArtists();
 
-                            if (!random) {
-                                getArtistInfo(artists, starredArtists);
-                            } else {
-                                Collections.shuffle(artists);
-                                getArtistInfo(artists.subList(0, Math.min(size, artists.size())), starredArtists);
+                            if (artists != null) {
+                                if (!random) {
+                                    getArtistInfo(artists, starredArtists);
+                                } else {
+                                    Collections.shuffle(artists);
+                                    getArtistInfo(artists.subList(0, Math.min(size, artists.size())), starredArtists);
+                                }
                             }
                         }
                     }

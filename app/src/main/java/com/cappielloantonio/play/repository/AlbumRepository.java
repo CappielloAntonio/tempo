@@ -58,11 +58,13 @@ public class AlbumRepository {
                         if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getStarred2() != null) {
                             List<AlbumID3> albums = response.body().getSubsonicResponse().getStarred2().getAlbums();
 
-                            if (random) {
-                                Collections.shuffle(albums);
-                                starredAlbums.setValue(albums.subList(0, Math.min(size, albums.size())));
-                            } else {
-                                starredAlbums.setValue(albums);
+                            if (albums != null) {
+                                if (random) {
+                                    Collections.shuffle(albums);
+                                    starredAlbums.setValue(albums.subList(0, Math.min(size, albums.size())));
+                                } else {
+                                    starredAlbums.setValue(albums);
+                                }
                             }
                         }
                     }

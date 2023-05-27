@@ -17,7 +17,6 @@ import com.cappielloantonio.play.repository.SongRepository;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.Child;
-import com.cappielloantonio.play.subsonic.models.PodcastEpisode;
 import com.cappielloantonio.play.util.Preferences;
 
 import java.util.Calendar;
@@ -81,8 +80,10 @@ public class HomeViewModel extends AndroidViewModel {
             int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
             albumRepository.getAlbums("byYear", 500, currentYear, currentYear).observe(owner, albums -> {
-                albums.sort(Comparator.comparing(AlbumID3::getCreated).reversed());
-                newReleasedAlbum.postValue(albums.subList(0, Math.min(20, albums.size())));
+                if (albums != null) {
+                    albums.sort(Comparator.comparing(AlbumID3::getCreated).reversed());
+                    newReleasedAlbum.postValue(albums.subList(0, Math.min(20, albums.size())));
+                }
             });
         }
 

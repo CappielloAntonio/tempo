@@ -54,7 +54,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // AndroidX
-    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
@@ -82,11 +82,11 @@ dependencies {
     implementation 'com.github.bumptech.glide:annotations:4.15.1'
 
     // Media3
-    implementation 'androidx.media3:media3-session:1.0.1'
-    implementation 'androidx.media3:media3-common:1.0.1'
-    implementation 'androidx.media3:media3-exoplayer:1.0.1'
-    implementation 'androidx.media3:media3-ui:1.0.1'
-    implementation 'androidx.media3:media3-cast:1.0.1'
+    implementation 'androidx.media3:media3-session:1.0.2'
+    implementation 'androidx.media3:media3-common:1.0.2'
+    implementation 'androidx.media3:media3-exoplayer:1.0.2'
+    implementation 'androidx.media3:media3-ui:1.0.2'
+    implementation 'androidx.media3:media3-cast:1.0.2'
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
     annotationProcessor 'androidx.room:room-compiler:2.5.1'

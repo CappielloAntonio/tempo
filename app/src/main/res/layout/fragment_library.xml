@@ -52,6 +52,41 @@
             android:orientation="vertical"
             android:paddingBottom="@dimen/global_padding_bottom">
 
+            <!--  Music Folder  -->
+            <LinearLayout
+                android:id="@+id/library_music_folder_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="8dp">
+
+                <TextView
+                    style="@style/TitleLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/library_title_music_folder" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/music_folder_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:clipToPadding="false"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="8dp" />
+            </LinearLayout>
+
+            <include
+                android:id="@+id/library_music_folder_placeholder"
+                layout="@layout/item_placeholder_album"
+                android:visibility="gone" />
+
             <!--  Album  -->
             <LinearLayout
                 android:id="@+id/library_album_sector"
@@ -67,6 +102,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:paddingStart="8dp"
+                    android:paddingTop="8dp"
                     android:paddingEnd="8dp">
 
                     <TextView

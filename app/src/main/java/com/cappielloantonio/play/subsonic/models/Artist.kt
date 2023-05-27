@@ -1,8 +1,11 @@
 package com.cappielloantonio.play.subsonic.models
 
-import java.util.*
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import java.util.Date
 
-class Artist {
+@Parcelize
+class Artist : Parcelable {
     var id: String? = null
     var name: String? = null
     var starred: Date? = null

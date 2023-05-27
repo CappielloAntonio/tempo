@@ -24,9 +24,9 @@ public class BrowsingClient {
         return browsingService.getMusicFolders(subsonic.getParams());
     }
 
-    public Call<ApiResponse> getIndexes() {
+    public Call<ApiResponse> getIndexes(String musicFolderId, Long ifModifiedSince) {
         Log.d(TAG, "getIndexes()");
-        return browsingService.getIndexes(subsonic.getParams());
+        return browsingService.getIndexes(subsonic.getParams(), musicFolderId, ifModifiedSince);
     }
 
     public Call<ApiResponse> getMusicDirectory(String id) {

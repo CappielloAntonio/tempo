@@ -107,6 +107,9 @@
         <action
             android:id="@+id/action_libraryFragment_to_albumListPageFragment"
             app:destination="@id/albumListPageFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_indexFragment"
+            app:destination="@id/indexFragment" />
     </fragment>
     <fragment
         android:id="@+id/downloadFragment"
@@ -279,6 +282,21 @@
         android:name="com.cappielloantonio.play.ui.fragment.PodcastChannelPageFragment"
         android:label="PodcastChannelPageFragment"
         tools:layout="@layout/fragment_podcast_channel_page" />
+    <fragment
+        android:id="@+id/directoryFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.DirectoryFragment"
+        android:label="DirectoryFragment"
+        tools:layout="@layout/fragment_directory" />
+    <fragment
+        android:id="@+id/indexFragment"
+        android:name="com.cappielloantonio.play.ui.fragment.IndexFragment"
+        android:label="IndexFragment"
+        tools:layout="@layout/fragment_index">
+
+        <action
+            android:id="@+id/action_indexFragment_to_directoryFragment"
+            app:destination="@id/directoryFragment" />
+    </fragment>
     <dialog
         android:id="@+id/songBottomSheetDialog"
         android:name="com.cappielloantonio.play.ui.fragment.bottomsheetdialog.SongBottomSheetDialog"

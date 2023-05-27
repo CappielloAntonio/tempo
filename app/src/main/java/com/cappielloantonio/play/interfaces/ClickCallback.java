@@ -39,4 +39,16 @@ public interface ClickCallback {
     default void onInternetRadioStationClick(Bundle bundle) {}
 
     default void onInternetRadioStationLongClick(Bundle bundle) {}
+
+    default void onMusicFolderClick(Bundle bundle) {}
+
+    default void onMusicFolderLongClick(Bundle bundle) {}
+
+    default void onMusicDirectoryClick(Bundle bundle) {}
+
+    default void onMusicDirectoryLongClick(Bundle bundle) {}
+
+    default void onMusicIndexClick(Bundle bundle) {}
+
+    default void onMusicIndexLongClick(Bundle bundle) {}
 }

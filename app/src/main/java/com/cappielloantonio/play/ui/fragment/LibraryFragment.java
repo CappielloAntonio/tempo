@@ -1,12 +1,14 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +27,7 @@ import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.adapter.AlbumAdapter;
 import com.cappielloantonio.play.ui.adapter.ArtistAdapter;
 import com.cappielloantonio.play.ui.adapter.GenreAdapter;
+import com.cappielloantonio.play.ui.adapter.MusicFolderAdapter;
 import com.cappielloantonio.play.ui.adapter.PlaylistHorizontalAdapter;
 import com.cappielloantonio.play.ui.dialog.PlaylistEditorDialog;
 import com.cappielloantonio.play.util.Constants;
@@ -35,10 +38,13 @@ import java.util.Objects;
 
 @UnstableApi
 public class LibraryFragment extends Fragment implements ClickCallback {
+    private static final String TAG = "LibraryFragment";
+
     private FragmentLibraryBinding bind;
     private MainActivity activity;
     private LibraryViewModel libraryViewModel;
 
+    private MusicFolderAdapter musicFolderAdapter;
     private AlbumAdapter albumAdapter;
     private ArtistAdapter artistAdapter;
     private GenreAdapter genreAdapter;
@@ -77,6 +83,7 @@ public class LibraryFragment extends Fragment implements ClickCallback {
         super.onViewCreated(view, savedInstanceState);
 
         initAppBar();
+        initMusicFolderView();
         initAlbumView();
         initArtistView();
         initGenreView();
@@ -139,6 +146,28 @@ public class LibraryFragment extends Fragment implements ClickCallback {
     private void initAppBar() {
         activity.setSupportActionBar(bind.toolbar);
         Objects.requireNonNull(bind.toolbar.getOverflowIcon()).setTint(requireContext().getResources().getColor(R.color.titleTextColor, null));
+    }
+
+    private void initMusicFolderView() {
+        bind.musicFolderRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        bind.musicFolderRecyclerView.setHasFixedSize(true);
+
+        musicFolderAdapter = new MusicFolderAdapter(this);
+        bind.musicFolderRecyclerView.setAdapter(musicFolderAdapter);
+        libraryViewModel.getMusicFolders(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), musicFolders -> {
+            if (musicFolders == null) {
+                if (bind != null)
+                    bind.libraryMusicFolderPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.libraryMusicFolderSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null)
+                    bind.libraryMusicFolderPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null)
+                    bind.libraryMusicFolderSector.setVisibility(!musicFolders.isEmpty() ? View.VISIBLE : View.GONE);
+
+                musicFolderAdapter.setItems(musicFolders);
+            }
+        });
     }
 
     private void initAlbumView() {
@@ -272,5 +301,15 @@ public class LibraryFragment extends Fragment implements ClickCallback {
         PlaylistEditorDialog dialog = new PlaylistEditorDialog();
         dialog.setArguments(bundle);
         dialog.show(activity.getSupportFragmentManager(), null);
+    }
+
+    @Override
+    public void onMusicFolderClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.indexFragment, bundle);
+    }
+
+    @Override
+    public void onMusicFolderLongClick(Bundle bundle) {
+        Toast.makeText(requireContext(), "Long click!", Toast.LENGTH_SHORT).show();
     }
 }

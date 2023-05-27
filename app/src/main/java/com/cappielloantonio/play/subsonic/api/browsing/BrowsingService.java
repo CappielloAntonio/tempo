@@ -15,7 +15,7 @@ public interface BrowsingService {
     Call<ApiResponse> getMusicFolders(@QueryMap Map<String, String> params);
 
     @GET("getIndexes")
-    Call<ApiResponse> getIndexes(@QueryMap Map<String, String> params);
+    Call<ApiResponse> getIndexes(@QueryMap Map<String, String> params, @Query("musicFolderId") String musicFolderId, @Query("ifModifiedSince") Long ifModifiedSince);
 
     @GET("getMusicDirectory")
     Call<ApiResponse> getMusicDirectory(@QueryMap Map<String, String> params, @Query("id") String id);

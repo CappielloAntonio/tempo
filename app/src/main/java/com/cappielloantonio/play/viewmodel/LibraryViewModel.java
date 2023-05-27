@@ -10,11 +10,14 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.play.repository.AlbumRepository;
 import com.cappielloantonio.play.repository.ArtistRepository;
+import com.cappielloantonio.play.repository.DirectoryRepository;
 import com.cappielloantonio.play.repository.GenreRepository;
 import com.cappielloantonio.play.repository.PlaylistRepository;
 import com.cappielloantonio.play.subsonic.models.AlbumID3;
 import com.cappielloantonio.play.subsonic.models.ArtistID3;
 import com.cappielloantonio.play.subsonic.models.Genre;
+import com.cappielloantonio.play.subsonic.models.Indexes;
+import com.cappielloantonio.play.subsonic.models.MusicFolder;
 import com.cappielloantonio.play.subsonic.models.Playlist;
 
 import java.util.List;
@@ -22,11 +25,14 @@ import java.util.List;
 public class LibraryViewModel extends AndroidViewModel {
     private static final String TAG = "LibraryViewModel";
 
+    private final DirectoryRepository directoryRepository;
     private final AlbumRepository albumRepository;
     private final ArtistRepository artistRepository;
     private final GenreRepository genreRepository;
     private final PlaylistRepository playlistRepository;
 
+    private final MutableLiveData<List<MusicFolder>> musicFolders = new MutableLiveData<>(null);
+    private final MutableLiveData<Indexes> indexes = new MutableLiveData<>(null);
     private final MutableLiveData<List<Playlist>> playlistSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<AlbumID3>> sampleAlbum = new MutableLiveData<>(null);
     private final MutableLiveData<List<ArtistID3>> sampleArtist = new MutableLiveData<>(null);
@@ -35,10 +41,27 @@ public class LibraryViewModel extends AndroidViewModel {
     public LibraryViewModel(@NonNull Application application) {
         super(application);
 
+        directoryRepository = new DirectoryRepository();
         albumRepository = new AlbumRepository();
         artistRepository = new ArtistRepository();
         genreRepository = new GenreRepository();
         playlistRepository = new PlaylistRepository();
+    }
+
+    public LiveData<List<MusicFolder>> getMusicFolders(LifecycleOwner owner) {
+        if (musicFolders.getValue() == null) {
+            directoryRepository.getMusicFolders().observe(owner, musicFolders::postValue);
+        }
+
+        return musicFolders;
+    }
+
+    public LiveData<Indexes> getIndexes(LifecycleOwner owner) {
+        if (indexes.getValue() == null) {
+            directoryRepository.getIndexes("0", null).observe(owner, indexes::postValue);
+        }
+
+        return indexes;
     }
 
     public LiveData<List<AlbumID3>> getAlbumSample(LifecycleOwner owner) {

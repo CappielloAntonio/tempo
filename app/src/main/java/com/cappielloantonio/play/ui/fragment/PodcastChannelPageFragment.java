@@ -5,17 +5,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.FragmentPodcastChannelPageBinding;
@@ -109,11 +107,11 @@ public class PodcastChannelPageFragment extends Fragment implements ClickCallbac
     }
 
     private void initPodcastChannelEpisodesView() {
-        bind.mostStreamedSongRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        bind.mostStreamedSongRecyclerView.addItemDecoration(UIUtil.getDividerItemDecoration(requireContext()));
+        bind.podcastEpisodesRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        bind.podcastEpisodesRecyclerView.addItemDecoration(UIUtil.getDividerItemDecoration(requireContext()));
 
         podcastEpisodeAdapter = new PodcastEpisodeAdapter(this);
-        bind.mostStreamedSongRecyclerView.setAdapter(podcastEpisodeAdapter);
+        bind.podcastEpisodesRecyclerView.setAdapter(podcastEpisodeAdapter);
         podcastChannelPageViewModel.getPodcastChannelEpisodes().observe(getViewLifecycleOwner(), channels -> {
             if (channels == null) {
                 if (bind != null)
@@ -123,8 +121,9 @@ public class PodcastChannelPageFragment extends Fragment implements ClickCallbac
                 if (bind != null)
                     bind.podcastChannelPageEpisodesPlaceholder.placeholder.setVisibility(View.GONE);
 
-                if (channels.get(0) != null && channels.get(0).getEpisodes() != null) {
-                    if (bind != null) bind.podcastChannelPageEpisodesSector.setVisibility(!channels.get(0).getEpisodes().isEmpty() ? View.VISIBLE : View.GONE);
+                if (!channels.isEmpty() && channels.get(0) != null && channels.get(0).getEpisodes() != null) {
+                    if (bind != null)
+                        bind.podcastChannelPageEpisodesSector.setVisibility(!channels.get(0).getEpisodes().isEmpty() ? View.VISIBLE : View.GONE);
                     podcastEpisodeAdapter.setItems(channels.get(0).getEpisodes().stream().filter(podcastEpisode -> Objects.equals(podcastEpisode.getStatus(), "completed")).collect(Collectors.toList()));
                 }
             }
@@ -147,6 +146,6 @@ public class PodcastChannelPageFragment extends Fragment implements ClickCallbac
 
     @Override
     public void onPodcastEpisodeLongClick(Bundle bundle) {
-        Toast.makeText(requireContext(), "Long click!", Toast.LENGTH_SHORT).show();
+        Navigation.findNavController(requireView()).navigate(R.id.podcastEpisodeBottomSheetDialog, bundle);
     }
 }

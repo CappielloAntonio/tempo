@@ -20,7 +20,7 @@ import retrofit2.Response;
 
 public class ArtistRepository {
     public MutableLiveData<List<ArtistID3>> getStarredArtists(boolean random, int size) {
-        MutableLiveData<List<ArtistID3>> starredArtists = new MutableLiveData<>();
+        MutableLiveData<List<ArtistID3>> starredArtists = new MutableLiveData<>(new ArrayList<>());
 
         App.getSubsonicClientInstance(false)
                 .getAlbumSongListClient()

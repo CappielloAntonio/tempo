@@ -103,9 +103,4 @@ public class IndexFragment extends Fragment implements ClickCallback {
     public void onMusicIndexClick(Bundle bundle) {
         Navigation.findNavController(requireView()).navigate(R.id.directoryFragment, bundle);
     }
-
-    @Override
-    public void onMusicIndexLongClick(Bundle bundle) {
-        Toast.makeText(requireContext(), "Long click!", Toast.LENGTH_SHORT).show();
-    }
 }

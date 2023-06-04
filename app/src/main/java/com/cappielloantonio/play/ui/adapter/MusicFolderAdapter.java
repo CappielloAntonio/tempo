@@ -72,24 +72,14 @@ public class MusicFolderAdapter extends RecyclerView.Adapter<MusicFolderAdapter.
             item.musicFolderTitleTextView.setSelected(true);
 
             itemView.setOnClickListener(v -> onClick());
-            itemView.setOnLongClickListener(v -> onLongClick());
 
-            item.musicFolderMoreButton.setOnClickListener(v -> onLongClick());
+            item.musicFolderMoreButton.setOnClickListener(v -> onClick());
         }
 
         public void onClick() {
             Bundle bundle = new Bundle();
             bundle.putParcelable(Constants.MUSIC_FOLDER_OBJECT, musicFolders.get(getBindingAdapterPosition()));
             click.onMusicFolderClick(bundle);
-        }
-
-        private boolean onLongClick() {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(Constants.MUSIC_FOLDER_OBJECT, musicFolders.get(getBindingAdapterPosition()));
-
-            click.onMusicFolderLongClick(bundle);
-
-            return true;
         }
     }
 }

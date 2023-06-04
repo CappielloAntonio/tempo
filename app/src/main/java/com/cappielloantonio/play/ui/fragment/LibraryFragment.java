@@ -307,9 +307,4 @@ public class LibraryFragment extends Fragment implements ClickCallback {
     public void onMusicFolderClick(Bundle bundle) {
         Navigation.findNavController(requireView()).navigate(R.id.indexFragment, bundle);
     }
-
-    @Override
-    public void onMusicFolderLongClick(Bundle bundle) {
-        Toast.makeText(requireContext(), "Long click!", Toast.LENGTH_SHORT).show();
-    }
 }

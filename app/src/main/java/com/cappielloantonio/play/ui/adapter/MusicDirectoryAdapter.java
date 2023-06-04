@@ -69,9 +69,7 @@ public class MusicDirectoryAdapter extends RecyclerView.Adapter<MusicDirectoryAd
             item.musicDirectoryTitleTextView.setSelected(true);
 
             itemView.setOnClickListener(v -> onClick());
-            itemView.setOnLongClickListener(v -> onLongClick());
-
-            item.musicDirectoryMoreButton.setOnClickListener(v -> onLongClick());
+            item.musicDirectoryMoreButton.setOnClickListener(v -> onClick());
         }
 
         public void onClick() {
@@ -85,15 +83,6 @@ public class MusicDirectoryAdapter extends RecyclerView.Adapter<MusicDirectoryAd
                 bundle.putInt(Constants.ITEM_POSITION, getBindingAdapterPosition());
                 click.onMediaClick(bundle);
             }
-        }
-
-        private boolean onLongClick() {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(Constants.MUSIC_DIRECTORY_OBJECT, children.get(getBindingAdapterPosition()));
-
-            click.onMusicDirectoryLongClick(bundle);
-
-            return true;
         }
     }
 }

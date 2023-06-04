@@ -170,9 +170,4 @@ public class DirectoryFragment extends Fragment implements ClickCallback {
             directoryViewModel.setMusicDirectoryName(child.getTitle());
         }
     }
-
-    @Override
-    public void onMusicDirectoryLongClick(Bundle bundle) {
-        Toast.makeText(requireContext(), "Long click!", Toast.LENGTH_SHORT).show();
-    }
 }

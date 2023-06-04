@@ -216,7 +216,17 @@ object Preferences {
     }
 
     @JvmStatic
+    fun setPodcastSectionHidden() {
+        App.getInstance().preferences.edit().putBoolean(PODCAST_SECTION_VISIBILITY, false).apply()
+    }
+
+    @JvmStatic
     fun isRadioSectionVisible(): Boolean {
         return App.getInstance().preferences.getBoolean(RADIO_SECTION_VISIBILITY, true)
+    }
+
+    @JvmStatic
+    fun setRadioSectionHidden() {
+        App.getInstance().preferences.edit().putBoolean(RADIO_SECTION_VISIBILITY, false).apply()
     }
 }

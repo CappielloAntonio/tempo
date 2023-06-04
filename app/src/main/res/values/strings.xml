@@ -125,6 +125,11 @@
     <string name="podcast_channel_page_title_description_section">Description</string>
     <string name="podcast_channel_page_title_episode_section">Episodes</string>
     <string name="podcast_release_date_duration_formatter">%1$s  •  %2$s</string>
+
+    <string name="podcast_info_empty_subtitle">Once you add a channel, you\'ll find it here</string>
+    <string name="podcast_info_empty_title">No podcasts found!</string>
+    <string name="podcast_info_empty_button">Click to hide the section\nThe effects will be visible on restart</string>
+
     <string name="radio_editor_dialog_hint_name">Radio Name</string>
     <string name="radio_editor_dialog_hint_stream_url">Radio Stream URL</string>
     <string name="radio_editor_dialog_hint_homepage_url">Radio Homepage URL</string>
@@ -132,6 +137,12 @@
     <string name="radio_editor_dialog_neutral_button">Delete</string>
     <string name="radio_editor_dialog_positive_button">Save</string>
     <string name="radio_editor_dialog_title">Internet Radio Station</string>
+
+    <string name="radio_station_info_empty_subtitle">Once you add a radio station, you\'ll find it here</string>
+    <string name="radio_station_info_empty_title">No stations found!</string>
+    <string name="radio_station_info_empty_button">Click to hide the section\nThe effects will be visible on restart</string>
+
+
     <string name="rating_dialog_negative_button">Cancel</string>
     <string name="rating_dialog_positive_button">Save</string>
     <string name="rating_dialog_title">Rate</string>

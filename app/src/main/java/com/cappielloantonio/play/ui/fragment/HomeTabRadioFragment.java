@@ -23,6 +23,7 @@ import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.adapter.InternetRadioStationAdapter;
 import com.cappielloantonio.play.ui.dialog.RadioEditorDialog;
 import com.cappielloantonio.play.util.Constants;
+import com.cappielloantonio.play.util.Preferences;
 import com.cappielloantonio.play.viewmodel.RadioViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -87,6 +88,8 @@ public class HomeTabRadioFragment extends Fragment implements ClickCallback {
             radioViewModel.getInternetRadioStations(getViewLifecycleOwner());
             return true;
         });
+
+        bind.hideSectionButton.setOnClickListener(v -> Preferences.setRadioSectionHidden());
     }
 
     private void initRadioStationView() {
@@ -97,14 +100,13 @@ public class HomeTabRadioFragment extends Fragment implements ClickCallback {
         bind.internetRadioStationRecyclerView.setAdapter(internetRadioStationAdapter);
         radioViewModel.getInternetRadioStations(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), internetRadioStations -> {
             if (internetRadioStations == null) {
-                if (bind != null)
-                    bind.internetRadioStationPlaceholder.placeholder.setVisibility(View.VISIBLE);
-                if (bind != null) bind.internetRadioStationSector.setVisibility(View.GONE);
+                if (bind != null) bind.homeRadioStationSector.setVisibility(View.GONE);
+                if (bind != null) bind.emptyRadioStationLayout.setVisibility(View.GONE);
             } else {
                 if (bind != null)
-                    bind.internetRadioStationPlaceholder.placeholder.setVisibility(View.GONE);
+                    bind.homeRadioStationSector.setVisibility(!internetRadioStations.isEmpty() ? View.VISIBLE : View.GONE);
                 if (bind != null)
-                    bind.internetRadioStationSector.setVisibility(!internetRadioStations.isEmpty() ? View.VISIBLE : View.GONE);
+                    bind.emptyRadioStationLayout.setVisibility(internetRadioStations.isEmpty() ? View.VISIBLE : View.GONE);
 
                 internetRadioStationAdapter.setItems(internetRadioStations);
             }

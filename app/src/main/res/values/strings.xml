@@ -174,6 +174,10 @@
     <string name="settings_queue_syncing_title">Sync play queue for this user</string>
     <string name="settings_queue_syncing_countdown">Sync timer</string>
     <string name="settings_queue_syncing_summary">If enabled, the user will have the ability to save their play queue and will have the ability to load state when opening the application.</string>
+    <string name="settings_podcast">Show podcast</string>
+    <string name="settings_podcast_summary">If enabled, show the podcast section.</string>
+    <string name="settings_radio">Show radio</string>
+    <string name="settings_radio_summary">If enabled, show the radio section.</string>
     <string name="settings_rounded_corner">Rounded corners</string>
     <string name="settings_rounded_corner_summary">If enabled, sets a curvature angle for all rendered covers. The changes will take effect on restart.</string>
     <string name="settings_rounded_corner_size">Corners size</string>

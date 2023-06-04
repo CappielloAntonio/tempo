@@ -39,6 +39,18 @@
             app:key="rounded_corner_size"
             app:title="@string/settings_rounded_corner_size"
             app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            android:title="@string/settings_podcast"
+            android:defaultValue="true"
+            android:summary="@string/settings_podcast_summary"
+            android:key="podcast_section_visibility" />
+
+        <SwitchPreference
+            android:title="@string/settings_radio"
+            android:defaultValue="true"
+            android:summary="@string/settings_radio_summary"
+            android:key="radio_section_visibility" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_title_data">

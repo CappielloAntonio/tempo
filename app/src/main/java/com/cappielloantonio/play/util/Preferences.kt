@@ -27,6 +27,8 @@ object Preferences {
     private const val QUEUE_SYNCING_COUNTDOWN = "queue_syncing_countdown"
     private const val ROUNDED_CORNER = "rounded_corner"
     private const val ROUNDED_CORNER_SIZE = "rounded_corner_size"
+    private const val PODCAST_SECTION_VISIBILITY = "podcast_section_visibility"
+    private const val RADIO_SECTION_VISIBILITY = "radio_section_visibility"
 
     @JvmStatic
     fun getServer(): String? {
@@ -206,5 +208,15 @@ object Preferences {
     @JvmStatic
     fun getRoundedCornerSize(): Int {
         return App.getInstance().preferences.getString(ROUNDED_CORNER_SIZE, "12")!!.toInt()
+    }
+
+    @JvmStatic
+    fun isPodcastSectionVisible(): Boolean {
+        return App.getInstance().preferences.getBoolean(PODCAST_SECTION_VISIBILITY, true)
+    }
+
+    @JvmStatic
+    fun isRadioSectionVisible(): Boolean {
+        return App.getInstance().preferences.getBoolean(RADIO_SECTION_VISIBILITY, true)
     }
 }

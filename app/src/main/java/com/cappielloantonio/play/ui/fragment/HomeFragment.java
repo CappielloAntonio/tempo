@@ -17,6 +17,7 @@ import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.FragmentHomeBinding;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.fragment.pager.HomePager;
+import com.cappielloantonio.play.util.Preferences;
 import com.google.android.gms.cast.framework.CastButtonFactory;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -94,8 +95,12 @@ public class HomeFragment extends Fragment {
         HomePager pager = new HomePager(this);
 
         pager.addFragment(new HomeTabMusicFragment(), "Music", R.drawable.ic_home);
-        pager.addFragment(new HomeTabPodcastFragment(), "Podcast", R.drawable.ic_graphic_eq);
-        pager.addFragment(new HomeTabRadioFragment(), "Radio", R.drawable.ic_play_for_work);
+
+        if (Preferences.isPodcastSectionVisible())
+            pager.addFragment(new HomeTabPodcastFragment(), "Podcast", R.drawable.ic_graphic_eq);
+
+        if (Preferences.isRadioSectionVisible())
+            pager.addFragment(new HomeTabRadioFragment(), "Radio", R.drawable.ic_play_for_work);
 
         bind.homeViewPager.setAdapter(pager);
         bind.homeViewPager.setUserInputEnabled(false);
@@ -106,5 +111,7 @@ public class HomeFragment extends Fragment {
                     // tab.setIcon(pager.getPageIcon(position));
                 }
         ).attach();
+
+        bind.homeTabLayout.setVisibility(Preferences.isPodcastSectionVisible() || Preferences.isRadioSectionVisible() ? View.VISIBLE : View.GONE);
     }
 }

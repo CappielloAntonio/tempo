@@ -24,7 +24,7 @@ public class AlbumRepository {
     private static final String TAG = "AlbumRepository";
 
     public MutableLiveData<List<AlbumID3>> getAlbums(String type, int size, Integer fromYear, Integer toYear) {
-        MutableLiveData<List<AlbumID3>> listLiveAlbums = new MutableLiveData<>();
+        MutableLiveData<List<AlbumID3>> listLiveAlbums = new MutableLiveData<>(new ArrayList<>());
 
         App.getSubsonicClientInstance(false)
                 .getAlbumSongListClient()
@@ -32,7 +32,7 @@ public class AlbumRepository {
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getAlbumList2() != null) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getAlbumList2() != null && response.body().getSubsonicResponse().getAlbumList2().getAlbums() != null) {
                             listLiveAlbums.setValue(response.body().getSubsonicResponse().getAlbumList2().getAlbums());
                         }
                     }

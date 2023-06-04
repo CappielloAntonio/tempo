@@ -7,6 +7,7 @@ import com.cappielloantonio.play.App;
 import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.InternetRadioStation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -15,7 +16,7 @@ import retrofit2.Response;
 
 public class RadioRepository {
     public MutableLiveData<List<InternetRadioStation>> getInternetRadioStations() {
-        MutableLiveData<List<InternetRadioStation>> radioStation = new MutableLiveData<>();
+        MutableLiveData<List<InternetRadioStation>> radioStation = new MutableLiveData<>(new ArrayList<>());
 
         App.getSubsonicClientInstance(false)
                 .getInternetRadioClient()
@@ -23,7 +24,7 @@ public class RadioRepository {
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getInternetRadioStations() != null) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getInternetRadioStations() != null && response.body().getSubsonicResponse().getInternetRadioStations().getInternetRadioStations() != null) {
                             radioStation.setValue(response.body().getSubsonicResponse().getInternetRadioStations().getInternetRadioStations());
                         }
                     }

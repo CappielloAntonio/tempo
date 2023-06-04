@@ -10,6 +10,7 @@ import com.cappielloantonio.play.subsonic.base.ApiResponse;
 import com.cappielloantonio.play.subsonic.models.PodcastChannel;
 import com.cappielloantonio.play.subsonic.models.PodcastEpisode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -20,7 +21,7 @@ public class PodcastRepository {
     private static final String TAG = "PodcastRepository";
 
     public MutableLiveData<List<PodcastChannel>> getPodcastChannels(boolean includeEpisodes, String channelId) {
-        MutableLiveData<List<PodcastChannel>> livePodcastChannel = new MutableLiveData<>();
+        MutableLiveData<List<PodcastChannel>> livePodcastChannel = new MutableLiveData<>(new ArrayList<>());
 
         App.getSubsonicClientInstance(false)
                 .getPodcastClient()
@@ -43,7 +44,7 @@ public class PodcastRepository {
     }
 
     public MutableLiveData<List<PodcastEpisode>> getNewestPodcastEpisodes(int count) {
-        MutableLiveData<List<PodcastEpisode>> liveNewestPodcastEpisodes = new MutableLiveData<>();
+        MutableLiveData<List<PodcastEpisode>> liveNewestPodcastEpisodes = new MutableLiveData<>(new ArrayList<>());
 
         App.getSubsonicClientInstance(false)
                 .getPodcastClient()

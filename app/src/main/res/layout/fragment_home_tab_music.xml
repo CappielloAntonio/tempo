@@ -479,6 +479,7 @@
             android:visibility="gone" />
 
         <View
+            android:id="@+id/after_favorites_divider"
             style="@style/Divider"
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"

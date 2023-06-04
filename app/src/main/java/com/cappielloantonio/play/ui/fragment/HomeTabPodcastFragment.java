@@ -2,6 +2,7 @@ package com.cappielloantonio.play.ui.fragment;
 
 import android.content.ComponentName;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +20,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.FragmentHomeTabPodcastBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
+import com.cappielloantonio.play.interfaces.PodcastCallback;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.adapter.PodcastChannelHorizontalAdapter;
 import com.cappielloantonio.play.ui.adapter.PodcastEpisodeAdapter;
+import com.cappielloantonio.play.ui.dialog.PodcastChannelEditorDialog;
 import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.Preferences;
 import com.cappielloantonio.play.util.UIUtil;
@@ -34,7 +37,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @UnstableApi
-public class HomeTabPodcastFragment extends Fragment implements ClickCallback {
+public class HomeTabPodcastFragment extends Fragment implements ClickCallback, PodcastCallback {
     private static final String TAG = "HomeTabPodcastFragment";
 
     private FragmentHomeTabPodcastBinding bind;
@@ -88,6 +91,11 @@ public class HomeTabPodcastFragment extends Fragment implements ClickCallback {
     }
 
     private void init() {
+        bind.podcastChannelsPreTextView.setOnClickListener(v -> {
+            PodcastChannelEditorDialog dialog = new PodcastChannelEditorDialog(this);
+            dialog.show(activity.getSupportFragmentManager(), null);
+        });
+
         bind.podcastChannelsTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_homeFragment_to_podcastChannelCatalogueFragment));
         bind.hideSectionButton.setOnClickListener(v -> Preferences.setPodcastSectionHidden());
     }
@@ -168,5 +176,13 @@ public class HomeTabPodcastFragment extends Fragment implements ClickCallback {
     @Override
     public void onPodcastChannelLongClick(Bundle bundle) {
         Navigation.findNavController(requireView()).navigate(R.id.podcastChannelBottomSheetDialog, bundle);
+    }
+
+    @Override
+    public void onDismiss() {
+        new Handler().postDelayed(() -> {
+            if (podcastViewModel != null) podcastViewModel.refreshPodcastChannels(getViewLifecycleOwner());
+            if (podcastViewModel != null) podcastViewModel.refreshNewestPodcastEpisodes(getViewLifecycleOwner());
+        }, 1000);
     }
 }

@@ -59,6 +59,7 @@
     <string name="genre_catalogue_title">Genre Catalogue</string>
     <string name="genre_catalogue_title_expanded">Browse Genres</string>
     <string name="home_subtitle_new_internet_radio_station">Add a new radio</string>
+    <string name="home_subtitle_new_podcast_channel">Add a new podcast channel</string>
     <string name="home_subtitle_made_for_you">Start mix from a song you liked</string>
     <string name="home_sync_starred_title">Looks like there are some starred tracks to sync</string>
     <string name="home_sync_starred_subtitle">Downloading these tracks may involve significant data usage</string>
@@ -124,6 +125,8 @@
     <string name="podcast_channel_catalogue_title">Channels</string>
     <string name="podcast_channel_page_title_description_section">Description</string>
     <string name="podcast_channel_page_title_episode_section">Episodes</string>
+    <string name="podcast_channel_editor_dialog_hint_rss_url">RSS Url</string>
+    <string name="podcast_channel_editor_dialog_title">Podcast Channel</string>
     <string name="podcast_release_date_duration_formatter">%1$s  •  %2$s</string>
 
     <string name="podcast_info_empty_subtitle">Once you add a channel, you\'ll find it here</string>

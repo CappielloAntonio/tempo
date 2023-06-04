@@ -41,4 +41,12 @@ public class PodcastViewModel extends AndroidViewModel {
 
         return podcastChannels;
     }
+
+    public void refreshNewestPodcastEpisodes(LifecycleOwner owner) {
+        podcastRepository.getNewestPodcastEpisodes(20).observe(owner, newestPodcastEpisodes::postValue);
+    }
+
+    public void refreshPodcastChannels(LifecycleOwner owner) {
+        podcastRepository.getPodcastChannels(false, null).observe(owner, podcastChannels::postValue);
+    }
 }

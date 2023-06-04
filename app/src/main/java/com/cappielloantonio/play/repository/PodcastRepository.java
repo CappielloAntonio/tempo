@@ -83,6 +83,23 @@ public class PodcastRepository {
                 });
     }
 
+    public void createPodcastChannel(String url) {
+        App.getSubsonicClientInstance(false)
+                .getPodcastClient()
+                .createPodcastChannel(url)
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
+
+                    }
+                });
+    }
+
     public void deletePodcastChannel(String channelId) {
         App.getSubsonicClientInstance(false)
                 .getPodcastClient()

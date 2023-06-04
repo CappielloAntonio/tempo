@@ -20,6 +20,9 @@ public interface PodcastService {
     @GET("refreshPodcasts")
     Call<ApiResponse> refreshPodcasts(@QueryMap Map<String, String> params);
 
+    @GET("createPodcastChannel")
+    Call<ApiResponse> createPodcastChannel(@QueryMap Map<String, String> params, @Query("url") String url);
+
     @GET("deletePodcastChannel")
     Call<ApiResponse> deletePodcastChannel(@QueryMap Map<String, String> params, @Query("id") String id);
 

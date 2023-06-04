@@ -79,9 +79,9 @@ public class RadioEditorDialog extends DialogFragment {
         ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
             if (validateInput()) {
                 if (radioEditorViewModel.getRadioToEdit() == null) {
-                    radioEditorViewModel.createRadio(radioName, radioStreamURL, radioHomepageURL);
+                    radioEditorViewModel.createRadio(radioName, radioStreamURL, radioHomepageURL.isEmpty() ? null : radioHomepageURL);
                 } else {
-                    radioEditorViewModel.updateRadio(radioName, radioStreamURL, radioHomepageURL);
+                    radioEditorViewModel.updateRadio(radioName, radioStreamURL, radioHomepageURL.isEmpty() ? null : radioHomepageURL);
                 }
 
                 dismissDialog();

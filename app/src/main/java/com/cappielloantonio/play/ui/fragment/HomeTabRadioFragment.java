@@ -2,6 +2,7 @@ package com.cappielloantonio.play.ui.fragment;
 
 import android.content.ComponentName;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.play.databinding.FragmentHomeTabRadioBinding;
 import com.cappielloantonio.play.interfaces.ClickCallback;
+import com.cappielloantonio.play.interfaces.RadioCallback;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
 import com.cappielloantonio.play.ui.activity.MainActivity;
@@ -28,7 +30,7 @@ import com.cappielloantonio.play.viewmodel.RadioViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
 
 @UnstableApi
-public class HomeTabRadioFragment extends Fragment implements ClickCallback {
+public class HomeTabRadioFragment extends Fragment implements ClickCallback, RadioCallback {
     private static final String TAG = "HomeTabRadioFragment";
 
     private FragmentHomeTabRadioBinding bind;
@@ -80,7 +82,7 @@ public class HomeTabRadioFragment extends Fragment implements ClickCallback {
 
     private void init() {
         bind.internetRadioStationPreTextView.setOnClickListener(v -> {
-            RadioEditorDialog dialog = new RadioEditorDialog(() -> radioViewModel.getInternetRadioStations(getViewLifecycleOwner()));
+            RadioEditorDialog dialog = new RadioEditorDialog(this);
             dialog.show(activity.getSupportFragmentManager(), null);
         });
 
@@ -132,5 +134,13 @@ public class HomeTabRadioFragment extends Fragment implements ClickCallback {
         RadioEditorDialog dialog = new RadioEditorDialog(() -> radioViewModel.getInternetRadioStations(getViewLifecycleOwner()));
         dialog.setArguments(bundle);
         dialog.show(activity.getSupportFragmentManager(), null);
+    }
+
+    @Override
+    public void onDismiss() {
+        new Handler().postDelayed(() -> {
+            if (radioViewModel != null)
+                radioViewModel.refreshInternetRadioStations(getViewLifecycleOwner());
+        }, 1000);
     }
 }

@@ -28,4 +28,8 @@ public class RadioViewModel extends AndroidViewModel {
         radioRepository.getInternetRadioStations().observe(owner, internetRadioStations::postValue);
         return internetRadioStations;
     }
+
+    public void refreshInternetRadioStations(LifecycleOwner owner) {
+        radioRepository.getInternetRadioStations().observe(owner, internetRadioStations::postValue);
+    }
 }

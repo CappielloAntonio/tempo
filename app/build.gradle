@@ -7,7 +7,7 @@ android {
     buildToolsVersion '33.0.0'
 
     defaultConfig {
-        applicationId 'com.cappielloantonio.playforsubsonic'
+        applicationId 'com.cappielloantonio.tempo'
         minSdkVersion 24
         targetSdkVersion 33
         versionCode 4

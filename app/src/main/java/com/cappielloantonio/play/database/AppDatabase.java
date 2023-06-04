@@ -1,6 +1,5 @@
 package com.cappielloantonio.play.database;
 
-import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -20,13 +19,13 @@ import com.cappielloantonio.play.model.RecentSearch;
 import com.cappielloantonio.play.model.Server;
 
 @Database(
-        version = 62,
+        version = 1,
         entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Chronology.class}
         // autoMigrations = {@AutoMigration(from = 61, to = 62)}
 )
 @TypeConverters({DateConverters.class})
 public abstract class AppDatabase extends RoomDatabase {
-    private final static String DB_NAME = "play_db";
+    private final static String DB_NAME = "tempo_db";
     private static AppDatabase instance;
 
     public static synchronized AppDatabase getInstance() {

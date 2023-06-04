@@ -31,6 +31,9 @@ import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.PodcastChannelPageViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
 
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 @UnstableApi
 public class PodcastChannelPageFragment extends Fragment implements ClickCallback {
     private FragmentPodcastChannelPageBinding bind;
@@ -121,9 +124,8 @@ public class PodcastChannelPageFragment extends Fragment implements ClickCallbac
                     bind.podcastChannelPageEpisodesPlaceholder.placeholder.setVisibility(View.GONE);
 
                 if (channels.get(0) != null && channels.get(0).getEpisodes() != null) {
-                    if (bind != null)
-                        bind.podcastChannelPageEpisodesSector.setVisibility(!channels.get(0).getEpisodes().isEmpty() ? View.VISIBLE : View.GONE);
-                    podcastEpisodeAdapter.setItems(channels.get(0).getEpisodes());
+                    if (bind != null) bind.podcastChannelPageEpisodesSector.setVisibility(!channels.get(0).getEpisodes().isEmpty() ? View.VISIBLE : View.GONE);
+                    podcastEpisodeAdapter.setItems(channels.get(0).getEpisodes().stream().filter(podcastEpisode -> Objects.equals(podcastEpisode.getStatus(), "completed")).collect(Collectors.toList()));
                 }
             }
         });

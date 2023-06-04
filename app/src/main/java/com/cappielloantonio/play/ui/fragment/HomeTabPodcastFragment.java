@@ -37,6 +37,9 @@ import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.PodcastViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
 
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 @UnstableApi
 public class HomeTabPodcastFragment extends Fragment implements ClickCallback {
     private static final String TAG = "HomeTabPodcastFragment";
@@ -125,7 +128,7 @@ public class HomeTabPodcastFragment extends Fragment implements ClickCallback {
                 if (bind != null)
                     bind.homeNewestPodcastsSector.setVisibility(!podcastEpisodes.isEmpty() ? View.VISIBLE : View.GONE);
 
-                podcastEpisodeAdapter.setItems(podcastEpisodes);
+                podcastEpisodeAdapter.setItems(podcastEpisodes.stream().filter(podcastEpisode -> Objects.equals(podcastEpisode.getStatus(), "completed")).collect(Collectors.toList()));
             }
         });
     }

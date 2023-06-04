@@ -62,6 +62,16 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
         notifyDataSetChanged();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         ItemHomePodcastEpisodeBinding item;
 

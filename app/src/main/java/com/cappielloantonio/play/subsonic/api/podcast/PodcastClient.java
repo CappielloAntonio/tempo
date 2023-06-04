@@ -43,4 +43,14 @@ public class PodcastClient {
         Log.d(TAG, "refreshPodcasts()");
         return podcastService.refreshPodcasts(subsonic.getParams());
     }
+
+    public Call<ApiResponse> deletePodcastChannel(String channelId) {
+        Log.d(TAG, "deletePodcastChannel()");
+        return podcastService.deletePodcastChannel(subsonic.getParams(), channelId);
+    }
+
+    public Call<ApiResponse> deletePodcastEpisode(String episodeId) {
+        Log.d(TAG, "deletePodcastEpisode()");
+        return podcastService.deletePodcastEpisode(subsonic.getParams(), episodeId);
+    }
 }

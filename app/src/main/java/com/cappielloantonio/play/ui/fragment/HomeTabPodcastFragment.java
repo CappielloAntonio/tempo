@@ -1,29 +1,20 @@
 package com.cappielloantonio.play.ui.fragment;
 
 import android.content.ComponentName;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.cappielloantonio.play.R;
 import com.cappielloantonio.play.databinding.FragmentHomeTabPodcastBinding;
@@ -37,8 +28,6 @@ import com.cappielloantonio.play.util.Constants;
 import com.cappielloantonio.play.util.Preferences;
 import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.PodcastViewModel;
-import com.google.android.material.divider.MaterialDividerItemDecoration;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.Objects;
@@ -109,8 +98,10 @@ public class HomeTabPodcastFragment extends Fragment implements ClickCallback {
                 if (bind != null) bind.homePodcastChannelsSector.setVisibility(View.GONE);
                 if (bind != null) bind.emptyPodcastLayout.setVisibility(View.GONE);
             } else {
-                if (bind != null) bind.homePodcastChannelsSector.setVisibility(!podcastChannels.isEmpty() ? View.VISIBLE : View.GONE);
-                if (bind != null) bind.emptyPodcastLayout.setVisibility(podcastChannels.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.homePodcastChannelsSector.setVisibility(!podcastChannels.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.emptyPodcastLayout.setVisibility(podcastChannels.isEmpty() ? View.VISIBLE : View.GONE);
             }
         });
     }
@@ -166,7 +157,7 @@ public class HomeTabPodcastFragment extends Fragment implements ClickCallback {
 
     @Override
     public void onPodcastEpisodeLongClick(Bundle bundle) {
-        Navigation.findNavController(requireView()).navigate(R.id.podcastBottomSheetDialog, bundle);
+        Navigation.findNavController(requireView()).navigate(R.id.podcastEpisodeBottomSheetDialog, bundle);
     }
 
     @Override
@@ -176,6 +167,6 @@ public class HomeTabPodcastFragment extends Fragment implements ClickCallback {
 
     @Override
     public void onPodcastChannelLongClick(Bundle bundle) {
-        Toast.makeText(requireContext(), "Long click!", Toast.LENGTH_SHORT).show();
+        Navigation.findNavController(requireView()).navigate(R.id.podcastChannelBottomSheetDialog, bundle);
     }
 }

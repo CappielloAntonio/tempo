@@ -243,6 +243,7 @@
     <string name="home_title_podcast_channels">Channels</string>
     <string name="artist_adapter_radio_station_starting">Searching…</string>
     <string name="podcast_bottom_sheet_go_to_channel">Go to channel</string>
+    <string name="podcast_bottom_sheet_delete">Delete</string>
     <string name="podcast_bottom_sheet_remove">Remove</string>
     <string name="podcast_bottom_sheet_download">Download</string>
     <string name="podcast_bottom_sheet_add_to_queue">Add to queue</string>

@@ -82,4 +82,38 @@ public class PodcastRepository {
                     }
                 });
     }
+
+    public void deletePodcastChannel(String channelId) {
+        App.getSubsonicClientInstance(false)
+                .getPodcastClient()
+                .deletePodcastChannel(channelId)
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
+
+                    }
+                });
+    }
+
+    public void deletePodcastEpisode(String episodeId) {
+        App.getSubsonicClientInstance(false)
+                .getPodcastClient()
+                .deletePodcastEpisode(episodeId)
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
+
+                    }
+                });
+    }
 }

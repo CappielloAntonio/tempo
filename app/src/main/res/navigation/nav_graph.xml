@@ -313,8 +313,13 @@
         android:label="AlbumBottomSheetDialog"
         tools:layout="@layout/bottom_sheet_album_dialog" />
     <dialog
-        android:id="@+id/podcastBottomSheetDialog"
-        android:name="com.cappielloantonio.play.ui.fragment.bottomsheetdialog.PodcastBottomSheetDialog"
-        android:label="PodcastBottomSheetDialog"
-        tools:layout="@layout/bottom_sheet_podcast_dialog" />
+        android:id="@+id/podcastEpisodeBottomSheetDialog"
+        android:name="com.cappielloantonio.play.ui.fragment.bottomsheetdialog.PodcastEpisodeBottomSheetDialog"
+        android:label="PodcastEpisodeBottomSheetDialog"
+        tools:layout="@layout/bottom_sheet_podcast_episode_dialog" />
+    <dialog
+        android:id="@+id/podcastChannelBottomSheetDialog"
+        android:name="com.cappielloantonio.play.ui.fragment.bottomsheetdialog.PodcastChannelBottomSheetDialog"
+        android:label="PodcastChannelBottomSheetDialog"
+        tools:layout="@layout/bottom_sheet_podcast_channel_dialog" />
 </navigation>

@@ -44,6 +44,11 @@ public class PodcastClient {
         return podcastService.refreshPodcasts(subsonic.getParams());
     }
 
+    public Call<ApiResponse> createPodcastChannel(String url) {
+        Log.d(TAG, "createPodcastChannel()");
+        return podcastService.createPodcastChannel(subsonic.getParams(), url);
+    }
+
     public Call<ApiResponse> deletePodcastChannel(String channelId) {
         Log.d(TAG, "deletePodcastChannel()");
         return podcastService.deletePodcastChannel(subsonic.getParams(), channelId);

@@ -21,6 +21,7 @@ import com.cappielloantonio.play.glide.CustomGlideRequest;
 import com.cappielloantonio.play.interfaces.ClickCallback;
 import com.cappielloantonio.play.service.MediaManager;
 import com.cappielloantonio.play.service.MediaService;
+import com.cappielloantonio.play.subsonic.models.PodcastEpisode;
 import com.cappielloantonio.play.ui.activity.MainActivity;
 import com.cappielloantonio.play.ui.adapter.PodcastEpisodeAdapter;
 import com.cappielloantonio.play.util.Constants;
@@ -29,6 +30,7 @@ import com.cappielloantonio.play.util.UIUtil;
 import com.cappielloantonio.play.viewmodel.PodcastChannelPageViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -122,9 +124,14 @@ public class PodcastChannelPageFragment extends Fragment implements ClickCallbac
                     bind.podcastChannelPageEpisodesPlaceholder.placeholder.setVisibility(View.GONE);
 
                 if (!channels.isEmpty() && channels.get(0) != null && channels.get(0).getEpisodes() != null) {
-                    if (bind != null)
-                        bind.podcastChannelPageEpisodesSector.setVisibility(!channels.get(0).getEpisodes().isEmpty() ? View.VISIBLE : View.GONE);
-                    podcastEpisodeAdapter.setItems(channels.get(0).getEpisodes().stream().filter(podcastEpisode -> Objects.equals(podcastEpisode.getStatus(), "completed")).collect(Collectors.toList()));
+                    List<PodcastEpisode> availableEpisode = channels.get(0).getEpisodes().stream().filter(podcastEpisode -> Objects.equals(podcastEpisode.getStatus(), "completed")).collect(Collectors.toList());
+
+                    if (bind != null) {
+                        bind.podcastEpisodesRecyclerView.setVisibility(availableEpisode.isEmpty() ? View.GONE : View.VISIBLE);
+                        bind.podcastEpisodesAvailabilityTextView.setVisibility(availableEpisode.isEmpty() ? View.VISIBLE : View.GONE);
+                    }
+
+                    podcastEpisodeAdapter.setItems(availableEpisode);
                 }
             }
         });

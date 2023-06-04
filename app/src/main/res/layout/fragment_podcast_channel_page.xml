@@ -116,6 +116,17 @@
                     android:clipToPadding="false"
                     android:nestedScrollingEnabled="false"
                     android:paddingTop="8dp" />
+
+                <TextView
+                    android:id="@+id/podcast_episodes_availability_text_view"
+                    style="@style/TitleMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="8dp"
+                    android:text="@string/podcast_channel_page_title_no_episode_available"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <include

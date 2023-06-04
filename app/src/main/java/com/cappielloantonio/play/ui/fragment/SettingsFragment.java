@@ -62,6 +62,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onStart() {
         super.onStart();
         activity.setBottomNavigationBarVisibility(false);
+        activity.setBottomSheetVisibility(false);
     }
 
     @Override
@@ -104,6 +105,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
             return true;
         });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        activity.setBottomSheetVisibility(true);
     }
 
     @Override

@@ -30,7 +30,6 @@ public class HomeViewModel extends AndroidViewModel {
     private final SongRepository songRepository;
     private final AlbumRepository albumRepository;
     private final ArtistRepository artistRepository;
-    private final PodcastRepository podcastRepository;
     private final ChronologyRepository chronologyRepository;
 
     private final MutableLiveData<List<Child>> dicoverSongSample = new MutableLiveData<>(null);
@@ -57,7 +56,6 @@ public class HomeViewModel extends AndroidViewModel {
         songRepository = new SongRepository();
         albumRepository = new AlbumRepository();
         artistRepository = new ArtistRepository();
-        podcastRepository = new PodcastRepository();
         chronologyRepository = new ChronologyRepository();
     }
 

@@ -14,11 +14,8 @@ public class MainViewModel extends AndroidViewModel {
 
     private final SystemRepository systemRepository;
 
-    private final Application application;
-
     public MainViewModel(@NonNull Application application) {
         super(application);
-        this.application = application;
 
         systemRepository = new SystemRepository();
     }

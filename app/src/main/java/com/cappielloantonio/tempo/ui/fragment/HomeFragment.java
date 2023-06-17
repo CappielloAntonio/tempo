@@ -103,6 +103,7 @@ public class HomeFragment extends Fragment {
             pager.addFragment(new HomeTabRadioFragment(), "Radio", R.drawable.ic_play_for_work);
 
         bind.homeViewPager.setAdapter(pager);
+        bind.homeViewPager.setOffscreenPageLimit(3);
         bind.homeViewPager.setUserInputEnabled(false);
 
         new TabLayoutMediator(bind.homeTabLayout, bind.homeViewPager,

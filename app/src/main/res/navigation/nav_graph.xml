@@ -6,7 +6,7 @@
     app:startDestination="@id/landingFragment">
     <fragment
         android:id="@+id/landingFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.LandingFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.LandingFragment"
         android:label="fragment_landing"
         tools:layout="@layout/fragment_landing">
         <action
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.LoginFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.HomeFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
@@ -71,7 +71,7 @@
     </fragment>
     <fragment
         android:id="@+id/libraryFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.LibraryFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.LibraryFragment"
         android:label="LibraryFragment"
         tools:layout="@layout/fragment_library">
         <action
@@ -113,7 +113,7 @@
     </fragment>
     <fragment
         android:id="@+id/downloadFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.DownloadFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.DownloadFragment"
         android:label="DownloadFragment"
         tools:layout="@layout/fragment_download">
         <action
@@ -143,7 +143,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.SettingsFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings">
         <action
@@ -154,7 +154,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.SearchFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search">
         <action
@@ -169,7 +169,7 @@
     </fragment>
     <fragment
         android:id="@+id/filterFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.FilterFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.FilterFragment"
         android:label="FilterFragment"
         tools:layout="@layout/fragment_filter">
         <action
@@ -178,7 +178,7 @@
     </fragment>
     <fragment
         android:id="@+id/artistCatalogueFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.ArtistCatalogueFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.ArtistCatalogueFragment"
         android:label="ArtistCatalogueFragment"
         tools:layout="@layout/fragment_artist_catalogue">
         <action
@@ -187,7 +187,7 @@
     </fragment>
     <fragment
         android:id="@+id/albumCatalogueFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.AlbumCatalogueFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.AlbumCatalogueFragment"
         android:label="AlbumCatalogueFragment"
         tools:layout="@layout/fragment_album_catalogue">
         <action
@@ -196,7 +196,7 @@
     </fragment>
     <fragment
         android:id="@+id/genreCatalogueFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.GenreCatalogueFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.GenreCatalogueFragment"
         android:label="GenreCatalogueFragment"
         tools:layout="@layout/fragment_genre_catalogue">
         <action
@@ -208,7 +208,7 @@
     </fragment>
     <fragment
         android:id="@+id/playlistCatalogueFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.PlaylistCatalogueFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.PlaylistCatalogueFragment"
         android:label="PlaylistCatalogueFragment"
         tools:layout="@layout/fragment_playlist_catalogue">
         <action
@@ -218,7 +218,7 @@
 
     <fragment
         android:id="@+id/artistPageFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.ArtistPageFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.ArtistPageFragment"
         android:label="ArtistPageFragment"
         tools:layout="@layout/fragment_artist_page">
         <action
@@ -230,7 +230,7 @@
     </fragment>
     <fragment
         android:id="@+id/albumPageFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.AlbumPageFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.AlbumPageFragment"
         android:label="AlbumPageFragment"
         tools:layout="@layout/fragment_album_page">
         <action
@@ -239,12 +239,12 @@
     </fragment>
     <fragment
         android:id="@+id/songListPageFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.SongListPageFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.SongListPageFragment"
         android:label="SongListPageFragment"
         tools:layout="@layout/fragment_song_list_page" />
     <fragment
         android:id="@+id/albumListPageFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.AlbumListPageFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.AlbumListPageFragment"
         android:label="AlbumListPageFragment"
         tools:layout="@layout/fragment_album_list_page">
         <action
@@ -253,7 +253,7 @@
     </fragment>
     <fragment
         android:id="@+id/artistListPageFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.ArtistListPageFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.ArtistListPageFragment"
         android:label="ArtistListPageFragment"
         tools:layout="@layout/fragment_artist_list_page">
         <action
@@ -265,12 +265,12 @@
     </fragment>
     <fragment
         android:id="@+id/playlistPageFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.PlaylistPageFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.PlaylistPageFragment"
         android:label="PlaylistPageFragment"
         tools:layout="@layout/fragment_playlist_page" />
     <fragment
         android:id="@+id/podcastChannelCatalogueFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.PodcastChannelCatalogueFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.PodcastChannelCatalogueFragment"
         android:label="PodcastChannelCatalogueFragment"
         tools:layout="@layout/fragment_podcast_channel_catalogue">
         <action
@@ -279,17 +279,17 @@
     </fragment>
     <fragment
         android:id="@+id/podcastChannelPageFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.PodcastChannelPageFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.PodcastChannelPageFragment"
         android:label="PodcastChannelPageFragment"
         tools:layout="@layout/fragment_podcast_channel_page" />
     <fragment
         android:id="@+id/directoryFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.DirectoryFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.DirectoryFragment"
         android:label="DirectoryFragment"
         tools:layout="@layout/fragment_directory" />
     <fragment
         android:id="@+id/indexFragment"
-        android:name="com.cappielloantonio.play.ui.fragment.IndexFragment"
+        android:name="com.cappielloantonio.tempo.ui.fragment.IndexFragment"
         android:label="IndexFragment"
         tools:layout="@layout/fragment_index">
 
@@ -299,27 +299,27 @@
     </fragment>
     <dialog
         android:id="@+id/songBottomSheetDialog"
-        android:name="com.cappielloantonio.play.ui.fragment.bottomsheetdialog.SongBottomSheetDialog"
+        android:name="com.cappielloantonio.tempo.ui.fragment.bottomsheetdialog.SongBottomSheetDialog"
         android:label="SongBottomSheetDialog"
         tools:layout="@layout/bottom_sheet_song_dialog" />
     <dialog
         android:id="@+id/artistBottomSheetDialog"
-        android:name="com.cappielloantonio.play.ui.fragment.bottomsheetdialog.ArtistBottomSheetDialog"
+        android:name="com.cappielloantonio.tempo.ui.fragment.bottomsheetdialog.ArtistBottomSheetDialog"
         android:label="ArtistBottomSheetDialog"
         tools:layout="@layout/bottom_sheet_artist_dialog" />
     <dialog
         android:id="@+id/albumBottomSheetDialog"
-        android:name="com.cappielloantonio.play.ui.fragment.bottomsheetdialog.AlbumBottomSheetDialog"
+        android:name="com.cappielloantonio.tempo.ui.fragment.bottomsheetdialog.AlbumBottomSheetDialog"
         android:label="AlbumBottomSheetDialog"
         tools:layout="@layout/bottom_sheet_album_dialog" />
     <dialog
         android:id="@+id/podcastEpisodeBottomSheetDialog"
-        android:name="com.cappielloantonio.play.ui.fragment.bottomsheetdialog.PodcastEpisodeBottomSheetDialog"
+        android:name="com.cappielloantonio.tempo.ui.fragment.bottomsheetdialog.PodcastEpisodeBottomSheetDialog"
         android:label="PodcastEpisodeBottomSheetDialog"
         tools:layout="@layout/bottom_sheet_podcast_episode_dialog" />
     <dialog
         android:id="@+id/podcastChannelBottomSheetDialog"
-        android:name="com.cappielloantonio.play.ui.fragment.bottomsheetdialog.PodcastChannelBottomSheetDialog"
+        android:name="com.cappielloantonio.tempo.ui.fragment.bottomsheetdialog.PodcastChannelBottomSheetDialog"
         android:label="PodcastChannelBottomSheetDialog"
         tools:layout="@layout/bottom_sheet_podcast_channel_dialog" />
 </navigation>

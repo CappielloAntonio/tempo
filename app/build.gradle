@@ -47,7 +47,7 @@ android {
         viewBinding true
     }
 
-    namespace 'com.cappielloantonio.play'
+    namespace 'com.cappielloantonio.tempo'
 }
 
 dependencies {

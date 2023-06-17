@@ -6,8 +6,12 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.view.View;
 
+import androidx.annotation.OptIn;
+import androidx.media3.common.util.UnstableApi;
+
 import com.cappielloantonio.tempo.ui.activity.MainActivity;
 
+@OptIn(markerClass = UnstableApi.class)
 public class ConnectivityStatusBroadcastReceiver extends BroadcastReceiver {
     private final MainActivity activity;
 

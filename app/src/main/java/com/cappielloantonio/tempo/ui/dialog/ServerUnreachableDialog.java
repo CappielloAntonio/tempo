@@ -5,13 +5,16 @@ import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.fragment.app.DialogFragment;
+import androidx.media3.common.util.UnstableApi;
 
 import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.databinding.DialogServerUnreachableBinding;
 import com.cappielloantonio.tempo.ui.activity.MainActivity;
 import com.cappielloantonio.tempo.util.Preferences;
 
+@OptIn(markerClass = UnstableApi.class)
 public class ServerUnreachableDialog extends DialogFragment {
     private static final String TAG = "ServerUnreachableDialog";
 

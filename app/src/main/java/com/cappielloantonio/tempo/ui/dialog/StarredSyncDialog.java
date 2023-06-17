@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.util.UnstableApi;
 
 import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.databinding.DialogStarredSyncBinding;
@@ -20,6 +22,7 @@ import com.cappielloantonio.tempo.viewmodel.StarredSyncViewModel;
 
 import java.util.stream.Collectors;
 
+@OptIn(markerClass = UnstableApi.class)
 public class StarredSyncDialog extends DialogFragment {
     private static final String TAG = "ServerUnreachableDialog";
 

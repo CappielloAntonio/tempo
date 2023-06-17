@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.tempo.databinding.ItemHomeCataloguePodcastChannelBinding;
-import com.cappielloantonio.tempo.databinding.ItemLibraryCatalogueAlbumBinding;
 import com.cappielloantonio.tempo.glide.CustomGlideRequest;
 import com.cappielloantonio.tempo.interfaces.ClickCallback;
 import com.cappielloantonio.tempo.subsonic.models.PodcastChannel;

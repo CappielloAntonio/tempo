@@ -18,7 +18,7 @@ class Download(@PrimaryKey override val id: String) : Child(id) {
     var playlistName: String? = null
 
     @ColumnInfo(name = "download_state", defaultValue = "1")
-    var downloadState: Int = 0;
+    var downloadState: Int = 0
 
     constructor(child: Child) : this(child.id) {
         parentId = child.parentId

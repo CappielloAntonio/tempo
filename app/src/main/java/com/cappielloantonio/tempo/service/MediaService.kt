@@ -27,8 +27,6 @@ import com.google.common.util.concurrent.ListenableFuture
 
 @UnstableApi
 class MediaService : MediaLibraryService(), SessionAvailabilityListener {
-    private val TAG = "MediaService"
-
     private val librarySessionCallback = CustomMediaLibrarySessionCallback()
 
     private lateinit var player: ExoPlayer

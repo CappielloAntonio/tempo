@@ -3,13 +3,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-parcelize'
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     buildToolsVersion '33.0.0'
 
     defaultConfig {
         applicationId 'com.cappielloantonio.tempo'
         minSdkVersion 24
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 4
         versionName '3.2.0'
 
@@ -59,8 +59,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
     implementation 'androidx.preference:preference-ktx:1.2.0'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.6.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.6.0'
     implementation 'androidx.recyclerview:recyclerview:1.3.0'
     implementation 'androidx.room:room-runtime:2.5.1'
     implementation 'androidx.cardview:cardview:1.0.0'
@@ -71,7 +71,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-cast-framework:21.3.0'
 
     // Android Material
-    implementation 'com.google.android.material:material:1.9.0-alpha02'
+    implementation 'com.google.android.material:material:1.9.0'
 
     // SearchBar
     implementation 'com.paulrybitskyi.persistentsearchview:persistentsearchview:1.1.4'

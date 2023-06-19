@@ -1,52 +1,66 @@
-<h1 align="center"> Play for Subsonic </h1> 
+<h1 align="center"> Tempo </h1> 
 <br>
 <p align="center">
-  <img alt="Play" title="Play" src="https://github.com/CappielloAntonio/play/blob/main/mockup/svg/undraw_contemplating.svg" width="250">
+  <img alt="Tempo" title="Tempo" src="mockup/svg/horizontal_logo.svg" width="250">
 </p>
 
 <p align="center">
   <b>Access your music library on all your android devices</b>
 </p>
 
-**Play** is an open source and lightweight music client for Subsonic, designed and built natively for Android.
+**Tempo** is an open-source and lightweight music client for Subsonic, designed and built natively for Android. It provides a seamless and intuitive music streaming experience, allowing you to access and play your Subsonic music library directly from your Android device. 
 
-**Play** is a Single Activity MVVM Application (almost), born with the intention of following the most modern best practices for the development of android applications, and makes extensive use of Architecture Components:
+Tempo does not rely on magic algorithms to decide what you should listen to. Instead, the interface is built around your listening history, randomness, and optionally integrates with services like Last.fm to personalize your music experience.
 
-- *Room* for data storage persistence.
-- *Navigation* to manage your application navigation flow.
-- *View binding* to easily and securely write code that interacts with views.
-- *LiveData* as an observable data holder.
-- *ViewModel* to store and manage UI-related data in a lifecycle conscious way. 
+**If you find Tempo useful, please consider starring the project on GitHub. It would mean a lot to me and help promote the app to a wider audience.**
 
+## Features
+- **Subsonic Integration**: Tempo seamlessly integrates with your Subsonic server, providing you with easy access to your entire music collection on the go.
+- **Sleek and Intuitive UI**: Enjoy a clean and user-friendly interface designed to enhance your music listening experience, tailored to your preferences and listening history.
+- **Browse and Search**: Easily navigate through your music library using various browsing and searching options, including artists, albums, genres, playlists, decades and more.
+- **Streaming and Offline Mode**: Stream music directly from your Subsonic server. Offline mode is currently under active development and may have limitations when using multiple servers.
+- **Playlist Management**: Create, edit, and manage playlists to curate your perfect music collection.
+- **Gapless Playback**: Experience uninterrupted playback with gapless listening mode.
+- **Chromecast Support**: Stream your music to Chromecast devices. The support is currently in a rudimentary state.
+- **Scrobbling Integration**: Optionally integrate Tempo with Last.fm to scrobble your played tracks, gather music insights, and further personalize your music recommendations, if supported by your Subsonic server.
+- **Podcasts and Radio**: If your Subsonic server supports it, listen to podcasts and radio shows directly within Tempo, expanding your audio entertainment options.
+- **Transcoding Support**: Activate transcoding of tracks on your Subsonic server, allowing you to set a transcoding profile for optimized streaming directly from the app. This feature requires support from your Subsonic server.
 
-## 🚀&nbsp; Features
-
-- WIP
-
-<p align="center">  
-  <img src="https://github.com/CappielloAntonio/play/blob/master/mockup/light/1_mock_home_light.png" width="23%"></img> <img src="https://github.com/CappielloAntonio/play/blob/master/mockup/light/2_mock_favorites_light.png" width="23%"></img> <img src="https://github.com/CappielloAntonio/play/blob/master/mockup/light/3_mock_categories_light.png" width="23%"></img> <img src="https://github.com/CappielloAntonio/play/blob/master/mockup/light/5_mock_detail_light.png" width="23%"></img> 
+<p align="center">
+    <img src="mockup/feat/1_screenshot.png" width=200>
+    <img src="mockup/feat/2_screenshot.png" width=200>
+    <img src="mockup/feat/3_screenshot.png" width=200>
+    <img src="mockup/feat/4_screenshot.png" width=200>
+    <img src="mockup/feat/5_screenshot.png" width=200>
+    <img src="mockup/feat/6_screenshot.png" width=200>
+    <img src="mockup/feat/7_screenshot.png" width=200>
+    <img src="mockup/feat/8_screenshot.png" width=200>
+    <img src="mockup/feat/9_screenshot.png" width=200>
 </p>
 
+## Disclaimer
+Tempo is currently under active development and is in alpha state. This means that the app may contain stability issues, bugs, or incomplete features. While we strive to provide a smooth and reliable experience, please be aware that using Tempo in its current state may not be as stable as a fully released version. I appreciate your understanding and patience as I work towards improving the app.
 
-## 🤝&nbsp; Found a bug? Missing a specific feature?
+## Sponsors
+Tempo is an open-source project developed and maintained solely by me. I would like to express my heartfelt thanks to all the users who have shown their love and support for Tempo. Your contributions and encouragement mean a lot to me, and they help drive the development and improvement of the app.
 
-Feel free to **file a new issue** with a respective title and description on the the [CappielloAntonio/play](https://github.com/CappielloAntonio/play/issues) repository. If you already found a solution to your problem, **I would love to review your pull request**!
+If you would like to sponsor the project and show your support, you can make a donation or contribution by visiting the [**sponsorship page**](https://www.buymeacoffee.com/a.cappiello). Your generosity will help cover the costs of development and further enhancements.
 
-
-## ☕&nbsp; Buy me a coffee
-
-Whether you use this project, have learned something from it, or just like it, please consider supporting it by [buying me a coffee](https://www.buymeacoffee.com/), so I can dedicate more time on open-source projects like this :)
-Alternatively, you can buy the paid version of my app through Play Store.
-
-
-## 📸&nbsp; Screenshot
+## Screenshot
 
 <p align="center">
   <b>Light theme</b>
 </p>
 
-<p align="center">  
-  <img src="https://github.com/CappielloAntonio/play/blob/master/mockup/light/1_mock_home_light.png" width="30%"></img> <img src="https://github.com/CappielloAntonio/play/blob/master/mockup/light/2_mock_favorites_light.png" width="30%"></img> <img src="https://github.com/CappielloAntonio/play/blob/master/mockup/light/3_mock_categories_light.png" width="30%"></img> <img src="https://github.com/CappielloAntonio/play/blob/master/mockup/light/4_mock_settings_light.png" width="30%"></img> <img src="https://github.com/CappielloAntonio/play/blob/master/mockup/light/5_mock_detail_light.png" width="30%"></img> <img src="https://github.com/CappielloAntonio/play/blob/master/mockup/light/6_mock_filters_light.png" width="30%"></img>
+<p align="center">
+    <img src="mockup/light/1_screenshot.png" width=200>
+    <img src="mockup/light/2_screenshot.png" width=200>
+    <img src="mockup/light/3_screenshot.png" width=200>
+    <img src="mockup/light/4_screenshot.png" width=200>
+    <img src="mockup/light/5_screenshot.png" width=200>
+    <img src="mockup/light/6_screenshot.png" width=200>
+    <img src="mockup/light/7_screenshot.png" width=200>
+    <img src="mockup/light/8_screenshot.png" width=200>
 </p>
 
 <br>
@@ -55,11 +69,17 @@ Alternatively, you can buy the paid version of my app through Play Store.
   <b>Dark theme</b>
 </p>
 
-<p align="center">  
-  <img src="https://github.com/CappielloAntonio/play/blob/master/mockup/dark/1_mock_home_dark.png" width="30%"></img> <img src="https://github.com/CappielloAntonio/play/blob/master/mockup/dark/2_mock_favorites_dark.png" width="30%"></img> <img src="https://github.com/CappielloAntonio/play/blob/master/mockup/dark/3_mock_categories_dark.png" width="30%"></img> <img src="https://github.com/CappielloAntonio/play/blob/master/mockup/dark/4_mock_settings_dark.png" width="30%"></img> <img src="https://github.com/CappielloAntonio/play/blob/master/mockup/dark/5_mock_detail_dark.png" width="30%"></img> <img src="https://github.com/CappielloAntonio/play/blob/master/mockup/dark/6_mock_filters_dark.png" width="30%"></img>
+<p align="center">
+    <img src="mockup/dark/1_screenshot.png" width=200>
+    <img src="mockup/dark/2_screenshot.png" width=200>
+    <img src="mockup/dark/3_screenshot.png" width=200>
+    <img src="mockup/dark/4_screenshot.png" width=200>
+    <img src="mockup/dark/5_screenshot.png" width=200>
+    <img src="mockup/dark/6_screenshot.png" width=200>
+    <img src="mockup/dark/7_screenshot.png" width=200>
+    <img src="mockup/dark/8_screenshot.png" width=200>
 </p>
 
+## License
 
-## 📘&nbsp; License
-
-Play is released under the under terms of the [MIT License](LICENSE).
+Tempo is released under the [GNU General Public License v3.0](LICENSE). Feel free to modify, distribute, and use the app in accordance with the terms of the license. Contributions to the project are also welcome. 

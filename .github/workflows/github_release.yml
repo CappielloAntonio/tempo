@@ -20,6 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
 
       - name: Cache Gradle and wrapper
         uses: actions/cache@v3

@@ -1,18 +1,18 @@
 package com.cappielloantonio.tempo.subsonic.models
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import androidx.room.ColumnInfo
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import java.util.*
 
+@Keep
 @Parcelize
 class PodcastEpisode : Parcelable {
     var id: String? = null
-
     @SerializedName("parent")
     var parentId: String? = null
-
     @SerializedName("isDir")
     var isDir = false
     var title: String? = null
@@ -21,7 +21,6 @@ class PodcastEpisode : Parcelable {
     var track: Int? = null
     var year: Int? = null
     var genre: String? = null
-
     @SerializedName("coverArt")
     var coverArtId: String? = null
     var size: Long? = null
@@ -34,7 +33,6 @@ class PodcastEpisode : Parcelable {
     @SerializedName("bitRate")
     var bitrate: Int? = null
     var path: String? = null
-
     @ColumnInfo(name = "is_video")
     @SerializedName("isVideo")
     var isVideo: Boolean = false

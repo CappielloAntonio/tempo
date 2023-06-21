@@ -1,7 +1,9 @@
 package com.cappielloantonio.tempo.subsonic.models
 
-class ErrorCode(val value: Int) {
+import androidx.annotation.Keep
 
+@Keep
+class ErrorCode(val value: Int) {
     companion object {
         var GENERIC_ERROR = 0
         var REQUIRED_PARAMETER_MISSING = 10

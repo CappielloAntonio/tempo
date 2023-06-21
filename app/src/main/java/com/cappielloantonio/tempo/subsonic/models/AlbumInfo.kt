@@ -1,6 +1,8 @@
 package com.cappielloantonio.tempo.subsonic.models
 
+import androidx.annotation.Keep
 
+@Keep
 class AlbumInfo {
     var notes: String? = null
     var musicBrainzId: String? = null

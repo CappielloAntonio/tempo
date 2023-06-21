@@ -1,11 +1,12 @@
 package com.cappielloantonio.tempo.subsonic.models
 
-class ResponseStatus(val value: String) {
+import androidx.annotation.Keep
 
+@Keep
+class ResponseStatus(val value: String) {
     companion object {
         @JvmField
         var OK = "ok"
-
         @JvmField
         var FAILED = "failed"
     }

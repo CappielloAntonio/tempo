@@ -1,7 +1,9 @@
 package com.cappielloantonio.tempo.subsonic.models
 
+import androidx.annotation.Keep
 import java.util.*
 
+@Keep
 class User {
     var folders: List<Int>? = null
     var username: String? = null

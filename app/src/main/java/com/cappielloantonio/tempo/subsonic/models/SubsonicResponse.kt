@@ -1,5 +1,8 @@
 package com.cappielloantonio.tempo.subsonic.models
 
+import androidx.annotation.Keep
+
+@Keep
 class SubsonicResponse {
     var error: Error? = null
     var scanStatus: ScanStatus? = null

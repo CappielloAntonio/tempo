@@ -230,21 +230,29 @@ public class AlbumRepository {
     public MutableLiveData<List<Integer>> getDecades() {
         MutableLiveData<List<Integer>> decades = new MutableLiveData<>();
 
-        getFirstAlbum(first -> getLastAlbum(last -> {
-            if (first != -1 && last != -1) {
-                List<Integer> decadeList = new ArrayList();
+        getFirstAlbum(new DecadesCallback() {
+            @Override
+            public void onLoadYear(int first) {
+                getLastAlbum(new DecadesCallback() {
+                    @Override
+                    public void onLoadYear(int last) {
+                        if (first != -1 && last != -1) {
+                            List<Integer> decadeList = new ArrayList();
 
-                int startDecade = first - (first % 10);
-                int lastDecade = last - (last % 10);
+                            int startDecade = first - (first % 10);
+                            int lastDecade = last - (last % 10);
 
-                while (startDecade <= lastDecade) {
-                    decadeList.add(startDecade);
-                    startDecade = startDecade + 10;
-                }
+                            while (startDecade <= lastDecade) {
+                                decadeList.add(startDecade);
+                                startDecade = startDecade + 10;
+                            }
 
-                decades.setValue(decadeList);
+                            decades.setValue(decadeList);
+                        }
+                    }
+                });
             }
-        }));
+        });
 
         return decades;
     }

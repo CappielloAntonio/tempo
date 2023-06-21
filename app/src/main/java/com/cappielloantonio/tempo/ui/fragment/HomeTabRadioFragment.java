@@ -131,7 +131,12 @@ public class HomeTabRadioFragment extends Fragment implements ClickCallback, Rad
 
     @Override
     public void onInternetRadioStationLongClick(Bundle bundle) {
-        RadioEditorDialog dialog = new RadioEditorDialog(() -> radioViewModel.getInternetRadioStations(getViewLifecycleOwner()));
+        RadioEditorDialog dialog = new RadioEditorDialog(new RadioCallback() {
+            @Override
+            public void onDismiss() {
+                radioViewModel.getInternetRadioStations(getViewLifecycleOwner());
+            }
+        });
         dialog.setArguments(bundle);
         dialog.show(activity.getSupportFragmentManager(), null);
     }

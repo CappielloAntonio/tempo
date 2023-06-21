@@ -1,5 +1,3 @@
-<h1 align="center"> Tempo </h1> 
-<br>
 <p align="center">
   <img alt="Tempo" title="Tempo" src="mockup/svg/horizontal_logo.svg" width="250">
 </p>

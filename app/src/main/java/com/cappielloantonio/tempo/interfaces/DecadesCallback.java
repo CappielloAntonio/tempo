@@ -1,6 +1,8 @@
 package com.cappielloantonio.tempo.interfaces;
 
+import androidx.annotation.Keep;
 
+@Keep
 public interface DecadesCallback {
-    void onLoadYear(int year);
+    default void onLoadYear(int year) {}
 }

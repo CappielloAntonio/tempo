@@ -1,6 +1,9 @@
 package com.cappielloantonio.tempo.interfaces;
 
-public interface PodcastCallback {
+import androidx.annotation.Keep;
 
-    void onDismiss();
+@Keep
+
+public interface PodcastCallback {
+    default void onDismiss() {}
 }

@@ -1,6 +1,9 @@
 package com.cappielloantonio.tempo.interfaces;
 
-public interface RadioCallback {
+import androidx.annotation.Keep;
 
-    void onDismiss();
+@Keep
+
+public interface RadioCallback {
+    default void onDismiss() {}
 }

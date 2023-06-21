@@ -1,10 +1,11 @@
 package com.cappielloantonio.tempo.interfaces;
 
+import androidx.annotation.Keep;
+
 import java.util.List;
 
+@Keep
 public interface MediaCallback {
-
-    void onError(Exception exception);
-
-    void onLoadMedia(List<?> media);
+    default void onError(Exception exception) {}
+    default void onLoadMedia(List<?> media) {}
 }

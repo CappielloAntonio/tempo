@@ -173,7 +173,7 @@
     <string name="settings_data_saving_mode_title">Limit mobile data usage</string>
     <string name="settings_equalizer_summary">Adjust audio settings</string>
     <string name="settings_equalizer_title">Equalizer</string>
-    <string name="settings_github_link">https://github.com/CappielloAntonio/play-for-subsonic</string>
+    <string name="settings_github_link">https://github.com/CappielloAntonio/tempo</string>
     <string name="settings_github_summary">Follow the development</string>
     <string name="settings_github_title">Github</string>
     <string name="settings_image_size">Set image resolution</string>

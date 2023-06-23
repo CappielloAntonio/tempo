@@ -52,6 +52,7 @@
     <string name="download_title_section">Downloads</string>
     <string name="empty_string" />
     <string name="error_required">Required</string>
+    <string name="error_server_prefix">http or https prefix required</string>
     <string name="exo_download_notification_channel_name">Downloads</string>
     <string name="filter_info_selection">Select two or more filters</string>
     <string name="filter_title">Filter</string>

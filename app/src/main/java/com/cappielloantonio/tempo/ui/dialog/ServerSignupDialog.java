@@ -116,6 +116,11 @@ public class ServerSignupDialog extends DialogFragment {
             return false;
         }
 
+        if (!server.matches("^https?://(.*)")) {
+            bind.serverTextView.setError(getString(R.string.error_server_prefix));
+            return false;
+        }
+
         return true;
     }
 

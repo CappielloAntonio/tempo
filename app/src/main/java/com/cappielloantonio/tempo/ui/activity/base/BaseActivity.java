@@ -2,15 +2,12 @@ package com.cappielloantonio.tempo.ui.activity.base;
 
 import android.Manifest;
 import android.content.ComponentName;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.provider.Settings;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -19,9 +16,9 @@ import androidx.media3.exoplayer.offline.DownloadService;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
 
-import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.service.DownloaderService;
 import com.cappielloantonio.tempo.service.MediaService;
+import com.cappielloantonio.tempo.ui.dialog.BatteryOptimizationDialog;
 import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.util.UIUtil;
 import com.google.android.gms.cast.framework.CastContext;
@@ -39,6 +36,8 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initializeCastContext();
         initializeDownloader();
+        checkBatteryOptimization();
+        checkPermission();
     }
 
     @Override
@@ -46,8 +45,6 @@ public class BaseActivity extends AppCompatActivity {
         super.onStart();
         setNavigationBarColor();
         initializeBrowser();
-        checkBatteryOptimization();
-        checkPermission();
     }
 
     @Override
@@ -77,20 +74,8 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void showBatteryOptimizationDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.activity_battery_optimizations_summary)
-                .setTitle(R.string.activity_battery_optimizations_title)
-                .setNeutralButton(R.string.battery_optimization_neutral_button, (dialog, id) -> Preferences.dontAskForOptimization())
-                .setNegativeButton(R.string.battery_optimization_negative_button, null)
-                .setPositiveButton(R.string.battery_optimization_positive_button, (dialog, id) -> openPowerSettings())
-                .show();
-    }
-
-    private void openPowerSettings() {
-        Intent intent = new Intent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-        startActivity(intent);
+        BatteryOptimizationDialog dialog = new BatteryOptimizationDialog();
+        dialog.show(getSupportFragmentManager(), null);
     }
 
     private void initializeBrowser() {

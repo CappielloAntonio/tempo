@@ -16,6 +16,7 @@ class RetrofitClient(subsonic: Subsonic) {
     init {
         retrofit = Retrofit.Builder()
             .baseUrl(subsonic.url)
+            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create()))
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
             .client(getOkHttpClient())
             .build()

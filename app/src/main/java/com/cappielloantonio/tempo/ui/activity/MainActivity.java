@@ -247,6 +247,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void goToLogin() {
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         setBottomNavigationBarVisibility(false);
         setBottomSheetVisibility(false);
 

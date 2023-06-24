@@ -10,8 +10,8 @@ android {
         applicationId 'com.cappielloantonio.tempo'
         minSdkVersion 24
         targetSdkVersion 34
-        versionCode 10
-        versionName '3.4.3'
+        versionCode 11
+        versionName '3.4.4'
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 

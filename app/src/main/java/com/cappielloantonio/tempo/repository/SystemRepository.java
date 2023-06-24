@@ -22,7 +22,7 @@ public class SystemRepository {
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull retrofit2.Response<ApiResponse> response) {
                         if (response.body() != null) {
                             if (response.body().getSubsonicResponse().getStatus().equals(ResponseStatus.FAILED)) {
-                                callback.onError(new Exception(response.body().getSubsonicResponse().getError().getCode().getValue() + " - " + response.body().getSubsonicResponse().getError().getMessage()));
+                                callback.onError(new Exception(response.body().getSubsonicResponse().getError().getCode() + " - " + response.body().getSubsonicResponse().getError().getMessage()));
                             } else if (response.body().getSubsonicResponse().getStatus().equals(ResponseStatus.OK)) {
                                 String password = response.raw().request().url().queryParameter("p");
                                 String token = response.raw().request().url().queryParameter("t");

@@ -4,6 +4,6 @@ import androidx.annotation.Keep
 
 @Keep
 class Error {
-    var code: ErrorCode? = null
+    var code: Int? = null
     var message: String? = null
 }

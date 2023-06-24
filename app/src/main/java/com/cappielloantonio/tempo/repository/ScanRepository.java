@@ -17,8 +17,12 @@ public class ScanRepository {
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull retrofit2.Response<ApiResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getScanStatus() != null) {
-                            callback.onSuccess(response.body().getSubsonicResponse().getScanStatus().isScanning(), response.body().getSubsonicResponse().getScanStatus().getCount());
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse() != null) {
+                            if (response.body().getSubsonicResponse().getError() != null) {
+                                callback.onError(new Exception(response.body().getSubsonicResponse().getError().getMessage()));
+                            } else if (response.body().getSubsonicResponse().getScanStatus() != null) {
+                                callback.onSuccess(response.body().getSubsonicResponse().getScanStatus().isScanning(), response.body().getSubsonicResponse().getScanStatus().getCount());
+                            }
                         }
                     }
 
@@ -36,8 +40,12 @@ public class ScanRepository {
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull retrofit2.Response<ApiResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getScanStatus() != null) {
-                            callback.onSuccess(response.body().getSubsonicResponse().getScanStatus().isScanning(), response.body().getSubsonicResponse().getScanStatus().getCount());
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse() != null) {
+                            if (response.body().getSubsonicResponse().getError() != null) {
+                                callback.onError(new Exception(response.body().getSubsonicResponse().getError().getMessage()));
+                            } else if (response.body().getSubsonicResponse().getScanStatus() != null) {
+                                callback.onSuccess(response.body().getSubsonicResponse().getScanStatus().isScanning(), response.body().getSubsonicResponse().getScanStatus().getCount());
+                            }
                         }
                     }
 

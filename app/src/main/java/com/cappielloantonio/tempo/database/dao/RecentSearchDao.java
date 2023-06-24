@@ -12,8 +12,8 @@ import java.util.List;
 
 @Dao
 public interface RecentSearchDao {
-    @Query("SELECT * FROM recent_search GROUP BY search ORDER BY search DESC LIMIT :limit")
-    List<String> getRecent(int limit);
+    @Query("SELECT * FROM recent_search ORDER BY search ASC")
+    List<String> getRecent();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(RecentSearch search);

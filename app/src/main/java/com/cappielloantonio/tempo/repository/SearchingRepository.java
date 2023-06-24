@@ -103,10 +103,10 @@ public class SearchingRepository {
         thread.start();
     }
 
-    public List<String> getRecentSearchSuggestion(int limit) {
+    public List<String> getRecentSearchSuggestion() {
         List<String> recent = new ArrayList<>();
 
-        RecentThreadSafe suggestionsThread = new RecentThreadSafe(recentSearchDao, limit);
+        RecentThreadSafe suggestionsThread = new RecentThreadSafe(recentSearchDao);
         Thread thread = new Thread(suggestionsThread);
         thread.start();
 
@@ -152,17 +152,15 @@ public class SearchingRepository {
 
     private static class RecentThreadSafe implements Runnable {
         private final RecentSearchDao recentSearchDao;
-        private final int limit;
         private List<String> recent = new ArrayList<>();
 
-        public RecentThreadSafe(RecentSearchDao recentSearchDao, int limit) {
+        public RecentThreadSafe(RecentSearchDao recentSearchDao) {
             this.recentSearchDao = recentSearchDao;
-            this.limit = limit;
         }
 
         @Override
         public void run() {
-            recent = recentSearchDao.getRecent(limit);
+            recent = recentSearchDao.getRecent();
         }
 
         public List<String> getRecent() {

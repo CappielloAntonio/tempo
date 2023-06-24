@@ -2,9 +2,14 @@ package com.cappielloantonio.tempo.ui.fragment;
 
 import android.content.ComponentName;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,17 +33,15 @@ import com.cappielloantonio.tempo.ui.adapter.AlbumAdapter;
 import com.cappielloantonio.tempo.ui.adapter.ArtistAdapter;
 import com.cappielloantonio.tempo.ui.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.tempo.util.Constants;
-import com.cappielloantonio.tempo.util.MusicUtil;
 import com.cappielloantonio.tempo.viewmodel.SearchViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.paulrybitskyi.persistentsearchview.adapters.model.SuggestionItem;
-import com.paulrybitskyi.persistentsearchview.listeners.OnSuggestionChangeListener;
-import com.paulrybitskyi.persistentsearchview.utils.SuggestionCreationUtil;
 
 import java.util.Collections;
 
 @UnstableApi
 public class SearchFragment extends Fragment implements ClickCallback {
+    private static final String TAG = "SearchFragment";
+
     private FragmentSearchBinding bind;
     private MainActivity activity;
     private SearchViewModel searchViewModel;
@@ -60,6 +63,7 @@ public class SearchFragment extends Fragment implements ClickCallback {
 
         initSearchResultView();
         initSearchView();
+        inputFocus();
 
         return view;
     }
@@ -68,12 +72,6 @@ public class SearchFragment extends Fragment implements ClickCallback {
     public void onStart() {
         super.onStart();
         initializeMediaBrowser();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        inputFocus();
     }
 
     @Override
@@ -118,64 +116,101 @@ public class SearchFragment extends Fragment implements ClickCallback {
     }
 
     private void initSearchView() {
-        if (isQueryValid(searchViewModel.getQuery())) {
-            search(searchViewModel.getQuery());
-        }
+        setRecentSuggestions();
 
-        bind.persistentSearchView.setInputQuery(searchViewModel.getQuery());
-        setSuggestions();
+        bind.searchView
+                .getEditText()
+                .setOnEditorActionListener((textView, actionId, keyEvent) -> {
 
-        bind.persistentSearchView.setOnSearchQueryChangeListener((searchView, oldQuery, newQuery) -> {
-            if (!newQuery.trim().equals("") && newQuery.trim().length() > 1) {
-                searchViewModel.getSearchSuggestion(newQuery).observe(getViewLifecycleOwner(), suggestions -> searchView.setSuggestions(SuggestionCreationUtil.asRegularSearchSuggestions(MusicUtil.getReadableStrings(suggestions)), false));
-            } else {
-                setSuggestions();
-            }
-        });
+                    String query = bind.searchView.getText().toString();
 
-        bind.persistentSearchView.setOnSuggestionChangeListener(new OnSuggestionChangeListener() {
-            @Override
-            public void onSuggestionPicked(SuggestionItem suggestion) {
-                search(suggestion.getItemModel().getText());
-            }
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        if (isQueryValid(query)) {
+                            search(bind.searchView.getText().toString());
+                            return true;
+                        } else {
+                            Toast.makeText(requireContext(), getString(R.string.search_info_minimum_characters), Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
+                    }
 
-            @Override
-            public void onSuggestionRemoved(SuggestionItem suggestion) {
-            }
-        });
+                    return false;
+                });
 
-        bind.persistentSearchView.setOnSearchConfirmedListener((searchView, query) -> {
-            if (isQueryValid(query)) {
-                searchView.collapse();
-                search(query);
-            } else {
-                Toast.makeText(requireContext(), getString(R.string.search_info_minimum_characters), Toast.LENGTH_SHORT).show();
-            }
-        });
+        bind.searchView
+                .getEditText()
+                .addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
 
-        bind.persistentSearchView.setOnSuggestionChangeListener(new OnSuggestionChangeListener() {
-            @Override
-            public void onSuggestionPicked(SuggestionItem suggestion) {
-                search(suggestion.getItemModel().getText());
-            }
+                    }
 
-            @Override
-            public void onSuggestionRemoved(SuggestionItem suggestion) {
-                searchViewModel.deleteRecentSearch(suggestion.getItemModel().getText());
-            }
-        });
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                        if (count > 1) {
+                            setSearchSuggestions(charSequence.toString());
+                        } else {
+                            setRecentSuggestions();
+                        }
+                    }
 
-        bind.persistentSearchView.setOnClearInputBtnClickListener(v -> searchViewModel.setQuery(""));
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
     }
 
-    private void setSuggestions() {
-        bind.persistentSearchView.setSuggestions(SuggestionCreationUtil.asRecentSearchSuggestions(searchViewModel.getRecentSearchSuggestion()), false);
+    public void setRecentSuggestions() {
+        bind.searchViewSuggestionContainer.removeAllViews();
+
+        for (String suggestion : searchViewModel.getRecentSearchSuggestion()) {
+            View view = LayoutInflater.from(bind.searchViewSuggestionContainer.getContext()).inflate(R.layout.item_search_suggestion, bind.searchViewSuggestionContainer, false);
+
+            ImageView leadingImageView = view.findViewById(R.id.search_suggestion_icon);
+            TextView titleView = view.findViewById(R.id.search_suggestion_title);
+            ImageView tailingImageView = view.findViewById(R.id.search_suggestion_delete_icon);
+
+            leadingImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_history, null));
+            titleView.setText(suggestion);
+
+            view.setOnClickListener(v -> search(suggestion));
+
+            tailingImageView.setOnClickListener(v -> {
+                searchViewModel.deleteRecentSearch(suggestion);
+                setRecentSuggestions();
+            });
+
+            bind.searchViewSuggestionContainer.addView(view);
+        }
+    }
+
+    public void setSearchSuggestions(String query) {
+        searchViewModel.getSearchSuggestion(query).observe(getViewLifecycleOwner(), suggestions -> {
+            bind.searchViewSuggestionContainer.removeAllViews();
+
+            for (String suggestion : suggestions) {
+                View view = LayoutInflater.from(bind.searchViewSuggestionContainer.getContext()).inflate(R.layout.item_search_suggestion, bind.searchViewSuggestionContainer, false);
+
+                ImageView leadingImageView = view.findViewById(R.id.search_suggestion_icon);
+                TextView titleView = view.findViewById(R.id.search_suggestion_title);
+                ImageView tailingImageView = view.findViewById(R.id.search_suggestion_delete_icon);
+
+                leadingImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_search, null));
+                titleView.setText(suggestion);
+                tailingImageView.setVisibility(View.GONE);
+
+                view.setOnClickListener(v -> search(suggestion));
+
+                bind.searchViewSuggestionContainer.addView(view);
+            }
+        });
     }
 
     public void search(String query) {
         searchViewModel.setQuery(query);
-
-        bind.persistentSearchView.setInputQuery(query);
+        bind.searchBar.setText(query);
+        bind.searchView.hide();
         performSearch(query);
     }
 
@@ -216,7 +251,7 @@ public class SearchFragment extends Fragment implements ClickCallback {
     }
 
     private void inputFocus() {
-        bind.persistentSearchView.expand();
+        bind.searchView.show();
     }
 
     private void initializeMediaBrowser() {

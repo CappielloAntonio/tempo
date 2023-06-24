@@ -1,54 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.paulrybitskyi.persistentsearchview.PersistentSearchView
-        android:id="@+id/persistentSearchView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        app:areSuggestionsDisabled="false"
-        app:cardBackgroundColor="?attr/colorSurface"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="0dp"
-        app:clearInputButtonDrawable="@drawable/ic_close"
-        app:dividerColor="@color/dividerColor"
-        app:isClearInputButtonEnabled="true"
-        app:isDismissableOnTouchOutside="true"
-        app:isProgressBarEnabled="true"
-        app:isVoiceInputButtonEnabled="false"
-        app:leftButtonDrawable="@drawable/ic_search"
-        app:progressBarColor="?attr/colorOnSurface"
-        app:queryInputBarIconColor="@color/searchPlaceholderColor"
-        app:queryInputCursorColor="?attr/colorOnSurface"
-        app:queryInputHint="@string/search_hint"
-        app:queryInputHintColor="@color/searchPlaceholderColor"
-        app:queryInputTextColor="@color/searchPlaceholderColor"
-        app:shouldDimBehind="false"
-        app:suggestionRecentSearchIconColor="@color/searchColor"
-        app:suggestionSearchSuggestionIconColor="@color/searchColor"
-        app:suggestionSelectedTextColor="?attr/colorPrimary"
-        app:suggestionTextColor="@color/searchColor"
-        app:suggestionIconColor="@color/searchColor" />
-
-    <View
-        android:id="@+id/search_bar_divider"
-        android:layout_width="match_parent"
-        android:layout_height="0.75dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_below="@+id/persistentSearchView"
-        android:background="?attr/colorSurfaceVariant" />
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/search_result_nested_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/search_bar_divider">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/searchbar_scrolling_view_behavior">
 
         <!-- Search result -->
         <LinearLayout
@@ -56,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:paddingTop="64dp"
             android:paddingBottom="@dimen/global_padding_bottom">
 
             <!--  Artist  -->
@@ -150,4 +111,39 @@
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-</RelativeLayout>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.search.SearchBar
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/search_hint">
+
+        </com.google.android.material.search.SearchBar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.search.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/search_hint"
+        app:layout_anchor="@id/search_bar">
+
+        <!-- Content goes here (ScrollView, RecyclerView, etc.). -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:paddingBottom="@dimen/global_padding_bottom">
+
+            <LinearLayout
+                android:id="@+id/search_view_suggestion_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+        </ScrollView>
+    </com.google.android.material.search.SearchView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

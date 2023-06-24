@@ -10,6 +10,7 @@ object Preferences {
     private const val TOKEN = "token"
     private const val SALT = "salt"
     private const val LOW_SECURITY = "low_security"
+    private const val BATTERY_OPTIMIZATION = "battery_optimization"
     private const val SERVER_ID = "server_id"
     private const val PLAYBACK_SPEED = "playback_speed"
     private const val SKIP_SILENCE = "skip_silence"
@@ -98,6 +99,16 @@ object Preferences {
     @JvmStatic
     fun setServerId(serverId: String?) {
         App.getInstance().preferences.edit().putString(SERVER_ID, serverId).apply()
+    }
+
+    @JvmStatic
+    fun askForOptimization(): Boolean? {
+        return App.getInstance().preferences.getBoolean(BATTERY_OPTIMIZATION, true)
+    }
+
+    @JvmStatic
+    fun dontAskForOptimization() {
+        App.getInstance().preferences.edit().putBoolean(BATTERY_OPTIMIZATION, false).apply()
     }
 
     @JvmStatic

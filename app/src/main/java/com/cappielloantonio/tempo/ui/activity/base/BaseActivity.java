@@ -22,6 +22,7 @@ import androidx.media3.session.SessionToken;
 import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.service.DownloaderService;
 import com.cappielloantonio.tempo.service.MediaService;
+import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.util.UIUtil;
 import com.google.android.gms.cast.framework.CastContext;
 import com.google.android.material.elevation.SurfaceColors;
@@ -45,11 +46,6 @@ public class BaseActivity extends AppCompatActivity {
         super.onStart();
         setNavigationBarColor();
         initializeBrowser();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         checkBatteryOptimization();
         checkPermission();
     }
@@ -61,7 +57,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void checkBatteryOptimization() {
-        if (detectBatteryOptimization()) {
+        if (detectBatteryOptimization() && Preferences.askForOptimization()) {
             showBatteryOptimizationDialog();
         }
     }
@@ -84,8 +80,9 @@ public class BaseActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.activity_battery_optimizations_summary)
                 .setTitle(R.string.activity_battery_optimizations_title)
-                .setNegativeButton(R.string.activity_negative_button, null)
-                .setPositiveButton(R.string.activity_neutral_button, (dialog, id) -> openPowerSettings())
+                .setNeutralButton(R.string.battery_optimization_neutral_button, (dialog, id) -> Preferences.dontAskForOptimization())
+                .setNegativeButton(R.string.battery_optimization_negative_button, null)
+                .setPositiveButton(R.string.battery_optimization_positive_button, (dialog, id) -> openPowerSettings())
                 .show();
     }
 

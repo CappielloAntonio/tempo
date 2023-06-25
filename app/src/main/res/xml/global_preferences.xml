@@ -141,7 +141,7 @@
         <SwitchPreference
             android:title="@string/settings_queue_syncing_title"
             android:defaultValue="false"
-            android:summary="@string/settings_sync_starred_tracks_for_offline_use_summary"
+            android:summary="@string/settings_queue_syncing_summary"
             android:key="queue_syncing" />
 
         <ListPreference

@@ -77,6 +77,7 @@
     <string name="home_title_discovery">Discovery</string>
     <string name="home_title_recently_added">Recently added</string>
     <string name="home_title_recently_added_see_all_button">See all</string>
+    <string name="home_title_discovery_shuffle_all_button">Shuffle all</string>
     <string name="home_title_starred_albums">★ Starred albums</string>
     <string name="home_title_starred_albums_see_all_button">See all</string>
     <string name="home_title_starred_artists">★ Starred artists</string>

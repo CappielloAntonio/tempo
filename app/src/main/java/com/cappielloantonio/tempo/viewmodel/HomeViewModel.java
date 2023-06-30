@@ -67,6 +67,10 @@ public class HomeViewModel extends AndroidViewModel {
         return dicoverSongSample;
     }
 
+    public LiveData<List<Child>> getRandomShuffleSample() {
+        return songRepository.getRandomSample(100, null, null);
+    }
+
     public LiveData<List<Chronology>> getGridSongSample(LifecycleOwner owner) {
         String server = Preferences.getServerId();
         chronologyRepository.getLastWeek(server).observe(owner, thisGridTopSong::postValue);

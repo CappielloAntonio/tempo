@@ -113,16 +113,35 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/discovery_text_view_refreshable"
-                style="@style/TitleLarge"
+            <!--  Label and button  -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginBottom="8dp"
-                android:paddingStart="16dp"
+                android:paddingStart="8dp"
                 android:paddingTop="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/home_title_discovery" />
+                android:paddingEnd="8dp">
+
+                <TextView
+                    android:id="@+id/discovery_text_view_refreshable"
+                    style="@style/TitleLarge"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="@string/home_title_discovery" />
+
+                <TextView
+                    android:id="@+id/discovery_text_view_clickable"
+                    style="@style/TitleMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="@string/home_title_discovery_shuffle_all_button" />
+            </LinearLayout>
 
             <!--  slideview  -->
             <androidx.viewpager2.widget.ViewPager2

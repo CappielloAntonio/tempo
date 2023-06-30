@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -136,6 +137,15 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         bind.discoveryTextViewRefreshable.setOnLongClickListener(v -> {
             homeViewModel.refreshDiscoverySongSample(getViewLifecycleOwner());
             return true;
+        });
+
+        bind.discoveryTextViewClickable.setOnClickListener(v -> {
+            homeViewModel.getRandomShuffleSample().observe(getViewLifecycleOwner(), songs -> {
+                if (songs.size() > 0) {
+                    MediaManager.startQueue(mediaBrowserListenableFuture, songs, 0);
+                    activity.setBottomSheetInPeek(true);
+                }
+            });
         });
 
         bind.similarTracksTextViewRefreshable.setOnLongClickListener(v -> {

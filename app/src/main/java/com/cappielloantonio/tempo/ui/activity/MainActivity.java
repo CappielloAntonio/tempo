@@ -141,6 +141,10 @@ public class MainActivity extends BaseActivity {
         handler.postDelayed(runnable, 100);
     }
 
+    public void expandBottomSheet() {
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    }
+
     public void setBottomSheetDraggableState(Boolean isDraggable) {
         bottomSheetBehavior.setDraggable(isDraggable);
     }

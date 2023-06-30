@@ -27,6 +27,7 @@ import com.cappielloantonio.tempo.glide.CustomGlideRequest;
 import com.cappielloantonio.tempo.service.MediaManager;
 import com.cappielloantonio.tempo.service.MediaService;
 import com.cappielloantonio.tempo.subsonic.models.PlayQueue;
+import com.cappielloantonio.tempo.ui.activity.MainActivity;
 import com.cappielloantonio.tempo.ui.fragment.pager.PlayerControllerVerticalPager;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.MusicUtil;
@@ -57,6 +58,7 @@ public class PlayerBottomSheetFragment extends Fragment {
         playerBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(PlayerBottomSheetViewModel.class);
 
         customizeBottomSheetBackground();
+        customizeBottomSheetAction();
         initViewPager();
         setHeaderBookmarksButton();
 
@@ -85,6 +87,10 @@ public class PlayerBottomSheetFragment extends Fragment {
 
     private void customizeBottomSheetBackground() {
         bind.playerHeaderLayout.getRoot().setBackgroundColor(SurfaceColors.getColorForElevation(requireContext(), 2));
+    }
+
+    private void customizeBottomSheetAction() {
+        bind.playerHeaderLayout.getRoot().setOnClickListener(view -> ((MainActivity) requireActivity()).expandBottomSheet());
     }
 
     private void initViewPager() {

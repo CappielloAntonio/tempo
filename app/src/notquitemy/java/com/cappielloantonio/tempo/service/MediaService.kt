@@ -6,8 +6,6 @@ import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.app.TaskStackBuilder
 import android.content.Intent
 import android.os.Bundle
-import androidx.media3.cast.CastPlayer
-import androidx.media3.cast.SessionAvailabilityListener
 import androidx.media3.common.*
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
@@ -18,19 +16,16 @@ import com.cappielloantonio.tempo.R
 import com.cappielloantonio.tempo.ui.activity.MainActivity
 import com.cappielloantonio.tempo.util.Constants
 import com.cappielloantonio.tempo.util.DownloadUtil
-import com.cappielloantonio.tempo.util.UIUtil
-import com.google.android.gms.cast.framework.CastContext
 import com.google.common.collect.ImmutableList
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 
 
 @UnstableApi
-class MediaService : MediaLibraryService(), SessionAvailabilityListener {
+class MediaService : MediaLibraryService() {
     private val librarySessionCallback = CustomMediaLibrarySessionCallback()
 
     private lateinit var player: ExoPlayer
-    private lateinit var castPlayer: CastPlayer
     private lateinit var mediaLibrarySession: MediaLibrarySession
     private lateinit var customCommands: List<CommandButton>
 
@@ -48,14 +43,10 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
 
         initializeCustomCommands()
         initializePlayer()
-        initializeCastPlayer()
         initializeMediaLibrarySession()
         initializePlayerListener()
 
-        setPlayer(
-            null,
-            if (this::castPlayer.isInitialized && castPlayer.isCastSessionAvailable) castPlayer else player
-        )
+        setPlayer(player)
     }
 
     override fun onGetSession(controllerInfo: ControllerInfo): MediaLibrarySession {
@@ -112,59 +103,6 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
             return Futures.immediateFuture(SessionResult(SessionResult.RESULT_SUCCESS))
         }
 
-        /* override fun onGetLibraryRoot(
-            session: MediaLibrarySession,
-            browser: ControllerInfo,
-            params: LibraryParams?
-        ): ListenableFuture<LibraryResult<MediaItem>> {
-            return Futures.immediateFuture(LibraryResult.ofItem(MediaItemTree.getRootItem(), params))
-        }
-
-        override fun onGetItem(
-            session: MediaLibrarySession,
-            browser: ControllerInfo,
-            mediaId: String
-        ): ListenableFuture<LibraryResult<MediaItem>> {
-            val item =
-                MediaItemTree.getItem(mediaId)
-                    ?: return Futures.immediateFuture(
-                        LibraryResult.ofError(LibraryResult.RESULT_ERROR_BAD_VALUE)
-                    )
-            return Futures.immediateFuture(LibraryResult.ofItem(item, /* params= */ null))
-        }
-
-        override fun onSubscribe(
-            session: MediaLibrarySession,
-            browser: ControllerInfo,
-            parentId: String,
-            params: LibraryParams?
-        ): ListenableFuture<LibraryResult<Void>> {
-            val children =
-                MediaItemTree.getChildren(parentId)
-                    ?: return Futures.immediateFuture(
-                        LibraryResult.ofError(LibraryResult.RESULT_ERROR_BAD_VALUE)
-                    )
-            session.notifyChildrenChanged(browser, parentId, children.size, params)
-            return Futures.immediateFuture(LibraryResult.ofVoid())
-        }
-
-        override fun onGetChildren(
-            session: MediaLibrarySession,
-            browser: ControllerInfo,
-            parentId: String,
-            page: Int,
-            pageSize: Int,
-            params: LibraryParams?
-        ): ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> {
-            val children =
-                MediaItemTree.getChildren(parentId)
-                    ?: return Futures.immediateFuture(
-                        LibraryResult.ofError(LibraryResult.RESULT_ERROR_BAD_VALUE)
-                    )
-
-            return Futures.immediateFuture(LibraryResult.ofItemList(children, params))
-        }*/
-
         override fun onAddMediaItems(
             mediaSession: MediaSession,
             controller: ControllerInfo,
@@ -205,13 +143,6 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
             .build()
     }
 
-    private fun initializeCastPlayer() {
-        if (UIUtil.isCastApiAvailable(this)) {
-            castPlayer = CastPlayer(CastContext.getSharedInstance(this))
-            castPlayer.setSessionAvailabilityListener(this)
-        }
-    }
-
     private fun initializeMediaLibrarySession() {
         val sessionActivityPendingIntent =
             TaskStackBuilder.create(this).run {
@@ -234,7 +165,7 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 if (mediaItem == null) return
 
-                if(reason == Player.MEDIA_ITEM_TRANSITION_REASON_SEEK || reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO) {
+                if (reason == Player.MEDIA_ITEM_TRANSITION_REASON_SEEK || reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO) {
                     MediaManager.setLastPlayedTimestamp(mediaItem)
                 }
             }
@@ -255,7 +186,7 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
             ) {
                 super.onPositionDiscontinuity(oldPosition, newPosition, reason)
 
-                if(reason == Player.DISCONTINUITY_REASON_AUTO_TRANSITION) {
+                if (reason == Player.DISCONTINUITY_REASON_AUTO_TRANSITION) {
                     if (oldPosition.mediaItem?.mediaMetadata?.extras?.getString("type") == Constants.MEDIA_TYPE_MUSIC) {
                         MediaManager.scrobble(oldPosition.mediaItem)
                         MediaManager.saveChronology(oldPosition.mediaItem)
@@ -269,15 +200,11 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
         })
     }
 
-    private fun setPlayer(oldPlayer: Player?, newPlayer: Player) {
-        if (oldPlayer === newPlayer) return
-        oldPlayer?.stop()
-        mediaLibrarySession.player = newPlayer
+    private fun setPlayer(player: Player) {
+        mediaLibrarySession.player = player
     }
 
     private fun releasePlayer() {
-        if (this::castPlayer.isInitialized) castPlayer.setSessionAvailabilityListener(null)
-        if (this::castPlayer.isInitialized) castPlayer.release()
         player.release()
         mediaLibrarySession.release()
     }
@@ -306,11 +233,5 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
     private fun getMediaSourceFactory() =
         DefaultMediaSourceFactory(this).setDataSourceFactory(DownloadUtil.getDataSourceFactory(this))
 
-    override fun onCastSessionAvailable() {
-        setPlayer(player, castPlayer)
-    }
 
-    override fun onCastSessionUnavailable() {
-        setPlayer(castPlayer, player)
-    }
 }

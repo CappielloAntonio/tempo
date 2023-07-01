@@ -18,8 +18,9 @@ import com.cappielloantonio.tempo.R
 import com.cappielloantonio.tempo.ui.activity.MainActivity
 import com.cappielloantonio.tempo.util.Constants
 import com.cappielloantonio.tempo.util.DownloadUtil
-import com.cappielloantonio.tempo.util.UIUtil
 import com.google.android.gms.cast.framework.CastContext
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.google.common.collect.ImmutableList
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
@@ -206,7 +207,9 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
     }
 
     private fun initializeCastPlayer() {
-        if (UIUtil.isCastApiAvailable(this)) {
+        if (GoogleApiAvailability.getInstance()
+                .isGooglePlayServicesAvailable(this) == ConnectionResult.SUCCESS
+        ) {
             castPlayer = CastPlayer(CastContext.getSharedInstance(this))
             castPlayer.setSessionAvailabilityListener(this)
         }
@@ -234,7 +237,7 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 if (mediaItem == null) return
 
-                if(reason == Player.MEDIA_ITEM_TRANSITION_REASON_SEEK || reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO) {
+                if (reason == Player.MEDIA_ITEM_TRANSITION_REASON_SEEK || reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO) {
                     MediaManager.setLastPlayedTimestamp(mediaItem)
                 }
             }
@@ -255,7 +258,7 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
             ) {
                 super.onPositionDiscontinuity(oldPosition, newPosition, reason)
 
-                if(reason == Player.DISCONTINUITY_REASON_AUTO_TRANSITION) {
+                if (reason == Player.DISCONTINUITY_REASON_AUTO_TRANSITION) {
                     if (oldPosition.mediaItem?.mediaMetadata?.extras?.getString("type") == Constants.MEDIA_TYPE_MUSIC) {
                         MediaManager.scrobble(oldPosition.mediaItem)
                         MediaManager.saveChronology(oldPosition.mediaItem)

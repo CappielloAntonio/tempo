@@ -19,9 +19,8 @@ import androidx.media3.session.SessionToken;
 import com.cappielloantonio.tempo.service.DownloaderService;
 import com.cappielloantonio.tempo.service.MediaService;
 import com.cappielloantonio.tempo.ui.dialog.BatteryOptimizationDialog;
+import com.cappielloantonio.tempo.util.Flavors;
 import com.cappielloantonio.tempo.util.Preferences;
-import com.cappielloantonio.tempo.util.UIUtil;
-import com.google.android.gms.cast.framework.CastContext;
 import com.google.android.material.elevation.SurfaceColors;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -34,7 +33,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initializeCastContext();
+        Flavors.initializeCastContext(this);
         initializeDownloader();
         checkBatteryOptimization();
         checkPermission();
@@ -54,7 +53,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void checkBatteryOptimization() {
-        if (detectBatteryOptimization() && Preferences.askForOptimization()) {
+        if (detectBatteryOptimization() && Boolean.TRUE.equals(Preferences.askForOptimization())) {
             showBatteryOptimizationDialog();
         }
     }
@@ -96,10 +95,6 @@ public class BaseActivity extends AppCompatActivity {
         } catch (IllegalStateException e) {
             DownloadService.startForeground(this, DownloaderService.class);
         }
-    }
-
-    private void initializeCastContext() {
-        if (UIUtil.isCastApiAvailable(this)) CastContext.getSharedInstance(this);
     }
 
     private void setNavigationBarColor() {

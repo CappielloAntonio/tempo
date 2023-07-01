@@ -2,9 +2,6 @@ package com.cappielloantonio.tempo.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -30,7 +27,7 @@ import com.cappielloantonio.tempo.ui.adapter.PlaylistHorizontalAdapter;
 import com.cappielloantonio.tempo.ui.dialog.PlaylistEditorDialog;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.viewmodel.LibraryViewModel;
-import com.google.android.gms.cast.framework.CastButtonFactory;
+import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.Objects;
 
@@ -46,21 +43,9 @@ public class LibraryFragment extends Fragment implements ClickCallback {
     private AlbumAdapter albumAdapter;
     private ArtistAdapter artistAdapter;
     private GenreAdapter genreAdapter;
-
     private PlaylistHorizontalAdapter playlistHorizontalAdapter;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.main_page_menu, menu);
-        CastButtonFactory.setUpMediaRouteButton(requireContext(), menu, R.id.media_route_menu_item);
-    }
+    private MaterialToolbar materialToolbar;
 
     @Nullable
     @Override
@@ -100,19 +85,6 @@ public class LibraryFragment extends Fragment implements ClickCallback {
         bind = null;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_search) {
-            activity.navController.navigate(R.id.action_libraryFragment_to_searchFragment);
-            return true;
-        } else if (item.getItemId() == R.id.action_settings) {
-            activity.navController.navigate(R.id.action_libraryFragment_to_settingsFragment);
-            return true;
-        }
-
-        return false;
-    }
-
     private void init() {
         bind.albumCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_albumCatalogueFragment));
         bind.artistCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_artistCatalogueFragment));
@@ -142,8 +114,10 @@ public class LibraryFragment extends Fragment implements ClickCallback {
     }
 
     private void initAppBar() {
-        activity.setSupportActionBar(bind.toolbar);
-        Objects.requireNonNull(bind.toolbar.getOverflowIcon()).setTint(requireContext().getResources().getColor(R.color.titleTextColor, null));
+        materialToolbar = bind.getRoot().findViewById(R.id.toolbar);
+
+        activity.setSupportActionBar(materialToolbar);
+        Objects.requireNonNull(materialToolbar.getOverflowIcon()).setTint(requireContext().getResources().getColor(R.color.titleTextColor, null));
     }
 
     private void initMusicFolderView() {

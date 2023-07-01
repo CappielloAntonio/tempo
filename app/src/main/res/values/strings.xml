@@ -256,4 +256,6 @@
     <string name="menu_sort_name">Name</string>
     <string name="menu_sort_random">Random</string>
     <string name="description_empty_title">No description available</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

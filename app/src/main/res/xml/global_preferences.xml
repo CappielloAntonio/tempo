@@ -166,6 +166,7 @@
             app:summary="@string/settings_about_summary" />
 
         <Preference
+            android:key="version"
             app:summary="@string/settings_version_summary"
             app:title="@string/settings_version_title" />
 

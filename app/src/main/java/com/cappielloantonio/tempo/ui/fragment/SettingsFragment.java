@@ -17,6 +17,7 @@ import androidx.media3.common.util.UnstableApi;
 import androidx.preference.ListPreference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.cappielloantonio.tempo.BuildConfig;
 import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.helper.ThemeHelper;
 import com.cappielloantonio.tempo.interfaces.ScanCallback;
@@ -68,6 +69,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
     public void onResume() {
         super.onResume();
+
+        findPreference("version").setSummary(BuildConfig.VERSION_NAME);
 
         findPreference("logout").setOnPreferenceClickListener(preference -> {
             activity.quit();

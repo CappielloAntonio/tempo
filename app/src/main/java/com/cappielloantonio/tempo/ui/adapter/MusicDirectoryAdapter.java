@@ -76,7 +76,7 @@ public class MusicDirectoryAdapter extends RecyclerView.Adapter<MusicDirectoryAd
             Bundle bundle = new Bundle();
 
             if (children.get(getBindingAdapterPosition()).isDir()) {
-                bundle.putParcelable(Constants.MUSIC_DIRECTORY_OBJECT, children.get(getBindingAdapterPosition()));
+                bundle.putString(Constants.MUSIC_DIRECTORY_ID, children.get(getBindingAdapterPosition()).getId());
                 click.onMusicDirectoryClick(bundle);
             } else {
                 bundle.putParcelableArrayList(Constants.TRACKS_OBJECT, new ArrayList<>(children));

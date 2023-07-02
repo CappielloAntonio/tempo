@@ -286,13 +286,16 @@
         android:id="@+id/directoryFragment"
         android:name="com.cappielloantonio.tempo.ui.fragment.DirectoryFragment"
         android:label="DirectoryFragment"
-        tools:layout="@layout/fragment_directory" />
+        tools:layout="@layout/fragment_directory">
+        <action
+            android:id="@+id/action_directoryFragment_to_directoryFragment"
+            app:destination="@id/directoryFragment" />
+    </fragment>
     <fragment
         android:id="@+id/indexFragment"
         android:name="com.cappielloantonio.tempo.ui.fragment.IndexFragment"
         android:label="IndexFragment"
         tools:layout="@layout/fragment_index">
-
         <action
             android:id="@+id/action_indexFragment_to_directoryFragment"
             app:destination="@id/directoryFragment" />

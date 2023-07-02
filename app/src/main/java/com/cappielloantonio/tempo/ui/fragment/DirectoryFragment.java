@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.tempo.R;
@@ -20,16 +21,11 @@ import com.cappielloantonio.tempo.databinding.FragmentDirectoryBinding;
 import com.cappielloantonio.tempo.interfaces.ClickCallback;
 import com.cappielloantonio.tempo.service.MediaManager;
 import com.cappielloantonio.tempo.service.MediaService;
-import com.cappielloantonio.tempo.subsonic.models.Artist;
-import com.cappielloantonio.tempo.subsonic.models.Child;
 import com.cappielloantonio.tempo.ui.activity.MainActivity;
 import com.cappielloantonio.tempo.ui.adapter.MusicDirectoryAdapter;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.viewmodel.DirectoryViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
-
-import java.util.Collections;
-import java.util.Objects;
 
 @UnstableApi
 public class DirectoryFragment extends Fragment implements ClickCallback {
@@ -52,9 +48,7 @@ public class DirectoryFragment extends Fragment implements ClickCallback {
         directoryViewModel = new ViewModelProvider(requireActivity()).get(DirectoryViewModel.class);
 
         initAppBar();
-        initButtons();
         initDirectoryListView();
-        init();
 
         return view;
     }
@@ -77,17 +71,6 @@ public class DirectoryFragment extends Fragment implements ClickCallback {
         bind = null;
     }
 
-    private void init() {
-        Artist artist = getArguments().getParcelable(Constants.MUSIC_INDEX_OBJECT);
-
-        if (artist != null) {
-            directoryViewModel.setMusicDirectoryId(artist.getId());
-            directoryViewModel.setMusicDirectoryName(artist.getName());
-        }
-
-        directoryViewModel.loadMusicDirectory(getViewLifecycleOwner());
-    }
-
     private void initAppBar() {
         activity.setSupportActionBar(bind.toolbar);
 
@@ -96,39 +79,10 @@ public class DirectoryFragment extends Fragment implements ClickCallback {
             activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        if (bind != null)
+        if (bind != null) {
             bind.toolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
-
-        if (bind != null)
-            bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
-                if ((bind.directoryInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.toolbar))) {
-                    directoryViewModel.getDirectory().observe(getViewLifecycleOwner(), directory -> {
-                        if (directory != null) {
-                            bind.toolbar.setTitle(directory.getName());
-                        }
-                    });
-                } else {
-                    bind.toolbar.setTitle(R.string.empty_string);
-                }
-            });
-
-        directoryViewModel.getDirectory().observe(getViewLifecycleOwner(), directory -> {
-            if (directory != null) {
-                bind.directoryTitleLabel.setText(directory.getName());
-            }
-        });
-    }
-
-    private void initButtons() {
-        directoryViewModel.getDirectory().observe(getViewLifecycleOwner(), directory -> {
-            if (directory != null && directory.getParentId() != null && !Objects.equals(directory.getParentId(), "-1")) {
-                bind.directoryBackImageView.setVisibility(View.VISIBLE);
-            } else {
-                bind.directoryBackImageView.setVisibility(View.GONE);
-            }
-        });
-
-        bind.directoryBackImageView.setOnClickListener(v -> directoryViewModel.goBack());
+            bind.directoryBackImageView.setOnClickListener(v -> activity.navController.navigateUp());
+        }
     }
 
     private void initDirectoryListView() {
@@ -137,13 +91,18 @@ public class DirectoryFragment extends Fragment implements ClickCallback {
 
         musicDirectoryAdapter = new MusicDirectoryAdapter(this);
         bind.directoryRecyclerView.setAdapter(musicDirectoryAdapter);
+        directoryViewModel.loadMusicDirectory(getArguments().getString(Constants.MUSIC_DIRECTORY_ID)).observe(getViewLifecycleOwner(), directory -> {
+            bind.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+                if ((bind.directoryInfoSector.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(bind.toolbar))) {
+                    bind.toolbar.setTitle(directory.getName());
+                } else {
+                    bind.toolbar.setTitle(R.string.empty_string);
+                }
+            });
 
-        directoryViewModel.getDirectory().observe(getViewLifecycleOwner(), directory -> {
-            if (directory != null) {
-                musicDirectoryAdapter.setItems(directory.getChildren());
-            } else {
-                musicDirectoryAdapter.setItems(Collections.emptyList());
-            }
+            bind.directoryTitleLabel.setText(directory.getName());
+
+            musicDirectoryAdapter.setItems(directory.getChildren());
         });
     }
 
@@ -162,11 +121,6 @@ public class DirectoryFragment extends Fragment implements ClickCallback {
 
     @Override
     public void onMusicDirectoryClick(Bundle bundle) {
-        Child child = bundle.getParcelable(Constants.MUSIC_DIRECTORY_OBJECT);
-
-        if (child != null) {
-            directoryViewModel.setMusicDirectoryId(child.getId());
-            directoryViewModel.setMusicDirectoryName(child.getTitle());
-        }
+        Navigation.findNavController(requireView()).navigate(R.id.directoryFragment, bundle);
     }
 }

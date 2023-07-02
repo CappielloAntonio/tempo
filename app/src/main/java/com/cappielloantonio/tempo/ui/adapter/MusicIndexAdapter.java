@@ -73,7 +73,7 @@ public class MusicIndexAdapter extends RecyclerView.Adapter<MusicIndexAdapter.Vi
 
         public void onClick() {
             Bundle bundle = new Bundle();
-            bundle.putParcelable(Constants.MUSIC_INDEX_OBJECT, artists.get(getBindingAdapterPosition()));
+            bundle.putString(Constants.MUSIC_DIRECTORY_ID, artists.get(getBindingAdapterPosition()).getId());
             click.onMusicIndexClick(bundle);
         }
     }

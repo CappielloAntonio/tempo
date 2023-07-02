@@ -139,6 +139,22 @@
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/settings_title_replay_gain">
+        <Preference
+            app:selectable="false"
+            app:summary="@string/settings_summary_replay_gain" />
+
+        <ListPreference
+            app:defaultValue="disabled"
+            app:dialogTitle="@string/settings_replay_gain"
+            app:entries="@array/replay_gain_titles"
+            app:entryValues="@array/replay_gain_values"
+            app:key="replay_gain_mode"
+            app:title="@string/settings_replay_gain"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="@string/settings_title_syncing">
         <Preference
             app:selectable="false"

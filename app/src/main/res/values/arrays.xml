@@ -141,4 +141,15 @@
         <item>12</item>
         <item>6</item>
     </string-array>
+
+    <string-array name="replay_gain_titles">
+        <item>Disabled</item>
+        <item>Track preferred</item>
+        <item>Album preferred</item>
+    </string-array>
+    <string-array name="replay_gain_values">
+        <item>disabled</item>
+        <item>track</item>
+        <item>album</item>
+    </string-array>
 </resources>

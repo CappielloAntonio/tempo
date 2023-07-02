@@ -194,11 +194,13 @@
     <string name="settings_podcast_summary">If enabled, show the podcast section.</string>
     <string name="settings_radio">Show radio</string>
     <string name="settings_radio_summary">If enabled, show the radio section.</string>
+    <string name="settings_replay_gain">Set replay gain mode</string>
     <string name="settings_rounded_corner">Rounded corners</string>
     <string name="settings_rounded_corner_summary">If enabled, sets a curvature angle for all rendered covers. The changes will take effect on restart.</string>
     <string name="settings_rounded_corner_size">Corners size</string>
     <string name="settings_rounded_corner_size_summary">Sets the magnitude of the curvature angle.</string>
     <string name="settings_scan_title">Scan library</string>
+    <string name="settings_summary_replay_gain">Replay gain is a feature that allows you to adjust the volume level of audio tracks for a consistent listening experience. This setting is only effective if the track contains the necessary metadata.</string>
     <string name="settings_summary_syncing">Returns the state of the play queue for this user. This includes the tracks in the play queue, the currently playing track, and the position within this track. The server must support this feature.</string>
     <string name="settings_summary_transcoding">Priority given to the transcoding mode. If set to \"Direct play\" the bitrate of the file will not be changed.</string>
     <string name="settings_sync_starred_tracks_for_offline_use_summary">If enabled, starred tracks will be downloaded for offline use.</string>
@@ -206,6 +208,7 @@
     <string name="settings_theme">Theme</string>
     <string name="settings_title_data">Data</string>
     <string name="settings_title_general">General</string>
+    <string name="settings_title_replay_gain">Replay Gain</string>
     <string name="settings_title_syncing">Syncing</string>
     <string name="settings_title_transcoding">Transcoding</string>
     <string name="settings_title_ui">UI</string>

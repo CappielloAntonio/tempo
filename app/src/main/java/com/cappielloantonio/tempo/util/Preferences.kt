@@ -31,6 +31,7 @@ object Preferences {
     private const val PODCAST_SECTION_VISIBILITY = "podcast_section_visibility"
     private const val RADIO_SECTION_VISIBILITY = "radio_section_visibility"
     private const val MUSIC_DIRECTORY_SECTION_VISIBILITY = "music_directory_section_visibility"
+    private const val REPLAY_GAIN_MODE = "replay_gain_mode"
 
     @JvmStatic
     fun getServer(): String? {
@@ -245,5 +246,10 @@ object Preferences {
     @JvmStatic
     fun isMusicDirectorySectionVisible(): Boolean {
         return App.getInstance().preferences.getBoolean(MUSIC_DIRECTORY_SECTION_VISIBILITY, true)
+    }
+
+    @JvmStatic
+    fun getReplayGainMode(): String? {
+        return App.getInstance().preferences.getString(REPLAY_GAIN_MODE, "disabled")
     }
 }

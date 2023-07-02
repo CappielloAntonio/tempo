@@ -30,6 +30,7 @@ object Preferences {
     private const val ROUNDED_CORNER_SIZE = "rounded_corner_size"
     private const val PODCAST_SECTION_VISIBILITY = "podcast_section_visibility"
     private const val RADIO_SECTION_VISIBILITY = "radio_section_visibility"
+    private const val MUSIC_DIRECTORY_SECTION_VISIBILITY = "music_directory_section_visibility"
 
     @JvmStatic
     fun getServer(): String? {
@@ -239,5 +240,10 @@ object Preferences {
     @JvmStatic
     fun setRadioSectionHidden() {
         App.getInstance().preferences.edit().putBoolean(RADIO_SECTION_VISIBILITY, false).apply()
+    }
+
+    @JvmStatic
+    fun isMusicDirectorySectionVisible(): Boolean {
+        return App.getInstance().preferences.getBoolean(MUSIC_DIRECTORY_SECTION_VISIBILITY, true)
     }
 }

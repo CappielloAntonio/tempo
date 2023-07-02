@@ -51,6 +51,12 @@
             android:defaultValue="true"
             android:summary="@string/settings_radio_summary"
             android:key="radio_section_visibility" />
+
+        <SwitchPreference
+            android:title="@string/settings_music_directory"
+            android:defaultValue="true"
+            android:summary="@string/settings_music_directory_summary"
+            android:key="music_directory_section_visibility" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_title_data">

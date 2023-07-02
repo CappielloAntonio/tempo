@@ -26,6 +26,7 @@ import com.cappielloantonio.tempo.ui.adapter.MusicFolderAdapter;
 import com.cappielloantonio.tempo.ui.adapter.PlaylistHorizontalAdapter;
 import com.cappielloantonio.tempo.ui.dialog.PlaylistEditorDialog;
 import com.cappielloantonio.tempo.util.Constants;
+import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.viewmodel.LibraryViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
 
@@ -121,6 +122,11 @@ public class LibraryFragment extends Fragment implements ClickCallback {
     }
 
     private void initMusicFolderView() {
+        if (!Preferences.isMusicDirectorySectionVisible()) {
+            bind.libraryMusicFolderSector.setVisibility(View.GONE);
+            return;
+        }
+
         bind.musicFolderRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.musicFolderRecyclerView.setHasFixedSize(true);
 

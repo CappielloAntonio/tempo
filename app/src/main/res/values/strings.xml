@@ -185,6 +185,8 @@
     <string name="settings_max_bitrate_wifi">Bitrate in Wi-Fi</string>
     <string name="settings_max_bitrate_mobile">Bitrate in mobile</string>
     <string name="settings_media_cache">Size of media file cache</string>
+    <string name="settings_music_directory">Show music directories</string>
+    <string name="settings_music_directory_summary">If enabled, show the music directory section. Please note that for folder navigation to work properly, the server must support this feature.</string>
     <string name="settings_queue_syncing_title">Sync play queue for this user</string>
     <string name="settings_queue_syncing_countdown">Sync timer</string>
     <string name="settings_queue_syncing_summary">If enabled, the user will have the ability to save their play queue and will have the ability to load state when opening the application.</string>

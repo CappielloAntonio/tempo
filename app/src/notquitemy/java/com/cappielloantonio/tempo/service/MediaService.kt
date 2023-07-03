@@ -239,6 +239,4 @@ class MediaService : MediaLibraryService() {
 
     private fun getMediaSourceFactory() =
         DefaultMediaSourceFactory(this).setDataSourceFactory(DownloadUtil.getDataSourceFactory(this))
-
-
 }

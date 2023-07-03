@@ -102,6 +102,6 @@ public class ReplayGainUtil {
     }
 
     private static void setReplayGain(ExoPlayer player, float gain) {
-        player.setVolume((float) Math.pow(10f, -gain / 20f));
+        player.setVolume((float) Math.pow(10f, gain / 20f));
     }
 }

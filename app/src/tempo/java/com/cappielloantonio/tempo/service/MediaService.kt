@@ -242,6 +242,10 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
                 }
             }
 
+            override fun onTracksChanged(tracks: Tracks) {
+                ReplayGainUtil.setReplayGain(player, tracks)
+            }
+
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 if (!isPlaying) {
                     MediaManager.setPlayingPausedTimestamp(

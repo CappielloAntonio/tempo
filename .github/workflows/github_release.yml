@@ -34,7 +34,7 @@ jobs:
 
       - name: Build APK
         id: build
-        run: bash ./gradlew assembleRelease
+        run: bash ./gradlew assembleTempoRelease
 
       - name: Sign APK
         id: sign_apk

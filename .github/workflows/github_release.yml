@@ -40,7 +40,7 @@ jobs:
         id: sign_apk
         uses: r0adkll/sign-android-release@v1
         with:
-          releaseDirectory: app/build/outputs/apk/release
+          releaseDirectory: app/build/outputs/apk/tempo/release
           signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
           alias: ${{ secrets.KEY_ALIAS_GITHUB }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -98,7 +98,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{steps.sign_apk.outputs.signedReleaseFile}}
-          asset_name: app-release.apk
+          asset_name: app-tempo-release.apk
           asset_content_type: application/zip
 
 #      - name: Upload AAB

@@ -18,6 +18,7 @@ import com.cappielloantonio.tempo.R
 import com.cappielloantonio.tempo.ui.activity.MainActivity
 import com.cappielloantonio.tempo.util.Constants
 import com.cappielloantonio.tempo.util.DownloadUtil
+import com.cappielloantonio.tempo.util.ReplayGainUtil
 import com.google.android.gms.cast.framework.CastContext
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -118,6 +119,9 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
             browser: ControllerInfo,
             params: LibraryParams?
         ): ListenableFuture<LibraryResult<MediaItem>> {
+            if (params != null && params.isRecent) {
+                return Futures.immediateFuture(LibraryResult.ofError(LibraryResult.RESULT_ERROR_NOT_SUPPORTED))
+            }
             return Futures.immediateFuture(LibraryResult.ofItem(MediaItemTree.getRootItem(), params))
         }
 

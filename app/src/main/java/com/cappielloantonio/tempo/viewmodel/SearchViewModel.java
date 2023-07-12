@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.tempo.model.RecentSearch;
 import com.cappielloantonio.tempo.repository.SearchingRepository;
+import com.cappielloantonio.tempo.subsonic.models.SearchResult2;
 import com.cappielloantonio.tempo.subsonic.models.SearchResult3;
 
 import java.util.ArrayList;
@@ -38,8 +39,12 @@ public class SearchViewModel extends AndroidViewModel {
         }
     }
 
-    public LiveData<SearchResult3> search(String title) {
-        return searchingRepository.search(title);
+    public LiveData<SearchResult2> search2(String title) {
+        return searchingRepository.search2(title);
+    }
+
+    public LiveData<SearchResult3> search3(String title) {
+        return searchingRepository.search3(title);
     }
 
     public void insertNewSearch(String search) {

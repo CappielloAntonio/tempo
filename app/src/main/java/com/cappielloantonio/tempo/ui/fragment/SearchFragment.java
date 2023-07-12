@@ -215,7 +215,7 @@ public class SearchFragment extends Fragment implements ClickCallback {
     }
 
     private void performSearch(String query) {
-        searchViewModel.search(query).observe(getViewLifecycleOwner(), result -> {
+        searchViewModel.search3(query).observe(getViewLifecycleOwner(), result -> {
             if (bind != null) {
                 if (result.getArtists() != null) {
                     bind.searchArtistSector.setVisibility(!result.getArtists().isEmpty() ? View.VISIBLE : View.GONE);

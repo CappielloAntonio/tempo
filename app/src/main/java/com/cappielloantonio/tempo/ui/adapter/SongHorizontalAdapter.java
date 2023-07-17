@@ -76,7 +76,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
     }
 
     public void setItems(List<Child> songs) {
-        this.songs = songs;
+        this.songs = songs != null ? songs : Collections.emptyList();
         notifyDataSetChanged();
     }
 

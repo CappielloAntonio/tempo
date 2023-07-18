@@ -1,5 +1,7 @@
 package com.cappielloantonio.tempo.repository;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
@@ -99,6 +101,8 @@ public class SearchingRepository {
 
                             LinkedHashSet<String> hashSet = new LinkedHashSet<>(newSuggestions);
                             ArrayList<String> suggestionsWithoutDuplicates = new ArrayList<>(hashSet);
+
+                            Log.d("suggestionsWithoutDuplicates", suggestionsWithoutDuplicates.toString());
 
                             suggestions.setValue(suggestionsWithoutDuplicates);
                         }

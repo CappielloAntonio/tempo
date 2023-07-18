@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,17 +122,11 @@ public class SearchFragment extends Fragment implements ClickCallback {
         bind.searchView
                 .getEditText()
                 .setOnEditorActionListener((textView, actionId, keyEvent) -> {
-
                     String query = bind.searchView.getText().toString();
 
-                    if (actionId == EditorInfo.IME_ACTION_DONE) {
-                        if (isQueryValid(query)) {
-                            search(bind.searchView.getText().toString());
-                            return true;
-                        } else {
-                            Toast.makeText(requireContext(), getString(R.string.search_info_minimum_characters), Toast.LENGTH_SHORT).show();
-                            return false;
-                        }
+                    if (isQueryValid(query)) {
+                        search(query);
+                        return true;
                     }
 
                     return false;
@@ -147,7 +142,7 @@ public class SearchFragment extends Fragment implements ClickCallback {
 
                     @Override
                     public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                        if (count > 1) {
+                        if (start + count > 1) {
                             setSearchSuggestions(charSequence.toString());
                         } else {
                             setRecentSuggestions();
@@ -247,6 +242,7 @@ public class SearchFragment extends Fragment implements ClickCallback {
     }
 
     private boolean isQueryValid(String query) {
+        Log.d(TAG, "isQueryValid()");
         return !query.equals("") && query.trim().length() > 2;
     }
 

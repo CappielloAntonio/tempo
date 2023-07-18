@@ -12,7 +12,7 @@ import java.util.List;
 
 @Dao
 public interface RecentSearchDao {
-    @Query("SELECT * FROM recent_search ORDER BY search ASC")
+    @Query("SELECT * FROM recent_search ORDER BY search DESC")
     List<String> getRecent();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

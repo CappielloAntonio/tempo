@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
@@ -51,6 +52,7 @@ public class PlayerControllerFragment extends Fragment {
     private Chip playerMediaExtension;
     private TextView playerMediaBitrate;
     private ImageView playerMediaTranscodingIcon;
+    private ImageView playerMediaTranscodingPriorityIcon;
     private Chip playerMediaTranscodedExtension;
     private TextView playerMediaTranscodedBitrate;
 
@@ -71,6 +73,7 @@ public class PlayerControllerFragment extends Fragment {
         initCoverLyricsSlideView();
         initMediaListenable();
         initArtistLabelButton();
+        initTranscodingInfo();
 
         return view;
     }
@@ -104,6 +107,7 @@ public class PlayerControllerFragment extends Fragment {
         playerMediaExtension = bind.getRoot().findViewById(R.id.player_media_extension);
         playerMediaBitrate = bind.getRoot().findViewById(R.id.player_media_bitrate);
         playerMediaTranscodingIcon = bind.getRoot().findViewById(R.id.player_media_transcoding_audio);
+        playerMediaTranscodingPriorityIcon = bind.getRoot().findViewById(R.id.player_media_server_transcode_priority);
         playerMediaTranscodedExtension = bind.getRoot().findViewById(R.id.player_media_transcoded_extension);
         playerMediaTranscodedBitrate = bind.getRoot().findViewById(R.id.player_media_transcoded_bitrate);
     }
@@ -166,7 +170,6 @@ public class PlayerControllerFragment extends Fragment {
                 playerMediaBitrate.setVisibility(View.GONE);
             } else {
                 playerMediaBitrate.setVisibility(View.VISIBLE);
-
                 playerMediaBitrate.setText(bitrate);
             }
         }
@@ -177,19 +180,28 @@ public class PlayerControllerFragment extends Fragment {
                 : "Original";
 
         if (transcodingExtension.equals("raw") && transcodingBitrate.equals("Original")) {
+            playerMediaTranscodingPriorityIcon.setVisibility(View.GONE);
             playerMediaTranscodingIcon.setVisibility(View.GONE);
             playerMediaTranscodedBitrate.setVisibility(View.GONE);
             playerMediaTranscodedExtension.setVisibility(View.GONE);
         } else {
+            playerMediaTranscodingPriorityIcon.setVisibility(View.GONE);
             playerMediaTranscodingIcon.setVisibility(View.VISIBLE);
             playerMediaTranscodedBitrate.setVisibility(View.VISIBLE);
             playerMediaTranscodedExtension.setVisibility(View.VISIBLE);
-
             playerMediaTranscodedExtension.setText(transcodingExtension);
             playerMediaTranscodedBitrate.setText(transcodingBitrate);
         }
 
         if (mediaMetadata.extras != null && mediaMetadata.extras.getString("uri", "").contains(Constants.DOWNLOAD_URI)) {
+            playerMediaTranscodingPriorityIcon.setVisibility(View.GONE);
+            playerMediaTranscodingIcon.setVisibility(View.GONE);
+            playerMediaTranscodedBitrate.setVisibility(View.GONE);
+            playerMediaTranscodedExtension.setVisibility(View.GONE);
+        }
+
+        if (Preferences.isServerPrioritized() && mediaMetadata.extras != null && !mediaMetadata.extras.getString("uri", "").contains(Constants.DOWNLOAD_URI)) {
+            playerMediaTranscodingPriorityIcon.setVisibility(View.VISIBLE);
             playerMediaTranscodingIcon.setVisibility(View.GONE);
             playerMediaTranscodedBitrate.setVisibility(View.GONE);
             playerMediaTranscodedExtension.setVisibility(View.GONE);
@@ -290,6 +302,13 @@ public class PlayerControllerFragment extends Fragment {
                     activity.collapseBottomSheet();
                 });
             }
+        });
+    }
+
+    private void initTranscodingInfo() {
+        playerMediaTranscodingPriorityIcon.setOnLongClickListener(view -> {
+            Toast.makeText(requireActivity(), R.string.settings_audio_transcode_priority_toast, Toast.LENGTH_SHORT).show();
+            return true;
         });
     }
 

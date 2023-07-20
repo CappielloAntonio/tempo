@@ -41,6 +41,13 @@
             android:src="@drawable/ic_transcode"
             android:visibility="gone" />
 
+        <ImageView
+            android:id="@+id/player_media_server_transcode_priority"
+            android:layout_width="24dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_server_transcode_priority"
+            android:visibility="gone" />
+
         <com.google.android.material.chip.Chip
             android:id="@+id/player_media_transcoded_extension"
             style="@style/Widget.Material3.Chip.Suggestion"

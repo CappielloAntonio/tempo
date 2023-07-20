@@ -41,8 +41,11 @@ public class MusicUtil {
         if (params.containsKey("c") && params.get("c") != null)
             uri.append("&c=").append(params.get("c"));
 
-        uri.append("&maxBitRate=").append(getBitratePreference());
-        uri.append("&format=").append(getTranscodingFormatPreference());
+        if (!Preferences.isServerPrioritized())
+            uri.append("&maxBitRate=").append(getBitratePreference());
+        if (!Preferences.isServerPrioritized())
+            uri.append("&format=").append(getTranscodingFormatPreference());
+
         uri.append("&id=").append(id);
 
         Log.d(TAG, "getStreamUri: " + uri);

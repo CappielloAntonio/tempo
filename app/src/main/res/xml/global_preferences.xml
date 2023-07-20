@@ -102,6 +102,12 @@
             app:selectable="false"
             app:summary="@string/settings_summary_transcoding" />
 
+        <SwitchPreference
+            android:title="@string/settings_audio_transcode_priority_title"
+            android:defaultValue="false"
+            android:summary="@string/settings_audio_transcode_priority_summary"
+            android:key="audio_transcode_priority" />
+
         <ListPreference
             app:defaultValue="raw"
             app:dialogTitle="@string/settings_audio_transcode_format_wifi"

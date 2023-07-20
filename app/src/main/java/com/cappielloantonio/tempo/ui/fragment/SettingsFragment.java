@@ -15,6 +15,7 @@ import androidx.annotation.OptIn;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.util.UnstableApi;
 import androidx.preference.ListPreference;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.cappielloantonio.tempo.BuildConfig;
@@ -70,6 +71,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onResume() {
         super.onResume();
 
+        checkEqualizer();
+
         findPreference("version").setSummary(BuildConfig.VERSION_NAME);
 
         findPreference("logout").setOnPreferenceClickListener(preference -> {
@@ -90,12 +93,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 }
             });
 
-            return true;
-        });
-
-        findPreference("equalizer").setOnPreferenceClickListener(preference -> {
-            Intent intent = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
-            someActivityResultLauncher.launch(intent);
             return true;
         });
 
@@ -127,6 +124,23 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                         ThemeHelper.applyTheme(themeOption);
                         return true;
                     });
+        }
+    }
+
+    private void checkEqualizer() {
+        Preference equalizer = findPreference("equalizer");
+
+        if (equalizer == null) return;
+
+        Intent intent = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
+
+        if ((intent.resolveActivity(requireActivity().getPackageManager()) != null)) {
+            equalizer.setOnPreferenceClickListener(preference -> {
+                someActivityResultLauncher.launch(intent);
+                return true;
+            });
+        } else {
+            equalizer.setVisible(false);
         }
     }
 

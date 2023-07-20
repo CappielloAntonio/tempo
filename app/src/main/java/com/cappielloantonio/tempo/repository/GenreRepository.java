@@ -24,8 +24,13 @@ public class GenreRepository {
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getGenres() != null) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse() != null && response.body().getSubsonicResponse().getGenres() != null) {
                             List<Genre> genreList = response.body().getSubsonicResponse().getGenres().getGenres();
+
+                            if (genreList == null || genreList.isEmpty()) {
+                                genres.setValue(Collections.emptyList());
+                                return;
+                            }
 
                             if (random) {
                                 Collections.shuffle(genreList);

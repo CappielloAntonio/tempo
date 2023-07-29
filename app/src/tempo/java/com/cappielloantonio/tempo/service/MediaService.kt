@@ -259,6 +259,17 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
                 }
             }
 
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                super.onPlaybackStateChanged(playbackState)
+                if (!player.hasNextMediaItem() &&
+                    playbackState == Player.STATE_ENDED &&
+                    player.mediaMetadata.extras?.getString("type") == Constants.MEDIA_TYPE_MUSIC
+                ) {
+                    MediaManager.scrobble(player.currentMediaItem)
+                    MediaManager.saveChronology(player.currentMediaItem)
+                }
+            }
+
             override fun onPositionDiscontinuity(
                 oldPosition: Player.PositionInfo,
                 newPosition: Player.PositionInfo,

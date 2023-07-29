@@ -128,14 +128,14 @@ public class PodcastChannelCatalogueAdapter extends RecyclerView.Adapter<Podcast
             Bundle bundle = new Bundle();
             bundle.putParcelable(Constants.PODCAST_CHANNEL_OBJECT, podcastChannels.get(getBindingAdapterPosition()));
 
-            click.onAlbumClick(bundle);
+            click.onPodcastChannelClick(bundle);
         }
 
         private boolean onLongClick() {
             Bundle bundle = new Bundle();
             bundle.putParcelable(Constants.PODCAST_CHANNEL_OBJECT, podcastChannels.get(getBindingAdapterPosition()));
 
-            click.onAlbumLongClick(bundle);
+            click.onPodcastChannelLongClick(bundle);
 
             return true;
         }

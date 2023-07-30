@@ -114,12 +114,10 @@ public class PodcastChannelPageFragment extends Fragment implements ClickCallbac
             if (channels == null) {
                 if (bind != null) {
                     bind.podcastEpisodesRecyclerView.setVisibility(View.GONE);
-                    bind.podcastEpisodesAvailabilityTextView.setVisibility(View.VISIBLE);
                 }
             } else {
                 if (bind != null) {
                     bind.podcastEpisodesRecyclerView.setVisibility(View.VISIBLE);
-                    bind.podcastEpisodesAvailabilityTextView.setVisibility(View.GONE);
                 }
 
                 if (!channels.isEmpty() && channels.get(0) != null && channels.get(0).getEpisodes() != null) {
@@ -127,8 +125,6 @@ public class PodcastChannelPageFragment extends Fragment implements ClickCallbac
 
                     if (bind != null && availableEpisode != null) {
                         bind.podcastEpisodesRecyclerView.setVisibility(availableEpisode.isEmpty() ? View.GONE : View.VISIBLE);
-                        bind.podcastEpisodesAvailabilityTextView.setVisibility(availableEpisode.isEmpty() ? View.VISIBLE : View.GONE);
-
                         podcastEpisodeAdapter.setItems(availableEpisode);
                     }
                 }

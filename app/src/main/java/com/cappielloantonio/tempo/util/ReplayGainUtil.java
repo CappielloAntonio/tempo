@@ -1,7 +1,9 @@
 package com.cappielloantonio.tempo.util;
 
+import androidx.annotation.OptIn;
 import androidx.media3.common.Metadata;
 import androidx.media3.common.Tracks;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.exoplayer.ExoPlayer;
 
 import com.cappielloantonio.tempo.model.ReplayGain;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@OptIn(markerClass = UnstableApi.class)
 public class ReplayGainUtil {
     private static final String[] tags = {"REPLAYGAIN_TRACK_GAIN", "REPLAYGAIN_ALBUM_GAIN", "R128_TRACK_GAIN", "R128_ALBUM_GAIN"};
 
@@ -23,11 +26,15 @@ public class ReplayGainUtil {
     private static List<Metadata> getMetadata(Tracks tracks) {
         List<Metadata> metadata = new ArrayList<>();
 
-        for (int i = 0; i < tracks.getGroups().size(); i++) {
-            Tracks.Group group = tracks.getGroups().get(i);
+        if (tracks != null && !tracks.getGroups().isEmpty()) {
+            for (int i = 0; i < tracks.getGroups().size(); i++) {
+                Tracks.Group group = tracks.getGroups().get(i);
 
-            for (int j = 0; j < group.getMediaTrackGroup().length; j++) {
-                metadata.add(group.getTrackFormat(j).metadata);
+                if (group != null && group.getMediaTrackGroup() != null) {
+                    for (int j = 0; j < group.getMediaTrackGroup().length; j++) {
+                        metadata.add(group.getTrackFormat(j).metadata);
+                    }
+                }
             }
         }
 
@@ -37,13 +44,19 @@ public class ReplayGainUtil {
     private static List<ReplayGain> getReplayGains(List<Metadata> metadata) {
         List<ReplayGain> gains = new ArrayList<>();
 
-        for (int i = 0; i < metadata.size(); i++) {
-            for (int j = 0; j < metadata.get(i).length(); j++) {
-                Metadata.Entry entry = metadata.get(i).get(j);
+        if (metadata != null) {
+            for (int i = 0; i < metadata.size(); i++) {
+                Metadata singleMetadata = metadata.get(i);
 
-                if (checkReplayGain(entry)) {
-                    ReplayGain replayGain = setReplayGains(entry);
-                    gains.add(replayGain);
+                if (singleMetadata != null) {
+                    for (int j = 0; j < singleMetadata.length(); j++) {
+                        Metadata.Entry entry = singleMetadata.get(j);
+
+                        if (checkReplayGain(entry)) {
+                            ReplayGain replayGain = setReplayGains(entry);
+                            gains.add(replayGain);
+                        }
+                    }
                 }
             }
         }

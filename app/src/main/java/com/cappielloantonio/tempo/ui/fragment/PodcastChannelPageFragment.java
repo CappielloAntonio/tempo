@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.databinding.FragmentPodcastChannelPageBinding;
-import com.cappielloantonio.tempo.glide.CustomGlideRequest;
 import com.cappielloantonio.tempo.interfaces.ClickCallback;
 import com.cappielloantonio.tempo.service.MediaManager;
 import com.cappielloantonio.tempo.service.MediaService;
@@ -31,8 +31,6 @@ import com.cappielloantonio.tempo.viewmodel.PodcastChannelPageViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @UnstableApi
 public class PodcastChannelPageFragment extends Fragment implements ClickCallback {
@@ -84,28 +82,26 @@ public class PodcastChannelPageFragment extends Fragment implements ClickCallbac
     }
 
     private void initAppBar() {
-        activity.setSupportActionBar(bind.animToolbar);
-        if (activity.getSupportActionBar() != null)
-            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        activity.setSupportActionBar(bind.toolbar);
 
-        bind.collapsingToolbar.setTitle(MusicUtil.getReadableString(podcastChannelPageViewModel.getPodcastChannel().getTitle()));
-        bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
-        bind.collapsingToolbar.setExpandedTitleColor(getResources().getColor(R.color.white, null));
+        if (activity.getSupportActionBar() != null) {
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        bind.toolbar.setTitle(MusicUtil.getReadableString(podcastChannelPageViewModel.getPodcastChannel().getTitle()));
+        bind.toolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
+        bind.toolbar.setTitle(MusicUtil.getReadableString(podcastChannelPageViewModel.getPodcastChannel().getTitle()));
     }
 
     private void initPodcastChannelInfo() {
         String normalizePodcastChannelDescription = MusicUtil.forceReadableString(podcastChannelPageViewModel.getPodcastChannel().getDescription());
 
-        if (bind != null)
+        if (bind != null) {
             bind.podcastChannelDescriptionTextView.setVisibility(!normalizePodcastChannelDescription.trim().isEmpty() ? View.VISIBLE : View.GONE);
-
-        if (getContext() != null && bind != null) CustomGlideRequest.Builder
-                .from(requireContext(), podcastChannelPageViewModel.getPodcastChannel().getCoverArtId())
-                .build()
-                .into(bind.podcastChannelBackdropImageView);
-
-        if (bind != null)
             bind.podcastChannelDescriptionTextView.setText(normalizePodcastChannelDescription);
+            bind.podcastEpisodesFilterImageView.setOnClickListener(view -> showPopupMenu(view, R.menu.filter_podcast_episode_popup_menu));
+        }
     }
 
     private void initPodcastChannelEpisodesView() {
@@ -116,22 +112,25 @@ public class PodcastChannelPageFragment extends Fragment implements ClickCallbac
         bind.podcastEpisodesRecyclerView.setAdapter(podcastEpisodeAdapter);
         podcastChannelPageViewModel.getPodcastChannelEpisodes().observe(getViewLifecycleOwner(), channels -> {
             if (channels == null) {
-                if (bind != null)
-                    bind.podcastChannelPageEpisodesPlaceholder.placeholder.setVisibility(View.VISIBLE);
-                if (bind != null) bind.podcastChannelPageEpisodesSector.setVisibility(View.GONE);
+                if (bind != null) {
+                    bind.podcastEpisodesRecyclerView.setVisibility(View.GONE);
+                    bind.podcastEpisodesAvailabilityTextView.setVisibility(View.VISIBLE);
+                }
             } else {
-                if (bind != null)
-                    bind.podcastChannelPageEpisodesPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) {
+                    bind.podcastEpisodesRecyclerView.setVisibility(View.VISIBLE);
+                    bind.podcastEpisodesAvailabilityTextView.setVisibility(View.GONE);
+                }
 
                 if (!channels.isEmpty() && channels.get(0) != null && channels.get(0).getEpisodes() != null) {
-                    List<PodcastEpisode> availableEpisode = channels.get(0).getEpisodes().stream().filter(podcastEpisode -> Objects.equals(podcastEpisode.getStatus(), "completed")).collect(Collectors.toList());
+                    List<PodcastEpisode> availableEpisode = channels.get(0).getEpisodes();
 
-                    if (bind != null) {
+                    if (bind != null && availableEpisode != null) {
                         bind.podcastEpisodesRecyclerView.setVisibility(availableEpisode.isEmpty() ? View.GONE : View.VISIBLE);
                         bind.podcastEpisodesAvailabilityTextView.setVisibility(availableEpisode.isEmpty() ? View.VISIBLE : View.GONE);
-                    }
 
-                    podcastEpisodeAdapter.setItems(availableEpisode);
+                        podcastEpisodeAdapter.setItems(availableEpisode);
+                    }
                 }
             }
         });
@@ -143,6 +142,25 @@ public class PodcastChannelPageFragment extends Fragment implements ClickCallbac
 
     private void releaseMediaBrowser() {
         MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
+    }
+
+    private void showPopupMenu(View view, int menuResource) {
+        PopupMenu popup = new PopupMenu(requireContext(), view);
+        popup.getMenuInflater().inflate(menuResource, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.menu_podcast_filter_download) {
+                podcastEpisodeAdapter.sort(Constants.PODCAST_FILTER_BY_DOWNLOAD);
+                return true;
+            } else if (menuItem.getItemId() == R.id.menu_podcast_filter_all) {
+                podcastEpisodeAdapter.sort(Constants.PODCAST_FILTER_BY_ALL);
+                return true;
+            }
+
+            return false;
+        });
+
+        popup.show();
     }
 
     @Override

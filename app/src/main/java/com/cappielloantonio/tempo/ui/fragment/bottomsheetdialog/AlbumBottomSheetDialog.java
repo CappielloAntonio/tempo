@@ -91,7 +91,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
         artistAlbum.setText(MusicUtil.getReadableString(albumBottomSheetViewModel.getAlbum().getArtist()));
 
         ToggleButton favoriteToggle = view.findViewById(R.id.button_favorite);
-        favoriteToggle.setChecked(Boolean.TRUE.equals(albumBottomSheetViewModel.getAlbum().getStarred()));
+        favoriteToggle.setChecked(albumBottomSheetViewModel.getAlbum().getStarred() != null);
         favoriteToggle.setOnClickListener(v -> {
             albumBottomSheetViewModel.setFavorite();
             dismissBottomSheet();

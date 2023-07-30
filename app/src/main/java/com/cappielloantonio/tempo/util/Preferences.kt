@@ -105,7 +105,7 @@ object Preferences {
     }
 
     @JvmStatic
-    fun askForOptimization(): Boolean? {
+    fun askForOptimization(): Boolean {
         return App.getInstance().preferences.getBoolean(BATTERY_OPTIMIZATION, true)
     }
 

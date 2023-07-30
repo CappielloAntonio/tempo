@@ -53,7 +53,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void checkBatteryOptimization() {
-        if (detectBatteryOptimization() && Boolean.TRUE.equals(Preferences.askForOptimization())) {
+        if (detectBatteryOptimization() && Preferences.askForOptimization()) {
             showBatteryOptimizationDialog();
         }
     }

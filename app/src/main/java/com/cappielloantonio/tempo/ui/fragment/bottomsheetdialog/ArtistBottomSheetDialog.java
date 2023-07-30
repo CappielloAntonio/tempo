@@ -79,7 +79,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
         nameArtist.setSelected(true);
 
         ToggleButton favoriteToggle = view.findViewById(R.id.button_favorite);
-        favoriteToggle.setChecked(Boolean.TRUE.equals(artistBottomSheetViewModel.getArtist().getStarred()));
+        favoriteToggle.setChecked(artistBottomSheetViewModel.getArtist().getStarred() != null);
         favoriteToggle.setOnClickListener(v -> {
             artistBottomSheetViewModel.setFavorite();
             dismissBottomSheet();

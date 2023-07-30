@@ -12,34 +12,66 @@
         app:layout_collapseMode="pin"
         app:navigationIcon="@drawable/ic_arrow_back" />
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/fragment_playlist_page_nested_scroll_view"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/playlist_info_sector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clipChildren="false"
-                android:paddingTop="8dp">
+                android:background="?attr/colorSurface"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <ImageView
-                    android:id="@+id/playlist_cover_image_view"
+                    android:id="@+id/playlist_cover_image_view_top_left"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginStart="64dp"
                     android:layout_marginTop="8dp"
+                    app:layout_constraintDimensionRatio="H,1:1"
+                    app:layout_constraintEnd_toStartOf="@id/playlist_cover_image_view_top_right"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/playlist_cover_image_view_top_right"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="64dp"
                     app:layout_constraintDimensionRatio="H,1:1"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/playlist_cover_image_view_top_left"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/playlist_cover_image_view_bottom_left"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="64dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintDimensionRatio="H,1:1"
+                    app:layout_constraintEnd_toStartOf="@id/playlist_cover_image_view_bottom_right"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/playlist_cover_image_view_top_left" />
+
+                <ImageView
+                    android:id="@+id/playlist_cover_image_view_bottom_right"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="64dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintDimensionRatio="H,1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/playlist_cover_image_view_bottom_left"
+                    app:layout_constraintTop_toTopOf="@id/playlist_cover_image_view_bottom_left" />
+
 
                 <TextView
                     android:id="@+id/playlist_name_label"
@@ -55,7 +87,7 @@
                     android:textAlignment="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/playlist_cover_image_view" />
+                    app:layout_constraintTop_toBottomOf="@+id/playlist_cover_image_view_bottom_left" />
 
                 <TextView
                     android:id="@+id/playlist_song_count_label"
@@ -159,15 +191,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/playlist_page_button_layout" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/song_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:nestedScrollingEnabled="false"
-                android:paddingTop="8dp"
-                android:paddingBottom="@dimen/global_padding_bottom" />
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/song_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="8dp"
+            android:paddingBottom="@dimen/global_padding_bottom"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

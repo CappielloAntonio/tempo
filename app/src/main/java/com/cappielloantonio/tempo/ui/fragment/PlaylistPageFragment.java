@@ -19,6 +19,7 @@ import androidx.media3.session.SessionToken;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
 import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.databinding.FragmentPlaylistPageBinding;
 import com.cappielloantonio.tempo.glide.CustomGlideRequest;
@@ -160,10 +161,39 @@ public class PlaylistPageFragment extends Fragment implements ClickCallback {
     }
 
     private void initBackCover() {
-        CustomGlideRequest.Builder
-                .from(requireContext(), playlistPageViewModel.getPlaylist().getCoverArtId())
-                .build()
-                .into(bind.playlistCoverImageView);
+        playlistPageViewModel.getPlaylistSongLiveList().observe(requireActivity(), songs -> {
+            if (bind != null) {
+                Collections.shuffle(songs);
+
+                // Pic top-left
+                CustomGlideRequest.Builder
+                        .from(requireContext(), songs.size() > 0 ? songs.get(0).getCoverArtId() : playlistPageViewModel.getPlaylist().getCoverArtId())
+                        .build()
+                        .transform(new GranularRoundedCorners(CustomGlideRequest.CORNER_RADIUS, 0, 0, 0))
+                        .into(bind.playlistCoverImageViewTopLeft);
+
+                // Pic top-right
+                CustomGlideRequest.Builder
+                        .from(requireContext(), songs.size() > 1 ? songs.get(1).getCoverArtId() : playlistPageViewModel.getPlaylist().getCoverArtId())
+                        .build()
+                        .transform(new GranularRoundedCorners(0, CustomGlideRequest.CORNER_RADIUS, 0, 0))
+                        .into(bind.playlistCoverImageViewTopRight);
+
+                // Pic bottom-left
+                CustomGlideRequest.Builder
+                        .from(requireContext(), songs.size() > 2 ? songs.get(2).getCoverArtId() : playlistPageViewModel.getPlaylist().getCoverArtId())
+                        .build()
+                        .transform(new GranularRoundedCorners(0, 0, 0, CustomGlideRequest.CORNER_RADIUS))
+                        .into(bind.playlistCoverImageViewBottomLeft);
+
+                // Pic bottom-right
+                CustomGlideRequest.Builder
+                        .from(requireContext(), songs.size() > 3 ? songs.get(3).getCoverArtId() : playlistPageViewModel.getPlaylist().getCoverArtId())
+                        .build()
+                        .transform(new GranularRoundedCorners(0, 0, CustomGlideRequest.CORNER_RADIUS, 0))
+                        .into(bind.playlistCoverImageViewBottomRight);
+            }
+        });
     }
 
     private void initSongsView() {

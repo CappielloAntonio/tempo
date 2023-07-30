@@ -39,8 +39,7 @@
                     android:paddingBottom="24dp"
                     android:text="@string/album_catalogue_title_expanded"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent" />
 
                 <Button
                     android:id="@+id/album_list_sort_image_view"

@@ -147,13 +147,13 @@ public class PlaylistPageFragment extends Fragment implements ClickCallback {
         playlistPageViewModel.getPlaylistSongLiveList().observe(getViewLifecycleOwner(), songs -> {
             if (bind != null) {
                 bind.playlistPagePlayButton.setOnClickListener(v -> {
-                    MediaManager.startQueue(mediaBrowserListenableFuture, songs, 0);
+                    MediaManager.startQueue(mediaBrowserListenableFuture, songs.subList(0, Math.min(100, songs.size())), 0);
                     activity.setBottomSheetInPeek(true);
                 });
 
                 bind.playlistPageShuffleButton.setOnClickListener(v -> {
                     Collections.shuffle(songs);
-                    MediaManager.startQueue(mediaBrowserListenableFuture, songs, 0);
+                    MediaManager.startQueue(mediaBrowserListenableFuture, songs.subList(0, Math.min(100, songs.size())), 0);
                     activity.setBottomSheetInPeek(true);
                 });
             }

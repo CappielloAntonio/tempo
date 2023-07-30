@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_podcast_filter_download"
+        android:title="@string/menu_filter_download" />
+    <item
+        android:id="@+id/menu_podcast_filter_all"
+        android:title="@string/menu_filter_all" />
+</menu>

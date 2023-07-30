@@ -265,4 +265,6 @@
     <string name="menu_sort_name">Name</string>
     <string name="menu_sort_random">Random</string>
     <string name="description_empty_title">No description available</string>
+    <string name="menu_filter_download">Downloaded</string>
+    <string name="menu_filter_all">All</string>
 </resources>

@@ -2,6 +2,7 @@ package com.cappielloantonio.tempo.ui.adapter;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -18,11 +19,14 @@ import com.cappielloantonio.tempo.util.MusicUtil;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAdapter.ViewHolder> {
     private final ClickCallback click;
 
     private List<PodcastEpisode> podcastEpisodes;
+    private List<PodcastEpisode> podcastEpisodesFull;
 
     public PodcastEpisodeAdapter(ClickCallback click) {
         this.click = click;
@@ -50,6 +54,9 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
                 .from(holder.itemView.getContext(), podcastEpisode.getCoverArtId())
                 .build()
                 .into(holder.item.podcastCoverImageView);
+
+        holder.item.podcastPlayButton.setEnabled(podcastEpisode.getStatus().equals("completed"));
+        holder.item.podcastMoreButton.setVisibility(podcastEpisode.getStatus().equals("completed") ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -58,7 +65,8 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
     }
 
     public void setItems(List<PodcastEpisode> podcastEpisodes) {
-        this.podcastEpisodes = podcastEpisodes;
+        this.podcastEpisodesFull = podcastEpisodes;
+        this.podcastEpisodes = podcastEpisodesFull.stream().filter(podcastEpisode -> Objects.equals(podcastEpisode.getStatus(), "completed")).collect(Collectors.toList());
         notifyDataSetChanged();
     }
 
@@ -88,19 +96,42 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
         }
 
         public void onClick() {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(Constants.PODCAST_OBJECT, podcastEpisodes.get(getBindingAdapterPosition()));
+            PodcastEpisode podcastEpisode = podcastEpisodes.get(getBindingAdapterPosition());
 
-            click.onPodcastEpisodeClick(bundle);
+            if (podcastEpisode.getStatus().equals("completed")) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Constants.PODCAST_OBJECT, podcastEpisodes.get(getBindingAdapterPosition()));
+
+                click.onPodcastEpisodeClick(bundle);
+            }
         }
 
         private boolean openMore() {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(Constants.PODCAST_OBJECT, podcastEpisodes.get(getBindingAdapterPosition()));
+            PodcastEpisode podcastEpisode = podcastEpisodes.get(getBindingAdapterPosition());
 
-            click.onPodcastEpisodeLongClick(bundle);
+            if (podcastEpisode.getStatus().equals("completed")) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Constants.PODCAST_OBJECT, podcastEpisodes.get(getBindingAdapterPosition()));
 
-            return true;
+                click.onPodcastEpisodeLongClick(bundle);
+
+                return true;
+            }
+
+            return false;
         }
+    }
+
+    public void sort(String order) {
+        switch (order) {
+            case Constants.PODCAST_FILTER_BY_DOWNLOAD:
+                podcastEpisodes = podcastEpisodesFull.stream().filter(podcastEpisode -> Objects.equals(podcastEpisode.getStatus(), "completed")).collect(Collectors.toList());
+                break;
+            case Constants.PODCAST_FILTER_BY_ALL:
+                podcastEpisodes = podcastEpisodesFull;
+                break;
+        }
+
+        notifyDataSetChanged();
     }
 }

@@ -44,6 +44,9 @@ object Constants {
     const val PLAYLIST_ORDER_BY_NAME = "ORDER_BY_NAME"
     const val PLAYLIST_ORDER_BY_RANDOM = "ORDER_BY_RANDOM"
 
+    const val PODCAST_FILTER_BY_DOWNLOAD = "PODCAST_FILTER_BY_DOWNLOAD"
+    const val PODCAST_FILTER_BY_ALL = "PODCAST_FILTER_BY_ALL"
+
     const val MEDIA_TYPE_MUSIC = "music"
     const val MEDIA_TYPE_PODCAST = "podcast"
     const val MEDIA_TYPE_AUDIOBOOK = "audiobook"

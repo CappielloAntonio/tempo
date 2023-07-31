@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.tempo.repository.PodcastRepository;
 import com.cappielloantonio.tempo.subsonic.models.PodcastChannel;
+import com.cappielloantonio.tempo.subsonic.models.PodcastEpisode;
 
 import java.util.List;
 
@@ -32,5 +33,9 @@ public class PodcastChannelPageViewModel extends AndroidViewModel {
 
     public void setPodcastChannel(PodcastChannel podcastChannel) {
         this.podcastChannel = podcastChannel;
+    }
+
+    public void requestPodcastEpisodeDownload(PodcastEpisode podcastEpisode) {
+        podcastRepository.downloadPodcastEpisode(podcastEpisode.getId());
     }
 }

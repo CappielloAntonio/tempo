@@ -134,6 +134,7 @@
     <string name="podcast_channel_editor_dialog_hint_rss_url">RSS Url</string>
     <string name="podcast_channel_editor_dialog_title">Podcast Channel</string>
     <string name="podcast_release_date_duration_formatter">%1$s  •  %2$s</string>
+    <string name="podcast_episode_download_request_snackbar">Your request has been sent to the server</string>
     <string name="podcast_info_empty_subtitle">Once you add a channel, you\'ll find it here</string>
     <string name="podcast_info_empty_title">No podcasts found!</string>
     <string name="podcast_info_empty_button">Click to hide the section\nThe effects will be visible on restart</string>

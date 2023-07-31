@@ -28,6 +28,7 @@ import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.MusicUtil;
 import com.cappielloantonio.tempo.util.UIUtil;
 import com.cappielloantonio.tempo.viewmodel.PodcastChannelPageViewModel;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.List;
@@ -168,5 +169,15 @@ public class PodcastChannelPageFragment extends Fragment implements ClickCallbac
     @Override
     public void onPodcastEpisodeLongClick(Bundle bundle) {
         Navigation.findNavController(requireView()).navigate(R.id.podcastEpisodeBottomSheetDialog, bundle);
+    }
+
+    @Override
+    public void onPodcastEpisodeAltClick(Bundle bundle) {
+        PodcastEpisode episode = bundle.getParcelable(Constants.PODCAST_OBJECT);
+        podcastChannelPageViewModel.requestPodcastEpisodeDownload(episode);
+
+        Snackbar.make(requireView(), R.string.podcast_episode_download_request_snackbar, Snackbar.LENGTH_SHORT)
+                .setAnchorView(activity.bind.bottomNavigation)
+                .show();
     }
 }

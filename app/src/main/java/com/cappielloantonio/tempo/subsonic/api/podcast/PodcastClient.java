@@ -48,4 +48,9 @@ public class PodcastClient {
         Log.d(TAG, "deletePodcastEpisode()");
         return podcastService.deletePodcastEpisode(subsonic.getParams(), episodeId);
     }
+
+    public Call<ApiResponse> downloadPodcastEpisode(String episodeId) {
+        Log.d(TAG, "downloadPodcastEpisode()");
+        return podcastService.downloadPodcastEpisode(subsonic.getParams(), episodeId);
+    }
 }

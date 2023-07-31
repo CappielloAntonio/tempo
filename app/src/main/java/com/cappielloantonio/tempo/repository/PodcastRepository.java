@@ -133,4 +133,21 @@ public class PodcastRepository {
                     }
                 });
     }
+
+    public void downloadPodcastEpisode(String episodeId) {
+        App.getSubsonicClientInstance(false)
+                .getPodcastClient()
+                .downloadPodcastEpisode(episodeId)
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
+
+                    }
+                });
+    }
 }

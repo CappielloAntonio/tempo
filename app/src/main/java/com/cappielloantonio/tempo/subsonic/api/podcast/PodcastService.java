@@ -27,4 +27,7 @@ public interface PodcastService {
 
     @GET("deletePodcastEpisode")
     Call<ApiResponse> deletePodcastEpisode(@QueryMap Map<String, String> params, @Query("id") String id);
+
+    @GET("downloadPodcastEpisode")
+    Call<ApiResponse> downloadPodcastEpisode(@QueryMap Map<String, String> params, @Query("id") String id);
 }

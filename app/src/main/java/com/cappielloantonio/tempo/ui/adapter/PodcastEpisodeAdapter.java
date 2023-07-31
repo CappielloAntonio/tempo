@@ -57,6 +57,7 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
 
         holder.item.podcastPlayButton.setEnabled(podcastEpisode.getStatus().equals("completed"));
         holder.item.podcastMoreButton.setVisibility(podcastEpisode.getStatus().equals("completed") ? View.VISIBLE : View.GONE);
+        holder.item.podcastDownloadRequestButton.setVisibility(podcastEpisode.getStatus().equals("completed") ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -93,6 +94,7 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
 
             item.podcastPlayButton.setOnClickListener(v -> onClick());
             item.podcastMoreButton.setOnClickListener(v -> openMore());
+            item.podcastDownloadRequestButton.setOnClickListener(v -> requestDownload());
         }
 
         public void onClick() {
@@ -119,6 +121,17 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
             }
 
             return false;
+        }
+
+        public void requestDownload() {
+            PodcastEpisode podcastEpisode = podcastEpisodes.get(getBindingAdapterPosition());
+
+            if (!podcastEpisode.getStatus().equals("completed")) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Constants.PODCAST_OBJECT, podcastEpisodes.get(getBindingAdapterPosition()));
+
+                click.onPodcastEpisodeAltClick(bundle);
+            }
         }
     }
 

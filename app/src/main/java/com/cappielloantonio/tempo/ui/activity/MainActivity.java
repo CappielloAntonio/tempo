@@ -3,6 +3,7 @@ package com.cappielloantonio.tempo.ui.activity;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -338,7 +339,9 @@ public class MainActivity extends BaseActivity {
     private void checkConnectionType() {
         if (Preferences.isWifiOnly()) {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            if (connectivityManager.getActiveNetworkInfo().getType() != ConnectivityManager.TYPE_WIFI) {
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+            if (networkInfo != null && networkInfo.getType() != ConnectivityManager.TYPE_WIFI) {
                 ConnectionAlertDialog dialog = new ConnectionAlertDialog();
                 dialog.show(getSupportFragmentManager(), null);
             }

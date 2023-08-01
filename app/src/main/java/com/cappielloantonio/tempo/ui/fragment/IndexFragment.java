@@ -96,6 +96,9 @@ public class IndexFragment extends Fragment implements ClickCallback {
                 musicIndexAdapter.setItems(IndexUtil.getArtist(indexes));
             }
         });
+
+        bind.fastScrollbar.setRecyclerView(bind.indexRecyclerView);
+        bind.fastScrollbar.setViewsToUse(R.layout.layout_fast_scrollbar, R.id.fastscroller_bubble, R.id.fastscroller_handle);
     }
 
     @Override

@@ -9,16 +9,17 @@ import androidx.media3.common.util.UnstableApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.tempo.databinding.ItemLibraryMusicIndexBinding;
-import com.cappielloantonio.tempo.glide.CustomGlideRequest;
+import com.cappielloantonio.tempo.helper.recyclerview.FastScrollbar;
 import com.cappielloantonio.tempo.interfaces.ClickCallback;
 import com.cappielloantonio.tempo.subsonic.models.Artist;
 import com.cappielloantonio.tempo.util.Constants;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @UnstableApi
-public class MusicIndexAdapter extends RecyclerView.Adapter<MusicIndexAdapter.ViewHolder> {
+public class MusicIndexAdapter extends RecyclerView.Adapter<MusicIndexAdapter.ViewHolder> implements FastScrollbar.BubbleTextGetter {
     private final ClickCallback click;
 
     private List<Artist> artists;
@@ -41,10 +42,10 @@ public class MusicIndexAdapter extends RecyclerView.Adapter<MusicIndexAdapter.Vi
 
         holder.item.musicIndexTitleTextView.setText(artist.getName());
 
-        CustomGlideRequest.Builder
+        /* CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), artist.getName())
                 .build()
-                .into(holder.item.musicIndexCoverImageView);
+                .into(holder.item.musicIndexCoverImageView); */
     }
 
     @Override
@@ -55,6 +56,11 @@ public class MusicIndexAdapter extends RecyclerView.Adapter<MusicIndexAdapter.Vi
     public void setItems(List<Artist> artists) {
         this.artists = artists;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public String getTextToShowInBubble(int pos) {
+        return Character.toString(Objects.requireNonNull(artists.get(pos).getName().toUpperCase()).charAt(0));
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

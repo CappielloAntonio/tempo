@@ -8,20 +8,24 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.cappielloantonio.tempo.interfaces.StarCallback;
 import com.cappielloantonio.tempo.model.Chronology;
+import com.cappielloantonio.tempo.model.Favorite;
 import com.cappielloantonio.tempo.repository.AlbumRepository;
 import com.cappielloantonio.tempo.repository.ArtistRepository;
 import com.cappielloantonio.tempo.repository.ChronologyRepository;
-import com.cappielloantonio.tempo.repository.PodcastRepository;
+import com.cappielloantonio.tempo.repository.FavoriteRepository;
 import com.cappielloantonio.tempo.repository.SongRepository;
 import com.cappielloantonio.tempo.subsonic.models.AlbumID3;
 import com.cappielloantonio.tempo.subsonic.models.ArtistID3;
 import com.cappielloantonio.tempo.subsonic.models.Child;
 import com.cappielloantonio.tempo.util.Preferences;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 public class HomeViewModel extends AndroidViewModel {
@@ -31,6 +35,7 @@ public class HomeViewModel extends AndroidViewModel {
     private final AlbumRepository albumRepository;
     private final ArtistRepository artistRepository;
     private final ChronologyRepository chronologyRepository;
+    private final FavoriteRepository favoriteRepository;
 
     private final MutableLiveData<List<Child>> dicoverSongSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<AlbumID3>> newReleasedAlbum = new MutableLiveData<>(null);
@@ -57,6 +62,9 @@ public class HomeViewModel extends AndroidViewModel {
         albumRepository = new AlbumRepository();
         artistRepository = new ArtistRepository();
         chronologyRepository = new ChronologyRepository();
+        favoriteRepository = new FavoriteRepository();
+
+        setOfflineFavorite();
     }
 
     public LiveData<List<Child>> getDiscoverSongSample(LifecycleOwner owner) {
@@ -238,5 +246,110 @@ public class HomeViewModel extends AndroidViewModel {
 
     public void refreshRecentlyPlayedAlbumList(LifecycleOwner owner) {
         albumRepository.getAlbums("recent", 20, null, null).observe(owner, recentlyPlayedAlbumSample::postValue);
+    }
+
+    public void setOfflineFavorite() {
+        ArrayList<Favorite> favorites = getFavorites();
+        ArrayList<Favorite> favoritesToSave = getFavoritesToSave(favorites);
+        ArrayList<Favorite> favoritesToDelete = getFavoritesToDelete(favorites, favoritesToSave);
+
+        manageFavoriteToSave(favoritesToSave);
+        manageFavoriteToDelete(favoritesToDelete);
+    }
+
+    private ArrayList<Favorite> getFavorites() {
+        return new ArrayList<>(favoriteRepository.getFavorites());
+    }
+
+    private ArrayList<Favorite> getFavoritesToSave(ArrayList<Favorite> favorites) {
+        HashMap<String, Favorite> filteredMap = new HashMap<>();
+
+        for (Favorite favorite : favorites) {
+            String key = favorite.toString();
+
+            if (!filteredMap.containsKey(key) || favorite.getTimestamp() > filteredMap.get(key).getTimestamp()) {
+                filteredMap.put(key, favorite);
+            }
+        }
+
+        return new ArrayList<>(filteredMap.values());
+    }
+
+    private ArrayList<Favorite> getFavoritesToDelete(ArrayList<Favorite> favorites, ArrayList<Favorite> favoritesToSave) {
+        ArrayList<Favorite> favoritesToDelete = new ArrayList<>();
+
+        for (Favorite favorite : favorites) {
+            if (!favoritesToSave.contains(favorite)) {
+                favoritesToDelete.add(favorite);
+            }
+        }
+
+        return favoritesToDelete;
+    }
+
+    private void manageFavoriteToSave(ArrayList<Favorite> favoritesToSave) {
+        for (Favorite favorite : favoritesToSave) {
+            if (favorite.getToStar()) {
+                favoriteToStar(favorite);
+            } else {
+                favoriteToUnstar(favorite);
+            }
+        }
+    }
+
+    private void manageFavoriteToDelete(ArrayList<Favorite> favoritesToDelete) {
+        for (Favorite favorite : favoritesToDelete) {
+            favoriteRepository.delete(favorite);
+        }
+    }
+
+    private void favoriteToStar(Favorite favorite) {
+        if (favorite.getSongId() != null) {
+            favoriteRepository.star(favorite.getSongId(), null, null, new StarCallback() {
+                @Override
+                public void onSuccess() {
+                    favoriteRepository.delete(favorite);
+                }
+            });
+        } else if (favorite.getAlbumId() != null) {
+            favoriteRepository.star(null, favorite.getAlbumId(), null, new StarCallback() {
+                @Override
+                public void onSuccess() {
+                    favoriteRepository.delete(favorite);
+                }
+            });
+        } else if (favorite.getArtistId() != null) {
+            favoriteRepository.star(null, null, favorite.getArtistId(), new StarCallback() {
+                @Override
+                public void onSuccess() {
+                    favoriteRepository.delete(favorite);
+                }
+            });
+        }
+    }
+
+    private void favoriteToUnstar(Favorite favorite) {
+        if (favorite.getSongId() != null) {
+            favoriteRepository.unstar(favorite.getSongId(), null, null, new StarCallback() {
+                @Override
+                public void onSuccess() {
+                    favoriteRepository.delete(favorite);
+                }
+            });
+        } else if (favorite.getAlbumId() != null) {
+            favoriteRepository.unstar(null, favorite.getAlbumId(), null, new StarCallback() {
+                @Override
+                public void onSuccess() {
+                    favoriteRepository.delete(favorite);
+                }
+            });
+        } else if (favorite.getArtistId() != null) {
+            favoriteRepository.unstar(null, null, favorite.getArtistId(), new StarCallback() {
+                @Override
+                public void onSuccess() {
+                    favoriteRepository.delete(favorite);
+                }
+            });
+        }
     }
 }

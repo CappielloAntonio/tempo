@@ -82,7 +82,6 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
         favoriteToggle.setChecked(artistBottomSheetViewModel.getArtist().getStarred() != null);
         favoriteToggle.setOnClickListener(v -> {
             artistBottomSheetViewModel.setFavorite();
-            dismissBottomSheet();
         });
 
         TextView playRadio = view.findViewById(R.id.play_radio_text_view);

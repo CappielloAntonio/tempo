@@ -90,7 +90,6 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         favoriteToggle.setChecked(songBottomSheetViewModel.getSong().getStarred() != null);
         favoriteToggle.setOnClickListener(v -> {
             songBottomSheetViewModel.setFavorite(requireContext());
-            dismissBottomSheet();
         });
         favoriteToggle.setOnLongClickListener(v -> {
             Bundle bundle = new Bundle();

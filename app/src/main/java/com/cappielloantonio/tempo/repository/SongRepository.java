@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.tempo.App;
+import com.cappielloantonio.tempo.database.AppDatabase;
+import com.cappielloantonio.tempo.database.dao.FavoriteDao;
 import com.cappielloantonio.tempo.subsonic.base.ApiResponse;
 import com.cappielloantonio.tempo.subsonic.models.Child;
 
@@ -119,40 +121,6 @@ public class SongRepository {
                 });
     }
 
-    public void star(String id) {
-        App.getSubsonicClientInstance(false)
-                .getMediaAnnotationClient()
-                .star(id, null, null)
-                .enqueue(new Callback<ApiResponse>() {
-                    @Override
-                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
-
-                    }
-                });
-    }
-
-    public void unstar(String id) {
-        App.getSubsonicClientInstance(false)
-                .getMediaAnnotationClient()
-                .unstar(id, null, null)
-                .enqueue(new Callback<ApiResponse>() {
-                    @Override
-                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
-
-                    }
-                });
-    }
-
     public void setRating(String id, int rating) {
         App.getSubsonicClientInstance(false)
                 .getMediaAnnotationClient()
@@ -172,8 +140,6 @@ public class SongRepository {
 
     public MutableLiveData<List<Child>> getSongsByGenre(String id, int page) {
         MutableLiveData<List<Child>> songsByGenre = new MutableLiveData<>();
-
-        Log.d(TAG, "onScrolled PAGE: " + page);
 
         App.getSubsonicClientInstance(false)
                 .getAlbumSongListClient()

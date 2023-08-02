@@ -21,8 +21,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AlbumRepository {
-    private static final String TAG = "AlbumRepository";
-
     public MutableLiveData<List<AlbumID3>> getAlbums(String type, int size, Integer fromYear, Integer toYear) {
         MutableLiveData<List<AlbumID3>> listLiveAlbums = new MutableLiveData<>(new ArrayList<>());
 
@@ -76,40 +74,6 @@ public class AlbumRepository {
                 });
 
         return starredAlbums;
-    }
-
-    public void star(String id) {
-        App.getSubsonicClientInstance(false)
-                .getMediaAnnotationClient()
-                .star(null, id, null)
-                .enqueue(new Callback<ApiResponse>() {
-                    @Override
-                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
-
-                    }
-                });
-    }
-
-    public void unstar(String id) {
-        App.getSubsonicClientInstance(false)
-                .getMediaAnnotationClient()
-                .unstar(null, id, null)
-                .enqueue(new Callback<ApiResponse>() {
-                    @Override
-                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
-
-                    }
-                });
     }
 
     public void setRating(String id, int rating) {

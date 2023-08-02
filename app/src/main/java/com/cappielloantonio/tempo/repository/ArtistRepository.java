@@ -135,9 +135,6 @@ public class ArtistRepository {
         return artist;
     }
 
-    /*
-     * Metodo che mi restituisce le informazioni complete dell'artista (bio, immagini prese da last.fm, artisti simili...)
-     */
     public MutableLiveData<ArtistInfo2> getArtistFullInfo(String id) {
         MutableLiveData<ArtistInfo2> artistFullInfo = new MutableLiveData<>(null);
 
@@ -159,40 +156,6 @@ public class ArtistRepository {
                 });
 
         return artistFullInfo;
-    }
-
-    public void star(String id) {
-        App.getSubsonicClientInstance(false)
-                .getMediaAnnotationClient()
-                .star(null, null, id)
-                .enqueue(new Callback<ApiResponse>() {
-                    @Override
-                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
-
-                    }
-                });
-    }
-
-    public void unstar(String id) {
-        App.getSubsonicClientInstance(false)
-                .getMediaAnnotationClient()
-                .unstar(null, null, id)
-                .enqueue(new Callback<ApiResponse>() {
-                    @Override
-                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
-
-                    }
-                });
     }
 
     public void setRating(String id, int rating) {

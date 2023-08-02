@@ -1,5 +1,6 @@
 package com.cappielloantonio.tempo.database;
 
+import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -9,19 +10,21 @@ import com.cappielloantonio.tempo.App;
 import com.cappielloantonio.tempo.database.converter.DateConverters;
 import com.cappielloantonio.tempo.database.dao.ChronologyDao;
 import com.cappielloantonio.tempo.database.dao.DownloadDao;
+import com.cappielloantonio.tempo.database.dao.FavoriteDao;
 import com.cappielloantonio.tempo.database.dao.QueueDao;
 import com.cappielloantonio.tempo.database.dao.RecentSearchDao;
 import com.cappielloantonio.tempo.database.dao.ServerDao;
 import com.cappielloantonio.tempo.model.Chronology;
 import com.cappielloantonio.tempo.model.Download;
+import com.cappielloantonio.tempo.model.Favorite;
 import com.cappielloantonio.tempo.model.Queue;
 import com.cappielloantonio.tempo.model.RecentSearch;
 import com.cappielloantonio.tempo.model.Server;
 
 @Database(
-        version = 1,
-        entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Chronology.class}
-        // autoMigrations = {@AutoMigration(from = 61, to = 62)}
+        version = 2,
+        entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Chronology.class, Favorite.class},
+        autoMigrations = {@AutoMigration(from = 1, to = 2)}
 )
 @TypeConverters({DateConverters.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -47,4 +50,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract DownloadDao downloadDao();
 
     public abstract ChronologyDao chronologyDao();
+
+    public abstract FavoriteDao favoriteDao();
 }

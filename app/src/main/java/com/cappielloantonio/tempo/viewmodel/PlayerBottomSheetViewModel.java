@@ -11,9 +11,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.media3.common.util.UnstableApi;
 
+import com.cappielloantonio.tempo.interfaces.StarCallback;
 import com.cappielloantonio.tempo.model.Download;
 import com.cappielloantonio.tempo.model.Queue;
 import com.cappielloantonio.tempo.repository.ArtistRepository;
+import com.cappielloantonio.tempo.repository.FavoriteRepository;
 import com.cappielloantonio.tempo.repository.QueueRepository;
 import com.cappielloantonio.tempo.repository.SongRepository;
 import com.cappielloantonio.tempo.subsonic.models.ArtistID3;
@@ -22,6 +24,7 @@ import com.cappielloantonio.tempo.subsonic.models.PlayQueue;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.cappielloantonio.tempo.util.MappingUtil;
+import com.cappielloantonio.tempo.util.NetworkUtil;
 import com.cappielloantonio.tempo.util.Preferences;
 
 import java.util.Collections;
@@ -36,6 +39,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     private final SongRepository songRepository;
     private final ArtistRepository artistRepository;
     private final QueueRepository queueRepository;
+    private final FavoriteRepository favoriteRepository;
 
     private final MutableLiveData<String> lyricsLiveData = new MutableLiveData<>(null);
 
@@ -50,6 +54,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         songRepository = new SongRepository();
         artistRepository = new ArtistRepository();
         queueRepository = new QueueRepository();
+        favoriteRepository = new FavoriteRepository();
     }
 
     public LiveData<List<Queue>> getQueueSong() {
@@ -59,19 +64,59 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     public void setFavorite(Context context, Child media) {
         if (media != null) {
             if (media.getStarred() != null) {
-                songRepository.unstar(media.getId());
-                media.setStarred(null);
+                if (NetworkUtil.isOffline()) {
+                    removeFavoriteOffline(media);
+                } else {
+                    removeFavoriteOnline(media);
+                }
             } else {
-                songRepository.star(media.getId());
-                media.setStarred(new Date());
-
-                if (Preferences.isStarredSyncEnabled()) {
-                    DownloadUtil.getDownloadTracker(context).download(
-                            MappingUtil.mapDownload(media),
-                            new Download(media)
-                    );
+                if (NetworkUtil.isOffline()) {
+                    setFavoriteOffline(media);
+                } else {
+                    setFavoriteOnline(context, media);
                 }
             }
+        }
+    }
+
+    private void removeFavoriteOffline(Child media) {
+        favoriteRepository.starLater(media.getId(), null, null, false);
+        media.setStarred(null);
+    }
+
+    private void removeFavoriteOnline(Child media) {
+        favoriteRepository.unstar(media.getId(), null, null, new StarCallback() {
+            @Override
+            public void onError() {
+                // media.setStarred(new Date());
+                favoriteRepository.starLater(media.getId(), null, null, false);
+            }
+        });
+
+        media.setStarred(null);
+    }
+
+    private void setFavoriteOffline(Child media) {
+        favoriteRepository.starLater(media.getId(), null, null, true);
+        media.setStarred(new Date());
+    }
+
+    private void setFavoriteOnline(Context context, Child media) {
+        favoriteRepository.star(media.getId(), null, null, new StarCallback() {
+            @Override
+            public void onError() {
+                // media.setStarred(null);
+                favoriteRepository.starLater(media.getId(), null, null, true);
+            }
+        });
+
+        media.setStarred(new Date());
+
+        if (Preferences.isStarredSyncEnabled()) {
+            DownloadUtil.getDownloadTracker(context).download(
+                    MappingUtil.mapDownload(media),
+                    new Download(media)
+            );
         }
     }
 

@@ -7,11 +7,14 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.cappielloantonio.tempo.interfaces.StarCallback;
 import com.cappielloantonio.tempo.repository.AlbumRepository;
 import com.cappielloantonio.tempo.repository.ArtistRepository;
+import com.cappielloantonio.tempo.repository.FavoriteRepository;
 import com.cappielloantonio.tempo.subsonic.models.AlbumID3;
 import com.cappielloantonio.tempo.subsonic.models.ArtistID3;
 import com.cappielloantonio.tempo.subsonic.models.Child;
+import com.cappielloantonio.tempo.util.NetworkUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -19,6 +22,7 @@ import java.util.List;
 public class AlbumBottomSheetViewModel extends AndroidViewModel {
     private final AlbumRepository albumRepository;
     private final ArtistRepository artistRepository;
+    private final FavoriteRepository favoriteRepository;
 
     private AlbumID3 album;
 
@@ -27,6 +31,7 @@ public class AlbumBottomSheetViewModel extends AndroidViewModel {
 
         albumRepository = new AlbumRepository();
         artistRepository = new ArtistRepository();
+        favoriteRepository = new FavoriteRepository();
     }
 
     public AlbumID3 getAlbum() {
@@ -47,11 +52,51 @@ public class AlbumBottomSheetViewModel extends AndroidViewModel {
 
     public void setFavorite() {
         if (album.getStarred() != null) {
-            artistRepository.unstar(album.getId());
-            album.setStarred(null);
+            if (NetworkUtil.isOffline()) {
+                removeFavoriteOffline();
+            } else {
+                removeFavoriteOnline();
+            }
         } else {
-            artistRepository.star(album.getId());
-            album.setStarred(new Date());
+            if (NetworkUtil.isOffline()) {
+                setFavoriteOffline();
+            } else {
+                setFavoriteOnline();
+            }
         }
+    }
+
+    private void removeFavoriteOffline() {
+        favoriteRepository.starLater(null, album.getId(), null, false);
+        album.setStarred(null);
+    }
+
+    private void removeFavoriteOnline() {
+        favoriteRepository.unstar(null, album.getId(), null, new StarCallback() {
+            @Override
+            public void onError() {
+                // album.setStarred(new Date());
+                favoriteRepository.starLater(null, album.getId(), null, false);
+            }
+        });
+
+        album.setStarred(null);
+    }
+
+    private void setFavoriteOffline() {
+        favoriteRepository.starLater(null, album.getId(), null, true);
+        album.setStarred(new Date());
+    }
+
+    private void setFavoriteOnline() {
+        favoriteRepository.star(null, album.getId(), null, new StarCallback() {
+            @Override
+            public void onError() {
+                // album.setStarred(null);
+                favoriteRepository.starLater(null, album.getId(), null, true);
+            }
+        });
+
+        album.setStarred(new Date());
     }
 }

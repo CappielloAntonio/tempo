@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.media3.common.util.NotificationUtil;
 import androidx.media3.common.util.UnstableApi;
-import androidx.media3.common.util.Util;
 import androidx.media3.exoplayer.offline.Download;
 import androidx.media3.exoplayer.offline.DownloadManager;
 import androidx.media3.exoplayer.offline.DownloadNotificationHelper;
@@ -52,6 +51,8 @@ public class DownloaderService extends androidx.media3.exoplayer.offline.Downloa
     }
 
     private static final class TerminalStateNotificationHelper implements DownloadManager.Listener {
+        private static final String TAG = "TerminalStateNotificatinHelper";
+
         private final Context context;
         private final DownloadNotificationHelper notificationHelper;
 
@@ -68,10 +69,10 @@ public class DownloaderService extends androidx.media3.exoplayer.offline.Downloa
             Notification notification;
 
             if (download.state == Download.STATE_COMPLETED) {
-                notification = notificationHelper.buildDownloadCompletedNotification(context, R.drawable.ic_check_circle, null, Util.fromUtf8Bytes(download.request.data));
+                notification = notificationHelper.buildDownloadCompletedNotification(context, R.drawable.ic_check_circle, null, DownloaderManager.getDownloadNotificationMessage(download.request.id));
                 DownloaderManager.updateDatabase(download.request.id);
             } else if (download.state == Download.STATE_FAILED) {
-                notification = notificationHelper.buildDownloadFailedNotification(context, R.drawable.ic_error, null, Util.fromUtf8Bytes(download.request.data));
+                notification = notificationHelper.buildDownloadFailedNotification(context, R.drawable.ic_error, null, DownloaderManager.getDownloadNotificationMessage(download.request.id));
             } else {
                 return;
             }

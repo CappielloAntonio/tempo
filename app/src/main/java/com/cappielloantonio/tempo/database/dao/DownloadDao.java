@@ -15,6 +15,9 @@ public interface DownloadDao {
     @Query("SELECT * FROM download WHERE download_state = 1 ORDER BY artist, album, track ASC")
     LiveData<List<Download>> getAll();
 
+    @Query("SELECT * FROM download WHERE id = :id")
+    Download getOne(String id);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Download download);
 

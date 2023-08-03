@@ -108,6 +108,11 @@ public class DownloaderManager {
         }
     }
 
+    public static String getDownloadNotificationMessage(String id) {
+        com.cappielloantonio.tempo.model.Download download = getDownloadRepository().getDownload(id);
+        return download != null ? download.getTitle() : null;
+    }
+
     private static DownloadRepository getDownloadRepository() {
         return new DownloadRepository();
     }

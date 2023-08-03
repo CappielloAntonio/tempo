@@ -4,8 +4,11 @@ import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.tempo.database.AppDatabase;
 import com.cappielloantonio.tempo.database.dao.DownloadDao;
+import com.cappielloantonio.tempo.database.dao.FavoriteDao;
 import com.cappielloantonio.tempo.model.Download;
+import com.cappielloantonio.tempo.model.Favorite;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DownloadRepository {
@@ -13,6 +16,43 @@ public class DownloadRepository {
 
     public LiveData<List<Download>> getLiveDownload() {
         return downloadDao.getAll();
+    }
+
+    public Download getDownload(String id) {
+        Download download = null;
+
+        GetDownloadThreadSafe getDownloadThreadSafe = new GetDownloadThreadSafe(downloadDao, id);
+        Thread thread = new Thread(getDownloadThreadSafe);
+        thread.start();
+
+        try {
+            thread.join();
+            download = getDownloadThreadSafe.getDownload();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return download;
+    }
+
+    private static class GetDownloadThreadSafe implements Runnable {
+        private final DownloadDao downloadDao;
+        private final String id;
+        private Download download;
+
+        public GetDownloadThreadSafe(DownloadDao downloadDao, String id) {
+            this.downloadDao = downloadDao;
+            this.id = id;
+        }
+
+        @Override
+        public void run() {
+            download = downloadDao.getOne(id);
+        }
+
+        public Download getDownload() {
+            return download;
+        }
     }
 
     public void insert(Download download) {

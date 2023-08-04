@@ -52,6 +52,11 @@
     <string name="download_info_empty_subtitle">Once you download a song, you\'ll find it here</string>
     <string name="download_info_empty_title">No downloads yet!</string>
     <string name="download_title_section">Downloads</string>
+    <string name="download_storage_internal_dialog_negative_button">Internal</string>
+    <string name="download_storage_external_dialog_positive_button">External</string>
+    <string name="download_storage_dialog_summary">Changing the destination of downloaded files from one storage to another will result in the immediate deletion of any previously downloaded files in the other storage.</string>
+    <string name="download_storage_dialog_sub_summary">For the changes to take effect, restart the app.</string>
+    <string name="download_storage_dialog_title">Select storage option</string>
     <string name="empty_string" />
     <string name="error_required">Required</string>
     <string name="error_server_prefix">http or https prefix required</string>
@@ -180,6 +185,7 @@
     <string name="settings_covers_cache">Size of artwork cache</string>
     <string name="settings_data_saving_mode_summary">In order to reduce data consumption, avoid downloading covers.</string>
     <string name="settings_data_saving_mode_title">Limit mobile data usage</string>
+    <string name="settings_download_storage_title">Download storage</string>
     <string name="settings_equalizer_summary">Adjust audio settings</string>
     <string name="settings_equalizer_title">Equalizer</string>
     <string name="settings_github_link">https://github.com/CappielloAntonio/tempo</string>

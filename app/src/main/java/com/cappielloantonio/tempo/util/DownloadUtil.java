@@ -127,9 +127,19 @@ public final class DownloadUtil {
 
     private static synchronized File getDownloadDirectory(Context context) {
         if (downloadDirectory == null) {
-            downloadDirectory = context.getExternalFilesDir(null);
-            if (downloadDirectory == null) {
-                downloadDirectory = context.getFilesDir();
+            if (Preferences.getDownloadStoragePreference() == 0) {
+                downloadDirectory = context.getExternalFilesDirs(null)[0];
+                if (downloadDirectory == null) {
+                    downloadDirectory = context.getFilesDir();
+                }
+            } else {
+                try {
+                    downloadDirectory = context.getExternalFilesDirs(null)[1];
+                } catch (Exception exception) {
+                    downloadDirectory = context.getExternalFilesDirs(null)[0];
+                    Preferences.setDownloadStoragePreference(0);
+                }
+
             }
         }
 

@@ -21,8 +21,10 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.cappielloantonio.tempo.BuildConfig;
 import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.helper.ThemeHelper;
+import com.cappielloantonio.tempo.interfaces.DialogClickCallback;
 import com.cappielloantonio.tempo.interfaces.ScanCallback;
 import com.cappielloantonio.tempo.ui.activity.MainActivity;
+import com.cappielloantonio.tempo.ui.dialog.DownloadStorageDialog;
 import com.cappielloantonio.tempo.ui.dialog.StarredSyncDialog;
 import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.viewmodel.SettingViewModel;
@@ -73,6 +75,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         checkEqualizer();
 
+        checkStorage();
+
         findPreference("version").setSummary(BuildConfig.VERSION_NAME);
 
         findPreference("logout").setOnPreferenceClickListener(preference -> {
@@ -103,6 +107,22 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     dialog.show(activity.getSupportFragmentManager(), null);
                 }
             }
+            return true;
+        });
+
+        findPreference("download_storage").setOnPreferenceClickListener(preference -> {
+            DownloadStorageDialog dialog = new DownloadStorageDialog(new DialogClickCallback() {
+                @Override
+                public void onPositiveClick() {
+                    findPreference("download_storage").setSummary(R.string.download_storage_external_dialog_positive_button);
+                }
+
+                @Override
+                public void onNegativeClick() {
+                    findPreference("download_storage").setSummary(R.string.download_storage_internal_dialog_negative_button);
+                }
+            });
+            dialog.show(activity.getSupportFragmentManager(), null);
             return true;
         });
     }
@@ -141,6 +161,22 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             });
         } else {
             equalizer.setVisible(false);
+        }
+    }
+
+    private void checkStorage() {
+        Preference storage = findPreference("download_storage");
+
+        if (storage == null) return;
+
+        try {
+            if (requireContext().getExternalFilesDirs(null)[1] == null) {
+                storage.setVisible(false);
+            } else {
+                storage.setSummary(Preferences.getDownloadStoragePreference() == 0 ? R.string.download_storage_internal_dialog_negative_button : R.string.download_storage_external_dialog_positive_button);
+            }
+        } catch (Exception exception) {
+            storage.setVisible(false);
         }
     }
 

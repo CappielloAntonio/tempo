@@ -89,12 +89,18 @@ public class DownloaderManager {
 
     public void remove(MediaItem mediaItem, com.cappielloantonio.tempo.model.Download download) {
         DownloadService.sendRemoveDownload(context, DownloaderService.class, buildDownloadRequest(mediaItem).id, false);
+        deleteDatabase(download.getId());
     }
 
     public void remove(List<MediaItem> mediaItems, List<com.cappielloantonio.tempo.model.Download> downloads) {
         for (int counter = 0; counter < mediaItems.size(); counter++) {
             remove(mediaItems.get(counter), downloads.get(counter));
         }
+    }
+
+    public void removeAll() {
+        DownloadService.sendRemoveAllDownloads(context, DownloaderService.class, false);
+        deleteAllDatabase();
     }
 
     private void loadDownloads() {
@@ -123,6 +129,10 @@ public class DownloaderManager {
 
     public static void deleteDatabase(String id) {
         getDownloadRepository().delete(id);
+    }
+
+    public static void deleteAllDatabase() {
+        getDownloadRepository().deleteAll();
     }
 
     public static void updateDatabase(String id) {

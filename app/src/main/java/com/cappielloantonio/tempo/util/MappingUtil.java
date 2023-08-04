@@ -54,8 +54,8 @@ public class MappingUtil {
         bundle.putBoolean("isVideo", media.isVideo());
         bundle.putInt("userRating", media.getUserRating() != null ? media.getUserRating() : 0);
         bundle.putDouble("averageRating", media.getAverageRating() != null ? media.getAverageRating() : 0);
-        bundle.putLong("playCount", media.getPlayCount() != null ? media.getTrack() : 0);
-        bundle.putInt("discNumber", media.getDiscNumber() != null ? media.getTrack() : 0);
+        bundle.putLong("playCount", media.getPlayCount() != null ? media.getPlayCount() : 0);
+        bundle.putInt("discNumber", media.getDiscNumber() != null ? media.getDiscNumber() : 0);
         bundle.putLong("created", media.getCreated() != null ? media.getCreated().getTime() : 0);
         bundle.putLong("starred", media.getStarred() != null ? media.getStarred().getTime() : 0);
         bundle.putString("albumId", media.getAlbumId());

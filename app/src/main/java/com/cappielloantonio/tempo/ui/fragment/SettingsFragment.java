@@ -24,6 +24,7 @@ import com.cappielloantonio.tempo.helper.ThemeHelper;
 import com.cappielloantonio.tempo.interfaces.DialogClickCallback;
 import com.cappielloantonio.tempo.interfaces.ScanCallback;
 import com.cappielloantonio.tempo.ui.activity.MainActivity;
+import com.cappielloantonio.tempo.ui.dialog.DeleteDownloadStorageDialog;
 import com.cappielloantonio.tempo.ui.dialog.DownloadStorageDialog;
 import com.cappielloantonio.tempo.ui.dialog.StarredSyncDialog;
 import com.cappielloantonio.tempo.util.Preferences;
@@ -122,6 +123,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     findPreference("download_storage").setSummary(R.string.download_storage_internal_dialog_negative_button);
                 }
             });
+            dialog.show(activity.getSupportFragmentManager(), null);
+            return true;
+        });
+
+        findPreference("delete_download_storage").setOnPreferenceClickListener(preference -> {
+            DeleteDownloadStorageDialog dialog = new DeleteDownloadStorageDialog();
             dialog.show(activity.getSupportFragmentManager(), null);
             return true;
         });

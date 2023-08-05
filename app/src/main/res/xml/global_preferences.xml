@@ -99,6 +99,11 @@
         <Preference
             android:key="download_storage"
             app:title="@string/settings_download_storage_title" />
+
+        <Preference
+            android:key="delete_download_storage"
+            app:title="@string/settings_delete_download_storage_title"
+            app:summary="@string/settings_delete_download_storage_summary"/>
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_title_transcoding">

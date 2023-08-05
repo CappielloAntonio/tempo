@@ -178,8 +178,8 @@ public class MappingUtil {
         bundle.putBoolean("isVideo", podcastEpisode.isVideo());
         bundle.putInt("userRating", podcastEpisode.getUserRating() != null ? podcastEpisode.getUserRating() : 0);
         bundle.putDouble("averageRating", podcastEpisode.getAverageRating() != null ? podcastEpisode.getAverageRating() : 0);
-        bundle.putLong("playCount", podcastEpisode.getPlayCount() != null ? podcastEpisode.getTrack() : 0);
-        bundle.putInt("discNumber", podcastEpisode.getDiscNumber() != null ? podcastEpisode.getTrack() : 0);
+        bundle.putLong("playCount", podcastEpisode.getPlayCount() != null ? podcastEpisode.getPlayCount() : 0);
+        bundle.putInt("discNumber", podcastEpisode.getDiscNumber() != null ? podcastEpisode.getDiscNumber() : 0);
         bundle.putLong("created", podcastEpisode.getCreated() != null ? podcastEpisode.getCreated().getTime() : 0);
         bundle.putLong("starred", podcastEpisode.getStarred() != null ? podcastEpisode.getStarred().getTime() : 0);
         bundle.putString("albumId", podcastEpisode.getAlbumId());

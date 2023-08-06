@@ -39,7 +39,7 @@
     <string name="artist_page_radio_button">Radio</string>
     <string name="artist_page_shuffle_button">Mischen</string>
     <string name="artist_page_title_album_more_like_this_button">Ähnliches</string>
-    <string name="artist_page_title_album_section">Albumen</string>
+    <string name="artist_page_title_album_section">Alben</string>
     <string name="artist_page_title_biography_more_button">Mehr</string>
     <string name="artist_page_title_biography_section">Biographie</string>
     <string name="artist_page_title_most_streamed_song_section">Oft gestreamte Tracks</string>
@@ -257,6 +257,8 @@
     <string name="undraw_page">unDraw</string>
     <string name="undraw_thanks">Besonders möchten wir uns bei unDraw bedanken, durch deren Illustrationen wir diese App so schön machen konnten.</string>
     <string name="home_title_radio_station">Radio Stationen</string>
+    <string name="home_title_last_week">Letzte Woche</string>
+    <string name="home_title_top_songs">Deine Top Songs</string>
     <string name="home_title_new_releases">Neue Releases</string>
     <string name="home_title_best_of">Best Of</string>
     <string name="home_subtitle_best_of">Top Tracks Deiner Lieblingskünstler</string>

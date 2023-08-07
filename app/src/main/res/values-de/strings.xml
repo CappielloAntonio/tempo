@@ -189,6 +189,9 @@
     <string name="settings_covers_cache">Größe des Artwork Caches</string>
     <string name="settings_data_saving_mode_summary">Um das Datenvolumen zu begrenzen werden keine Cover heruntergeladen.</string>
     <string name="settings_data_saving_mode_title">Mobile Datennutzung begrenzen</string>
+    <string name="settings_delete_download_storage_title">Gespeicherte Inhalte löschen</string>
+    <string name="settings_delete_download_storage_summary">Wenn Du weitermachst werden alle gespeicherten Inhalte unwiderruflich gelöscht.</string>
+    <string name="settings_download_storage_title">Download storage</string>
     <string name="settings_equalizer_summary">Audio Einstellungen anpassen</string>
     <string name="settings_equalizer_title">Equalizer</string>
     <string name="settings_github_link">https://github.com/CappielloAntonio/tempo</string>
@@ -225,7 +228,7 @@
     <string name="settings_title_replay_gain">Replay Gain</string>
     <string name="settings_title_syncing">Sychronisierung</string>
     <string name="settings_title_transcoding">Transkodierung</string>
-    <string name="settings_title_ui">UI</string>
+    <string name="settings_title_ui">Benutzeroberfläche</string>
     <string name="settings_version_title">Version</string>
     <string name="settings_wifi_only_title">Warnung bei Streamen ohne Wi-Fi</string>
     <string name="settings_wifi_only_summary">Um Erlaubnis fragen bevor über das mobile Netzwerk gestreamed wird.</string>

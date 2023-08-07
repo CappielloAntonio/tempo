@@ -42,13 +42,21 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         return new ViewHolder(view);
     }
 
+    private String getTrackNumber(Child song) {
+        if (song.getTrack() != null) {
+            return String.valueOf(song.getTrack());
+        } else {
+            return "";
+        }
+    }
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Child song = songs.get(position);
 
         holder.item.searchResultSongTitleTextView.setText(MusicUtil.getReadableString(song.getTitle()));
         holder.item.searchResultSongSubtitleTextView.setText(holder.itemView.getContext().getString(R.string.song_subtitle_formatter, MusicUtil.getReadableString(song.getArtist()), MusicUtil.getReadableDurationString(song.getDuration() != null ? song.getDuration() : 0, false)));
-        holder.item.trackNumberTextView.setText(String.valueOf(song.getTrack()));
+        holder.item.trackNumberTextView.setText(getTrackNumber(song));
 
         if (DownloadUtil.getDownloadTracker(holder.itemView.getContext()).isDownloaded(song.getId())) {
             holder.item.searchResultDowanloadIndicatorImageView.setVisibility(View.VISIBLE);

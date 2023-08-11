@@ -9,6 +9,7 @@ import android.text.Html;
 import android.util.Log;
 
 import com.cappielloantonio.tempo.App;
+import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.subsonic.models.Child;
 
 import java.util.ArrayList;
@@ -120,6 +121,14 @@ public class MusicUtil {
         }
 
         return "";
+    }
+
+    public static String getReadableTrackNumber(Context context, Integer trackNumber) {
+        if (trackNumber != null) {
+            return String.valueOf(trackNumber);
+        }
+
+        return context.getString(R.string.label_placeholder);
     }
 
     public static String forceReadableString(String string) {

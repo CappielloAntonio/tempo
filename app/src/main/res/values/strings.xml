@@ -263,6 +263,8 @@
     <string name="undraw_page">unDraw</string>
     <string name="undraw_thanks">A special thanks goes to unDraw without whose illustrations we could not have made this application more beautiful.</string>
     <string name="home_title_radio_station">Radio stations</string>
+    <string name="home_title_last_week">Last week</string>
+    <string name="home_title_top_songs">Your top songs</string>
     <string name="home_title_new_releases">New releases</string>
     <string name="home_title_best_of">Best of</string>
     <string name="home_subtitle_best_of">Top songs of your favorite artists</string>

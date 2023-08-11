@@ -53,3 +53,9 @@ class Download(@PrimaryKey override val id: String) : Child(id) {
         originalHeight = child.originalHeight
     }
 }
+
+@Keep
+data class DownloadStack(
+    var id: String,
+    var view: String?
+)

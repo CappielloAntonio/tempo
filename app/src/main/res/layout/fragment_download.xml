@@ -62,45 +62,67 @@
         android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
-            android:id="@+id/download_linear_layout_container"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/download_downloaded_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="16dp"
             android:paddingBottom="@dimen/global_padding_bottom">
 
-            <!-- Downloaded tracks -->
-            <LinearLayout
-                android:id="@+id/download_downloaded_tracks_sector"
+            <TextView
+                android:id="@+id/downloaded_text_view_refreshable"
+                style="@style/TitleLarge"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/download_title_section"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintEnd_toStartOf="@+id/downloaded_go_back_image_view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/downloaded_go_back_image_view"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginHorizontal="12dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_arrow_back"
+                app:layout_constraintBottom_toBottomOf="@+id/downloaded_text_view_refreshable"
+                app:layout_constraintEnd_toStartOf="@id/downloaded_group_by_image_view"
+                app:layout_constraintTop_toTopOf="@+id/downloaded_text_view_refreshable" />
+
+            <ImageView
+                android:id="@+id/downloaded_group_by_image_view"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_filter_list"
+                app:layout_constraintBottom_toBottomOf="@+id/downloaded_text_view_refreshable"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/downloaded_text_view_refreshable" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/downloaded_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/downloaded_tracks_text_view_refreshable"
-                    style="@style/TitleLarge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:paddingStart="16dp"
-                    android:paddingTop="16dp"
-                    android:paddingEnd="16dp"
-                    android:text="@string/download_title_section" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/downloaded_tracks_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:nestedScrollingEnabled="false"
-                    android:paddingBottom="8dp" />
-            </LinearLayout>
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:paddingBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/downloaded_text_view_refreshable" />
 
             <include
-                android:id="@+id/download_downloaded_tracks_placeholder"
+                android:id="@+id/download_downloaded_placeholder"
                 layout="@layout/item_placeholder_horizontal"
-                android:visibility="gone" />
-        </LinearLayout>
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/downloaded_text_view_refreshable" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

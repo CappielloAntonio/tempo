@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,8 +20,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.databinding.FragmentDownloadBinding;
 import com.cappielloantonio.tempo.interfaces.ClickCallback;
+import com.cappielloantonio.tempo.model.DownloadStack;
 import com.cappielloantonio.tempo.service.MediaManager;
 import com.cappielloantonio.tempo.service.MediaService;
+import com.cappielloantonio.tempo.subsonic.models.Child;
 import com.cappielloantonio.tempo.ui.activity.MainActivity;
 import com.cappielloantonio.tempo.ui.adapter.DownloadHorizontalAdapter;
 import com.cappielloantonio.tempo.util.Constants;
@@ -28,6 +31,7 @@ import com.cappielloantonio.tempo.viewmodel.DownloadViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.common.util.concurrent.ListenableFuture;
 
+import java.util.List;
 import java.util.Objects;
 
 @UnstableApi
@@ -59,7 +63,7 @@ public class DownloadFragment extends Fragment implements ClickCallback {
         super.onViewCreated(view, savedInstanceState);
 
         initAppBar();
-        initDownloadedSongView();
+        initDownloadedView();
     }
 
     @Override
@@ -90,11 +94,12 @@ public class DownloadFragment extends Fragment implements ClickCallback {
         Objects.requireNonNull(materialToolbar.getOverflowIcon()).setTint(requireContext().getResources().getColor(R.color.titleTextColor, null));
     }
 
-    private void initDownloadedSongView() {
-        bind.downloadedTracksRecyclerView.setHasFixedSize(true);
+    private void initDownloadedView() {
+        bind.downloadedRecyclerView.setHasFixedSize(true);
 
         downloadHorizontalAdapter = new DownloadHorizontalAdapter(this);
-        bind.downloadedTracksRecyclerView.setAdapter(downloadHorizontalAdapter);
+        bind.downloadedRecyclerView.setAdapter(downloadHorizontalAdapter);
+
         downloadViewModel.getDownloadedTracks(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
             if (songs != null) {
                 if (songs.isEmpty()) {
@@ -102,26 +107,87 @@ public class DownloadFragment extends Fragment implements ClickCallback {
                         bind.emptyDownloadLayout.setVisibility(View.VISIBLE);
                         bind.fragmentDownloadNestedScrollView.setVisibility(View.GONE);
 
-                        bind.downloadDownloadedTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
-                        bind.downloadDownloadedTracksSector.setVisibility(View.GONE);
+                        bind.downloadDownloadedPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                        bind.downloadDownloadedSector.setVisibility(View.GONE);
+
+                        bind.downloadedGroupByImageView.setVisibility(View.GONE);
                     }
                 } else {
                     if (bind != null) {
                         bind.emptyDownloadLayout.setVisibility(View.GONE);
                         bind.fragmentDownloadNestedScrollView.setVisibility(View.VISIBLE);
 
-                        bind.downloadDownloadedTracksPlaceholder.placeholder.setVisibility(View.GONE);
-                        bind.downloadDownloadedTracksSector.setVisibility(View.VISIBLE);
+                        bind.downloadDownloadedPlaceholder.placeholder.setVisibility(View.GONE);
+                        bind.downloadDownloadedSector.setVisibility(View.VISIBLE);
 
-                        bind.downloadedTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+                        bind.downloadedGroupByImageView.setVisibility(View.VISIBLE);
 
-                        downloadHorizontalAdapter.setItems(songs);
+                        finishDownloadView(songs);
                     }
                 }
 
                 if (bind != null) bind.loadingProgressBar.setVisibility(View.GONE);
             }
         });
+
+        bind.downloadedGroupByImageView.setOnClickListener(view -> showPopupMenu(view, R.menu.download_popup_menu));
+        bind.downloadedGoBackImageView.setOnClickListener(view -> downloadViewModel.popViewStack());
+    }
+
+    private void finishDownloadView(List<Child> songs) {
+        downloadViewModel.getViewStack().observe(getViewLifecycleOwner(), stack -> {
+            bind.downloadedRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+            DownloadStack lastLevel = stack.get(stack.size() - 1);
+
+            switch (lastLevel.getId()) {
+                case Constants.DOWNLOAD_TYPE_TRACK:
+                    downloadHorizontalAdapter.setItems(Constants.DOWNLOAD_TYPE_TRACK, lastLevel.getId(), lastLevel.getView(), songs);
+                    break;
+                case Constants.DOWNLOAD_TYPE_ALBUM:
+                    downloadHorizontalAdapter.setItems(Constants.DOWNLOAD_TYPE_TRACK, lastLevel.getId(), lastLevel.getView(), songs);
+                    break;
+                case Constants.DOWNLOAD_TYPE_ARTIST:
+                    downloadHorizontalAdapter.setItems(Constants.DOWNLOAD_TYPE_ALBUM, lastLevel.getId(), lastLevel.getView(), songs);
+                    break;
+                case Constants.DOWNLOAD_TYPE_GENRE:
+                    downloadHorizontalAdapter.setItems(Constants.DOWNLOAD_TYPE_TRACK, lastLevel.getId(), lastLevel.getView(), songs);
+                    break;
+                case Constants.DOWNLOAD_TYPE_YEAR:
+                    downloadHorizontalAdapter.setItems(Constants.DOWNLOAD_TYPE_TRACK, lastLevel.getId(), lastLevel.getView(), songs);
+                    break;
+            }
+
+            bind.downloadedGoBackImageView.setVisibility(stack.size() > 1 ? View.VISIBLE : View.GONE);
+        });
+    }
+
+    private void showPopupMenu(View view, int menuResource) {
+        PopupMenu popup = new PopupMenu(requireContext(), view);
+        popup.getMenuInflater().inflate(menuResource, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.menu_download_group_by_track) {
+                downloadViewModel.initViewStack(new DownloadStack(Constants.DOWNLOAD_TYPE_TRACK, null));
+                return true;
+            } else if (menuItem.getItemId() == R.id.menu_download_group_by_album) {
+                downloadViewModel.initViewStack(new DownloadStack(Constants.DOWNLOAD_TYPE_ALBUM, null));
+                return true;
+            } else if (menuItem.getItemId() == R.id.menu_download_group_by_artist) {
+                downloadViewModel.initViewStack(new DownloadStack(Constants.DOWNLOAD_TYPE_ARTIST, null));
+                return true;
+            } else if (menuItem.getItemId() == R.id.menu_download_group_by_genre) {
+                downloadViewModel.initViewStack(new DownloadStack(Constants.DOWNLOAD_TYPE_GENRE, null));
+                return true;
+            } else if (menuItem.getItemId() == R.id.menu_download_group_by_year) {
+                downloadViewModel.initViewStack(new DownloadStack(Constants.DOWNLOAD_TYPE_YEAR, null));
+                return true;
+            }
+
+            return false;
+        });
+
+        popup.show();
     }
 
     private void initializeMediaBrowser() {
@@ -130,6 +196,26 @@ public class DownloadFragment extends Fragment implements ClickCallback {
 
     private void releaseMediaBrowser() {
         MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
+    }
+
+    @Override
+    public void onYearClick(Bundle bundle) {
+        downloadViewModel.pushViewStack(new DownloadStack(Constants.DOWNLOAD_TYPE_YEAR, bundle.getString(Constants.DOWNLOAD_TYPE_YEAR)));
+    }
+
+    @Override
+    public void onGenreClick(Bundle bundle) {
+        downloadViewModel.pushViewStack(new DownloadStack(Constants.DOWNLOAD_TYPE_GENRE, bundle.getString(Constants.DOWNLOAD_TYPE_GENRE)));
+    }
+
+    @Override
+    public void onArtistClick(Bundle bundle) {
+        downloadViewModel.pushViewStack(new DownloadStack(Constants.DOWNLOAD_TYPE_ARTIST, bundle.getString(Constants.DOWNLOAD_TYPE_ARTIST)));
+    }
+
+    @Override
+    public void onAlbumClick(Bundle bundle) {
+        downloadViewModel.pushViewStack(new DownloadStack(Constants.DOWNLOAD_TYPE_ALBUM, bundle.getString(Constants.DOWNLOAD_TYPE_ALBUM)));
     }
 
     @Override

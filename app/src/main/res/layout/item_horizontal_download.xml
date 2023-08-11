@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipChildren="false"
-    android:orientation="horizontal"
-    android:paddingStart="16dp">
+    android:orientation="horizontal">
 
     <LinearLayout
         android:id="@+id/divider"
@@ -17,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/downloaded_song_album_text_view"
+            android:id="@+id/downloaded_item_pre_text_view"
             style="@style/LabelExtraSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,8 +27,20 @@
             android:layout_gravity="center_vertical" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/item_cover_image_view"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintEnd_toStartOf="@id/downloaded_item_title_text_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
     <TextView
-        android:id="@+id/downloaded_song_title_text_view"
+        android:id="@+id/downloaded_item_title_text_view"
         style="@style/LabelMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -37,12 +48,14 @@
         android:paddingEnd="12dp"
         android:singleLine="true"
         android:text="@string/label_placeholder"
-        app:layout_constraintEnd_toStartOf="@+id/downloaded_song_more_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintEnd_toStartOf="@+id/downloaded_item_more_button"
+        app:layout_constraintStart_toEndOf="@+id/item_cover_image_view"
+        app:layout_constraintTop_toTopOf="@+id/item_cover_image_view"
+        app:layout_constraintBottom_toTopOf="@id/downloaded_item_subtitle_text_view"/>
 
     <TextView
-        android:id="@+id/downloaded_song_artist_text_view"
+        android:id="@+id/downloaded_item_subtitle_text_view"
         style="@style/LabelSmall"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -51,16 +64,15 @@
         android:paddingBottom="6dp"
         android:singleLine="true"
         android:text="@string/label_placeholder"
-        app:layout_constraintEnd_toStartOf="@+id/downloaded_song_more_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/downloaded_song_title_text_view" />
+        app:layout_constraintTop_toBottomOf="@id/downloaded_item_title_text_view"
+        app:layout_constraintEnd_toStartOf="@+id/downloaded_item_more_button"
+        app:layout_constraintStart_toStartOf="@+id/downloaded_item_title_text_view"
+        app:layout_constraintBottom_toBottomOf="@+id/item_cover_image_view" />
 
     <ImageView
-        android:id="@+id/downloaded_song_more_button"
+        android:id="@+id/downloaded_item_more_button"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_marginHorizontal="12dp"
-        android:layout_marginTop="10dp"
         android:background="@drawable/ic_more_vert"
         android:foreground="?android:attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"

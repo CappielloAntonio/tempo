@@ -55,6 +55,8 @@
     <string name="delete_download_storage_dialog_title">Delete saved items</string>
     <string name="download_info_empty_subtitle">Once you download a song, you\'ll find it here</string>
     <string name="download_info_empty_title">No downloads yet!</string>
+    <string name="download_item_multiple_subtitle_formatter">%1$s  •  %2$s items</string>
+    <string name="download_item_single_subtitle_formatter">%1$s items</string>
     <string name="download_title_section">Downloads</string>
     <string name="download_storage_internal_dialog_negative_button">Internal</string>
     <string name="download_storage_external_dialog_positive_button">External</string>
@@ -280,4 +282,9 @@
     <string name="description_empty_title">No description available</string>
     <string name="menu_filter_download">Downloaded</string>
     <string name="menu_filter_all">All</string>
+    <string name="menu_group_by_track">Track</string>
+    <string name="menu_group_by_album">Album</string>
+    <string name="menu_group_by_artist">Artist</string>
+    <string name="menu_group_by_genre">Genre</string>
+    <string name="menu_group_by_year">Year</string>
 </resources>

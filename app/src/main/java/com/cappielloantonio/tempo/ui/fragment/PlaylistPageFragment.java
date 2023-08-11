@@ -162,7 +162,7 @@ public class PlaylistPageFragment extends Fragment implements ClickCallback {
 
     private void initBackCover() {
         playlistPageViewModel.getPlaylistSongLiveList().observe(requireActivity(), songs -> {
-            if (bind != null) {
+            if (bind != null && songs != null && !songs.isEmpty()) {
                 Collections.shuffle(songs);
 
                 // Pic top-left

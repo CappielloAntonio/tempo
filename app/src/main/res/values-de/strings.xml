@@ -203,7 +203,7 @@
     <string name="settings_max_bitrate_mobile">Bitrate bei mobiler Nutzung</string>
     <string name="settings_media_cache">Größe des Medienfile Caches</string>
     <string name="settings_music_directory">Zeige Musikverzeichnisse</string>
-    <string name="settings_music_directory_summary">Zeige den Bereich für Musikverzeichnisse. Der Server das Feature unterstützen.</string>
+    <string name="settings_music_directory_summary">Zeige den Bereich für Musikverzeichnisse. Der Server muss das Feature unterstützen.</string>
     <string name="settings_queue_syncing_title">Warteschlange für diesen User synchronisieren</string>
     <string name="settings_queue_syncing_countdown">Timer synchronisieren</string>
     <string name="settings_queue_syncing_summary">Der Benutzer kann seine Warteschlange speichern und beim Neustart der Anwendung wiederherstellen.</string>

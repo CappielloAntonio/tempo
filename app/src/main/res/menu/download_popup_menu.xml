@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_download_group_by_track"
+        android:title="@string/menu_group_by_track" />
+    <item
+        android:id="@+id/menu_download_group_by_album"
+        android:title="@string/menu_group_by_album" />
+    <item
+        android:id="@+id/menu_download_group_by_artist"
+        android:title="@string/menu_group_by_artist" />
+    <item
+        android:id="@+id/menu_download_group_by_genre"
+        android:title="@string/menu_group_by_genre" />
+
+    <item
+        android:id="@+id/menu_download_group_by_year"
+        android:title="@string/menu_group_by_year" />
+</menu>

@@ -1,0 +1,14 @@
+Tempo is an open-source and lightweight music client for Subsonic, designed and built natively for Android. It provides a seamless and intuitive music streaming experience, allowing you to access and play your Subsonic music library directly from your Android device.
+
+Features
+
+- Subsonic Integration: Tempo seamlessly integrates with your Subsonic server, providing you with easy access to your entire music collection on the go.
+- Sleek and Intuitive UI: Enjoy a clean and user-friendly interface designed to enhance your music listening experience, tailored to your preferences and listening history.
+- Browse and Search: Easily navigate through your music library using various browsing and searching options, including artists, albums, genres, playlists, decades and more.
+- Streaming and Offline Mode: Stream music directly from your Subsonic server. Offline mode is currently under active development and may have limitations when using multiple servers.
+- Playlist Management: Create, edit, and manage playlists to curate your perfect music collection.
+- Gapless Playback: Experience uninterrupted playback with gapless listening mode.
+- Chromecast Support: Stream your music to Chromecast devices. The support is currently in a rudimentary state.
+- Scrobbling Integration: Optionally integrate Tempo with Last.fm to scrobble your played tracks, gather music insights, and further personalize your music recommendations, if supported by your Subsonic server.
+- Podcasts and Radio: If your Subsonic server supports it, listen to podcasts and radio shows directly within Tempo, expanding your audio entertainment options.
+- Transcoding Support: Activate transcoding of tracks on your Subsonic server, allowing you to set a transcoding profile for optimized streaming directly from the app. This feature requires support from your Subsonic server.

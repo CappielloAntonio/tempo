@@ -12,6 +12,7 @@ import com.cappielloantonio.tempo.model.DownloadStack;
 import com.cappielloantonio.tempo.repository.DownloadRepository;
 import com.cappielloantonio.tempo.subsonic.models.Child;
 import com.cappielloantonio.tempo.util.Constants;
+import com.cappielloantonio.tempo.util.Preferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class DownloadViewModel extends AndroidViewModel {
 
         downloadRepository = new DownloadRepository();
 
-        initViewStack(new DownloadStack(Constants.DOWNLOAD_TYPE_TRACK, null));
+        initViewStack(new DownloadStack(Preferences.getDefaultDownloadViewType(), null));
     }
 
     public LiveData<List<Child>> getDownloadedTracks(LifecycleOwner owner) {

@@ -34,6 +34,7 @@ object Preferences {
     private const val REPLAY_GAIN_MODE = "replay_gain_mode"
     private const val AUDIO_TRANSCODE_PRIORITY = "audio_transcode_priority"
     private const val DOWNLOAD_STORAGE = "download_storage"
+    private const val DEFAULT_DOWNLOAD_VIEW_TYPE = "default_download_view_type"
 
     @JvmStatic
     fun getServer(): String? {
@@ -270,6 +271,22 @@ object Preferences {
         return App.getInstance().preferences.edit().putString(
             DOWNLOAD_STORAGE,
             storagePreference.toString()
+        ).apply()
+    }
+
+    @JvmStatic
+    fun getDefaultDownloadViewType(): String {
+        return App.getInstance().preferences.getString(
+            DEFAULT_DOWNLOAD_VIEW_TYPE,
+            Constants.DOWNLOAD_TYPE_TRACK
+        )!!
+    }
+
+    @JvmStatic
+    fun setDefaultDownloadViewType(viewType: String) {
+        return App.getInstance().preferences.edit().putString(
+            DEFAULT_DOWNLOAD_VIEW_TYPE,
+            viewType
         ).apply()
     }
 }

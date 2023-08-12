@@ -27,6 +27,7 @@ import com.cappielloantonio.tempo.subsonic.models.Child;
 import com.cappielloantonio.tempo.ui.activity.MainActivity;
 import com.cappielloantonio.tempo.ui.adapter.DownloadHorizontalAdapter;
 import com.cappielloantonio.tempo.util.Constants;
+import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.viewmodel.DownloadViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -169,18 +170,23 @@ public class DownloadFragment extends Fragment implements ClickCallback {
         popup.setOnMenuItemClickListener(menuItem -> {
             if (menuItem.getItemId() == R.id.menu_download_group_by_track) {
                 downloadViewModel.initViewStack(new DownloadStack(Constants.DOWNLOAD_TYPE_TRACK, null));
+                Preferences.setDefaultDownloadViewType(Constants.DOWNLOAD_TYPE_TRACK);
                 return true;
             } else if (menuItem.getItemId() == R.id.menu_download_group_by_album) {
                 downloadViewModel.initViewStack(new DownloadStack(Constants.DOWNLOAD_TYPE_ALBUM, null));
+                Preferences.setDefaultDownloadViewType(Constants.DOWNLOAD_TYPE_ALBUM);
                 return true;
             } else if (menuItem.getItemId() == R.id.menu_download_group_by_artist) {
                 downloadViewModel.initViewStack(new DownloadStack(Constants.DOWNLOAD_TYPE_ARTIST, null));
+                Preferences.setDefaultDownloadViewType(Constants.DOWNLOAD_TYPE_ARTIST);
                 return true;
             } else if (menuItem.getItemId() == R.id.menu_download_group_by_genre) {
                 downloadViewModel.initViewStack(new DownloadStack(Constants.DOWNLOAD_TYPE_GENRE, null));
+                Preferences.setDefaultDownloadViewType(Constants.DOWNLOAD_TYPE_GENRE);
                 return true;
             } else if (menuItem.getItemId() == R.id.menu_download_group_by_year) {
                 downloadViewModel.initViewStack(new DownloadStack(Constants.DOWNLOAD_TYPE_YEAR, null));
+                Preferences.setDefaultDownloadViewType(Constants.DOWNLOAD_TYPE_YEAR);
                 return true;
             }
 

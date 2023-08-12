@@ -38,10 +38,11 @@
                     android:paddingStart="16dp"
                     android:paddingTop="16dp"
                     android:paddingEnd="16dp"
-                    android:paddingBottom="24dp"
+                    android:paddingBottom="16dp"
+                    android:layout_marginBottom="8dp"
                     android:text="@string/label_placeholder"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/directory_back_image_view"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <Button
@@ -50,16 +51,15 @@
                     android:layout_width="52dp"
                     android:layout_height="52dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="12dp"
                     android:insetLeft="0dp"
                     android:insetTop="0dp"
                     android:insetRight="0dp"
                     android:insetBottom="0dp"
                     app:cornerRadius="30dp"
                     app:icon="@drawable/ic_arrow_back"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/directory_title_label"
+                    app:layout_constraintBottom_toBottomOf="@+id/directory_title_label"
                     app:layout_constraintEnd_toEndOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.AppBarLayout>

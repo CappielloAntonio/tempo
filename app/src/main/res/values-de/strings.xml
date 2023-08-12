@@ -55,6 +55,8 @@
     <string name="delete_download_storage_dialog_title">Heruntergeladene Inhalte löschen</string>
     <string name="download_info_empty_subtitle">Wenn Du einen Track heruntergeladen hast findest Du ihn hier</string>
     <string name="download_info_empty_title">Bisher keine Downloads!</string>
+    <string name="download_item_multiple_subtitle_formatter">%1$s  •  %2$s items</string>
+    <string name="download_item_single_subtitle_formatter">%1$s items</string>
     <string name="download_title_section">Downloads</string>
     <string name="download_storage_internal_dialog_negative_button">Intern</string>
     <string name="download_storage_external_dialog_positive_button">Extern</string>
@@ -95,8 +97,6 @@
     <string name="home_title_starred_tracks_see_all_button">Alle zeigen</string>
     <string name="home_title_internet_radio_station">Internet Radios</string>
     <string name="home_title_podcast_channels_see_all_button">Alle zeigen</string>
-    <string name="label_dot_separator">•</string>
-    <string name="label_placeholder">--</string>
     <string name="library_title_music_folder">Sammlung</string>
     <string name="library_title_album">Alben</string>
     <string name="library_title_album_see_all_button">Alle zeigen</string>
@@ -181,7 +181,7 @@
     <string name="server_unreachable_dialog_summary">Der angefragte Server ist nicht erreichbar. Wenn Du trotzdem weitermachst, wird dieser Dialog für eine Stunden nicht wieder erscheinen.</string>
     <string name="settings_about_summary">Tempo ist ein nativ für Android entwickelter, leichtgewichtiger Open-Source Client für Subsonic.</string>
     <string name="settings_about_title">Über</string>
-    <string name="settings_audio_transcode_priority_summary">If enabled, Tempo will not force stream the track with the transcode settings below.</string>
+    <string name="settings_audio_transcode_priority_summary">Diese Option deaktiviert die weiter unten folgenden Transkodierungseinstellungen.</string>
     <string name="settings_audio_transcode_priority_title">Transkodierungseinstellungen des Servers bevorzugen</string>
     <string name="settings_audio_transcode_priority_toast">Servereinstellungen zur Transkodierung des Tracks werden bevorzugt</string>
     <string name="settings_audio_transcode_format_mobile">Transkodierungsformat im mobilen Netz</string>
@@ -203,7 +203,7 @@
     <string name="settings_max_bitrate_mobile">Bitrate bei mobiler Nutzung</string>
     <string name="settings_media_cache">Größe des Medienfile Caches</string>
     <string name="settings_music_directory">Zeige Musikverzeichnisse</string>
-    <string name="settings_music_directory_summary">Zeige den Bereich für Musikverzeichnisse. Der Server das Feature unterstützen.</string>
+    <string name="settings_music_directory_summary">Zeige den Bereich für Musikverzeichnisse. Der Server muss das Feature unterstützen.</string>
     <string name="settings_queue_syncing_title">Warteschlange für diesen User synchronisieren</string>
     <string name="settings_queue_syncing_countdown">Timer synchronisieren</string>
     <string name="settings_queue_syncing_summary">Der Benutzer kann seine Warteschlange speichern und beim Neustart der Anwendung wiederherstellen.</string>
@@ -219,7 +219,7 @@
     <string name="settings_scan_title">Sammlung scannen</string>
     <string name="settings_summary_replay_gain">Replay-Gain ist ein Feature, das die Lautstärke von Tracks für ein konsistentes Hörerlebnis anpasst. Diese Einstellung funktioniert nur, wenn Tracks die entsprechenden Metadaten haben.</string>
     <string name="settings_summary_syncing">Den Zustand der Warteschlange synchronisieren. Das beinhaltet die Tracks in der Warteschlange, den aktuell gespielten Track und die Position innerhalb dieses Tracks. Der Server muss dieses Feature unterstützen.</string>
-    <string name="settings_summary_transcoding">Priorität des Transkodierungsmodus. /"Direktes Abspielen/" ändert die Bitrate der Dateien nicht.</string>
+    <string name="settings_summary_transcoding">Priorität des Transkodierungsmodus. \"Direktes Abspielen\" ändert die Bitrate der Dateien nicht.</string>
     <string name="settings_sync_starred_tracks_for_offline_use_summary">Lieblingslieder werden automatisch heruntergeladen.</string>
     <string name="settings_sync_starred_tracks_for_offline_use_title">Lieblingslieder für Offline-Modus sychronisieren</string>
     <string name="settings_theme">Design</string>
@@ -281,4 +281,9 @@
     <string name="description_empty_title">Keine Beschreibung verfügbar</string>
     <string name="menu_filter_download">Heruntergeladen</string>
     <string name="menu_filter_all">Alle</string>
+    <string name="menu_group_by_track">Track</string>
+    <string name="menu_group_by_album">Album</string>
+    <string name="menu_group_by_artist">Künstler</string>
+    <string name="menu_group_by_genre">Genre</string>
+    <string name="menu_group_by_year">Jahr</string>
 </resources>

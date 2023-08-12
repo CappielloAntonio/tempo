@@ -97,8 +97,8 @@
     <string name="home_title_starred_tracks_see_all_button">See all</string>
     <string name="home_title_internet_radio_station">Internet radio stations</string>
     <string name="home_title_podcast_channels_see_all_button">See all</string>
-    <string name="label_dot_separator">•</string>
-    <string name="label_placeholder">--</string>
+    <string name="label_dot_separator" translatable="false">•</string>
+    <string name="label_placeholder" translatable="false">--</string>
     <string name="library_title_music_folder">Music folders</string>
     <string name="library_title_album">Albums</string>
     <string name="library_title_album_see_all_button">See all</string>

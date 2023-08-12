@@ -2,6 +2,7 @@ package com.cappielloantonio.tempo.ui.adapter;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -46,6 +47,9 @@ public class MusicDirectoryAdapter extends RecyclerView.Adapter<MusicDirectoryAd
                 .from(holder.itemView.getContext(), child.getCoverArtId())
                 .build()
                 .into(holder.item.musicDirectoryCoverImageView);
+
+        holder.item.musicDirectoryMoreButton.setVisibility(child.isDir() ? View.VISIBLE : View.GONE);
+        holder.item.musicDirectoryPlayButton.setVisibility(child.isDir() ? View.GONE : View.VISIBLE);
     }
 
     @Override

@@ -52,5 +52,19 @@
         android:foreground="?android:attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="@id/music_directory_title_text_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/music_directory_title_text_view" />
+        app:layout_constraintTop_toTopOf="@+id/music_directory_title_text_view"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/music_directory_play_button"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/ic_play"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        app:layout_constraintBottom_toBottomOf="@id/music_directory_title_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/music_directory_title_text_view"
+        android:visibility="gone"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

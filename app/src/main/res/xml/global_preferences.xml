@@ -154,6 +154,42 @@
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/settings_title_transcoding_download">
+        <Preference
+            app:selectable="false"
+            app:summary="@string/settings_summary_transcoding_download" />
+
+        <SwitchPreference
+            android:title="@string/settings_audio_transcode_download_title"
+            android:defaultValue="false"
+            android:summary="@string/settings_audio_transcode_download_summary"
+            android:key="audio_transcode_download" />
+
+        <SwitchPreference
+            android:title="@string/settings_audio_transcode_download_priority_title"
+            android:defaultValue="false"
+            android:summary="@string/settings_audio_transcode_download_priority_summary"
+            android:key="audio_transcode_download_priority" />
+
+        <ListPreference
+            app:defaultValue="raw"
+            app:dialogTitle="@string/settings_audio_transcode_format_download"
+            app:entries="@array/audio_transcode_format_download_list_titles"
+            app:entryValues="@array/audio_transcode_format_download_list_values"
+            app:key="audio_transcode_format_download"
+            app:title="@string/settings_audio_transcode_format_download"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="0"
+            app:dialogTitle="@string/settings_max_bitrate_download"
+            app:entries="@array/max_bitrate_download_list_titles"
+            app:entryValues="@array/max_bitrate_download_list_values"
+            app:key="max_bitrate_download"
+            app:title="@string/settings_max_bitrate_download"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="@string/settings_title_replay_gain">
         <Preference
             app:selectable="false"

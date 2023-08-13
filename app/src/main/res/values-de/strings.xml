@@ -229,6 +229,7 @@
     <string name="settings_title_syncing">Sychronisierung</string>
     <string name="settings_title_transcoding">Transkodierung</string>
     <string name="settings_title_ui">Benutzeroberfläche</string>
+    <string name="settings_transcoded_download">Transcoded download</string>
     <string name="settings_version_title">Version</string>
     <string name="settings_wifi_only_title">Warnung bei Streamen ohne Wi-Fi</string>
     <string name="settings_wifi_only_summary">Um Erlaubnis fragen bevor über das mobile Netzwerk gestreamed wird.</string>

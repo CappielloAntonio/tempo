@@ -10,6 +10,8 @@ import android.util.Log;
 
 import com.cappielloantonio.tempo.App;
 import com.cappielloantonio.tempo.R;
+import com.cappielloantonio.tempo.model.Download;
+import com.cappielloantonio.tempo.repository.DownloadRepository;
 import com.cappielloantonio.tempo.subsonic.models.Child;
 
 import java.util.ArrayList;
@@ -55,27 +57,33 @@ public class MusicUtil {
     }
 
     public static Uri getDownloadUri(String id) {
-        Map<String, String> params = App.getSubsonicClientInstance(false).getParams();
-
         StringBuilder uri = new StringBuilder();
 
-        uri.append(App.getSubsonicClientInstance(false).getUrl());
-        uri.append("download");
+        Download download = new DownloadRepository().getDownload(id);
 
-        if (params.containsKey("u") && params.get("u") != null)
-            uri.append("?u=").append(params.get("u"));
-        if (params.containsKey("p") && params.get("p") != null)
-            uri.append("&p=").append(params.get("p"));
-        if (params.containsKey("s") && params.get("s") != null)
-            uri.append("&s=").append(params.get("s"));
-        if (params.containsKey("t") && params.get("t") != null)
-            uri.append("&t=").append(params.get("t"));
-        if (params.containsKey("v") && params.get("v") != null)
-            uri.append("&v=").append(params.get("v"));
-        if (params.containsKey("c") && params.get("c") != null)
-            uri.append("&c=").append(params.get("c"));
+        if (download == null || download.getDownloadUri().isEmpty()) {
+            Map<String, String> params = App.getSubsonicClientInstance(false).getParams();
 
-        uri.append("&id=").append(id);
+            uri.append(App.getSubsonicClientInstance(false).getUrl());
+            uri.append("download");
+
+            if (params.containsKey("u") && params.get("u") != null)
+                uri.append("?u=").append(params.get("u"));
+            if (params.containsKey("p") && params.get("p") != null)
+                uri.append("&p=").append(params.get("p"));
+            if (params.containsKey("s") && params.get("s") != null)
+                uri.append("&s=").append(params.get("s"));
+            if (params.containsKey("t") && params.get("t") != null)
+                uri.append("&t=").append(params.get("t"));
+            if (params.containsKey("v") && params.get("v") != null)
+                uri.append("&v=").append(params.get("v"));
+            if (params.containsKey("c") && params.get("c") != null)
+                uri.append("&c=").append(params.get("c"));
+
+            uri.append("&id=").append(id);
+        } else {
+            uri.append(download.getDownloadUri());
+        }
 
         Log.d(TAG, "getDownloadUri: " + uri);
 

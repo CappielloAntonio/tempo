@@ -20,6 +20,9 @@ class Download(@PrimaryKey override val id: String) : Child(id) {
     @ColumnInfo(name = "download_state", defaultValue = "1")
     var downloadState: Int = 0
 
+    @ColumnInfo(name = "download_uri", defaultValue = "")
+    var downloadUri: String? = null
+
     constructor(child: Child) : this(child.id) {
         parentId = child.parentId
         isDir = child.isDir

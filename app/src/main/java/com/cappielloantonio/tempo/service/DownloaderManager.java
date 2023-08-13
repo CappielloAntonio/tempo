@@ -77,6 +77,8 @@ public class DownloaderManager {
     }
 
     public void download(MediaItem mediaItem, com.cappielloantonio.tempo.model.Download download) {
+        download.setDownloadUri(mediaItem.requestMetadata.mediaUri.toString());
+
         DownloadService.sendAddDownload(context, DownloaderService.class, buildDownloadRequest(mediaItem), false);
         insertDatabase(download);
     }

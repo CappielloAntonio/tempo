@@ -10,6 +10,8 @@ import androidx.media3.common.MimeTypes;
 import androidx.media3.common.util.UnstableApi;
 
 import com.cappielloantonio.tempo.App;
+import com.cappielloantonio.tempo.model.Download;
+import com.cappielloantonio.tempo.repository.DownloadRepository;
 import com.cappielloantonio.tempo.subsonic.models.Child;
 import com.cappielloantonio.tempo.subsonic.models.InternetRadioStation;
 import com.cappielloantonio.tempo.subsonic.models.PodcastEpisode;
@@ -115,11 +117,11 @@ public class MappingUtil {
                 )
                 .setRequestMetadata(
                         new MediaItem.RequestMetadata.Builder()
-                                .setMediaUri(MusicUtil.getDownloadUri(media.getId()))
+                                .setMediaUri(Preferences.preferTranscodedDownload() ? MusicUtil.getTranscodedDownloadUri(media.getId()) : MusicUtil.getDownloadUri(media.getId()))
                                 .build()
                 )
                 .setMimeType(MimeTypes.BASE_TYPE_AUDIO)
-                .setUri(MusicUtil.getDownloadUri(media.getId()))
+                .setUri(Preferences.preferTranscodedDownload() ? MusicUtil.getTranscodedDownloadUri(media.getId()) : MusicUtil.getDownloadUri(media.getId()))
                 .build();
     }
 
@@ -216,13 +218,18 @@ public class MappingUtil {
 
     private static Uri getUri(Child media) {
         return DownloadUtil.getDownloadTracker(App.getContext()).isDownloaded(media.getId())
-                ? MusicUtil.getDownloadUri(media.getId())
+                ? getDownloadUri(media.getId())
                 : MusicUtil.getStreamUri(media.getId());
     }
 
     private static Uri getUri(PodcastEpisode podcastEpisode) {
         return DownloadUtil.getDownloadTracker(App.getContext()).isDownloaded(podcastEpisode.getId())
-                ? MusicUtil.getDownloadUri(podcastEpisode.getId())
+                ? getDownloadUri(podcastEpisode.getId())
                 : MusicUtil.getStreamUri(podcastEpisode.getId());
+    }
+
+    private static Uri getDownloadUri(String id) {
+        Download download = new DownloadRepository().getDownload(id);
+        return download != null && !download.getDownloadUri().isEmpty() ? Uri.parse(download.getDownloadUri()) : MusicUtil.getDownloadUri(id);
     }
 }

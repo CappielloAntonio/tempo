@@ -80,6 +80,16 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         notifyDataSetChanged();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
     public Child getItem(int id) {
         return songs.get(id);
     }

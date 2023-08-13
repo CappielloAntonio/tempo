@@ -35,6 +35,10 @@ object Preferences {
     private const val AUDIO_TRANSCODE_PRIORITY = "audio_transcode_priority"
     private const val DOWNLOAD_STORAGE = "download_storage"
     private const val DEFAULT_DOWNLOAD_VIEW_TYPE = "default_download_view_type"
+    private const val AUDIO_TRANSCODE_DOWNLOAD = "audio_transcode_download"
+    private const val AUDIO_TRANSCODE_DOWNLOAD_PRIORITY = "audio_transcode_download_priority"
+    private const val MAX_BITRATE_DOWNLOAD = "max_bitrate_download"
+    private const val AUDIO_TRANSCODE_FORMAT_DOWNLOAD = "audio_transcode_format_download"
 
     @JvmStatic
     fun getServer(): String? {
@@ -288,5 +292,25 @@ object Preferences {
             DEFAULT_DOWNLOAD_VIEW_TYPE,
             viewType
         ).apply()
+    }
+
+    @JvmStatic
+    fun preferTranscodedDownload(): Boolean {
+        return App.getInstance().preferences.getBoolean(AUDIO_TRANSCODE_DOWNLOAD, false)
+    }
+
+    @JvmStatic
+    fun isServerPrioritizedInTranscodedDownload(): Boolean {
+        return App.getInstance().preferences.getBoolean(AUDIO_TRANSCODE_DOWNLOAD_PRIORITY, false)
+    }
+
+    @JvmStatic
+    fun getBitrateTranscodedDownload(): String {
+        return App.getInstance().preferences.getString(MAX_BITRATE_DOWNLOAD, "0")!!
+    }
+
+    @JvmStatic
+    fun getAudioTranscodeFormatTranscodedDownload(): String {
+        return App.getInstance().preferences.getString(AUDIO_TRANSCODE_FORMAT_DOWNLOAD, "raw")!!
     }
 }

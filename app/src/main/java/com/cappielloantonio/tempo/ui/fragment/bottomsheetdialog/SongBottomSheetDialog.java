@@ -215,7 +215,6 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
     private void initDownloadUI(TextView download, TextView remove) {
         if (DownloadUtil.getDownloadTracker(requireContext()).isDownloaded(song.getId())) {
-            download.setVisibility(View.GONE);
             remove.setVisibility(View.VISIBLE);
         } else {
             download.setVisibility(View.VISIBLE);

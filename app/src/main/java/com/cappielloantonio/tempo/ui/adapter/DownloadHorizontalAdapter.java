@@ -123,13 +123,13 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
                 case Constants.DOWNLOAD_TYPE_TRACK:
                     return songs.stream().filter(child -> child.getId().equals(filterValue)).collect(Collectors.toList());
                 case Constants.DOWNLOAD_TYPE_ALBUM:
-                    return songs.stream().filter(child -> child.getAlbumId().equals(filterValue)).collect(Collectors.toList());
+                    return songs.stream().filter(child -> Objects.equals(child.getAlbumId(), filterValue)).collect(Collectors.toList());
                 case Constants.DOWNLOAD_TYPE_GENRE:
-                    return songs.stream().filter(child -> child.getGenre().equals(filterValue)).collect(Collectors.toList());
+                    return songs.stream().filter(child -> Objects.equals(child.getGenre(), filterValue)).collect(Collectors.toList());
                 case Constants.DOWNLOAD_TYPE_YEAR:
                     return songs.stream().filter(child -> Objects.equals(child.getYear(), Integer.valueOf(filterValue))).collect(Collectors.toList());
                 case Constants.DOWNLOAD_TYPE_ARTIST:
-                    return songs.stream().filter(child -> child.getArtistId().equals(filterValue)).collect(Collectors.toList());
+                    return songs.stream().filter(child -> Objects.equals(child.getArtistId(), filterValue)).collect(Collectors.toList());
             }
         }
 
@@ -142,13 +142,13 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
                 case Constants.DOWNLOAD_TYPE_TRACK:
                     return String.valueOf(songs.stream().filter(child -> child.getId().equals(filterValue)).count());
                 case Constants.DOWNLOAD_TYPE_ALBUM:
-                    return String.valueOf(songs.stream().filter(child -> child.getAlbumId().equals(filterValue)).count());
+                    return String.valueOf(songs.stream().filter(child -> Objects.equals(child.getAlbumId(), filterValue)).count());
                 case Constants.DOWNLOAD_TYPE_GENRE:
-                    return String.valueOf(songs.stream().filter(child -> child.getGenre().equals(filterValue)).count());
+                    return String.valueOf(songs.stream().filter(child -> Objects.equals(child.getGenre(), filterValue)).count());
                 case Constants.DOWNLOAD_TYPE_YEAR:
                     return String.valueOf(songs.stream().filter(child -> Objects.equals(child.getYear(), Integer.valueOf(filterValue))).count());
                 case Constants.DOWNLOAD_TYPE_ARTIST:
-                    return String.valueOf(songs.stream().filter(child -> child.getArtistId().equals(filterValue)).count());
+                    return String.valueOf(songs.stream().filter(child -> Objects.equals(child.getArtistId(), filterValue)).count());
             }
         }
 

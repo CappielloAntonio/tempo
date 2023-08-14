@@ -261,7 +261,7 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
 
             switch (view) {
                 case Constants.DOWNLOAD_TYPE_TRACK:
-                    bundle.putParcelableArrayList(Constants.TRACKS_OBJECT, new ArrayList<>(songs));
+                    bundle.putParcelableArrayList(Constants.TRACKS_OBJECT, new ArrayList<>(grouped));
                     bundle.putInt(Constants.ITEM_POSITION, getBindingAdapterPosition());
                     click.onMediaClick(bundle);
                     break;

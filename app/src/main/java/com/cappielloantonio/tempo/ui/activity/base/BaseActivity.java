@@ -98,6 +98,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void setNavigationBarColor() {
-        getWindow().setNavigationBarColor(SurfaceColors.getColorForElevation(this, 10));
+        getWindow().setNavigationBarColor(SurfaceColors.getColorForElevation(this, 8));
+        getWindow().setStatusBarColor(SurfaceColors.getColorForElevation(this, 0));
     }
 }

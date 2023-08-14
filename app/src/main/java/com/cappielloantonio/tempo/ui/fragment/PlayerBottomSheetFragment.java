@@ -86,7 +86,7 @@ public class PlayerBottomSheetFragment extends Fragment {
     }
 
     private void customizeBottomSheetBackground() {
-        bind.playerHeaderLayout.getRoot().setBackgroundColor(SurfaceColors.getColorForElevation(requireContext(), 2));
+        bind.playerHeaderLayout.getRoot().setBackgroundColor(SurfaceColors.getColorForElevation(requireContext(), 8));
     }
 
     private void customizeBottomSheetAction() {

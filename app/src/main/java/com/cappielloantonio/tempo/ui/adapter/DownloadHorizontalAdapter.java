@@ -80,7 +80,7 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
         this.filterKey = filterKey;
         this.filterValue = filterValue;
 
-        this.songs = songs;
+        this.songs = filterSong(filterKey, filterValue, songs);
         this.grouped = groupSong(songs);
 
         notifyDataSetChanged();

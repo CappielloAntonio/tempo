@@ -10,7 +10,6 @@ import com.cappielloantonio.tempo.helper.ThemeHelper;
 import com.cappielloantonio.tempo.subsonic.Subsonic;
 import com.cappielloantonio.tempo.subsonic.SubsonicPreferences;
 import com.cappielloantonio.tempo.util.Preferences;
-import com.google.android.material.color.DynamicColors;
 
 public class App extends Application {
     private static App instance;
@@ -22,7 +21,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        DynamicColors.applyToActivitiesIfAvailable(this);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String themePref = sharedPreferences.getString(Preferences.THEME, ThemeHelper.DEFAULT_MODE);
         ThemeHelper.applyTheme(themePref);

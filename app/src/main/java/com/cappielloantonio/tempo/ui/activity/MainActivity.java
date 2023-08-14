@@ -31,6 +31,7 @@ import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.viewmodel.MainViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.color.DynamicColors;
 import com.google.common.util.concurrent.MoreExecutors;
 
 import java.util.Objects;
@@ -51,10 +52,10 @@ public class MainActivity extends BaseActivity {
 
     ConnectivityStatusBroadcastReceiver connectivityStatusBroadcastReceiver;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SplashScreen.installSplashScreen(this);
+        DynamicColors.applyToActivityIfAvailable(this);
 
         super.onCreate(savedInstanceState);
 

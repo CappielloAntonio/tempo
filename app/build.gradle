@@ -28,8 +28,8 @@ android {
         tempo {
             dimension "default"
             applicationId 'com.cappielloantonio.tempo'
-            versionCode 15
-            versionName '3.4.9'
+            versionCode 16
+            versionName '3.5.0'
         }
 
         notquitemy {

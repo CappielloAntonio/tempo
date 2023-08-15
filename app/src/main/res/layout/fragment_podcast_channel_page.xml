@@ -10,6 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
         app:layout_collapseMode="pin"
         app:navigationIcon="@drawable/ic_arrow_back" />
 
@@ -101,6 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
+            android:paddingTop="16dp"
             android:paddingBottom="@dimen/global_padding_bottom"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 

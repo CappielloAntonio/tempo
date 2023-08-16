@@ -62,6 +62,10 @@ android {
         viewBinding true
     }
 
+    androidResources {
+        generateLocaleConfig true
+    }
+
     namespace 'com.cappielloantonio.tempo'
 }
 

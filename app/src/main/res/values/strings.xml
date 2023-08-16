@@ -299,4 +299,6 @@
     <string name="menu_group_by_artist">Artist</string>
     <string name="menu_group_by_genre">Genre</string>
     <string name="menu_group_by_year">Year</string>
+    <string name="active_locale_title">Active language</string>
+    <string name="active_locale_setting">%s, requires app relaunch</string>
 </resources>

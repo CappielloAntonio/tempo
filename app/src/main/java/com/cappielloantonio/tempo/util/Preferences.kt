@@ -1,9 +1,12 @@
 package com.cappielloantonio.tempo.util
 
+import androidx.core.app.LocaleManagerCompat
 import com.cappielloantonio.tempo.App
+import java.util.Locale
 
 object Preferences {
     const val THEME = "theme"
+    private const val LOCALE = "locale"
     private const val SERVER = "server"
     private const val USER = "user"
     private const val PASSWORD = "password"
@@ -43,6 +46,11 @@ object Preferences {
     @JvmStatic
     fun getServer(): String? {
         return App.getInstance().preferences.getString(SERVER, null)
+    }
+    @JvmStatic
+    fun getLocale(): Locale? {
+        return App.getInstance().preferences.getString(LOCALE, null)
+                ?.let { Locale.forLanguageTag(it) }
     }
 
     @JvmStatic

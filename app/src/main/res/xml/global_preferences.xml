@@ -57,6 +57,12 @@
             android:defaultValue="true"
             android:summary="@string/settings_music_directory_summary"
             android:key="music_directory_section_visibility" />
+
+        <ListPreference
+            app:dialogTitle="@string/active_locale_title"
+            app:key="locale"
+            app:title="@string/active_locale_title" />
+
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_title_data">

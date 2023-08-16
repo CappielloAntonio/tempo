@@ -287,4 +287,7 @@
     <string name="menu_group_by_artist">Künstler</string>
     <string name="menu_group_by_genre">Genre</string>
     <string name="menu_group_by_year">Jahr</string>
+    <string name="active_locale_title">Aktive Sprache</string>
+    <string name="active_locale_setting">%s, Neustart der Anwendung ist notwendig</string>
+
 </resources>

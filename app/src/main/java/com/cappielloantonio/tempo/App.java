@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.os.LocaleListCompat;
 import androidx.preference.PreferenceManager;
 
 import com.cappielloantonio.tempo.helper.ThemeHelper;
@@ -68,6 +70,10 @@ public class App extends Application {
         String token = Preferences.getToken();
         String salt = Preferences.getSalt();
         boolean isLowSecurity = Preferences.isLowScurity();
+
+        if (Preferences.getLocale() != null) {
+            AppCompatDelegate.setApplicationLocales(LocaleListCompat.create(Preferences.getLocale()));
+        }
 
         SubsonicPreferences preferences = new SubsonicPreferences();
         preferences.setServerUrl(server);

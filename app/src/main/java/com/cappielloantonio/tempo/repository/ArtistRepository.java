@@ -63,8 +63,10 @@ public class ArtistRepository {
                         if (response.isSuccessful() && response.body() != null) {
                             List<ArtistID3> artists = new ArrayList<>();
 
-                            for (IndexID3 index : response.body().getSubsonicResponse().getArtists().getIndices()) {
-                                artists.addAll(index.getArtists());
+                            if(response.body().getSubsonicResponse().getArtists() != null) {
+                                for (IndexID3 index : response.body().getSubsonicResponse().getArtists().getIndices()) {
+                                    artists.addAll(index.getArtists());
+                                }
                             }
 
                             if (random) {

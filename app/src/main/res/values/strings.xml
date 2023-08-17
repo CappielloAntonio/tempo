@@ -206,6 +206,7 @@
     <string name="settings_github_summary">Follow the development</string>
     <string name="settings_github_title">Github</string>
     <string name="settings_image_size">Set image resolution</string>
+    <string name="settings_language">Language</string>
     <string name="settings_logout_title">Log out</string>
     <string name="settings_max_bitrate_download">Bitrate for downloads</string>
     <string name="settings_max_bitrate_wifi">Bitrate in Wi-Fi</string>

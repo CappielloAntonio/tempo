@@ -18,6 +18,12 @@
     <PreferenceCategory app:title="@string/settings_title_ui">
         <ListPreference
             app:defaultValue="default"
+            app:dialogTitle="@string/settings_language"
+            app:key="language"
+            app:title="@string/settings_language"/>
+
+        <ListPreference
+            app:defaultValue="default"
             app:dialogTitle="@string/settings_theme"
             app:entries="@array/theme_list_titles"
             app:entryValues="@array/theme_list_values"

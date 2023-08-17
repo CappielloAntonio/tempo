@@ -12,6 +12,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.os.LocaleListCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.util.UnstableApi;
 import androidx.preference.ListPreference;
@@ -28,7 +30,11 @@ import com.cappielloantonio.tempo.ui.dialog.DeleteDownloadStorageDialog;
 import com.cappielloantonio.tempo.ui.dialog.DownloadStorageDialog;
 import com.cappielloantonio.tempo.ui.dialog.StarredSyncDialog;
 import com.cappielloantonio.tempo.util.Preferences;
+import com.cappielloantonio.tempo.util.UIUtil;
 import com.cappielloantonio.tempo.viewmodel.SettingViewModel;
+
+import java.util.Locale;
+import java.util.Map;
 
 @OptIn(markerClass = UnstableApi.class)
 public class SettingsFragment extends PreferenceFragmentCompat {
@@ -75,63 +81,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         super.onResume();
 
         checkEqualizer();
-
         checkStorage();
 
-        findPreference("version").setSummary(BuildConfig.VERSION_NAME);
+        setAppLanguage();
+        setVersion();
 
-        findPreference("logout").setOnPreferenceClickListener(preference -> {
-            activity.quit();
-            return true;
-        });
-
-        findPreference("scan_library").setOnPreferenceClickListener(preference -> {
-            settingViewModel.launchScan(new ScanCallback() {
-                @Override
-                public void onError(Exception exception) {
-                    findPreference("scan_library").setSummary(exception.getMessage());
-                }
-
-                @Override
-                public void onSuccess(boolean isScanning, long count) {
-                    getScanStatus();
-                }
-            });
-
-            return true;
-        });
-
-        findPreference("sync_starred_tracks_for_offline_use").setOnPreferenceChangeListener((preference, newValue) -> {
-            if (newValue instanceof Boolean) {
-                if ((Boolean) newValue) {
-                    StarredSyncDialog dialog = new StarredSyncDialog();
-                    dialog.show(activity.getSupportFragmentManager(), null);
-                }
-            }
-            return true;
-        });
-
-        findPreference("download_storage").setOnPreferenceClickListener(preference -> {
-            DownloadStorageDialog dialog = new DownloadStorageDialog(new DialogClickCallback() {
-                @Override
-                public void onPositiveClick() {
-                    findPreference("download_storage").setSummary(R.string.download_storage_external_dialog_positive_button);
-                }
-
-                @Override
-                public void onNegativeClick() {
-                    findPreference("download_storage").setSummary(R.string.download_storage_internal_dialog_negative_button);
-                }
-            });
-            dialog.show(activity.getSupportFragmentManager(), null);
-            return true;
-        });
-
-        findPreference("delete_download_storage").setOnPreferenceClickListener(preference -> {
-            DeleteDownloadStorageDialog dialog = new DeleteDownloadStorageDialog();
-            dialog.show(activity.getSupportFragmentManager(), null);
-            return true;
-        });
+        actionLogout();
+        actionScan();
+        actionSyncStarredTracks();
+        actionChangeDownloadStorage();
+        actionDeleteDownloadStorage();
     }
 
     @Override
@@ -185,6 +144,94 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         } catch (Exception exception) {
             storage.setVisible(false);
         }
+    }
+
+    private void setAppLanguage() {
+        ListPreference localePref = (ListPreference) findPreference("language");
+
+        Map<String, String> locales = UIUtil.getLangPreferenceDropdownEntries(requireContext());
+
+        CharSequence[] entries = locales.keySet().toArray(new CharSequence[locales.size()]);
+        CharSequence[] entryValues = locales.values().toArray(new CharSequence[locales.size()]);
+
+        localePref.setEntries(entries);
+        localePref.setEntryValues(entryValues);
+
+        localePref.setDefaultValue(entryValues[0]);
+        localePref.setSummary(Locale.forLanguageTag(localePref.getValue()).getDisplayLanguage());
+
+        localePref.setOnPreferenceChangeListener((preference, newValue) -> {
+            LocaleListCompat appLocale = LocaleListCompat.forLanguageTags((String) newValue);
+            AppCompatDelegate.setApplicationLocales(appLocale);
+            return true;
+        });
+    }
+
+    private void setVersion() {
+        findPreference("version").setSummary(BuildConfig.VERSION_NAME);
+    }
+
+    private void actionLogout() {
+        findPreference("logout").setOnPreferenceClickListener(preference -> {
+            activity.quit();
+            return true;
+        });
+    }
+
+    private void actionScan() {
+        findPreference("scan_library").setOnPreferenceClickListener(preference -> {
+            settingViewModel.launchScan(new ScanCallback() {
+                @Override
+                public void onError(Exception exception) {
+                    findPreference("scan_library").setSummary(exception.getMessage());
+                }
+
+                @Override
+                public void onSuccess(boolean isScanning, long count) {
+                    getScanStatus();
+                }
+            });
+
+            return true;
+        });
+    }
+
+    private void actionSyncStarredTracks() {
+        findPreference("sync_starred_tracks_for_offline_use").setOnPreferenceChangeListener((preference, newValue) -> {
+            if (newValue instanceof Boolean) {
+                if ((Boolean) newValue) {
+                    StarredSyncDialog dialog = new StarredSyncDialog();
+                    dialog.show(activity.getSupportFragmentManager(), null);
+                }
+            }
+            return true;
+        });
+    }
+
+    private void actionChangeDownloadStorage() {
+        findPreference("download_storage").setOnPreferenceClickListener(preference -> {
+            DownloadStorageDialog dialog = new DownloadStorageDialog(new DialogClickCallback() {
+                @Override
+                public void onPositiveClick() {
+                    findPreference("download_storage").setSummary(R.string.download_storage_external_dialog_positive_button);
+                }
+
+                @Override
+                public void onNegativeClick() {
+                    findPreference("download_storage").setSummary(R.string.download_storage_internal_dialog_negative_button);
+                }
+            });
+            dialog.show(activity.getSupportFragmentManager(), null);
+            return true;
+        });
+    }
+
+    private void actionDeleteDownloadStorage() {
+        findPreference("delete_download_storage").setOnPreferenceClickListener(preference -> {
+            DeleteDownloadStorageDialog dialog = new DeleteDownloadStorageDialog();
+            dialog.show(activity.getSupportFragmentManager(), null);
+            return true;
+        });
     }
 
     private void getScanStatus() {

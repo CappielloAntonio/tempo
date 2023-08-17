@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.SplashScreen"
         android:usesCleartextTraffic="true"
-        android:allowBackup="false">
+        android:allowBackup="false"
+        android:localeConfig="@xml/locale_config">
 
         <meta-data
             android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
@@ -33,6 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".service.MediaService"
             android:foregroundServiceType="mediaPlayback"
@@ -42,6 +44,7 @@
                 <action android:name="androidx.media3.session.MediaBrowserService" />
             </intent-filter>
         </service>
+
         <service android:name=".service.DownloaderService"
             android:foregroundServiceType="dataSync"
             android:exported="true">
@@ -49,6 +52,15 @@
                 <action android:name="androidx.media3.exoplayer.downloadService.action.RESTART"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
+        </service>
+
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
         </service>
     </application>
 </manifest>

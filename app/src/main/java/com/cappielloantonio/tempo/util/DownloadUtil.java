@@ -2,6 +2,7 @@ package com.cappielloantonio.tempo.util;
 
 import android.content.Context;
 
+import androidx.media3.common.util.Log;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.database.DatabaseProvider;
 import androidx.media3.database.StandaloneDatabaseProvider;
@@ -23,6 +24,8 @@ import java.io.File;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 
 @UnstableApi
@@ -152,5 +155,33 @@ public final class DownloadUtil {
                 .setUpstreamDataSourceFactory(upstreamFactory)
                 .setCacheWriteDataSinkFactory(null)
                 .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR);
+    }
+
+    public static synchronized void eraseDownloadFolder(Context context) {
+        File directory = getDownloadDirectory(context);
+
+        ArrayList<File> files = listFiles(directory, new ArrayList<>());
+
+        for (File file : files) {
+            file.delete();
+        }
+    }
+
+    private static synchronized ArrayList<File> listFiles(File directory, ArrayList<File> files) {
+        if (directory.isDirectory()) {
+            File[] list = directory.listFiles();
+
+            if (list != null) {
+                for (File file : list) {
+                    if (file.isFile() && file.getName().toLowerCase().endsWith(".exo")) {
+                        files.add(file);
+                    } else if (file.isDirectory()) {
+                        listFiles(file, files);
+                    }
+                }
+            }
+        }
+
+        return files;
     }
 }

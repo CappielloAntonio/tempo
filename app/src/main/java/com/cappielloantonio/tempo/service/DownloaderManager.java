@@ -103,6 +103,7 @@ public class DownloaderManager {
     public void removeAll() {
         DownloadService.sendRemoveAllDownloads(context, DownloaderService.class, false);
         deleteAllDatabase();
+        DownloadUtil.eraseDownloadFolder(context);
     }
 
     private void loadDownloads() {

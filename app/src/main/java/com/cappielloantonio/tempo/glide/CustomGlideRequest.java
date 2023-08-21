@@ -16,6 +16,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.cappielloantonio.tempo.App;
 import com.cappielloantonio.tempo.util.Preferences;
+import com.cappielloantonio.tempo.util.Util;
 import com.google.android.material.elevation.SurfaceColors;
 
 import java.util.Map;
@@ -46,7 +47,7 @@ public class CustomGlideRequest {
         uri.append("getCoverArt");
 
         if (params.containsKey("u") && params.get("u") != null)
-            uri.append("?u=").append(params.get("u"));
+            uri.append("?u=").append(Util.encode(params.get("u")));
         if (params.containsKey("p") && params.get("p") != null)
             uri.append("&p=").append(params.get("p"));
         if (params.containsKey("s") && params.get("s") != null)

@@ -32,7 +32,7 @@ public class MusicUtil {
         uri.append("stream");
 
         if (params.containsKey("u") && params.get("u") != null)
-            uri.append("?u=").append(params.get("u"));
+            uri.append("?u=").append(Util.encode(params.get("u")));
         if (params.containsKey("p") && params.get("p") != null)
             uri.append("&p=").append(params.get("p"));
         if (params.containsKey("s") && params.get("s") != null)
@@ -68,7 +68,7 @@ public class MusicUtil {
             uri.append("download");
 
             if (params.containsKey("u") && params.get("u") != null)
-                uri.append("?u=").append(params.get("u"));
+                uri.append("?u=").append(Util.encode(params.get("u")));
             if (params.containsKey("p") && params.get("p") != null)
                 uri.append("&p=").append(params.get("p"));
             if (params.containsKey("s") && params.get("s") != null)
@@ -99,7 +99,7 @@ public class MusicUtil {
         uri.append("stream");
 
         if (params.containsKey("u") && params.get("u") != null)
-            uri.append("?u=").append(params.get("u"));
+            uri.append("?u=").append(Util.encode(params.get("u")));
         if (params.containsKey("p") && params.get("p") != null)
             uri.append("&p=").append(params.get("p"));
         if (params.containsKey("s") && params.get("s") != null)

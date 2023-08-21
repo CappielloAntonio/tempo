@@ -119,6 +119,8 @@ public class MainActivity extends BaseActivity {
         fragmentManager.beginTransaction().replace(R.id.player_bottom_sheet, new PlayerBottomSheetFragment(), "PlayerBottomSheet").commit();
 
         setBottomSheetInPeek(mainViewModel.isQueueLoaded());
+
+        collapseBottomSheet();
     }
 
     public void setBottomSheetInPeek(Boolean isVisible) {

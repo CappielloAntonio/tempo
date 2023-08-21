@@ -181,9 +181,15 @@
     <string name="server_unreachable_dialog_summary">Der angefragte Server ist nicht erreichbar. Wenn Du trotzdem weitermachst, wird dieser Dialog für eine Stunden nicht wieder erscheinen.</string>
     <string name="settings_about_summary">Tempo ist ein nativ für Android entwickelter, leichtgewichtiger Open-Source Client für Subsonic.</string>
     <string name="settings_about_title">Über</string>
+    <string name="settings_audio_transcode_download_priority_summary">Diese Option deaktiviert die Transkodierungssettings für Downloads.</string>
+    <string name="settings_audio_transcode_download_priority_title">Transkodierungseinstellungen des Servers für Downloads bevorzugen.</string>
+    <string name="settings_audio_transcode_download_summary">Diese Option aktiviert das Transkodieren für heruntergeladene Tracks.</string>
+    <string name="settings_audio_transcode_download_title">Transkodierte Tracks herunterladen</string>
+    <string name="settings_audio_transcode_download_format">Transkodierungs-Format</string>
     <string name="settings_audio_transcode_priority_summary">Diese Option deaktiviert die weiter unten folgenden Transkodierungseinstellungen.</string>
     <string name="settings_audio_transcode_priority_title">Transkodierungseinstellungen des Servers bevorzugen</string>
     <string name="settings_audio_transcode_priority_toast">Servereinstellungen zur Transkodierung des Tracks werden bevorzugt</string>
+    <string name="settings_audio_transcode_format_download">Transkodierungs-Format für Downloads</string>
     <string name="settings_audio_transcode_format_mobile">Transkodierungsformat im mobilen Netz</string>
     <string name="settings_audio_transcode_format_wifi">Transkodierungsformat im Wi-Fi</string>
     <string name="settings_covers_cache">Größe des Artwork Caches</string>
@@ -198,7 +204,9 @@
     <string name="settings_github_summary">Verfolge die Entwicklung</string>
     <string name="settings_github_title">Github</string>
     <string name="settings_image_size">Bilder Auflösung anpassen</string>
+    <string name="settings_language">Sprache</string>
     <string name="settings_logout_title">Abmelden</string>
+    <string name="settings_max_bitrate_download">Bitrate für Downloads</string>
     <string name="settings_max_bitrate_wifi">Bitrate bei Wi-Fi Nutzung</string>
     <string name="settings_max_bitrate_mobile">Bitrate bei mobiler Nutzung</string>
     <string name="settings_media_cache">Größe des Medienfile Caches</string>
@@ -220,6 +228,7 @@
     <string name="settings_summary_replay_gain">Replay-Gain ist ein Feature, das die Lautstärke von Tracks für ein konsistentes Hörerlebnis anpasst. Diese Einstellung funktioniert nur, wenn Tracks die entsprechenden Metadaten haben.</string>
     <string name="settings_summary_syncing">Den Zustand der Warteschlange synchronisieren. Das beinhaltet die Tracks in der Warteschlange, den aktuell gespielten Track und die Position innerhalb dieses Tracks. Der Server muss dieses Feature unterstützen.</string>
     <string name="settings_summary_transcoding">Priorität des Transkodierungsmodus. \"Direktes Abspielen\" ändert die Bitrate der Dateien nicht.</string>
+    <string name="settings_summary_transcoding_download">Transkodierte Medien herunterladen. Diese Option deaktiviert den Download-Endpoint und benutzt stattdessen die folgenden Einstellungen. \n\n If \"Transkodierungs-Format\" ist auf \"Direktes Abspielen\" gesetzt, Die Bitrate des Tracks wird nicht geändert.</string>
     <string name="settings_sync_starred_tracks_for_offline_use_summary">Lieblingslieder werden automatisch heruntergeladen.</string>
     <string name="settings_sync_starred_tracks_for_offline_use_title">Lieblingslieder für Offline-Modus sychronisieren</string>
     <string name="settings_theme">Design</string>
@@ -228,6 +237,7 @@
     <string name="settings_title_replay_gain">Replay Gain</string>
     <string name="settings_title_syncing">Sychronisierung</string>
     <string name="settings_title_transcoding">Transkodierung</string>
+    <string name="settings_title_transcoding_download">Transkodierung Download</string>
     <string name="settings_title_ui">Benutzeroberfläche</string>
     <string name="settings_transcoded_download">Transcoded download</string>
     <string name="settings_version_title">Version</string>

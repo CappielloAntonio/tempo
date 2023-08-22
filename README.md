@@ -33,11 +33,7 @@ Tempo does not rely on magic algorithms to decide what you should listen to. Ins
     <img src="mockup/feat/6_screenshot.png" width=200>
     <img src="mockup/feat/7_screenshot.png" width=200>
     <img src="mockup/feat/8_screenshot.png" width=200>
-    <img src="mockup/feat/9_screenshot.png" width=200>
 </p>
-
-## Disclaimer
-Tempo is currently under active development and is in alpha state. This means that the app may contain stability issues, bugs, or incomplete features. While we strive to provide a smooth and reliable experience, please be aware that using Tempo in its current state may not be as stable as a fully released version. I appreciate your understanding and patience as I work towards improving the app.
 
 ## Sponsors
 Tempo is an open-source project developed and maintained solely by me. I would like to express my heartfelt thanks to all the users who have shown their love and support for Tempo. Your contributions and encouragement mean a lot to me, and they help drive the development and improvement of the app.

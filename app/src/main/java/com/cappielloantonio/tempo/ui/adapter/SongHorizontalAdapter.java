@@ -114,7 +114,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         public void onClick() {
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(Constants.TRACKS_OBJECT, new ArrayList<>(MusicUtil.limitPlayableMedia(songs, getBindingAdapterPosition())));
-            bundle.putInt(Constants.ITEM_POSITION, MusicUtil.getPlayableMediaPosition(getBindingAdapterPosition()));
+            bundle.putInt(Constants.ITEM_POSITION, getBindingAdapterPosition());
 
             click.onMediaClick(bundle);
         }

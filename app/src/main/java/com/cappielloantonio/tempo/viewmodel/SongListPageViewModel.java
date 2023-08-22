@@ -73,9 +73,11 @@ public class SongListPageViewModel extends AndroidViewModel {
             case Constants.MEDIA_BY_GENRE:
                 int page = (songList.getValue() != null ? songList.getValue().size() : 0) / 100;
                 songRepository.getSongsByGenre(genre.getGenre(), page).observe(owner, children -> {
-                    List<Child> currentMedia = songList.getValue();
-                    currentMedia.addAll(children);
-                    songList.setValue(currentMedia);
+                    if(children != null && !children.isEmpty()) {
+                        List<Child> currentMedia = songList.getValue();
+                        currentMedia.addAll(children);
+                        songList.setValue(currentMedia);
+                    }
                 });
                 break;
             case Constants.MEDIA_BY_ARTIST:

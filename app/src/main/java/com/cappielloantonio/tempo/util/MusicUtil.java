@@ -271,8 +271,12 @@ public class MusicUtil {
         return toLimit;
     }
 
-    public static int getPlayableMediaPosition(int initialPosition) {
-        return Math.min(initialPosition, Constants.PRE_PLAYABLE_MEDIA);
+    public static int getPlayableMediaPosition(List<Child> toLimit, int position) {
+        if (!toLimit.isEmpty() && toLimit.size() > Constants.PLAYABLE_MEDIA_LIMIT) {
+            return Math.min(position, Constants.PRE_PLAYABLE_MEDIA);
+        }
+
+        return position;
     }
 
     private static ConnectivityManager getConnectivityManager() {

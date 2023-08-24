@@ -223,9 +223,9 @@ public class MappingUtil {
     }
 
     private static Uri getUri(PodcastEpisode podcastEpisode) {
-        return DownloadUtil.getDownloadTracker(App.getContext()).isDownloaded(podcastEpisode.getId())
-                ? getDownloadUri(podcastEpisode.getId())
-                : MusicUtil.getStreamUri(podcastEpisode.getId());
+        return DownloadUtil.getDownloadTracker(App.getContext()).isDownloaded(podcastEpisode.getStreamId())
+                ? getDownloadUri(podcastEpisode.getStreamId())
+                : MusicUtil.getStreamUri(podcastEpisode.getStreamId());
     }
 
     private static Uri getDownloadUri(String id) {

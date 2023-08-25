@@ -28,8 +28,8 @@ android {
         tempo {
             dimension "default"
             applicationId 'com.cappielloantonio.tempo'
-            versionCode 16
-            versionName '3.5.0'
+            versionCode 17
+            versionName '3.5.2'
         }
 
         notquitemy {
@@ -83,8 +83,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.15.1'
-    implementation 'com.github.bumptech.glide:annotations:4.15.1'
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    implementation 'com.github.bumptech.glide:annotations:4.16.0'
 
     // Media3
     implementation 'androidx.media3:media3-session:1.1.1'
@@ -93,7 +93,7 @@ dependencies {
     implementation 'androidx.media3:media3-ui:1.1.1'
     tempoImplementation 'androidx.media3:media3-cast:1.1.1'
 
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
     annotationProcessor 'androidx.room:room-compiler:2.5.2'
 
     // Retrofit

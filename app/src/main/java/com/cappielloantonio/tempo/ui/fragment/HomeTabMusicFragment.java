@@ -110,6 +110,7 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         initNewReleasesView();
         initYearSongView();
         initRecentAddedAlbumView();
+        initGridView();
     }
 
     @Override
@@ -288,19 +289,13 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         bind.discoverSongViewPager.setOffscreenPageLimit(1);
         homeViewModel.getDiscoverSongSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
             if (songs == null) {
-                if (bind != null)
-                    bind.homeDiscoveryPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeDiscoveryPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeDiscoverSector.setVisibility(View.GONE);
             } else {
-                if (bind != null)
-                    bind.homeDiscoveryPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null)
-                    bind.homeDiscoverSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null) bind.homeDiscoveryPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeDiscoverSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
 
                 discoverSongAdapter.setItems(songs);
-
-                // Ritardo l'apparizione della griglia dopo essermi assicurato che il server è raggiungibile
-                initGridView();
             }
         });
 
@@ -315,14 +310,11 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         bind.similarTracksRecyclerView.setAdapter(similarMusicAdapter);
         homeViewModel.getStarredTracksSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
             if (songs == null) {
-                if (bind != null)
-                    bind.homeSimilarTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeSimilarTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeSimilarTracksSector.setVisibility(View.GONE);
             } else {
-                if (bind != null)
-                    bind.homeSimilarTracksPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null)
-                    bind.homeSimilarTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null) bind.homeSimilarTracksPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeSimilarTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
 
                 similarMusicAdapter.setItems(songs);
             }
@@ -340,14 +332,11 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         bind.bestOfArtistRecyclerView.setAdapter(bestOfArtistAdapter);
         homeViewModel.getBestOfArtists(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> {
             if (artists == null) {
-                if (bind != null)
-                    bind.homeBestOfArtistPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeBestOfArtistPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeBestOfArtistSector.setVisibility(View.GONE);
             } else {
-                if (bind != null)
-                    bind.homeBestOfArtistPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null)
-                    bind.homeBestOfArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null) bind.homeBestOfArtistPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeBestOfArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
 
                 bestOfArtistAdapter.setItems(artists);
             }
@@ -365,16 +354,12 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         bind.radioArtistRecyclerView.setAdapter(radioArtistAdapter);
         homeViewModel.getStarredArtistsSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> {
             if (artists == null) {
-                if (bind != null)
-                    bind.homeRadioArtistPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeRadioArtistPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeRadioArtistSector.setVisibility(View.GONE);
             } else {
-                if (bind != null)
-                    bind.homeRadioArtistPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null)
-                    bind.homeRadioArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
-                if (bind != null)
-                    bind.afterRadioArtistDivider.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null) bind.homeRadioArtistPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeRadioArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null) bind.afterRadioArtistDivider.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
 
                 radioArtistAdapter.setItems(artists);
             }
@@ -411,16 +396,12 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         bind.starredTracksRecyclerView.setAdapter(starredSongAdapter);
         homeViewModel.getStarredTracks(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
             if (songs == null) {
-                if (bind != null)
-                    bind.starredTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.starredTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.starredTracksSector.setVisibility(View.GONE);
             } else {
-                if (bind != null)
-                    bind.starredTracksPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null)
-                    bind.starredTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
-                if (bind != null)
-                    bind.starredTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(songs.size(), 5), GridLayoutManager.HORIZONTAL, false));
+                if (bind != null) bind.starredTracksPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.starredTracksSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null) bind.starredTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(songs.size(), 5), GridLayoutManager.HORIZONTAL, false));
 
                 starredSongAdapter.setItems(songs);
             }
@@ -446,16 +427,12 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         bind.starredAlbumsRecyclerView.setAdapter(starredAlbumAdapter);
         homeViewModel.getStarredAlbums(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
-                if (bind != null)
-                    bind.starredAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.starredAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.starredAlbumsSector.setVisibility(View.GONE);
             } else {
-                if (bind != null)
-                    bind.starredAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null)
-                    bind.starredAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
-                if (bind != null)
-                    bind.starredAlbumsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
+                if (bind != null) bind.starredAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.starredAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null) bind.starredAlbumsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
 
                 starredAlbumAdapter.setItems(albums);
             }
@@ -481,18 +458,13 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         bind.starredArtistsRecyclerView.setAdapter(starredArtistAdapter);
         homeViewModel.getStarredArtists(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> {
             if (artists == null) {
-                if (bind != null)
-                    bind.starredArtistsPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.starredArtistsPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.starredArtistsSector.setVisibility(View.GONE);
             } else {
-                if (bind != null)
-                    bind.starredArtistsPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null)
-                    bind.starredArtistsSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
-                if (bind != null)
-                    bind.afterFavoritesDivider.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
-                if (bind != null)
-                    bind.starredArtistsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(artists.size(), 5), GridLayoutManager.HORIZONTAL, false));
+                if (bind != null) bind.starredArtistsPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.starredArtistsSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null) bind.afterFavoritesDivider.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null) bind.starredArtistsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(artists.size(), 5), GridLayoutManager.HORIZONTAL, false));
 
                 starredArtistAdapter.setItems(artists);
             }
@@ -518,16 +490,12 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         bind.newReleasesRecyclerView.setAdapter(newReleasesAlbumAdapter);
         homeViewModel.getRecentlyReleasedAlbums(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
-                if (bind != null)
-                    bind.homeNewReleasesPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeNewReleasesPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeNewReleasesSector.setVisibility(View.GONE);
             } else {
-                if (bind != null)
-                    bind.homeNewReleasesPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null)
-                    bind.homeNewReleasesSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
-                if (bind != null)
-                    bind.newReleasesRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
+                if (bind != null) bind.homeNewReleasesPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeNewReleasesSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null) bind.newReleasesRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(albums.size(), 5), GridLayoutManager.HORIZONTAL, false));
 
                 newReleasesAlbumAdapter.setItems(albums);
             }
@@ -554,14 +522,11 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         bind.yearsRecyclerView.setAdapter(yearAdapter);
         homeViewModel.getYearList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), years -> {
             if (years == null) {
-                if (bind != null)
-                    bind.homeFlashbackPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeFlashbackPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeFlashbackSector.setVisibility(View.GONE);
             } else {
-                if (bind != null)
-                    bind.homeFlashbackPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null)
-                    bind.homeFlashbackSector.setVisibility(!years.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null) bind.homeFlashbackPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeFlashbackSector.setVisibility(!years.isEmpty() ? View.VISIBLE : View.GONE);
 
                 yearAdapter.setItems(years);
             }
@@ -579,14 +544,11 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         bind.mostPlayedAlbumsRecyclerView.setAdapter(mostPlayedAlbumAdapter);
         homeViewModel.getMostPlayedAlbums(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
-                if (bind != null)
-                    bind.homeMostPlayedAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeMostPlayedAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeMostPlayedAlbumsSector.setVisibility(View.GONE);
             } else {
-                if (bind != null)
-                    bind.homeMostPlayedAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null)
-                    bind.homeMostPlayedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null) bind.homeMostPlayedAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeMostPlayedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
                 // if (albums.size() < 5) reorder();
 
                 mostPlayedAlbumAdapter.setItems(albums);
@@ -605,14 +567,11 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         bind.recentlyPlayedAlbumsRecyclerView.setAdapter(recentlyPlayedAlbumAdapter);
         homeViewModel.getRecentlyPlayedAlbumList(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
-                if (bind != null)
-                    bind.homeRecentlyPlayedAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeRecentlyPlayedAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeRecentlyPlayedAlbumsSector.setVisibility(View.GONE);
             } else {
-                if (bind != null)
-                    bind.homeRecentlyPlayedAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null)
-                    bind.homeRecentlyPlayedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null) bind.homeRecentlyPlayedAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeRecentlyPlayedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
 
                 recentlyPlayedAlbumAdapter.setItems(albums);
             }
@@ -630,14 +589,11 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         bind.recentlyAddedAlbumsRecyclerView.setAdapter(recentlyAddedAlbumAdapter);
         homeViewModel.getMostRecentlyAddedAlbums(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
-                if (bind != null)
-                    bind.homeRecentlyAddedAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.homeRecentlyAddedAlbumsPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.homeRecentlyAddedAlbumsSector.setVisibility(View.GONE);
             } else {
-                if (bind != null)
-                    bind.homeRecentlyAddedAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null)
-                    bind.homeRecentlyAddedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null) bind.homeRecentlyAddedAlbumsPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null) bind.homeRecentlyAddedAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
 
                 recentlyAddedAlbumAdapter.setItems(albums);
             }

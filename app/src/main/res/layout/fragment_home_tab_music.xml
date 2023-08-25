@@ -296,7 +296,8 @@
             android:id="@+id/home_grid_tracks_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/grid_tracks_pre_text_view"

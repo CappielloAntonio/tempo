@@ -108,7 +108,9 @@ public class PlaylistEditorDialog extends DialogFragment {
         playlistDialogSongHorizontalAdapter = new PlaylistDialogSongHorizontalAdapter();
         bind.playlistSongRecyclerView.setAdapter(playlistDialogSongHorizontalAdapter);
 
-        playlistEditorViewModel.getPlaylistSongLiveList().observe(requireActivity(), songs -> playlistDialogSongHorizontalAdapter.setItems(songs));
+        playlistEditorViewModel.getPlaylistSongLiveList().observe(requireActivity(), songs -> {
+            if (songs != null) playlistDialogSongHorizontalAdapter.setItems(songs);
+        });
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
             int originalPosition = -1;

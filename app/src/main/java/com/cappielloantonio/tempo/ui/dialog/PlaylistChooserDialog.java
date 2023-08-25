@@ -67,7 +67,7 @@ public class PlaylistChooserDialog extends DialogFragment implements ClickCallba
             Bundle bundle = new Bundle();
             bundle.putParcelable(Constants.TRACK_OBJECT, playlistChooserViewModel.getSongToAdd());
 
-            PlaylistEditorDialog dialog = new PlaylistEditorDialog();
+            PlaylistEditorDialog dialog = new PlaylistEditorDialog(null);
             dialog.setArguments(bundle);
             dialog.show(requireActivity().getSupportFragmentManager(), null);
 

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.databinding.DialogPlaylistEditorBinding;
+import com.cappielloantonio.tempo.interfaces.PlaylistCallback;
 import com.cappielloantonio.tempo.ui.adapter.PlaylistDialogSongHorizontalAdapter;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.MusicUtil;
@@ -25,9 +26,14 @@ import java.util.Objects;
 public class PlaylistEditorDialog extends DialogFragment {
     private DialogPlaylistEditorBinding bind;
     private PlaylistEditorViewModel playlistEditorViewModel;
+    private PlaylistCallback playlistCallback;
 
     private String playlistName;
     private PlaylistDialogSongHorizontalAdapter playlistDialogSongHorizontalAdapter;
+
+    public PlaylistEditorDialog(PlaylistCallback playlistCallback) {
+        this.playlistCallback = playlistCallback;
+    }
 
     @NonNull
     @Override
@@ -85,13 +91,13 @@ public class PlaylistEditorDialog extends DialogFragment {
                     playlistEditorViewModel.updatePlaylist(playlistName);
                 }
 
-                Objects.requireNonNull(getDialog()).dismiss();
+                dialogDismiss();
             }
         });
 
         ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
             playlistEditorViewModel.deletePlaylist();
-            Objects.requireNonNull(getDialog()).dismiss();
+            dialogDismiss();
         });
     }
 
@@ -156,5 +162,10 @@ public class PlaylistEditorDialog extends DialogFragment {
         }
 
         return true;
+    }
+
+    private void dialogDismiss() {
+        Objects.requireNonNull(getDialog()).dismiss();
+        playlistCallback.onDismiss();
     }
 }

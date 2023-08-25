@@ -178,7 +178,7 @@ public class PlaylistCatalogueFragment extends Fragment implements ClickCallback
 
     @Override
     public void onPlaylistLongClick(Bundle bundle) {
-        PlaylistEditorDialog dialog = new PlaylistEditorDialog();
+        PlaylistEditorDialog dialog = new PlaylistEditorDialog(null);
         dialog.setArguments(bundle);
         dialog.show(activity.getSupportFragmentManager(), null);
         hideKeyboard(requireView());

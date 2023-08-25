@@ -44,7 +44,10 @@ public class PlaylistDialogSongHorizontalAdapter extends RecyclerView.Adapter<Pl
 
     @Override
     public int getItemCount() {
-        return songs.size();
+        if (songs != null)
+            return songs.size();
+        else
+            return 0;
     }
 
     public List<Child> getItems() {

@@ -1,6 +1,7 @@
 package com.cappielloantonio.tempo.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.databinding.FragmentLibraryBinding;
 import com.cappielloantonio.tempo.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.tempo.interfaces.ClickCallback;
+import com.cappielloantonio.tempo.interfaces.PlaylistCallback;
 import com.cappielloantonio.tempo.ui.activity.MainActivity;
 import com.cappielloantonio.tempo.ui.adapter.AlbumAdapter;
 import com.cappielloantonio.tempo.ui.adapter.ArtistAdapter;
@@ -71,13 +73,19 @@ public class LibraryFragment extends Fragment implements ClickCallback {
         initAlbumView();
         initArtistView();
         initGenreView();
-        initPlaylistSlideView();
+        initPlaylistView();
     }
 
     @Override
     public void onStart() {
         super.onStart();
         activity.setBottomNavigationBarVisibility(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshPlaylistView();
     }
 
     @Override
@@ -222,7 +230,7 @@ public class LibraryFragment extends Fragment implements ClickCallback {
         genreSnapHelper.attachToRecyclerView(bind.genreRecyclerView);
     }
 
-    private void initPlaylistSlideView() {
+    private void initPlaylistView() {
         bind.playlistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.playlistRecyclerView.setHasFixedSize(true);
 
@@ -242,6 +250,12 @@ public class LibraryFragment extends Fragment implements ClickCallback {
                 playlistHorizontalAdapter.setItems(playlists);
             }
         });
+    }
+
+    private void refreshPlaylistView() {
+        final Handler handler = new Handler();
+        final Runnable runnable = () -> libraryViewModel.refreshPlaylistSample(getViewLifecycleOwner());
+        handler.postDelayed(runnable, 100);
     }
 
     @Override
@@ -276,7 +290,13 @@ public class LibraryFragment extends Fragment implements ClickCallback {
 
     @Override
     public void onPlaylistLongClick(Bundle bundle) {
-        PlaylistEditorDialog dialog = new PlaylistEditorDialog();
+        PlaylistEditorDialog dialog = new PlaylistEditorDialog(new PlaylistCallback() {
+            @Override
+            public void onDismiss() {
+                refreshPlaylistView();
+            }
+        });
+
         dialog.setArguments(bundle);
         dialog.show(activity.getSupportFragmentManager(), null);
     }

@@ -37,8 +37,7 @@ public class PlaylistEditorViewModel extends AndroidViewModel {
     }
 
     public void updatePlaylist(String name) {
-        playlistRepository.deletePlaylist(toEdit.getId());
-        playlistRepository.createPlaylist(toEdit.getId(), name, getPlaylistSongIds());
+        playlistRepository.updatePlaylist(toEdit.getId(), name, getPlaylistSongIds());
     }
 
     public void deletePlaylist() {

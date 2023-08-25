@@ -95,12 +95,29 @@ public class PlaylistRepository {
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-                        Log.d("PLAYLIST", response.toString());
+                        Log.d("createPlaylist", "onResponse: ");
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
-                        Log.d("PLAYLIST", t.toString());
+
+                    }
+                });
+    }
+
+    public void updatePlaylist(String playlistId, String name, ArrayList<String> songsId) {
+        App.getSubsonicClientInstance(false)
+                .getPlaylistClient()
+                .deletePlaylist(playlistId)
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        createPlaylist(null, name, songsId);
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
+
                     }
                 });
     }

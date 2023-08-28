@@ -33,8 +33,8 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
     public SongHorizontalAdapter(ClickCallback click, boolean showCoverArt, boolean showAlbum) {
         this.click = click;
         this.showCoverArt = showCoverArt;
-        this.songs = Collections.emptyList();
         this.showAlbum = showAlbum;
+        this.songs = Collections.emptyList();
     }
 
     @NonNull

@@ -392,7 +392,7 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     private void initStarredTracksView() {
         bind.starredTracksRecyclerView.setHasFixedSize(true);
 
-        starredSongAdapter = new SongHorizontalAdapter(this, true);
+        starredSongAdapter = new SongHorizontalAdapter(this, true, false);
         bind.starredTracksRecyclerView.setAdapter(starredSongAdapter);
         homeViewModel.getStarredTracks(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
             if (songs == null) {

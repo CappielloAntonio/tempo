@@ -181,7 +181,7 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
         bind.songRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.songRecyclerView.setHasFixedSize(true);
 
-        songHorizontalAdapter = new SongHorizontalAdapter(this, false);
+        songHorizontalAdapter = new SongHorizontalAdapter(this, false, false);
         bind.songRecyclerView.setAdapter(songHorizontalAdapter);
 
         albumPageViewModel.getAlbumSongLiveList().observe(getViewLifecycleOwner(), songs -> songHorizontalAdapter.setItems(songs));

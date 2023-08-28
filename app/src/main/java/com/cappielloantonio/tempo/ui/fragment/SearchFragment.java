@@ -112,7 +112,7 @@ public class SearchFragment extends Fragment implements ClickCallback {
         bind.searchResultTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.searchResultTracksRecyclerView.setHasFixedSize(true);
 
-        songHorizontalAdapter = new SongHorizontalAdapter(this, true);
+        songHorizontalAdapter = new SongHorizontalAdapter(this, true, false);
         bind.searchResultTracksRecyclerView.setAdapter(songHorizontalAdapter);
     }
 

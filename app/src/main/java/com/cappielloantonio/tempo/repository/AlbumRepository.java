@@ -105,7 +105,9 @@ public class AlbumRepository {
                         List<Child> tracks = new ArrayList<>();
 
                         if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getAlbum() != null) {
-                            tracks.addAll(response.body().getSubsonicResponse().getAlbum().getSongs());
+                            if (response.body().getSubsonicResponse().getAlbum().getSongs() != null) {
+                                tracks.addAll(response.body().getSubsonicResponse().getAlbum().getSongs());
+                            }
                         }
 
                         albumTracks.setValue(tracks);

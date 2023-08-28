@@ -25,14 +25,14 @@ import java.util.List;
 @UnstableApi
 public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAdapter.ViewHolder> {
     private final ClickCallback click;
-    private final boolean isCoverVisible;
+    private final boolean showCoverArt;
     private final boolean showAlbum;
 
     private List<Child> songs;
 
-    public SongHorizontalAdapter(ClickCallback click, boolean isCoverVisible, boolean showAlbum) {
+    public SongHorizontalAdapter(ClickCallback click, boolean showCoverArt, boolean showAlbum) {
         this.click = click;
-        this.isCoverVisible = isCoverVisible;
+        this.showCoverArt = showCoverArt;
         this.songs = Collections.emptyList();
         this.showAlbum = showAlbum;
     }
@@ -58,16 +58,16 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
             holder.item.searchResultDowanloadIndicatorImageView.setVisibility(View.GONE);
         }
 
-        if (isCoverVisible) CustomGlideRequest.Builder
+        if (showCoverArt) CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), song.getCoverArtId())
                 .build()
                 .into(holder.item.songCoverImageView);
 
-        if (isCoverVisible) holder.item.trackNumberTextView.setVisibility(View.INVISIBLE);
+        if (showCoverArt) holder.item.trackNumberTextView.setVisibility(View.INVISIBLE);
 
-        if (!isCoverVisible) holder.item.songCoverImageView.setVisibility(View.INVISIBLE);
+        if (!showCoverArt) holder.item.songCoverImageView.setVisibility(View.INVISIBLE);
 
-        if (!isCoverVisible && (position > 0 && songs.get(position - 1) != null && songs.get(position - 1).getDiscNumber() != null && songs.get(position).getDiscNumber() != null && songs.get(position - 1).getDiscNumber() < songs.get(position).getDiscNumber())) {
+        if (!showCoverArt && (position > 0 && songs.get(position - 1) != null && songs.get(position - 1).getDiscNumber() != null && songs.get(position).getDiscNumber() != null && songs.get(position - 1).getDiscNumber() < songs.get(position).getDiscNumber())) {
             holder.item.differentDiskDivider.setVisibility(View.VISIBLE);
         }
     }

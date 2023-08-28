@@ -26,13 +26,15 @@ import java.util.List;
 public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAdapter.ViewHolder> {
     private final ClickCallback click;
     private final boolean isCoverVisible;
+    private final boolean showAlbum;
 
     private List<Child> songs;
 
-    public SongHorizontalAdapter(ClickCallback click, boolean isCoverVisible) {
+    public SongHorizontalAdapter(ClickCallback click, boolean isCoverVisible, boolean showAlbum) {
         this.click = click;
         this.isCoverVisible = isCoverVisible;
         this.songs = Collections.emptyList();
+        this.showAlbum = showAlbum;
     }
 
     @NonNull
@@ -47,7 +49,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         Child song = songs.get(position);
 
         holder.item.searchResultSongTitleTextView.setText(MusicUtil.getReadableString(song.getTitle()));
-        holder.item.searchResultSongSubtitleTextView.setText(holder.itemView.getContext().getString(R.string.song_subtitle_formatter, MusicUtil.getReadableString(song.getArtist()), MusicUtil.getReadableDurationString(song.getDuration() != null ? song.getDuration() : 0, false)));
+        holder.item.searchResultSongSubtitleTextView.setText(holder.itemView.getContext().getString(R.string.song_subtitle_formatter, MusicUtil.getReadableString(this.showAlbum ? song.getAlbum() : song.getArtist()), MusicUtil.getReadableDurationString(song.getDuration() != null ? song.getDuration() : 0, false)));
         holder.item.trackNumberTextView.setText(MusicUtil.getReadableTrackNumber(holder.itemView.getContext(), song.getTrack()));
 
         if (DownloadUtil.getDownloadTracker(holder.itemView.getContext()).isDownloaded(song.getId())) {

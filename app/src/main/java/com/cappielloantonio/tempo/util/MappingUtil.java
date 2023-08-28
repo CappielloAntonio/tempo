@@ -10,6 +10,7 @@ import androidx.media3.common.MimeTypes;
 import androidx.media3.common.util.UnstableApi;
 
 import com.cappielloantonio.tempo.App;
+import com.cappielloantonio.tempo.glide.CustomGlideRequest;
 import com.cappielloantonio.tempo.model.Download;
 import com.cappielloantonio.tempo.repository.DownloadRepository;
 import com.cappielloantonio.tempo.subsonic.models.Child;
@@ -33,6 +34,7 @@ public class MappingUtil {
 
     public static MediaItem mapMediaItem(Child media) {
         Uri uri = getUri(media);
+        Uri artworkUri = Uri.parse(CustomGlideRequest.createUrl(media.getCoverArtId(), Preferences.getImageSize()));
 
         Bundle bundle = new Bundle();
         bundle.putString("id", media.getId());
@@ -78,6 +80,7 @@ public class MappingUtil {
                                 .setReleaseYear(media.getYear() != null ? media.getYear() : 0)
                                 .setAlbumTitle(MusicUtil.getReadableString(media.getAlbum()))
                                 .setArtist(MusicUtil.getReadableString(media.getArtist()))
+                                .setArtworkUri(artworkUri)
                                 .setExtras(bundle)
                                 .build()
                 )
@@ -157,6 +160,7 @@ public class MappingUtil {
 
     public static MediaItem mapMediaItem(PodcastEpisode podcastEpisode) {
         Uri uri = getUri(podcastEpisode);
+        Uri artworkUri = Uri.parse(CustomGlideRequest.createUrl(podcastEpisode.getCoverArtId(), Preferences.getImageSize()));
 
         Bundle bundle = new Bundle();
         bundle.putString("id", podcastEpisode.getId());
@@ -202,6 +206,7 @@ public class MappingUtil {
                                 .setReleaseYear(podcastEpisode.getYear() != null ? podcastEpisode.getYear() : 0)
                                 .setAlbumTitle(MusicUtil.getReadableString(podcastEpisode.getAlbum()))
                                 .setArtist(MusicUtil.getReadableString(podcastEpisode.getArtist()))
+                                .setArtworkUri(artworkUri)
                                 .setExtras(bundle)
                                 .build()
                 )

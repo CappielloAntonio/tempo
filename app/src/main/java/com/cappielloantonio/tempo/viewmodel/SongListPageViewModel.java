@@ -71,7 +71,11 @@ public class SongListPageViewModel extends AndroidViewModel {
     public void getSongsByPage(LifecycleOwner owner) {
         switch (title) {
             case Constants.MEDIA_BY_GENRE:
-                int page = (songList.getValue() != null ? songList.getValue().size() : 0) / 100;
+                int songCount = songList.getValue() != null ? songList.getValue().size() : 0;
+
+                if (songCount > 0 && songCount % 100 != 0) return;
+
+                int page = songCount / 100;
                 songRepository.getSongsByGenre(genre.getGenre(), page).observe(owner, children -> {
                     if (children != null && !children.isEmpty()) {
                         List<Child> currentMedia = songList.getValue();

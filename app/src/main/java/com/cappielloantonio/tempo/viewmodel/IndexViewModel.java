@@ -23,8 +23,8 @@ public class IndexViewModel extends AndroidViewModel {
         directoryRepository = new DirectoryRepository();
     }
 
-    public MutableLiveData<Indexes> getIndexes() {
-        return directoryRepository.getIndexes(null, null);
+    public MutableLiveData<Indexes> getIndexes(String musicFolderId) {
+        return directoryRepository.getIndexes(musicFolderId, null);
     }
 
     public String getMusicFolderName() {

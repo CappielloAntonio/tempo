@@ -60,7 +60,7 @@ public class MusicIndexAdapter extends RecyclerView.Adapter<MusicIndexAdapter.Vi
 
     @Override
     public String getTextToShowInBubble(int pos) {
-        return Character.toString(Objects.requireNonNull(artists.get(pos).getName().toUpperCase()).charAt(0));
+        return artists != null && !artists.isEmpty() ? Character.toString(Objects.requireNonNull(artists.get(pos).getName().toUpperCase()).charAt(0)) : null;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

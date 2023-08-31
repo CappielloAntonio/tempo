@@ -85,13 +85,15 @@ public class IndexFragment extends Fragment implements ClickCallback {
     }
 
     private void initDirectoryListView() {
+        MusicFolder musicFolder = getArguments().getParcelable(Constants.MUSIC_FOLDER_OBJECT);
+
         bind.indexRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         bind.indexRecyclerView.setHasFixedSize(true);
 
         musicIndexAdapter = new MusicIndexAdapter(this);
         bind.indexRecyclerView.setAdapter(musicIndexAdapter);
 
-        indexViewModel.getIndexes().observe(getViewLifecycleOwner(), indexes -> {
+        indexViewModel.getIndexes(musicFolder != null ? musicFolder.getId() : null).observe(getViewLifecycleOwner(), indexes -> {
             if (indexes != null) {
                 musicIndexAdapter.setItems(IndexUtil.getArtist(indexes));
             }

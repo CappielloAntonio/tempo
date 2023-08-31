@@ -49,9 +49,9 @@
                     android:nestedScrollingEnabled="false"
                     android:clipToPadding="false"
                     android:paddingStart="16dp"
-                    android:paddingTop="8dp"
+                    android:paddingTop="4dp"
                     android:paddingEnd="8dp"
-                    android:paddingBottom="8dp" />
+                    android:paddingBottom="4dp" />
             </LinearLayout>
 
             <include

@@ -6,8 +6,8 @@
     android:clipChildren="false"
     android:orientation="horizontal"
     android:paddingStart="16dp"
-    android:paddingTop="3dp"
-    android:paddingBottom="3dp">
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
 
     <ImageView
         android:id="@+id/music_directory_cover_image_view"
@@ -50,10 +50,10 @@
         android:layout_marginEnd="12dp"
         android:background="@drawable/ic_navigate_next"
         android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/music_directory_title_text_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/music_directory_title_text_view"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toTopOf="@+id/music_directory_title_text_view" />
 
     <ImageView
         android:id="@+id/music_directory_play_button"
@@ -63,8 +63,8 @@
         android:layout_marginEnd="12dp"
         android:background="@drawable/ic_play"
         android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/music_directory_title_text_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/music_directory_title_text_view"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toTopOf="@+id/music_directory_title_text_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -48,8 +48,8 @@ public class MusicDirectoryAdapter extends RecyclerView.Adapter<MusicDirectoryAd
                 .build()
                 .into(holder.item.musicDirectoryCoverImageView);
 
-        holder.item.musicDirectoryMoreButton.setVisibility(child.isDir() ? View.VISIBLE : View.GONE);
-        holder.item.musicDirectoryPlayButton.setVisibility(child.isDir() ? View.GONE : View.VISIBLE);
+        holder.item.musicDirectoryMoreButton.setVisibility(child.isDir() ? View.VISIBLE : View.INVISIBLE);
+        holder.item.musicDirectoryPlayButton.setVisibility(child.isDir() ? View.INVISIBLE : View.VISIBLE);
     }
 
     @Override

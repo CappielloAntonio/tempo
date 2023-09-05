@@ -105,10 +105,10 @@ public class DownloadedBottomSheetDialog extends BottomSheetDialogFragment imple
         });
 
         TextView removeAll = view.findViewById(R.id.remove_all_text_view);
-        List<MediaItem> mediaItems = MappingUtil.mapDownloads(songs);
-        List<Download> downloads = songs.stream().map(Download::new).collect(Collectors.toList());
 
         removeAll.setOnClickListener(v -> {
+            List<MediaItem> mediaItems = MappingUtil.mapDownloads(songs);
+            List<Download> downloads = songs.stream().map(Download::new).collect(Collectors.toList());
             DownloadUtil.getDownloadTracker(requireContext()).remove(mediaItems, downloads);
             dismissBottomSheet();
         });

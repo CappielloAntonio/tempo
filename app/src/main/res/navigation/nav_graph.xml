@@ -316,6 +316,11 @@
         android:label="AlbumBottomSheetDialog"
         tools:layout="@layout/bottom_sheet_album_dialog" />
     <dialog
+        android:id="@+id/downloadBottomSheetDialog"
+        android:name="com.cappielloantonio.tempo.ui.fragment.bottomsheetdialog.DownloadedBottomSheetDialog"
+        android:label="DownloadBottomSheetDialog"
+        tools:layout="@layout/bottom_sheet_downloaded_dialog" />
+    <dialog
         android:id="@+id/podcastEpisodeBottomSheetDialog"
         android:name="com.cappielloantonio.tempo.ui.fragment.bottomsheetdialog.PodcastEpisodeBottomSheetDialog"
         android:label="PodcastEpisodeBottomSheetDialog"

@@ -300,4 +300,8 @@
     <string name="menu_group_by_artist">Artist</string>
     <string name="menu_group_by_genre">Genre</string>
     <string name="menu_group_by_year">Year</string>
+    <string name="downloaded_bottom_sheet_shuffle">Shuffle</string>
+    <string name="downloaded_bottom_sheet_play_next">Play next</string>
+    <string name="downloaded_bottom_sheet_add_to_queue">Add to queue</string>
+    <string name="downloaded_bottom_sheet_remove_all">Remove all</string>
 </resources>

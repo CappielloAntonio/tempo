@@ -2,6 +2,7 @@ package com.cappielloantonio.tempo.ui.fragment;
 
 import android.content.ComponentName;
 import android.os.Bundle;
+import android.os.Handler;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.transition.TransitionManager;
@@ -39,6 +40,8 @@ public class PlayerCoverFragment extends Fragment {
     private InnerFragmentPlayerCoverBinding bind;
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
+    private final Handler handler = new Handler();
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         bind = InnerFragmentPlayerCoverBinding.inflate(inflater, container, false);
@@ -72,9 +75,19 @@ public class PlayerCoverFragment extends Fragment {
         bind = null;
     }
 
+    private void initTapButtonHideTransition() {
+        bind.nowPlayingTapButton.setVisibility(View.VISIBLE);
+
+        handler.removeCallbacksAndMessages(null);
+
+        final Runnable runnable = () -> bind.nowPlayingTapButton.setVisibility(View.GONE);
+        handler.postDelayed(runnable, 10000);
+    }
+
     private void initOverlay() {
         bind.nowPlayingSongCoverImageView.setOnClickListener(view -> toggleOverlayVisibility(true));
         bind.nowPlayingSongCoverButtonGroup.setOnClickListener(view -> toggleOverlayVisibility(false));
+        bind.nowPlayingTapButton.setOnClickListener(view -> toggleOverlayVisibility(true));
     }
 
     private void toggleOverlayVisibility(boolean isVisible) {
@@ -87,6 +100,8 @@ public class PlayerCoverFragment extends Fragment {
 
         bind.innerButtonBottomRight.setVisibility(Preferences.isSyncronizationEnabled() ? View.VISIBLE : View.GONE);
         bind.innerButtonBottomRightAlternative.setVisibility(Preferences.isSyncronizationEnabled() ? View.GONE : View.VISIBLE);
+
+        if (!isVisible) initTapButtonHideTransition();
     }
 
     private void initInnerButton() {

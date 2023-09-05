@@ -15,6 +15,22 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/now_playing_tap_button"
+        style="@style/Widget.Material3.Button.TonalButton.Icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        app:cornerRadius="64dp"
+        android:alpha="0.7"
+        app:icon="@drawable/ic_tap"
+        app:layout_constraintEnd_toEndOf="@+id/now_playing_song_cover_image_view"
+        app:layout_constraintBottom_toBottomOf="@+id/now_playing_song_cover_image_view" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/now_playing_song_cover_button_group"
         android:layout_width="match_parent"

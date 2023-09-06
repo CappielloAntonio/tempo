@@ -204,6 +204,22 @@ public class MediaManager {
         }
     }
 
+    public static void shuffle(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, List<Child> media, int startIndex, int endIndex) {
+        if (mediaBrowserListenableFuture != null) {
+            mediaBrowserListenableFuture.addListener(() -> {
+                try {
+                    if (mediaBrowserListenableFuture.isDone()) {
+                        mediaBrowserListenableFuture.get().removeMediaItems(startIndex, endIndex + 1);
+                        mediaBrowserListenableFuture.get().addMediaItems(MappingUtil.mapMediaItems(media).subList(startIndex, endIndex + 1));
+                        swapDatabase(media);
+                    }
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }, MoreExecutors.directExecutor());
+        }
+    }
+
     public static void swap(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, List<Child> media, int from, int to) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {

@@ -2,7 +2,6 @@ package com.cappielloantonio.tempo.util;
 
 import android.content.Context;
 
-import androidx.media3.common.util.Log;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.database.DatabaseProvider;
 import androidx.media3.database.StandaloneDatabaseProvider;
@@ -25,7 +24,6 @@ import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executors;
 
 @UnstableApi

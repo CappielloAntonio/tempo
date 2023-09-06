@@ -7,9 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
@@ -31,6 +29,7 @@ import com.cappielloantonio.tempo.databinding.InnerFragmentPlayerControllerBindi
 import com.cappielloantonio.tempo.service.MediaService;
 import com.cappielloantonio.tempo.ui.activity.MainActivity;
 import com.cappielloantonio.tempo.ui.dialog.RatingDialog;
+import com.cappielloantonio.tempo.ui.dialog.TrackInfoDialog;
 import com.cappielloantonio.tempo.ui.fragment.pager.PlayerControllerHorizontalPager;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.MusicUtil;
@@ -54,12 +53,8 @@ public class PlayerControllerFragment extends Fragment {
     private ToggleButton skipSilenceToggleButton;
     private Chip playerMediaExtension;
     private TextView playerMediaBitrate;
-    private ImageView playerMediaTranscodingIcon;
-    private ImageView playerMediaTranscodingPriorityIcon;
-    private Chip playerMediaTranscodedExtension;
-    private TextView playerMediaTranscodedBitrate;
     private ConstraintLayout playerQuickActionView;
-    private ImageButton playerOpenQueueButton;
+    private ImageButton playerTrackInfo;
 
     private MainActivity activity;
     private PlayerBottomSheetViewModel playerBottomSheetViewModel;
@@ -79,7 +74,6 @@ public class PlayerControllerFragment extends Fragment {
         initCoverLyricsSlideView();
         initMediaListenable();
         initArtistLabelButton();
-        initTranscodingInfo();
 
         return view;
     }
@@ -112,18 +106,14 @@ public class PlayerControllerFragment extends Fragment {
         skipSilenceToggleButton = bind.getRoot().findViewById(R.id.player_skip_silence_toggle_button);
         playerMediaExtension = bind.getRoot().findViewById(R.id.player_media_extension);
         playerMediaBitrate = bind.getRoot().findViewById(R.id.player_media_bitrate);
-        playerMediaTranscodingIcon = bind.getRoot().findViewById(R.id.player_media_transcoding_audio);
-        playerMediaTranscodingPriorityIcon = bind.getRoot().findViewById(R.id.player_media_server_transcode_priority);
-        playerMediaTranscodedExtension = bind.getRoot().findViewById(R.id.player_media_transcoded_extension);
-        playerMediaTranscodedBitrate = bind.getRoot().findViewById(R.id.player_media_transcoded_bitrate);
         playerQuickActionView = bind.getRoot().findViewById(R.id.player_quick_action_view);
-        playerOpenQueueButton = bind.getRoot().findViewById(R.id.player_open_queue_button);
+        playerTrackInfo = bind.getRoot().findViewById(R.id.player_info_track);
     }
 
     private void initQuickActionView() {
         playerQuickActionView.setBackgroundColor(SurfaceColors.getColorForElevation(requireContext(), 8));
 
-        playerOpenQueueButton.setOnClickListener(view -> {
+        playerQuickActionView.setOnClickListener(view -> {
             PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) requireActivity().getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
             if (playerBottomSheetFragment != null) {
                 playerBottomSheetFragment.goToQueuePage();
@@ -191,36 +181,10 @@ public class PlayerControllerFragment extends Fragment {
             }
         }
 
-        String transcodingExtension = MusicUtil.getTranscodingFormatPreference();
-        String transcodingBitrate = Integer.parseInt(MusicUtil.getBitratePreference()) != 0 ? Integer.parseInt(MusicUtil.getBitratePreference()) + "kbps" : "Original";
-
-        if (transcodingExtension.equals("raw") && transcodingBitrate.equals("Original")) {
-            playerMediaTranscodingPriorityIcon.setVisibility(View.GONE);
-            playerMediaTranscodingIcon.setVisibility(View.GONE);
-            playerMediaTranscodedBitrate.setVisibility(View.GONE);
-            playerMediaTranscodedExtension.setVisibility(View.GONE);
-        } else {
-            playerMediaTranscodingPriorityIcon.setVisibility(View.GONE);
-            playerMediaTranscodingIcon.setVisibility(View.VISIBLE);
-            playerMediaTranscodedBitrate.setVisibility(View.VISIBLE);
-            playerMediaTranscodedExtension.setVisibility(View.VISIBLE);
-            playerMediaTranscodedExtension.setText(transcodingExtension);
-            playerMediaTranscodedBitrate.setText(transcodingBitrate);
-        }
-
-        if (mediaMetadata.extras != null && mediaMetadata.extras.getString("uri", "").contains(Constants.DOWNLOAD_URI)) {
-            playerMediaTranscodingPriorityIcon.setVisibility(View.GONE);
-            playerMediaTranscodingIcon.setVisibility(View.GONE);
-            playerMediaTranscodedBitrate.setVisibility(View.GONE);
-            playerMediaTranscodedExtension.setVisibility(View.GONE);
-        }
-
-        if (Preferences.isServerPrioritized() && mediaMetadata.extras != null && !mediaMetadata.extras.getString("uri", "").contains(Constants.DOWNLOAD_URI)) {
-            playerMediaTranscodingPriorityIcon.setVisibility(View.VISIBLE);
-            playerMediaTranscodingIcon.setVisibility(View.GONE);
-            playerMediaTranscodedBitrate.setVisibility(View.GONE);
-            playerMediaTranscodedExtension.setVisibility(View.GONE);
-        }
+        playerTrackInfo.setOnClickListener(view -> {
+            TrackInfoDialog dialog = new TrackInfoDialog(mediaMetadata);
+            dialog.show(activity.getSupportFragmentManager(), null);
+        });
     }
 
     private void setMediaControllerUI(MediaBrowser mediaBrowser) {
@@ -317,13 +281,6 @@ public class PlayerControllerFragment extends Fragment {
                     activity.collapseBottomSheet();
                 });
             }
-        });
-    }
-
-    private void initTranscodingInfo() {
-        playerMediaTranscodingPriorityIcon.setOnLongClickListener(view -> {
-            Toast.makeText(requireActivity(), R.string.settings_audio_transcode_priority_toast, Toast.LENGTH_SHORT).show();
-            return true;
         });
     }
 

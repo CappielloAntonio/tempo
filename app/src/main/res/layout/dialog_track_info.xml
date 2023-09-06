@@ -1,0 +1,447 @@
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp">
+
+            <ImageView
+                android:id="@+id/track_cover_info_image_view"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/trak_title_info_text_view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/trak_title_info_text_view"
+                style="@style/LabelMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/label_placeholder"
+                app:layout_constraintBottom_toTopOf="@+id/trak_artist_info_text_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/track_cover_info_image_view"
+                app:layout_constraintTop_toTopOf="@+id/track_cover_info_image_view"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/trak_artist_info_text_view"
+                style="@style/LabelSmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/label_placeholder"
+                app:layout_constraintBottom_toBottomOf="@+id/track_cover_info_image_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/trak_title_info_text_view"
+                app:layout_constraintTop_toBottomOf="@+id/trak_title_info_text_view" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/trak_transcoding_info_text_view"
+            style="@style/TitleMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" />
+
+        <LinearLayout
+            android:id="@+id/title_info_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/title_key_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:paddingEnd="8dp"
+                android:text="@string/track_info_title" />
+
+            <TextView
+                android:id="@+id/title_value_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="@string/label_placeholder" />
+        </LinearLayout>
+
+        <View
+            style="@style/Divider"
+            android:layout_gravity="center_vertical"
+            android:layout_marginVertical="8dp" />
+
+        <LinearLayout
+            android:id="@+id/album_info_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/album_key_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:paddingEnd="8dp"
+                android:text="@string/track_info_album" />
+
+            <TextView
+                android:id="@+id/album_value_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="@string/label_placeholder" />
+        </LinearLayout>
+
+        <View
+            style="@style/Divider"
+            android:layout_gravity="center_vertical"
+            android:layout_marginVertical="8dp" />
+
+        <LinearLayout
+            android:id="@+id/artist_info_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/artist_key_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:paddingEnd="8dp"
+                android:text="@string/track_info_artist" />
+
+            <TextView
+                android:id="@+id/artist_value_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="@string/label_placeholder" />
+        </LinearLayout>
+
+        <View
+            style="@style/Divider"
+            android:layout_gravity="center_vertical"
+            android:layout_marginVertical="8dp" />
+
+        <LinearLayout
+            android:id="@+id/track_number_info_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/track_number_key_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:paddingEnd="8dp"
+                android:text="@string/track_info_track_number" />
+
+            <TextView
+                android:id="@+id/track_number_value_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="@string/label_placeholder" />
+        </LinearLayout>
+
+        <View
+            style="@style/Divider"
+            android:layout_gravity="center_vertical"
+            android:layout_marginVertical="8dp" />
+
+        <LinearLayout
+            android:id="@+id/year_info_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/year_key_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:paddingEnd="8dp"
+                android:text="@string/track_info_year" />
+
+            <TextView
+                android:id="@+id/year_value_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="@string/label_placeholder" />
+        </LinearLayout>
+
+        <View
+            style="@style/Divider"
+            android:layout_gravity="center_vertical"
+            android:layout_marginVertical="8dp" />
+
+        <LinearLayout
+            android:id="@+id/genre_info_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/genre_key_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:paddingEnd="8dp"
+                android:text="@string/track_info_genre" />
+
+            <TextView
+                android:id="@+id/genre_value_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="@string/label_placeholder" />
+        </LinearLayout>
+
+        <View
+            style="@style/Divider"
+            android:layout_gravity="center_vertical"
+            android:layout_marginVertical="8dp" />
+
+        <LinearLayout
+            android:id="@+id/size_info_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/size_key_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:paddingEnd="8dp"
+                android:text="@string/track_info_size" />
+
+            <TextView
+                android:id="@+id/size_value_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="@string/label_placeholder" />
+        </LinearLayout>
+
+        <View
+            style="@style/Divider"
+            android:layout_gravity="center_vertical"
+            android:layout_marginVertical="8dp" />
+
+        <LinearLayout
+            android:id="@+id/content_type_info_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/content_type_key_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:paddingEnd="8dp"
+                android:text="@string/track_info_content_type" />
+
+            <TextView
+                android:id="@+id/content_type_value_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="@string/label_placeholder" />
+        </LinearLayout>
+
+        <View
+            style="@style/Divider"
+            android:layout_gravity="center_vertical"
+            android:layout_marginVertical="8dp" />
+
+        <LinearLayout
+            android:id="@+id/suffix_info_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/suffix_key_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:paddingEnd="8dp"
+                android:text="@string/track_info_suffix" />
+
+            <TextView
+                android:id="@+id/suffix_value_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="@string/label_placeholder" />
+        </LinearLayout>
+
+        <View
+            style="@style/Divider"
+            android:layout_gravity="center_vertical"
+            android:layout_marginVertical="8dp" />
+
+        <LinearLayout
+            android:id="@+id/transcoded_content_type_info_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/transcoded_content_type_key_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:paddingEnd="8dp"
+                android:text="@string/track_info_transcoded_content_type" />
+
+            <TextView
+                android:id="@+id/transcoded_content_type_value_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="@string/label_placeholder" />
+        </LinearLayout>
+
+        <View
+            style="@style/Divider"
+            android:layout_gravity="center_vertical"
+            android:layout_marginVertical="8dp" />
+
+        <LinearLayout
+            android:id="@+id/transcoded_suffix_info_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/transcoded_suffix_key_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:paddingEnd="8dp"
+                android:text="@string/track_info_transcoded_suffix" />
+
+            <TextView
+                android:id="@+id/transcoded_suffix_value_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="@string/label_placeholder" />
+        </LinearLayout>
+
+        <View
+            style="@style/Divider"
+            android:layout_gravity="center_vertical"
+            android:layout_marginVertical="8dp" />
+
+        <LinearLayout
+            android:id="@+id/duration_info_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/duration_key_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:paddingEnd="8dp"
+                android:text="@string/track_info_duration" />
+
+            <TextView
+                android:id="@+id/duration_value_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="@string/label_placeholder" />
+        </LinearLayout>
+
+        <View
+            style="@style/Divider"
+            android:layout_gravity="center_vertical"
+            android:layout_marginVertical="8dp" />
+
+        <LinearLayout
+            android:id="@+id/bitrate_info_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/bitrate_key_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:paddingEnd="8dp"
+                android:text="@string/track_info_bitrate" />
+
+            <TextView
+                android:id="@+id/bitrate_value_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="@string/label_placeholder" />
+        </LinearLayout>
+
+        <View
+            style="@style/Divider"
+            android:layout_gravity="center_vertical"
+            android:layout_marginVertical="8dp" />
+
+        <LinearLayout
+            android:id="@+id/path_info_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/path_key_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:paddingEnd="8dp"
+                android:text="@string/track_info_path" />
+
+            <TextView
+                android:id="@+id/path_value_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="@string/label_placeholder" />
+        </LinearLayout>
+
+        <View
+            style="@style/Divider"
+            android:layout_gravity="center_vertical"
+            android:layout_marginVertical="8dp" />
+
+        <LinearLayout
+            android:id="@+id/disc_number_info_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/disc_number_key_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:paddingEnd="8dp"
+                android:text="@string/track_info_disc_number" />
+
+            <TextView
+                android:id="@+id/disc_number_value_sector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="@string/label_placeholder" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
+

@@ -157,6 +157,7 @@
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
+            android:visibility="gone"
             android:text="@string/album_bottom_sheet_remove_all" />
 
         <TextView

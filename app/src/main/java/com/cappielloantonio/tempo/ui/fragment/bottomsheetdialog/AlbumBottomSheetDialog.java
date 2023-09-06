@@ -147,8 +147,6 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
         }));
 
         TextView downloadAll = view.findViewById(R.id.download_all_text_view);
-        TextView removeAll = view.findViewById(R.id.remove_all_text_view);
-
         albumBottomSheetViewModel.getAlbumTracks().observe(getViewLifecycleOwner(), songs -> {
             List<MediaItem> mediaItems = MappingUtil.mapDownloads(songs);
             List<Download> downloads = songs.stream().map(Download::new).collect(Collectors.toList());
@@ -157,16 +155,20 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
                 DownloadUtil.getDownloadTracker(requireContext()).download(mediaItems, downloads);
                 dismissBottomSheet();
             });
-
-            if (DownloadUtil.getDownloadTracker(requireContext()).areDownloaded(mediaItems)) {
-                removeAll.setOnClickListener(v -> {
-                    DownloadUtil.getDownloadTracker(requireContext()).remove(mediaItems, downloads);
-                    dismissBottomSheet();
-                });
-            } else {
-                removeAll.setVisibility(View.GONE);
-            }
         });
+
+        TextView removeAll = view.findViewById(R.id.remove_all_text_view);
+        albumBottomSheetViewModel.getAlbumTracks().observe(getViewLifecycleOwner(), songs -> {
+            List<MediaItem> mediaItems = MappingUtil.mapDownloads(songs);
+            List<Download> downloads = songs.stream().map(Download::new).collect(Collectors.toList());
+
+            removeAll.setOnClickListener(v -> {
+                DownloadUtil.getDownloadTracker(requireContext()).remove(mediaItems, downloads);
+                dismissBottomSheet();
+            });
+        });
+
+        initDownloadUI(removeAll);
 
         TextView goToArtist = view.findViewById(R.id.go_to_artist_text_view);
         goToArtist.setOnClickListener(v -> albumBottomSheetViewModel.getArtist().observe(getViewLifecycleOwner(), artist -> {
@@ -189,6 +191,16 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
     private void dismissBottomSheet() {
         dismiss();
+    }
+
+    private void initDownloadUI(TextView removeAll) {
+        albumBottomSheetViewModel.getAlbumTracks().observe(getViewLifecycleOwner(), songs -> {
+            List<MediaItem> mediaItems = MappingUtil.mapDownloads(songs);
+
+            if (DownloadUtil.getDownloadTracker(requireContext()).areDownloaded(mediaItems)) {
+                removeAll.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private void initializeMediaBrowser() {

@@ -1,6 +1,7 @@
 package com.cappielloantonio.tempo.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -11,7 +12,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.cappielloantonio.tempo.model.DownloadStack;
 import com.cappielloantonio.tempo.repository.DownloadRepository;
 import com.cappielloantonio.tempo.subsonic.models.Child;
-import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.Preferences;
 
 import java.util.ArrayList;

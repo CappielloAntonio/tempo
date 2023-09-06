@@ -6,12 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.MediaMetadata;
@@ -35,6 +37,7 @@ import com.cappielloantonio.tempo.util.MusicUtil;
 import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.viewmodel.PlayerBottomSheetViewModel;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.elevation.SurfaceColors;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 
@@ -55,6 +58,8 @@ public class PlayerControllerFragment extends Fragment {
     private ImageView playerMediaTranscodingPriorityIcon;
     private Chip playerMediaTranscodedExtension;
     private TextView playerMediaTranscodedBitrate;
+    private ConstraintLayout playerQuickActionView;
+    private ImageButton playerOpenQueueButton;
 
     private MainActivity activity;
     private PlayerBottomSheetViewModel playerBottomSheetViewModel;
@@ -70,6 +75,7 @@ public class PlayerControllerFragment extends Fragment {
         playerBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(PlayerBottomSheetViewModel.class);
 
         init();
+        initQuickActionView();
         initCoverLyricsSlideView();
         initMediaListenable();
         initArtistLabelButton();
@@ -110,6 +116,19 @@ public class PlayerControllerFragment extends Fragment {
         playerMediaTranscodingPriorityIcon = bind.getRoot().findViewById(R.id.player_media_server_transcode_priority);
         playerMediaTranscodedExtension = bind.getRoot().findViewById(R.id.player_media_transcoded_extension);
         playerMediaTranscodedBitrate = bind.getRoot().findViewById(R.id.player_media_transcoded_bitrate);
+        playerQuickActionView = bind.getRoot().findViewById(R.id.player_quick_action_view);
+        playerOpenQueueButton = bind.getRoot().findViewById(R.id.player_open_queue_button);
+    }
+
+    private void initQuickActionView() {
+        playerQuickActionView.setBackgroundColor(SurfaceColors.getColorForElevation(requireContext(), 8));
+
+        playerOpenQueueButton.setOnClickListener(view -> {
+            PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) requireActivity().getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
+            if (playerBottomSheetFragment != null) {
+                playerBottomSheetFragment.goToQueuePage();
+            }
+        });
     }
 
     private void initializeBrowser() {
@@ -160,9 +179,7 @@ public class PlayerControllerFragment extends Fragment {
     private void setMediaInfo(MediaMetadata mediaMetadata) {
         if (mediaMetadata.extras != null) {
             String extension = mediaMetadata.extras.getString("suffix", "Unknown format");
-            String bitrate = mediaMetadata.extras.getInt("bitrate", 0) != 0
-                    ? mediaMetadata.extras.getInt("bitrate", 0) + "kbps"
-                    : "Original";
+            String bitrate = mediaMetadata.extras.getInt("bitrate", 0) != 0 ? mediaMetadata.extras.getInt("bitrate", 0) + "kbps" : "Original";
 
             playerMediaExtension.setText(extension);
 
@@ -175,9 +192,7 @@ public class PlayerControllerFragment extends Fragment {
         }
 
         String transcodingExtension = MusicUtil.getTranscodingFormatPreference();
-        String transcodingBitrate = Integer.parseInt(MusicUtil.getBitratePreference()) != 0
-                ? Integer.parseInt(MusicUtil.getBitratePreference()) + "kbps"
-                : "Original";
+        String transcodingBitrate = Integer.parseInt(MusicUtil.getBitratePreference()) != 0 ? Integer.parseInt(MusicUtil.getBitratePreference()) + "kbps" : "Original";
 
         if (transcodingExtension.equals("raw") && transcodingBitrate.equals("Original")) {
             playerMediaTranscodingPriorityIcon.setVisibility(View.GONE);

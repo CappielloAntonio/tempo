@@ -83,7 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.60" />
+        app:layout_constraintGuide_percent="0.575" />
 
     <TextView
         android:id="@+id/player_media_title_label"
@@ -194,11 +194,11 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginTop="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/player_quick_action_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/exo_progress"
-        app:layout_constraintVertical_bias=".60" />
+        app:layout_constraintVertical_bias=".45" />
 
     <View
         android:id="@+id/placeholder_view_middle_right"
@@ -282,11 +282,11 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/player_quick_action_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/exo_progress"
-        app:layout_constraintVertical_bias=".60"
+        app:layout_constraintVertical_bias=".45"
         app:tint="?attr/colorOnPrimaryContainer" />
 
     <ImageButton
@@ -343,4 +343,25 @@
         app:layout_constraintStart_toEndOf="@+id/placeholder_view_middle_right"
         app:layout_constraintTop_toTopOf="@+id/placeholder_view_middle_right"
         app:tint="?attr/colorOnPrimaryContainer" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/player_quick_action_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/now_playing_bottom_peek_height"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/player_open_queue_button"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:srcCompat="@drawable/ic_queue" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

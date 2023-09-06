@@ -97,6 +97,7 @@ public class PlayerCoverFragment extends Fragment {
 
         TransitionManager.beginDelayedTransition(bind.getRoot(), transition);
         bind.nowPlayingSongCoverButtonGroup.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+        bind.nowPlayingTapButton.setVisibility(isVisible ? View.GONE : View.VISIBLE);
 
         bind.innerButtonBottomRight.setVisibility(Preferences.isSyncronizationEnabled() ? View.VISIBLE : View.GONE);
         bind.innerButtonBottomRightAlternative.setVisibility(Preferences.isSyncronizationEnabled() ? View.GONE : View.VISIBLE);

@@ -240,6 +240,10 @@ public class PlayerBottomSheetFragment extends Fragment {
         }
     }
 
+    public void goToQueuePage() {
+        bind.playerBodyLayout.playerBodyBottomSheetViewPager.setCurrentItem(1, true);
+    }
+
     private void defineProgressBarHandler(MediaBrowser mediaBrowser) {
         progressBarHandler = new Handler();
         progressBarRunnable = () -> {

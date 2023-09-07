@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -37,6 +38,8 @@ import java.util.Objects;
 
 @UnstableApi
 public class DownloadFragment extends Fragment implements ClickCallback {
+    private static final String TAG = "DownloadFragment";
+
     private FragmentDownloadBinding bind;
     private MainActivity activity;
     private DownloadViewModel downloadViewModel;
@@ -160,6 +163,23 @@ public class DownloadFragment extends Fragment implements ClickCallback {
             }
 
             bind.downloadedGoBackImageView.setVisibility(stack.size() > 1 ? View.VISIBLE : View.GONE);
+
+            setupBackPressing(stack.size());
+        });
+    }
+
+    private void setupBackPressing(int stackSize) {
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (stackSize > 1) {
+                    downloadViewModel.popViewStack();
+                } else {
+                    activity.navController.navigateUp();
+                }
+
+                remove();
+            }
         });
     }
 

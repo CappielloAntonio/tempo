@@ -25,12 +25,16 @@ import com.cappielloantonio.tempo.ui.adapter.PlayerSongQueueAdapter;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.viewmodel.PlayerBottomSheetViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.MoreExecutors;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
 @UnstableApi
 public class PlayerQueueFragment extends Fragment implements ClickCallback {
+    private static final String TAG = "PlayerQueueFragment";
+
     private InnerFragmentPlayerQueueBinding bind;
 
     private PlayerBottomSheetViewModel playerBottomSheetViewModel;
@@ -54,6 +58,7 @@ public class PlayerQueueFragment extends Fragment implements ClickCallback {
     public void onStart() {
         super.onStart();
         initializeBrowser();
+        bindMediaController();
     }
 
     @Override
@@ -81,6 +86,17 @@ public class PlayerQueueFragment extends Fragment implements ClickCallback {
 
     private void releaseBrowser() {
         MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
+    }
+
+    private void bindMediaController() {
+        mediaBrowserListenableFuture.addListener(() -> {
+            try {
+                MediaBrowser mediaBrowser = mediaBrowserListenableFuture.get();
+                initShuffleButton(mediaBrowser);
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }, MoreExecutors.directExecutor());
     }
 
     private void setMediaBrowserListenableFuture() {
@@ -149,6 +165,36 @@ public class PlayerQueueFragment extends Fragment implements ClickCallback {
                 viewHolder.getBindingAdapter().notifyDataSetChanged();
             }
         }).attachToRecyclerView(bind.playerQueueRecyclerView);
+    }
+
+    private void initShuffleButton(MediaBrowser mediaBrowser) {
+        bind.playerShuffleQueueFab.setOnClickListener(view -> {
+            int startPosition = mediaBrowser.getCurrentMediaItemIndex() + 1;
+            int endPosition = playerSongQueueAdapter.getItems().size() - 1;
+
+            if (startPosition < endPosition) {
+                ArrayList<Integer> pool = new ArrayList<>();
+
+                for (int i = startPosition; i <= endPosition; i++) {
+                    pool.add(i);
+                }
+
+                while (pool.size() >= 2) {
+                    int fromPosition = (int) (Math.random() * (pool.size()));
+                    int positionA = pool.get(fromPosition);
+                    pool.remove(fromPosition);
+
+                    int toPosition = (int) (Math.random() * (pool.size()));
+                    int positionB = pool.get(toPosition);
+                    pool.remove(toPosition);
+
+                    Collections.swap(playerSongQueueAdapter.getItems(), positionA, positionB);
+                    bind.playerQueueRecyclerView.getAdapter().notifyItemMoved(positionA, positionB);
+                }
+
+                MediaManager.shuffle(mediaBrowserListenableFuture, playerSongQueueAdapter.getItems(), startPosition, endPosition);
+            }
+        });
     }
 
     private void updateNowPlayingItem() {

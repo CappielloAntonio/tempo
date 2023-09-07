@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/player_media_quality_sector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,48 +24,38 @@
             android:checked="true"
             android:clickable="false"
             android:text="Unknown"
-            app:chipStrokeWidth="0dp" />
+            app:chipStrokeWidth="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/player_media_bitrate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"/>
 
         <TextView
             android:id="@+id/player_media_bitrate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:visibility="gone" />
+            app:layout_constraintTop_toTopOf="@id/player_media_extension"
+            app:layout_constraintBottom_toBottomOf="@id/player_media_extension"
+            app:layout_constraintStart_toEndOf="@id/player_media_extension"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-        <ImageView
-            android:id="@+id/player_media_transcoding_audio"
-            android:layout_width="24dp"
-            android:layout_height="20dp"
-            android:layout_margin="12dp"
-            android:src="@drawable/ic_transcode"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/player_media_server_transcode_priority"
-            android:layout_width="24dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_server_transcode_priority"
-            android:visibility="gone" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/player_media_transcoded_extension"
-            style="@style/Widget.Material3.Chip.Suggestion"
+        <ImageButton
+            android:id="@+id/player_info_track"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
-            android:clickable="false"
-            android:text="Unknown"
-            android:visibility="gone"
-            app:chipStrokeWidth="0dp" />
+            android:padding="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitCenter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/player_media_extension"
+            app:layout_constraintBottom_toBottomOf="@id/player_media_extension"
+            app:srcCompat="@drawable/ic_info_stream"
+            app:tint="?attr/colorOnPrimaryContainer" />
 
-        <TextView
-            android:id="@+id/player_media_transcoded_bitrate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:visibility="gone" />
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/player_media_cover_view_pager"
@@ -83,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.60" />
+        app:layout_constraintGuide_percent="0.575" />
 
     <TextView
         android:id="@+id/player_media_title_label"
@@ -194,11 +184,11 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginTop="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/player_quick_action_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/exo_progress"
-        app:layout_constraintVertical_bias=".60" />
+        app:layout_constraintVertical_bias=".45" />
 
     <View
         android:id="@+id/placeholder_view_middle_right"
@@ -282,11 +272,11 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/player_quick_action_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/exo_progress"
-        app:layout_constraintVertical_bias=".60"
+        app:layout_constraintVertical_bias=".45"
         app:tint="?attr/colorOnPrimaryContainer" />
 
     <ImageButton
@@ -343,4 +333,25 @@
         app:layout_constraintStart_toEndOf="@+id/placeholder_view_middle_right"
         app:layout_constraintTop_toTopOf="@+id/placeholder_view_middle_right"
         app:tint="?attr/colorOnPrimaryContainer" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/player_quick_action_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/now_playing_bottom_peek_height"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/player_open_queue_button"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:srcCompat="@drawable/ic_queue" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

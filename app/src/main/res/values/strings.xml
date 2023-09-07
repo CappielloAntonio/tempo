@@ -304,4 +304,27 @@
     <string name="downloaded_bottom_sheet_play_next">Play next</string>
     <string name="downloaded_bottom_sheet_add_to_queue">Add to queue</string>
     <string name="downloaded_bottom_sheet_remove_all">Remove all</string>
+    <string name="track_info_dialog_positive_button">OK</string>
+    <string name="track_info_dialog_title">Track info</string>
+    <string name="track_info_title">Title</string>
+    <string name="track_info_album">Album</string>
+    <string name="track_info_artist">Artist</string>
+    <string name="track_info_track_number">Track number</string>
+    <string name="track_info_year">Year</string>
+    <string name="track_info_genre">Genre</string>
+    <string name="track_info_size">Size</string>
+    <string name="track_info_content_type">Content Type</string>
+    <string name="track_info_suffix">Suffix</string>
+    <string name="track_info_transcoded_content_type">Transcoded content type</string>
+    <string name="track_info_transcoded_suffix">Transcoded suffix</string>
+    <string name="track_info_duration">Duration</string>
+    <string name="track_info_bitrate">Bitrate</string>
+    <string name="track_info_path">Path</string>
+    <string name="track_info_disc_number">Disc number</string>
+    <string name="track_info_summary_downloaded_file">The file has been downloaded using the Subsonic APIs. The codec and bitrate of the file remain unchanged from the source file.</string>
+    <string name="track_info_summary_server_prioritized">The quality of the file to be played is left up to the server\'s decision. The app will not enforce the choice of codec and bitrate for any potential transcoding.</string>
+    <string name="track_info_summary_original_file">The application will only read the original file as provided by the server. The app will explicitly request the server for the untranscoded file with the bitrate of the original source.</string>
+    <string name="track_info_summary_transcoding_codec">The application will request the server to transcode the file. The requested codec by the user is %1$s, while the bitrate will be the same as the source file. The potential transcoding of the file into the chosen format is dependent on the server, as it may or may not support the operation.</string>
+    <string name="track_info_summary_transcoding_bitrate">The application will request the server to modify the bitrate of the file. The user requested a bitrate of %1$s, while the codec of the source file will remain the same. Any changes to the bitrate of the file in the chosen format will be done by the server, which may or may not support the operation.</string>
+    <string name="track_info_summary_full_transcode">The application will request the server to transcode the file and modify its bitrate. The user requested codec is %1$s, with a bitrate of %2$s. Any potential changes to the codec and bitrate of the file in the chosen format will be handled by the server, which may or may not support the operation.</string>
 </resources>

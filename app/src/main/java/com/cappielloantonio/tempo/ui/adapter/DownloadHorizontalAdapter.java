@@ -191,7 +191,7 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
                 .into(holder.item.itemCoverImageView);
 
         holder.item.itemCoverImageView.setVisibility(View.VISIBLE);
-        holder.item.downloadedItemMoreButton.setVisibility(View.GONE);
+        holder.item.downloadedItemMoreButton.setVisibility(View.VISIBLE);
         holder.item.divider.setVisibility(View.VISIBLE);
 
         if (position > 0 && grouped.get(position - 1) != null && !Objects.equals(grouped.get(position - 1).getArtist(), grouped.get(position).getArtist())) {
@@ -213,7 +213,7 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
                 .into(holder.item.itemCoverImageView);
 
         holder.item.itemCoverImageView.setVisibility(View.VISIBLE);
-        holder.item.downloadedItemMoreButton.setVisibility(View.GONE);
+        holder.item.downloadedItemMoreButton.setVisibility(View.VISIBLE);
         holder.item.divider.setVisibility(View.GONE);
     }
 
@@ -224,7 +224,7 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
         holder.item.downloadedItemSubtitleTextView.setText(holder.itemView.getContext().getString(R.string.download_item_single_subtitle_formatter, countSong(Constants.DOWNLOAD_TYPE_GENRE, song.getGenre(), songs)));
 
         holder.item.itemCoverImageView.setVisibility(View.GONE);
-        holder.item.downloadedItemMoreButton.setVisibility(View.GONE);
+        holder.item.downloadedItemMoreButton.setVisibility(View.VISIBLE);
         holder.item.divider.setVisibility(View.GONE);
     }
 
@@ -235,7 +235,7 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
         holder.item.downloadedItemSubtitleTextView.setText(holder.itemView.getContext().getString(R.string.download_item_single_subtitle_formatter, countSong(Constants.DOWNLOAD_TYPE_YEAR, song.getYear().toString(), songs)));
 
         holder.item.itemCoverImageView.setVisibility(View.GONE);
-        holder.item.downloadedItemMoreButton.setVisibility(View.GONE);
+        holder.item.downloadedItemMoreButton.setVisibility(View.VISIBLE);
         holder.item.divider.setVisibility(View.GONE);
     }
 
@@ -287,22 +287,36 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
         private boolean onLongClick() {
             Bundle bundle = new Bundle();
 
-            switch (view) {
-                case Constants.DOWNLOAD_TYPE_TRACK:
-                    bundle.putParcelable(Constants.TRACK_OBJECT, grouped.get(getBindingAdapterPosition()));
-                    click.onMediaLongClick(bundle);
-                    return true;
-                case Constants.DOWNLOAD_TYPE_ALBUM:
-                    bundle.putString(Constants.DOWNLOAD_TYPE_ALBUM, grouped.get(getBindingAdapterPosition()).getAlbumId());
-                    click.onAlbumLongClick(bundle);
-                    return true;
-                case Constants.DOWNLOAD_TYPE_ARTIST:
-                    bundle.putString(Constants.DOWNLOAD_TYPE_ARTIST, grouped.get(getBindingAdapterPosition()).getArtistId());
-                    click.onArtistLongClick(bundle);
-                    return true;
+            if (view.equals(Constants.DOWNLOAD_TYPE_TRACK)) {
+                bundle.putParcelable(Constants.TRACK_OBJECT, grouped.get(getBindingAdapterPosition()));
+                click.onMediaLongClick(bundle);
+                return true;
             }
 
-            return false;
+            List<Child> filteredSongs = null;
+            switch (view) {
+                case Constants.DOWNLOAD_TYPE_ALBUM:
+                    filteredSongs = filterSong(Constants.DOWNLOAD_TYPE_ALBUM, grouped.get(getBindingAdapterPosition()).getAlbumId(), songs);
+                    break;
+                case Constants.DOWNLOAD_TYPE_ARTIST:
+                    filteredSongs = filterSong(Constants.DOWNLOAD_TYPE_ARTIST, grouped.get(getBindingAdapterPosition()).getArtistId(), songs);
+                    break;
+                case Constants.DOWNLOAD_TYPE_GENRE:
+                    filteredSongs = filterSong(Constants.DOWNLOAD_TYPE_GENRE, grouped.get(getBindingAdapterPosition()).getGenre(), songs);
+                    break;
+                case Constants.DOWNLOAD_TYPE_YEAR:
+                    filteredSongs = filterSong(Constants.DOWNLOAD_TYPE_YEAR, grouped.get(getBindingAdapterPosition()).getYear().toString(), songs);
+                    break;
+            }
+
+            if (filteredSongs == null) {
+                return false;
+            }
+
+            bundle.putParcelableArrayList(Constants.DOWNLOAD_TYPE_GROUP, new ArrayList<>(filteredSongs));
+            bundle.putString(Constants.DOWNLOAD_TYPE_GROUP_NAME, item.downloadedItemTitleTextView.getText().toString());
+            click.onDownloadGroupLongClick(bundle);
+            return true;
         }
     }
 }

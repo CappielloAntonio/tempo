@@ -44,41 +44,36 @@ public class CustomGlideRequest {
     }
 
     public static RequestOptions createRequestOptions(Context context, String item, ResourceType type) {
-        Drawable drawable = new ColorDrawable(SurfaceColors.SURFACE_5.getColor(context));
-        if (type != ResourceType.Unknown) {
-            int res = 0;
-            switch (type) {
-                case Album:
-                    res = R.drawable.ic_album_placeholder;
-                    break;
-                case Artist:
-                    res = R.drawable.ic_artist_placeholder;
-                    break;
-                case Directory:
-                    res = R.drawable.ic_directory_placeholder;
-                    break;
-                case Playlist:
-                    res = R.drawable.ic_playlist_placeholder;
-                    break;
-                case Podcast:
-                    res = R.drawable.ic_podcast_placeholder;
-                    break;
-                case Radio:
-                    res = R.drawable.ic_radio_placeholder;
-                    break;
-                case Song:
-                    res = R.drawable.ic_song_placeholder;
-                    break;
-            }
-            drawable = AppCompatResources.getDrawable(context, res);
-        }
         return new RequestOptions()
-                .placeholder(drawable)
-                .fallback(drawable)
-                .error(new ColorDrawable(SurfaceColors.SURFACE_5.getColor(context)))
+                .placeholder(new ColorDrawable(SurfaceColors.SURFACE_5.getColor(context)))
+                .fallback(getPlaceholder(context, type))
+                .error(getPlaceholder(context, type))
                 .diskCacheStrategy(DEFAULT_DISK_CACHE_STRATEGY)
                 .signature(new ObjectKey(item != null ? item : 0))
                 .transform(new CenterCrop(), new RoundedCorners(CustomGlideRequest.CORNER_RADIUS));
+    }
+
+    @Nullable
+    private static Drawable getPlaceholder(Context context, ResourceType type) {
+        switch (type) {
+            case Album:
+                return AppCompatResources.getDrawable(context, R.drawable.ic_placeholder_album);
+            case Artist:
+                return AppCompatResources.getDrawable(context, R.drawable.ic_placeholder_artist);
+            case Directory:
+                return AppCompatResources.getDrawable(context, R.drawable.ic_placeholder_directory);
+            case Playlist:
+                return AppCompatResources.getDrawable(context, R.drawable.ic_placeholder_playlist);
+            case Podcast:
+                return AppCompatResources.getDrawable(context, R.drawable.ic_placeholder_podcast);
+            case Radio:
+                return AppCompatResources.getDrawable(context, R.drawable.ic_placeholder_radio);
+            case Song:
+                return AppCompatResources.getDrawable(context, R.drawable.ic_placeholder_song);
+            default:
+            case Unknown:
+                return new ColorDrawable(SurfaceColors.SURFACE_5.getColor(context));
+        }
     }
 
     public static String createUrl(String item, int size) {
@@ -125,12 +120,8 @@ public class CustomGlideRequest {
             requestManager.applyDefaultRequestOptions(createRequestOptions(context, item, type));
         }
 
-        public static Builder from(Context context, String item, @Nullable ResourceType type) {
+        public static Builder from(Context context, String item, ResourceType type) {
             return new Builder(context, item, type);
-        }
-
-        public static Builder from(Context context, String item) {
-            return Builder.from(context, item, ResourceType.Unknown);
         }
 
         public RequestBuilder<Drawable> build() {

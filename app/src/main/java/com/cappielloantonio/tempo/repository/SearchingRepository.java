@@ -102,8 +102,6 @@ public class SearchingRepository {
                             LinkedHashSet<String> hashSet = new LinkedHashSet<>(newSuggestions);
                             ArrayList<String> suggestionsWithoutDuplicates = new ArrayList<>(hashSet);
 
-                            Log.d("suggestionsWithoutDuplicates", suggestionsWithoutDuplicates.toString());
-
                             suggestions.setValue(suggestionsWithoutDuplicates);
                         }
                     }

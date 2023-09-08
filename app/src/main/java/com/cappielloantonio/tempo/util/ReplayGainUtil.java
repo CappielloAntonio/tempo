@@ -145,17 +145,11 @@ public class ReplayGainUtil {
     private static void setTrackReplayGain(ExoPlayer player, List<ReplayGain> gains) {
         float trackGain = gains.get(0).getTrackGain() != 0f ? gains.get(0).getTrackGain() : gains.get(1).getTrackGain();
 
-        Log.d(TAG, "setTrackReplayGain()");
-        Log.d(TAG, String.valueOf(trackGain));
-
         setReplayGain(player, trackGain != 0f ? trackGain : 0f);
     }
 
     private static void setAlbumReplayGain(ExoPlayer player, List<ReplayGain> gains) {
         float albumGain = gains.get(0).getAlbumGain() != 0f ? gains.get(0).getAlbumGain() : gains.get(1).getAlbumGain();
-
-        Log.d(TAG, "setAlbumReplayGain()");
-        Log.d(TAG, String.valueOf(albumGain));
 
         setReplayGain(player, albumGain != 0f ? albumGain : 0f);
     }
@@ -163,10 +157,6 @@ public class ReplayGainUtil {
     private static void setAutoReplayGain(ExoPlayer player, List<ReplayGain> gains) {
         float albumGain = gains.get(0).getAlbumGain() != 0f ? gains.get(0).getAlbumGain() : gains.get(1).getAlbumGain();
         float trackGain = gains.get(0).getTrackGain() != 0f ? gains.get(0).getTrackGain() : gains.get(1).getTrackGain();
-
-        Log.d(TAG, "setAutoReplayGain()");
-        Log.d(TAG, String.valueOf(albumGain));
-        Log.d(TAG, String.valueOf(trackGain));
 
         setReplayGain(player, albumGain != 0f ? albumGain : trackGain);
     }

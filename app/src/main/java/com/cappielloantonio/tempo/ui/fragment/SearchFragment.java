@@ -242,7 +242,6 @@ public class SearchFragment extends Fragment implements ClickCallback {
     }
 
     private boolean isQueryValid(String query) {
-        Log.d(TAG, "isQueryValid()");
         return !query.equals("") && query.trim().length() > 2;
     }
 

@@ -95,7 +95,7 @@ public class PlaylistRepository {
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-                        Log.d("createPlaylist", "onResponse: ");
+
                     }
 
                     @Override

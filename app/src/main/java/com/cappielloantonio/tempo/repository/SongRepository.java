@@ -97,7 +97,7 @@ public class SongRepository {
 
                     @Override
                     public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
-                        Log.d(TAG, "onFailure: ");
+
                     }
                 });
 
@@ -205,7 +205,7 @@ public class SongRepository {
 
                     @Override
                     public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
-                        Log.d(TAG, "onFailure: ");
+
                     }
                 });
 

@@ -59,7 +59,7 @@ public class PodcastRepository {
 
                     @Override
                     public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
-                        Log.d(TAG, "onFailure()");
+
                     }
                 });
 

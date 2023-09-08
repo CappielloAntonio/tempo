@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.util.TypedValue;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -21,7 +22,6 @@ import com.cappielloantonio.tempo.App;
 import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.util.Util;
-import com.google.android.material.elevation.SurfaceColors;
 
 import java.util.Map;
 
@@ -45,7 +45,7 @@ public class CustomGlideRequest {
 
     public static RequestOptions createRequestOptions(Context context, String item, ResourceType type) {
         return new RequestOptions()
-                .placeholder(new ColorDrawable(SurfaceColors.SURFACE_5.getColor(context)))
+                .placeholder(getPlaceholder(context, ResourceType.Unknown))
                 .fallback(getPlaceholder(context, type))
                 .error(getPlaceholder(context, type))
                 .diskCacheStrategy(DEFAULT_DISK_CACHE_STRATEGY)
@@ -72,7 +72,9 @@ public class CustomGlideRequest {
                 return AppCompatResources.getDrawable(context, R.drawable.ic_placeholder_song);
             default:
             case Unknown:
-                return new ColorDrawable(SurfaceColors.SURFACE_5.getColor(context));
+                TypedValue value = new TypedValue();
+                context.getTheme().resolveAttribute(R.attr.colorSurfaceContainerHighest, value, true);
+                return new ColorDrawable(value.data);
         }
     }
 

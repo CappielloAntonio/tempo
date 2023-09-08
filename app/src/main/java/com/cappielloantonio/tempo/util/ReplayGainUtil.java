@@ -1,6 +1,9 @@
 package com.cappielloantonio.tempo.util;
 
+import android.util.Log;
+
 import androidx.annotation.OptIn;
+import androidx.media3.common.MediaItem;
 import androidx.media3.common.Metadata;
 import androidx.media3.common.Tracks;
 import androidx.media3.common.util.UnstableApi;
@@ -14,6 +17,8 @@ import java.util.Objects;
 
 @OptIn(markerClass = UnstableApi.class)
 public class ReplayGainUtil {
+    private static final String TAG = "ReplayGainUtil";
+
     private static final String[] tags = {"REPLAYGAIN_TRACK_GAIN", "REPLAYGAIN_ALBUM_GAIN", "R128_TRACK_GAIN", "R128_ALBUM_GAIN"};
 
     public static void setReplayGain(ExoPlayer player, Tracks tracks) {
@@ -105,13 +110,77 @@ public class ReplayGainUtil {
     }
 
     private static void applyReplayGain(ExoPlayer player, List<ReplayGain> gains) {
-        if (Objects.equals(Preferences.getReplayGainMode(), "disabled") || gains.size() == 0) {
-            setReplayGain(player, 0f);
-        } else if (Objects.equals(Preferences.getReplayGainMode(), "track")) {
-            setReplayGain(player, gains.get(0).getTrackGain() != 0f ? gains.get(0).getTrackGain() : gains.get(0).getAlbumGain());
-        } else if (Objects.equals(Preferences.getReplayGainMode(), "album")) {
-            setReplayGain(player, gains.get(0).getAlbumGain() != 0f ? gains.get(0).getAlbumGain() : gains.get(0).getTrackGain());
+        if (Objects.equals(Preferences.getReplayGainMode(), "auto")) {
+            if(areTracksConsecutive(player)) {
+                setAutoReplayGain(player, gains);
+            } else {
+                setTrackReplayGain(player, gains);
+            }
+
+            return;
         }
+
+        if (Objects.equals(Preferences.getReplayGainMode(), "disabled") || gains.size() == 0) {
+            setNoReplayGain(player);
+            return;
+        }
+
+        if (Objects.equals(Preferences.getReplayGainMode(), "track")) {
+            setTrackReplayGain(player, gains);
+            return;
+        }
+
+        if (Objects.equals(Preferences.getReplayGainMode(), "album")) {
+            setAlbumReplayGain(player, gains);
+            return;
+        }
+
+        setNoReplayGain(player);
+    }
+
+    private static void setNoReplayGain(ExoPlayer player) {
+        setReplayGain(player, 0f);
+    }
+
+    private static void setTrackReplayGain(ExoPlayer player, List<ReplayGain> gains) {
+        float trackGain = gains.get(0).getTrackGain() != 0f ? gains.get(0).getTrackGain() : gains.get(1).getTrackGain();
+
+        Log.d(TAG, "setTrackReplayGain()");
+        Log.d(TAG, String.valueOf(trackGain));
+
+        setReplayGain(player, trackGain != 0f ? trackGain : 0f);
+    }
+
+    private static void setAlbumReplayGain(ExoPlayer player, List<ReplayGain> gains) {
+        float albumGain = gains.get(0).getAlbumGain() != 0f ? gains.get(0).getAlbumGain() : gains.get(1).getAlbumGain();
+
+        Log.d(TAG, "setAlbumReplayGain()");
+        Log.d(TAG, String.valueOf(albumGain));
+
+        setReplayGain(player, albumGain != 0f ? albumGain : 0f);
+    }
+
+    private static void setAutoReplayGain(ExoPlayer player, List<ReplayGain> gains) {
+        float albumGain = gains.get(0).getAlbumGain() != 0f ? gains.get(0).getAlbumGain() : gains.get(1).getAlbumGain();
+        float trackGain = gains.get(0).getTrackGain() != 0f ? gains.get(0).getTrackGain() : gains.get(1).getTrackGain();
+
+        Log.d(TAG, "setAutoReplayGain()");
+        Log.d(TAG, String.valueOf(albumGain));
+        Log.d(TAG, String.valueOf(trackGain));
+
+        setReplayGain(player, albumGain != 0f ? albumGain : trackGain);
+    }
+
+    private static boolean areTracksConsecutive(ExoPlayer player) {
+        MediaItem currentMediaItem = player.getCurrentMediaItem();
+        int currentMediaItemIndex = player.getCurrentMediaItemIndex();
+        MediaItem pastMediaItem = currentMediaItemIndex > 0 ? player.getMediaItemAt(currentMediaItemIndex - 1) : null;
+
+        return currentMediaItem != null &&
+                pastMediaItem != null &&
+                pastMediaItem.mediaMetadata.albumTitle != null &&
+                currentMediaItem.mediaMetadata.albumTitle != null &&
+                pastMediaItem.mediaMetadata.albumTitle.toString().equals(currentMediaItem.mediaMetadata.albumTitle.toString());
     }
 
     private static void setReplayGain(ExoPlayer player, float gain) {

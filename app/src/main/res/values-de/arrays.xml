@@ -144,12 +144,14 @@
 
     <string-array name="replay_gain_titles">
         <item>Deaktiviert</item>
-        <item>Track bevorzugt</item>
-        <item>Album bevorzugt</item>
+        <item>Track</item>
+        <item>Album</item>
+        <item>Auto</item>
     </string-array>
     <string-array name="replay_gain_values">
         <item>disabled</item>
         <item>track</item>
         <item>album</item>
+        <item>auto</item>
     </string-array>
 </resources>

@@ -163,7 +163,7 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
         holder.item.downloadedItemPreTextView.setText(MusicUtil.getReadableString(song.getAlbum()));
 
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), song.getCoverArtId())
+                .from(holder.itemView.getContext(), song.getCoverArtId(), CustomGlideRequest.ResourceType.Song)
                 .build()
                 .into(holder.item.itemCoverImageView);
 
@@ -186,7 +186,7 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
         holder.item.downloadedItemPreTextView.setText(MusicUtil.getReadableString(song.getArtist()));
 
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), song.getCoverArtId())
+                .from(holder.itemView.getContext(), song.getCoverArtId(), CustomGlideRequest.ResourceType.Song)
                 .build()
                 .into(holder.item.itemCoverImageView);
 
@@ -208,7 +208,7 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
         holder.item.downloadedItemSubtitleTextView.setText(holder.itemView.getContext().getString(R.string.download_item_single_subtitle_formatter, countSong(Constants.DOWNLOAD_TYPE_ARTIST, song.getArtistId(), songs)));
 
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), song.getCoverArtId())
+                .from(holder.itemView.getContext(), song.getCoverArtId(), CustomGlideRequest.ResourceType.Song)
                 .build()
                 .into(holder.item.itemCoverImageView);
 

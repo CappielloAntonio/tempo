@@ -44,7 +44,7 @@ public class AlbumHorizontalAdapter extends RecyclerView.Adapter<AlbumHorizontal
         holder.item.albumArtistTextView.setText(MusicUtil.getReadableString(album.getArtist()));
 
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), album.getCoverArtId())
+                .from(holder.itemView.getContext(), album.getCoverArtId(), CustomGlideRequest.ResourceType.Album)
                 .build()
                 .into(holder.item.albumCoverImageView);
     }

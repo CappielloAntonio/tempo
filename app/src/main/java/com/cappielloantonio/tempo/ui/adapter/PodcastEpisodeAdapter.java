@@ -51,7 +51,7 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
         holder.item.podcastDescriptionText.setText(MusicUtil.getReadableString(podcastEpisode.getDescription()));
 
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), podcastEpisode.getCoverArtId())
+                .from(holder.itemView.getContext(), podcastEpisode.getCoverArtId(), CustomGlideRequest.ResourceType.Podcast)
                 .build()
                 .into(holder.item.podcastCoverImageView);
 

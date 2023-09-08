@@ -43,7 +43,7 @@ public class InternetRadioStationAdapter extends RecyclerView.Adapter<InternetRa
         holder.item.internetRadioStationSubtitleTextView.setText(internetRadioStation.getStreamUrl());
 
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), internetRadioStation.getStreamUrl())
+                .from(holder.itemView.getContext(), internetRadioStation.getStreamUrl(), CustomGlideRequest.ResourceType.Radio)
                 .build()
                 .into(holder.item.internetRadioStationCoverImageView);
     }

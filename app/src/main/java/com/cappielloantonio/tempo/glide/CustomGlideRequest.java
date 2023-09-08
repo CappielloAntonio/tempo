@@ -5,6 +5,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
@@ -15,6 +18,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.cappielloantonio.tempo.App;
+import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.util.Util;
 import com.google.android.material.elevation.SurfaceColors;
@@ -28,10 +32,49 @@ public class CustomGlideRequest {
 
     public static final DiskCacheStrategy DEFAULT_DISK_CACHE_STRATEGY = DiskCacheStrategy.ALL;
 
-    public static RequestOptions createRequestOptions(Context context, String item) {
+    public enum ResourceType {
+        Unknown,
+        Album,
+        Artist,
+        Directory,
+        Playlist,
+        Podcast,
+        Radio,
+        Song,
+    }
+
+    public static RequestOptions createRequestOptions(Context context, String item, ResourceType type) {
+        Drawable drawable = new ColorDrawable(SurfaceColors.SURFACE_5.getColor(context));
+        if (type != ResourceType.Unknown) {
+            int res = 0;
+            switch (type) {
+                case Album:
+                    res = R.drawable.ic_album_placeholder;
+                    break;
+                case Artist:
+                    res = R.drawable.ic_artist_placeholder;
+                    break;
+                case Directory:
+                    res = R.drawable.ic_directory_placeholder;
+                    break;
+                case Playlist:
+                    res = R.drawable.ic_playlist_placeholder;
+                    break;
+                case Podcast:
+                    res = R.drawable.ic_podcast_placeholder;
+                    break;
+                case Radio:
+                    res = R.drawable.ic_radio_placeholder;
+                    break;
+                case Song:
+                    res = R.drawable.ic_song_placeholder;
+                    break;
+            }
+            drawable = AppCompatResources.getDrawable(context, res);
+        }
         return new RequestOptions()
-                .placeholder(new ColorDrawable(SurfaceColors.SURFACE_5.getColor(context)))
-                .fallback(new ColorDrawable(SurfaceColors.SURFACE_5.getColor(context)))
+                .placeholder(drawable)
+                .fallback(drawable)
                 .error(new ColorDrawable(SurfaceColors.SURFACE_5.getColor(context)))
                 .diskCacheStrategy(DEFAULT_DISK_CACHE_STRATEGY)
                 .signature(new ObjectKey(item != null ? item : 0))
@@ -72,18 +115,22 @@ public class CustomGlideRequest {
         private final RequestManager requestManager;
         private Object item;
 
-        private Builder(Context context, String item) {
+        private Builder(Context context, String item, ResourceType type) {
             this.requestManager = Glide.with(context);
 
             if (item != null && !Preferences.isDataSavingMode()) {
                 this.item = createUrl(item, Preferences.getImageSize());
             }
 
-            requestManager.applyDefaultRequestOptions(createRequestOptions(context, item));
+            requestManager.applyDefaultRequestOptions(createRequestOptions(context, item, type));
+        }
+
+        public static Builder from(Context context, String item, @Nullable ResourceType type) {
+            return new Builder(context, item, type);
         }
 
         public static Builder from(Context context, String item) {
-            return new Builder(context, item);
+            return Builder.from(context, item, ResourceType.Unknown);
         }
 
         public RequestBuilder<Drawable> build() {

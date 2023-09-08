@@ -182,7 +182,7 @@ public class PlayerCoverFragment extends Fragment {
 
     private void setCover(MediaMetadata mediaMetadata) {
         CustomGlideRequest.Builder
-                .from(requireContext(), mediaMetadata.extras != null ? mediaMetadata.extras.getString("coverArtId") : null)
+                .from(requireContext(), mediaMetadata.extras != null ? mediaMetadata.extras.getString("coverArtId") : null, CustomGlideRequest.ResourceType.Song)
                 .build()
                 .into(bind.nowPlayingSongCoverImageView);
     }

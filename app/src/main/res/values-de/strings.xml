@@ -297,4 +297,8 @@
     <string name="menu_group_by_artist">Künstler</string>
     <string name="menu_group_by_genre">Genre</string>
     <string name="menu_group_by_year">Jahr</string>
+    <string name="downloaded_bottom_sheet_shuffle">Mischen</string>
+    <string name="downloaded_bottom_sheet_play_next">Nächsten Titel spielen</string>
+    <string name="downloaded_bottom_sheet_add_to_queue">Zur Warteschlange hinzufügen</string>
+    <string name="downloaded_bottom_sheet_remove_all">Alle entfernen</string>
 </resources>

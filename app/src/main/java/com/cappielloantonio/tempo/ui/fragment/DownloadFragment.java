@@ -254,4 +254,9 @@ public class DownloadFragment extends Fragment implements ClickCallback {
     public void onMediaLongClick(Bundle bundle) {
         Navigation.findNavController(requireView()).navigate(R.id.songBottomSheetDialog, bundle);
     }
+
+    @Override
+    public void onDownloadGroupLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.downloadBottomSheetDialog, bundle);
+    }
 }

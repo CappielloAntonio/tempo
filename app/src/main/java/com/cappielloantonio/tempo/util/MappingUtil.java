@@ -196,7 +196,7 @@ public class MappingUtil {
         bundle.putInt("originalHeight", podcastEpisode.getOriginalHeight() != null ? podcastEpisode.getOriginalHeight() : 0);
         bundle.putString("uri", uri.toString());
 
-        return new MediaItem.Builder()
+        MediaItem item = new MediaItem.Builder()
                 .setMediaId(podcastEpisode.getId())
                 .setMediaMetadata(
                         new MediaMetadata.Builder()
@@ -216,9 +216,17 @@ public class MappingUtil {
                                 .setExtras(bundle)
                                 .build()
                 )
+                /* .setClippingConfiguration(
+                        new MediaItem.ClippingConfiguration.Builder()
+                                .setStartPositionMs(0)
+                                .setEndPositionMs(podcastEpisode.getDuration() * 1000)
+                                .build()
+                ) */
                 .setMimeType(MimeTypes.BASE_TYPE_AUDIO)
                 .setUri(uri)
                 .build();
+
+        return item;
     }
 
     private static Uri getUri(Child media) {

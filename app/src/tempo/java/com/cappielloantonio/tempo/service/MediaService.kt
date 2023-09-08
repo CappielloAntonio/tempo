@@ -10,6 +10,7 @@ import androidx.media3.cast.CastPlayer
 import androidx.media3.cast.SessionAvailabilityListener
 import androidx.media3.common.*
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.session.*
@@ -207,6 +208,7 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
             .setAudioAttributes(AudioAttributes.DEFAULT, true)
             .setHandleAudioBecomingNoisy(true)
             .setWakeMode(C.WAKE_MODE_NETWORK)
+            // .setLoadControl(initializeLoadControl())
             .build()
     }
 
@@ -289,6 +291,17 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
                 }
             }
         })
+    }
+
+    private fun initializeLoadControl(): DefaultLoadControl {
+        return DefaultLoadControl.Builder()
+            .setBufferDurationsMs(
+                60_000,
+                120_000,
+                DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_MS,
+                DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS
+            )
+            .build()
     }
 
     private fun setPlayer(oldPlayer: Player?, newPlayer: Player) {

@@ -79,10 +79,12 @@ object Constants {
     const val DOWNLOAD_TYPE_TRACK = "download_type_track"
     const val DOWNLOAD_TYPE_ALBUM = "download_type_album"
     const val DOWNLOAD_TYPE_ARTIST = "download_type_artist"
-    const val DOWNLOAD_TYPE_GROUP = "download_type_group"
-    const val DOWNLOAD_TYPE_GROUP_NAME = "download_type_group_name"
     const val DOWNLOAD_TYPE_GENRE = "download_type_genre"
     const val DOWNLOAD_TYPE_YEAR = "download_type_year"
+
+    const val DOWNLOAD_GROUP = "download_group"
+    const val DOWNLOAD_GROUP_TITLE = "download_group_title"
+    const val DOWNLOAD_GROUP_SUBTITLE = "download_group_subtitle"
 
     const val PLAYABLE_MEDIA_LIMIT = 100
     const val PRE_PLAYABLE_MEDIA = 15

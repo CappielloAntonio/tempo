@@ -300,5 +300,6 @@
     <string name="downloaded_bottom_sheet_shuffle">Mischen</string>
     <string name="downloaded_bottom_sheet_play_next">Nächsten Titel spielen</string>
     <string name="downloaded_bottom_sheet_add_to_queue">Zur Warteschlange hinzufügen</string>
+    <string name="downloaded_bottom_sheet_remove">Entfernen</string>
     <string name="downloaded_bottom_sheet_remove_all">Alle entfernen</string>
 </resources>

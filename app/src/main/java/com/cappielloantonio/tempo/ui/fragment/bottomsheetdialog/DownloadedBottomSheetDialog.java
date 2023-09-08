@@ -30,13 +30,14 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @UnstableApi
 public class DownloadedBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
     private List<Child> songs;
-
-    private String groupName;
+    private String groupTitle;
+    private String groupSubtitle;
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
@@ -45,9 +46,11 @@ public class DownloadedBottomSheetDialog extends BottomSheetDialogFragment imple
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet_downloaded_dialog, container, false);
 
-        songs = this.requireArguments().getParcelableArrayList(Constants.DOWNLOAD_TYPE_GROUP);
-        groupName = this.requireArguments().getString(Constants.DOWNLOAD_TYPE_GROUP_NAME);
+        songs = this.requireArguments().getParcelableArrayList(Constants.DOWNLOAD_GROUP);
+        groupTitle = this.requireArguments().getString(Constants.DOWNLOAD_GROUP_TITLE);
+        groupSubtitle = this.requireArguments().getString(Constants.DOWNLOAD_GROUP_SUBTITLE);
 
+        initUI(view);
         init(view);
 
         return view;
@@ -66,16 +69,25 @@ public class DownloadedBottomSheetDialog extends BottomSheetDialogFragment imple
         super.onStop();
     }
 
-    private void init(View view) {
-        ImageView coverAlbum = view.findViewById(R.id.album_cover_image_view);
-        CustomGlideRequest.Builder
-                .from(requireContext(), songs.get(0).getCoverArtId())
-                .build()
-                .into(coverAlbum);
+    private void initUI(View view) {
+        TextView playRandom = view.findViewById(R.id.play_random_text_view);
+        playRandom.setVisibility(songs.size() > 1 ? View.VISIBLE : View.GONE);
 
-        TextView groupNameView = view.findViewById(R.id.group_name_text_view);
-        groupNameView.setText(MusicUtil.getReadableString(this.groupName));
-        groupNameView.setSelected(true);
+        TextView remove = view.findViewById(R.id.remove_all_text_view);
+        remove.setText(songs.size() > 1 ? getText(R.string.downloaded_bottom_sheet_remove_all) : getText(R.string.downloaded_bottom_sheet_remove));
+    }
+
+    private void init(View view) {
+        ImageView coverAlbum = view.findViewById(R.id.group_cover_image_view);
+        CustomGlideRequest.Builder.from(requireContext(), songs.get(new Random().nextInt(songs.size())).getCoverArtId()).build().into(coverAlbum);
+
+        TextView groupTitleView = view.findViewById(R.id.group_title_text_view);
+        groupTitleView.setText(MusicUtil.getReadableString(this.groupTitle));
+        groupTitleView.setSelected(true);
+
+        TextView groupSubtitleView = view.findViewById(R.id.group_subtitle_text_view);
+        groupSubtitleView.setText(MusicUtil.getReadableString(this.groupSubtitle));
+        groupSubtitleView.setSelected(true);
 
         TextView playRandom = view.findViewById(R.id.play_random_text_view);
         playRandom.setOnClickListener(v -> {
@@ -93,8 +105,7 @@ public class DownloadedBottomSheetDialog extends BottomSheetDialogFragment imple
             ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
 
             dismissBottomSheet();
-            }
-        );
+        });
 
         TextView addToQueue = view.findViewById(R.id.add_to_queue_text_view);
         addToQueue.setOnClickListener(v -> {
@@ -105,11 +116,12 @@ public class DownloadedBottomSheetDialog extends BottomSheetDialogFragment imple
         });
 
         TextView removeAll = view.findViewById(R.id.remove_all_text_view);
-
         removeAll.setOnClickListener(v -> {
             List<MediaItem> mediaItems = MappingUtil.mapDownloads(songs);
             List<Download> downloads = songs.stream().map(Download::new).collect(Collectors.toList());
+
             DownloadUtil.getDownloadTracker(requireContext()).remove(mediaItems, downloads);
+
             dismissBottomSheet();
         });
     }

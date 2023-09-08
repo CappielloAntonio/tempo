@@ -285,37 +285,35 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
         }
 
         private boolean onLongClick() {
+            ArrayList<Child> filteredSongs = new ArrayList<>();
+
             Bundle bundle = new Bundle();
 
-            if (view.equals(Constants.DOWNLOAD_TYPE_TRACK)) {
-                bundle.putParcelable(Constants.TRACK_OBJECT, grouped.get(getBindingAdapterPosition()));
-                click.onMediaLongClick(bundle);
-                return true;
-            }
-
-            List<Child> filteredSongs = null;
             switch (view) {
+                case Constants.DOWNLOAD_TYPE_TRACK:
+                    filteredSongs.add(grouped.get(getBindingAdapterPosition()));
+                    break;
                 case Constants.DOWNLOAD_TYPE_ALBUM:
-                    filteredSongs = filterSong(Constants.DOWNLOAD_TYPE_ALBUM, grouped.get(getBindingAdapterPosition()).getAlbumId(), songs);
+                    filteredSongs.addAll(filterSong(Constants.DOWNLOAD_TYPE_ALBUM, grouped.get(getBindingAdapterPosition()).getAlbumId(), songs));
                     break;
                 case Constants.DOWNLOAD_TYPE_ARTIST:
-                    filteredSongs = filterSong(Constants.DOWNLOAD_TYPE_ARTIST, grouped.get(getBindingAdapterPosition()).getArtistId(), songs);
+                    filteredSongs.addAll(filterSong(Constants.DOWNLOAD_TYPE_ARTIST, grouped.get(getBindingAdapterPosition()).getArtistId(), songs));
                     break;
                 case Constants.DOWNLOAD_TYPE_GENRE:
-                    filteredSongs = filterSong(Constants.DOWNLOAD_TYPE_GENRE, grouped.get(getBindingAdapterPosition()).getGenre(), songs);
+                    filteredSongs.addAll(filterSong(Constants.DOWNLOAD_TYPE_GENRE, grouped.get(getBindingAdapterPosition()).getGenre(), songs));
                     break;
                 case Constants.DOWNLOAD_TYPE_YEAR:
-                    filteredSongs = filterSong(Constants.DOWNLOAD_TYPE_YEAR, grouped.get(getBindingAdapterPosition()).getYear().toString(), songs);
+                    filteredSongs.addAll(filterSong(Constants.DOWNLOAD_TYPE_YEAR, grouped.get(getBindingAdapterPosition()).getYear().toString(), songs));
                     break;
             }
 
-            if (filteredSongs == null) {
-                return false;
-            }
+            if (filteredSongs.isEmpty()) return false;
 
-            bundle.putParcelableArrayList(Constants.DOWNLOAD_TYPE_GROUP, new ArrayList<>(filteredSongs));
-            bundle.putString(Constants.DOWNLOAD_TYPE_GROUP_NAME, item.downloadedItemTitleTextView.getText().toString());
+            bundle.putParcelableArrayList(Constants.DOWNLOAD_GROUP, new ArrayList<>(filteredSongs));
+            bundle.putString(Constants.DOWNLOAD_GROUP_TITLE, item.downloadedItemTitleTextView.getText().toString());
+            bundle.putString(Constants.DOWNLOAD_GROUP_SUBTITLE, item.downloadedItemSubtitleTextView.getText().toString());
             click.onDownloadGroupLongClick(bundle);
+
             return true;
         }
     }

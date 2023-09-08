@@ -303,6 +303,7 @@
     <string name="downloaded_bottom_sheet_shuffle">Shuffle</string>
     <string name="downloaded_bottom_sheet_play_next">Play next</string>
     <string name="downloaded_bottom_sheet_add_to_queue">Add to queue</string>
+    <string name="downloaded_bottom_sheet_remove">Remove</string>
     <string name="downloaded_bottom_sheet_remove_all">Remove all</string>
     <string name="track_info_dialog_positive_button">OK</string>
     <string name="track_info_dialog_title">Track info</string>

@@ -43,7 +43,7 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
         holder.item.albumDiscoverSongLabel.setText(MusicUtil.getReadableString(song.getAlbum()));
 
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), song.getCoverArtId())
+                .from(holder.itemView.getContext(), song.getCoverArtId(), CustomGlideRequest.ResourceType.Song)
                 .build()
                 .into(holder.item.discoverSongCoverImageView);
     }

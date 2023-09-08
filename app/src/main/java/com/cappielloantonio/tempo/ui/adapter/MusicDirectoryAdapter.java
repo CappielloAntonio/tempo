@@ -43,8 +43,12 @@ public class MusicDirectoryAdapter extends RecyclerView.Adapter<MusicDirectoryAd
 
         holder.item.musicDirectoryTitleTextView.setText(child.getTitle());
 
+        CustomGlideRequest.ResourceType type = child.isDir()
+                ? CustomGlideRequest.ResourceType.Directory
+                : CustomGlideRequest.ResourceType.Song;
+
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), child.getCoverArtId())
+                .from(holder.itemView.getContext(), child.getCoverArtId(), type)
                 .build()
                 .into(holder.item.musicDirectoryCoverImageView);
 

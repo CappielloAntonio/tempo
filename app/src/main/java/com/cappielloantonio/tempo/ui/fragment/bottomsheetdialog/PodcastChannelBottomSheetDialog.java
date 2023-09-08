@@ -63,7 +63,7 @@ public class PodcastChannelBottomSheetDialog extends BottomSheetDialogFragment i
         ImageView coverPodcast = view.findViewById(R.id.podcast_cover_image_view);
 
         CustomGlideRequest.Builder
-                .from(requireContext(), podcastChannelBottomSheetViewModel.getPodcastChannel().getCoverArtId())
+                .from(requireContext(), podcastChannelBottomSheetViewModel.getPodcastChannel().getCoverArtId(), CustomGlideRequest.ResourceType.Podcast)
                 .build()
                 .into(coverPodcast);
 

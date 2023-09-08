@@ -41,7 +41,7 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
         holder.item.titleTrackLabel.setText(MusicUtil.getReadableString(song.getTitle()));
 
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), song.getCoverArtId())
+                .from(holder.itemView.getContext(), song.getCoverArtId(), CustomGlideRequest.ResourceType.Song)
                 .build()
                 .into(holder.item.trackCoverImageView);
     }

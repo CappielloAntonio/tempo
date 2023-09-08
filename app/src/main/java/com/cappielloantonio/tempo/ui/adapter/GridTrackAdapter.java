@@ -39,7 +39,7 @@ public class GridTrackAdapter extends RecyclerView.Adapter<GridTrackAdapter.View
         Chronology item = items.get(position);
 
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), item.getCoverArtId())
+                .from(holder.itemView.getContext(), item.getCoverArtId(), CustomGlideRequest.ResourceType.Song)
                 .build()
                 .into(holder.item.trackCoverImageView);
     }

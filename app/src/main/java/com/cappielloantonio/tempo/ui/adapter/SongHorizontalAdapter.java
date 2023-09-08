@@ -59,7 +59,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         }
 
         if (showCoverArt) CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), song.getCoverArtId())
+                .from(holder.itemView.getContext(), song.getCoverArtId(), CustomGlideRequest.ResourceType.Song)
                 .build()
                 .into(holder.item.songCoverImageView);
 

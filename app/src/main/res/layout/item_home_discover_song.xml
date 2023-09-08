@@ -8,6 +8,7 @@
         android:id="@+id/discover_song_cover_image_view"
         android:layout_width="match_parent"
         android:layout_height="196dp"
+        android:background="?attr/colorSurfaceContainerHighest"
         android:foreground="@drawable/gradient_discover_background_image" />
 
     <TextView

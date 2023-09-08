@@ -161,7 +161,7 @@ public class PlayerBottomSheetFragment extends Fragment {
             bind.playerHeaderLayout.playerHeaderMediaArtistLabel.setText(MusicUtil.getReadableString(mediaMetadata.extras.getString("artist")));
 
             CustomGlideRequest.Builder
-                    .from(requireContext(), mediaMetadata.extras.getString("coverArtId"))
+                    .from(requireContext(), mediaMetadata.extras.getString("coverArtId"), CustomGlideRequest.ResourceType.Song)
                     .build()
                     .into(bind.playerHeaderLayout.playerHeaderMediaCoverImage);
         }

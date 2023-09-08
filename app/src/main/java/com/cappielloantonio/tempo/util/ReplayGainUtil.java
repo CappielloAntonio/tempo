@@ -66,6 +66,9 @@ public class ReplayGainUtil {
             }
         }
 
+        if (gains.size() == 0) gains.add(0, new ReplayGain());
+        if (gains.size() == 1) gains.add(1, new ReplayGain());
+
         return gains;
     }
 
@@ -111,7 +114,7 @@ public class ReplayGainUtil {
 
     private static void applyReplayGain(ExoPlayer player, List<ReplayGain> gains) {
         if (Objects.equals(Preferences.getReplayGainMode(), "auto")) {
-            if(areTracksConsecutive(player)) {
+            if (areTracksConsecutive(player)) {
                 setAutoReplayGain(player, gains);
             } else {
                 setTrackReplayGain(player, gains);

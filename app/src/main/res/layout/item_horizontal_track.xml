@@ -5,25 +5,24 @@
     android:background="?attr/selectableItemBackground"
     android:clipChildren="false"
     android:orientation="horizontal"
-    android:paddingStart="16dp"
-    android:paddingTop="3dp"
-    android:paddingBottom="3dp">
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp">
 
     <View
-        style="@style/Divider"
         android:id="@+id/different_disk_divider"
-        android:layout_marginEnd="16dp"
+        style="@style/Divider"
+        android:layout_marginHorizontal="16dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/song_cover_image_view"
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:layout_gravity="center"
-        android:layout_margin="2dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/different_disk_divider" />
@@ -33,7 +32,7 @@
         style="@style/LabelLarge"
         android:layout_width="52dp"
         android:layout_height="52dp"
-        android:layout_margin="2dp"
+        android:layout_marginStart="16dp"
         android:gravity="center"
         android:text="@string/label_placeholder"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -44,9 +43,10 @@
         android:id="@+id/cover_image_separator"
         android:layout_width="12dp"
         android:layout_height="52dp"
+        app:layout_constraintBottom_toBottomOf="@+id/song_cover_image_view"
         app:layout_constraintEnd_toStartOf="@+id/search_result_song_title_text_view"
         app:layout_constraintStart_toEndOf="@+id/song_cover_image_view"
-        app:layout_constraintTop_toBottomOf="@+id/different_disk_divider" />
+        app:layout_constraintTop_toTopOf="@+id/song_cover_image_view" />
 
     <TextView
         android:id="@+id/search_result_song_title_text_view"
@@ -54,13 +54,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="marquee"
-        android:paddingTop="10dp"
         android:paddingEnd="12dp"
         android:singleLine="true"
         android:text="@string/label_placeholder"
+        app:layout_constraintBottom_toTopOf="@+id/search_result_song_subtitle_text_view"
         app:layout_constraintEnd_toStartOf="@+id/search_result_dowanload_indicator_image_view"
         app:layout_constraintStart_toEndOf="@+id/cover_image_separator"
-        app:layout_constraintTop_toBottomOf="@+id/different_disk_divider" />
+        app:layout_constraintTop_toTopOf="@+id/song_cover_image_view"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/search_result_song_subtitle_text_view"
@@ -71,30 +72,43 @@
         android:paddingEnd="12dp"
         android:singleLine="true"
         android:text="@string/label_placeholder"
+        app:layout_constraintBottom_toBottomOf="@+id/song_cover_image_view"
         app:layout_constraintEnd_toStartOf="@+id/search_result_dowanload_indicator_image_view"
         app:layout_constraintStart_toEndOf="@+id/cover_image_separator"
         app:layout_constraintTop_toBottomOf="@+id/search_result_song_title_text_view" />
 
-    <ImageView
+    <FrameLayout
         android:id="@+id/search_result_dowanload_indicator_image_view"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_margin="8dp"
-        android:background="@drawable/ic_download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/song_cover_image_view"
         app:layout_constraintEnd_toStartOf="@+id/search_result_song_more_button"
-        app:layout_constraintTop_toBottomOf="@+id/different_disk_divider" />
+        app:layout_constraintStart_toEndOf="@+id/search_result_song_title_text_view"
+        app:layout_constraintTop_toTopOf="@+id/song_cover_image_view">
 
-    <ImageView
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="@drawable/ic_download"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless" />
+    </FrameLayout>
+
+    <FrameLayout
         android:id="@+id/search_result_song_more_button"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:background="@drawable/ic_more_vert"
-        android:foreground="?android:attr/selectableItemBackgroundBorderless"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/song_cover_image_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/different_disk_divider" />
+        app:layout_constraintStart_toEndOf="@+id/search_result_dowanload_indicator_image_view"
+        app:layout_constraintTop_toTopOf="@+id/song_cover_image_view">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="@drawable/ic_more_vert"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless" />
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

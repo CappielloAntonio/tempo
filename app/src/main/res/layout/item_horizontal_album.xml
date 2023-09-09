@@ -5,16 +5,15 @@
     android:background="?attr/selectableItemBackground"
     android:clipChildren="false"
     android:orientation="horizontal"
-    android:paddingStart="16dp"
-    android:paddingTop="3dp"
-    android:paddingBottom="3dp">
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp">
 
     <ImageView
         android:id="@+id/album_cover_image_view"
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:layout_gravity="center"
-        android:layout_margin="2dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,15 +24,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="marquee"
-        android:paddingStart="12dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="12dp"
+        android:paddingHorizontal="12dp"
         android:singleLine="true"
         android:text="@string/label_placeholder"
+        app:layout_constraintBottom_toTopOf="@+id/album_artist_text_view"
         app:layout_constraintEnd_toStartOf="@+id/album_more_button"
         app:layout_constraintStart_toEndOf="@+id/album_cover_image_view"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="@+id/album_cover_image_view"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/album_artist_text_view"
@@ -41,24 +39,27 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="marquee"
+        android:paddingHorizontal="12dp"
         android:singleLine="true"
-        android:paddingStart="12dp"
-        android:paddingEnd="16dp"
         android:text="@string/label_placeholder"
+        app:layout_constraintBottom_toBottomOf="@+id/album_cover_image_view"
         app:layout_constraintEnd_toStartOf="@+id/album_more_button"
         app:layout_constraintStart_toEndOf="@+id/album_cover_image_view"
         app:layout_constraintTop_toBottomOf="@+id/album_title_text_view" />
 
-    <ImageView
+    <FrameLayout
         android:id="@+id/album_more_button"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:background="@drawable/ic_more_vert"
-        android:foreground="?android:attr/selectableItemBackgroundBorderless"
-        android:gravity="center_vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/album_cover_image_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/album_cover_image_view">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="@drawable/ic_more_vert"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless" />
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

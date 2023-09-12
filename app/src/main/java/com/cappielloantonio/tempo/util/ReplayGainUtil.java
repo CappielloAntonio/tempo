@@ -12,6 +12,7 @@ import androidx.media3.exoplayer.ExoPlayer;
 import com.cappielloantonio.tempo.model.ReplayGain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,9 +33,7 @@ public class ReplayGainUtil {
         List<Metadata> metadata = new ArrayList<>();
 
         if (tracks != null && !tracks.getGroups().isEmpty()) {
-            for (int i = 0; i < tracks.getGroups().size(); i++) {
-                Tracks.Group group = tracks.getGroups().get(i);
-
+            for (Tracks.Group group : tracks.getGroups()) {
                 if (group != null && group.getMediaTrackGroup() != null) {
                     for (int j = 0; j < group.getMediaTrackGroup().length; j++) {
                         metadata.add(group.getTrackFormat(j).metadata);
@@ -50,8 +49,7 @@ public class ReplayGainUtil {
         List<ReplayGain> gains = new ArrayList<>();
 
         if (metadata != null) {
-            for (int i = 0; i < metadata.size(); i++) {
-                Metadata singleMetadata = metadata.get(i);
+            for (Metadata singleMetadata : metadata) {
 
                 if (singleMetadata != null) {
                     for (int j = 0; j < singleMetadata.length(); j++) {
@@ -73,13 +71,7 @@ public class ReplayGainUtil {
     }
 
     private static boolean checkReplayGain(Metadata.Entry entry) {
-        for (String tag : tags) {
-            if (entry.toString().contains(tag)) {
-                return true;
-            }
-        }
-
-        return false;
+        return Arrays.stream(tags).anyMatch(entry.toString()::contains);
     }
 
     private static ReplayGain setReplayGains(Metadata.Entry entry) {
@@ -123,11 +115,6 @@ public class ReplayGainUtil {
             return;
         }
 
-        if (Objects.equals(Preferences.getReplayGainMode(), "disabled") || gains.size() == 0) {
-            setNoReplayGain(player);
-            return;
-        }
-
         if (Objects.equals(Preferences.getReplayGainMode(), "track")) {
             setTrackReplayGain(player, gains);
             return;
@@ -148,13 +135,13 @@ public class ReplayGainUtil {
     private static void setTrackReplayGain(ExoPlayer player, List<ReplayGain> gains) {
         float trackGain = gains.get(0).getTrackGain() != 0f ? gains.get(0).getTrackGain() : gains.get(1).getTrackGain();
 
-        setReplayGain(player, trackGain != 0f ? trackGain : 0f);
+        setReplayGain(player, trackGain);
     }
 
     private static void setAlbumReplayGain(ExoPlayer player, List<ReplayGain> gains) {
         float albumGain = gains.get(0).getAlbumGain() != 0f ? gains.get(0).getAlbumGain() : gains.get(1).getAlbumGain();
 
-        setReplayGain(player, albumGain != 0f ? albumGain : 0f);
+        setReplayGain(player, albumGain);
     }
 
     private static void setAutoReplayGain(ExoPlayer player, List<ReplayGain> gains) {

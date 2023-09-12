@@ -19,17 +19,12 @@ import com.cappielloantonio.tempo.subsonic.models.PodcastEpisode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @OptIn(markerClass = UnstableApi.class)
 public class MappingUtil {
     public static List<MediaItem> mapMediaItems(List<Child> items) {
-        ArrayList<MediaItem> mediaItems = new ArrayList<>();
-
-        for (int i = 0; i < items.size(); i++) {
-            mediaItems.add(mapMediaItem(items.get(i)));
-        }
-
-        return mediaItems;
+        return items.stream().map(MappingUtil::mapMediaItem).collect(Collectors.toList());
     }
 
     public static MediaItem mapMediaItem(Child media) {
@@ -96,13 +91,7 @@ public class MappingUtil {
     }
 
     public static List<MediaItem> mapDownloads(List<Child> items) {
-        ArrayList<MediaItem> downloads = new ArrayList<>();
-
-        for (int i = 0; i < items.size(); i++) {
-            downloads.add(mapDownload(items.get(i)));
-        }
-
-        return downloads;
+        return items.stream().map(MappingUtil::mapDownload).collect(Collectors.toList());
     }
 
     public static MediaItem mapDownload(Child media) {

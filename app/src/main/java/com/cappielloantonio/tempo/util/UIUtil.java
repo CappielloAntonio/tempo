@@ -24,11 +24,7 @@ public class UIUtil {
     public static int getSpanCount(int itemCount, int maxSpan) {
         int itemSize = itemCount == 0 ? 1 : itemCount;
 
-        if (itemSize / maxSpan > 0) {
-            return maxSpan;
-        } else {
-            return itemSize % maxSpan;
-        }
+        return itemSize / maxSpan > 0 ? maxSpan : itemSize % maxSpan;
     }
 
     public static DividerItemDecoration getDividerItemDecoration(Context context) {
@@ -54,10 +50,11 @@ public class UIUtil {
             while (xpp.getEventType() != XmlPullParser.END_DOCUMENT) {
                 String tagName = xpp.getName();
 
-                if (xpp.getEventType() == XmlPullParser.START_TAG) {
-                    if ("locale".equals(tagName) && xpp.getAttributeCount() > 0 && xpp.getAttributeName(0).equals("name")) {
-                        tagsList.add(xpp.getAttributeValue(0));
-                    }
+                if (xpp.getEventType() == XmlPullParser.START_TAG &&
+                        "locale".equals(tagName) &&
+                        xpp.getAttributeCount() > 0 &&
+                        xpp.getAttributeName(0).equals("name")) {
+                    tagsList.add(xpp.getAttributeValue(0));
                 }
 
                 xpp.next();

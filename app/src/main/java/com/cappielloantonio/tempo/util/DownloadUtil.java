@@ -48,10 +48,16 @@ public final class DownloadUtil {
     }
 
     public static RenderersFactory buildRenderersFactory(Context context, boolean preferExtensionRenderer) {
-        @DefaultRenderersFactory.ExtensionRendererMode int extensionRendererMode =
-                useExtensionRenderers()
-                        ? (preferExtensionRenderer ? DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER : DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
-                        : DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF;
+        @DefaultRenderersFactory.ExtensionRendererMode int extensionRendererMode;
+        if (useExtensionRenderers()) {
+            if (preferExtensionRenderer) {
+                extensionRendererMode = DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER;
+            } else {
+                extensionRendererMode = DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON;
+            }
+        } else {
+            extensionRendererMode = DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF;
+        }
 
         return new DefaultRenderersFactory(context.getApplicationContext()).setExtensionRendererMode(extensionRendererMode);
     }
@@ -127,20 +133,21 @@ public final class DownloadUtil {
     }
 
     private static synchronized File getDownloadDirectory(Context context) {
-        if (downloadDirectory == null) {
-            if (Preferences.getDownloadStoragePreference() == 0) {
-                downloadDirectory = context.getExternalFilesDirs(null)[0];
-                if (downloadDirectory == null) {
-                    downloadDirectory = context.getFilesDir();
-                }
-            } else {
-                try {
-                    downloadDirectory = context.getExternalFilesDirs(null)[1];
-                } catch (Exception exception) {
-                    downloadDirectory = context.getExternalFilesDirs(null)[0];
-                    Preferences.setDownloadStoragePreference(0);
-                }
+        if (downloadDirectory != null) {
+            return downloadDirectory;
+        }
 
+        if (Preferences.getDownloadStoragePreference() == 0) {
+            downloadDirectory = context.getExternalFilesDirs(null)[0];
+            if (downloadDirectory == null) {
+                downloadDirectory = context.getFilesDir();
+            }
+        } else {
+            try {
+                downloadDirectory = context.getExternalFilesDirs(null)[1];
+            } catch (Exception exception) {
+                downloadDirectory = context.getExternalFilesDirs(null)[0];
+                Preferences.setDownloadStoragePreference(0);
             }
         }
 
@@ -160,22 +167,22 @@ public final class DownloadUtil {
 
         ArrayList<File> files = listFiles(directory, new ArrayList<>());
 
-        for (File file : files) {
-            file.delete();
-        }
+        files.forEach(File::delete);
     }
 
     private static synchronized ArrayList<File> listFiles(File directory, ArrayList<File> files) {
-        if (directory.isDirectory()) {
-            File[] list = directory.listFiles();
+        if (!directory.isDirectory()) {
+            return files;
+        }
 
-            if (list != null) {
-                for (File file : list) {
-                    if (file.isFile() && file.getName().toLowerCase().endsWith(".exo")) {
-                        files.add(file);
-                    } else if (file.isDirectory()) {
-                        listFiles(file, files);
-                    }
+        File[] list = directory.listFiles();
+
+        if (list != null) {
+            for (File file : list) {
+                if (file.isFile() && file.getName().toLowerCase().endsWith(".exo")) {
+                    files.add(file);
+                } else if (file.isDirectory()) {
+                    listFiles(file, files);
                 }
             }
         }

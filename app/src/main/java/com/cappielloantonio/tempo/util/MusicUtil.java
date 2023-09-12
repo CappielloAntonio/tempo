@@ -33,18 +33,7 @@ public class MusicUtil {
         uri.append(App.getSubsonicClientInstance(false).getUrl());
         uri.append("stream");
 
-        if (params.containsKey("u") && params.get("u") != null)
-            uri.append("?u=").append(Util.encode(params.get("u")));
-        if (params.containsKey("p") && params.get("p") != null)
-            uri.append("&p=").append(params.get("p"));
-        if (params.containsKey("s") && params.get("s") != null)
-            uri.append("&s=").append(params.get("s"));
-        if (params.containsKey("t") && params.get("t") != null)
-            uri.append("&t=").append(params.get("t"));
-        if (params.containsKey("v") && params.get("v") != null)
-            uri.append("&v=").append(params.get("v"));
-        if (params.containsKey("c") && params.get("c") != null)
-            uri.append("&c=").append(params.get("c"));
+        addUriParameters(uri, params);
 
         if (!Preferences.isServerPrioritized())
             uri.append("&maxBitRate=").append(getBitratePreference());
@@ -69,18 +58,7 @@ public class MusicUtil {
             uri.append(App.getSubsonicClientInstance(false).getUrl());
             uri.append("download");
 
-            if (params.containsKey("u") && params.get("u") != null)
-                uri.append("?u=").append(Util.encode(params.get("u")));
-            if (params.containsKey("p") && params.get("p") != null)
-                uri.append("&p=").append(params.get("p"));
-            if (params.containsKey("s") && params.get("s") != null)
-                uri.append("&s=").append(params.get("s"));
-            if (params.containsKey("t") && params.get("t") != null)
-                uri.append("&t=").append(params.get("t"));
-            if (params.containsKey("v") && params.get("v") != null)
-                uri.append("&v=").append(params.get("v"));
-            if (params.containsKey("c") && params.get("c") != null)
-                uri.append("&c=").append(params.get("c"));
+            addUriParameters(uri, params);
 
             uri.append("&id=").append(id);
         } else {
@@ -100,18 +78,7 @@ public class MusicUtil {
         uri.append(App.getSubsonicClientInstance(false).getUrl());
         uri.append("stream");
 
-        if (params.containsKey("u") && params.get("u") != null)
-            uri.append("?u=").append(Util.encode(params.get("u")));
-        if (params.containsKey("p") && params.get("p") != null)
-            uri.append("&p=").append(params.get("p"));
-        if (params.containsKey("s") && params.get("s") != null)
-            uri.append("&s=").append(params.get("s"));
-        if (params.containsKey("t") && params.get("t") != null)
-            uri.append("&t=").append(params.get("t"));
-        if (params.containsKey("v") && params.get("v") != null)
-            uri.append("&v=").append(params.get("v"));
-        if (params.containsKey("c") && params.get("c") != null)
-            uri.append("&c=").append(params.get("c"));
+        addUriParameters(uri, params);
 
         if (!Preferences.isServerPrioritizedInTranscodedDownload())
             uri.append("&maxBitRate=").append(getBitratePreferenceForDownload());
@@ -125,18 +92,25 @@ public class MusicUtil {
         return Uri.parse(uri.toString());
     }
 
+    private static void addUriParameters(StringBuilder uri, Map<String, String> params) {
+        if (params.containsKey("u") && params.get("u") != null)
+            uri.append("?u=").append(Util.encode(params.get("u")));
+        if (params.containsKey("p") && params.get("p") != null)
+            uri.append("&p=").append(params.get("p"));
+        if (params.containsKey("s") && params.get("s") != null)
+            uri.append("&s=").append(params.get("s"));
+        if (params.containsKey("t") && params.get("t") != null)
+            uri.append("&t=").append(params.get("t"));
+        if (params.containsKey("v") && params.get("v") != null)
+            uri.append("&v=").append(params.get("v"));
+        if (params.containsKey("c") && params.get("c") != null)
+            uri.append("&c=").append(params.get("c"));
+    }
+
 
     public static String getReadableDurationString(long duration, boolean millis) {
-        long minutes;
-        long seconds;
-
-        if (millis) {
-            minutes = (duration / 1000) / 60;
-            seconds = (duration / 1000) % 60;
-        } else {
-            minutes = duration / 60;
-            seconds = duration % 60;
-        }
+        long minutes = millis ? (duration / 1000) / 60 : duration / 60;
+        long seconds = millis ? (duration / 1000) % 60 : duration % 60;
 
         if (minutes < 60) {
             return String.format(Locale.getDefault(), "%01d:%02d", minutes, seconds);
@@ -178,9 +152,9 @@ public class MusicUtil {
     public static String forceReadableString(String string) {
         if (string != null) {
             return getReadableString(string)
-                    .replaceAll("&#34;", "\"")
-                    .replaceAll("&#39;", "'")
-                    .replaceAll("&amp;", "'")
+                    .replace("&#34;", "\"")
+                    .replace("&#39;", "'")
+                    .replace("&amp;", "'")
                     .replaceAll("<a\\s+([^>]+)>((?:.(?!</a>))*.)</a>", "");
         }
 
@@ -190,10 +164,10 @@ public class MusicUtil {
     public static String getReadableLyrics(String string) {
         if (string != null) {
             return string
-                    .replaceAll("&#34;", "\"")
-                    .replaceAll("&#39;", "'")
-                    .replaceAll("&amp;", "'")
-                    .replaceAll("&#xA;", "\n");
+                    .replace("&#34;", "\"")
+                    .replace("&#39;", "'")
+                    .replace("&amp;", "'")
+                    .replace("&#xA;", "\n");
         }
 
         return "";
@@ -202,11 +176,9 @@ public class MusicUtil {
     public static List<String> getReadableStrings(List<String> strings) {
         List<String> readableStrings = new ArrayList<>();
 
-        if (strings.size() > 0) {
-            for (String string : strings) {
-                if (string != null) {
-                    readableStrings.add(Html.fromHtml(string, Html.FROM_HTML_MODE_COMPACT).toString());
-                }
+        for (String string : strings) {
+            if (string != null) {
+                readableStrings.add(Html.fromHtml(string, Html.FROM_HTML_MODE_COMPACT).toString());
             }
         }
 
@@ -250,9 +222,8 @@ public class MusicUtil {
             return Preferences.getMaxBitrateWifi();
         } else if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
             return Preferences.getMaxBitrateMobile();
-        } else {
-            return Preferences.getMaxBitrateWifi();
         }
+        return Preferences.getMaxBitrateWifi();
     }
 
     public static String getTranscodingFormatPreference() {
@@ -265,9 +236,8 @@ public class MusicUtil {
             return Preferences.getAudioTranscodeFormatWifi();
         } else if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
             return Preferences.getAudioTranscodeFormatMobile();
-        } else {
-            return Preferences.getAudioTranscodeFormatWifi();
         }
+        return Preferences.getAudioTranscodeFormatWifi();
     }
 
     public static String getBitratePreferenceForDownload() {
@@ -285,7 +255,7 @@ public class MusicUtil {
 
     public static List<Child> limitPlayableMedia(List<Child> toLimit, int position) {
         if (!toLimit.isEmpty() && toLimit.size() > Constants.PLAYABLE_MEDIA_LIMIT) {
-            int from = position < Constants.PRE_PLAYABLE_MEDIA ? 0 : position - Constants.PRE_PLAYABLE_MEDIA;
+            int from = Math.max(position - Constants.PRE_PLAYABLE_MEDIA, 0);
             int to = Math.min(from + Constants.PLAYABLE_MEDIA_LIMIT, toLimit.size());
 
             return toLimit.subList(from, to);

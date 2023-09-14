@@ -1,7 +1,5 @@
 package com.cappielloantonio.tempo.util;
 
-import android.util.Log;
-
 import androidx.annotation.OptIn;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.Metadata;
@@ -18,8 +16,6 @@ import java.util.Objects;
 
 @OptIn(markerClass = UnstableApi.class)
 public class ReplayGainUtil {
-    private static final String TAG = "ReplayGainUtil";
-
     private static final String[] tags = {"REPLAYGAIN_TRACK_GAIN", "REPLAYGAIN_ALBUM_GAIN", "R128_TRACK_GAIN", "R128_ALBUM_GAIN"};
 
     public static void setReplayGain(ExoPlayer player, Tracks tracks) {
@@ -105,6 +101,11 @@ public class ReplayGainUtil {
     }
 
     private static void applyReplayGain(ExoPlayer player, List<ReplayGain> gains) {
+        if (Objects.equals(Preferences.getReplayGainMode(), "disabled") || gains == null || gains.isEmpty()) {
+            setNoReplayGain(player);
+            return;
+        }
+
         if (Objects.equals(Preferences.getReplayGainMode(), "auto")) {
             if (areTracksConsecutive(player)) {
                 setAutoReplayGain(player, gains);

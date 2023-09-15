@@ -9,6 +9,7 @@ import androidx.media3.common.util.UnstableApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cappielloantonio.tempo.databinding.ItemLibraryMusicIndexBinding;
+import com.cappielloantonio.tempo.glide.CustomGlideRequest;
 import com.cappielloantonio.tempo.helper.recyclerview.FastScrollbar;
 import com.cappielloantonio.tempo.interfaces.ClickCallback;
 import com.cappielloantonio.tempo.subsonic.models.Artist;
@@ -42,10 +43,10 @@ public class MusicIndexAdapter extends RecyclerView.Adapter<MusicIndexAdapter.Vi
 
         holder.item.musicIndexTitleTextView.setText(artist.getName());
 
-        /* CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), artist.getName())
+        CustomGlideRequest.Builder
+                .from(holder.itemView.getContext(), artist.getName(), CustomGlideRequest.ResourceType.Directory)
                 .build()
-                .into(holder.item.musicIndexCoverImageView); */
+                .into(holder.item.musicIndexCoverImageView);
     }
 
     @Override

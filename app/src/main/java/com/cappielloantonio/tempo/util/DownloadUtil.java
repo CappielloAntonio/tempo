@@ -1,7 +1,9 @@
 package com.cappielloantonio.tempo.util;
 
+import android.app.Notification;
 import android.content.Context;
 
+import androidx.core.app.NotificationCompat;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.database.DatabaseProvider;
 import androidx.media3.database.StandaloneDatabaseProvider;
@@ -182,4 +184,14 @@ public final class DownloadUtil {
 
         return files;
     }
+
+    public static Notification buildGroupSummaryNotification(Context context, String channelId, String groupId, int icon, String title) {
+        return new NotificationCompat.Builder(context, channelId)
+                .setContentTitle(title)
+                .setSmallIcon(icon)
+                .setGroup(groupId)
+                .setGroupSummary(true)
+                .build();
+    }
+
 }

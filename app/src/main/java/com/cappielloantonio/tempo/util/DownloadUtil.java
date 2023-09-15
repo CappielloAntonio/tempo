@@ -32,6 +32,8 @@ import java.util.concurrent.Executors;
 public final class DownloadUtil {
 
     public static final String DOWNLOAD_NOTIFICATION_CHANNEL_ID = "download_channel";
+    public static final String DOWNLOAD_NOTIFICATION_SUCCESSFUL_GROUP = "com.cappielloantonio.tempo.SuccessfulDownload";
+    public static final String DOWNLOAD_NOTIFICATION_FAILED_GROUP = "com.cappielloantonio.tempo.FailedDownload";
 
     private static final String DOWNLOAD_CONTENT_DIRECTORY = "downloads";
 
@@ -193,5 +195,4 @@ public final class DownloadUtil {
                 .setGroupSummary(true)
                 .build();
     }
-
 }

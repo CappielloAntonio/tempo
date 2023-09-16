@@ -1,7 +1,9 @@
 package com.cappielloantonio.tempo.util;
 
+import android.app.Notification;
 import android.content.Context;
 
+import androidx.core.app.NotificationCompat;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.database.DatabaseProvider;
 import androidx.media3.database.StandaloneDatabaseProvider;
@@ -30,6 +32,8 @@ import java.util.concurrent.Executors;
 public final class DownloadUtil {
 
     public static final String DOWNLOAD_NOTIFICATION_CHANNEL_ID = "download_channel";
+    public static final String DOWNLOAD_NOTIFICATION_SUCCESSFUL_GROUP = "com.cappielloantonio.tempo.SuccessfulDownload";
+    public static final String DOWNLOAD_NOTIFICATION_FAILED_GROUP = "com.cappielloantonio.tempo.FailedDownload";
 
     private static final String DOWNLOAD_CONTENT_DIRECTORY = "downloads";
 
@@ -188,5 +192,14 @@ public final class DownloadUtil {
         }
 
         return files;
+    }
+
+    public static Notification buildGroupSummaryNotification(Context context, String channelId, String groupId, int icon, String title) {
+        return new NotificationCompat.Builder(context, channelId)
+                .setContentTitle(title)
+                .setSmallIcon(icon)
+                .setGroup(groupId)
+                .setGroupSummary(true)
+                .build();
     }
 }

@@ -13,6 +13,7 @@
     <string name="album_bottom_sheet_play_next">Play next</string>
     <string name="album_bottom_sheet_remove_all">Remove all</string>
     <string name="album_bottom_sheet_shuffle">Shuffle</string>
+    <string name="album_bottom_sheet_share">Share</string>
     <string name="album_catalogue_title">Albums</string>
     <string name="album_catalogue_title_expanded">Browse Albums</string>
     <string name="album_error_retrieving_artist">Error retrieving artist</string>
@@ -89,6 +90,7 @@
     <string name="home_title_recently_added">Recently added</string>
     <string name="home_title_recently_added_see_all_button">See all</string>
     <string name="home_title_discovery_shuffle_all_button">Shuffle all</string>
+    <string name="home_title_shares">Shares</string>
     <string name="home_title_starred_albums">★ Starred albums</string>
     <string name="home_title_starred_albums_see_all_button">See all</string>
     <string name="home_title_starred_artists">★ Starred artists</string>
@@ -246,6 +248,15 @@
     <string name="settings_version_title">Version</string>
     <string name="settings_wifi_only_title">Stream via Wi-Fi only alert</string>
     <string name="settings_wifi_only_summary">Ask for user confirmation before streaming over mobile network.</string>
+    <string name="share_bottom_sheet_copy_link">Copy link</string>
+    <string name="share_bottom_sheet_delete">Delete share</string>
+    <string name="share_bottom_sheet_update">Update share</string>
+    <string name="share_subtitle_item">Expiration date: %1$s</string>
+    <string name="share_update_dialog_negative_button">Cancel</string>
+    <string name="share_update_dialog_positive_button">Save</string>
+    <string name="share_update_dialog_hint_description">Description</string>
+    <string name="share_update_dialog_hint_expiration_date">Expiration date</string>
+    <string name="share_update_dialog_title">Share</string>
     <string name="song_bottom_sheet_add_to_playlist">Add to playlist</string>
     <string name="song_bottom_sheet_add_to_queue">Add to queue</string>
     <string name="song_bottom_sheet_download">Download</string>
@@ -253,6 +264,7 @@
     <string name="song_bottom_sheet_error_retrieving_artist">Error retrieving artist</string>
     <string name="song_bottom_sheet_go_to_album">Go to album</string>
     <string name="song_bottom_sheet_go_to_artist">Go to artist</string>
+    <string name="song_bottom_sheet_share">Share</string>
     <string name="song_bottom_sheet_instant_mix">Instant mix</string>
     <string name="song_bottom_sheet_play_next">Play next</string>
     <string name="song_bottom_sheet_rate">Rate</string>

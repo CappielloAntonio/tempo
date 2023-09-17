@@ -330,4 +330,9 @@
         android:name="com.cappielloantonio.tempo.ui.fragment.bottomsheetdialog.PodcastChannelBottomSheetDialog"
         android:label="PodcastChannelBottomSheetDialog"
         tools:layout="@layout/bottom_sheet_podcast_channel_dialog" />
+    <dialog
+        android:id="@+id/shareBottomSheetDialog"
+        android:name="com.cappielloantonio.tempo.ui.fragment.bottomsheetdialog.ShareBottomSheetDialog"
+        android:label="ShareBottomSheetDialog"
+        tools:layout="@layout/bottom_sheet_share_dialog" />
 </navigation>

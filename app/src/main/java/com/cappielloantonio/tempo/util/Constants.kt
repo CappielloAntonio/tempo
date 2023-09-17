@@ -86,6 +86,8 @@ object Constants {
     const val DOWNLOAD_GROUP_TITLE = "download_group_title"
     const val DOWNLOAD_GROUP_SUBTITLE = "download_group_subtitle"
 
+    const val SHARE_OBJECT = "share_object"
+
     const val PLAYABLE_MEDIA_LIMIT = 100
     const val PRE_PLAYABLE_MEDIA = 15
 }

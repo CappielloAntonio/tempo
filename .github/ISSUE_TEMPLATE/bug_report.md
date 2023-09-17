@@ -7,13 +7,13 @@ assignees: ''
 
 ---
 
-# Describe the bug
+## Describe the bug
 <!-- A clear and concise description of what the bug is. -->
 
-# Expected behavior
+## Expected behavior
 <!-- A clear and concise description of what you expected to happen. -->
 
-# To Reproduce
+## To Reproduce
 <!--
 Outline the steps required to reproduce the bug, including any specific actions, inputs, or conditions:
 1. Go to '...'

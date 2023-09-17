@@ -42,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:longClickable="false"
+            android:textIsSelectable="false"
             android:hint="@string/share_update_dialog_hint_expiration_date"
             android:inputType="textShortMessage"
             android:textCursorDrawable="@null" />

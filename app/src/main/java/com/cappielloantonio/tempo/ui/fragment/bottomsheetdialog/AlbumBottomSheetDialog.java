@@ -39,6 +39,7 @@ import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.viewmodel.AlbumBottomSheetViewModel;
 import com.cappielloantonio.tempo.viewmodel.HomeViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
@@ -197,6 +198,9 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
                 ClipData clipData = ClipData.newPlainText(getString(R.string.app_name), sharedAlbum.getUrl());
                 clipboardManager.setPrimaryClip(clipData);
                 refreshShares();
+                dismissBottomSheet();
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.share_unsupported_error), Toast.LENGTH_SHORT).show();
                 dismissBottomSheet();
             }
         }));

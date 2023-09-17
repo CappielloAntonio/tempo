@@ -49,12 +49,14 @@ public class SharingRepository {
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getShares() != null && response.body().getSubsonicResponse().getShares().getShares() != null && response.body().getSubsonicResponse().getShares().getShares().get(0) != null) {
                             share.setValue(response.body().getSubsonicResponse().getShares().getShares().get(0));
+                        } else {
+                            share.setValue(null);
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
-
+                        share.setValue(null);
                     }
                 });
 

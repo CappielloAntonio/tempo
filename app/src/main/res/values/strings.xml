@@ -263,6 +263,7 @@
     <string name="share_update_dialog_hint_description">Description</string>
     <string name="share_update_dialog_hint_expiration_date">Expiration date</string>
     <string name="share_update_dialog_title">Share</string>
+    <string name="share_unsupported_error">Sharing is not supported or not enabled</string>
     <string name="song_bottom_sheet_add_to_playlist">Add to playlist</string>
     <string name="song_bottom_sheet_add_to_queue">Add to queue</string>
     <string name="song_bottom_sheet_download">Download</string>

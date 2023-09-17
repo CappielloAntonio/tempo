@@ -216,6 +216,9 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
                 clipboardManager.setPrimaryClip(clipData);
                 refreshShares();
                 dismissBottomSheet();
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.share_unsupported_error), Toast.LENGTH_SHORT).show();
+                dismissBottomSheet();
             }
         }));
 

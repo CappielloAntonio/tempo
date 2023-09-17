@@ -40,6 +40,7 @@ object Preferences {
     private const val MAX_BITRATE_DOWNLOAD = "max_bitrate_download"
     private const val AUDIO_TRANSCODE_FORMAT_DOWNLOAD = "audio_transcode_format_download"
     private const val SHARE = "share"
+    private const val ESTIMATE_CONTENT_LENGTH = "estimate_content_length"
 
     @JvmStatic
     fun getServer(): String? {
@@ -318,5 +319,10 @@ object Preferences {
     @JvmStatic
     fun isSharingEnabled(): Boolean {
         return App.getInstance().preferences.getBoolean(SHARE, false)
+    }
+
+    @JvmStatic
+    fun askForEstimateContentLength(): Boolean {
+        return App.getInstance().preferences.getBoolean(ESTIMATE_CONTENT_LENGTH, false)
     }
 }

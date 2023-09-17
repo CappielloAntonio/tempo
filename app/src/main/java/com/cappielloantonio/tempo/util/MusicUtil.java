@@ -50,11 +50,10 @@ public class MusicUtil {
             uri.append("&maxBitRate=").append(getBitratePreference());
         if (!Preferences.isServerPrioritized())
             uri.append("&format=").append(getTranscodingFormatPreference());
-        if (false)
+        if (Preferences.askForEstimateContentLength())
             uri.append("&estimateContentLength=true");
 
         uri.append("&id=").append(id);
-
 
         Log.d(TAG, "getStreamUri: " + uri);
 

@@ -158,6 +158,16 @@
             app:key="max_bitrate_mobile"
             app:title="@string/settings_max_bitrate_mobile"
             app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            android:title="@string/settings_audio_transcode_estimate_content_length_title"
+            android:defaultValue="false"
+            android:summary="@string/settings_audio_transcode_estimate_content_length_summary"
+            android:key="estimate_content_length" />
+
+        <Preference
+            app:selectable="false"
+            app:summary="@string/settings_summary_transcoding_estimate_content_length" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_title_transcoding_download">

@@ -1,7 +1,10 @@
 package com.cappielloantonio.tempo.ui.fragment;
 
 import android.content.ComponentName;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +36,7 @@ import com.cappielloantonio.tempo.service.DownloaderManager;
 import com.cappielloantonio.tempo.service.MediaManager;
 import com.cappielloantonio.tempo.service.MediaService;
 import com.cappielloantonio.tempo.subsonic.models.Child;
+import com.cappielloantonio.tempo.subsonic.models.Share;
 import com.cappielloantonio.tempo.ui.activity.MainActivity;
 import com.cappielloantonio.tempo.ui.adapter.AlbumAdapter;
 import com.cappielloantonio.tempo.ui.adapter.AlbumHorizontalAdapter;
@@ -40,6 +44,7 @@ import com.cappielloantonio.tempo.ui.adapter.ArtistAdapter;
 import com.cappielloantonio.tempo.ui.adapter.ArtistHorizontalAdapter;
 import com.cappielloantonio.tempo.ui.adapter.DiscoverSongAdapter;
 import com.cappielloantonio.tempo.ui.adapter.GridTrackAdapter;
+import com.cappielloantonio.tempo.ui.adapter.ShareHorizontalAdapter;
 import com.cappielloantonio.tempo.ui.adapter.SimilarTrackAdapter;
 import com.cappielloantonio.tempo.ui.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.tempo.ui.adapter.YearAdapter;
@@ -76,6 +81,7 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     private AlbumHorizontalAdapter newReleasesAlbumAdapter;
     private YearAdapter yearAdapter;
     private GridTrackAdapter gridTrackAdapter;
+    private ShareHorizontalAdapter shareHorizontalAdapter;
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
@@ -111,6 +117,7 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         initYearSongView();
         initRecentAddedAlbumView();
         initGridView();
+        initSharesView();
     }
 
     @Override
@@ -118,6 +125,12 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         super.onStart();
 
         initializeMediaBrowser();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshSharesView();
     }
 
     @Override
@@ -225,6 +238,11 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
 
         bind.recentlyAddedAlbumsTextViewRefreshable.setOnLongClickListener(v -> {
             homeViewModel.refreshMostRecentlyAddedAlbums(getViewLifecycleOwner());
+            return true;
+        });
+
+        bind.sharesTextViewRefreshable.setOnLongClickListener(v -> {
+            homeViewModel.refreshShares(getViewLifecycleOwner());
             return true;
         });
     }
@@ -649,6 +667,45 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         recentAddedAlbumSnapHelper.attachToRecyclerView(bind.recentlyAddedAlbumsRecyclerView);
     }
 
+    private void initSharesView() {
+        bind.sharesRecyclerView.setHasFixedSize(true);
+
+        shareHorizontalAdapter = new ShareHorizontalAdapter(this);
+        bind.sharesRecyclerView.setAdapter(shareHorizontalAdapter);
+        homeViewModel.getShares(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), shares -> {
+            if (shares == null) {
+                if (bind != null) bind.sharesPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                if (bind != null) bind.sharesSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null) bind.sharesPlaceholder.placeholder.setVisibility(View.GONE);
+                if (bind != null)
+                    bind.sharesSector.setVisibility(!shares.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.sharesRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(shares.size(), 10), GridLayoutManager.HORIZONTAL, false));
+
+                shareHorizontalAdapter.setItems(shares);
+            }
+        });
+
+        SnapHelper starredTrackSnapHelper = new PagerSnapHelper();
+        starredTrackSnapHelper.attachToRecyclerView(bind.sharesRecyclerView);
+
+        bind.sharesRecyclerView.addItemDecoration(
+                new DotsIndicatorDecoration(
+                        getResources().getDimensionPixelSize(R.dimen.radius),
+                        getResources().getDimensionPixelSize(R.dimen.radius) * 4,
+                        getResources().getDimensionPixelSize(R.dimen.dots_height),
+                        requireContext().getResources().getColor(R.color.titleTextColor, null),
+                        requireContext().getResources().getColor(R.color.titleTextColor, null))
+        );
+    }
+
+    private void refreshSharesView() {
+        final Handler handler = new Handler();
+        final Runnable runnable = () -> homeViewModel.refreshShares(getViewLifecycleOwner());
+        handler.postDelayed(runnable, 100);
+    }
+
     private void setSlideViewOffset(ViewPager2 viewPager, float pageOffset, float pageMargin) {
         viewPager.setPageTransformer((page, position) -> {
             float myOffset = position * -(2 * pageOffset + pageMargin);
@@ -747,5 +804,17 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     @Override
     public void onYearClick(Bundle bundle) {
         Navigation.findNavController(requireView()).navigate(R.id.songListPageFragment, bundle);
+    }
+
+    @Override
+    public void onShareClick(Bundle bundle) {
+        Share share = bundle.getParcelable(Constants.SHARE_OBJECT);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(share.getUrl())).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onShareLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.shareBottomSheetDialog, bundle);
     }
 }

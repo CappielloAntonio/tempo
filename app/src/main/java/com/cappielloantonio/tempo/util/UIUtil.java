@@ -14,7 +14,9 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -83,5 +85,10 @@ public class UIUtil {
         }
 
         return map;
+    }
+
+    public static String getReadableDate(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy", Locale.getDefault());
+        return formatter.format(date);
     }
 }

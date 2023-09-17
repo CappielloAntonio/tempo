@@ -39,6 +39,7 @@
     <string name="artist_list_page_title">Artists</string>
     <string name="artist_page_radio_button">Radio</string>
     <string name="artist_page_shuffle_button">Shuffle</string>
+    <string name="artist_page_switch_layout_button">Switch layout</string>
     <string name="artist_page_title_album_more_like_this_button">More like this</string>
     <string name="artist_page_title_album_section">Albums</string>
     <string name="artist_page_title_biography_more_button">More</string>

@@ -39,6 +39,7 @@ object Preferences {
     private const val AUDIO_TRANSCODE_DOWNLOAD_PRIORITY = "audio_transcode_download_priority"
     private const val MAX_BITRATE_DOWNLOAD = "max_bitrate_download"
     private const val AUDIO_TRANSCODE_FORMAT_DOWNLOAD = "audio_transcode_format_download"
+    private const val SHARE = "share"
 
     @JvmStatic
     fun getServer(): String? {
@@ -312,5 +313,10 @@ object Preferences {
     @JvmStatic
     fun getAudioTranscodeFormatTranscodedDownload(): String {
         return App.getInstance().preferences.getString(AUDIO_TRANSCODE_FORMAT_DOWNLOAD, "raw")!!
+    }
+
+    @JvmStatic
+    fun isSharingEnabled(): Boolean {
+        return App.getInstance().preferences.getBoolean(SHARE, false)
     }
 }

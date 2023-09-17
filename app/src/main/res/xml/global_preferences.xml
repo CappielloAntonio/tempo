@@ -212,6 +212,18 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/settings_title_share">
+        <Preference
+            app:selectable="false"
+            app:summary="@string/settings_summary_share" />
+
+        <SwitchPreference
+            android:title="@string/settings_share_title"
+            android:defaultValue="false"
+            android:key="share" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="@string/settings_title_syncing">
         <Preference
             app:selectable="false"

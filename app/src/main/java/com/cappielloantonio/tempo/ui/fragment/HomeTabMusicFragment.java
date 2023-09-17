@@ -672,20 +672,23 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
 
         shareHorizontalAdapter = new ShareHorizontalAdapter(this);
         bind.sharesRecyclerView.setAdapter(shareHorizontalAdapter);
-        homeViewModel.getShares(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), shares -> {
-            if (shares == null) {
-                if (bind != null) bind.sharesPlaceholder.placeholder.setVisibility(View.VISIBLE);
-                if (bind != null) bind.sharesSector.setVisibility(View.GONE);
-            } else {
-                if (bind != null) bind.sharesPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null)
-                    bind.sharesSector.setVisibility(!shares.isEmpty() ? View.VISIBLE : View.GONE);
-                if (bind != null)
-                    bind.sharesRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(shares.size(), 10), GridLayoutManager.HORIZONTAL, false));
+        if (Preferences.isSharingEnabled()) {
+            homeViewModel.getShares(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), shares -> {
+                if (shares == null) {
+                    if (bind != null)
+                        bind.sharesPlaceholder.placeholder.setVisibility(View.VISIBLE);
+                    if (bind != null) bind.sharesSector.setVisibility(View.GONE);
+                } else {
+                    if (bind != null) bind.sharesPlaceholder.placeholder.setVisibility(View.GONE);
+                    if (bind != null)
+                        bind.sharesSector.setVisibility(!shares.isEmpty() ? View.VISIBLE : View.GONE);
+                    if (bind != null)
+                        bind.sharesRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(shares.size(), 10), GridLayoutManager.HORIZONTAL, false));
 
-                shareHorizontalAdapter.setItems(shares);
-            }
-        });
+                    shareHorizontalAdapter.setItems(shares);
+                }
+            });
+        }
 
         SnapHelper starredTrackSnapHelper = new PagerSnapHelper();
         starredTrackSnapHelper.attachToRecyclerView(bind.sharesRecyclerView);
@@ -702,7 +705,9 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
 
     private void refreshSharesView() {
         final Handler handler = new Handler();
-        final Runnable runnable = () -> homeViewModel.refreshShares(getViewLifecycleOwner());
+        final Runnable runnable = () -> {
+            if (Preferences.isSharingEnabled()) homeViewModel.refreshShares(getViewLifecycleOwner());
+        };
         handler.postDelayed(runnable, 100);
     }
 

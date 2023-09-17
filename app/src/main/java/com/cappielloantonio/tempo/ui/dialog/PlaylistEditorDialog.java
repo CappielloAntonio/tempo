@@ -22,6 +22,7 @@ import com.cappielloantonio.tempo.interfaces.PlaylistCallback;
 import com.cappielloantonio.tempo.ui.adapter.PlaylistDialogSongHorizontalAdapter;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.MusicUtil;
+import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.viewmodel.PlaylistEditorViewModel;
 
 import java.util.Collections;
@@ -111,6 +112,8 @@ public class PlaylistEditorDialog extends DialogFragment {
                 clipboardManager.setPrimaryClip(clipData);
             });
         });
+
+        bind.playlistShareButton.setVisibility(Preferences.isSharingEnabled() ? View.VISIBLE : View.GONE);
     }
 
     private void initSongsView() {

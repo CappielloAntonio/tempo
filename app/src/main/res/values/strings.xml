@@ -229,7 +229,9 @@
     <string name="settings_rounded_corner_size">Corners size</string>
     <string name="settings_rounded_corner_size_summary">Sets the magnitude of the curvature angle.</string>
     <string name="settings_scan_title">Scan library</string>
+    <string name="settings_share_title">Enable music sharing</string>
     <string name="settings_summary_replay_gain">Replay gain is a feature that allows you to adjust the volume level of audio tracks for a consistent listening experience. This setting is only effective if the track contains the necessary metadata.</string>
+    <string name="settings_summary_share">Allows the user to share music via a link. The functionality must be supported and enabled server-side and is limited to individual tracks, albums and playlists.</string>
     <string name="settings_summary_syncing">Returns the state of the play queue for this user. This includes the tracks in the play queue, the currently playing track, and the position within this track. The server must support this feature.</string>
     <string name="settings_summary_transcoding">Priority given to the transcoding mode. If set to \"Direct play\" the bitrate of the file will not be changed.</string>
     <string name="settings_summary_transcoding_download">Download transcoded media. If enabled, the download endpoint will not be used, but the following settings. \n\n If \"Transcode format\" is set to \"Direct play\" the bitrate of the file will not be changed.</string>
@@ -239,6 +241,7 @@
     <string name="settings_title_data">Data</string>
     <string name="settings_title_general">General</string>
     <string name="settings_title_replay_gain">Replay Gain</string>
+    <string name="settings_title_share">Share</string>
     <string name="settings_title_syncing">Syncing</string>
     <string name="settings_title_transcoding">Transcoding</string>
     <string name="settings_title_transcoding_download">Transcoding Download</string>

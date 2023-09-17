@@ -184,6 +184,7 @@
             android:paddingTop="12dp"
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
-            android:text="@string/album_bottom_sheet_share" />
+            android:text="@string/album_bottom_sheet_share"
+            android:visibility="gone"/>
     </LinearLayout>
 </LinearLayout>

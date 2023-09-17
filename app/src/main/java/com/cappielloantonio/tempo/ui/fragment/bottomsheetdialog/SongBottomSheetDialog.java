@@ -33,6 +33,7 @@ import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.cappielloantonio.tempo.util.MappingUtil;
 import com.cappielloantonio.tempo.util.MusicUtil;
+import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.viewmodel.HomeViewModel;
 import com.cappielloantonio.tempo.viewmodel.SongBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -217,6 +218,8 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
                 dismissBottomSheet();
             }
         }));
+
+        share.setVisibility(Preferences.isSharingEnabled() ? View.VISIBLE : View.GONE);
     }
 
     @Override

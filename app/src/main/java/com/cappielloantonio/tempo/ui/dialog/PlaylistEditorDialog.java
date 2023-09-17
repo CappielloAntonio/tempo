@@ -2,8 +2,12 @@ package com.cappielloantonio.tempo.ui.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -98,6 +102,14 @@ public class PlaylistEditorDialog extends DialogFragment {
         ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
             playlistEditorViewModel.deletePlaylist();
             dialogDismiss();
+        });
+
+        bind.playlistShareButton.setOnClickListener(view -> {
+            playlistEditorViewModel.sharePlaylist().observe(requireActivity(), sharedPlaylist -> {
+                ClipboardManager clipboardManager = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText(getString(R.string.app_name), sharedPlaylist.getUrl());
+                clipboardManager.setPrimaryClip(clipData);
+            });
         });
     }
 

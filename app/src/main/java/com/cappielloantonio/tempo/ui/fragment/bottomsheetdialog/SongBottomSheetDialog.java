@@ -1,6 +1,9 @@
 package com.cappielloantonio.tempo.ui.fragment.bottomsheetdialog;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,14 +33,14 @@ import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.cappielloantonio.tempo.util.MappingUtil;
 import com.cappielloantonio.tempo.util.MusicUtil;
+import com.cappielloantonio.tempo.viewmodel.HomeViewModel;
 import com.cappielloantonio.tempo.viewmodel.SongBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.common.util.concurrent.ListenableFuture;
 
 @UnstableApi
 public class SongBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
-    private static final String TAG = "SongBottomSheetDialog";
-
+    private HomeViewModel homeViewModel;
     private SongBottomSheetViewModel songBottomSheetViewModel;
     private Child song;
 
@@ -50,6 +53,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
         song = requireArguments().getParcelable(Constants.TRACK_OBJECT);
 
+        homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
         songBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(SongBottomSheetViewModel.class);
         songBottomSheetViewModel.setSong(song);
 
@@ -202,6 +206,17 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
             dismissBottomSheet();
         }));
+
+        TextView share = view.findViewById(R.id.share_text_view);
+        share.setOnClickListener(v -> songBottomSheetViewModel.shareTrack().observe(getViewLifecycleOwner(), sharedTrack -> {
+            if (sharedTrack != null) {
+                ClipboardManager clipboardManager = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText(getString(R.string.app_name), sharedTrack.getUrl());
+                clipboardManager.setPrimaryClip(clipData);
+                refreshShares();
+                dismissBottomSheet();
+            }
+        }));
     }
 
     @Override
@@ -228,5 +243,9 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
     private void releaseMediaBrowser() {
         MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
+    }
+
+    private void refreshShares() {
+        homeViewModel.refreshShares(requireActivity());
     }
 }

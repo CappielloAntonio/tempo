@@ -2,4 +2,5 @@
 <locale-config xmlns:android="http://schemas.android.com/apk/res/android">
     <locale android:name="en"/>            <!-- English -->
     <locale android:name="de-DE"/>         <!-- German -->
+    <locale android:name="fr-FR"/>         <!-- French -->
 </locale-config>

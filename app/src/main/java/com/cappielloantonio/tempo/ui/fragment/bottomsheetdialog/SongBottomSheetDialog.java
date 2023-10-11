@@ -196,6 +196,8 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
             dismissBottomSheet();
         }));
 
+        goToAlbum.setVisibility(songBottomSheetViewModel.getSong().getAlbumId() != null ? View.VISIBLE : View.GONE);
+
         TextView goToArtist = view.findViewById(R.id.go_to_artist_text_view);
         goToArtist.setOnClickListener(v -> songBottomSheetViewModel.getArtist().observe(getViewLifecycleOwner(), artist -> {
             if (artist != null) {
@@ -207,6 +209,8 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
             dismissBottomSheet();
         }));
+
+        goToArtist.setVisibility(songBottomSheetViewModel.getSong().getArtistId() != null ? View.VISIBLE : View.GONE);
 
         TextView share = view.findViewById(R.id.share_text_view);
         share.setOnClickListener(v -> songBottomSheetViewModel.shareTrack().observe(getViewLifecycleOwner(), sharedTrack -> {

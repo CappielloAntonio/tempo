@@ -183,6 +183,11 @@ public class DirectoryFragment extends Fragment implements ClickCallback {
     }
 
     @Override
+    public void onMediaLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.songBottomSheetDialog, bundle);
+    }
+
+    @Override
     public void onMusicDirectoryClick(Bundle bundle) {
         Navigation.findNavController(requireView()).navigate(R.id.directoryFragment, bundle);
     }

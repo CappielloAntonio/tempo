@@ -123,6 +123,7 @@
     <string name="menu_search_button">Search</string>
     <string name="menu_settings_button">Settings</string>
     <string name="player_playback_speed">%1$.2fx</string>
+    <string name="player_queue_clean_all_button">Clean play queue</string>
     <string name="player_server_priority">Server Priority</string>
     <string name="playlist_catalogue_title">Playlist Catalogue</string>
     <string name="playlist_catalogue_title_expanded">Browse Playlists</string>

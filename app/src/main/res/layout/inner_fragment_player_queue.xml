@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -10,14 +9,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/player_queue_recycler_view"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            android:paddingTop="8dp"
-            android:paddingBottom="@dimen/global_padding_bottom" />
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="8dp"
+                android:paddingBottom="@dimen/global_padding_bottom">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/player_queue_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+                <TextView
+                    android:id="@+id/player_clean_queue_button"
+                    style="@style/TitleMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/player_queue_clean_all_button"/>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
     </com.cappielloantonio.tempo.helper.recyclerview.NestedScrollableHost>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -27,6 +46,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
-        app:srcCompat="@drawable/ic_shuffle"/>
+        app:srcCompat="@drawable/ic_shuffle" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -254,6 +254,21 @@ public class MediaManager {
         }
     }
 
+    public static void removeRange(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, List<Child> media, int fromItem, int toItem) {
+        if (mediaBrowserListenableFuture != null) {
+            mediaBrowserListenableFuture.addListener(() -> {
+                try {
+                    if (mediaBrowserListenableFuture.isDone()) {
+                        mediaBrowserListenableFuture.get().removeMediaItems(fromItem, toItem);
+                        removeRangeDatabase(media, fromItem, toItem);
+                    }
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }, MoreExecutors.directExecutor());
+        }
+    }
+
     public static void getCurrentIndex(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, MediaIndexCallback callback) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
@@ -318,6 +333,14 @@ public class MediaManager {
             media.remove(toRemove);
             getQueueRepository().insertAll(media, true, 0);
         }
+    }
+
+    private static void removeRangeDatabase(List<Child> media, int fromItem, int toItem) {
+        List<Child> toRemove = media.subList(fromItem, toItem);
+
+        media.removeAll(toRemove);
+
+        getQueueRepository().insertAll(media, true, 0);
     }
 
     public static void clearDatabase() {

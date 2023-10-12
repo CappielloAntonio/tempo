@@ -82,13 +82,27 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="24dp"
         android:ellipsize="marquee"
         android:singleLine="true"
         android:text="@string/label_placeholder"
         app:layout_constraintEnd_toStartOf="@+id/button_favorite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline" />
+
+    <TextView
+        android:id="@+id/player_artist_name_label"
+        style="@style/TitleMedium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="@string/label_placeholder"
+        app:layout_constraintEnd_toStartOf="@+id/button_favorite"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player_media_title_label" />
 
     <ToggleButton
         android:id="@+id/button_favorite"
@@ -103,20 +117,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/player_media_title_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/player_media_title_label" />
-
-    <TextView
-        android:id="@+id/player_artist_name_label"
-        style="@style/TitleMedium"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="12dp"
-        android:ellipsize="marquee"
-        android:singleLine="true"
-        android:text="@string/label_placeholder"
-        app:layout_constraintEnd_toStartOf="@+id/button_favorite"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player_media_title_label" />
 
     <TextView
         android:id="@+id/exo_position"
@@ -136,7 +136,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         app:bar_height="2dp"
         app:buffered_color="?attr/colorOnSecondaryContainer"

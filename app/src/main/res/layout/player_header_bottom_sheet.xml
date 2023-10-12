@@ -21,14 +21,15 @@
         style="@style/LabelMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
+        app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintEnd_toStartOf="@+id/placeholder_left_view"
         app:layout_constraintStart_toEndOf="@+id/player_header_media_cover_image"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/player_header_media_cover_image"
+        app:layout_constraintBottom_toTopOf="@+id/player_header_media_artist_label"/>
 
     <TextView
         android:id="@+id/player_header_media_artist_label"
@@ -41,7 +42,8 @@
         android:paddingEnd="8dp"
         app:layout_constraintEnd_toStartOf="@+id/placeholder_left_view"
         app:layout_constraintStart_toEndOf="@+id/player_header_media_cover_image"
-        app:layout_constraintTop_toBottomOf="@+id/player_header_media_title_label" />
+        app:layout_constraintTop_toBottomOf="@+id/player_header_media_title_label"
+        app:layout_constraintBottom_toBottomOf="@+id/player_header_media_cover_image"/>
 
     <View
         android:id="@+id/placeholder_left_view"

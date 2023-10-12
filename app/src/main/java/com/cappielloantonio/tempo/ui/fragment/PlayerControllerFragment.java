@@ -40,6 +40,8 @@ import com.google.android.material.elevation.SurfaceColors;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 
+import java.util.Objects;
+
 @UnstableApi
 public class PlayerControllerFragment extends Fragment {
     private static final String TAG = "PlayerCoverFragment";
@@ -164,6 +166,9 @@ public class PlayerControllerFragment extends Fragment {
 
         playerMediaTitleLabel.setSelected(true);
         playerArtistNameLabel.setSelected(true);
+
+        playerMediaTitleLabel.setVisibility(mediaMetadata.title != null && !Objects.equals(mediaMetadata.title, "") ? View.VISIBLE : View.GONE);
+        playerArtistNameLabel.setVisibility(mediaMetadata.artist != null && !Objects.equals(mediaMetadata.artist, "") ? View.VISIBLE : View.GONE);
     }
 
     private void setMediaInfo(MediaMetadata mediaMetadata) {
@@ -201,6 +206,7 @@ public class PlayerControllerFragment extends Fragment {
                     bind.getRoot().setRepeatToggleModes(RepeatModeUtil.REPEAT_TOGGLE_MODE_NONE);
                     bind.getRoot().findViewById(R.id.player_playback_speed_button).setVisibility(View.VISIBLE);
                     bind.getRoot().findViewById(R.id.player_skip_silence_toggle_button).setVisibility(View.VISIBLE);
+                    bind.getRoot().findViewById(R.id.button_favorite).setVisibility(View.GONE);
                     setPlaybackParameters(mediaBrowser);
                     break;
                 case Constants.MEDIA_TYPE_RADIO:
@@ -212,6 +218,7 @@ public class PlayerControllerFragment extends Fragment {
                     bind.getRoot().setRepeatToggleModes(RepeatModeUtil.REPEAT_TOGGLE_MODE_NONE);
                     bind.getRoot().findViewById(R.id.player_playback_speed_button).setVisibility(View.GONE);
                     bind.getRoot().findViewById(R.id.player_skip_silence_toggle_button).setVisibility(View.GONE);
+                    bind.getRoot().findViewById(R.id.button_favorite).setVisibility(View.GONE);
                     setPlaybackParameters(mediaBrowser);
                     break;
                 case Constants.MEDIA_TYPE_MUSIC:
@@ -224,6 +231,7 @@ public class PlayerControllerFragment extends Fragment {
                     bind.getRoot().setRepeatToggleModes(RepeatModeUtil.REPEAT_TOGGLE_MODE_ALL | RepeatModeUtil.REPEAT_TOGGLE_MODE_ONE);
                     bind.getRoot().findViewById(R.id.player_playback_speed_button).setVisibility(View.GONE);
                     bind.getRoot().findViewById(R.id.player_skip_silence_toggle_button).setVisibility(View.GONE);
+                    bind.getRoot().findViewById(R.id.button_favorite).setVisibility(View.VISIBLE);
                     resetPlaybackParameters(mediaBrowser);
                     break;
             }

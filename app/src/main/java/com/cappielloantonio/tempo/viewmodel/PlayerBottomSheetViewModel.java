@@ -186,8 +186,4 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
 
         return false;
     }
-
-    public void emptyPlayQueue() {
-        queueRepository.savePlayQueue(null, null, 0);
-    }
 }

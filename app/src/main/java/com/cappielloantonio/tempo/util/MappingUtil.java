@@ -64,7 +64,7 @@ public class MappingUtil {
         bundle.putLong("starred", media.getStarred() != null ? media.getStarred().getTime() : 0);
         bundle.putString("albumId", media.getAlbumId());
         bundle.putString("artistId", media.getArtistId());
-        bundle.putString("type", media.getType());
+        bundle.putString("type", Constants.MEDIA_TYPE_MUSIC);
         bundle.putLong("bookmarkPosition", media.getBookmarkPosition() != null ? media.getBookmarkPosition() : 0);
         bundle.putInt("originalWidth", media.getOriginalWidth() != null ? media.getOriginalWidth() : 0);
         bundle.putInt("originalHeight", media.getOriginalHeight() != null ? media.getOriginalHeight() : 0);
@@ -169,31 +169,17 @@ public class MappingUtil {
         bundle.putString("title", podcastEpisode.getTitle());
         bundle.putString("album", podcastEpisode.getAlbum());
         bundle.putString("artist", podcastEpisode.getArtist());
-        bundle.putInt("track", podcastEpisode.getTrack() != null ? podcastEpisode.getTrack() : 0);
         bundle.putInt("year", podcastEpisode.getYear() != null ? podcastEpisode.getYear() : 0);
-        bundle.putString("genre", podcastEpisode.getGenre());
         bundle.putString("coverArtId", podcastEpisode.getCoverArtId());
         bundle.putLong("size", podcastEpisode.getSize() != null ? podcastEpisode.getSize() : 0);
         bundle.putString("contentType", podcastEpisode.getContentType());
         bundle.putString("suffix", podcastEpisode.getSuffix());
-        bundle.putString("transcodedContentType", podcastEpisode.getTranscodedContentType());
-        bundle.putString("transcodedSuffix", podcastEpisode.getTranscodedSuffix());
         bundle.putInt("duration", podcastEpisode.getDuration() != null ? podcastEpisode.getDuration() : 0);
         bundle.putInt("bitrate", podcastEpisode.getBitrate() != null ? podcastEpisode.getBitrate() : 0);
-        bundle.putString("path", podcastEpisode.getPath());
         bundle.putBoolean("isVideo", podcastEpisode.isVideo());
-        bundle.putInt("userRating", podcastEpisode.getUserRating() != null ? podcastEpisode.getUserRating() : 0);
-        bundle.putDouble("averageRating", podcastEpisode.getAverageRating() != null ? podcastEpisode.getAverageRating() : 0);
-        bundle.putLong("playCount", podcastEpisode.getPlayCount() != null ? podcastEpisode.getPlayCount() : 0);
-        bundle.putInt("discNumber", podcastEpisode.getDiscNumber() != null ? podcastEpisode.getDiscNumber() : 0);
         bundle.putLong("created", podcastEpisode.getCreated() != null ? podcastEpisode.getCreated().getTime() : 0);
-        bundle.putLong("starred", podcastEpisode.getStarred() != null ? podcastEpisode.getStarred().getTime() : 0);
-        bundle.putString("albumId", podcastEpisode.getAlbumId());
         bundle.putString("artistId", podcastEpisode.getArtistId());
-        bundle.putString("type", podcastEpisode.getType());
-        bundle.putLong("bookmarkPosition", podcastEpisode.getBookmarkPosition() != null ? podcastEpisode.getBookmarkPosition() : 0);
-        bundle.putInt("originalWidth", podcastEpisode.getOriginalWidth() != null ? podcastEpisode.getOriginalWidth() : 0);
-        bundle.putInt("originalHeight", podcastEpisode.getOriginalHeight() != null ? podcastEpisode.getOriginalHeight() : 0);
+        bundle.putString("type", Constants.MEDIA_TYPE_PODCAST);
         bundle.putString("uri", uri.toString());
 
         MediaItem item = new MediaItem.Builder()
@@ -201,8 +187,6 @@ public class MappingUtil {
                 .setMediaMetadata(
                         new MediaMetadata.Builder()
                                 .setTitle(MusicUtil.getReadableString(podcastEpisode.getTitle()))
-                                .setTrackNumber(podcastEpisode.getTrack() != null ? podcastEpisode.getTrack() : 0)
-                                .setDiscNumber(podcastEpisode.getDiscNumber() != null ? podcastEpisode.getDiscNumber() : 0)
                                 .setReleaseYear(podcastEpisode.getYear() != null ? podcastEpisode.getYear() : 0)
                                 .setAlbumTitle(MusicUtil.getReadableString(podcastEpisode.getAlbum()))
                                 .setArtist(MusicUtil.getReadableString(podcastEpisode.getArtist()))

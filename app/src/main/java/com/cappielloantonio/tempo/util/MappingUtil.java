@@ -179,6 +179,7 @@ public class MappingUtil {
         bundle.putBoolean("isVideo", podcastEpisode.isVideo());
         bundle.putLong("created", podcastEpisode.getCreated() != null ? podcastEpisode.getCreated().getTime() : 0);
         bundle.putString("artistId", podcastEpisode.getArtistId());
+        bundle.putString("description", podcastEpisode.getDescription());
         bundle.putString("type", Constants.MEDIA_TYPE_PODCAST);
         bundle.putString("uri", uri.toString());
 

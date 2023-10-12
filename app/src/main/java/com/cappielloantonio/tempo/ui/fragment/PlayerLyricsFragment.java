@@ -44,18 +44,25 @@ public class PlayerLyricsFragment extends Fragment {
 
     private void initLyrics() {
         playerBottomSheetViewModel.getLiveLyrics().observe(getViewLifecycleOwner(), lyrics -> {
-            if (bind != null) {
-                if (lyrics == null || lyrics.trim().equals("")) {
-                    bind.nowPlayingSongLyricsTextView.setVisibility(View.GONE);
-                    bind.emptyDescriptionImageView.setVisibility(View.VISIBLE);
-                    bind.titleEmptyDescriptionLabel.setVisibility(View.VISIBLE);
-                } else {
-                    bind.nowPlayingSongLyricsTextView.setText(MusicUtil.getReadableLyrics(lyrics));
-                    bind.nowPlayingSongLyricsTextView.setVisibility(View.VISIBLE);
-                    bind.emptyDescriptionImageView.setVisibility(View.GONE);
-                    bind.titleEmptyDescriptionLabel.setVisibility(View.GONE);
+            playerBottomSheetViewModel.getLiveDescription().observe(getViewLifecycleOwner(), description -> {
+                if (bind != null) {
+                    if (lyrics != null && !lyrics.trim().equals("")) {
+                        bind.nowPlayingSongLyricsTextView.setText(MusicUtil.getReadableLyrics(lyrics));
+                        bind.nowPlayingSongLyricsTextView.setVisibility(View.VISIBLE);
+                        bind.emptyDescriptionImageView.setVisibility(View.GONE);
+                        bind.titleEmptyDescriptionLabel.setVisibility(View.GONE);
+                    } else if (description != null && !description.trim().equals("")) {
+                        bind.nowPlayingSongLyricsTextView.setText(MusicUtil.getReadableLyrics(description));
+                        bind.nowPlayingSongLyricsTextView.setVisibility(View.VISIBLE);
+                        bind.emptyDescriptionImageView.setVisibility(View.GONE);
+                        bind.titleEmptyDescriptionLabel.setVisibility(View.GONE);
+                    } else {
+                        bind.nowPlayingSongLyricsTextView.setVisibility(View.GONE);
+                        bind.emptyDescriptionImageView.setVisibility(View.VISIBLE);
+                        bind.titleEmptyDescriptionLabel.setVisibility(View.VISIBLE);
+                    }
                 }
-            }
+            });
         });
     }
 }

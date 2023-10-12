@@ -42,6 +42,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     private final FavoriteRepository favoriteRepository;
 
     private final MutableLiveData<String> lyricsLiveData = new MutableLiveData<>(null);
+    private final MutableLiveData<String> descriptionLiveData = new MutableLiveData<>(null);
 
     private final MutableLiveData<Child> liveMedia = new MutableLiveData<>(null);
     private final MutableLiveData<ArtistID3> liveArtist = new MutableLiveData<>(null);
@@ -137,6 +138,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
             switch (mediaType) {
                 case Constants.MEDIA_TYPE_MUSIC:
                     songRepository.getSong(mediaId).observe(owner, liveMedia::postValue);
+                    descriptionLiveData.postValue(null);
                     break;
                 case Constants.MEDIA_TYPE_PODCAST:
                     liveMedia.postValue(null);
@@ -160,6 +162,14 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
                     break;
             }
         }
+    }
+
+    public void setLiveDescription(String description) {
+        descriptionLiveData.postValue(description);
+    }
+
+    public LiveData<String> getLiveDescription() {
+        return descriptionLiveData;
     }
 
     public LiveData<List<Child>> getMediaInstantMix(LifecycleOwner owner, Child media) {

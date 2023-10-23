@@ -17,6 +17,7 @@ import com.cappielloantonio.tempo.subsonic.models.Playlist;
 import com.cappielloantonio.tempo.ui.adapter.PlaylistDialogHorizontalAdapter;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.viewmodel.PlaylistChooserViewModel;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Objects;
 
@@ -32,7 +33,7 @@ public class PlaylistChooserDialog extends DialogFragment implements ClickCallba
         bind = DialogPlaylistChooserBinding.inflate(getLayoutInflater());
         playlistChooserViewModel = new ViewModelProvider(requireActivity()).get(PlaylistChooserViewModel.class);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
 
         builder.setView(bind.getRoot())
                 .setTitle(R.string.playlist_chooser_dialog_title)
@@ -63,7 +64,8 @@ public class PlaylistChooserDialog extends DialogFragment implements ClickCallba
     }
 
     private void setButtonAction() {
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
+        androidx.appcompat.app.AlertDialog alertDialog = (androidx.appcompat.app.AlertDialog) Objects.requireNonNull(getDialog());
+        alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putParcelable(Constants.TRACK_OBJECT, playlistChooserViewModel.getSongToAdd());
 

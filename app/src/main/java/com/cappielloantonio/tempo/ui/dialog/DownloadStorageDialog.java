@@ -15,6 +15,7 @@ import com.cappielloantonio.tempo.databinding.DialogDownloadStorageBinding;
 import com.cappielloantonio.tempo.interfaces.DialogClickCallback;
 import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.cappielloantonio.tempo.util.Preferences;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 @OptIn(markerClass = UnstableApi.class)
 public class DownloadStorageDialog extends DialogFragment {
@@ -31,7 +32,7 @@ public class DownloadStorageDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         bind = DialogDownloadStorageBinding.inflate(getLayoutInflater());
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
 
         builder.setView(bind.getRoot())
                 .setTitle(R.string.download_storage_dialog_title)
@@ -54,7 +55,7 @@ public class DownloadStorageDialog extends DialogFragment {
     }
 
     private void setButtonAction() {
-        AlertDialog dialog = ((AlertDialog) getDialog());
+        androidx.appcompat.app.AlertDialog dialog = (androidx.appcompat.app.AlertDialog) getDialog();
 
         if (dialog != null) {
             Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);

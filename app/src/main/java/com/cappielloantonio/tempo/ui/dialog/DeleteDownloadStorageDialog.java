@@ -14,6 +14,7 @@ import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.databinding.DialogDeleteDownloadStorageBinding;
 import com.cappielloantonio.tempo.interfaces.DialogClickCallback;
 import com.cappielloantonio.tempo.util.DownloadUtil;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 @OptIn(markerClass = UnstableApi.class)
 public class DeleteDownloadStorageDialog extends DialogFragment {
@@ -24,7 +25,7 @@ public class DeleteDownloadStorageDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         bind = DialogDeleteDownloadStorageBinding.inflate(getLayoutInflater());
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
 
         builder.setView(bind.getRoot())
                 .setTitle(R.string.delete_download_storage_dialog_title)
@@ -47,7 +48,7 @@ public class DeleteDownloadStorageDialog extends DialogFragment {
     }
 
     private void setButtonAction() {
-        AlertDialog dialog = ((AlertDialog) getDialog());
+        androidx.appcompat.app.AlertDialog dialog = (androidx.appcompat.app.AlertDialog) getDialog();
 
         if (dialog != null) {
             Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);

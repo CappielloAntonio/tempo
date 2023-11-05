@@ -14,6 +14,7 @@ import androidx.media3.common.util.UnstableApi;
 import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.databinding.DialogBatteryOptimizationBinding;
 import com.cappielloantonio.tempo.util.Preferences;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 @OptIn(markerClass = UnstableApi.class)
 public class BatteryOptimizationDialog extends DialogFragment {
@@ -24,22 +25,15 @@ public class BatteryOptimizationDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        bind = DialogBatteryOptimizationBinding.inflate(getLayoutInflater());
+        DialogBatteryOptimizationBinding bind = DialogBatteryOptimizationBinding.inflate(getLayoutInflater());
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        builder.setView(bind.getRoot())
+        return new MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.activity_battery_optimizations_title)
-                .setNeutralButton(R.string.battery_optimization_neutral_button, (dialog, id) -> Preferences.dontAskForOptimization())
+                .setView(bind.getRoot())
+                .setPositiveButton(R.string.battery_optimization_positive_button, (dialog, which) -> openPowerSettings())
+                .setNeutralButton(R.string.battery_optimization_neutral_button, (dialog, which) -> Preferences.dontAskForOptimization())
                 .setNegativeButton(R.string.battery_optimization_negative_button, null)
-                .setPositiveButton(R.string.battery_optimization_positive_button, (dialog, id) -> openPowerSettings());
-
-        AlertDialog popup = builder.create();
-
-        popup.setCancelable(false);
-        popup.setCanceledOnTouchOutside(false);
-
-        return popup;
+                .create();
     }
 
     @Override

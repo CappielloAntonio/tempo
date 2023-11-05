@@ -15,6 +15,7 @@ import com.cappielloantonio.tempo.interfaces.RadioCallback;
 import com.cappielloantonio.tempo.subsonic.models.InternetRadioStation;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.viewmodel.RadioEditorViewModel;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Objects;
 
@@ -37,14 +38,27 @@ public class RadioEditorDialog extends DialogFragment {
         bind = DialogRadioEditorBinding.inflate(getLayoutInflater());
         radioEditorViewModel = new ViewModelProvider(requireActivity()).get(RadioEditorViewModel.class);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
 
         builder.setView(bind.getRoot())
                 .setTitle(R.string.radio_editor_dialog_title)
                 .setPositiveButton(R.string.radio_editor_dialog_positive_button, (dialog, id) -> {
+                    if (validateInput()) {
+                        if (radioEditorViewModel.getRadioToEdit() == null) {
+                            radioEditorViewModel.createRadio(radioName, radioStreamURL, radioHomepageURL.isEmpty() ? null : radioHomepageURL);
+                        } else {
+                            radioEditorViewModel.updateRadio(radioName, radioStreamURL, radioHomepageURL.isEmpty() ? null : radioHomepageURL);
+                        }
+                        dismissDialog();
+                    }
                 })
-                .setNeutralButton(R.string.radio_editor_dialog_neutral_button, (dialog, id) -> dialog.cancel())
-                .setNegativeButton(R.string.radio_editor_dialog_negative_button, (dialog, id) -> dialog.cancel());
+                .setNeutralButton(R.string.radio_editor_dialog_neutral_button, (dialog, id) -> {
+                    radioEditorViewModel.deleteRadio();
+                    dismissDialog();
+                })
+                .setNegativeButton(R.string.radio_editor_dialog_negative_button, (dialog, id) -> {
+                    dialog.cancel();
+                });
 
         return builder.create();
     }
@@ -52,9 +66,7 @@ public class RadioEditorDialog extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-
         setParameterInfo();
-        setButtonAction();
     }
 
     @Override
@@ -73,25 +85,6 @@ public class RadioEditorDialog extends DialogFragment {
             bind.internetRadioStationStreamUrlTextView.setText(toEdit.getStreamUrl());
             bind.internetRadioStationHomepageUrlTextView.setText(toEdit.getHomePageUrl());
         }
-    }
-
-    private void setButtonAction() {
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
-            if (validateInput()) {
-                if (radioEditorViewModel.getRadioToEdit() == null) {
-                    radioEditorViewModel.createRadio(radioName, radioStreamURL, radioHomepageURL.isEmpty() ? null : radioHomepageURL);
-                } else {
-                    radioEditorViewModel.updateRadio(radioName, radioStreamURL, radioHomepageURL.isEmpty() ? null : radioHomepageURL);
-                }
-
-                dismissDialog();
-            }
-        });
-
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
-            radioEditorViewModel.deleteRadio();
-            dismissDialog();
-        });
     }
 
     private boolean validateInput() {

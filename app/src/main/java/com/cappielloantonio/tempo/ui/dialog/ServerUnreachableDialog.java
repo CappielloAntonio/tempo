@@ -13,6 +13,9 @@ import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.databinding.DialogServerUnreachableBinding;
 import com.cappielloantonio.tempo.ui.activity.MainActivity;
 import com.cappielloantonio.tempo.util.Preferences;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import java.util.Objects;
 
 @OptIn(markerClass = UnstableApi.class)
 public class ServerUnreachableDialog extends DialogFragment {
@@ -25,7 +28,7 @@ public class ServerUnreachableDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         bind = DialogServerUnreachableBinding.inflate(getLayoutInflater());
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
 
         builder.setView(bind.getRoot())
                 .setTitle(R.string.server_unreachable_dialog_title)
@@ -33,13 +36,14 @@ public class ServerUnreachableDialog extends DialogFragment {
                 .setNeutralButton(R.string.server_unreachable_dialog_neutral_button, null)
                 .setNegativeButton(R.string.server_unreachable_dialog_negative_button, (dialog, id) -> dialog.cancel());
 
-        AlertDialog popup = builder.create();
+        androidx.appcompat.app.AlertDialog popup = builder.create();
 
         popup.setCancelable(false);
         popup.setCanceledOnTouchOutside(false);
 
         return popup;
     }
+
 
     @Override
     public void onStart() {
@@ -55,19 +59,17 @@ public class ServerUnreachableDialog extends DialogFragment {
     }
 
     private void setButtonAction() {
-        AlertDialog dialog = (AlertDialog) getDialog();
+        androidx.appcompat.app.AlertDialog alertDialog = (androidx.appcompat.app.AlertDialog) Objects.requireNonNull(getDialog());
 
-        if(dialog != null) {
-            (dialog).getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
-                MainActivity activity = (MainActivity) getActivity();
-                if (activity != null) activity.quit();
-                dialog.dismiss();
-            });
+        alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
+            MainActivity activity = (MainActivity) getActivity();
+            if (activity != null) activity.quit();
+            alertDialog.dismiss();
+        });
 
-            (dialog).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
-                Preferences.setServerUnreachableDatetime(System.currentTimeMillis());
-                dialog.dismiss();
-            });
-        }
+        alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+            Preferences.setServerUnreachableDatetime(System.currentTimeMillis());
+            alertDialog.dismiss();
+        });
     }
 }

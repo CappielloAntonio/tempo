@@ -12,6 +12,7 @@ import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.databinding.DialogRatingBinding;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.viewmodel.RatingViewModel;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class RatingDialog extends DialogFragment {
     private static final String TAG = "ServerSignupDialog";
@@ -25,7 +26,7 @@ public class RatingDialog extends DialogFragment {
         bind = DialogRatingBinding.inflate(getLayoutInflater());
         ratingViewModel = new ViewModelProvider(requireActivity()).get(RatingViewModel.class);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
 
         builder.setView(bind.getRoot())
                 .setTitle(R.string.rating_dialog_title)

@@ -706,7 +706,9 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     private void refreshSharesView() {
         final Handler handler = new Handler();
         final Runnable runnable = () -> {
-            if (Preferences.isSharingEnabled()) homeViewModel.refreshShares(getViewLifecycleOwner());
+            if (getView() != null && bind != null && Preferences.isSharingEnabled()) {
+                homeViewModel.refreshShares(getViewLifecycleOwner());
+            }
         };
         handler.postDelayed(runnable, 100);
     }

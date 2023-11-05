@@ -61,9 +61,8 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull retrofit2.Response<ApiResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getAlbumList2() != null) {
-                            List<AlbumID3> albumList = new ArrayList<>();
-                            albumList.addAll(response.body().getSubsonicResponse().getAlbumList2().getAlbums());
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getAlbumList2() != null && response.body().getSubsonicResponse().getAlbumList2().getAlbums() != null) {
+                            List<AlbumID3> albumList = new ArrayList<>(response.body().getSubsonicResponse().getAlbumList2().getAlbums());
                             callback.onLoadMedia(albumList);
                         }
                     }

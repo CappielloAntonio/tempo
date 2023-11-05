@@ -254,7 +254,12 @@ public class LibraryFragment extends Fragment implements ClickCallback {
 
     private void refreshPlaylistView() {
         final Handler handler = new Handler();
-        final Runnable runnable = () -> libraryViewModel.refreshPlaylistSample(getViewLifecycleOwner());
+
+        final Runnable runnable = () -> {
+            if (getView() != null && bind != null && libraryViewModel != null)
+                libraryViewModel.refreshPlaylistSample(getViewLifecycleOwner());
+        };
+
         handler.postDelayed(runnable, 100);
     }
 

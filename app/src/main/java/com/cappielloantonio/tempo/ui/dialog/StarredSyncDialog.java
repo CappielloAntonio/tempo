@@ -19,6 +19,7 @@ import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.cappielloantonio.tempo.util.MappingUtil;
 import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.viewmodel.StarredSyncViewModel;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.stream.Collectors;
 
@@ -35,7 +36,7 @@ public class StarredSyncDialog extends DialogFragment {
         bind = DialogStarredSyncBinding.inflate(getLayoutInflater());
         starredSyncViewModel = new ViewModelProvider(requireActivity()).get(StarredSyncViewModel.class);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
 
         builder.setView(bind.getRoot())
                 .setTitle(R.string.starred_sync_dialog_title)
@@ -45,7 +46,6 @@ public class StarredSyncDialog extends DialogFragment {
 
         return builder.create();
     }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -59,7 +59,7 @@ public class StarredSyncDialog extends DialogFragment {
     }
 
     private void setButtonAction(Context context) {
-        AlertDialog dialog = ((AlertDialog) getDialog());
+        androidx.appcompat.app.AlertDialog dialog = (androidx.appcompat.app.AlertDialog) getDialog();
 
         if (dialog != null) {
             Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);

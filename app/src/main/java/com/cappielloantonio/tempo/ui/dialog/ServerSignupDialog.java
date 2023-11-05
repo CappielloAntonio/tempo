@@ -14,6 +14,7 @@ import com.cappielloantonio.tempo.databinding.DialogServerSignupBinding;
 import com.cappielloantonio.tempo.model.Server;
 import com.cappielloantonio.tempo.util.MusicUtil;
 import com.cappielloantonio.tempo.viewmodel.LoginViewModel;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -37,7 +38,7 @@ public class ServerSignupDialog extends DialogFragment {
 
         bind = DialogServerSignupBinding.inflate(getLayoutInflater());
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
 
         builder.setView(bind.getRoot())
                 .setTitle(R.string.server_signup_dialog_title)
@@ -49,7 +50,6 @@ public class ServerSignupDialog extends DialogFragment {
 
         return builder.create();
     }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -81,14 +81,16 @@ public class ServerSignupDialog extends DialogFragment {
     }
 
     private void setButtonAction() {
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+        androidx.appcompat.app.AlertDialog alertDialog = (androidx.appcompat.app.AlertDialog) Objects.requireNonNull(getDialog());
+
+        alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
             if (validateInput()) {
                 saveServerPreference();
                 Objects.requireNonNull(getDialog()).dismiss();
             }
         });
 
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
+        alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
             loginViewModel.deleteServer(null);
             Objects.requireNonNull(getDialog()).dismiss();
         });

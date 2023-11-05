@@ -167,7 +167,7 @@
     <string name="playlist_editor_dialog_negative_button">Cancel</string>
     <string name="playlist_editor_dialog_neutral_button">Delete</string>
     <string name="playlist_editor_dialog_positive_button">Save</string>
-    <string name="playlist_editor_dialog_title">Create playlist</string>
+    <string name="playlist_editor_dialog_title">Edit playlist</string>
     <string name="playlist_page_play_button">Play</string>
     <string name="playlist_page_shuffle_button">Shuffle</string>
     <string name="playlist_song_count">Playlist  •  %1$d songs</string>

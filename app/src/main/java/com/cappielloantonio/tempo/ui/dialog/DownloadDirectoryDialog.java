@@ -13,6 +13,7 @@ import androidx.media3.common.util.UnstableApi;
 import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.databinding.DialogDownloadDirectoryBinding;
 import com.cappielloantonio.tempo.interfaces.DialogClickCallback;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 @OptIn(markerClass = UnstableApi.class)
 public class DownloadDirectoryDialog extends DialogFragment {
@@ -29,7 +30,7 @@ public class DownloadDirectoryDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         bind = DialogDownloadDirectoryBinding.inflate(getLayoutInflater());
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
 
         builder.setView(bind.getRoot())
                 .setTitle(R.string.download_directory_dialog_title)
@@ -52,7 +53,7 @@ public class DownloadDirectoryDialog extends DialogFragment {
     }
 
     private void setButtonAction() {
-        AlertDialog dialog = ((AlertDialog) getDialog());
+        androidx.appcompat.app.AlertDialog dialog = (androidx.appcompat.app.AlertDialog) getDialog();
 
         if (dialog != null) {
             Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);

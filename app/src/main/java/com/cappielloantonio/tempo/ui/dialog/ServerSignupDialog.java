@@ -1,6 +1,5 @@
 package com.cappielloantonio.tempo.ui.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -34,22 +33,19 @@ public class ServerSignupDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
-
         bind = DialogServerSignupBinding.inflate(getLayoutInflater());
 
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
+        loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
 
-        builder.setView(bind.getRoot())
+        return new MaterialAlertDialogBuilder(getActivity())
+                .setView(bind.getRoot())
                 .setTitle(R.string.server_signup_dialog_title)
-                .setNeutralButton(R.string.server_signup_dialog_neutral_button, (dialog, id) -> {
-                })
-                .setPositiveButton(R.string.server_signup_dialog_positive_button, (dialog, id) -> {
-                })
-                .setNegativeButton(R.string.server_signup_dialog_negative_button, (dialog, id) -> dialog.cancel());
-
-        return builder.create();
+                .setNeutralButton(R.string.server_signup_dialog_neutral_button, (dialog, id) -> { })
+                .setPositiveButton(R.string.server_signup_dialog_positive_button, (dialog, id) -> { })
+                .setNegativeButton(R.string.server_signup_dialog_negative_button, (dialog, id) -> dialog.cancel())
+                .create();
     }
+
     @Override
     public void onStart() {
         super.onStart();

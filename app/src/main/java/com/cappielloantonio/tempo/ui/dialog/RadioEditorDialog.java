@@ -1,6 +1,5 @@
 package com.cappielloantonio.tempo.ui.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -36,11 +35,11 @@ public class RadioEditorDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         bind = DialogRadioEditorBinding.inflate(getLayoutInflater());
+
         radioEditorViewModel = new ViewModelProvider(requireActivity()).get(RadioEditorViewModel.class);
 
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
-
-        builder.setView(bind.getRoot())
+        return new MaterialAlertDialogBuilder(requireContext())
+                .setView(bind.getRoot())
                 .setTitle(R.string.radio_editor_dialog_title)
                 .setPositiveButton(R.string.radio_editor_dialog_positive_button, (dialog, id) -> {
                     if (validateInput()) {
@@ -58,9 +57,8 @@ public class RadioEditorDialog extends DialogFragment {
                 })
                 .setNegativeButton(R.string.radio_editor_dialog_negative_button, (dialog, id) -> {
                     dialog.cancel();
-                });
-
-        return builder.create();
+                })
+                .create();
     }
 
     @Override

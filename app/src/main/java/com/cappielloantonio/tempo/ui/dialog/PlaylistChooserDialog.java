@@ -1,6 +1,5 @@
 package com.cappielloantonio.tempo.ui.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
@@ -31,17 +30,15 @@ public class PlaylistChooserDialog extends DialogFragment implements ClickCallba
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         bind = DialogPlaylistChooserBinding.inflate(getLayoutInflater());
+
         playlistChooserViewModel = new ViewModelProvider(requireActivity()).get(PlaylistChooserViewModel.class);
 
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
-
-        builder.setView(bind.getRoot())
+        return new MaterialAlertDialogBuilder(getActivity())
+                .setView(bind.getRoot())
                 .setTitle(R.string.playlist_chooser_dialog_title)
-                .setNeutralButton(R.string.playlist_chooser_dialog_neutral_button, (dialog, id) -> {
-                })
-                .setNegativeButton(R.string.playlist_chooser_dialog_negative_button, (dialog, id) -> dialog.cancel());
-
-        return builder.create();
+                .setNeutralButton(R.string.playlist_chooser_dialog_neutral_button, (dialog, id) -> { })
+                .setNegativeButton(R.string.playlist_chooser_dialog_negative_button, (dialog, id) -> dialog.cancel())
+                .create();
     }
 
     @Override

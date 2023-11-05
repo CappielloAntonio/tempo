@@ -1,6 +1,5 @@
 package com.cappielloantonio.tempo.ui.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.widget.Button;
@@ -17,8 +16,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 @OptIn(markerClass = UnstableApi.class)
 public class DownloadDirectoryDialog extends DialogFragment {
-    private DialogDownloadDirectoryBinding bind;
-
     private final DialogClickCallback dialogClickCallback;
 
     public DownloadDirectoryDialog(DialogClickCallback dialogClickCallback) {
@@ -28,28 +25,20 @@ public class DownloadDirectoryDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        bind = DialogDownloadDirectoryBinding.inflate(getLayoutInflater());
+        DialogDownloadDirectoryBinding bind = DialogDownloadDirectoryBinding.inflate(getLayoutInflater());
 
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
-
-        builder.setView(bind.getRoot())
+        return new MaterialAlertDialogBuilder(requireContext())
+                .setView(bind.getRoot())
                 .setTitle(R.string.download_directory_dialog_title)
                 .setPositiveButton(R.string.download_directory_dialog_positive_button, null)
-                .setNegativeButton(R.string.download_directory_dialog_negative_button, null);
-
-        return builder.create();
+                .setNegativeButton(R.string.download_directory_dialog_negative_button, null)
+                .create();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         setButtonAction();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        bind = null;
     }
 
     private void setButtonAction() {

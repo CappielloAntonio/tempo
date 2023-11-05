@@ -1,6 +1,5 @@
 package com.cappielloantonio.tempo.ui.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -45,18 +44,16 @@ public class PlaylistEditorDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         bind = DialogPlaylistEditorBinding.inflate(getLayoutInflater());
+
         playlistEditorViewModel = new ViewModelProvider(requireActivity()).get(PlaylistEditorViewModel.class);
 
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
-
-        builder.setView(bind.getRoot())
+        return new MaterialAlertDialogBuilder(getActivity())
+                .setView(bind.getRoot())
                 .setTitle(R.string.playlist_editor_dialog_title)
-                .setPositiveButton(R.string.playlist_editor_dialog_positive_button, (dialog, id) -> {
-                })
+                .setPositiveButton(R.string.playlist_editor_dialog_positive_button, (dialog, id) -> { })
                 .setNeutralButton(R.string.playlist_editor_dialog_neutral_button, (dialog, id) -> dialog.cancel())
-                .setNegativeButton(R.string.playlist_editor_dialog_negative_button, (dialog, id) -> dialog.cancel());
-
-        return builder.create();
+                .setNegativeButton(R.string.playlist_editor_dialog_negative_button, (dialog, id) -> dialog.cancel())
+                .create();
     }
 
     @Override

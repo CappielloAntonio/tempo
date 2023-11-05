@@ -1,6 +1,5 @@
 package com.cappielloantonio.tempo.ui.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,14 +12,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.databinding.DialogPodcastChannelEditorBinding;
 import com.cappielloantonio.tempo.interfaces.PodcastCallback;
-import com.cappielloantonio.tempo.model.Download;
-import com.cappielloantonio.tempo.util.DownloadUtil;
-import com.cappielloantonio.tempo.util.MappingUtil;
 import com.cappielloantonio.tempo.viewmodel.PodcastChannelEditorViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class PodcastChannelEditorDialog extends DialogFragment {
     private DialogPodcastChannelEditorBinding bind;
@@ -37,17 +32,15 @@ public class PodcastChannelEditorDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         bind = DialogPodcastChannelEditorBinding.inflate(getLayoutInflater());
+
         podcastChannelEditorViewModel = new ViewModelProvider(requireActivity()).get(PodcastChannelEditorViewModel.class);
 
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
-
-        builder.setView(bind.getRoot())
+        return new MaterialAlertDialogBuilder(getActivity())
+                .setView(bind.getRoot())
                 .setTitle(R.string.podcast_channel_editor_dialog_title)
-                .setPositiveButton(R.string.radio_editor_dialog_positive_button, (dialog, id) -> {
-                })
-                .setNegativeButton(R.string.radio_editor_dialog_negative_button, (dialog, id) -> dialog.cancel());
-
-        return builder.create();
+                .setPositiveButton(R.string.radio_editor_dialog_positive_button, (dialog, id) -> { })
+                .setNegativeButton(R.string.radio_editor_dialog_negative_button, (dialog, id) -> dialog.cancel())
+                .create();
     }
 
     @Override

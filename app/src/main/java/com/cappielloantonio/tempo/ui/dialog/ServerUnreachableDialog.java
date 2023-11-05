@@ -1,11 +1,11 @@
 package com.cappielloantonio.tempo.ui.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.OptIn;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.media3.common.util.UnstableApi;
 
@@ -19,27 +19,21 @@ import java.util.Objects;
 
 @OptIn(markerClass = UnstableApi.class)
 public class ServerUnreachableDialog extends DialogFragment {
-    private static final String TAG = "ServerUnreachableDialog";
-
-    private DialogServerUnreachableBinding bind;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        bind = DialogServerUnreachableBinding.inflate(getLayoutInflater());
+        DialogServerUnreachableBinding bind = DialogServerUnreachableBinding.inflate(getLayoutInflater());
 
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
-
-        builder.setView(bind.getRoot())
+        AlertDialog popup = new MaterialAlertDialogBuilder(getActivity()).setView(bind.getRoot())
                 .setTitle(R.string.server_unreachable_dialog_title)
                 .setPositiveButton(R.string.server_unreachable_dialog_positive_button, null)
                 .setNeutralButton(R.string.server_unreachable_dialog_neutral_button, null)
-                .setNegativeButton(R.string.server_unreachable_dialog_negative_button, (dialog, id) -> dialog.cancel());
+                .setNegativeButton(R.string.server_unreachable_dialog_negative_button, (dialog, id) -> dialog.cancel())
+                .create();
 
-        androidx.appcompat.app.AlertDialog popup = builder.create();
-
-        popup.setCancelable(false);
         popup.setCanceledOnTouchOutside(false);
+        popup.setCancelable(false);
 
         return popup;
     }
@@ -50,12 +44,6 @@ public class ServerUnreachableDialog extends DialogFragment {
         super.onStart();
 
         setButtonAction();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        bind = null;
     }
 
     private void setButtonAction() {

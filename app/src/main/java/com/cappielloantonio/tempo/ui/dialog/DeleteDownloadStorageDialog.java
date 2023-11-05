@@ -1,6 +1,5 @@
 package com.cappielloantonio.tempo.ui.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.widget.Button;
@@ -12,39 +11,29 @@ import androidx.media3.common.util.UnstableApi;
 
 import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.databinding.DialogDeleteDownloadStorageBinding;
-import com.cappielloantonio.tempo.interfaces.DialogClickCallback;
 import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 @OptIn(markerClass = UnstableApi.class)
 public class DeleteDownloadStorageDialog extends DialogFragment {
-    private DialogDeleteDownloadStorageBinding bind;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        bind = DialogDeleteDownloadStorageBinding.inflate(getLayoutInflater());
+        DialogDeleteDownloadStorageBinding bind = DialogDeleteDownloadStorageBinding.inflate(getLayoutInflater());
 
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
-
-        builder.setView(bind.getRoot())
+        return new MaterialAlertDialogBuilder(requireContext())
+                .setView(bind.getRoot())
                 .setTitle(R.string.delete_download_storage_dialog_title)
                 .setPositiveButton(R.string.delete_download_storage_dialog_positive_button, null)
-                .setNegativeButton(R.string.delete_download_storage_dialog_negative_button, null);
-
-        return builder.create();
+                .setNegativeButton(R.string.delete_download_storage_dialog_negative_button, null)
+                .create();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         setButtonAction();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        bind = null;
     }
 
     private void setButtonAction() {

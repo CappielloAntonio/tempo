@@ -17,16 +17,12 @@ import com.cappielloantonio.tempo.viewmodel.ShareBottomSheetViewModel;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
 public class ShareUpdateDialog extends DialogFragment {
-    private static final String TAG = "ShareUpdateDialog";
-
     private DialogShareUpdateBinding bind;
     private HomeViewModel homeViewModel;
     private ShareBottomSheetViewModel shareBottomSheetViewModel;
@@ -41,19 +37,18 @@ public class ShareUpdateDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
+
         shareBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(ShareBottomSheetViewModel.class);
 
         bind = DialogShareUpdateBinding.inflate(getLayoutInflater());
 
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
-
-        builder.setView(bind.getRoot())
+        return new MaterialAlertDialogBuilder(requireContext())
+                .setView(bind.getRoot())
                 .setTitle(R.string.share_update_dialog_title)
                 .setPositiveButton(R.string.share_update_dialog_positive_button, (dialog, id) -> {
                 })
-                .setNegativeButton(R.string.share_update_dialog_negative_button, (dialog, id) -> dialog.cancel());
-
-        return builder.create();
+                .setNegativeButton(R.string.share_update_dialog_negative_button, (dialog, id) -> dialog.cancel())
+                .create();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.cappielloantonio.tempo.ui.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,9 +17,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 @OptIn(markerClass = UnstableApi.class)
 public class BatteryOptimizationDialog extends DialogFragment {
-    private static final String TAG = "BatteryOptimizationDialog";
-
-    private DialogBatteryOptimizationBinding bind;
 
     @NonNull
     @Override
@@ -28,18 +24,12 @@ public class BatteryOptimizationDialog extends DialogFragment {
         DialogBatteryOptimizationBinding bind = DialogBatteryOptimizationBinding.inflate(getLayoutInflater());
 
         return new MaterialAlertDialogBuilder(requireContext())
-                .setTitle(R.string.activity_battery_optimizations_title)
                 .setView(bind.getRoot())
-                .setPositiveButton(R.string.battery_optimization_positive_button, (dialog, which) -> openPowerSettings())
-                .setNeutralButton(R.string.battery_optimization_neutral_button, (dialog, which) -> Preferences.dontAskForOptimization())
+                .setTitle(R.string.activity_battery_optimizations_title)
+                .setPositiveButton(R.string.battery_optimization_positive_button, (dialog, listener) -> openPowerSettings())
+                .setNeutralButton(R.string.battery_optimization_neutral_button, (dialog, listener) -> Preferences.dontAskForOptimization())
                 .setNegativeButton(R.string.battery_optimization_negative_button, null)
                 .create();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        bind = null;
     }
 
     private void openPowerSettings() {

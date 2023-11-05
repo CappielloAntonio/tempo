@@ -1,6 +1,5 @@
 package com.cappielloantonio.tempo.ui.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 
@@ -26,14 +25,12 @@ public class RatingDialog extends DialogFragment {
         bind = DialogRatingBinding.inflate(getLayoutInflater());
         ratingViewModel = new ViewModelProvider(requireActivity()).get(RatingViewModel.class);
 
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
-
-        builder.setView(bind.getRoot())
+        return new MaterialAlertDialogBuilder(getActivity())
+                .setView(bind.getRoot())
                 .setTitle(R.string.rating_dialog_title)
                 .setNegativeButton(R.string.rating_dialog_negative_button, (dialog, id) -> dialog.cancel())
-                .setPositiveButton(R.string.rating_dialog_positive_button, (dialog, id) -> ratingViewModel.rate((int) bind.ratingBar.getRating()));
-
-        return builder.create();
+                .setPositiveButton(R.string.rating_dialog_positive_button, (dialog, id) -> ratingViewModel.rate((int) bind.ratingBar.getRating()))
+                .create();
     }
 
     @Override

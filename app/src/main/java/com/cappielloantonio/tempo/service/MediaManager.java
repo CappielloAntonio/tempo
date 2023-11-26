@@ -12,6 +12,7 @@ import com.cappielloantonio.tempo.subsonic.models.Child;
 import com.cappielloantonio.tempo.subsonic.models.InternetRadioStation;
 import com.cappielloantonio.tempo.subsonic.models.PodcastEpisode;
 import com.cappielloantonio.tempo.util.MappingUtil;
+import com.cappielloantonio.tempo.util.Preferences;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 
@@ -293,7 +294,7 @@ public class MediaManager {
     }
 
     public static void scrobble(MediaItem mediaItem) {
-        if (mediaItem != null) {
+        if (mediaItem != null && Preferences.isScrobblingEnabled()) {
             getSongRepository().scrobble(mediaItem.mediaMetadata.extras.getString("id"));
         }
     }

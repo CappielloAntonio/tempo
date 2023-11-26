@@ -40,6 +40,7 @@ object Preferences {
     private const val MAX_BITRATE_DOWNLOAD = "max_bitrate_download"
     private const val AUDIO_TRANSCODE_FORMAT_DOWNLOAD = "audio_transcode_format_download"
     private const val SHARE = "share"
+    private const val SCROBBLING = "scrobbling"
     private const val ESTIMATE_CONTENT_LENGTH = "estimate_content_length"
 
     @JvmStatic
@@ -319,6 +320,11 @@ object Preferences {
     @JvmStatic
     fun isSharingEnabled(): Boolean {
         return App.getInstance().preferences.getBoolean(SHARE, false)
+    }
+
+    @JvmStatic
+    fun isScrobblingEnabled(): Boolean {
+        return App.getInstance().preferences.getBoolean(SCROBBLING, true)
     }
 
     @JvmStatic

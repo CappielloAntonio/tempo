@@ -222,6 +222,22 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/settings_title_scrobble">
+        <Preference
+            app:selectable="false"
+            app:summary="@string/settings_summary_scrobble" />
+
+        <Preference
+            app:selectable="false"
+            app:summary="@string/settings_sub_summary_scrobble" />
+
+        <SwitchPreference
+            android:title="@string/settings_scrobble_title"
+            android:defaultValue="true"
+            android:key="scrobbling" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="@string/settings_title_share">
         <Preference
             app:selectable="false"

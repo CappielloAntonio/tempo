@@ -42,6 +42,7 @@ object Preferences {
     private const val SHARE = "share"
     private const val SCROBBLING = "scrobbling"
     private const val ESTIMATE_CONTENT_LENGTH = "estimate_content_length"
+    private const val BUFFERING_STRATEGY = "buffering_strategy"
 
     @JvmStatic
     fun getServer(): String? {
@@ -331,4 +332,10 @@ object Preferences {
     fun askForEstimateContentLength(): Boolean {
         return App.getInstance().preferences.getBoolean(ESTIMATE_CONTENT_LENGTH, false)
     }
+
+    @JvmStatic
+    fun getBufferingStrategy(): Double {
+        return App.getInstance().preferences.getString(BUFFERING_STRATEGY, "1")!!.toDouble()
+    }
+
 }

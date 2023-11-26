@@ -102,6 +102,16 @@
             android:summary="@string/settings_sync_starred_tracks_for_offline_use_summary"
             android:key="sync_starred_tracks_for_offline_use" />
 
+        <ListPreference
+            app:defaultValue="1"
+            app:dialogTitle="@string/settings_buffering_strategy"
+            app:entries="@array/buffering_strategy_titles"
+            app:entryValues="@array/buffering_strategy_values"
+            app:key="buffering_strategy"
+            app:title="@string/settings_buffering_strategy"
+            app:summary="@string/settings_buffering_strategy_summary"
+            app:useSimpleSummaryProvider="false" />
+
         <Preference
             android:key="download_storage"
             app:title="@string/settings_download_storage_title" />

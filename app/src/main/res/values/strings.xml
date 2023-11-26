@@ -236,6 +236,8 @@
     <string name="settings_audio_transcode_priority_summary">If enabled, Tempo will not force stream the track with the transcode settings below.</string>
     <string name="settings_audio_transcode_priority_title">Prioritize server transcode settings</string>
     <string name="settings_audio_transcode_priority_toast">Priority on transcoding of track given to server</string>
+    <string name="settings_buffering_strategy">Buffering strategy</string>
+    <string name="settings_buffering_strategy_summary">For the change to take effect you must manually restart the app.</string>
     <string name="settings_covers_cache">Size of artwork cache</string>
     <string name="settings_data_saving_mode_summary">In order to reduce data consumption, avoid downloading covers.</string>
     <string name="settings_data_saving_mode_title">Limit mobile data usage</string>

@@ -186,6 +186,14 @@ public class PlayerControllerFragment extends Fragment {
             }
         }
 
+        boolean isTranscodingExtension = !MusicUtil.getTranscodingFormatPreference().equals("raw");
+        boolean isTranscodingBitrate = !MusicUtil.getBitratePreference().equals("0");
+
+        if (isTranscodingExtension || isTranscodingBitrate) {
+            playerMediaExtension.setText("Transcoding");
+            playerMediaBitrate.setText("requested");
+        }
+
         playerTrackInfo.setOnClickListener(view -> {
             TrackInfoDialog dialog = new TrackInfoDialog(mediaMetadata);
             dialog.show(activity.getSupportFragmentManager(), null);

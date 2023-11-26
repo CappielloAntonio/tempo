@@ -56,6 +56,7 @@ public class PlayerControllerFragment extends Fragment {
     private Chip playerMediaExtension;
     private TextView playerMediaBitrate;
     private ConstraintLayout playerQuickActionView;
+    private ImageButton playerOpenQueueButton;
     private ImageButton playerTrackInfo;
 
     private MainActivity activity;
@@ -109,13 +110,14 @@ public class PlayerControllerFragment extends Fragment {
         playerMediaExtension = bind.getRoot().findViewById(R.id.player_media_extension);
         playerMediaBitrate = bind.getRoot().findViewById(R.id.player_media_bitrate);
         playerQuickActionView = bind.getRoot().findViewById(R.id.player_quick_action_view);
+        playerOpenQueueButton = bind.getRoot().findViewById(R.id.player_open_queue_button);
         playerTrackInfo = bind.getRoot().findViewById(R.id.player_info_track);
     }
 
     private void initQuickActionView() {
         playerQuickActionView.setBackgroundColor(SurfaceColors.getColorForElevation(requireContext(), 8));
 
-        playerQuickActionView.setOnClickListener(view -> {
+        playerOpenQueueButton.setOnClickListener(view -> {
             PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) requireActivity().getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
             if (playerBottomSheetFragment != null) {
                 playerBottomSheetFragment.goToQueuePage();

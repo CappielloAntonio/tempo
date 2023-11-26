@@ -221,7 +221,7 @@
     <string-array name="buffering_strategy_values">
         <item>.1</item>
         <item>1</item>
-        <item>2</item>
         <item>4</item>
+        <item>8</item>
     </string-array>
 </resources>

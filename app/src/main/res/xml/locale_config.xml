@@ -3,4 +3,5 @@
     <locale android:name="en"/>            <!-- English -->
     <locale android:name="de-DE"/>         <!-- German -->
     <locale android:name="fr-FR"/>         <!-- French -->
+    <locale android:name="zh-CN"/>         <!-- Simplified Chinese-->
 </locale-config>

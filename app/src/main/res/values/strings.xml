@@ -50,7 +50,7 @@
     <string name="connection_alert_dialog_negative_button">Cancel</string>
     <string name="connection_alert_dialog_neutral_button">Enable data saver</string>
     <string name="connection_alert_dialog_positive_button">OK</string>
-    <string name="connection_alert_dialog_summary">Access to the Subsonic server on connections other than Wi-Fi has been restricted. To prevent this alert dialod from reappearing, disable the connection check in the app settings.</string>
+    <string name="connection_alert_dialog_summary">Access to the Subsonic server on connections other than Wi-Fi has been restricted. To prevent this alert dialog from reappearing, disable the connection check in the app settings.</string>
     <string name="connection_alert_dialog_title">Wi-Fi not connected</string>
     <string name="delete_download_storage_dialog_negative_button">Cancel</string>
     <string name="delete_download_storage_dialog_positive_button">Continue</string>
@@ -279,7 +279,7 @@
     <string name="settings_summary_share">Allows the user to share music via a link. The functionality must be supported and enabled server-side and is limited to individual tracks, albums and playlists.</string>
     <string name="settings_summary_syncing">Returns the state of the play queue for this user. This includes the tracks in the play queue, the currently playing track, and the position within this track. The server must support this feature.</string>
     <string name="settings_summary_transcoding">Priority given to the transcoding mode. If set to \"Direct play\" the bitrate of the file will not be changed.</string>
-    <string name="settings_summary_transcoding_download">Download transcoded media. If enabled, the download endpoint will not be used, but the following settings. \n\n If \"Transcode format\" is set to \"Direct play\" the bitrate of the file will not be changed.</string>
+    <string name="settings_summary_transcoding_download">Download transcoded media. If enabled, the download endpoint will not be used, but the following settings. \n\n If \"Transcode format for donwloads\" is set to \"Direct download\" the bitrate of the file will not be changed.</string>
     <string name="settings_summary_transcoding_estimate_content_length">When the file is transcoded on the fly, the client usually does not show the track length. It is possible to request the servers that support the functionality to estimate the duration of the track being played, but the response times may take longer.</string>
     <string name="settings_sync_starred_tracks_for_offline_use_summary">If enabled, starred tracks will be downloaded for offline use.</string>
     <string name="settings_sync_starred_tracks_for_offline_use_title">Sync starred tracks for offline use</string>

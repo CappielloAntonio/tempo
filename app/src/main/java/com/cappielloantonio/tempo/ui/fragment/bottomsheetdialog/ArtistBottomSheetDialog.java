@@ -89,6 +89,8 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
             ArtistRepository artistRepository = new ArtistRepository();
 
             artistRepository.getInstantMix(artist, 20).observe(getViewLifecycleOwner(), songs -> {
+                MusicUtil.ratingFilter(songs);
+
                 if (songs.size() > 0) {
                     MediaManager.startQueue(mediaBrowserListenableFuture, songs, 0);
                     ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
@@ -102,6 +104,8 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
         playRandom.setOnClickListener(v -> {
             ArtistRepository artistRepository = new ArtistRepository();
             artistRepository.getRandomSong(artist, 50).observe(getViewLifecycleOwner(), songs -> {
+                MusicUtil.ratingFilter(songs);
+
                 if (songs.size() > 0) {
                     MediaManager.startQueue(mediaBrowserListenableFuture, songs, 0);
                     ((MainActivity) requireActivity()).setBottomSheetInPeek(true);

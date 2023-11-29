@@ -43,6 +43,9 @@ object Preferences {
     private const val SCROBBLING = "scrobbling"
     private const val ESTIMATE_CONTENT_LENGTH = "estimate_content_length"
     private const val BUFFERING_STRATEGY = "buffering_strategy"
+    private const val SKIP_MIN_STAR_RATING = "skip_min_star_rating"
+    private const val MIN_STAR_RATING = "min_star_rating"
+
 
     @JvmStatic
     fun getServer(): String? {
@@ -338,4 +341,8 @@ object Preferences {
         return App.getInstance().preferences.getString(BUFFERING_STRATEGY, "1")!!.toDouble()
     }
 
+    @JvmStatic
+    fun getMinStarRatingAccepted(): Int {
+        return App.getInstance().preferences.getInt(MIN_STAR_RATING, 0)
+    }
 }

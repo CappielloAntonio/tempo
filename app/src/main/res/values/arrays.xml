@@ -224,4 +224,19 @@
         <item>4</item>
         <item>8</item>
     </string-array>
+
+    <string-array name="skip_min_star_rating_titles">
+        <item>0 star minimum</item>
+        <item>1 star minimum</item>
+        <item>2 stars minimum</item>
+        <item>3 stars minimum</item>
+        <item>4 stars minimum</item>
+    </string-array>
+    <string-array name="skip_min_star_rating_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
 </resources>

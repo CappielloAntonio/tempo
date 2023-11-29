@@ -51,6 +51,7 @@ import com.cappielloantonio.tempo.ui.adapter.YearAdapter;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.cappielloantonio.tempo.util.MappingUtil;
+import com.cappielloantonio.tempo.util.MusicUtil;
 import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.util.UIUtil;
 import com.cappielloantonio.tempo.viewmodel.HomeViewModel;
@@ -153,6 +154,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
 
         bind.discoveryTextViewClickable.setOnClickListener(v -> {
             homeViewModel.getRandomShuffleSample().observe(getViewLifecycleOwner(), songs -> {
+                MusicUtil.ratingFilter(songs);
+
                 if (songs.size() > 0) {
                     MediaManager.startQueue(mediaBrowserListenableFuture, songs, 0);
                     activity.setBottomSheetInPeek(true);
@@ -306,6 +309,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         bind.discoverSongViewPager.setAdapter(discoverSongAdapter);
         bind.discoverSongViewPager.setOffscreenPageLimit(1);
         homeViewModel.getDiscoverSongSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
+            MusicUtil.ratingFilter(songs);
+
             if (songs == null) {
                 if (bind != null)
                     bind.homeDiscoveryPlaceholder.placeholder.setVisibility(View.VISIBLE);
@@ -330,6 +335,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         similarMusicAdapter = new SimilarTrackAdapter(this);
         bind.similarTracksRecyclerView.setAdapter(similarMusicAdapter);
         homeViewModel.getStarredTracksSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), songs -> {
+            MusicUtil.ratingFilter(songs);
+
             if (songs == null) {
                 if (bind != null)
                     bind.homeSimilarTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
@@ -744,6 +751,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
 
             if (mediaBrowserListenableFuture != null) {
                 homeViewModel.getMediaInstantMix(getViewLifecycleOwner(), bundle.getParcelable(Constants.TRACK_OBJECT)).observe(getViewLifecycleOwner(), songs -> {
+                    MusicUtil.ratingFilter(songs);
+
                     if (songs != null && songs.size() > 0) {
                         MediaManager.enqueue(mediaBrowserListenableFuture, songs, true);
                     }
@@ -783,6 +792,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
 
             if (mediaBrowserListenableFuture != null) {
                 homeViewModel.getArtistInstantMix(getViewLifecycleOwner(), bundle.getParcelable(Constants.ARTIST_OBJECT)).observe(getViewLifecycleOwner(), songs -> {
+                    MusicUtil.ratingFilter(songs);
+
                     if (songs.size() > 0) {
                         MediaManager.startQueue(mediaBrowserListenableFuture, songs, 0);
                         activity.setBottomSheetInPeek(true);
@@ -792,6 +803,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         } else if (bundle.containsKey(Constants.MEDIA_BEST_OF) && bundle.getBoolean(Constants.MEDIA_BEST_OF)) {
             if (mediaBrowserListenableFuture != null) {
                 homeViewModel.getArtistBestOf(getViewLifecycleOwner(), bundle.getParcelable(Constants.ARTIST_OBJECT)).observe(getViewLifecycleOwner(), songs -> {
+                    MusicUtil.ratingFilter(songs);
+
                     if (songs.size() > 0) {
                         MediaManager.startQueue(mediaBrowserListenableFuture, songs, 0);
                         activity.setBottomSheetInPeek(true);

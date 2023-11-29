@@ -232,6 +232,19 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/settings_title_rating">
+        <SeekBarPreference
+            android:key="min_star_rating"
+            app:defaultValue="0"
+            app:min="0"
+            android:max="4"
+            app:seekBarIncrement="1"
+            app:showSeekBarValue="true"
+            app:summary="@string/settings_summary_skip_min_star_rating"
+            app:title="@string/settings_title_skip_min_star_rating" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="@string/settings_title_scrobble">
         <Preference
             app:selectable="false"

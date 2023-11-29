@@ -114,6 +114,8 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
             ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
 
             songBottomSheetViewModel.getInstantMix(getViewLifecycleOwner(), song).observe(getViewLifecycleOwner(), songs -> {
+                MusicUtil.ratingFilter(songs);
+
                 if (songs == null) {
                     dismissBottomSheet();
                     return;

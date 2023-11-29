@@ -274,6 +274,7 @@
     <string name="settings_scrobble_title">Enable music scrobbling</string>
     <string name="settings_share_title">Enable music sharing</string>
     <string name="settings_sub_summary_scrobble">It\'s important to note that scrobbling also relies on the server being enabled to receive this data.</string>
+    <string name="settings_summary_skip_min_star_rating">When listening to an artist\'s radio, an instant mix or when shuffling all, tracks below a certain user rating will be ignored.</string>
     <string name="settings_summary_replay_gain">Replay gain is a feature that allows you to adjust the volume level of audio tracks for a consistent listening experience. This setting is only effective if the track contains the necessary metadata.</string>
     <string name="settings_summary_scrobble">Scrobbling is a feature that allows your device to send information about the songs you listen to the music server. This information helps create personalized recommendations based on your music preferences.</string>
     <string name="settings_summary_share">Allows the user to share music via a link. The functionality must be supported and enabled server-side and is limited to individual tracks, albums and playlists.</string>
@@ -286,8 +287,11 @@
     <string name="settings_theme">Theme</string>
     <string name="settings_title_data">Data</string>
     <string name="settings_title_general">General</string>
+    <string name="settings_title_rating">Rating</string>
     <string name="settings_title_replay_gain">Replay Gain</string>
     <string name="settings_title_scrobble">Scrobble</string>
+    <string name="settings_title_skip_min_star_rating">Ignore tracks based on rating</string>
+    <string name="settings_title_skip_min_star_rating_dialog">Songs with a rating of:</string>
     <string name="settings_title_share">Share</string>
     <string name="settings_title_syncing">Syncing</string>
     <string name="settings_title_transcoding">Transcoding</string>

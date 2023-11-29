@@ -307,4 +307,17 @@ public class MusicUtil {
     private static ConnectivityManager getConnectivityManager() {
         return (ConnectivityManager) App.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
     }
+
+    public static void ratingFilter(List<Child> toFilter) {
+        if (toFilter == null || toFilter.isEmpty()) return;
+
+        List<Child> filtered = toFilter
+                .stream()
+                .filter(child -> (child.getUserRating() != null && child.getUserRating() >= Preferences.getMinStarRatingAccepted()) || (child.getUserRating() == null))
+                .collect(Collectors.toList());
+
+        toFilter.clear();
+
+        toFilter.addAll(filtered);
+    }
 }

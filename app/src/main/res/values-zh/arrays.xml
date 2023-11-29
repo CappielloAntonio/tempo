@@ -1,0 +1,227 @@
+<resources>
+    <string-array name="theme_list_titles">
+        <item>浅色</item>
+        <item>深色</item>
+        <item>跟随系统</item>
+    </string-array>
+    <string-array name="theme_list_values">
+        <item>light</item>
+        <item>dark</item>
+        <item>default</item>
+    </string-array>
+
+    <string-array name="pref_cache_size_titles">
+        <item>高</item>
+        <item>中</item>
+        <item>低</item>
+    </string-array>
+    <string-array name="pref_cache_size_values">
+        <item>500</item>
+        <item>250</item>
+        <item>125</item>
+    </string-array>
+
+    <string-array name="pref_image_size_titles">
+        <item>高</item>
+        <item>中</item>
+        <item>低</item>
+    </string-array>
+    <string-array name="pref_image_size_values">
+        <item>-1</item>
+        <item>500</item>
+        <item>300</item>
+    </string-array>
+
+    <string-array name="max_bitrate_wifi_list_titles">
+        <item>原始</item>
+        <item>32 kbps</item>
+        <item>48 kbps</item>
+        <item>64 kbps</item>
+        <item>80 kbps</item>
+        <item>96 kbps</item>
+        <item>112 kbps</item>
+        <item>128 kbps</item>
+        <item>160 kbps</item>
+        <item>192 kbps</item>
+        <item>256 kbps</item>
+        <item>320 kbps</item>
+    </string-array>
+    <string-array name="max_bitrate_wifi_list_values">
+        <item>0</item>
+        <item>32</item>
+        <item>48</item>
+        <item>64</item>
+        <item>80</item>
+        <item>96</item>
+        <item>112</item>
+        <item>128</item>
+        <item>160</item>
+        <item>192</item>
+        <item>256</item>
+        <item>320</item>
+    </string-array>
+
+    <string-array name="max_bitrate_mobile_list_titles">
+        <item>原始</item>
+        <item>32 kbps</item>
+        <item>48 kbps</item>
+        <item>64 kbps</item>
+        <item>80 kbps</item>
+        <item>96 kbps</item>
+        <item>112 kbps</item>
+        <item>128 kbps</item>
+        <item>160 kbps</item>
+        <item>192 kbps</item>
+        <item>256 kbps</item>
+        <item>320 kbps</item>
+    </string-array>
+    <string-array name="max_bitrate_mobile_list_values">
+        <item>0</item>
+        <item>32</item>
+        <item>48</item>
+        <item>64</item>
+        <item>80</item>
+        <item>96</item>
+        <item>112</item>
+        <item>128</item>
+        <item>160</item>
+        <item>192</item>
+        <item>256</item>
+        <item>320</item>
+    </string-array>
+
+    <string-array name="max_bitrate_download_list_titles">
+        <item>原始</item>
+        <item>32 kbps</item>
+        <item>48 kbps</item>
+        <item>64 kbps</item>
+        <item>80 kbps</item>
+        <item>96 kbps</item>
+        <item>112 kbps</item>
+        <item>128 kbps</item>
+        <item>160 kbps</item>
+        <item>192 kbps</item>
+        <item>256 kbps</item>
+        <item>320 kbps</item>
+    </string-array>
+    <string-array name="max_bitrate_download_list_values">
+        <item>0</item>
+        <item>32</item>
+        <item>48</item>
+        <item>64</item>
+        <item>80</item>
+        <item>96</item>
+        <item>112</item>
+        <item>128</item>
+        <item>160</item>
+        <item>192</item>
+        <item>256</item>
+        <item>320</item>
+    </string-array>
+
+    <string-array name="audio_transcode_format_wifi_list_titles">
+        <item>播放原始</item>
+        <item>Opus</item>
+        <item>AAC</item>
+        <item>Mp3</item>
+        <item>Flac</item>
+    </string-array>
+    <string-array name="audio_transcode_format_wifi_list_values">
+        <item>raw</item>
+        <item>opus</item>
+        <item>aac</item>
+        <item>mp3</item>
+        <item>flac</item>
+    </string-array>
+
+    <string-array name="audio_transcode_format_mobile_list_titles">
+        <item>播放原始</item>
+        <item>Opus</item>
+        <item>AAC</item>
+        <item>Mp3</item>
+        <item>Flac</item>
+    </string-array>
+    <string-array name="audio_transcode_format_mobile_list_values">
+        <item>raw</item>
+        <item>opus</item>
+        <item>aac</item>
+        <item>mp3</item>
+        <item>flac</item>
+    </string-array>
+
+    <string-array name="audio_transcode_format_download_list_titles">
+        <item>下载原始</item>
+        <item>Opus</item>
+        <item>AAC</item>
+        <item>Mp3</item>
+        <item>Flac</item>
+    </string-array>
+    <string-array name="audio_transcode_format_download_list_values">
+        <item>raw</item>
+        <item>opus</item>
+        <item>aac</item>
+        <item>mp3</item>
+        <item>flac</item>
+    </string-array>
+
+    <string-array name="queue_syncing_countdown_titles">
+        <item>10秒</item>
+        <item>5秒</item>
+        <item>2秒</item>
+    </string-array>
+    <string-array name="queue_syncing_countdown_values">
+        <item>10</item>
+        <item>5</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="rounded_corner_size_titles">
+        <item>高</item>
+        <item>中</item>
+        <item>低</item>
+    </string-array>
+    <string-array name="rounded_corner_size_values">
+        <item>18</item>
+        <item>12</item>
+        <item>6</item>
+    </string-array>
+
+    <string-array name="replay_gain_titles">
+        <item>禁用</item>
+        <item>曲目</item>
+        <item>专辑</item>
+        <item>自动</item>
+    </string-array>
+    <string-array name="replay_gain_values">
+        <item>disabled</item>
+        <item>track</item>
+        <item>album</item>
+        <item>auto</item>
+    </string-array>
+
+    <string-array name="transcoded_download_option_list_titles">
+        <item>不转码</item>
+        <item>服务器设置</item>
+        <item>Wi-Fi转码设置</item>
+        <item>移动数据转码设置</item>
+    </string-array>
+    <string-array name="transcoded_download_option_list_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="buffering_strategy_titles">
+        <item>最小</item>
+        <item>适中</item>
+        <item>积极</item>
+        <item>极端</item>
+    </string-array>
+    <string-array name="buffering_strategy_values">
+        <item>.1</item>
+        <item>1</item>
+        <item>4</item>
+        <item>8</item>
+    </string-array>
+</resources>

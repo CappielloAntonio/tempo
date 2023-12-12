@@ -296,7 +296,7 @@ public class PlayerControllerFragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(Constants.ARTIST_OBJECT, artist);
                     NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
-                    activity.collapseBottomSheet();
+                    activity.collapseBottomSheetDelayed();
                 });
             }
         });

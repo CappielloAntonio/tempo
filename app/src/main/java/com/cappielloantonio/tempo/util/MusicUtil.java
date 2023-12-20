@@ -149,6 +149,14 @@ public class MusicUtil {
         }
     }
 
+    public static String getReadableDurationString(Integer duration, boolean millis) {
+        long converted = 0;
+        if(duration != null)
+            converted = duration.intValue();
+
+        return getReadableDurationString(converted, millis);
+    }
+
     public static String getReadablePodcastDurationString(long duration) {
         long minutes = duration / 60;
 

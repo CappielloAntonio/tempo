@@ -211,4 +211,32 @@
         <item>2</item>
         <item>3</item>
     </string-array>
+
+    <string-array name="buffering_strategy_titles">
+        <item>Minimum</item>
+        <item>Modérée</item>
+        <item>Agressive</item>
+        <item>Extrême</item>
+    </string-array>
+    <string-array name="buffering_strategy_values">
+        <item>.1</item>
+        <item>1</item>
+        <item>4</item>
+        <item>8</item>
+    </string-array>
+
+    <string-array name="skip_min_star_rating_titles">
+        <item>0 étoile minimum</item>
+        <item>1 étoile minimum</item>
+        <item>2 étoiles minimum</item>
+        <item>3 étoiles minimum</item>
+        <item>4 étoiles minimum</item>
+    </string-array>
+    <string-array name="skip_min_star_rating_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
 </resources>

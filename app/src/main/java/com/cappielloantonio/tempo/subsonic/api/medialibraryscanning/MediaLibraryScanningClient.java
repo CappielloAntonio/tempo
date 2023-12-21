@@ -9,7 +9,7 @@ import com.cappielloantonio.tempo.subsonic.base.ApiResponse;
 import retrofit2.Call;
 
 public class MediaLibraryScanningClient {
-    private static final String TAG = "SystemClient";
+    private static final String TAG = "MediaLibraryScanningClient";
 
     private final Subsonic subsonic;
     private final MediaLibraryScanningService mediaLibraryScanningService;

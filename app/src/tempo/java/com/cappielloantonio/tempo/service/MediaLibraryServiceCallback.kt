@@ -121,91 +121,17 @@ open class MediaLibrarySessionCallback(
         return MediaBrowserTree.getChildren(parentId, params)
     }
 
-    /* override fun onGetItem(
-        session: MediaLibraryService.MediaLibrarySession,
-        browser: MediaSession.ControllerInfo,
-        mediaId: String
-    ): ListenableFuture<LibraryResult<MediaItem>> {
-        Log.d(TAG, "onGetItem()")
-
-        return MediaBrowserTree.getItem(mediaId)
-    } */
-
-    /* override fun onAddMediaItems(
+    override fun onAddMediaItems(
         mediaSession: MediaSession,
         controller: MediaSession.ControllerInfo,
         mediaItems: List<MediaItem>
     ): ListenableFuture<List<MediaItem>> {
-        Log.d(TAG, "onAddMediaItems()")
-
-        return Futures.immediateFuture(mediaItems)
-    }
-
-    @OptIn(UnstableApi::class)
-    override fun onSetMediaItems(
-        mediaSession: MediaSession,
-        browser: MediaSession.ControllerInfo,
-        mediaItems: List<MediaItem>,
-        startIndex: Int,
-        startPositionMs: Long
-    ): ListenableFuture<MediaSession.MediaItemsWithStartPosition> {
-        Log.d(TAG, "onSetMediaItems()")
-
-        val mediaItemss: MutableList<MediaItem> = ArrayList()
-
-        val mediaMetadata = MediaMetadata.Builder()
-            .setTitle("Titolo")
-            .setAlbumTitle("Titolo album")
-            .setArtist("Artista")
-            .setIsBrowsable(false)
-            .setIsPlayable(true)
-            .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
-            .build()
-
-        val mediaItem = MediaItem.Builder()
-            .setMediaId(mediaItems.get(0).mediaId)
-            .setMediaMetadata(mediaMetadata)
-            .setUri(MusicUtil.getStreamUri(mediaItems.get(0).mediaId))
-            .build()
-
-        mediaItemss.add(mediaItem)
-
-        return Futures.immediateFuture(
-            MediaSession.MediaItemsWithStartPosition(
-                mediaItemss, 0, 0
-            )
+        return super.onAddMediaItems(
+            mediaSession,
+            controller,
+            MediaBrowserTree.getItems(mediaItems)
         )
-    } */
-
-    /* @OptIn(UnstableApi::class) // MediaSession.MediaItemsWithStartPosition
-    private fun maybeExpandSingleItemToPlaylist(
-        mediaItem: MediaItem, startIndex: Int, startPositionMs: Long
-    ): MediaSession.MediaItemsWithStartPosition? {
-        var playlist = listOf<MediaItem>()
-        var indexInPlaylist = startIndex
-
-        MediaBrowserTree.getItem(mediaItem.mediaId)?.apply {
-            if (mediaMetadata.isBrowsable == true) {
-                playlist = MediaBrowserTree.getChildren(mediaId)
-            } else if (requestMetadata.searchQuery == null) {
-                MediaBrowserTree.getParentId(mediaId)?.let {
-                    playlist = MediaBrowserTree.getChildren(it).map { mediaItem ->
-                        if (mediaItem.mediaId == mediaId) MediaBrowserTree.expandItem(mediaItem)!! else mediaItem
-                    }
-
-                    indexInPlaylist = MediaBrowserTree.getIndexInMediaItems(mediaId, playlist)
-                }
-            }
-        }
-
-        if (playlist.isNotEmpty()) {
-            return MediaSession.MediaItemsWithStartPosition(
-                playlist, indexInPlaylist, startPositionMs
-            )
-        }
-
-        return null
-    } */
+    }
 
     /* override fun onSearch(
         session: MediaLibraryService.MediaLibrarySession,

@@ -185,6 +185,7 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
         if (this::castPlayer.isInitialized) castPlayer.release()
         player.release()
         mediaLibrarySession.release()
+        automotiveRepository.deleteMetadata()
         clearListener()
     }
 

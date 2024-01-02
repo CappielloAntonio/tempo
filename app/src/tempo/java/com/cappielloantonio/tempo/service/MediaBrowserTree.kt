@@ -2,17 +2,19 @@ package com.cappielloantonio.tempo.service
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaItem.SubtitleConfiguration
 import androidx.media3.common.MediaMetadata
 import androidx.media3.session.LibraryResult
 import androidx.media3.session.MediaLibraryService
+import com.cappielloantonio.tempo.model.SessionMediaItem
 import com.cappielloantonio.tempo.repository.AutomotiveRepository
-import com.cappielloantonio.tempo.util.MusicUtil
 import com.google.common.collect.ImmutableList
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.SettableFuture
+import java.lang.Exception
 
 object MediaBrowserTree {
 
@@ -42,6 +44,8 @@ object MediaBrowserTree {
 
     // Second level LIBRARY_ID
     private const val FOLDER_ID = "[folderID]"
+    private const val INDEX_ID = "[indexID]"
+    private const val DIRECTORY_ID = "[directoryID]"
     private const val PLAYLIST_ID = "[playlistID]"
 
     // Second level OTHER_ID
@@ -343,7 +347,7 @@ object MediaBrowserTree {
             RECENTLY_ADDED_ID -> automotiveRepository.getAlbums(id, "newest", 100)
             BEST_OF_ID -> automotiveRepository.getStarredArtists(id, true)
             MADE_FOR_YOU_ID -> automotiveRepository.getStarredArtists(id, true)
-            STARRED_TRACKS_ID -> automotiveRepository.getStarredSongs(id)
+            STARRED_TRACKS_ID -> automotiveRepository.starredSongs
             STARRED_ALBUMS_ID -> automotiveRepository.getStarredAlbums(id)
             STARRED_ARTISTS_ID -> automotiveRepository.getStarredArtists(id, false)
             FOLDER_ID -> automotiveRepository.getMusicFolders(id)
@@ -359,7 +363,6 @@ object MediaBrowserTree {
                         id.removePrefix(
                             MOST_PLAYED_ID
                         )
-
                     )
                 }
 
@@ -368,7 +371,6 @@ object MediaBrowserTree {
                         id.removePrefix(
                             LAST_PLAYED_ID
                         )
-
                     )
                 }
 
@@ -377,7 +379,6 @@ object MediaBrowserTree {
                         id.removePrefix(
                             RECENTLY_ADDED_ID
                         )
-
                     )
                 }
 
@@ -390,11 +391,38 @@ object MediaBrowserTree {
                 }
 
                 if (id.startsWith(FOLDER_ID)) {
+                    return automotiveRepository.getIndexes(
+                        INDEX_ID,
+                        id.removePrefix(
+                            FOLDER_ID
+                        )
+                    )
+                }
 
+                if (id.startsWith(INDEX_ID)) {
+                    return automotiveRepository.getDirectories(
+                        DIRECTORY_ID,
+                        id.removePrefix(
+                            INDEX_ID
+                        )
+                    )
+                }
+
+                if (id.startsWith(DIRECTORY_ID)) {
+                    return automotiveRepository.getDirectories(
+                        DIRECTORY_ID,
+                        id.removePrefix(
+                            DIRECTORY_ID
+                        )
+                    )
                 }
 
                 if (id.startsWith(PLAYLIST_ID)) {
-
+                    return automotiveRepository.getPlaylistSongs(
+                        id.removePrefix(
+                            PLAYLIST_ID
+                        )
+                    )
                 }
 
                 if (id.startsWith(PODCAST_ID)) {
@@ -410,28 +438,27 @@ object MediaBrowserTree {
         }
     }
 
-    fun getItem(id: String): ListenableFuture<LibraryResult<MediaItem>> {
-        val mediaMetadata = MediaMetadata.Builder()
-            .setTitle("Titolo")
-            .setAlbumTitle("Titolo album")
-            .setArtist("Artista")
-            .setIsBrowsable(false)
-            .setIsPlayable(true)
-            .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
-            .build()
+    // https://github.com/androidx/media/issues/156
+    fun getItems(mediaItems: List<MediaItem>): List<MediaItem> {
+        val updatedMediaItems = ArrayList<MediaItem>()
 
-        val mediaItem = MediaItem.Builder()
-            .setMediaId(id)
-            .setMediaMetadata(mediaMetadata)
-            .setUri(MusicUtil.getStreamUri(id))
-            .build()
+        mediaItems.forEach {
+            if (it.localConfiguration?.uri != null) {
+                updatedMediaItems.add(it)
+            } else {
+                val sessionMediaItem = automotiveRepository.getSessionMediaItem(it.mediaId)
 
-        return Futures.immediateFuture(LibraryResult.ofItem(mediaItem, null))
+                if (sessionMediaItem != null) {
+                    var toAdd = automotiveRepository.getMetadatas(sessionMediaItem.timestamp!!)
+                    val index = toAdd.indexOfFirst { mediaItem -> mediaItem.mediaId == it.mediaId }
 
-        /*  if (treeNodes[id]?.item != null) {
-            return Futures.immediateFuture(LibraryResult.ofItem(treeNodes[id]!!.item, null))
+                    toAdd = toAdd.subList(index, toAdd.size)
+
+                    updatedMediaItems.addAll(toAdd)
+                }
+            }
         }
 
-        return Futures.immediateFuture(LibraryResult.ofError(LibraryResult.RESULT_ERROR_BAD_VALUE)) */
+        return updatedMediaItems
     }
 }

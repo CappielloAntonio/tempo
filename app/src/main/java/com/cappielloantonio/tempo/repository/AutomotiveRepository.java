@@ -4,8 +4,10 @@ package com.cappielloantonio.tempo.repository;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.MediaMetadata;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.session.LibraryResult;
 
 import com.cappielloantonio.tempo.App;
@@ -183,7 +185,7 @@ public class AutomotiveRepository {
         return listenableFuture;
     }
 
-    public ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> getStarredArtists(String prefix, boolean playFromThere) {
+    public ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> getStarredArtists(String prefix) {
         final SettableFuture<LibraryResult<ImmutableList<MediaItem>>> listenableFuture = SettableFuture.create();
 
         App.getSubsonicClientInstance(false)
@@ -195,6 +197,8 @@ public class AutomotiveRepository {
                         if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getStarred2() != null && response.body().getSubsonicResponse().getStarred2().getArtists() != null) {
                             List<ArtistID3> artists = response.body().getSubsonicResponse().getStarred2().getArtists();
 
+                            Collections.shuffle(artists);
+
                             List<MediaItem> mediaItems = new ArrayList<>();
 
                             for (ArtistID3 artist : artists) {
@@ -202,8 +206,8 @@ public class AutomotiveRepository {
 
                                 MediaMetadata mediaMetadata = new MediaMetadata.Builder()
                                         .setTitle(artist.getName())
-                                        .setIsBrowsable(!playFromThere)
-                                        .setIsPlayable(playFromThere)
+                                        .setIsBrowsable(true)
+                                        .setIsPlayable(false)
                                         .setMediaType(MediaMetadata.MEDIA_TYPE_PLAYLIST)
                                         .setArtworkUri(artworkUri)
                                         .build();
@@ -461,7 +465,7 @@ public class AutomotiveRepository {
         return listenableFuture;
     }
 
-    public ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> getNewestPodcastEpisodes(String prefix, int count) {
+    public ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> getNewestPodcastEpisodes(int count) {
         final SettableFuture<LibraryResult<ImmutableList<MediaItem>>> listenableFuture = SettableFuture.create();
 
         App.getSubsonicClientInstance(false)
@@ -487,7 +491,7 @@ public class AutomotiveRepository {
                                         .build();
 
                                 MediaItem mediaItem = new MediaItem.Builder()
-                                        .setMediaId(prefix + episode.getId())
+                                        .setMediaId(episode.getId())
                                         .setMediaMetadata(mediaMetadata)
                                         .setUri(MusicUtil.getStreamUri(episode.getStreamId()))
                                         .build();
@@ -514,7 +518,7 @@ public class AutomotiveRepository {
         return listenableFuture;
     }
 
-    public ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> getInternetRadioStations(String prefix) {
+    public ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> getInternetRadioStations() {
         final SettableFuture<LibraryResult<ImmutableList<MediaItem>>> listenableFuture = SettableFuture.create();
 
         App.getSubsonicClientInstance(false)
@@ -538,7 +542,7 @@ public class AutomotiveRepository {
                                         .build();
 
                                 MediaItem mediaItem = new MediaItem.Builder()
-                                        .setMediaId(prefix + radioStation.getId())
+                                        .setMediaId(radioStation.getId())
                                         .setMediaMetadata(mediaMetadata)
                                         .setUri(radioStation.getStreamUrl())
                                         .build();
@@ -575,7 +579,6 @@ public class AutomotiveRepository {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getAlbum() != null && response.body().getSubsonicResponse().getAlbum().getSongs() != null) {
-
                             List<Child> tracks = response.body().getSubsonicResponse().getAlbum().getSongs();
 
                             setChildrenMetadata(tracks);
@@ -587,6 +590,58 @@ public class AutomotiveRepository {
                             listenableFuture.set(libraryResult);
                         } else {
                             listenableFuture.set(LibraryResult.ofError(LibraryResult.RESULT_ERROR_BAD_VALUE));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
+                        listenableFuture.setException(t);
+                    }
+                });
+
+        return listenableFuture;
+    }
+
+    public ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> getArtistAlbum(String prefix, String id) {
+        final SettableFuture<LibraryResult<ImmutableList<MediaItem>>> listenableFuture = SettableFuture.create();
+
+        App.getSubsonicClientInstance(false)
+                .getBrowsingClient()
+                .getArtist(id)
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getArtist() != null && response.body().getSubsonicResponse().getArtist().getAlbums() != null) {
+                            List<AlbumID3> albums = response.body().getSubsonicResponse().getArtist().getAlbums();
+
+                            List<MediaItem> mediaItems = new ArrayList<>();
+
+                            for (AlbumID3 album : albums) {
+                                Uri artworkUri = Uri.parse(CustomGlideRequest.createUrl(album.getCoverArtId(), Preferences.getImageSize()));
+
+                                MediaMetadata mediaMetadata = new MediaMetadata.Builder()
+                                        .setTitle(album.getName())
+                                        .setAlbumTitle(album.getName())
+                                        .setArtist(album.getArtist())
+                                        .setGenre(album.getGenre())
+                                        .setIsBrowsable(true)
+                                        .setIsPlayable(false)
+                                        .setMediaType(MediaMetadata.MEDIA_TYPE_ALBUM)
+                                        .setArtworkUri(artworkUri)
+                                        .build();
+
+                                MediaItem mediaItem = new MediaItem.Builder()
+                                        .setMediaId(prefix + album.getId())
+                                        .setMediaMetadata(mediaMetadata)
+                                        .setUri("")
+                                        .build();
+
+                                mediaItems.add(mediaItem);
+                            }
+
+                            LibraryResult<ImmutableList<MediaItem>> libraryResult = LibraryResult.ofItemList(ImmutableList.copyOf(mediaItems), null);
+
+                            listenableFuture.set(libraryResult);
                         }
                     }
 
@@ -630,6 +685,118 @@ public class AutomotiveRepository {
         return listenableFuture;
     }
 
+    public ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> getMadeForYou(String id, int count) {
+        final SettableFuture<LibraryResult<ImmutableList<MediaItem>>> listenableFuture = SettableFuture.create();
+
+        App.getSubsonicClientInstance(false)
+                .getBrowsingClient()
+                .getSimilarSongs2(id, count)
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getSimilarSongs2() != null && response.body().getSubsonicResponse().getSimilarSongs2().getSongs() != null) {
+                            List<Child> tracks = response.body().getSubsonicResponse().getSimilarSongs2().getSongs();
+
+                            setChildrenMetadata(tracks);
+
+                            List<MediaItem> mediaItems = MappingUtil.mapMediaItems(tracks);
+
+                            LibraryResult<ImmutableList<MediaItem>> libraryResult = LibraryResult.ofItemList(ImmutableList.copyOf(mediaItems), null);
+
+                            listenableFuture.set(libraryResult);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
+                        listenableFuture.setException(t);
+                    }
+                });
+
+        return listenableFuture;
+    }
+
+    public ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> search(String query, String albumPrefix, String artistPrefix) {
+        final SettableFuture<LibraryResult<ImmutableList<MediaItem>>> listenableFuture = SettableFuture.create();
+
+        App.getSubsonicClientInstance(false)
+                .getSearchingClient()
+                .search3(query, 20, 20, 20)
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getSearchResult3() != null) {
+                            List<MediaItem> mediaItems = new ArrayList<>();
+
+                            if (response.body().getSubsonicResponse().getSearchResult3().getArtists() != null) {
+                                for (ArtistID3 artist : response.body().getSubsonicResponse().getSearchResult3().getArtists()) {
+                                    Uri artworkUri = Uri.parse(CustomGlideRequest.createUrl(artist.getCoverArtId(), Preferences.getImageSize()));
+
+                                    MediaMetadata mediaMetadata = new MediaMetadata.Builder()
+                                            .setTitle(artist.getName())
+                                            .setIsBrowsable(true)
+                                            .setIsPlayable(false)
+                                            .setMediaType(MediaMetadata.MEDIA_TYPE_PLAYLIST)
+                                            .setArtworkUri(artworkUri)
+                                            .build();
+
+                                    MediaItem mediaItem = new MediaItem.Builder()
+                                            .setMediaId(artistPrefix + artist.getId())
+                                            .setMediaMetadata(mediaMetadata)
+                                            .setUri("")
+                                            .build();
+
+                                    mediaItems.add(mediaItem);
+                                }
+                            }
+
+                            if (response.body().getSubsonicResponse().getSearchResult3().getAlbums() != null) {
+                                for (AlbumID3 album : response.body().getSubsonicResponse().getSearchResult3().getAlbums()) {
+                                    Uri artworkUri = Uri.parse(CustomGlideRequest.createUrl(album.getCoverArtId(), Preferences.getImageSize()));
+
+                                    MediaMetadata mediaMetadata = new MediaMetadata.Builder()
+                                            .setTitle(album.getName())
+                                            .setAlbumTitle(album.getName())
+                                            .setArtist(album.getArtist())
+                                            .setGenre(album.getGenre())
+                                            .setIsBrowsable(true)
+                                            .setIsPlayable(false)
+                                            .setMediaType(MediaMetadata.MEDIA_TYPE_ALBUM)
+                                            .setArtworkUri(artworkUri)
+                                            .build();
+
+                                    MediaItem mediaItem = new MediaItem.Builder()
+                                            .setMediaId(albumPrefix + album.getId())
+                                            .setMediaMetadata(mediaMetadata)
+                                            .setUri("")
+                                            .build();
+
+                                    mediaItems.add(mediaItem);
+                                }
+                            }
+
+                            if (response.body().getSubsonicResponse().getSearchResult3().getSongs() != null) {
+                                List<Child> tracks = response.body().getSubsonicResponse().getSearchResult3().getSongs();
+                                setChildrenMetadata(tracks);
+                                mediaItems.addAll(MappingUtil.mapMediaItems(tracks));
+                            }
+
+                            LibraryResult<ImmutableList<MediaItem>> libraryResult = LibraryResult.ofItemList(ImmutableList.copyOf(mediaItems), null);
+
+                            listenableFuture.set(libraryResult);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
+                        listenableFuture.setException(t);
+                    }
+                });
+
+        return listenableFuture;
+    }
+
+    @OptIn(markerClass = UnstableApi.class)
     public void setChildrenMetadata(List<Child> children) {
         long timestamp = System.currentTimeMillis();
         ArrayList<SessionMediaItem> sessionMediaItems = new ArrayList<>();
@@ -645,6 +812,7 @@ public class AutomotiveRepository {
         thread.start();
     }
 
+    @OptIn(markerClass = UnstableApi.class)
     public void setPodcastEpisodesMetadata(List<PodcastEpisode> podcastEpisodes) {
         long timestamp = System.currentTimeMillis();
         ArrayList<SessionMediaItem> sessionMediaItems = new ArrayList<>();
@@ -660,6 +828,7 @@ public class AutomotiveRepository {
         thread.start();
     }
 
+    @OptIn(markerClass = UnstableApi.class)
     public void setInternetRadioStationsMetadata(List<InternetRadioStation> internetRadioStations) {
         long timestamp = System.currentTimeMillis();
         ArrayList<SessionMediaItem> sessionMediaItems = new ArrayList<>();
@@ -736,11 +905,11 @@ public class AutomotiveRepository {
         }
     }
 
+    @OptIn(markerClass = UnstableApi.class)
     private static class GetMediaItemsThreadSafe implements Runnable {
         private final SessionMediaItemDao sessionMediaItemDao;
         private final Long timestamp;
-
-        private List<MediaItem> mediaItems = new ArrayList<>();
+        private final List<MediaItem> mediaItems = new ArrayList<>();
 
         public GetMediaItemsThreadSafe(SessionMediaItemDao sessionMediaItemDao, Long timestamp) {
             this.sessionMediaItemDao = sessionMediaItemDao;
@@ -757,43 +926,6 @@ public class AutomotiveRepository {
             return mediaItems;
         }
     }
-
-    /* private static class InsertThreadSafe implements Runnable {
-        private final SessionMediaItemDao sessionMediaItemDao;
-        private final List<Child> children;
-        private final List<PodcastEpisode> podcastEpisodes;
-        private final List<InternetRadioStation> internetRadioStations;
-        private final long timestamp;
-
-        public InsertThreadSafe(SessionMediaItemDao sessionMediaItemDao, List<Child> children, List<PodcastEpisode> podcastEpisodes, List<InternetRadioStation> internetRadioStations, long timestamp) {
-            this.sessionMediaItemDao = sessionMediaItemDao;
-            this.children = children;
-            this.podcastEpisodes = podcastEpisodes;
-            this.internetRadioStations = internetRadioStations;
-            this.timestamp = timestamp;
-        }
-
-        @Override
-        public void run() {
-            if (children != null) {
-                SessionMediaItem sessionMediaItem = new SessionMediaItem(children);
-                sessionMediaItem.setTimestamp(timestamp);
-                sessionMediaItemDao.insert(sessionMediaItem);
-            }
-
-            if (podcastEpisodes != null) {
-                SessionMediaItem sessionMediaItem = new SessionMediaItem(podcastEpisodes);
-                sessionMediaItem.setTimestamp(timestamp);
-                sessionMediaItemDao.insert(sessionMediaItem);
-            }
-
-            if (internetRadioStations != null) {
-                SessionMediaItem sessionMediaItem = new SessionMediaItem(internetRadioStations);
-                sessionMediaItem.setTimestamp(timestamp);
-                sessionMediaItemDao.insert(sessionMediaItem);
-            }
-        }
-    } */
 
     private static class InsertAllThreadSafe implements Runnable {
         private final SessionMediaItemDao sessionMediaItemDao;

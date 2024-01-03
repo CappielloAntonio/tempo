@@ -1,20 +1,15 @@
 package com.cappielloantonio.tempo.service
 
-import android.content.Context
 import android.net.Uri
-import android.util.Log
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaItem.SubtitleConfiguration
 import androidx.media3.common.MediaMetadata
 import androidx.media3.session.LibraryResult
-import androidx.media3.session.MediaLibraryService
-import com.cappielloantonio.tempo.model.SessionMediaItem
 import com.cappielloantonio.tempo.repository.AutomotiveRepository
 import com.google.common.collect.ImmutableList
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.SettableFuture
-import java.lang.Exception
 
 object MediaBrowserTree {
 
@@ -36,7 +31,6 @@ object MediaBrowserTree {
     private const val MOST_PLAYED_ID = "[mostPlayedID]"
     private const val LAST_PLAYED_ID = "[lastPlayedID]"
     private const val RECENTLY_ADDED_ID = "[recentlyAddedID]"
-    private const val BEST_OF_ID = "[bestOfID]"
     private const val MADE_FOR_YOU_ID = "[madeForYouID]"
     private const val STARRED_TRACKS_ID = "[starredTracksID]"
     private const val STARRED_ALBUMS_ID = "[starredAlbumsID]"
@@ -51,7 +45,9 @@ object MediaBrowserTree {
     // Second level OTHER_ID
     private const val PODCAST_ID = "[podcastID]"
     private const val RADIO_ID = "[radioID]"
-    private const val DOWNLOAD_ID = "[downloadID]"
+
+    private const val ALBUM_ID = "[albumID]"
+    private const val ARTIST_ID = "[artistID]"
 
     private class MediaItemNode(val item: MediaItem) {
         private val children: MutableList<MediaItem> = ArrayList()
@@ -103,7 +99,7 @@ object MediaBrowserTree {
             .build()
     }
 
-    fun initialize(context: Context, automotiveRepository: AutomotiveRepository) {
+    fun initialize(automotiveRepository: AutomotiveRepository) {
         this.automotiveRepository = automotiveRepository
 
         if (isInitialized) return
@@ -197,17 +193,6 @@ object MediaBrowserTree {
                 )
             )
 
-        treeNodes[BEST_OF_ID] =
-            MediaItemNode(
-                buildMediaItem(
-                    title = "Best of",
-                    mediaId = BEST_OF_ID,
-                    isPlayable = false,
-                    isBrowsable = true,
-                    mediaType = MediaMetadata.MEDIA_TYPE_FOLDER_PLAYLISTS
-                )
-            )
-
         treeNodes[MADE_FOR_YOU_ID] =
             MediaItemNode(
                 buildMediaItem(
@@ -255,11 +240,10 @@ object MediaBrowserTree {
         treeNodes[HOME_ID]!!.addChild(MOST_PLAYED_ID)
         treeNodes[HOME_ID]!!.addChild(LAST_PLAYED_ID)
         treeNodes[HOME_ID]!!.addChild(RECENTLY_ADDED_ID)
-        treeNodes[HOME_ID]!!.addChild(BEST_OF_ID)
         treeNodes[HOME_ID]!!.addChild(MADE_FOR_YOU_ID)
-        // treeNodes[HOME_ID]!!.addChild(STARRED_TRACKS_ID)
-        // treeNodes[HOME_ID]!!.addChild(STARRED_ALBUMS_ID)
-        // treeNodes[HOME_ID]!!.addChild(STARRED_ARTISTS_ID)
+        treeNodes[HOME_ID]!!.addChild(STARRED_TRACKS_ID)
+        treeNodes[HOME_ID]!!.addChild(STARRED_ALBUMS_ID)
+        treeNodes[HOME_ID]!!.addChild(STARRED_ARTISTS_ID)
 
         // Second level LIBRARY_ID
 
@@ -312,20 +296,8 @@ object MediaBrowserTree {
                 )
             )
 
-        treeNodes[DOWNLOAD_ID] =
-            MediaItemNode(
-                buildMediaItem(
-                    title = "Downloads",
-                    mediaId = DOWNLOAD_ID,
-                    isPlayable = false,
-                    isBrowsable = true,
-                    mediaType = MediaMetadata.MEDIA_TYPE_FOLDER_RADIO_STATIONS
-                )
-            )
-
         treeNodes[OTHER_ID]!!.addChild(PODCAST_ID)
         treeNodes[OTHER_ID]!!.addChild(RADIO_ID)
-        // treeNodes[OTHER_ID]!!.addChild(DOWNLOAD_ID)
     }
 
     fun getRootItem(): MediaItem {
@@ -333,8 +305,7 @@ object MediaBrowserTree {
     }
 
     fun getChildren(
-        id: String,
-        params: MediaLibraryService.LibraryParams?
+        id: String
     ): ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> {
         return when (id) {
             ROOT_ID -> treeNodes[ROOT_ID]?.getChildren()!!
@@ -345,17 +316,14 @@ object MediaBrowserTree {
             MOST_PLAYED_ID -> automotiveRepository.getAlbums(id, "frequent", 100)
             LAST_PLAYED_ID -> automotiveRepository.getAlbums(id, "recent", 100)
             RECENTLY_ADDED_ID -> automotiveRepository.getAlbums(id, "newest", 100)
-            BEST_OF_ID -> automotiveRepository.getStarredArtists(id, true)
-            MADE_FOR_YOU_ID -> automotiveRepository.getStarredArtists(id, true)
+            MADE_FOR_YOU_ID -> automotiveRepository.getStarredArtists(id)
             STARRED_TRACKS_ID -> automotiveRepository.starredSongs
             STARRED_ALBUMS_ID -> automotiveRepository.getStarredAlbums(id)
-            STARRED_ARTISTS_ID -> automotiveRepository.getStarredArtists(id, false)
+            STARRED_ARTISTS_ID -> automotiveRepository.getStarredArtists(id)
             FOLDER_ID -> automotiveRepository.getMusicFolders(id)
             PLAYLIST_ID -> automotiveRepository.getPlaylists(id)
-            PODCAST_ID -> automotiveRepository.getNewestPodcastEpisodes(id, 100)
-            RADIO_ID -> automotiveRepository.getInternetRadioStations(id)
-
-            DOWNLOAD_ID -> Futures.immediateFuture(null)
+            PODCAST_ID -> automotiveRepository.getNewestPodcastEpisodes(100)
+            RADIO_ID -> automotiveRepository.internetRadioStations
 
             else -> {
                 if (id.startsWith(MOST_PLAYED_ID)) {
@@ -382,12 +350,30 @@ object MediaBrowserTree {
                     )
                 }
 
-                if (id.startsWith(BEST_OF_ID)) {
-
+                if (id.startsWith(MADE_FOR_YOU_ID)) {
+                    return automotiveRepository.getMadeForYou(
+                        id.removePrefix(
+                            MADE_FOR_YOU_ID
+                        ),
+                        20
+                    )
                 }
 
-                if (id.startsWith(MADE_FOR_YOU_ID)) {
+                if (id.startsWith(STARRED_ALBUMS_ID)) {
+                    return automotiveRepository.getAlbumTracks(
+                        id.removePrefix(
+                            STARRED_ALBUMS_ID
+                        )
+                    )
+                }
 
+                if (id.startsWith(STARRED_ARTISTS_ID)) {
+                    return automotiveRepository.getArtistAlbum(
+                        STARRED_ALBUMS_ID,
+                        id.removePrefix(
+                            STARRED_ARTISTS_ID
+                        )
+                    )
                 }
 
                 if (id.startsWith(FOLDER_ID)) {
@@ -425,12 +411,21 @@ object MediaBrowserTree {
                     )
                 }
 
-                if (id.startsWith(PODCAST_ID)) {
-
+                if (id.startsWith(ALBUM_ID)) {
+                    return automotiveRepository.getAlbumTracks(
+                        id.removePrefix(
+                            ALBUM_ID
+                        )
+                    )
                 }
 
-                if (id.startsWith(RADIO_ID)) {
-
+                if (id.startsWith(ARTIST_ID)) {
+                    return automotiveRepository.getArtistAlbum(
+                        ALBUM_ID,
+                        id.removePrefix(
+                            ARTIST_ID
+                        )
+                    )
                 }
 
                 return Futures.immediateFuture(LibraryResult.ofError(LibraryResult.RESULT_ERROR_BAD_VALUE))
@@ -460,5 +455,13 @@ object MediaBrowserTree {
         }
 
         return updatedMediaItems
+    }
+
+    fun search(query: String): ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> {
+        return automotiveRepository.search(
+            query,
+            ALBUM_ID,
+            ARTIST_ID
+        )
     }
 }

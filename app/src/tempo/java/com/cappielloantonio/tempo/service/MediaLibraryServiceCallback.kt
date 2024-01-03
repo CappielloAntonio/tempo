@@ -22,10 +22,9 @@ open class MediaLibrarySessionCallback(
     automotiveRepository: AutomotiveRepository
 ) :
     MediaLibraryService.MediaLibrarySession.Callback {
-    private val TAG = "MediaLibraryServiceCall"
 
     init {
-        MediaBrowserTree.initialize(context, automotiveRepository)
+        MediaBrowserTree.initialize(automotiveRepository)
     }
 
     private val customLayoutCommandButtons: List<CommandButton> = listOf(
@@ -118,7 +117,7 @@ open class MediaLibrarySessionCallback(
         pageSize: Int,
         params: MediaLibraryService.LibraryParams?
     ): ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> {
-        return MediaBrowserTree.getChildren(parentId, params)
+        return MediaBrowserTree.getChildren(parentId)
     }
 
     override fun onAddMediaItems(
@@ -133,17 +132,17 @@ open class MediaLibrarySessionCallback(
         )
     }
 
-    /* override fun onSearch(
+    override fun onSearch(
         session: MediaLibraryService.MediaLibrarySession,
         browser: MediaSession.ControllerInfo,
         query: String,
         params: MediaLibraryService.LibraryParams?
     ): ListenableFuture<LibraryResult<Void>> {
-        session.notifySearchResultChanged(browser, query, MediaBrowserTree.search(query).size, params)
+        session.notifySearchResultChanged(browser, query, 60, params)
         return Futures.immediateFuture(LibraryResult.ofVoid())
-    } */
+    }
 
-    /* override fun onGetSearchResult(
+    override fun onGetSearchResult(
         session: MediaLibraryService.MediaLibrarySession,
         browser: MediaSession.ControllerInfo,
         query: String,
@@ -151,12 +150,8 @@ open class MediaLibrarySessionCallback(
         pageSize: Int,
         params: MediaLibraryService.LibraryParams?
     ): ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> {
-        return Futures.immediateFuture(
-            LibraryResult.ofItemList(
-                MediaBrowserTree.search(query), params
-            )
-        )
-    } */
+        return MediaBrowserTree.search(query)
+    }
 
     companion object {
         private const val CUSTOM_COMMAND_TOGGLE_SHUFFLE_MODE_ON =

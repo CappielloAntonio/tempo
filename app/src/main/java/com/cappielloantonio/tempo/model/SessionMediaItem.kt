@@ -7,6 +7,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaItem.RequestMetadata
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.MimeTypes
+import androidx.media3.common.util.UnstableApi
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -19,6 +20,7 @@ import com.cappielloantonio.tempo.util.MusicUtil
 import com.cappielloantonio.tempo.util.Preferences.getImageSize
 import java.util.Date
 
+@UnstableApi
 @Keep
 @Entity(tableName = "session_media_item")
 class SessionMediaItem() {

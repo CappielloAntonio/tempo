@@ -11,9 +11,11 @@ import com.cappielloantonio.tempo.interfaces.StarCallback;
 import com.cappielloantonio.tempo.repository.AlbumRepository;
 import com.cappielloantonio.tempo.repository.ArtistRepository;
 import com.cappielloantonio.tempo.repository.FavoriteRepository;
+import com.cappielloantonio.tempo.repository.SharingRepository;
 import com.cappielloantonio.tempo.subsonic.models.AlbumID3;
 import com.cappielloantonio.tempo.subsonic.models.ArtistID3;
 import com.cappielloantonio.tempo.subsonic.models.Child;
+import com.cappielloantonio.tempo.subsonic.models.Share;
 import com.cappielloantonio.tempo.util.NetworkUtil;
 
 import java.util.Date;
@@ -23,6 +25,7 @@ public class AlbumBottomSheetViewModel extends AndroidViewModel {
     private final AlbumRepository albumRepository;
     private final ArtistRepository artistRepository;
     private final FavoriteRepository favoriteRepository;
+    private final SharingRepository sharingRepository;
 
     private AlbumID3 album;
 
@@ -32,6 +35,7 @@ public class AlbumBottomSheetViewModel extends AndroidViewModel {
         albumRepository = new AlbumRepository();
         artistRepository = new ArtistRepository();
         favoriteRepository = new FavoriteRepository();
+        sharingRepository = new SharingRepository();
     }
 
     public AlbumID3 getAlbum() {
@@ -64,6 +68,10 @@ public class AlbumBottomSheetViewModel extends AndroidViewModel {
                 setFavoriteOnline();
             }
         }
+    }
+
+    public MutableLiveData<Share> shareAlbum() {
+        return sharingRepository.createShare(album.getId(), album.getName(), null);
     }
 
     private void removeFavoriteOffline() {

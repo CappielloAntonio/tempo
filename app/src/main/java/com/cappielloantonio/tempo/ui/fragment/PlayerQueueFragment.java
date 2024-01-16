@@ -93,6 +93,7 @@ public class PlayerQueueFragment extends Fragment implements ClickCallback {
             try {
                 MediaBrowser mediaBrowser = mediaBrowserListenableFuture.get();
                 initShuffleButton(mediaBrowser);
+                initCleanButton(mediaBrowser);
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
@@ -194,6 +195,16 @@ public class PlayerQueueFragment extends Fragment implements ClickCallback {
 
                 MediaManager.shuffle(mediaBrowserListenableFuture, playerSongQueueAdapter.getItems(), startPosition, endPosition);
             }
+        });
+    }
+
+    private void initCleanButton(MediaBrowser mediaBrowser) {
+        bind.playerCleanQueueButton.setOnClickListener(view -> {
+            int startPosition = mediaBrowser.getCurrentMediaItemIndex() + 1;
+            int endPosition = playerSongQueueAdapter.getItems().size();
+
+            MediaManager.removeRange(mediaBrowserListenableFuture, playerSongQueueAdapter.getItems(), startPosition, endPosition);
+            bind.playerQueueRecyclerView.getAdapter().notifyItemRangeRemoved(startPosition, endPosition);
         });
     }
 

@@ -1,6 +1,9 @@
 package com.cappielloantonio.tempo.ui.fragment.bottomsheetdialog;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,8 +35,11 @@ import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.cappielloantonio.tempo.util.MappingUtil;
 import com.cappielloantonio.tempo.util.MusicUtil;
+import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.viewmodel.AlbumBottomSheetViewModel;
+import com.cappielloantonio.tempo.viewmodel.HomeViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
@@ -43,6 +49,7 @@ import java.util.stream.Collectors;
 
 @UnstableApi
 public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
+    private HomeViewModel homeViewModel;
     private AlbumBottomSheetViewModel albumBottomSheetViewModel;
     private AlbumID3 album;
 
@@ -55,6 +62,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
         album = this.requireArguments().getParcelable(Constants.ALBUM_OBJECT);
 
+        homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
         albumBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(AlbumBottomSheetViewModel.class);
         albumBottomSheetViewModel.setAlbum(album);
 
@@ -107,6 +115,8 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
                 @Override
                 public void onLoadMedia(List<?> media) {
+                    MusicUtil.ratingFilter((ArrayList<Child>) media);
+
                     if (media.size() > 0) {
                         MediaManager.startQueue(mediaBrowserListenableFuture, (ArrayList<Child>) media, 0);
                         ((MainActivity) requireActivity()).setBottomSheetInPeek(true);
@@ -182,6 +192,22 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
             dismissBottomSheet();
         }));
+
+        TextView share = view.findViewById(R.id.share_text_view);
+        share.setOnClickListener(v -> albumBottomSheetViewModel.shareAlbum().observe(getViewLifecycleOwner(), sharedAlbum -> {
+            if (sharedAlbum != null) {
+                ClipboardManager clipboardManager = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText(getString(R.string.app_name), sharedAlbum.getUrl());
+                clipboardManager.setPrimaryClip(clipData);
+                refreshShares();
+                dismissBottomSheet();
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.share_unsupported_error), Toast.LENGTH_SHORT).show();
+                dismissBottomSheet();
+            }
+        }));
+
+        share.setVisibility(Preferences.isSharingEnabled() ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -209,5 +235,9 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
     private void releaseMediaBrowser() {
         MediaBrowser.releaseFuture(mediaBrowserListenableFuture);
+    }
+
+    private void refreshShares() {
+        homeViewModel.refreshShares(requireActivity());
     }
 }

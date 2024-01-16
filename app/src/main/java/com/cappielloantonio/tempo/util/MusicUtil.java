@@ -50,6 +50,8 @@ public class MusicUtil {
             uri.append("&maxBitRate=").append(getBitratePreference());
         if (!Preferences.isServerPrioritized())
             uri.append("&format=").append(getTranscodingFormatPreference());
+        if (Preferences.askForEstimateContentLength())
+            uri.append("&estimateContentLength=true");
 
         uri.append("&id=").append(id);
 
@@ -304,5 +306,18 @@ public class MusicUtil {
 
     private static ConnectivityManager getConnectivityManager() {
         return (ConnectivityManager) App.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+    }
+
+    public static void ratingFilter(List<Child> toFilter) {
+        if (toFilter == null || toFilter.isEmpty()) return;
+
+        List<Child> filtered = toFilter
+                .stream()
+                .filter(child -> (child.getUserRating() != null && child.getUserRating() >= Preferences.getMinStarRatingAccepted()) || (child.getUserRating() == null))
+                .collect(Collectors.toList());
+
+        toFilter.clear();
+
+        toFilter.addAll(filtered);
     }
 }

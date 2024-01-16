@@ -15,10 +15,12 @@ import com.cappielloantonio.tempo.repository.AlbumRepository;
 import com.cappielloantonio.tempo.repository.ArtistRepository;
 import com.cappielloantonio.tempo.repository.ChronologyRepository;
 import com.cappielloantonio.tempo.repository.FavoriteRepository;
+import com.cappielloantonio.tempo.repository.SharingRepository;
 import com.cappielloantonio.tempo.repository.SongRepository;
 import com.cappielloantonio.tempo.subsonic.models.AlbumID3;
 import com.cappielloantonio.tempo.subsonic.models.ArtistID3;
 import com.cappielloantonio.tempo.subsonic.models.Child;
+import com.cappielloantonio.tempo.subsonic.models.Share;
 import com.cappielloantonio.tempo.util.Preferences;
 
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ public class HomeViewModel extends AndroidViewModel {
     private final ArtistRepository artistRepository;
     private final ChronologyRepository chronologyRepository;
     private final FavoriteRepository favoriteRepository;
+    private final SharingRepository sharingRepository;
 
     private final MutableLiveData<List<Child>> dicoverSongSample = new MutableLiveData<>(null);
     private final MutableLiveData<List<AlbumID3>> newReleasedAlbum = new MutableLiveData<>(null);
@@ -54,6 +57,8 @@ public class HomeViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Child>> mediaInstantMix = new MutableLiveData<>(null);
     private final MutableLiveData<List<Child>> artistInstantMix = new MutableLiveData<>(null);
     private final MutableLiveData<List<Child>> artistBestOf = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Share>> shares = new MutableLiveData<>(null);
+
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
@@ -63,6 +68,7 @@ public class HomeViewModel extends AndroidViewModel {
         artistRepository = new ArtistRepository();
         chronologyRepository = new ChronologyRepository();
         favoriteRepository = new FavoriteRepository();
+        sharingRepository = new SharingRepository();
 
         setOfflineFavorite();
     }
@@ -204,6 +210,14 @@ public class HomeViewModel extends AndroidViewModel {
         return artistBestOf;
     }
 
+    public LiveData<List<Share>> getShares(LifecycleOwner owner) {
+        if (shares.getValue() == null) {
+            sharingRepository.getShares().observe(owner, shares::postValue);
+        }
+
+        return shares;
+    }
+
     public LiveData<List<Child>> getAllStarredTracks() {
         return songRepository.getStarredSongs(false, -1);
     }
@@ -246,6 +260,10 @@ public class HomeViewModel extends AndroidViewModel {
 
     public void refreshRecentlyPlayedAlbumList(LifecycleOwner owner) {
         albumRepository.getAlbums("recent", 20, null, null).observe(owner, recentlyPlayedAlbumSample::postValue);
+    }
+
+    public void refreshShares(LifecycleOwner owner) {
+        sharingRepository.getShares().observe(owner, this.shares::postValue);
     }
 
     public void setOfflineFavorite() {

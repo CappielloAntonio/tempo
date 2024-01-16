@@ -1,6 +1,5 @@
 package com.cappielloantonio.tempo.ui.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +16,7 @@ import com.cappielloantonio.tempo.subsonic.models.Playlist;
 import com.cappielloantonio.tempo.ui.adapter.PlaylistDialogHorizontalAdapter;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.viewmodel.PlaylistChooserViewModel;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Objects;
 
@@ -30,17 +30,15 @@ public class PlaylistChooserDialog extends DialogFragment implements ClickCallba
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         bind = DialogPlaylistChooserBinding.inflate(getLayoutInflater());
+
         playlistChooserViewModel = new ViewModelProvider(requireActivity()).get(PlaylistChooserViewModel.class);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        builder.setView(bind.getRoot())
+        return new MaterialAlertDialogBuilder(getActivity())
+                .setView(bind.getRoot())
                 .setTitle(R.string.playlist_chooser_dialog_title)
-                .setNeutralButton(R.string.playlist_chooser_dialog_neutral_button, (dialog, id) -> {
-                })
-                .setNegativeButton(R.string.playlist_chooser_dialog_negative_button, (dialog, id) -> dialog.cancel());
-
-        return builder.create();
+                .setNeutralButton(R.string.playlist_chooser_dialog_neutral_button, (dialog, id) -> { })
+                .setNegativeButton(R.string.playlist_chooser_dialog_negative_button, (dialog, id) -> dialog.cancel())
+                .create();
     }
 
     @Override
@@ -63,7 +61,8 @@ public class PlaylistChooserDialog extends DialogFragment implements ClickCallba
     }
 
     private void setButtonAction() {
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
+        androidx.appcompat.app.AlertDialog alertDialog = (androidx.appcompat.app.AlertDialog) Objects.requireNonNull(getDialog());
+        alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putParcelable(Constants.TRACK_OBJECT, playlistChooserViewModel.getSongToAdd());
 

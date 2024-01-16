@@ -37,6 +37,7 @@ import com.google.android.material.elevation.SurfaceColors;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 @OptIn(markerClass = UnstableApi.class)
@@ -156,6 +157,7 @@ public class PlayerBottomSheetFragment extends Fragment {
         if (mediaMetadata.extras != null) {
             playerBottomSheetViewModel.setLiveMedia(getViewLifecycleOwner(), mediaMetadata.extras.getString("type"), mediaMetadata.extras.getString("id"));
             playerBottomSheetViewModel.setLiveArtist(getViewLifecycleOwner(), mediaMetadata.extras.getString("type"), mediaMetadata.extras.getString("artistId"));
+            playerBottomSheetViewModel.setLiveDescription(mediaMetadata.extras.getString("description", null));
 
             bind.playerHeaderLayout.playerHeaderMediaTitleLabel.setText(MusicUtil.getReadableString(mediaMetadata.extras.getString("title")));
             bind.playerHeaderLayout.playerHeaderMediaArtistLabel.setText(MusicUtil.getReadableString(mediaMetadata.extras.getString("artist")));
@@ -164,6 +166,9 @@ public class PlayerBottomSheetFragment extends Fragment {
                     .from(requireContext(), mediaMetadata.extras.getString("coverArtId"), CustomGlideRequest.ResourceType.Song)
                     .build()
                     .into(bind.playerHeaderLayout.playerHeaderMediaCoverImage);
+
+            bind.playerHeaderLayout.playerHeaderMediaTitleLabel.setVisibility(mediaMetadata.extras.getString("title") != null && !Objects.equals(mediaMetadata.extras.getString("title"), "") ? View.VISIBLE : View.GONE);
+            bind.playerHeaderLayout.playerHeaderMediaArtistLabel.setVisibility(mediaMetadata.extras.getString("artist") != null && !Objects.equals(mediaMetadata.extras.getString("artist"), "") ? View.VISIBLE : View.GONE);
         }
     }
 

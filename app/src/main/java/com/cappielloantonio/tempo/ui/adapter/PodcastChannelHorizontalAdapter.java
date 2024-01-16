@@ -42,7 +42,7 @@ public class PodcastChannelHorizontalAdapter extends RecyclerView.Adapter<Podcas
         holder.item.podcastChannelDescriptionTextView.setText(MusicUtil.getReadableString(podcastChannel.getDescription()));
 
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), podcastChannel.getOriginalImageUrl(), CustomGlideRequest.ResourceType.Podcast)
+                .from(holder.itemView.getContext(), podcastChannel.getCoverArtId(), CustomGlideRequest.ResourceType.Podcast)
                 .build()
                 .into(holder.item.podcastChannelCoverImageView);
     }

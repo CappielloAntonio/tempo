@@ -1,6 +1,5 @@
 package com.cappielloantonio.tempo.ui.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -19,31 +18,28 @@ import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.cappielloantonio.tempo.util.MappingUtil;
 import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.viewmodel.StarredSyncViewModel;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.stream.Collectors;
 
 @OptIn(markerClass = UnstableApi.class)
 public class StarredSyncDialog extends DialogFragment {
-    private static final String TAG = "ServerUnreachableDialog";
-
-    private DialogStarredSyncBinding bind;
     private StarredSyncViewModel starredSyncViewModel;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        bind = DialogStarredSyncBinding.inflate(getLayoutInflater());
+        DialogStarredSyncBinding bind = DialogStarredSyncBinding.inflate(getLayoutInflater());
+
         starredSyncViewModel = new ViewModelProvider(requireActivity()).get(StarredSyncViewModel.class);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        builder.setView(bind.getRoot())
+        return new MaterialAlertDialogBuilder(getActivity())
+                .setView(bind.getRoot())
                 .setTitle(R.string.starred_sync_dialog_title)
                 .setPositiveButton(R.string.starred_sync_dialog_positive_button, null)
                 .setNeutralButton(R.string.starred_sync_dialog_neutral_button, null)
-                .setNegativeButton(R.string.starred_sync_dialog_negative_button, null);
-
-        return builder.create();
+                .setNegativeButton(R.string.starred_sync_dialog_negative_button, null)
+                .create();
     }
 
     @Override
@@ -52,14 +48,8 @@ public class StarredSyncDialog extends DialogFragment {
         setButtonAction(requireContext());
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        bind = null;
-    }
-
     private void setButtonAction(Context context) {
-        AlertDialog dialog = ((AlertDialog) getDialog());
+        androidx.appcompat.app.AlertDialog dialog = (androidx.appcompat.app.AlertDialog) getDialog();
 
         if (dialog != null) {
             Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);

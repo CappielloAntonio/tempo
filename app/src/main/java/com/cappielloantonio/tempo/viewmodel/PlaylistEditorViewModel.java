@@ -8,8 +8,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.tempo.repository.PlaylistRepository;
+import com.cappielloantonio.tempo.repository.SharingRepository;
 import com.cappielloantonio.tempo.subsonic.models.Child;
 import com.cappielloantonio.tempo.subsonic.models.Playlist;
+import com.cappielloantonio.tempo.subsonic.models.Share;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +22,7 @@ public class PlaylistEditorViewModel extends AndroidViewModel {
     private static final String TAG = "PlaylistEditorViewModel";
 
     private final PlaylistRepository playlistRepository;
+    private final SharingRepository sharingRepository;
 
     private Child toAdd;
     private Playlist toEdit;
@@ -30,6 +33,7 @@ public class PlaylistEditorViewModel extends AndroidViewModel {
         super(application);
 
         playlistRepository = new PlaylistRepository();
+        sharingRepository = new SharingRepository();
     }
 
     public void createPlaylist(String name) {
@@ -91,5 +95,9 @@ public class PlaylistEditorViewModel extends AndroidViewModel {
         }
 
         return ids;
+    }
+
+    public MutableLiveData<Share> sharePlaylist() {
+        return sharingRepository.createShare(toEdit.getId(), toEdit.getName(), null);
     }
 }

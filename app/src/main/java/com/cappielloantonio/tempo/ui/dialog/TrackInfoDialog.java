@@ -1,6 +1,5 @@
 package com.cappielloantonio.tempo.ui.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 
@@ -14,10 +13,9 @@ import com.cappielloantonio.tempo.glide.CustomGlideRequest;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.MusicUtil;
 import com.cappielloantonio.tempo.util.Preferences;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class TrackInfoDialog extends DialogFragment {
-    private static final String TAG = "TrackInfoDialog";
-
     private DialogTrackInfoBinding bind;
     private MediaMetadata mediaMetadata;
 
@@ -30,12 +28,10 @@ public class TrackInfoDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         bind = DialogTrackInfoBinding.inflate(getLayoutInflater());
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        builder.setView(bind.getRoot())
-                .setPositiveButton(R.string.track_info_dialog_positive_button, (dialog, id) -> dialog.cancel());
-
-        return builder.create();
+        return new MaterialAlertDialogBuilder(getActivity())
+                .setView(bind.getRoot())
+                .setPositiveButton(R.string.track_info_dialog_positive_button, (dialog, id) -> dialog.cancel())
+                .create();
     }
 
     @Override

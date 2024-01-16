@@ -39,6 +39,13 @@ object Preferences {
     private const val AUDIO_TRANSCODE_DOWNLOAD_PRIORITY = "audio_transcode_download_priority"
     private const val MAX_BITRATE_DOWNLOAD = "max_bitrate_download"
     private const val AUDIO_TRANSCODE_FORMAT_DOWNLOAD = "audio_transcode_format_download"
+    private const val SHARE = "share"
+    private const val SCROBBLING = "scrobbling"
+    private const val ESTIMATE_CONTENT_LENGTH = "estimate_content_length"
+    private const val BUFFERING_STRATEGY = "buffering_strategy"
+    private const val SKIP_MIN_STAR_RATING = "skip_min_star_rating"
+    private const val MIN_STAR_RATING = "min_star_rating"
+
 
     @JvmStatic
     fun getServer(): String? {
@@ -312,5 +319,30 @@ object Preferences {
     @JvmStatic
     fun getAudioTranscodeFormatTranscodedDownload(): String {
         return App.getInstance().preferences.getString(AUDIO_TRANSCODE_FORMAT_DOWNLOAD, "raw")!!
+    }
+
+    @JvmStatic
+    fun isSharingEnabled(): Boolean {
+        return App.getInstance().preferences.getBoolean(SHARE, false)
+    }
+
+    @JvmStatic
+    fun isScrobblingEnabled(): Boolean {
+        return App.getInstance().preferences.getBoolean(SCROBBLING, true)
+    }
+
+    @JvmStatic
+    fun askForEstimateContentLength(): Boolean {
+        return App.getInstance().preferences.getBoolean(ESTIMATE_CONTENT_LENGTH, false)
+    }
+
+    @JvmStatic
+    fun getBufferingStrategy(): Double {
+        return App.getInstance().preferences.getString(BUFFERING_STRATEGY, "1")!!.toDouble()
+    }
+
+    @JvmStatic
+    fun getMinStarRatingAccepted(): Int {
+        return App.getInstance().preferences.getInt(MIN_STAR_RATING, 0)
     }
 }

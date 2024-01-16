@@ -30,4 +30,6 @@ public interface ClickCallback {
     default void onMusicDirectoryClick(Bundle bundle) {}
     default void onMusicIndexClick(Bundle bundle) {}
     default void onDownloadGroupLongClick(Bundle bundle) {}
+    default void onShareClick(Bundle bundle) {}
+    default void onShareLongClick(Bundle bundle) {}
 }

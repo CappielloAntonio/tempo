@@ -42,7 +42,7 @@ public class MusicFolderAdapter extends RecyclerView.Adapter<MusicFolderAdapter.
         holder.item.musicFolderTitleTextView.setText(musicFolder.getName());
 
         CustomGlideRequest.Builder
-                .from(holder.itemView.getContext(), musicFolder.getName(), CustomGlideRequest.ResourceType.Directory)
+                .from(holder.itemView.getContext(), musicFolder.getName(), CustomGlideRequest.ResourceType.Folder)
                 .build()
                 .into(holder.item.musicFolderCoverImageView);
     }

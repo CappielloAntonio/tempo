@@ -15,10 +15,12 @@ import com.cappielloantonio.tempo.model.Download;
 import com.cappielloantonio.tempo.repository.AlbumRepository;
 import com.cappielloantonio.tempo.repository.ArtistRepository;
 import com.cappielloantonio.tempo.repository.FavoriteRepository;
+import com.cappielloantonio.tempo.repository.SharingRepository;
 import com.cappielloantonio.tempo.repository.SongRepository;
 import com.cappielloantonio.tempo.subsonic.models.AlbumID3;
 import com.cappielloantonio.tempo.subsonic.models.ArtistID3;
 import com.cappielloantonio.tempo.subsonic.models.Child;
+import com.cappielloantonio.tempo.subsonic.models.Share;
 import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.cappielloantonio.tempo.util.MappingUtil;
 import com.cappielloantonio.tempo.util.NetworkUtil;
@@ -34,6 +36,7 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
     private final AlbumRepository albumRepository;
     private final ArtistRepository artistRepository;
     private final FavoriteRepository favoriteRepository;
+    private final SharingRepository sharingRepository;
 
     private Child song;
 
@@ -46,6 +49,7 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
         albumRepository = new AlbumRepository();
         artistRepository = new ArtistRepository();
         favoriteRepository = new FavoriteRepository();
+        sharingRepository = new SharingRepository();
     }
 
     public Child getSong() {
@@ -127,5 +131,9 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
         songRepository.getInstantMix(media, 20).observe(owner, instantMix::postValue);
 
         return instantMix;
+    }
+
+    public MutableLiveData<Share> shareTrack() {
+        return sharingRepository.createShare(song.getId(), song.getTitle(), null);
     }
 }

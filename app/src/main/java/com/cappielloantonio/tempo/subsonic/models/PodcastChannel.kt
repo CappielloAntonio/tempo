@@ -14,6 +14,7 @@ class PodcastChannel : Parcelable {
     var url: String? = null
     var title: String? = null
     var description: String? = null
+    @SerializedName("coverArt")
     var coverArtId: String? = null
     var originalImageUrl: String? = null
     var status: String? = null

@@ -12,6 +12,7 @@ import com.cappielloantonio.tempo.subsonic.models.Child;
 import com.cappielloantonio.tempo.subsonic.models.InternetRadioStation;
 import com.cappielloantonio.tempo.subsonic.models.PodcastEpisode;
 import com.cappielloantonio.tempo.util.MappingUtil;
+import com.cappielloantonio.tempo.util.Preferences;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 
@@ -254,6 +255,21 @@ public class MediaManager {
         }
     }
 
+    public static void removeRange(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, List<Child> media, int fromItem, int toItem) {
+        if (mediaBrowserListenableFuture != null) {
+            mediaBrowserListenableFuture.addListener(() -> {
+                try {
+                    if (mediaBrowserListenableFuture.isDone()) {
+                        mediaBrowserListenableFuture.get().removeMediaItems(fromItem, toItem);
+                        removeRangeDatabase(media, fromItem, toItem);
+                    }
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }, MoreExecutors.directExecutor());
+        }
+    }
+
     public static void getCurrentIndex(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, MediaIndexCallback callback) {
         if (mediaBrowserListenableFuture != null) {
             mediaBrowserListenableFuture.addListener(() -> {
@@ -278,7 +294,7 @@ public class MediaManager {
     }
 
     public static void scrobble(MediaItem mediaItem) {
-        if (mediaItem != null) {
+        if (mediaItem != null && Preferences.isScrobblingEnabled()) {
             getSongRepository().scrobble(mediaItem.mediaMetadata.extras.getString("id"));
         }
     }
@@ -318,6 +334,14 @@ public class MediaManager {
             media.remove(toRemove);
             getQueueRepository().insertAll(media, true, 0);
         }
+    }
+
+    private static void removeRangeDatabase(List<Child> media, int fromItem, int toItem) {
+        List<Child> toRemove = media.subList(fromItem, toItem);
+
+        media.removeAll(toRemove);
+
+        getQueueRepository().insertAll(media, true, 0);
     }
 
     public static void clearDatabase() {

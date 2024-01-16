@@ -102,6 +102,16 @@
             android:summary="@string/settings_sync_starred_tracks_for_offline_use_summary"
             android:key="sync_starred_tracks_for_offline_use" />
 
+        <ListPreference
+            app:defaultValue="1"
+            app:dialogTitle="@string/settings_buffering_strategy"
+            app:entries="@array/buffering_strategy_titles"
+            app:entryValues="@array/buffering_strategy_values"
+            app:key="buffering_strategy"
+            app:title="@string/settings_buffering_strategy"
+            app:summary="@string/settings_buffering_strategy_summary"
+            app:useSimpleSummaryProvider="false" />
+
         <Preference
             android:key="download_storage"
             app:title="@string/settings_download_storage_title" />
@@ -158,6 +168,16 @@
             app:key="max_bitrate_mobile"
             app:title="@string/settings_max_bitrate_mobile"
             app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            android:title="@string/settings_audio_transcode_estimate_content_length_title"
+            android:defaultValue="false"
+            android:summary="@string/settings_audio_transcode_estimate_content_length_summary"
+            android:key="estimate_content_length" />
+
+        <Preference
+            app:selectable="false"
+            app:summary="@string/settings_summary_transcoding_estimate_content_length" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_title_transcoding_download">
@@ -209,6 +229,47 @@
             app:key="replay_gain_mode"
             app:title="@string/settings_replay_gain"
             app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/settings_title_rating">
+        <SeekBarPreference
+            android:key="min_star_rating"
+            app:defaultValue="0"
+            app:min="0"
+            android:max="4"
+            app:seekBarIncrement="1"
+            app:showSeekBarValue="true"
+            app:summary="@string/settings_summary_skip_min_star_rating"
+            app:title="@string/settings_title_skip_min_star_rating" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/settings_title_scrobble">
+        <Preference
+            app:selectable="false"
+            app:summary="@string/settings_summary_scrobble" />
+
+        <Preference
+            app:selectable="false"
+            app:summary="@string/settings_sub_summary_scrobble" />
+
+        <SwitchPreference
+            android:title="@string/settings_scrobble_title"
+            android:defaultValue="true"
+            android:key="scrobbling" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/settings_title_share">
+        <Preference
+            app:selectable="false"
+            app:summary="@string/settings_summary_share" />
+
+        <SwitchPreference
+            android:title="@string/settings_share_title"
+            android:defaultValue="false"
+            android:key="share" />
 
     </PreferenceCategory>
 

@@ -204,17 +204,31 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    style="@style/TitleLarge"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="20dp"
-                    android:text="@string/artist_page_title_album_section" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TitleLarge"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="8dp"
+                        android:text="@string/artist_page_title_album_section" />
+
+                    <TextView
+                        android:id="@+id/artist_page_albums_switch_layout_text_view_clickable"
+                        style="@style/TitleMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="16dp"
+                        android:text="@string/artist_page_switch_layout_button" />
+                </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/albums_recycler_view"
+                    android:id="@+id/albums_horizontal_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="8dp"
@@ -223,7 +237,21 @@
                     android:paddingStart="16dp"
                     android:paddingTop="8dp"
                     android:paddingEnd="8dp"
-                    android:paddingBottom="8dp" />
+                    android:paddingBottom="8dp"
+                    android:visibility="visible"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/albums_vertical_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:clipToPadding="false"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="8dp"
+                    android:visibility="gone"/>
             </LinearLayout>
 
             <include

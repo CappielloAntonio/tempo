@@ -23,12 +23,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.databinding.FragmentDirectoryBinding;
 import com.cappielloantonio.tempo.interfaces.ClickCallback;
+import com.cappielloantonio.tempo.interfaces.DialogClickCallback;
 import com.cappielloantonio.tempo.model.Download;
 import com.cappielloantonio.tempo.service.MediaManager;
 import com.cappielloantonio.tempo.service.MediaService;
 import com.cappielloantonio.tempo.subsonic.models.Child;
 import com.cappielloantonio.tempo.ui.activity.MainActivity;
 import com.cappielloantonio.tempo.ui.adapter.MusicDirectoryAdapter;
+import com.cappielloantonio.tempo.ui.dialog.DownloadDirectoryDialog;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.cappielloantonio.tempo.util.MappingUtil;
@@ -50,6 +52,8 @@ public class DirectoryFragment extends Fragment implements ClickCallback {
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
+    private MenuItem menuItem;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +64,8 @@ public class DirectoryFragment extends Fragment implements ClickCallback {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.directory_page_menu, menu);
+
+        menuItem = menu.getItem(0);
     }
 
     @Override
@@ -97,15 +103,23 @@ public class DirectoryFragment extends Fragment implements ClickCallback {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_download_directory) {
-            directoryViewModel.loadMusicDirectory(getArguments().getString(Constants.MUSIC_DIRECTORY_ID)).observe(getViewLifecycleOwner(), directory -> {
-                if (isVisible() && getActivity() != null) {
-                    List<Child> songs = directory.getChildren().stream().filter(child -> !child.isDir()).collect(Collectors.toList());
-                    DownloadUtil.getDownloadTracker(requireContext()).download(
-                            MappingUtil.mapDownloads(songs),
-                            songs.stream().map(Download::new).collect(Collectors.toList())
-                    );
+            DownloadDirectoryDialog dialog = new DownloadDirectoryDialog(new DialogClickCallback() {
+                @Override
+                public void onPositiveClick() {
+                    directoryViewModel.loadMusicDirectory(getArguments().getString(Constants.MUSIC_DIRECTORY_ID)).observe(getViewLifecycleOwner(), directory -> {
+                        if (isVisible() && getActivity() != null) {
+                            List<Child> songs = directory.getChildren().stream().filter(child -> !child.isDir()).collect(Collectors.toList());
+                            DownloadUtil.getDownloadTracker(requireContext()).download(
+                                    MappingUtil.mapDownloads(songs),
+                                    songs.stream().map(Download::new).collect(Collectors.toList())
+                            );
+                        }
+                    });
                 }
             });
+
+            dialog.show(activity.getSupportFragmentManager(), null);
+
             return true;
         }
 
@@ -144,6 +158,14 @@ public class DirectoryFragment extends Fragment implements ClickCallback {
             bind.directoryTitleLabel.setText(directory.getName());
 
             musicDirectoryAdapter.setItems(directory.getChildren());
+
+            menuItem.setVisible(
+                    directory.getChildren() != null && directory.getChildren()
+                            .stream()
+                            .filter(child -> !child.isDir())
+                            .findFirst()
+                            .orElse(null) != null
+            );
         });
     }
 
@@ -158,6 +180,11 @@ public class DirectoryFragment extends Fragment implements ClickCallback {
     @Override
     public void onMediaClick(Bundle bundle) {
         MediaManager.startQueue(mediaBrowserListenableFuture, bundle.getParcelableArrayList(Constants.TRACKS_OBJECT), bundle.getInt(Constants.ITEM_POSITION));
+    }
+
+    @Override
+    public void onMediaLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.songBottomSheetDialog, bundle);
     }
 
     @Override

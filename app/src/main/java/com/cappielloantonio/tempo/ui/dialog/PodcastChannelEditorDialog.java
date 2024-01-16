@@ -1,9 +1,9 @@
 package com.cappielloantonio.tempo.ui.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -13,6 +13,7 @@ import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.databinding.DialogPodcastChannelEditorBinding;
 import com.cappielloantonio.tempo.interfaces.PodcastCallback;
 import com.cappielloantonio.tempo.viewmodel.PodcastChannelEditorViewModel;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Objects;
 
@@ -31,17 +32,15 @@ public class PodcastChannelEditorDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         bind = DialogPodcastChannelEditorBinding.inflate(getLayoutInflater());
+
         podcastChannelEditorViewModel = new ViewModelProvider(requireActivity()).get(PodcastChannelEditorViewModel.class);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        builder.setView(bind.getRoot())
+        return new MaterialAlertDialogBuilder(getActivity())
+                .setView(bind.getRoot())
                 .setTitle(R.string.podcast_channel_editor_dialog_title)
-                .setPositiveButton(R.string.radio_editor_dialog_positive_button, (dialog, id) -> {
-                })
-                .setNegativeButton(R.string.radio_editor_dialog_negative_button, (dialog, id) -> dialog.cancel());
-
-        return builder.create();
+                .setPositiveButton(R.string.radio_editor_dialog_positive_button, (dialog, id) -> { })
+                .setNegativeButton(R.string.radio_editor_dialog_negative_button, (dialog, id) -> dialog.cancel())
+                .create();
     }
 
     @Override
@@ -58,13 +57,18 @@ public class PodcastChannelEditorDialog extends DialogFragment {
     }
 
     private void setButtonAction() {
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
-            if (validateInput()) {
-                podcastChannelEditorViewModel.createChannel(channelUrl);
-                dismissDialog();
-            }
-        });
+        androidx.appcompat.app.AlertDialog dialog = (androidx.appcompat.app.AlertDialog) getDialog();
+        if (dialog != null) {
+            Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
+            positiveButton.setOnClickListener(v -> {
+                if (validateInput()) {
+                    podcastChannelEditorViewModel.createChannel(channelUrl);
+                    dismissDialog();
+                }
+            });
+        }
     }
+
 
     private boolean validateInput() {
         channelUrl = Objects.requireNonNull(bind.podcastChannelRssUrlNameTextView.getText()).toString().trim();

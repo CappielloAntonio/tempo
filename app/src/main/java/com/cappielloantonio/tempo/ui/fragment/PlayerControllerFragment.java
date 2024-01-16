@@ -40,6 +40,8 @@ import com.google.android.material.elevation.SurfaceColors;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 
+import java.util.Objects;
+
 @UnstableApi
 public class PlayerControllerFragment extends Fragment {
     private static final String TAG = "PlayerCoverFragment";
@@ -54,6 +56,7 @@ public class PlayerControllerFragment extends Fragment {
     private Chip playerMediaExtension;
     private TextView playerMediaBitrate;
     private ConstraintLayout playerQuickActionView;
+    private ImageButton playerOpenQueueButton;
     private ImageButton playerTrackInfo;
 
     private MainActivity activity;
@@ -107,13 +110,14 @@ public class PlayerControllerFragment extends Fragment {
         playerMediaExtension = bind.getRoot().findViewById(R.id.player_media_extension);
         playerMediaBitrate = bind.getRoot().findViewById(R.id.player_media_bitrate);
         playerQuickActionView = bind.getRoot().findViewById(R.id.player_quick_action_view);
+        playerOpenQueueButton = bind.getRoot().findViewById(R.id.player_open_queue_button);
         playerTrackInfo = bind.getRoot().findViewById(R.id.player_info_track);
     }
 
     private void initQuickActionView() {
         playerQuickActionView.setBackgroundColor(SurfaceColors.getColorForElevation(requireContext(), 8));
 
-        playerQuickActionView.setOnClickListener(view -> {
+        playerOpenQueueButton.setOnClickListener(view -> {
             PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) requireActivity().getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
             if (playerBottomSheetFragment != null) {
                 playerBottomSheetFragment.goToQueuePage();
@@ -164,6 +168,9 @@ public class PlayerControllerFragment extends Fragment {
 
         playerMediaTitleLabel.setSelected(true);
         playerArtistNameLabel.setSelected(true);
+
+        playerMediaTitleLabel.setVisibility(mediaMetadata.title != null && !Objects.equals(mediaMetadata.title, "") ? View.VISIBLE : View.GONE);
+        playerArtistNameLabel.setVisibility(mediaMetadata.artist != null && !Objects.equals(mediaMetadata.artist, "") ? View.VISIBLE : View.GONE);
     }
 
     private void setMediaInfo(MediaMetadata mediaMetadata) {
@@ -179,6 +186,14 @@ public class PlayerControllerFragment extends Fragment {
                 playerMediaBitrate.setVisibility(View.VISIBLE);
                 playerMediaBitrate.setText(bitrate);
             }
+        }
+
+        boolean isTranscodingExtension = !MusicUtil.getTranscodingFormatPreference().equals("raw");
+        boolean isTranscodingBitrate = !MusicUtil.getBitratePreference().equals("0");
+
+        if (isTranscodingExtension || isTranscodingBitrate) {
+            playerMediaExtension.setText("Transcoding");
+            playerMediaBitrate.setText("requested");
         }
 
         playerTrackInfo.setOnClickListener(view -> {
@@ -201,6 +216,7 @@ public class PlayerControllerFragment extends Fragment {
                     bind.getRoot().setRepeatToggleModes(RepeatModeUtil.REPEAT_TOGGLE_MODE_NONE);
                     bind.getRoot().findViewById(R.id.player_playback_speed_button).setVisibility(View.VISIBLE);
                     bind.getRoot().findViewById(R.id.player_skip_silence_toggle_button).setVisibility(View.VISIBLE);
+                    bind.getRoot().findViewById(R.id.button_favorite).setVisibility(View.GONE);
                     setPlaybackParameters(mediaBrowser);
                     break;
                 case Constants.MEDIA_TYPE_RADIO:
@@ -212,6 +228,7 @@ public class PlayerControllerFragment extends Fragment {
                     bind.getRoot().setRepeatToggleModes(RepeatModeUtil.REPEAT_TOGGLE_MODE_NONE);
                     bind.getRoot().findViewById(R.id.player_playback_speed_button).setVisibility(View.GONE);
                     bind.getRoot().findViewById(R.id.player_skip_silence_toggle_button).setVisibility(View.GONE);
+                    bind.getRoot().findViewById(R.id.button_favorite).setVisibility(View.GONE);
                     setPlaybackParameters(mediaBrowser);
                     break;
                 case Constants.MEDIA_TYPE_MUSIC:
@@ -224,6 +241,7 @@ public class PlayerControllerFragment extends Fragment {
                     bind.getRoot().setRepeatToggleModes(RepeatModeUtil.REPEAT_TOGGLE_MODE_ALL | RepeatModeUtil.REPEAT_TOGGLE_MODE_ONE);
                     bind.getRoot().findViewById(R.id.player_playback_speed_button).setVisibility(View.GONE);
                     bind.getRoot().findViewById(R.id.player_skip_silence_toggle_button).setVisibility(View.GONE);
+                    bind.getRoot().findViewById(R.id.button_favorite).setVisibility(View.VISIBLE);
                     resetPlaybackParameters(mediaBrowser);
                     break;
             }
@@ -278,7 +296,7 @@ public class PlayerControllerFragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(Constants.ARTIST_OBJECT, artist);
                     NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
-                    activity.collapseBottomSheet();
+                    activity.collapseBottomSheetDelayed();
                 });
             }
         });

@@ -1,6 +1,5 @@
 package com.cappielloantonio.tempo.ui.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.widget.Button;
@@ -15,11 +14,10 @@ import com.cappielloantonio.tempo.databinding.DialogDownloadStorageBinding;
 import com.cappielloantonio.tempo.interfaces.DialogClickCallback;
 import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.cappielloantonio.tempo.util.Preferences;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 @OptIn(markerClass = UnstableApi.class)
 public class DownloadStorageDialog extends DialogFragment {
-    private DialogDownloadStorageBinding bind;
-
     private final DialogClickCallback dialogClickCallback;
 
     public DownloadStorageDialog(DialogClickCallback dialogClickCallback) {
@@ -29,16 +27,14 @@ public class DownloadStorageDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        bind = DialogDownloadStorageBinding.inflate(getLayoutInflater());
+        DialogDownloadStorageBinding bind = DialogDownloadStorageBinding.inflate(getLayoutInflater());
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        builder.setView(bind.getRoot())
+        return new MaterialAlertDialogBuilder(getActivity())
+                .setView(bind.getRoot())
                 .setTitle(R.string.download_storage_dialog_title)
                 .setPositiveButton(R.string.download_storage_external_dialog_positive_button, null)
-                .setNegativeButton(R.string.download_storage_internal_dialog_negative_button, null);
-
-        return builder.create();
+                .setNegativeButton(R.string.download_storage_internal_dialog_negative_button, null)
+                .create();
     }
 
     @Override
@@ -47,14 +43,8 @@ public class DownloadStorageDialog extends DialogFragment {
         setButtonAction();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        bind = null;
-    }
-
     private void setButtonAction() {
-        AlertDialog dialog = ((AlertDialog) getDialog());
+        androidx.appcompat.app.AlertDialog dialog = (androidx.appcompat.app.AlertDialog) getDialog();
 
         if (dialog != null) {
             Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);

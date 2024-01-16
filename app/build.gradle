@@ -3,8 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-parcelize'
 
 android {
-    compileSdk 34
-    buildToolsVersion "34.0.0"
+    compileSdk = 34
+    buildToolsVersion = "34.0.0"
 
     defaultConfig {
         minSdkVersion 24
@@ -22,18 +22,18 @@ android {
         }
     }
 
-    flavorDimensions "default"
+    flavorDimensions += "default"
 
     productFlavors {
         tempo {
-            dimension "default"
+            dimension = "default"
             applicationId 'com.cappielloantonio.tempo'
-            versionCode 20
-            versionName '3.5.5'
+            versionCode 22
+            versionName '3.5.8'
         }
 
         notquitemy {
-            dimension "default"
+            dimension = "default"
             applicationId "com.cappielloantonio.notquitemy.tempo"
             versionCode 1
             versionName "1.0.0"
@@ -72,32 +72,32 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
     implementation 'androidx.preference:preference-ktx:1.2.1'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.7.2'
-    implementation 'androidx.recyclerview:recyclerview:1.3.1'
-    implementation 'androidx.room:room-runtime:2.5.2'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.6'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.6'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.room:room-runtime:2.6.1'
     implementation 'androidx.core:core-splashscreen:1.0.1'
     implementation "androidx.appcompat:appcompat:1.6.1"
 
     // Android Material
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.google.android.material:material:1.11.0'
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.16.0'
     implementation 'com.github.bumptech.glide:annotations:4.16.0'
 
     // Media3
-    implementation 'androidx.media3:media3-session:1.1.1'
-    implementation 'androidx.media3:media3-common:1.1.1'
-    implementation 'androidx.media3:media3-exoplayer:1.1.1'
-    implementation 'androidx.media3:media3-ui:1.1.1'
-    tempoImplementation 'androidx.media3:media3-cast:1.1.1'
+    implementation 'androidx.media3:media3-session:1.2.0'
+    implementation 'androidx.media3:media3-common:1.2.0'
+    implementation 'androidx.media3:media3-exoplayer:1.2.0'
+    implementation 'androidx.media3:media3-ui:1.2.0'
+    tempoImplementation 'androidx.media3:media3-cast:1.2.0'
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
-    annotationProcessor 'androidx.room:room-compiler:2.5.2'
+    annotationProcessor 'androidx.room:room-compiler:2.6.1'
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11'
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.12'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 }

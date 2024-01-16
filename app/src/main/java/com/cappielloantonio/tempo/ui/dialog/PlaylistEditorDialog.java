@@ -1,9 +1,12 @@
 package com.cappielloantonio.tempo.ui.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -18,7 +21,9 @@ import com.cappielloantonio.tempo.interfaces.PlaylistCallback;
 import com.cappielloantonio.tempo.ui.adapter.PlaylistDialogSongHorizontalAdapter;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.MusicUtil;
+import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.viewmodel.PlaylistEditorViewModel;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -39,18 +44,16 @@ public class PlaylistEditorDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         bind = DialogPlaylistEditorBinding.inflate(getLayoutInflater());
+
         playlistEditorViewModel = new ViewModelProvider(requireActivity()).get(PlaylistEditorViewModel.class);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        builder.setView(bind.getRoot())
+        return new MaterialAlertDialogBuilder(getActivity())
+                .setView(bind.getRoot())
                 .setTitle(R.string.playlist_editor_dialog_title)
-                .setPositiveButton(R.string.playlist_editor_dialog_positive_button, (dialog, id) -> {
-                })
+                .setPositiveButton(R.string.playlist_editor_dialog_positive_button, (dialog, id) -> { })
                 .setNeutralButton(R.string.playlist_editor_dialog_neutral_button, (dialog, id) -> dialog.cancel())
-                .setNegativeButton(R.string.playlist_editor_dialog_negative_button, (dialog, id) -> dialog.cancel());
-
-        return builder.create();
+                .setNegativeButton(R.string.playlist_editor_dialog_negative_button, (dialog, id) -> dialog.cancel())
+                .create();
     }
 
     @Override
@@ -83,7 +86,9 @@ public class PlaylistEditorDialog extends DialogFragment {
     }
 
     private void setButtonAction() {
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+        androidx.appcompat.app.AlertDialog alertDialog = (androidx.appcompat.app.AlertDialog) Objects.requireNonNull(getDialog());
+
+        alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
             if (validateInput()) {
                 if (playlistEditorViewModel.getSongToAdd() != null) {
                     playlistEditorViewModel.createPlaylist(playlistName);
@@ -95,10 +100,20 @@ public class PlaylistEditorDialog extends DialogFragment {
             }
         });
 
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
+        alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
             playlistEditorViewModel.deletePlaylist();
             dialogDismiss();
         });
+
+        bind.playlistShareButton.setOnClickListener(view -> {
+            playlistEditorViewModel.sharePlaylist().observe(requireActivity(), sharedPlaylist -> {
+                ClipboardManager clipboardManager = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText(getString(R.string.app_name), sharedPlaylist.getUrl());
+                clipboardManager.setPrimaryClip(clipData);
+            });
+        });
+
+        bind.playlistShareButton.setVisibility(Preferences.isSharingEnabled() ? View.VISIBLE : View.GONE);
     }
 
     private void initSongsView() {
@@ -168,6 +183,8 @@ public class PlaylistEditorDialog extends DialogFragment {
 
     private void dialogDismiss() {
         Objects.requireNonNull(getDialog()).dismiss();
-        playlistCallback.onDismiss();
+        if (playlistCallback != null) {
+            playlistCallback.onDismiss();
+        }
     }
 }

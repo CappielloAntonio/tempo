@@ -753,6 +753,40 @@
             android:id="@+id/home_recently_added_albums_placeholder"
             layout="@layout/item_placeholder_album"
             android:visibility="gone" />
+
+        <!-- Shares -->
+        <LinearLayout
+            android:id="@+id/shares_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/shares_text_view_refreshable"
+                style="@style/TitleLarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/home_title_shares" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/shares_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:clipToPadding="false"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/shares_placeholder"
+            layout="@layout/item_placeholder_horizontal"
+            android:visibility="gone" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
 

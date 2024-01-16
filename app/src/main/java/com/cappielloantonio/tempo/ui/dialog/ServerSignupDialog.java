@@ -1,6 +1,5 @@
 package com.cappielloantonio.tempo.ui.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,6 +13,7 @@ import com.cappielloantonio.tempo.databinding.DialogServerSignupBinding;
 import com.cappielloantonio.tempo.model.Server;
 import com.cappielloantonio.tempo.util.MusicUtil;
 import com.cappielloantonio.tempo.viewmodel.LoginViewModel;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -33,21 +33,17 @@ public class ServerSignupDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
-
         bind = DialogServerSignupBinding.inflate(getLayoutInflater());
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
 
-        builder.setView(bind.getRoot())
+        return new MaterialAlertDialogBuilder(getActivity())
+                .setView(bind.getRoot())
                 .setTitle(R.string.server_signup_dialog_title)
-                .setNeutralButton(R.string.server_signup_dialog_neutral_button, (dialog, id) -> {
-                })
-                .setPositiveButton(R.string.server_signup_dialog_positive_button, (dialog, id) -> {
-                })
-                .setNegativeButton(R.string.server_signup_dialog_negative_button, (dialog, id) -> dialog.cancel());
-
-        return builder.create();
+                .setNeutralButton(R.string.server_signup_dialog_neutral_button, (dialog, id) -> { })
+                .setPositiveButton(R.string.server_signup_dialog_positive_button, (dialog, id) -> { })
+                .setNegativeButton(R.string.server_signup_dialog_negative_button, (dialog, id) -> dialog.cancel())
+                .create();
     }
 
     @Override
@@ -81,14 +77,16 @@ public class ServerSignupDialog extends DialogFragment {
     }
 
     private void setButtonAction() {
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+        androidx.appcompat.app.AlertDialog alertDialog = (androidx.appcompat.app.AlertDialog) Objects.requireNonNull(getDialog());
+
+        alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
             if (validateInput()) {
                 saveServerPreference();
                 Objects.requireNonNull(getDialog()).dismiss();
             }
         });
 
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
+        alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
             loginViewModel.deleteServer(null);
             Objects.requireNonNull(getDialog()).dismiss();
         });

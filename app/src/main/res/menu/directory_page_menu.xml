@@ -5,5 +5,6 @@
         android:id="@+id/action_download_directory"
         android:icon="@drawable/ic_file_download"
         android:title="@string/menu_download_all_button"
+        android:visible="false"
         app:showAsAction="never" />
 </menu>

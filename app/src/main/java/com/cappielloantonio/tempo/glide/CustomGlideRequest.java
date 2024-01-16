@@ -36,6 +36,7 @@ public class CustomGlideRequest {
         Unknown,
         Album,
         Artist,
+        Folder,
         Directory,
         Playlist,
         Podcast,
@@ -60,6 +61,8 @@ public class CustomGlideRequest {
                 return AppCompatResources.getDrawable(context, R.drawable.ic_placeholder_album);
             case Artist:
                 return AppCompatResources.getDrawable(context, R.drawable.ic_placeholder_artist);
+            case Folder:
+                return AppCompatResources.getDrawable(context, R.drawable.ic_placeholder_folder);
             case Directory:
                 return AppCompatResources.getDrawable(context, R.drawable.ic_placeholder_directory);
             case Playlist:

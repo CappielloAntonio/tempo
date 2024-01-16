@@ -61,19 +61,11 @@ public class DownloaderManager {
     }
 
     public boolean isDownloaded(MediaItem mediaItem) {
-        @Nullable Download download = downloads.get(mediaItem.mediaId);
-        return download != null && download.state != Download.STATE_FAILED;
+        return isDownloaded(mediaItem.mediaId);
     }
 
     public boolean areDownloaded(List<MediaItem> mediaItems) {
-        for (MediaItem mediaItem : mediaItems) {
-            @Nullable Download download = downloads.get(mediaItem.mediaId);
-            if (download != null && download.state != Download.STATE_FAILED) {
-                return true;
-            }
-        }
-
-        return false;
+        return mediaItems.stream().anyMatch(this::isDownloaded);
     }
 
     public void download(MediaItem mediaItem, com.cappielloantonio.tempo.model.Download download) {
@@ -126,19 +118,31 @@ public class DownloaderManager {
         return new DownloadRepository();
     }
 
-    public static void insertDatabase(com.cappielloantonio.tempo.model.Download download) {
+    private static void insertDatabase(com.cappielloantonio.tempo.model.Download download) {
         getDownloadRepository().insert(download);
     }
 
-    public static void deleteDatabase(String id) {
+    private static void deleteDatabase(String id) {
         getDownloadRepository().delete(id);
     }
 
-    public static void deleteAllDatabase() {
+    private static void deleteAllDatabase() {
         getDownloadRepository().deleteAll();
     }
 
-    public static void updateDatabase(String id) {
+    private static void updateDatabase(String id) {
         getDownloadRepository().update(id);
+    }
+
+    public void updateDownload(Download download) {
+        updateDatabase(download.request.id);
+        if (download.state == Download.STATE_COMPLETED) {
+            downloads.put(download.request.id, download);
+        }
+    }
+
+    public void deleteDownload(Download download) {
+        deleteDatabase(download.request.id);
+        downloads.remove(download.request.id);
     }
 }

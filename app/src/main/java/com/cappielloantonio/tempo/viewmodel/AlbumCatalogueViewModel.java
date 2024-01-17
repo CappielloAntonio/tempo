@@ -36,7 +36,6 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
     public void loadAlbums() {
         page = 0;
         albumList.setValue(new ArrayList<>());
-        albumList.setValue(new ArrayList<>());
         status = Status.RUNNING;
         loadAlbums(500);
     }

@@ -23,6 +23,8 @@ import java.util.List;
 
 public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAdapter.ViewHolder> implements Filterable {
     private final ClickCallback click;
+    private String currentFilter;
+
     private final Filter filtering = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -32,6 +34,7 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
                 filteredList.addAll(albumsFull);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
+                currentFilter = filterPattern;
 
                 for (AlbumID3 item : albumsFull) {
                     if (item.getName().toLowerCase().contains(filterPattern)) {
@@ -48,8 +51,7 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            albums.clear();
-            albums.addAll((List) results.values);
+            albums = (List) results.values;
             notifyDataSetChanged();
         }
     };
@@ -60,6 +62,8 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
     public AlbumCatalogueAdapter(ClickCallback click) {
         this.click = click;
         this.albums = Collections.emptyList();
+        this.albumsFull = Collections.emptyList();
+        this.currentFilter = "";
     }
 
     @NonNull
@@ -92,9 +96,8 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
     }
 
     public void setItems(List<AlbumID3> albums) {
-        this.albums = albums;
         this.albumsFull = new ArrayList<>(albums);
-        notifyDataSetChanged();
+        filtering.filter(currentFilter);
     }
 
     @Override

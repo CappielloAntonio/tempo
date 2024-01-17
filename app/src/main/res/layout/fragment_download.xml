@@ -76,7 +76,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/download_title_section"
-                android:layout_marginBottom="16dp"
                 app:layout_constraintEnd_toStartOf="@+id/downloaded_go_back_image_view"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -86,7 +85,6 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginHorizontal="12dp"
-                android:layout_gravity="center"
                 android:background="@drawable/ic_arrow_back"
                 app:layout_constraintBottom_toBottomOf="@+id/downloaded_text_view_refreshable"
                 app:layout_constraintEnd_toStartOf="@id/downloaded_group_by_image_view"
@@ -122,8 +120,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/downloaded_text_view_refreshable" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/downloaded_shuffle_all_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:translationY="-128dp"
+        app:srcCompat="@drawable/ic_shuffle" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

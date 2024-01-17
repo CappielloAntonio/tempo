@@ -32,7 +32,10 @@ import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.viewmodel.DownloadViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.MoreExecutors;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -75,6 +78,7 @@ public class DownloadFragment extends Fragment implements ClickCallback {
         super.onStart();
 
         initializeMediaBrowser();
+        bindMediaController();
         activity.setBottomNavigationBarVisibility(true);
         activity.setBottomSheetVisibility(true);
     }
@@ -110,6 +114,7 @@ public class DownloadFragment extends Fragment implements ClickCallback {
                     if (bind != null) {
                         bind.emptyDownloadLayout.setVisibility(View.VISIBLE);
                         bind.fragmentDownloadNestedScrollView.setVisibility(View.GONE);
+                        bind.downloadedShuffleAllFab.setVisibility(View.GONE);
 
                         bind.downloadDownloadedPlaceholder.placeholder.setVisibility(View.VISIBLE);
                         bind.downloadDownloadedSector.setVisibility(View.GONE);
@@ -120,6 +125,7 @@ public class DownloadFragment extends Fragment implements ClickCallback {
                     if (bind != null) {
                         bind.emptyDownloadLayout.setVisibility(View.GONE);
                         bind.fragmentDownloadNestedScrollView.setVisibility(View.VISIBLE);
+                        bind.downloadedShuffleAllFab.setVisibility(View.VISIBLE);
 
                         bind.downloadDownloadedPlaceholder.placeholder.setVisibility(View.GONE);
                         bind.downloadDownloadedSector.setVisibility(View.VISIBLE);
@@ -136,6 +142,25 @@ public class DownloadFragment extends Fragment implements ClickCallback {
 
         bind.downloadedGroupByImageView.setOnClickListener(view -> showPopupMenu(view, R.menu.download_popup_menu));
         bind.downloadedGoBackImageView.setOnClickListener(view -> downloadViewModel.popViewStack());
+    }
+
+    private void bindMediaController() {
+        mediaBrowserListenableFuture.addListener(() -> {
+            try {
+                MediaBrowser mediaBrowser = mediaBrowserListenableFuture.get();
+                initShuffleButton(mediaBrowser);
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }, MoreExecutors.directExecutor());
+    }
+
+    private void initShuffleButton(MediaBrowser mediaBrowser) {
+        bind.downloadedShuffleAllFab.setOnClickListener(view -> {
+            List<Child> songs = downloadHorizontalAdapter.getItems();
+            Collections.shuffle(songs);
+            MediaManager.startQueue(mediaBrowserListenableFuture, songs, 0);
+        });
     }
 
     private void finishDownloadView(List<Child> songs) {

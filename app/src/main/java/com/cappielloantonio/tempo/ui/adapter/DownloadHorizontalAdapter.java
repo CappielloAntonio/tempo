@@ -90,6 +90,10 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
         return grouped.get(id);
     }
 
+    public List<Child> getItems() {
+        return new ArrayList<>(songs);
+    }
+
     @Override
     public int getItemViewType(int position) {
         return position;

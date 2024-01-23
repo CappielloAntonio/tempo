@@ -175,6 +175,7 @@ class MediaService : MediaLibraryService() {
 
             override fun onTracksChanged(tracks: Tracks) {
                 ReplayGainUtil.setReplayGain(player, tracks)
+                MediaManager.scrobble(player.currentMediaItem, false)
             }
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {
@@ -184,6 +185,7 @@ class MediaService : MediaLibraryService() {
                         player.currentPosition
                     )
                 }
+                MediaManager.scrobble(player.currentMediaItem, false)
             }
 
             override fun onPlaybackStateChanged(playbackState: Int) {
@@ -192,7 +194,7 @@ class MediaService : MediaLibraryService() {
                     playbackState == Player.STATE_ENDED &&
                     player.mediaMetadata.extras?.getString("type") == Constants.MEDIA_TYPE_MUSIC
                 ) {
-                    MediaManager.scrobble(player.currentMediaItem)
+                    MediaManager.scrobble(player.currentMediaItem, true)
                     MediaManager.saveChronology(player.currentMediaItem)
                 }
             }
@@ -206,7 +208,7 @@ class MediaService : MediaLibraryService() {
 
                 if (reason == Player.DISCONTINUITY_REASON_AUTO_TRANSITION) {
                     if (oldPosition.mediaItem?.mediaMetadata?.extras?.getString("type") == Constants.MEDIA_TYPE_MUSIC) {
-                        MediaManager.scrobble(oldPosition.mediaItem)
+                        MediaManager.scrobble(oldPosition.mediaItem, true)
                         MediaManager.saveChronology(oldPosition.mediaItem)
                     }
 

@@ -20,5 +20,5 @@ public interface MediaAnnotationService {
     Call<ApiResponse> setRating(@QueryMap Map<String, String> params, @Query("id") String id, @Query("rating") int rating);
 
     @GET("scrobble")
-    Call<ApiResponse> scrobble(@QueryMap Map<String, String> params, @Query("id") String id);
+    Call<ApiResponse> scrobble(@QueryMap Map<String, String> params, @Query("id") String id, @Query("submission") Boolean submission);
 }

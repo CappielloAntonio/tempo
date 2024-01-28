@@ -46,6 +46,7 @@ object Preferences {
     private const val SKIP_MIN_STAR_RATING = "skip_min_star_rating"
     private const val MIN_STAR_RATING = "min_star_rating"
     private const val ARTIST_ALBUM_LAYOUT = "artist_album_layout"
+    private const val ALWAYS_ON_DISPLAY = "always_on_display"
 
 
     @JvmStatic
@@ -356,5 +357,10 @@ object Preferences {
     fun setArtistAlbumLayout(isArtistAlbumLayoutHorizontal: Boolean) {
         App.getInstance().preferences.edit().putBoolean(ARTIST_ALBUM_LAYOUT, isArtistAlbumLayoutHorizontal)
             .apply()
+    }
+
+    @JvmStatic
+    fun isDisplayAlwaysOn(): Boolean {
+        return App.getInstance().preferences.getBoolean(ALWAYS_ON_DISPLAY, false)
     }
 }

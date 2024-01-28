@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -91,6 +92,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         actionSyncStarredTracks();
         actionChangeDownloadStorage();
         actionDeleteDownloadStorage();
+        actionKeepScreenOn();
     }
 
     @Override
@@ -246,6 +248,19 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 findPreference("scan_library").setSummary("Scanning: counting " + count + " tracks");
                 if (isScanning) getScanStatus();
             }
+        });
+    }
+
+    private void actionKeepScreenOn() {
+        findPreference("always_on_display").setOnPreferenceChangeListener((preference, newValue) -> {
+            if (newValue instanceof Boolean) {
+                if ((Boolean) newValue) {
+                    activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                } else {
+                    activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                }
+            }
+            return true;
         });
     }
 }

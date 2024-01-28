@@ -33,6 +33,7 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
     private String filterValue;
 
     private List<Child> songs;
+    private List<Child> shuffling;
     private List<Child> grouped;
 
     public DownloadHorizontalAdapter(ClickCallback click) {
@@ -82,12 +83,17 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
 
         this.songs = songs;
         this.grouped = groupSong(songs);
+        this.shuffling = shufflingSong(new ArrayList<>(songs));
 
         notifyDataSetChanged();
     }
 
     public Child getItem(int id) {
         return grouped.get(id);
+    }
+
+    public List<Child> getShuffling() {
+        return shuffling;
     }
 
     @Override
@@ -134,6 +140,27 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
         }
 
         return songs;
+    }
+
+    private List<Child> shufflingSong(List<Child> songs) {
+        if (filterValue == null) {
+            return songs;
+        }
+
+        switch (filterKey) {
+            case Constants.DOWNLOAD_TYPE_TRACK:
+                return songs.stream().filter(child -> child.getId().equals(filterValue)).collect(Collectors.toList());
+            case Constants.DOWNLOAD_TYPE_ALBUM:
+                return songs.stream().filter(child -> Objects.equals(child.getAlbumId(), filterValue)).collect(Collectors.toList());
+            case Constants.DOWNLOAD_TYPE_GENRE:
+                return songs.stream().filter(child -> Objects.equals(child.getGenre(), filterValue)).collect(Collectors.toList());
+            case Constants.DOWNLOAD_TYPE_YEAR:
+                return songs.stream().filter(child -> Objects.equals(child.getYear(), Integer.valueOf(filterValue))).collect(Collectors.toList());
+            case Constants.DOWNLOAD_TYPE_ARTIST:
+                return songs.stream().filter(child -> Objects.equals(child.getArtistId(), filterValue)).collect(Collectors.toList());
+            default:
+                return songs;
+        }
     }
 
     private String countSong(String filterKey, String filterValue, List<Child> songs) {

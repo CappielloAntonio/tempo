@@ -33,6 +33,7 @@ import com.cappielloantonio.tempo.viewmodel.DownloadViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.common.util.concurrent.ListenableFuture;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -165,6 +166,19 @@ public class DownloadFragment extends Fragment implements ClickCallback {
             bind.downloadedGoBackImageView.setVisibility(stack.size() > 1 ? View.VISIBLE : View.GONE);
 
             setupBackPressing(stack.size());
+            setupShuffleButton();
+        });
+    }
+
+    private void setupShuffleButton() {
+        bind.shuffleDownloadedTextViewClickable.setOnClickListener(view -> {
+            List<Child> songs = downloadHorizontalAdapter.getShuffling();
+
+            if (songs != null && !songs.isEmpty()) {
+                Collections.shuffle(songs);
+                MediaManager.startQueue(mediaBrowserListenableFuture, songs, 0);
+                activity.setBottomSheetInPeek(true);
+            }
         });
     }
 

@@ -53,7 +53,6 @@ public class DownloaderService extends androidx.media3.exoplayer.offline.Downloa
     private static final class TerminalStateNotificationHelper implements DownloadManager.Listener {
         private final Context context;
         private final DownloadNotificationHelper notificationHelper;
-        private final DownloaderManager downloaderManager;
 
         private final Notification successfulDownloadGroupNotification;
         private final Notification failedDownloadGroupNotification;
@@ -66,7 +65,6 @@ public class DownloaderService extends androidx.media3.exoplayer.offline.Downloa
         public TerminalStateNotificationHelper(Context context, DownloadNotificationHelper notificationHelper, int firstNotificationId) {
             this.context = context.getApplicationContext();
             this.notificationHelper = notificationHelper;
-            this.downloaderManager = DownloadUtil.getDownloadTracker(context);
             nextNotificationId = firstNotificationId;
 
             successfulDownloadGroupNotification = DownloadUtil.buildGroupSummaryNotification(
@@ -97,7 +95,7 @@ public class DownloaderService extends androidx.media3.exoplayer.offline.Downloa
                 notification = notificationHelper.buildDownloadCompletedNotification(context, R.drawable.ic_check_circle, null, DownloaderManager.getDownloadNotificationMessage(download.request.id));
                 notification = Notification.Builder.recoverBuilder(context, notification).setGroup(DownloadUtil.DOWNLOAD_NOTIFICATION_SUCCESSFUL_GROUP).build();
                 NotificationUtil.setNotification(this.context, successfulDownloadGroupNotificationId, successfulDownloadGroupNotification);
-                downloaderManager.updateRequestDownload(download);
+                DownloaderManager.updateRequestDownload(download);
             } else if (download.state == Download.STATE_FAILED) {
                 notification = notificationHelper.buildDownloadFailedNotification(context, R.drawable.ic_error, null, DownloaderManager.getDownloadNotificationMessage(download.request.id));
                 notification = Notification.Builder.recoverBuilder(context, notification).setGroup(DownloadUtil.DOWNLOAD_NOTIFICATION_FAILED_GROUP).build();
@@ -111,7 +109,7 @@ public class DownloaderService extends androidx.media3.exoplayer.offline.Downloa
 
         @Override
         public void onDownloadRemoved(@NonNull DownloadManager downloadManager, Download download) {
-            downloaderManager.removeRequestDownload(download);
+            DownloaderManager.removeRequestDownload(download);
         }
     }
 }

@@ -31,8 +31,9 @@ public class DownloaderManager {
 
     private final Context context;
     private final DataSource.Factory dataSourceFactory;
-    private final HashMap<String, Download> downloads;
     private final DownloadIndex downloadIndex;
+
+    private static HashMap<String, Download> downloads;
 
     public DownloaderManager(Context context, DataSource.Factory dataSourceFactory, DownloadManager downloadManager) {
         this.context = context.getApplicationContext();
@@ -83,8 +84,8 @@ public class DownloaderManager {
 
     public void remove(MediaItem mediaItem, com.cappielloantonio.tempo.model.Download download) {
         DownloadService.sendRemoveDownload(context, DownloaderService.class, buildDownloadRequest(mediaItem).id, false);
-        downloads.remove(download.getId());
         deleteDatabase(download.getId());
+        downloads.remove(download.getId());
     }
 
     public void remove(List<MediaItem> mediaItems, List<com.cappielloantonio.tempo.model.Download> downloads) {
@@ -115,6 +116,16 @@ public class DownloaderManager {
         return download != null ? download.getTitle() : null;
     }
 
+    public static void updateRequestDownload(Download download) {
+        updateDatabase(download.request.id);
+        downloads.put(download.request.id, download);
+    }
+
+    public static void removeRequestDownload(Download download) {
+        deleteDatabase(download.request.id);
+        downloads.remove(download.request.id);
+    }
+
     private static DownloadRepository getDownloadRepository() {
         return new DownloadRepository();
     }
@@ -133,17 +144,5 @@ public class DownloaderManager {
 
     private static void updateDatabase(String id) {
         getDownloadRepository().update(id);
-    }
-
-    public void updateRequestDownload(Download download) {
-        updateDatabase(download.request.id);
-        if (download.state == Download.STATE_COMPLETED) {
-            downloads.put(download.request.id, download);
-        }
-    }
-
-    public void removeRequestDownload(Download download) {
-        deleteDatabase(download.request.id);
-        downloads.remove(download.request.id);
     }
 }

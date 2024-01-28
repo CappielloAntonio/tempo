@@ -53,6 +53,12 @@ public class AlbumCatalogueFragment extends Fragment implements ClickCallback {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        albumCatalogueViewModel.stopLoading();
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = (MainActivity) getActivity();
 
@@ -73,7 +79,7 @@ public class AlbumCatalogueFragment extends Fragment implements ClickCallback {
 
     private void initData() {
         albumCatalogueViewModel = new ViewModelProvider(requireActivity()).get(AlbumCatalogueViewModel.class);
-        albumCatalogueViewModel.loadAlbums(500);
+        albumCatalogueViewModel.loadAlbums();
     }
 
     private void initAppBar() {

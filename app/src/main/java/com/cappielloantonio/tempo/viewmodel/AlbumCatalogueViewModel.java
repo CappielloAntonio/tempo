@@ -1,7 +1,6 @@
 package com.cappielloantonio.tempo.viewmodel;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -34,9 +33,8 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
     }
 
     public void loadAlbums() {
-        page = 0;
-        albumList.setValue(new ArrayList<>());
         status = Status.RUNNING;
+        albumList.setValue(new ArrayList<>());
         loadAlbums(500);
     }
 
@@ -63,6 +61,8 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
 
                 if (media.size() == size) {
                     loadAlbums(size);
+                } else {
+                    status = Status.STOPPED;
                 }
             }
         }, size, size * page++);

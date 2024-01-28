@@ -34,6 +34,7 @@ import com.cappielloantonio.tempo.ui.adapter.ArtistSimilarAdapter;
 import com.cappielloantonio.tempo.ui.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.MusicUtil;
+import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.viewmodel.ArtistPageViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -104,7 +105,12 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
 
             bind.albumsHorizontalRecyclerView.setVisibility(isHorizontalRecyclerViewVisible ? View.GONE : View.VISIBLE);
             bind.albumsVerticalRecyclerView.setVisibility(isHorizontalRecyclerViewVisible ? View.VISIBLE : View.GONE);
+
+            Preferences.setArtistAlbumLayout(!isHorizontalRecyclerViewVisible);
         });
+
+        bind.albumsHorizontalRecyclerView.setVisibility(Preferences.isArtistAlbumLayoutHorizontal() ? View.VISIBLE : View.GONE);
+        bind.albumsVerticalRecyclerView.setVisibility(Preferences.isArtistAlbumLayoutHorizontal() ? View.GONE : View.VISIBLE);
     }
 
     private void initAppBar() {

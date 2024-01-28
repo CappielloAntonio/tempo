@@ -104,7 +104,7 @@ public class SongRepository {
         return randomSongsSample;
     }
 
-    public void scrobble(String id, Boolean submission) {
+    public void scrobble(String id, boolean submission) {
         App.getSubsonicClientInstance(false)
                 .getMediaAnnotationClient()
                 .scrobble(id, submission)

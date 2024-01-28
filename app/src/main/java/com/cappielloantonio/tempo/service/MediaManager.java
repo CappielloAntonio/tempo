@@ -293,9 +293,9 @@ public class MediaManager {
             getQueueRepository().setPlayingPausedTimestamp(mediaItem.mediaId, ms);
     }
 
-    public static void scrobble(MediaItem mediaItem) {
+    public static void scrobble(MediaItem mediaItem, Boolean submission) {
         if (mediaItem != null && Preferences.isScrobblingEnabled()) {
-            getSongRepository().scrobble(mediaItem.mediaMetadata.extras.getString("id"));
+            getSongRepository().scrobble(mediaItem.mediaMetadata.extras.getString("id"), submission);
         }
     }
 

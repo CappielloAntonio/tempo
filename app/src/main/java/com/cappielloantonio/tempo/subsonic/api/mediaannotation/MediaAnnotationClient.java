@@ -34,8 +34,8 @@ public class MediaAnnotationClient {
         return mediaAnnotationService.setRating(subsonic.getParams(), id, rating);
     }
 
-    public Call<ApiResponse> scrobble(String id) {
+    public Call<ApiResponse> scrobble(String id, Boolean submission) {
         Log.d(TAG, "scrobble()");
-        return mediaAnnotationService.scrobble(subsonic.getParams(), id);
+        return mediaAnnotationService.scrobble(subsonic.getParams(), id, submission);
     }
 }

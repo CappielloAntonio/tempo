@@ -128,16 +128,18 @@ public class MusicUtil {
     }
 
 
-    public static String getReadableDurationString(long duration, boolean millis) {
+    public static String getReadableDurationString(Long duration, boolean millis) {
+        long lenght = duration != null ? duration : 0;
+
         long minutes;
         long seconds;
 
         if (millis) {
-            minutes = (duration / 1000) / 60;
-            seconds = (duration / 1000) % 60;
+            minutes = (lenght / 1000) / 60;
+            seconds = (lenght / 1000) % 60;
         } else {
-            minutes = duration / 60;
-            seconds = duration % 60;
+            minutes = lenght / 60;
+            seconds = lenght % 60;
         }
 
         if (minutes < 60) {
@@ -150,11 +152,8 @@ public class MusicUtil {
     }
 
     public static String getReadableDurationString(Integer duration, boolean millis) {
-        long converted = 0;
-        if(duration != null)
-            converted = duration.intValue();
-
-        return getReadableDurationString(converted, millis);
+        long lenght = duration != null ? duration : 0;
+        return getReadableDurationString(lenght, millis);
     }
 
     public static String getReadablePodcastDurationString(long duration) {

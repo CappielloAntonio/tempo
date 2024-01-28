@@ -49,7 +49,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         Child song = songs.get(position);
 
         holder.item.searchResultSongTitleTextView.setText(MusicUtil.getReadableString(song.getTitle()));
-        holder.item.searchResultSongSubtitleTextView.setText(holder.itemView.getContext().getString(R.string.song_subtitle_formatter, MusicUtil.getReadableString(this.showAlbum ? song.getAlbum() : song.getArtist()), MusicUtil.getReadableDurationString(song.getDuration() != null ? song.getDuration() : 0, false)));
+        holder.item.searchResultSongSubtitleTextView.setText(holder.itemView.getContext().getString(R.string.song_subtitle_formatter, MusicUtil.getReadableString(this.showAlbum ? song.getAlbum() : song.getArtist()), MusicUtil.getReadableDurationString(song.getDuration(), false)));
         holder.item.trackNumberTextView.setText(MusicUtil.getReadableTrackNumber(holder.itemView.getContext(), song.getTrack()));
 
         if (DownloadUtil.getDownloadTracker(holder.itemView.getContext()).isDownloaded(song.getId())) {

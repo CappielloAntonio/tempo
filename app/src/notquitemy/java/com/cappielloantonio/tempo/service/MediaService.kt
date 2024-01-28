@@ -175,7 +175,6 @@ class MediaService : MediaLibraryService() {
 
             override fun onTracksChanged(tracks: Tracks) {
                 ReplayGainUtil.setReplayGain(player, tracks)
-                MediaManager.scrobble(player.currentMediaItem, false)
             }
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {
@@ -184,8 +183,9 @@ class MediaService : MediaLibraryService() {
                         player.currentMediaItem,
                         player.currentPosition
                     )
+                } else {
+                    MediaManager.scrobble(player.currentMediaItem, false)
                 }
-                MediaManager.scrobble(player.currentMediaItem, false)
             }
 
             override fun onPlaybackStateChanged(playbackState: Int) {

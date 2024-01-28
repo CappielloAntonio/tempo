@@ -128,16 +128,19 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
                         player.currentMediaItem,
                         player.currentPosition
                     )
+                } else {
+                    MediaManager.scrobble(player.currentMediaItem, false)
                 }
             }
 
             override fun onPlaybackStateChanged(playbackState: Int) {
                 super.onPlaybackStateChanged(playbackState)
+
                 if (!player.hasNextMediaItem() &&
                     playbackState == Player.STATE_ENDED &&
                     player.mediaMetadata.extras?.getString("type") == Constants.MEDIA_TYPE_MUSIC
                 ) {
-                    MediaManager.scrobble(player.currentMediaItem)
+                    MediaManager.scrobble(player.currentMediaItem, true)
                     MediaManager.saveChronology(player.currentMediaItem)
                 }
             }
@@ -151,7 +154,7 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
 
                 if (reason == Player.DISCONTINUITY_REASON_AUTO_TRANSITION) {
                     if (oldPosition.mediaItem?.mediaMetadata?.extras?.getString("type") == Constants.MEDIA_TYPE_MUSIC) {
-                        MediaManager.scrobble(oldPosition.mediaItem)
+                        MediaManager.scrobble(oldPosition.mediaItem, true)
                         MediaManager.saveChronology(oldPosition.mediaItem)
                     }
 

@@ -293,7 +293,7 @@ public class MediaManager {
             getQueueRepository().setPlayingPausedTimestamp(mediaItem.mediaId, ms);
     }
 
-    public static void scrobble(MediaItem mediaItem, Boolean submission) {
+    public static void scrobble(MediaItem mediaItem, boolean submission) {
         if (mediaItem != null && Preferences.isScrobblingEnabled()) {
             getSongRepository().scrobble(mediaItem.mediaMetadata.extras.getString("id"), submission);
         }

@@ -7,5 +7,5 @@ import com.google.gson.annotations.SerializedName
 @Keep
 class ApiResponse {
     @SerializedName("subsonic-response")
-    lateinit var subsonicResponse: SubsonicResponse;
+    lateinit var subsonicResponse: SubsonicResponse
 }

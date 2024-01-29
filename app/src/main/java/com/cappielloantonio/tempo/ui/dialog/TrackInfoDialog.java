@@ -17,7 +17,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class TrackInfoDialog extends DialogFragment {
     private DialogTrackInfoBinding bind;
-    private MediaMetadata mediaMetadata;
+
+    private final MediaMetadata mediaMetadata;
 
     public TrackInfoDialog(MediaMetadata mediaMetadata) {
         this.mediaMetadata = mediaMetadata;
@@ -28,7 +29,7 @@ public class TrackInfoDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         bind = DialogTrackInfoBinding.inflate(getLayoutInflater());
 
-        return new MaterialAlertDialogBuilder(getActivity())
+        return new MaterialAlertDialogBuilder(requireActivity())
                 .setView(bind.getRoot())
                 .setPositiveButton(R.string.track_info_dialog_positive_button, (dialog, id) -> dialog.cancel())
                 .create();

@@ -20,7 +20,8 @@ import java.util.Objects;
 public class PodcastChannelEditorDialog extends DialogFragment {
     private DialogPodcastChannelEditorBinding bind;
     private PodcastChannelEditorViewModel podcastChannelEditorViewModel;
-    private PodcastCallback podcastCallback;
+
+    private final PodcastCallback podcastCallback;
 
     private String channelUrl;
 

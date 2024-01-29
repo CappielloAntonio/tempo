@@ -10,6 +10,9 @@ android {
         minSdkVersion 24
         targetSdkVersion 34
 
+        versionCode 23
+        versionName '3.6.0'
+
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
         javaCompileOptions {
@@ -28,15 +31,11 @@ android {
         tempo {
             dimension = "default"
             applicationId 'com.cappielloantonio.tempo'
-            versionCode 23
-            versionName '3.6.0'
         }
 
         notquitemy {
             dimension = "default"
             applicationId "com.cappielloantonio.notquitemy.tempo"
-            versionCode 1
-            versionName "1.0.0"
         }
     }
 
@@ -80,7 +79,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:1.6.1"
 
     // Android Material
-    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'com.google.android.material:material:1.10.0'
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.16.0'

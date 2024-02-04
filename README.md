@@ -6,6 +6,12 @@
   <b>Access your music library on all your android devices</b>
 </p>
 
+<p align="center">
+    <a href="https://github.com/CappielloAntonio/tempo/releases"><img src="https://i.ibb.co/q0mdc4Z/get-it-on-github.png" width="200"></a>
+    <a href="https://f-droid.org/packages/com.cappielloantonio.notquitemy.tempo"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" width="200"></a>
+    <a href="https://apt.izzysoft.de/fdroid/index/apk/com.cappielloantonio.tempo"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" width="200"></a>
+</p>
+
 **Tempo** is an open-source and lightweight music client for Subsonic, designed and built natively for Android. It provides a seamless and intuitive music streaming experience, allowing you to access and play your Subsonic music library directly from your Android device. 
 
 Tempo does not rely on magic algorithms to decide what you should listen to. Instead, the interface is built around your listening history, randomness, and optionally integrates with services like Last.fm to personalize your music experience.

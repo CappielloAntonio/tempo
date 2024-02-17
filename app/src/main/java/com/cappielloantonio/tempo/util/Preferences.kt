@@ -1,6 +1,11 @@
 package com.cappielloantonio.tempo.util
 
 import com.cappielloantonio.tempo.App
+import com.cappielloantonio.tempo.subsonic.models.OpenSubsonicExtension
+import com.google.gson.Gson
+
+
+
 
 object Preferences {
     const val THEME = "theme"
@@ -12,6 +17,8 @@ object Preferences {
     private const val LOW_SECURITY = "low_security"
     private const val BATTERY_OPTIMIZATION = "battery_optimization"
     private const val SERVER_ID = "server_id"
+    private const val OPEN_SUBSONIC = "open_subsonic"
+    private const val OPEN_SUBSONIC_EXTENSIONS = "open_subsonic_extensions"
     private const val PLAYBACK_SPEED = "playback_speed"
     private const val SKIP_SILENCE = "skip_silence"
     private const val IMAGE_CACHE_SIZE = "image_cache_size"
@@ -117,6 +124,26 @@ object Preferences {
     @JvmStatic
     fun setServerId(serverId: String?) {
         App.getInstance().preferences.edit().putString(SERVER_ID, serverId).apply()
+    }
+
+    @JvmStatic
+    fun isOpenSubsonic(): Boolean {
+        return App.getInstance().preferences.getBoolean(OPEN_SUBSONIC, false)
+    }
+
+    @JvmStatic
+    fun setOpenSubsonic(isOpenSubsonic: Boolean) {
+        App.getInstance().preferences.edit().putBoolean(OPEN_SUBSONIC, isOpenSubsonic).apply()
+    }
+
+    @JvmStatic
+    fun getOpenSubsonicExtensions(): String? {
+        return App.getInstance().preferences.getString(OPEN_SUBSONIC_EXTENSIONS, null)
+    }
+
+    @JvmStatic
+    fun setOpenSubsonicExtensions(extension: List<OpenSubsonicExtension>) {
+        App.getInstance().preferences.edit().putString(OPEN_SUBSONIC_EXTENSIONS, Gson().toJson(extension)).apply()
     }
 
     @JvmStatic

@@ -196,6 +196,8 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
                     bind.artistPageTopTracksPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null)
                     bind.artistPageTopSongsSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
+                if (bind != null)
+                    bind.artistPageShuffleButton.setEnabled(!songs.isEmpty());
                 songHorizontalAdapter.setItems(songs);
             }
         });

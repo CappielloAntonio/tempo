@@ -61,6 +61,9 @@
     <color name="dividerColor">#e0e0e0</color>
     <color name="white">#FFFFFF</color>
 
+    <color name="lyricsTextColor">#252525</color>
+    <color name="shadowsLyricsTextColor">#B4B4B4</color>
+
     <color name="searchPlaceholderColor">#303030</color>
     <color name="searchColor">#252525</color>
 

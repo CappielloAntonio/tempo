@@ -249,6 +249,11 @@ public class PlayerBottomSheetFragment extends Fragment {
         bind.playerBodyLayout.playerBodyBottomSheetViewPager.setCurrentItem(1, true);
     }
 
+    public void setPlayerControllerVerticalPagerDraggableState(Boolean isDraggable) {
+        ViewPager2 playerControllerVerticalPager = (ViewPager2) bind.playerBodyLayout.playerBodyBottomSheetViewPager;
+        playerControllerVerticalPager.setUserInputEnabled(isDraggable);
+    }
+
     private void defineProgressBarHandler(MediaBrowser mediaBrowser) {
         progressBarHandler = new Handler();
         progressBarRunnable = () -> {

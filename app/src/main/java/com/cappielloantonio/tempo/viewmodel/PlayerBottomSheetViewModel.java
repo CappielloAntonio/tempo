@@ -16,15 +16,18 @@ import com.cappielloantonio.tempo.model.Download;
 import com.cappielloantonio.tempo.model.Queue;
 import com.cappielloantonio.tempo.repository.ArtistRepository;
 import com.cappielloantonio.tempo.repository.FavoriteRepository;
+import com.cappielloantonio.tempo.repository.OpenRepository;
 import com.cappielloantonio.tempo.repository.QueueRepository;
 import com.cappielloantonio.tempo.repository.SongRepository;
 import com.cappielloantonio.tempo.subsonic.models.ArtistID3;
 import com.cappielloantonio.tempo.subsonic.models.Child;
+import com.cappielloantonio.tempo.subsonic.models.LyricsList;
 import com.cappielloantonio.tempo.subsonic.models.PlayQueue;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.cappielloantonio.tempo.util.MappingUtil;
 import com.cappielloantonio.tempo.util.NetworkUtil;
+import com.cappielloantonio.tempo.util.OpenSubsonicExtensionsUtil;
 import com.cappielloantonio.tempo.util.Preferences;
 
 import java.util.Collections;
@@ -40,10 +43,10 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     private final ArtistRepository artistRepository;
     private final QueueRepository queueRepository;
     private final FavoriteRepository favoriteRepository;
-
+    private final OpenRepository openRepository;
     private final MutableLiveData<String> lyricsLiveData = new MutableLiveData<>(null);
+    private final MutableLiveData<LyricsList> lyricsListLiveData = new MutableLiveData<>(null);
     private final MutableLiveData<String> descriptionLiveData = new MutableLiveData<>(null);
-
     private final MutableLiveData<Child> liveMedia = new MutableLiveData<>(null);
     private final MutableLiveData<ArtistID3> liveArtist = new MutableLiveData<>(null);
     private final MutableLiveData<List<Child>> instantMix = new MutableLiveData<>(null);
@@ -56,6 +59,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         artistRepository = new ArtistRepository();
         queueRepository = new QueueRepository();
         favoriteRepository = new FavoriteRepository();
+        openRepository = new OpenRepository();
     }
 
     public LiveData<List<Queue>> getQueueSong() {
@@ -125,8 +129,18 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         return lyricsLiveData;
     }
 
+    public LiveData<LyricsList> getLiveLyricsList() {
+        return lyricsListLiveData;
+    }
+
     public void refreshMediaInfo(LifecycleOwner owner, Child media) {
-        songRepository.getSongLyrics(media).observe(owner, lyricsLiveData::postValue);
+        if (OpenSubsonicExtensionsUtil.isSongLyricsExtensionAvailable()) {
+            openRepository.getLyricsBySongId(media.getId()).observe(owner, lyricsListLiveData::postValue);
+            lyricsLiveData.postValue(null);
+        } else {
+            songRepository.getSongLyrics(media).observe(owner, lyricsLiveData::postValue);
+            lyricsListLiveData.postValue(null);
+        }
     }
 
     public LiveData<Child> getLiveMedia() {

@@ -8,6 +8,10 @@ import androidx.lifecycle.LiveData;
 
 import com.cappielloantonio.tempo.repository.QueueRepository;
 import com.cappielloantonio.tempo.repository.SystemRepository;
+import com.cappielloantonio.tempo.subsonic.models.OpenSubsonicExtension;
+import com.cappielloantonio.tempo.subsonic.models.SubsonicResponse;
+
+import java.util.List;
 
 public class MainViewModel extends AndroidViewModel {
     private static final String TAG = "SearchViewModel";
@@ -25,7 +29,11 @@ public class MainViewModel extends AndroidViewModel {
         return queueRepository.count() != 0;
     }
 
-    public LiveData<Boolean> ping() {
+    public LiveData<SubsonicResponse> ping() {
         return systemRepository.ping();
+    }
+
+    public LiveData<List<OpenSubsonicExtension>> getOpenSubsonicExtensions() {
+        return systemRepository.getOpenSubsonicExtensions();
     }
 }

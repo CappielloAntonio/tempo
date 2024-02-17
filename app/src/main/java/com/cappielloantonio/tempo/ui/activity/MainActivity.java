@@ -70,6 +70,7 @@ public class MainActivity extends BaseActivity {
 
         init();
         checkConnectionType();
+        getOpenSubsonicExtensions();
     }
 
     @Override
@@ -334,10 +335,24 @@ public class MainActivity extends BaseActivity {
 
     private void pingServer() {
         if (Preferences.getToken() != null) {
-            mainViewModel.ping().observe(this, isPingSuccessfull -> {
-                if (!isPingSuccessfull && Preferences.showServerUnreachableDialog()) {
+            mainViewModel.ping().observe(this, subsonicResponse -> {
+                if (subsonicResponse == null && Preferences.showServerUnreachableDialog()) {
                     ServerUnreachableDialog dialog = new ServerUnreachableDialog();
                     dialog.show(getSupportFragmentManager(), null);
+                }
+
+                if (subsonicResponse != null) {
+                    Preferences.setOpenSubsonic(subsonicResponse.getOpenSubsonic() != null && subsonicResponse.getOpenSubsonic());
+                }
+            });
+        }
+    }
+
+    private void getOpenSubsonicExtensions() {
+        if (Preferences.getToken() != null) {
+            mainViewModel.getOpenSubsonicExtensions().observe(this, openSubsonicExtensions -> {
+                if (openSubsonicExtensions != null) {
+                    Preferences.setOpenSubsonicExtensions(openSubsonicExtensions);
                 }
             });
         }

@@ -50,7 +50,10 @@ public class PlayerLyricsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         bind = InnerFragmentPlayerLyricsBinding.inflate(inflater, container, false);
         View view = bind.getRoot();
+
         playerBottomSheetViewModel = new ViewModelProvider(requireActivity()).get(PlayerBottomSheetViewModel.class);
+
+        initOverlay();
 
         return view;
     }
@@ -91,6 +94,12 @@ public class PlayerLyricsFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         bind = null;
+    }
+
+    private void initOverlay() {
+        bind.syncLyricsTapButton.setOnClickListener(view -> {
+            playerBottomSheetViewModel.changeSyncLyricsState();
+        });
     }
 
     private void initializeBrowser() {
@@ -134,25 +143,31 @@ public class PlayerLyricsFragment extends Fragment {
     private void setPanelContent(String lyrics, LyricsList lyricsList) {
         playerBottomSheetViewModel.getLiveDescription().observe(getViewLifecycleOwner(), description -> {
             if (bind != null) {
+                bind.nowPlayingSongLyricsSrollView.smoothScrollTo(0, 0);
+
                 if (lyrics != null && !lyrics.trim().equals("")) {
                     bind.nowPlayingSongLyricsTextView.setText(MusicUtil.getReadableLyrics(lyrics));
                     bind.nowPlayingSongLyricsTextView.setVisibility(View.VISIBLE);
                     bind.emptyDescriptionImageView.setVisibility(View.GONE);
                     bind.titleEmptyDescriptionLabel.setVisibility(View.GONE);
+                    bind.syncLyricsTapButton.setVisibility(View.GONE);
                 } else if (lyricsList != null && lyricsList.getStructuredLyrics() != null) {
                     setSyncLirics(lyricsList);
                     bind.nowPlayingSongLyricsTextView.setVisibility(View.VISIBLE);
                     bind.emptyDescriptionImageView.setVisibility(View.GONE);
                     bind.titleEmptyDescriptionLabel.setVisibility(View.GONE);
+                    bind.syncLyricsTapButton.setVisibility(View.VISIBLE);
                 } else if (description != null && !description.trim().equals("")) {
                     bind.nowPlayingSongLyricsTextView.setText(MusicUtil.getReadableLyrics(description));
                     bind.nowPlayingSongLyricsTextView.setVisibility(View.VISIBLE);
                     bind.emptyDescriptionImageView.setVisibility(View.GONE);
                     bind.titleEmptyDescriptionLabel.setVisibility(View.GONE);
+                    bind.syncLyricsTapButton.setVisibility(View.GONE);
                 } else {
                     bind.nowPlayingSongLyricsTextView.setVisibility(View.GONE);
                     bind.emptyDescriptionImageView.setVisibility(View.VISIBLE);
                     bind.titleEmptyDescriptionLabel.setVisibility(View.VISIBLE);
+                    bind.syncLyricsTapButton.setVisibility(View.GONE);
                 }
             }
         });
@@ -228,6 +243,10 @@ public class PlayerLyricsFragment extends Fragment {
                 spannableString.setSpan(new ForegroundColorSpan(requireContext().getResources().getColor(R.color.lyricsTextColor, null)), startingPosition, endingPosition, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                 bind.nowPlayingSongLyricsTextView.setText(spannableString);
+
+                if (playerBottomSheetViewModel.getSyncLyricsState()) {
+                    bind.nowPlayingSongLyricsSrollView.smoothScrollTo(0, getScroll(lines, toHighlight));
+                }
             }
         }
     }
@@ -244,5 +263,28 @@ public class PlayerLyricsFragment extends Fragment {
         }
 
         return start;
+    }
+
+    private int getLineCount(List<Line> lines, Line toHighlight) {
+        int start = 0;
+
+        for (Line line : lines) {
+            if (line != toHighlight) {
+                bind.tempLyricsLineTextView.setText(line.getValue());
+                start = start + bind.tempLyricsLineTextView.getLineCount();
+            } else {
+                break;
+            }
+        }
+
+        return start;
+    }
+
+    private int getScroll(List<Line> lines, Line toHighlight) {
+        int lineHeight = bind.nowPlayingSongLyricsTextView.getLineHeight();
+        int lineCount = getLineCount(lines, toHighlight);
+        int scrollViewHeight = bind.nowPlayingSongLyricsSrollView.getHeight();
+
+        return lineHeight * lineCount < scrollViewHeight / 2 ? 0 : lineHeight * lineCount - scrollViewHeight / 2 + lineHeight;
     }
 }

@@ -50,6 +50,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     private final MutableLiveData<Child> liveMedia = new MutableLiveData<>(null);
     private final MutableLiveData<ArtistID3> liveArtist = new MutableLiveData<>(null);
     private final MutableLiveData<List<Child>> instantMix = new MutableLiveData<>(null);
+    private boolean lyricsSyncState = true;
 
 
     public PlayerBottomSheetViewModel(@NonNull Application application) {
@@ -209,5 +210,13 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         }
 
         return false;
+    }
+
+    public void changeSyncLyricsState() {
+        lyricsSyncState = !lyricsSyncState;
+    }
+
+    public boolean getSyncLyricsState() {
+        return lyricsSyncState;
     }
 }

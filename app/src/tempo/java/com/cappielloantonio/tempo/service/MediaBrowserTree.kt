@@ -1,11 +1,13 @@
 package com.cappielloantonio.tempo.service
 
 import android.net.Uri
+import androidx.lifecycle.LifecycleOwner
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaItem.SubtitleConfiguration
 import androidx.media3.common.MediaMetadata
 import androidx.media3.session.LibraryResult
 import com.cappielloantonio.tempo.repository.AutomotiveRepository
+import com.cappielloantonio.tempo.util.Preferences.getServerId
 import com.google.common.collect.ImmutableList
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
@@ -31,10 +33,12 @@ object MediaBrowserTree {
     private const val MOST_PLAYED_ID = "[mostPlayedID]"
     private const val LAST_PLAYED_ID = "[lastPlayedID]"
     private const val RECENTLY_ADDED_ID = "[recentlyAddedID]"
+    private const val RECENT_SONGS_ID = "[recentSongsID]"
     private const val MADE_FOR_YOU_ID = "[madeForYouID]"
     private const val STARRED_TRACKS_ID = "[starredTracksID]"
     private const val STARRED_ALBUMS_ID = "[starredAlbumsID]"
     private const val STARRED_ARTISTS_ID = "[starredArtistsID]"
+    private const val RANDOM_ID = "[randomID]"
 
     // Second level LIBRARY_ID
     private const val FOLDER_ID = "[folderID]"
@@ -193,6 +197,17 @@ object MediaBrowserTree {
                 )
             )
 
+        treeNodes[RECENT_SONGS_ID] =
+                MediaItemNode(
+                        buildMediaItem(
+                                title = "Recent songs",
+                                mediaId = RECENT_SONGS_ID,
+                                isPlayable = false,
+                                isBrowsable = true,
+                                mediaType = MediaMetadata.MEDIA_TYPE_FOLDER_MIXED
+                        )
+                )
+
         treeNodes[MADE_FOR_YOU_ID] =
             MediaItemNode(
                 buildMediaItem(
@@ -237,13 +252,26 @@ object MediaBrowserTree {
                 )
             )
 
+        treeNodes[RANDOM_ID] =
+                MediaItemNode(
+                        buildMediaItem(
+                                title = "Random",
+                                mediaId = RANDOM_ID,
+                                isPlayable = false,
+                                isBrowsable = true,
+                                mediaType = MediaMetadata.MEDIA_TYPE_FOLDER_MIXED
+                        )
+                )
+
         treeNodes[HOME_ID]!!.addChild(MOST_PLAYED_ID)
         treeNodes[HOME_ID]!!.addChild(LAST_PLAYED_ID)
         treeNodes[HOME_ID]!!.addChild(RECENTLY_ADDED_ID)
+        treeNodes[HOME_ID]!!.addChild(RECENT_SONGS_ID)
         treeNodes[HOME_ID]!!.addChild(MADE_FOR_YOU_ID)
         treeNodes[HOME_ID]!!.addChild(STARRED_TRACKS_ID)
         treeNodes[HOME_ID]!!.addChild(STARRED_ALBUMS_ID)
         treeNodes[HOME_ID]!!.addChild(STARRED_ARTISTS_ID)
+        treeNodes[HOME_ID]!!.addChild(RANDOM_ID)
 
         // Second level LIBRARY_ID
 
@@ -316,10 +344,12 @@ object MediaBrowserTree {
             MOST_PLAYED_ID -> automotiveRepository.getAlbums(id, "frequent", 100)
             LAST_PLAYED_ID -> automotiveRepository.getAlbums(id, "recent", 100)
             RECENTLY_ADDED_ID -> automotiveRepository.getAlbums(id, "newest", 100)
+            RECENT_SONGS_ID -> automotiveRepository.getRecentlyPlayedSongs(getServerId(),100)
             MADE_FOR_YOU_ID -> automotiveRepository.getStarredArtists(id)
             STARRED_TRACKS_ID -> automotiveRepository.starredSongs
             STARRED_ALBUMS_ID -> automotiveRepository.getStarredAlbums(id)
             STARRED_ARTISTS_ID -> automotiveRepository.getStarredArtists(id)
+            RANDOM_ID -> automotiveRepository.getRandomSongs(100)
             FOLDER_ID -> automotiveRepository.getMusicFolders(id)
             PLAYLIST_ID -> automotiveRepository.getPlaylists(id)
             PODCAST_ID -> automotiveRepository.getNewestPodcastEpisodes(100)

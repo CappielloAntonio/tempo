@@ -2,9 +2,13 @@ package com.cappielloantonio.tempo.repository;
 
 
 import android.net.Uri;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.OptIn;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.MediaMetadata;
 import androidx.media3.common.util.UnstableApi;
@@ -12,9 +16,13 @@ import androidx.media3.session.LibraryResult;
 
 import com.cappielloantonio.tempo.App;
 import com.cappielloantonio.tempo.database.AppDatabase;
+import com.cappielloantonio.tempo.database.dao.ChronologyDao;
 import com.cappielloantonio.tempo.database.dao.SessionMediaItemDao;
 import com.cappielloantonio.tempo.glide.CustomGlideRequest;
+import com.cappielloantonio.tempo.model.Chronology;
+import com.cappielloantonio.tempo.model.Download;
 import com.cappielloantonio.tempo.model.SessionMediaItem;
+import com.cappielloantonio.tempo.service.DownloaderManager;
 import com.cappielloantonio.tempo.subsonic.base.ApiResponse;
 import com.cappielloantonio.tempo.subsonic.models.AlbumID3;
 import com.cappielloantonio.tempo.subsonic.models.Artist;
@@ -26,6 +34,7 @@ import com.cappielloantonio.tempo.subsonic.models.InternetRadioStation;
 import com.cappielloantonio.tempo.subsonic.models.MusicFolder;
 import com.cappielloantonio.tempo.subsonic.models.Playlist;
 import com.cappielloantonio.tempo.subsonic.models.PodcastEpisode;
+import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.cappielloantonio.tempo.util.MappingUtil;
 import com.cappielloantonio.tempo.util.MusicUtil;
 import com.cappielloantonio.tempo.util.Preferences;
@@ -44,6 +53,7 @@ import retrofit2.Response;
 
 public class AutomotiveRepository {
     private final SessionMediaItemDao sessionMediaItemDao = AppDatabase.getInstance().sessionMediaItemDao();
+    private final ChronologyDao chronologyDao = AppDatabase.getInstance().chronologyDao();
 
     public ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> getAlbums(String prefix, String type, int size) {
         final SettableFuture<LibraryResult<ImmutableList<MediaItem>>> listenableFuture = SettableFuture.create();
@@ -128,6 +138,66 @@ public class AutomotiveRepository {
                         listenableFuture.setException(t);
                     }
                 });
+
+        return listenableFuture;
+    }
+
+    public ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> getRandomSongs(int count) {
+        final SettableFuture<LibraryResult<ImmutableList<MediaItem>>> listenableFuture = SettableFuture.create();
+
+        App.getSubsonicClientInstance(false)
+                .getAlbumSongListClient()
+                .getRandomSongs(100, null, null)
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getRandomSongs() != null && response.body().getSubsonicResponse().getRandomSongs().getSongs() != null) {
+                            List<Child> songs = response.body().getSubsonicResponse().getRandomSongs().getSongs();
+
+                            setChildrenMetadata(songs);
+
+                            List<MediaItem> mediaItems = MappingUtil.mapMediaItems(songs);
+
+                            LibraryResult<ImmutableList<MediaItem>> libraryResult = LibraryResult.ofItemList(ImmutableList.copyOf(mediaItems), null);
+
+                            listenableFuture.set(libraryResult);
+                        } else {
+                            listenableFuture.set(LibraryResult.ofError(LibraryResult.RESULT_ERROR_BAD_VALUE));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
+                        listenableFuture.setException(t);
+                    }
+                });
+
+        return listenableFuture;
+    }
+
+    public ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> getRecentlyPlayedSongs(String server, int count) {
+        final SettableFuture<LibraryResult<ImmutableList<MediaItem>>> listenableFuture = SettableFuture.create();
+
+        chronologyDao.getLastPlayed(server, count).observeForever(new Observer<List<Chronology>>() {
+            @Override
+            public void onChanged(List<Chronology> chronology) {
+                if (chronology != null && !chronology.isEmpty()) {
+                    List<Child> songs = new ArrayList<>(chronology);
+
+                    setChildrenMetadata(songs);
+
+                    List<MediaItem> mediaItems = MappingUtil.mapMediaItems(songs);
+
+                    LibraryResult<ImmutableList<MediaItem>> libraryResult = LibraryResult.ofItemList(ImmutableList.copyOf(mediaItems), null);
+
+                    listenableFuture.set(libraryResult);
+                } else {
+                    listenableFuture.set(LibraryResult.ofError(LibraryResult.RESULT_ERROR_BAD_VALUE));
+                }
+
+                chronologyDao.getLastPlayed(server, count).removeObserver(this);
+            }
+        });
 
         return listenableFuture;
     }

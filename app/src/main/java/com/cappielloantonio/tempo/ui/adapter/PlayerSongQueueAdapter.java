@@ -46,7 +46,14 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
         Child song = songs.get(position);
 
         holder.item.queueSongTitleTextView.setText(MusicUtil.getReadableString(song.getTitle()));
-        holder.item.queueSongSubtitleTextView.setText(holder.itemView.getContext().getString(R.string.song_subtitle_formatter, MusicUtil.getReadableString(song.getArtist()), MusicUtil.getReadableDurationString(song.getDuration(), false)));
+        holder.item.queueSongSubtitleTextView.setText(
+                holder.itemView.getContext().getString(
+                        R.string.song_subtitle_formatter,
+                        MusicUtil.getReadableString(song.getArtist()),
+                        MusicUtil.getReadableDurationString(song.getDuration(), false),
+                        MusicUtil.getReadableAudioQualityString(song)
+                )
+        );
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), song.getCoverArtId(), CustomGlideRequest.ResourceType.Song)

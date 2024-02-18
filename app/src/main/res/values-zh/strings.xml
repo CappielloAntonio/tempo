@@ -327,7 +327,7 @@
     <string name="song_list_page_starred">已收藏的曲目</string>
     <string name="song_list_page_top">%1$s 的热门曲目</string>
     <string name="song_list_page_year">年份 %1$d</string>
-    <string name="song_subtitle_formatter">%1$s • %2$s</string>
+    <string name="song_subtitle_formatter">%1$s • %2$s  %3$s</string>
     <string name="starred_sync_dialog_negative_button">取消</string>
     <string name="starred_sync_dialog_neutral_button">继续</string>
     <string name="starred_sync_dialog_positive_button">继续并下载</string>

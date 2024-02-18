@@ -186,7 +186,15 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
         Child song = grouped.get(position);
 
         holder.item.downloadedItemTitleTextView.setText(MusicUtil.getReadableString(song.getTitle()));
-        holder.item.downloadedItemSubtitleTextView.setText(holder.itemView.getContext().getString(R.string.song_subtitle_formatter, MusicUtil.getReadableString(song.getArtist()), MusicUtil.getReadableDurationString(song.getDuration(), false)));
+        holder.item.downloadedItemSubtitleTextView.setText(
+                holder.itemView.getContext().getString(
+                        R.string.song_subtitle_formatter,
+                        MusicUtil.getReadableString(song.getArtist()),
+                        MusicUtil.getReadableDurationString(song.getDuration(), false),
+                        ""
+                )
+        );
+
         holder.item.downloadedItemPreTextView.setText(MusicUtil.getReadableString(song.getAlbum()));
 
         CustomGlideRequest.Builder

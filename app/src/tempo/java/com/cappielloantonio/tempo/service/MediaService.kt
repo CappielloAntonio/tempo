@@ -120,6 +120,7 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
 
             override fun onTracksChanged(tracks: Tracks) {
                 ReplayGainUtil.setReplayGain(player, tracks)
+                MediaManager.scrobble(player.currentMediaItem, false)
             }
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {

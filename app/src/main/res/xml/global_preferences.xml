@@ -52,6 +52,12 @@
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreference
+            android:title="@string/settings_audio_quality"
+            android:defaultValue="false"
+            android:summary="@string/settings_audio_quality_summary"
+            android:key="audio_quality_per_item" />
+
+        <SwitchPreference
             android:title="@string/settings_podcast"
             android:defaultValue="true"
             android:summary="@string/settings_podcast_summary"

@@ -156,6 +156,17 @@ public class MusicUtil {
         return getReadableDurationString(lenght, millis);
     }
 
+    public static String getReadableAudioQualityString(Child child) {
+        if (!Preferences.showAudioQuality()) return "";
+
+        return "•" +
+                " " +
+                child.getBitrate() +
+                "kbps" +
+                " " +
+                child.getSuffix();
+    }
+
     public static String getReadablePodcastDurationString(long duration) {
         long minutes = duration / 60;
 

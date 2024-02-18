@@ -54,6 +54,7 @@ object Preferences {
     private const val MIN_STAR_RATING = "min_star_rating"
     private const val ARTIST_ALBUM_LAYOUT = "artist_album_layout"
     private const val ALWAYS_ON_DISPLAY = "always_on_display"
+    private const val AUDIO_QUALITY_PER_ITEM = "audio_quality_per_item"
 
 
     @JvmStatic
@@ -389,5 +390,10 @@ object Preferences {
     @JvmStatic
     fun isDisplayAlwaysOn(): Boolean {
         return App.getInstance().preferences.getBoolean(ALWAYS_ON_DISPLAY, false)
+    }
+
+    @JvmStatic
+    fun showAudioQuality(): Boolean {
+        return App.getInstance().preferences.getBoolean(AUDIO_QUALITY_PER_ITEM, false)
     }
 }

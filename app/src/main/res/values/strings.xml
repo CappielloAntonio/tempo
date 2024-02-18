@@ -262,6 +262,8 @@
     <string name="settings_music_directory_summary">If enabled, show the music directory section. Please note that for folder navigation to work properly, the server must support this feature.</string>
     <string name="settings_podcast">Show podcast</string>
     <string name="settings_podcast_summary">If enabled, show the podcast section. Restart the app for it to take full effect.</string>
+    <string name="settings_audio_quality">Show audio quality</string>
+    <string name="settings_audio_quality_summary">The bitrate and audio format will be shown for each audio track</string>
     <string name="settings_queue_syncing_countdown">Sync timer</string>
     <string name="settings_queue_syncing_summary">If enabled, the user will have the ability to save their play queue and will have the ability to load state when opening the application.</string>
     <string name="settings_queue_syncing_title">Sync play queue for this user</string>
@@ -333,7 +335,7 @@
     <string name="song_list_page_starred">Starred tracks</string>
     <string name="song_list_page_top">%1$s\'s top tracks</string>
     <string name="song_list_page_year">Year %1$d</string>
-    <string name="song_subtitle_formatter">%1$s  •  %2$s</string>
+    <string name="song_subtitle_formatter">%1$s  •  %2$s  %3$s</string>
     <string name="starred_sync_dialog_negative_button">Cancel</string>
     <string name="starred_sync_dialog_neutral_button">Continue</string>
     <string name="starred_sync_dialog_positive_button">Continue and download</string>

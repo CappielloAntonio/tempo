@@ -23,3 +23,6 @@
 -keepattributes SourceFile, LineNumberTable
 -keep public class * extends java.lang.Exception
 -keep class retrofit2.** { *; }
+
+-keep class **.reflect.TypeToken { *; }
+-keep class * extends **.reflect.TypeToken

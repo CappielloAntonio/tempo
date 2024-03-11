@@ -8,10 +8,13 @@ import androidx.media3.common.util.UnstableApi;
 import androidx.media3.database.DatabaseProvider;
 import androidx.media3.database.StandaloneDatabaseProvider;
 import androidx.media3.datasource.DataSource;
+import androidx.media3.datasource.DataSpec;
 import androidx.media3.datasource.DefaultDataSource;
 import androidx.media3.datasource.DefaultHttpDataSource;
+import androidx.media3.datasource.ResolvingDataSource;
 import androidx.media3.datasource.cache.Cache;
 import androidx.media3.datasource.cache.CacheDataSource;
+import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor;
 import androidx.media3.datasource.cache.NoOpCacheEvictor;
 import androidx.media3.datasource.cache.SimpleCache;
 import androidx.media3.exoplayer.DefaultRenderersFactory;
@@ -42,6 +45,7 @@ public final class DownloadUtil {
     private static DatabaseProvider databaseProvider;
     private static File downloadDirectory;
     private static Cache downloadCache;
+    private static SimpleCache streamingCache;
     private static DownloadManager downloadManager;
     private static DownloaderManager downloaderManager;
     private static DownloadNotificationHelper downloadNotificationHelper;
@@ -75,7 +79,27 @@ public final class DownloadUtil {
         if (dataSourceFactory == null) {
             context = context.getApplicationContext();
             DefaultDataSource.Factory upstreamFactory = new DefaultDataSource.Factory(context, getHttpDataSourceFactory());
-            dataSourceFactory = buildReadOnlyCacheDataSource(upstreamFactory, getDownloadCache(context));
+
+            if (Preferences.getStreamingCacheSize() > 0) {
+                // Cache enabled
+                CacheDataSource.Factory streamCacheFactory = new CacheDataSource.Factory()
+                        .setCache(getStreamingCache(context))
+                        .setUpstreamDataSourceFactory(upstreamFactory);
+
+                ResolvingDataSource.Factory resolvingFactory = new ResolvingDataSource.Factory(
+                        new StreamingCacheDataSource.Factory(streamCacheFactory),
+                        dataSpec -> {
+                            DataSpec.Builder builder = dataSpec.buildUpon();
+                            builder.setFlags(dataSpec.flags & ~DataSpec.FLAG_DONT_CACHE_IF_LENGTH_UNKNOWN);
+                            return builder.build();
+                        }
+                );
+
+                dataSourceFactory = buildReadOnlyCacheDataSource(resolvingFactory, getDownloadCache(context));
+            } else {
+                // Cache disabled
+                dataSourceFactory = buildReadOnlyCacheDataSource(upstreamFactory, getDownloadCache(context));
+            }
         }
 
         return dataSourceFactory;
@@ -106,6 +130,18 @@ public final class DownloadUtil {
         }
 
         return downloadCache;
+    }
+
+    private static synchronized SimpleCache getStreamingCache(Context context) {
+        if (streamingCache == null) {
+            File streamingCacheDirectory = new File(context.getCacheDir(), "streamingCache");
+            streamingCache = new SimpleCache(
+                    streamingCacheDirectory,
+                    new LeastRecentlyUsedCacheEvictor(Preferences.getStreamingCacheSize() * 1024 * 1024),
+                    getDatabaseProvider(context)
+            );
+        }
+        return streamingCache;
     }
 
     private static synchronized void ensureDownloadManagerInitialized(Context context) {
@@ -185,6 +221,10 @@ public final class DownloadUtil {
         }
 
         return files;
+    }
+
+    public static synchronized long getStreamingCacheSize(Context context) {
+        return getStreamingCache(context).getCacheSpace();
     }
 
     public static Notification buildGroupSummaryNotification(Context context, String channelId, String groupId, int icon, String title) {

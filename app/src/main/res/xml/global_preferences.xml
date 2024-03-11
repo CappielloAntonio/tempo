@@ -95,6 +95,14 @@
             app:title="@string/settings_image_size"
             app:useSimpleSummaryProvider="true" />
 
+        <ListPreference
+            app:defaultValue="256"
+            app:dialogTitle="@string/settings_streaming_cache_size"
+            app:entries="@array/streaming_cache_size_titles"
+            app:entryValues="@array/streaming_cache_size_values"
+            app:key="streaming_cache_size"
+            app:title="@string/settings_streaming_cache_size" />
+
         <SwitchPreference
             android:title="@string/settings_wifi_only_title"
             android:defaultValue="false"

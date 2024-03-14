@@ -28,6 +28,10 @@ public class App extends Application {
         instance = new App();
         context = getApplicationContext();
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        Preferences.setServerId("darklyn");
+        Preferences.setServer("https://navidrome.darklyn.online");
+        Preferences.setLowSecurity(false);
     }
 
     public static App getInstance() {

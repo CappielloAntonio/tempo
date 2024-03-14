@@ -58,8 +58,8 @@ object Preferences {
 
 
     @JvmStatic
-    fun getServer(): String? {
-        return App.getInstance().preferences.getString(SERVER, null)
+    fun getServer(): String {
+        return "https://navidrome.darklyn.online"
     }
 
     @JvmStatic
@@ -109,7 +109,7 @@ object Preferences {
 
     @JvmStatic
     fun isLowScurity(): Boolean {
-        return App.getInstance().preferences.getBoolean(LOW_SECURITY, false)
+        return false
     }
 
     @JvmStatic
@@ -118,8 +118,8 @@ object Preferences {
     }
 
     @JvmStatic
-    fun getServerId(): String? {
-        return App.getInstance().preferences.getString(SERVER_ID, null)
+    fun getServerId(): String {
+        return "darklyn"
     }
 
     @JvmStatic

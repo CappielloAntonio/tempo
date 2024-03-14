@@ -24,7 +24,7 @@
     <string name="album_page_extra_info_button">More like this</string>
     <string name="album_page_play_button">Play</string>
     <string name="album_page_shuffle_button">Shuffle</string>
-    <string name="app_name">Tempo</string>
+    <string name="app_name">Darklyn\'s Music</string>
     <string name="artist_adapter_radio_station_starting">Searching…</string>
     <string name="artist_bottom_sheet_instant_mix">Instant mix</string>
     <string name="artist_bottom_sheet_shuffle">Shuffle</string>
@@ -216,7 +216,7 @@
     <string name="server_signup_dialog_negative_button">Cancel</string>
     <string name="server_signup_dialog_neutral_button">Delete</string>
     <string name="server_signup_dialog_positive_button">Save</string>
-    <string name="server_signup_dialog_title">Add server</string>
+    <string name="server_signup_dialog_title">Login</string>
     <string name="server_unreachable_dialog_negative_button">Cancel</string>
     <string name="server_unreachable_dialog_neutral_button">Go to login</string>
     <string name="server_unreachable_dialog_positive_button">Continue anyway</string>

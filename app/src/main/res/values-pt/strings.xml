@@ -24,7 +24,7 @@
     <string name="album_page_extra_info_button">Sugestões semelhantes</string>
     <string name="album_page_play_button">Reproduzir</string>
     <string name="album_page_shuffle_button">Aleatório</string>
-    <string name="app_name">Tempo</string>
+    <string name="app_name">Darklyn\'s Music</string>
     <string name="artist_adapter_radio_station_starting">Procurando…</string>
     <string name="artist_bottom_sheet_instant_mix">Mixagem instantânea</string>
     <string name="artist_bottom_sheet_shuffle">Aleatório</string>
@@ -214,7 +214,7 @@
     <string name="server_signup_dialog_negative_button">Cancelar</string>
     <string name="server_signup_dialog_neutral_button">Excluir</string>
     <string name="server_signup_dialog_positive_button">Salvar</string>
-    <string name="server_signup_dialog_title">Adicionar servidor</string>
+    <string name="server_signup_dialog_title">Login</string>
     <string name="server_unreachable_dialog_negative_button">Cancelar</string>
     <string name="server_unreachable_dialog_neutral_button">Ir para o login</string>
     <string name="server_unreachable_dialog_positive_button">Continuar mesmo assim</string>

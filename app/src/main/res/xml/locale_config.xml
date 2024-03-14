@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <locale-config xmlns:android="http://schemas.android.com/apk/res/android">
-    <locale android:name="en"/>            <!-- English -->
-    <locale android:name="de-DE"/>         <!-- German -->
-    <locale android:name="fr-FR"/>         <!-- French -->
-    <locale android:name="zh-CN"/>         <!-- Simplified Chinese-->
-    <locale android:name="ko-KR"/>         <!-- Korean-->
     <locale android:name="pt-BR"/>         <!-- Brazilian Portuguese -->
 </locale-config>

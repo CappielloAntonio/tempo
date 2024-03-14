@@ -3,31 +3,40 @@ package com.cappielloantonio.tempo.ui.dialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.util.UnstableApi;
 
+import com.cappielloantonio.tempo.App;
 import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.databinding.DialogServerSignupBinding;
+import com.cappielloantonio.tempo.interfaces.SystemCallback;
 import com.cappielloantonio.tempo.model.Server;
-import com.cappielloantonio.tempo.util.MusicUtil;
+import com.cappielloantonio.tempo.repository.SystemRepository;
+import com.cappielloantonio.tempo.ui.activity.MainActivity;
+import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.viewmodel.LoginViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Objects;
 import java.util.UUID;
 
+@UnstableApi
 public class ServerSignupDialog extends DialogFragment {
     private static final String TAG = "ServerSignupDialog";
 
     private DialogServerSignupBinding bind;
     private LoginViewModel loginViewModel;
 
-    private String serverName;
+    private MainActivity activity;
+
+    private String serverName = "darklyn";
     private String username;
     private String password;
-    private String server;
+    private String server = "https://navidrome.darklyn.online";
     private boolean lowSecurity = false;
 
     @NonNull
@@ -65,11 +74,8 @@ public class ServerSignupDialog extends DialogFragment {
             loginViewModel.setServerToEdit(requireArguments().getParcelable("server_object"));
 
             if (loginViewModel.getServerToEdit() != null) {
-                bind.serverNameTextView.setText(loginViewModel.getServerToEdit().getServerName());
                 bind.usernameTextView.setText(loginViewModel.getServerToEdit().getUsername());
                 bind.passwordTextView.setText("");
-                bind.serverTextView.setText(loginViewModel.getServerToEdit().getAddress());
-                bind.lowSecurityCheckbox.setChecked(loginViewModel.getServerToEdit().isLowSecurity());
             }
         } else {
             loginViewModel.setServerToEdit(null);
@@ -93,29 +99,16 @@ public class ServerSignupDialog extends DialogFragment {
     }
 
     private boolean validateInput() {
-        serverName = Objects.requireNonNull(bind.serverNameTextView.getText()).toString().trim();
         username = Objects.requireNonNull(bind.usernameTextView.getText()).toString().trim();
-        password = bind.lowSecurityCheckbox.isChecked() ? MusicUtil.passwordHexEncoding(Objects.requireNonNull(bind.passwordTextView.getText()).toString()) : Objects.requireNonNull(bind.passwordTextView.getText()).toString();
-        server = Objects.requireNonNull(bind.serverTextView.getText()).toString().trim();
-        lowSecurity = bind.lowSecurityCheckbox.isChecked();
-
-        if (TextUtils.isEmpty(serverName)) {
-            bind.serverNameTextView.setError(getString(R.string.error_required));
-            return false;
-        }
+        password = Objects.requireNonNull(bind.passwordTextView.getText()).toString();
 
         if (TextUtils.isEmpty(username)) {
             bind.usernameTextView.setError(getString(R.string.error_required));
             return false;
         }
 
-        if (TextUtils.isEmpty(server)) {
-            bind.serverTextView.setError(getString(R.string.error_required));
-            return false;
-        }
-
-        if (!server.matches("^https?://(.*)")) {
-            bind.serverTextView.setError(getString(R.string.error_server_prefix));
+        if (TextUtils.isEmpty(password)) {
+            bind.passwordTextView.setError(getString(R.string.error_required));
             return false;
         }
 
@@ -124,6 +117,28 @@ public class ServerSignupDialog extends DialogFragment {
 
     private void saveServerPreference() {
         String serverID = loginViewModel.getServerToEdit() != null ? loginViewModel.getServerToEdit().getServerId() : UUID.randomUUID().toString();
-        loginViewModel.addServer(new Server(serverID, this.serverName, this.username, this.password, this.server, System.currentTimeMillis(), this.lowSecurity));
+        Server srv = new Server(serverID, this.serverName, this.username, this.password, this.server, System.currentTimeMillis(), this.lowSecurity);
+        loginViewModel.addServer(srv);
+
+        SystemRepository systemRepository = new SystemRepository();
+        systemRepository.checkUserCredential(new SystemCallback() {
+            @Override
+            public void onError(Exception exception) {
+                Preferences.setServer(null);
+                Preferences.setPassword(null);
+                loginViewModel.deleteServer(srv);
+
+                App.getSubsonicClientInstance(true);
+                Toast.makeText(requireContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(String password, String token, String salt) {
+                Preferences.setServer(server);
+                Preferences.setPassword(password);
+
+                App.getSubsonicClientInstance(true);
+            }
+        });
     }
 }

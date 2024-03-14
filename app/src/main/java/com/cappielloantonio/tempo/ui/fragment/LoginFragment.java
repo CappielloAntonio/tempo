@@ -40,6 +40,8 @@ public class LoginFragment extends Fragment implements ClickCallback {
 
     private ServerAdapter serverAdapter;
 
+    private ServerSignupDialog dialog;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,15 +92,36 @@ public class LoginFragment extends Fragment implements ClickCallback {
         bind.serverListRecyclerView.setHasFixedSize(true);
 
         serverAdapter = new ServerAdapter(this);
+        dialog = new ServerSignupDialog();
         bind.serverListRecyclerView.setAdapter(serverAdapter);
         loginViewModel.getServerList().observe(getViewLifecycleOwner(), servers -> {
             if (servers.size() > 0) {
                 if (bind != null) bind.noServerAddedTextView.setVisibility(View.GONE);
                 if (bind != null) bind.serverListRecyclerView.setVisibility(View.VISIBLE);
                 serverAdapter.setItems(servers);
+
+                Server server = serverAdapter.getItem(0);
+
+                saveServerPreference(server.getServerId(), server.getAddress(), server.getUsername(), server.getPassword(), server.isLowSecurity());
+
+                SystemRepository systemRepository = new SystemRepository();
+                systemRepository.checkUserCredential(new SystemCallback() {
+                    @Override
+                    public void onError(Exception exception) {
+                        resetServerPreference();
+                        Toast.makeText(requireContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onSuccess(String password, String token, String salt) {
+                        activity.goFromLogin();
+                    }
+                });
+
             } else {
                 if (bind != null) bind.noServerAddedTextView.setVisibility(View.VISIBLE);
                 if (bind != null) bind.serverListRecyclerView.setVisibility(View.GONE);
+                dialog.show(activity.getSupportFragmentManager(), null);
             }
         });
     }

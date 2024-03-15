@@ -6,9 +6,10 @@
         android:drawable="@android:color/transparent"
         android:gravity="center" />
 
+
     <item
-        android:width="220dp"
-        android:height="220dp"
-        android:drawable="@drawable/ic_splash_logo"
+        android:width="100dp"
+        android:height="100dp"
+        android:drawable="@mipmap/ic_splash_logo"
         android:gravity="center" />
 </layer-list>

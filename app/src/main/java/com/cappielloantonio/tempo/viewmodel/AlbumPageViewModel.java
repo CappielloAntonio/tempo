@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.cappielloantonio.tempo.repository.AlbumRepository;
 import com.cappielloantonio.tempo.repository.ArtistRepository;
 import com.cappielloantonio.tempo.subsonic.models.AlbumID3;
+import com.cappielloantonio.tempo.subsonic.models.AlbumInfo;
 import com.cappielloantonio.tempo.subsonic.models.ArtistID3;
 import com.cappielloantonio.tempo.subsonic.models.Child;
 
@@ -41,5 +42,9 @@ public class AlbumPageViewModel extends AndroidViewModel {
 
     public LiveData<ArtistID3> getArtist() {
         return artistRepository.getArtistInfo(album.getArtistId());
+    }
+
+    public LiveData<AlbumInfo> getAlbumInfo() {
+        return albumRepository.getAlbumInfo(album.getId());
     }
 }

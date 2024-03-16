@@ -8,6 +8,7 @@ import com.cappielloantonio.tempo.interfaces.DecadesCallback;
 import com.cappielloantonio.tempo.interfaces.MediaCallback;
 import com.cappielloantonio.tempo.subsonic.base.ApiResponse;
 import com.cappielloantonio.tempo.subsonic.models.AlbumID3;
+import com.cappielloantonio.tempo.subsonic.models.AlbumInfo;
 import com.cappielloantonio.tempo.subsonic.models.Child;
 
 import java.util.ArrayList;
@@ -168,6 +169,29 @@ public class AlbumRepository {
                 });
 
         return album;
+    }
+
+    public MutableLiveData<AlbumInfo> getAlbumInfo(String id) {
+        MutableLiveData<AlbumInfo> albumInfo = new MutableLiveData<>();
+
+        App.getSubsonicClientInstance(false)
+                .getBrowsingClient()
+                .getAlbumInfo2(id)
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getAlbumInfo() != null) {
+                            albumInfo.setValue(response.body().getSubsonicResponse().getAlbumInfo());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
+
+                    }
+                });
+
+        return albumInfo;
     }
 
     public void getInstantMix(AlbumID3 album, int count, MediaCallback callback) {

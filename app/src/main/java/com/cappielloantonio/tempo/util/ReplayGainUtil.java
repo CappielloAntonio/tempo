@@ -102,7 +102,7 @@ public class ReplayGainUtil {
 
     private static Float parseReplayGainTag(Metadata.Entry entry) {
         try {
-            return Float.parseFloat(entry.toString().replaceAll("[^\\d.]", ""));
+            return Float.parseFloat(entry.toString().replaceAll("[^\\d.-]", ""));
         } catch (NumberFormatException exception) {
             return 0f;
         }

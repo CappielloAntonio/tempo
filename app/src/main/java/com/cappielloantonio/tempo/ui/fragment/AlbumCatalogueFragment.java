@@ -112,7 +112,7 @@ public class AlbumCatalogueFragment extends Fragment implements ClickCallback {
         bind.albumCatalogueRecyclerView.addItemDecoration(new GridItemDecoration(2, 20, false));
         bind.albumCatalogueRecyclerView.setHasFixedSize(true);
 
-        albumAdapter = new AlbumCatalogueAdapter(this);
+        albumAdapter = new AlbumCatalogueAdapter(this, true);
         albumAdapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
         bind.albumCatalogueRecyclerView.setAdapter(albumAdapter);
         albumCatalogueViewModel.getAlbumList().observe(getViewLifecycleOwner(), albums -> albumAdapter.setItems(albums));

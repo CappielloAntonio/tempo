@@ -132,9 +132,10 @@ public class AlbumRepository {
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getArtist() != null) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getArtist() != null && response.body().getSubsonicResponse().getArtist().getAlbums() != null) {
                             List<AlbumID3> albums = response.body().getSubsonicResponse().getArtist().getAlbums();
                             albums.sort(Comparator.comparing(AlbumID3::getYear));
+                            Collections.reverse(albums);
                             artistsAlbum.setValue(albums);
                         }
                     }

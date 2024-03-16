@@ -52,7 +52,6 @@ object Preferences {
     private const val BUFFERING_STRATEGY = "buffering_strategy"
     private const val SKIP_MIN_STAR_RATING = "skip_min_star_rating"
     private const val MIN_STAR_RATING = "min_star_rating"
-    private const val ARTIST_ALBUM_LAYOUT = "artist_album_layout"
     private const val ALWAYS_ON_DISPLAY = "always_on_display"
     private const val AUDIO_QUALITY_PER_ITEM = "audio_quality_per_item"
 
@@ -374,17 +373,6 @@ object Preferences {
     @JvmStatic
     fun getMinStarRatingAccepted(): Int {
         return App.getInstance().preferences.getInt(MIN_STAR_RATING, 0)
-    }
-
-    @JvmStatic
-    fun isArtistAlbumLayoutHorizontal(): Boolean {
-        return App.getInstance().preferences.getBoolean(ARTIST_ALBUM_LAYOUT, true)
-    }
-
-    @JvmStatic
-    fun setArtistAlbumLayout(isArtistAlbumLayoutHorizontal: Boolean) {
-        App.getInstance().preferences.edit().putBoolean(ARTIST_ALBUM_LAYOUT, isArtistAlbumLayoutHorizontal)
-            .apply()
     }
 
     @JvmStatic

@@ -27,9 +27,11 @@ import com.cappielloantonio.tempo.helper.recyclerview.GridItemDecoration;
 import com.cappielloantonio.tempo.interfaces.ClickCallback;
 import com.cappielloantonio.tempo.service.MediaManager;
 import com.cappielloantonio.tempo.service.MediaService;
+import com.cappielloantonio.tempo.subsonic.models.ArtistID3;
 import com.cappielloantonio.tempo.ui.activity.MainActivity;
 import com.cappielloantonio.tempo.ui.adapter.AlbumArtistPageOrSimilarAdapter;
 import com.cappielloantonio.tempo.ui.adapter.AlbumCatalogueAdapter;
+import com.cappielloantonio.tempo.ui.adapter.ArtistCatalogueAdapter;
 import com.cappielloantonio.tempo.ui.adapter.ArtistSimilarAdapter;
 import com.cappielloantonio.tempo.ui.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.tempo.util.Constants;
@@ -38,6 +40,10 @@ import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.viewmodel.ArtistPageViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 @UnstableApi
 public class ArtistPageFragment extends Fragment implements ClickCallback {
     private FragmentArtistPageBinding bind;
@@ -45,9 +51,8 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
     private ArtistPageViewModel artistPageViewModel;
 
     private SongHorizontalAdapter songHorizontalAdapter;
-    private AlbumArtistPageOrSimilarAdapter albumArtistPageOrSimilarAdapter;
     private AlbumCatalogueAdapter albumCatalogueAdapter;
-    private ArtistSimilarAdapter artistSimilarAdapter;
+    private ArtistCatalogueAdapter artistCatalogueAdapter;
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
@@ -64,8 +69,7 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
         initArtistInfo();
         initPlayButtons();
         initTopSongsView();
-        initHorizontalAlbumsView();
-        initVerticalAlbumsView();
+        initAlbumsView();
         initSimilarArtistsView();
 
         return view;
@@ -99,18 +103,6 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
             bundle.putParcelable(Constants.ARTIST_OBJECT, artistPageViewModel.getArtist());
             activity.navController.navigate(R.id.action_artistPageFragment_to_songListPageFragment, bundle);
         });
-
-        bind.artistPageAlbumsSwitchLayoutTextViewClickable.setOnClickListener(view -> {
-            boolean isHorizontalRecyclerViewVisible = bind.albumsHorizontalRecyclerView.getVisibility() == View.VISIBLE;
-
-            bind.albumsHorizontalRecyclerView.setVisibility(isHorizontalRecyclerViewVisible ? View.GONE : View.VISIBLE);
-            bind.albumsVerticalRecyclerView.setVisibility(isHorizontalRecyclerViewVisible ? View.VISIBLE : View.GONE);
-
-            Preferences.setArtistAlbumLayout(!isHorizontalRecyclerViewVisible);
-        });
-
-        bind.albumsHorizontalRecyclerView.setVisibility(Preferences.isArtistAlbumLayoutHorizontal() ? View.VISIBLE : View.GONE);
-        bind.albumsVerticalRecyclerView.setVisibility(Preferences.isArtistAlbumLayoutHorizontal() ? View.GONE : View.VISIBLE);
     }
 
     private void initAppBar() {
@@ -203,36 +195,13 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
         });
     }
 
-    private void initHorizontalAlbumsView() {
-        bind.albumsHorizontalRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+    private void initAlbumsView() {
+        bind.albumsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+        bind.albumsRecyclerView.addItemDecoration(new GridItemDecoration(2, 20, false));
+        bind.albumsRecyclerView.setHasFixedSize(true);
 
-        albumArtistPageOrSimilarAdapter = new AlbumArtistPageOrSimilarAdapter(this);
-        bind.albumsHorizontalRecyclerView.setAdapter(albumArtistPageOrSimilarAdapter);
-        artistPageViewModel.getAlbumList().observe(getViewLifecycleOwner(), albums -> {
-            if (albums == null) {
-                if (bind != null)
-                    bind.artistPageAlbumPlaceholder.placeholder.setVisibility(View.VISIBLE);
-                if (bind != null) bind.artistPageAlbumsSector.setVisibility(View.GONE);
-            } else {
-                if (bind != null)
-                    bind.artistPageAlbumPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null)
-                    bind.artistPageAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
-                albumArtistPageOrSimilarAdapter.setItems(albums);
-            }
-        });
-
-        CustomLinearSnapHelper albumSnapHelper = new CustomLinearSnapHelper();
-        albumSnapHelper.attachToRecyclerView(bind.albumsHorizontalRecyclerView);
-    }
-
-    private void initVerticalAlbumsView() {
-        bind.albumsVerticalRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-        bind.albumsVerticalRecyclerView.addItemDecoration(new GridItemDecoration(2, 20, false));
-        bind.albumsVerticalRecyclerView.setHasFixedSize(true);
-
-        albumCatalogueAdapter = new AlbumCatalogueAdapter(this);
-        bind.albumsVerticalRecyclerView.setAdapter(albumCatalogueAdapter);
+        albumCatalogueAdapter = new AlbumCatalogueAdapter(this, false);
+        bind.albumsRecyclerView.setAdapter(albumCatalogueAdapter);
 
         artistPageViewModel.getAlbumList().observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
@@ -250,11 +219,13 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
     }
 
     private void initSimilarArtistsView() {
-        bind.similarArtistsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        bind.similarArtistsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+        bind.similarArtistsRecyclerView.addItemDecoration(new GridItemDecoration(2, 20, false));
         bind.similarArtistsRecyclerView.setHasFixedSize(true);
 
-        artistSimilarAdapter = new ArtistSimilarAdapter(this);
-        bind.similarArtistsRecyclerView.setAdapter(artistSimilarAdapter);
+        artistCatalogueAdapter = new ArtistCatalogueAdapter(this);
+        bind.similarArtistsRecyclerView.setAdapter(artistCatalogueAdapter);
+
         artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(getViewLifecycleOwner(), artist -> {
             if (artist == null) {
                 if (bind != null)
@@ -263,9 +234,16 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
             } else {
                 if (bind != null)
                     bind.artistPageSimilarArtistPlaceholder.placeholder.setVisibility(View.GONE);
-                if (bind != null)
+                if (bind != null && artist.getSimilarArtists() != null)
                     bind.similarArtistSector.setVisibility(!artist.getSimilarArtists().isEmpty() ? View.VISIBLE : View.GONE);
-                artistSimilarAdapter.setItems(artist.getSimilarArtists());
+
+                List<ArtistID3> artists = new ArrayList<>();
+
+                if (artist.getSimilarArtists() != null) {
+                    artists.addAll(artist.getSimilarArtists());
+                }
+
+                artistCatalogueAdapter.setItems(artists);
             }
         });
 

@@ -2,6 +2,7 @@ package com.cappielloantonio.tempo.ui.adapter;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -24,6 +25,7 @@ import java.util.List;
 public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAdapter.ViewHolder> implements Filterable {
     private final ClickCallback click;
     private String currentFilter;
+    private boolean showArtist;
 
     private final Filter filtering = new Filter() {
         @Override
@@ -59,11 +61,12 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
     private List<AlbumID3> albums;
     private List<AlbumID3> albumsFull;
 
-    public AlbumCatalogueAdapter(ClickCallback click) {
+    public AlbumCatalogueAdapter(ClickCallback click, boolean showArtist) {
         this.click = click;
         this.albums = Collections.emptyList();
         this.albumsFull = Collections.emptyList();
         this.currentFilter = "";
+        this.showArtist = showArtist;
     }
 
     @NonNull
@@ -79,6 +82,7 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
 
         holder.item.albumNameLabel.setText(MusicUtil.getReadableString(album.getName()));
         holder.item.artistNameLabel.setText(MusicUtil.getReadableString(album.getArtist()));
+        holder.item.artistNameLabel.setVisibility(showArtist ? View.VISIBLE : View.GONE);
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), album.getCoverArtId(), CustomGlideRequest.ResourceType.Album)

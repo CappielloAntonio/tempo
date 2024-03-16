@@ -67,6 +67,7 @@ public class AlbumCatalogueFragment extends Fragment implements ClickCallback {
 
         initAppBar();
         initAlbumCatalogueView();
+        initProgressLoader();
 
         return view;
     }
@@ -124,6 +125,18 @@ public class AlbumCatalogueFragment extends Fragment implements ClickCallback {
         bind.albumListSortImageView.setOnClickListener(view -> showPopupMenu(view, R.menu.sort_album_popup_menu));
     }
 
+    private void initProgressLoader() {
+        albumCatalogueViewModel.getLoadingStatus().observe(getViewLifecycleOwner(), isLoading -> {
+            if (isLoading) {
+                bind.albumListSortImageView.setEnabled(false);
+                bind.albumListProgressLoader.setVisibility(View.VISIBLE);
+            } else {
+                bind.albumListSortImageView.setEnabled(true);
+                bind.albumListProgressLoader.setVisibility(View.GONE);
+            }
+        });
+    }
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.toolbar_menu, menu);
@@ -170,6 +183,9 @@ public class AlbumCatalogueFragment extends Fragment implements ClickCallback {
                 return true;
             } else if (menuItem.getItemId() == R.id.menu_album_sort_random) {
                 albumAdapter.sort(Constants.ALBUM_ORDER_BY_RANDOM);
+                return true;
+            } else if (menuItem.getItemId() == R.id.menu_album_sort_recently_added) {
+                albumAdapter.sort(Constants.ALBUM_ORDER_BY_RECENTLY_ADDED);
                 return true;
             }
 

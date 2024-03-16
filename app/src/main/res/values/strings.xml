@@ -153,6 +153,7 @@
     <string name="menu_sort_artist">Artist</string>
     <string name="menu_sort_name">Name</string>
     <string name="menu_sort_random">Random</string>
+    <string name="menu_sort_recently_added">Recently added</string>
     <string name="menu_sort_year">Year</string>
     <string name="player_playback_speed">%1$.2fx</string>
     <string name="player_queue_clean_all_button">Clean play queue</string>

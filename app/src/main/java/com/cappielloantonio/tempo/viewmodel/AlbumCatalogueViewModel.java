@@ -20,6 +20,7 @@ import retrofit2.Callback;
 
 public class AlbumCatalogueViewModel extends AndroidViewModel {
     private final MutableLiveData<List<AlbumID3>> albumList = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<Boolean> loading = new MutableLiveData<>(true);
 
     private int page = 0;
     private Status status = Status.STOPPED;
@@ -30,6 +31,10 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
 
     public LiveData<List<AlbumID3>> getAlbumList() {
         return albumList;
+    }
+
+    public LiveData<Boolean> getLoadingStatus() {
+        return loading;
     }
 
     public void loadAlbums() {
@@ -52,6 +57,7 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
             @Override
             public void onLoadMedia(List<?> media) {
                 if (status == Status.STOPPED) {
+                    loading.setValue(false);
                     return;
                 }
 
@@ -62,8 +68,10 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
 
                 if (media.size() == size) {
                     loadAlbums(size);
+                    loading.setValue(true);
                 } else {
                     status = Status.STOPPED;
+                    loading.setValue(false);
                 }
             }
         }, size, size * page++);

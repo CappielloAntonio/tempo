@@ -161,6 +161,10 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
             case Constants.ALBUM_ORDER_BY_RANDOM:
                 Collections.shuffle(albums);
                 break;
+            case Constants.ALBUM_ORDER_BY_RECENTLY_ADDED:
+                albums.sort(Comparator.comparing(AlbumID3::getCreated));
+                Collections.reverse(albums);
+                break;
         }
 
         notifyDataSetChanged();

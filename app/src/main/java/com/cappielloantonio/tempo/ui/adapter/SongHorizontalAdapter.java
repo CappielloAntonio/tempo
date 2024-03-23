@@ -66,9 +66,9 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         holder.item.trackNumberTextView.setText(MusicUtil.getReadableTrackNumber(holder.itemView.getContext(), song.getTrack()));
 
         if (DownloadUtil.getDownloadTracker(holder.itemView.getContext()).isDownloaded(song.getId())) {
-            holder.item.searchResultDowanloadIndicatorImageView.setVisibility(View.VISIBLE);
+            holder.item.searchResultDownloadIndicatorImageView.setVisibility(View.VISIBLE);
         } else {
-            holder.item.searchResultDowanloadIndicatorImageView.setVisibility(View.GONE);
+            holder.item.searchResultDownloadIndicatorImageView.setVisibility(View.GONE);
         }
 
         if (showCoverArt) CustomGlideRequest.Builder

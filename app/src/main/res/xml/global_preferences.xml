@@ -58,6 +58,12 @@
             android:key="audio_quality_per_item" />
 
         <SwitchPreference
+            android:title="@string/settings_item_rating"
+            android:defaultValue="false"
+            android:summary="@string/settings_item_rating_summary"
+            android:key="rating_per_item" />
+
+        <SwitchPreference
             android:title="@string/settings_podcast"
             android:defaultValue="true"
             android:summary="@string/settings_podcast_summary"

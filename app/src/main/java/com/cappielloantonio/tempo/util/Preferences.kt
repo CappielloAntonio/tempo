@@ -56,6 +56,7 @@ object Preferences {
     private const val ALWAYS_ON_DISPLAY = "always_on_display"
     private const val AUDIO_QUALITY_PER_ITEM = "audio_quality_per_item"
     private const val HOME_SECTOR_LIST = "home_sector_list"
+    private const val RATING_PER_ITEM = "rating_per_item"
 
 
     @JvmStatic
@@ -395,5 +396,10 @@ object Preferences {
     @JvmStatic
     fun setHomeSectorList(extension: List<HomeSector>?) {
         App.getInstance().preferences.edit().putString(HOME_SECTOR_LIST, Gson().toJson(extension)).apply()
+    }
+
+    @JvmStatic
+    fun showItemRating(): Boolean {
+        return App.getInstance().preferences.getBoolean(RATING_PER_ITEM, false)
     }
 }

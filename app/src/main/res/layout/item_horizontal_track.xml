@@ -1,5 +1,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
@@ -58,7 +59,7 @@
         android:singleLine="true"
         android:text="@string/label_placeholder"
         app:layout_constraintBottom_toTopOf="@+id/search_result_song_subtitle_text_view"
-        app:layout_constraintEnd_toStartOf="@+id/search_result_download_indicator_image_view"
+        app:layout_constraintEnd_toStartOf="@+id/rating_indicator_image_view"
         app:layout_constraintStart_toEndOf="@+id/cover_image_separator"
         app:layout_constraintTop_toTopOf="@+id/song_cover_image_view"
         app:layout_constraintVertical_chainStyle="packed" />
@@ -73,9 +74,31 @@
         android:singleLine="true"
         android:text="@string/label_placeholder"
         app:layout_constraintBottom_toBottomOf="@+id/song_cover_image_view"
-        app:layout_constraintEnd_toStartOf="@+id/search_result_download_indicator_image_view"
+        app:layout_constraintEnd_toStartOf="@+id/rating_indicator_image_view"
         app:layout_constraintStart_toEndOf="@+id/cover_image_separator"
         app:layout_constraintTop_toBottomOf="@+id/search_result_song_title_text_view" />
+
+    <FrameLayout
+        android:id="@+id/rating_indicator_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/song_cover_image_view"
+        app:layout_constraintEnd_toStartOf="@+id/search_result_download_indicator_image_view"
+        app:layout_constraintStart_toEndOf="@+id/search_result_song_title_text_view"
+        app:layout_constraintTop_toTopOf="@+id/song_cover_image_view">
+
+        <ImageView
+            android:id="@+id/preferred_icon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="@drawable/ic_favorite"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/rating_bar"
+            app:layout_constraintEnd_toEndOf="@+id/rating_bar"
+            app:layout_constraintStart_toStartOf="@+id/rating_bar"
+            tools:visibility="visible" />
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/search_result_download_indicator_image_view"
@@ -85,8 +108,9 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/song_cover_image_view"
         app:layout_constraintEnd_toStartOf="@+id/search_result_song_more_button"
-        app:layout_constraintStart_toEndOf="@+id/search_result_song_title_text_view"
-        app:layout_constraintTop_toTopOf="@+id/song_cover_image_view">
+        app:layout_constraintStart_toEndOf="@+id/rating_indicator_image_view"
+        app:layout_constraintTop_toTopOf="@+id/song_cover_image_view"
+        tools:visibility="visible">
 
         <ImageView
             android:layout_width="18dp"

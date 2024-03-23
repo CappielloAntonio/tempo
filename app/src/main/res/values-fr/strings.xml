@@ -328,7 +328,7 @@
     <string name="song_list_page_starred">Titres favoris</string>
     <string name="song_list_page_top">Les meilleurs titres de %1$s</string>
     <string name="song_list_page_year">Année %1$d</string>
-    <string name="song_subtitle_formatter">%1$s  •  %2$s  %3$s</string>
+    <string name="song_subtitle_formatter">%1$s  •  %2$s  %3$s %4$s</string>
     <string name="starred_sync_dialog_negative_button">Annuler</string>
     <string name="starred_sync_dialog_neutral_button">Continuer</string>
     <string name="starred_sync_dialog_positive_button">Continuer et télécharger</string>

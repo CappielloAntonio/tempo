@@ -17,6 +17,7 @@ import com.cappielloantonio.tempo.subsonic.models.Child;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.cappielloantonio.tempo.util.MusicUtil;
+import com.cappielloantonio.tempo.util.Preferences;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,11 +60,13 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
                                         song.getArtist()
                         ),
                         MusicUtil.getReadableDurationString(song.getDuration(), false),
-                        MusicUtil.getReadableAudioQualityString(song)
+                        MusicUtil.getReadableAudioQualityString(song),
+                        MusicUtil.getRatingNumber(song.getUserRating())
                 )
         );
-        
+
         holder.item.trackNumberTextView.setText(MusicUtil.getReadableTrackNumber(holder.itemView.getContext(), song.getTrack()));
+        if (Preferences.showItemRating()) holder.item.preferredIcon.setVisibility(song.getStarred() != null ? View.VISIBLE : View.GONE);
 
         if (DownloadUtil.getDownloadTracker(holder.itemView.getContext()).isDownloaded(song.getId())) {
             holder.item.searchResultDownloadIndicatorImageView.setVisibility(View.VISIBLE);

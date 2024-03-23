@@ -32,6 +32,7 @@ import com.cappielloantonio.tempo.helper.recyclerview.DotsIndicatorDecoration;
 import com.cappielloantonio.tempo.helper.recyclerview.GridItemDecoration;
 import com.cappielloantonio.tempo.interfaces.ClickCallback;
 import com.cappielloantonio.tempo.model.Download;
+import com.cappielloantonio.tempo.model.HomeSector;
 import com.cappielloantonio.tempo.service.DownloaderManager;
 import com.cappielloantonio.tempo.service.MediaManager;
 import com.cappielloantonio.tempo.service.MediaService;
@@ -48,6 +49,8 @@ import com.cappielloantonio.tempo.ui.adapter.ShareHorizontalAdapter;
 import com.cappielloantonio.tempo.ui.adapter.SimilarTrackAdapter;
 import com.cappielloantonio.tempo.ui.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.tempo.ui.adapter.YearAdapter;
+import com.cappielloantonio.tempo.ui.dialog.BatteryOptimizationDialog;
+import com.cappielloantonio.tempo.ui.dialog.HomeRearrangementDialog;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.cappielloantonio.tempo.util.MappingUtil;
@@ -56,7 +59,9 @@ import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.util.UIUtil;
 import com.cappielloantonio.tempo.viewmodel.HomeViewModel;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.common.reflect.TypeToken;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,6 +124,9 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         initRecentAddedAlbumView();
         initGridView();
         initSharesView();
+        initHomeReorganizer();
+
+        reorder();
     }
 
     @Override
@@ -303,6 +311,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     }
 
     private void initDiscoverSongSlideView() {
+        if (!homeViewModel.checkHomeSectorVisibility(Constants.HOME_SECTOR_DISCOVERY)) return;
+
         bind.discoverSongViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
         discoverSongAdapter = new DiscoverSongAdapter(this);
@@ -329,6 +339,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     }
 
     private void initSimilarSongView() {
+        if (!homeViewModel.checkHomeSectorVisibility(Constants.HOME_SECTOR_MADE_FOR_YOU)) return;
+
         bind.similarTracksRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.similarTracksRecyclerView.setHasFixedSize(true);
 
@@ -356,6 +368,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     }
 
     private void initArtistBestOf() {
+        if (!homeViewModel.checkHomeSectorVisibility(Constants.HOME_SECTOR_BEST_OF)) return;
+
         bind.bestOfArtistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.bestOfArtistRecyclerView.setHasFixedSize(true);
 
@@ -381,6 +395,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     }
 
     private void initArtistRadio() {
+        if (!homeViewModel.checkHomeSectorVisibility(Constants.HOME_SECTOR_RADIO_STATION)) return;
+
         bind.radioArtistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.radioArtistRecyclerView.setHasFixedSize(true);
 
@@ -408,6 +424,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     }
 
     private void initGridView() {
+        if (!homeViewModel.checkHomeSectorVisibility(Constants.HOME_SECTOR_TOP_SONGS)) return;
+
         bind.gridTracksRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
         bind.gridTracksRecyclerView.addItemDecoration(new GridItemDecoration(3, 8, false));
         bind.gridTracksRecyclerView.setHasFixedSize(true);
@@ -432,6 +450,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     }
 
     private void initStarredTracksView() {
+        if (!homeViewModel.checkHomeSectorVisibility(Constants.HOME_SECTOR_STARRED_TRACKS)) return;
+
         bind.starredTracksRecyclerView.setHasFixedSize(true);
 
         starredSongAdapter = new SongHorizontalAdapter(this, true, false);
@@ -467,6 +487,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     }
 
     private void initStarredAlbumsView() {
+        if (!homeViewModel.checkHomeSectorVisibility(Constants.HOME_SECTOR_STARRED_ALBUMS)) return;
+
         bind.starredAlbumsRecyclerView.setHasFixedSize(true);
 
         starredAlbumAdapter = new AlbumHorizontalAdapter(this, false);
@@ -502,6 +524,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     }
 
     private void initStarredArtistsView() {
+        if (!homeViewModel.checkHomeSectorVisibility(Constants.HOME_SECTOR_STARRED_ARTISTS)) return;
+
         bind.starredArtistsRecyclerView.setHasFixedSize(true);
 
         starredArtistAdapter = new ArtistHorizontalAdapter(this);
@@ -539,6 +563,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     }
 
     private void initNewReleasesView() {
+        if (!homeViewModel.checkHomeSectorVisibility(Constants.HOME_SECTOR_NEW_RELEASES)) return;
+
         bind.newReleasesRecyclerView.setHasFixedSize(true);
 
         newReleasesAlbumAdapter = new AlbumHorizontalAdapter(this, false);
@@ -574,6 +600,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     }
 
     private void initYearSongView() {
+        if (!homeViewModel.checkHomeSectorVisibility(Constants.HOME_SECTOR_FLASHBACK)) return;
+
         bind.yearsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.yearsRecyclerView.setHasFixedSize(true);
 
@@ -599,6 +627,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     }
 
     private void initMostPlayedAlbumView() {
+        if (!homeViewModel.checkHomeSectorVisibility(Constants.HOME_SECTOR_MOST_PLAYED)) return;
+
         bind.mostPlayedAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.mostPlayedAlbumsRecyclerView.setHasFixedSize(true);
 
@@ -625,6 +655,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     }
 
     private void initRecentPlayedAlbumView() {
+        if (!homeViewModel.checkHomeSectorVisibility(Constants.HOME_SECTOR_LAST_PLAYED)) return;
+
         bind.recentlyPlayedAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.recentlyPlayedAlbumsRecyclerView.setHasFixedSize(true);
 
@@ -650,6 +682,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     }
 
     private void initRecentAddedAlbumView() {
+        if (!homeViewModel.checkHomeSectorVisibility(Constants.HOME_SECTOR_RECENTLY_ADDED)) return;
+
         bind.recentlyAddedAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         bind.recentlyAddedAlbumsRecyclerView.setHasFixedSize(true);
 
@@ -675,6 +709,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     }
 
     private void initSharesView() {
+        if (!homeViewModel.checkHomeSectorVisibility(Constants.HOME_SECTOR_SHARED)) return;
+
         bind.sharesRecyclerView.setHasFixedSize(true);
 
         shareHorizontalAdapter = new ShareHorizontalAdapter(this);
@@ -710,6 +746,13 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         );
     }
 
+    private void initHomeReorganizer() {
+        bind.homeSectorRearrangementButton.setOnClickListener(v -> {
+            HomeRearrangementDialog dialog = new HomeRearrangementDialog();
+            dialog.show(requireActivity().getSupportFragmentManager(), null);
+        });
+    }
+
     private void refreshSharesView() {
         final Handler handler = new Handler();
         final Runnable runnable = () -> {
@@ -733,6 +776,75 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
                 page.setTranslationY(myOffset);
             }
         });
+    }
+
+    public void reorder() {
+        if (bind != null && homeViewModel.getHomeSectorList() != null) {
+            bind.homeLinearLayoutContainer.removeAllViews();
+
+            for (HomeSector sector : homeViewModel.getHomeSectorList()) {
+                if (!sector.isVisible()) continue;
+
+                switch (sector.getId()) {
+                    case Constants.HOME_SECTOR_DISCOVERY:
+                        bind.homeLinearLayoutContainer.addView(bind.homeDiscoverSector);
+                        break;
+                    case Constants.HOME_SECTOR_MADE_FOR_YOU:
+                        bind.homeLinearLayoutContainer.addView(bind.homeSimilarTracksSector);
+                        bind.homeLinearLayoutContainer.addView(bind.homeSimilarTracksPlaceholder.getRoot());
+                        break;
+                    case Constants.HOME_SECTOR_BEST_OF:
+                        bind.homeLinearLayoutContainer.addView(bind.homeBestOfArtistSector);
+                        bind.homeLinearLayoutContainer.addView(bind.homeBestOfArtistPlaceholder.getRoot());
+                        break;
+                    case Constants.HOME_SECTOR_RADIO_STATION:
+                        bind.homeLinearLayoutContainer.addView(bind.homeRadioArtistSector);
+                        bind.homeLinearLayoutContainer.addView(bind.homeRadioArtistPlaceholder.getRoot());
+                        break;
+                    case Constants.HOME_SECTOR_TOP_SONGS:
+                        bind.homeLinearLayoutContainer.addView(bind.homeGridTracksSector);
+                        break;
+                    case Constants.HOME_SECTOR_STARRED_TRACKS:
+                        bind.homeLinearLayoutContainer.addView(bind.starredTracksSector);
+                        bind.homeLinearLayoutContainer.addView(bind.starredTracksPlaceholder.getRoot());
+                        break;
+                    case Constants.HOME_SECTOR_STARRED_ALBUMS:
+                        bind.homeLinearLayoutContainer.addView(bind.starredAlbumsSector);
+                        bind.homeLinearLayoutContainer.addView(bind.starredAlbumsPlaceholder.getRoot());
+                        break;
+                    case Constants.HOME_SECTOR_STARRED_ARTISTS:
+                        bind.homeLinearLayoutContainer.addView(bind.starredArtistsSector);
+                        bind.homeLinearLayoutContainer.addView(bind.starredArtistsPlaceholder.getRoot());
+                        break;
+                    case Constants.HOME_SECTOR_NEW_RELEASES:
+                        bind.homeLinearLayoutContainer.addView(bind.homeNewReleasesSector);
+                        bind.homeLinearLayoutContainer.addView(bind.homeNewReleasesPlaceholder.getRoot());
+                        break;
+                    case Constants.HOME_SECTOR_FLASHBACK:
+                        bind.homeLinearLayoutContainer.addView(bind.homeFlashbackSector);
+                        bind.homeLinearLayoutContainer.addView(bind.homeFlashbackPlaceholder.getRoot());
+                        break;
+                    case Constants.HOME_SECTOR_MOST_PLAYED:
+                        bind.homeLinearLayoutContainer.addView(bind.homeMostPlayedAlbumsSector);
+                        bind.homeLinearLayoutContainer.addView(bind.homeMostPlayedAlbumsPlaceholder.getRoot());
+                        break;
+                    case Constants.HOME_SECTOR_LAST_PLAYED:
+                        bind.homeLinearLayoutContainer.addView(bind.homeRecentlyPlayedAlbumsSector);
+                        bind.homeLinearLayoutContainer.addView(bind.homeRecentlyPlayedAlbumsPlaceholder.getRoot());
+                        break;
+                    case Constants.HOME_SECTOR_RECENTLY_ADDED:
+                        bind.homeLinearLayoutContainer.addView(bind.homeRecentlyAddedAlbumsSector);
+                        bind.homeLinearLayoutContainer.addView(bind.homeRecentlyAddedAlbumsPlaceholder.getRoot());
+                        break;
+                    case Constants.HOME_SECTOR_SHARED:
+                        bind.homeLinearLayoutContainer.addView(bind.sharesSector);
+                        bind.homeLinearLayoutContainer.addView(bind.sharesPlaceholder.getRoot());
+                        break;
+                }
+            }
+
+            bind.homeLinearLayoutContainer.addView(bind.homeSectorRearrangementButton);
+        }
     }
 
     private void initializeMediaBrowser() {

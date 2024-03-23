@@ -87,6 +87,11 @@
     <string name="filter_title_expanded">Filter Genres</string>
     <string name="genre_catalogue_title">Genre Catalogue</string>
     <string name="genre_catalogue_title_expanded">Browse Genres</string>
+    <string name="home_rearrangement_dialog_negative_button">Cancel</string>
+    <string name="home_rearrangement_dialog_neutral_button">Reset</string>
+    <string name="home_rearrangement_dialog_positive_button">Save</string>
+    <string name="home_rearrangement_dialog_title">Rearrange home</string>
+    <string name="home_rearrangement_dialog_subtitle">Please note that in order for the changes made to take effect, it is necessary to restart the application.</string>
     <string name="home_subtitle_best_of">Top songs of your favorite artists</string>
     <string name="home_subtitle_made_for_you">Start mix from a song you liked</string>
     <string name="home_subtitle_new_internet_radio_station">Add a new radio</string>
@@ -121,6 +126,7 @@
     <string name="home_title_starred_tracks">★ Starred tracks</string>
     <string name="home_title_starred_tracks_see_all_button">See all</string>
     <string name="home_title_top_songs">Your top songs</string>
+    <string name="home_option_reorganize">Reorganize</string>
     <string name="label_dot_separator" translatable="false">•</string>
     <string name="label_placeholder" translatable="false">--</string>
     <string name="library_title_album">Albums</string>

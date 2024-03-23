@@ -275,7 +275,7 @@ public class AlbumRepository {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getAlbumList2() != null && response.body().getSubsonicResponse().getAlbumList2().getAlbums() != null) {
-                            if (response.body().getSubsonicResponse().getAlbumList2().getAlbums().size() > 0 && !response.body().getSubsonicResponse().getAlbumList2().getAlbums().isEmpty()) {
+                            if (!response.body().getSubsonicResponse().getAlbumList2().getAlbums().isEmpty() && !response.body().getSubsonicResponse().getAlbumList2().getAlbums().isEmpty()) {
                                 callback.onLoadYear(response.body().getSubsonicResponse().getAlbumList2().getAlbums().get(0).getYear());
                             } else {
                                 callback.onLoadYear(-1);

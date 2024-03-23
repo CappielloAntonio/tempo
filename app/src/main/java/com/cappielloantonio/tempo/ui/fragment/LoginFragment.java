@@ -92,7 +92,7 @@ public class LoginFragment extends Fragment implements ClickCallback {
         serverAdapter = new ServerAdapter(this);
         bind.serverListRecyclerView.setAdapter(serverAdapter);
         loginViewModel.getServerList().observe(getViewLifecycleOwner(), servers -> {
-            if (servers.size() > 0) {
+            if (!servers.isEmpty()) {
                 if (bind != null) bind.noServerAddedTextView.setVisibility(View.GONE);
                 if (bind != null) bind.serverListRecyclerView.setVisibility(View.VISIBLE);
                 serverAdapter.setItems(servers);

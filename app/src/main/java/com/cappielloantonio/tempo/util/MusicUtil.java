@@ -222,7 +222,7 @@ public class MusicUtil {
     public static List<String> getReadableStrings(List<String> strings) {
         List<String> readableStrings = new ArrayList<>();
 
-        if (strings.size() > 0) {
+        if (!strings.isEmpty()) {
             for (String string : strings) {
                 if (string != null) {
                     readableStrings.add(Html.fromHtml(string, Html.FROM_HTML_MODE_COMPACT).toString());

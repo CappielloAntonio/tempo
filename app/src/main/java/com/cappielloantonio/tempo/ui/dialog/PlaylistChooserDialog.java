@@ -83,7 +83,7 @@ public class PlaylistChooserDialog extends DialogFragment implements ClickCallba
 
         playlistChooserViewModel.getPlaylistList(requireActivity()).observe(requireActivity(), playlists -> {
             if (playlists != null) {
-                if (playlists.size() > 0) {
+                if (!playlists.isEmpty()) {
                     if (bind != null) bind.noPlaylistsCreatedTextView.setVisibility(View.GONE);
                     if (bind != null) bind.playlistDialogRecyclerView.setVisibility(View.VISIBLE);
                     playlistDialogHorizontalAdapter.setItems(playlists);

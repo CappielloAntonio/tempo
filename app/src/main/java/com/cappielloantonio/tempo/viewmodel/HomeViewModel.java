@@ -289,7 +289,7 @@ public class HomeViewModel extends AndroidViewModel {
     public boolean checkHomeSectorVisibility(String sectorId) {
         return sectors != null && sectors.stream().filter(sector -> sector.getId().equals(sectorId))
                 .findAny()
-                .orElse(null) != null;
+                .orElse(null) == null;
     }
 
     public void setOfflineFavorite() {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -110,7 +111,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="22dp">
+                android:paddingBottom="22dp"
+                android:visibility="gone"
+                tools:visibility="visible">>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -146,18 +149,15 @@
                     android:paddingBottom="8dp" />
             </LinearLayout>
 
-            <include
-                android:id="@+id/artist_page_bio_placeholder"
-                layout="@layout/item_placehoder_biography"
-                android:visibility="gone" />
-
             <!--  Label and button  -->
             <LinearLayout
                 android:id="@+id/artist_page_top_songs_sector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="22dp">
+                android:paddingBottom="22dp"
+                android:visibility="gone"
+                tools:visibility="visible">>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -193,16 +193,13 @@
                     android:paddingTop="8dp" />
             </LinearLayout>
 
-            <include
-                android:id="@+id/artist_page_top_tracks_placeholder"
-                layout="@layout/item_placeholder_horizontal"
-                android:visibility="gone" />
-
             <LinearLayout
                 android:id="@+id/artist_page_albums_sector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <TextView
                     style="@style/TitleLarge"
@@ -225,16 +222,13 @@
                     android:paddingBottom="8dp"/>
             </LinearLayout>
 
-            <include
-                android:id="@+id/artist_page_album_placeholder"
-                layout="@layout/item_placeholder_album"
-                android:visibility="gone" />
-
             <LinearLayout
                 android:id="@+id/similar_artist_sector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <TextView
                     style="@style/TitleLarge"
@@ -258,12 +252,6 @@
                     android:paddingBottom="8dp" />
 
             </LinearLayout>
-
-            <include
-                android:id="@+id/artist_page_similar_artist_placeholder"
-                layout="@layout/item_placeholder_album"
-                android:visibility="gone" />
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

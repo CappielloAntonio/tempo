@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_home_nested_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -29,8 +29,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="12dp"
-                android:paddingHorizontal="20dp">
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="12dp">
 
                 <!-- Title, secondary and supporting text -->
                 <TextView
@@ -111,17 +111,19 @@
             android:id="@+id/home_discover_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <!--  Label and button  -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="8dp"
                 android:paddingStart="8dp"
                 android:paddingTop="16dp"
-                android:paddingEnd="8dp">
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp">
 
                 <TextView
                     android:id="@+id/discovery_text_view_refreshable"
@@ -153,17 +155,14 @@
                 android:paddingBottom="16dp" />
         </LinearLayout>
 
-        <include
-            android:id="@+id/home_discovery_placeholder"
-            layout="@layout/item_placehoder_discovery"
-            android:visibility="gone" />
-
         <!--  Similar tracks -->
         <LinearLayout
             android:id="@+id/home_similar_tracks_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <TextView
                 android:id="@+id/similar_tracks_pre_text_view"
@@ -171,7 +170,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
-                android:paddingTop="20dp"
+                android:paddingTop="16dp"
                 android:paddingEnd="16dp"
                 android:text="@string/home_subtitle_made_for_you"
                 android:textAllCaps="true" />
@@ -198,17 +197,14 @@
                 android:paddingBottom="8dp" />
         </LinearLayout>
 
-        <include
-            android:id="@+id/home_similar_tracks_placeholder"
-            layout="@layout/item_placeholder_album"
-            android:visibility="gone" />
-
         <!--  Best of -->
         <LinearLayout
             android:id="@+id/home_best_of_artist_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <TextView
                 android:id="@+id/most_streamed_song_pre_text_view"
@@ -216,7 +212,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
-                android:paddingTop="20dp"
+                android:paddingTop="16dp"
                 android:paddingEnd="16dp"
                 android:text="@string/home_subtitle_best_of"
                 android:textAllCaps="true" />
@@ -243,17 +239,14 @@
                 android:paddingBottom="8dp" />
         </LinearLayout>
 
-        <include
-            android:id="@+id/home_best_of_artist_placeholder"
-            layout="@layout/item_placeholder_album"
-            android:visibility="gone" />
-
         <!--  Radio Artist -->
         <LinearLayout
             android:id="@+id/home_radio_artist_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <TextView
                 android:id="@+id/radio_artist_text_view_refreshable"
@@ -261,7 +254,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
-                android:paddingTop="20dp"
+                android:paddingTop="16dp"
                 android:paddingEnd="16dp"
                 android:text="@string/home_title_radio_station" />
 
@@ -278,18 +271,15 @@
                 android:paddingBottom="8dp" />
         </LinearLayout>
 
-        <include
-            android:id="@+id/home_radio_artist_placeholder"
-            layout="@layout/item_placeholder_album"
-            android:visibility="gone" />
-
         <View
             android:id="@+id/after_radio_artist_divider"
             style="@style/Divider"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
         <!--  Grid tracks -->
         <LinearLayout
@@ -297,7 +287,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <TextView
                 android:id="@+id/grid_tracks_pre_text_view"
@@ -305,7 +296,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
-                android:paddingTop="12dp"
+                android:paddingTop="16dp"
                 android:paddingEnd="16dp"
                 android:text="@string/home_title_last_week"
                 android:textAllCaps="true" />
@@ -336,16 +327,20 @@
             android:id="@+id/after_grid_divider"
             style="@style/Divider"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
         <!-- Favorites -->
         <LinearLayout
             android:id="@+id/starred_tracks_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <!--  Label and button  -->
             <LinearLayout
@@ -353,8 +348,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingStart="8dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="8dp">
+                android:paddingTop="16dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp">
 
                 <TextView
                     android:id="@+id/starred_tracks_text_view_refreshable"
@@ -387,16 +383,13 @@
                 android:paddingBottom="8dp" />
         </LinearLayout>
 
-        <include
-            android:id="@+id/starred_tracks_placeholder"
-            layout="@layout/item_placeholder_horizontal"
-            android:visibility="gone" />
-
         <LinearLayout
             android:id="@+id/starred_albums_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <!--  Label and button  -->
             <LinearLayout
@@ -404,8 +397,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingStart="8dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="8dp">
+                android:paddingTop="16dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp">
 
                 <TextView
                     android:id="@+id/starred_albums_text_view_refreshable"
@@ -414,7 +408,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingStart="8dp"
-                    android:paddingTop="12dp"
                     android:paddingEnd="8dp"
                     android:text="@string/home_title_starred_albums" />
 
@@ -424,7 +417,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="8dp"
-                    android:paddingTop="12dp"
                     android:paddingEnd="8dp"
                     android:text="@string/home_title_starred_albums_see_all_button" />
             </LinearLayout>
@@ -440,16 +432,13 @@
                 android:paddingBottom="8dp" />
         </LinearLayout>
 
-        <include
-            android:id="@+id/starred_albums_placeholder"
-            layout="@layout/item_placeholder_horizontal"
-            android:visibility="gone" />
-
         <LinearLayout
             android:id="@+id/starred_artists_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <!--  Label and button  -->
             <LinearLayout
@@ -457,8 +446,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingStart="8dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="8dp">
+                android:paddingTop="16dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp">
 
                 <TextView
                     android:id="@+id/starred_artists_text_view_refreshable"
@@ -467,7 +457,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingStart="8dp"
-                    android:paddingTop="12dp"
                     android:paddingEnd="8dp"
                     android:text="@string/home_title_starred_artists" />
 
@@ -477,7 +466,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="8dp"
-                    android:paddingTop="12dp"
                     android:paddingEnd="8dp"
                     android:text="@string/home_title_starred_artists_see_all_button" />
             </LinearLayout>
@@ -493,25 +481,23 @@
                 android:paddingBottom="8dp" />
         </LinearLayout>
 
-        <include
-            android:id="@+id/starred_artists_placeholder"
-            layout="@layout/item_placeholder_horizontal"
-            android:visibility="gone" />
-
         <View
             android:id="@+id/after_favorites_divider"
             style="@style/Divider"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
         <LinearLayout
             android:id="@+id/home_new_releases_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="8dp">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <!--  New releases  -->
             <TextView
@@ -519,7 +505,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
-                android:paddingTop="8dp"
+                android:paddingTop="16dp"
                 android:paddingEnd="16dp"
                 android:text="@string/home_title_new_releases" />
 
@@ -534,17 +520,14 @@
                 android:paddingBottom="8dp" />
         </LinearLayout>
 
-        <include
-            android:id="@+id/home_new_releases_placeholder"
-            layout="@layout/item_placeholder_horizontal"
-            android:visibility="gone" />
-
         <!-- Fashback -->
         <LinearLayout
             android:id="@+id/home_flashback_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <!--  Label and button  -->
             <TextView
@@ -552,7 +535,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
-                android:paddingTop="20dp"
+                android:paddingTop="16dp"
                 android:paddingEnd="16dp"
                 android:text="@string/home_title_flashback" />
 
@@ -569,17 +552,14 @@
                 android:paddingBottom="8dp" />
         </LinearLayout>
 
-        <include
-            android:id="@+id/home_flashback_placeholder"
-            layout="@layout/item_placeholder_year"
-            android:visibility="gone" />
-
         <View
             style="@style/Divider"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
         <!--  Most played albums -->
         <LinearLayout
@@ -587,7 +567,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <!--  Label and button  -->
             <LinearLayout
@@ -595,8 +576,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingStart="8dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="8dp">
+                android:paddingTop="16dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp">
 
                 <TextView
                     android:id="@+id/most_played_albums_text_view_refreshable"
@@ -605,7 +587,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingStart="8dp"
-                    android:paddingTop="12dp"
                     android:paddingEnd="8dp"
                     android:text="@string/home_title_most_played" />
 
@@ -615,7 +596,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="8dp"
-                    android:paddingTop="12dp"
                     android:paddingEnd="8dp"
                     android:text="@string/home_title_most_played_see_all_button" />
             </LinearLayout>
@@ -633,17 +613,14 @@
                 android:paddingBottom="8dp" />
         </LinearLayout>
 
-        <include
-            android:id="@+id/home_most_played_albums_placeholder"
-            layout="@layout/item_placeholder_album"
-            android:visibility="gone" />
-
         <!--  Recently played albums -->
         <LinearLayout
             android:id="@+id/home_recently_played_albums_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <!--  Label and button  -->
             <LinearLayout
@@ -651,8 +628,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingStart="8dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="8dp">
+                android:paddingTop="16dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp">
 
                 <TextView
                     android:id="@+id/recently_played_albums_text_view_refreshable"
@@ -661,7 +639,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingStart="8dp"
-                    android:paddingTop="12dp"
                     android:paddingEnd="8dp"
                     android:text="@string/home_title_last_played" />
 
@@ -672,7 +649,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="8dp"
-                    android:paddingTop="12dp"
                     android:paddingEnd="8dp"
                     android:text="@string/home_title_last_played_see_all_button" />
 
@@ -691,17 +667,14 @@
                 android:paddingBottom="8dp" />
         </LinearLayout>
 
-        <include
-            android:id="@+id/home_recently_played_albums_placeholder"
-            layout="@layout/item_placeholder_album"
-            android:visibility="gone" />
-
         <!--  Recently added albums -->
         <LinearLayout
             android:id="@+id/home_recently_added_albums_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <!--  Label and button  -->
             <LinearLayout
@@ -709,8 +682,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingStart="8dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="8dp">
+                android:paddingTop="16dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp">
 
                 <TextView
                     android:id="@+id/recently_added_albums_text_view_refreshable"
@@ -719,7 +693,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingStart="8dp"
-                    android:paddingTop="12dp"
                     android:paddingEnd="8dp"
                     android:text="@string/home_title_recently_added" />
 
@@ -730,7 +703,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="8dp"
-                    android:paddingTop="12dp"
                     android:paddingEnd="8dp"
                     android:text="@string/home_title_recently_added_see_all_button" />
 
@@ -749,26 +721,22 @@
                 android:paddingBottom="8dp" />
         </LinearLayout>
 
-        <include
-            android:id="@+id/home_recently_added_albums_placeholder"
-            layout="@layout/item_placeholder_album"
-            android:visibility="gone" />
-
         <!-- Shares -->
         <LinearLayout
             android:id="@+id/shares_sector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <TextView
                 android:id="@+id/shares_text_view_refreshable"
                 style="@style/TitleLarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="12dp"
                 android:paddingStart="16dp"
+                android:paddingTop="16dp"
                 android:paddingEnd="16dp"
                 android:text="@string/home_title_shares" />
 
@@ -783,18 +751,15 @@
                 android:paddingBottom="8dp" />
         </LinearLayout>
 
-        <include
-            android:id="@+id/shares_placeholder"
-            layout="@layout/item_placeholder_horizontal"
-            android:visibility="gone" />
-
         <Button
             android:id="@+id/home_sector_rearrangement_button"
             style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/home_option_reorganize"/>
+            android:text="@string/home_option_reorganize"
+            android:visibility="gone"
+            tools:visibility="visible"/>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
 

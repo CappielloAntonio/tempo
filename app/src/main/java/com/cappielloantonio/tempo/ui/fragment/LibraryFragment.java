@@ -142,12 +142,8 @@ public class LibraryFragment extends Fragment implements ClickCallback {
         bind.musicFolderRecyclerView.setAdapter(musicFolderAdapter);
         libraryViewModel.getMusicFolders(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), musicFolders -> {
             if (musicFolders == null) {
-                if (bind != null)
-                    bind.libraryMusicFolderPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.libraryMusicFolderSector.setVisibility(View.GONE);
             } else {
-                if (bind != null)
-                    bind.libraryMusicFolderPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null)
                     bind.libraryMusicFolderSector.setVisibility(!musicFolders.isEmpty() ? View.VISIBLE : View.GONE);
 
@@ -164,11 +160,8 @@ public class LibraryFragment extends Fragment implements ClickCallback {
         bind.albumRecyclerView.setAdapter(albumAdapter);
         libraryViewModel.getAlbumSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
-                if (bind != null)
-                    bind.libraryAlbumPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.libraryAlbumSector.setVisibility(View.GONE);
             } else {
-                if (bind != null) bind.libraryAlbumPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null)
                     bind.libraryAlbumSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
 
@@ -188,12 +181,8 @@ public class LibraryFragment extends Fragment implements ClickCallback {
         bind.artistRecyclerView.setAdapter(artistAdapter);
         libraryViewModel.getArtistSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> {
             if (artists == null) {
-                if (bind != null)
-                    bind.libraryArtistPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.libraryArtistSector.setVisibility(View.GONE);
             } else {
-                if (bind != null)
-                    bind.libraryArtistPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null)
                     bind.libraryArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
 
@@ -214,11 +203,8 @@ public class LibraryFragment extends Fragment implements ClickCallback {
 
         libraryViewModel.getGenreSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), genres -> {
             if (genres == null) {
-                if (bind != null)
-                    bind.libraryGenrePlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.libraryGenresSector.setVisibility(View.GONE);
             } else {
-                if (bind != null) bind.libraryGenrePlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null)
                     bind.libraryGenresSector.setVisibility(!genres.isEmpty() ? View.VISIBLE : View.GONE);
 
@@ -238,12 +224,8 @@ public class LibraryFragment extends Fragment implements ClickCallback {
         bind.playlistRecyclerView.setAdapter(playlistHorizontalAdapter);
         libraryViewModel.getPlaylistSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), playlists -> {
             if (playlists == null) {
-                if (bind != null)
-                    bind.libraryPlaylistPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.libraryPlaylistSector.setVisibility(View.GONE);
             } else {
-                if (bind != null)
-                    bind.libraryPlaylistPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null)
                     bind.libraryPlaylistSector.setVisibility(!playlists.isEmpty() ? View.VISIBLE : View.GONE);
 

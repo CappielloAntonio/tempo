@@ -118,8 +118,6 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
     private void initArtistInfo() {
         artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(getViewLifecycleOwner(), artistInfo -> {
             if (artistInfo == null) {
-                if (bind != null)
-                    bind.artistPageBioPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.artistPageBioSector.setVisibility(View.GONE);
             } else {
                 String normalizedBio = MusicUtil.forceReadableString(artistInfo.getBiography());
@@ -142,8 +140,6 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
                     startActivity(intent);
                 });
 
-                if (bind != null)
-                    bind.artistPageBioPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null) bind.artistPageBioSector.setVisibility(View.VISIBLE);
             }
         });
@@ -152,7 +148,7 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
     private void initPlayButtons() {
         bind.artistPageShuffleButton.setOnClickListener(v -> {
             artistPageViewModel.getArtistShuffleList().observe(getViewLifecycleOwner(), songs -> {
-                if (songs.size() > 0) {
+                if (!songs.isEmpty()) {
                     MediaManager.startQueue(mediaBrowserListenableFuture, songs, 0);
                     activity.setBottomSheetInPeek(true);
                 } else {
@@ -163,7 +159,7 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
 
         bind.artistPageRadioButton.setOnClickListener(v -> {
             artistPageViewModel.getArtistInstantMix().observe(getViewLifecycleOwner(), songs -> {
-                if (songs.size() > 0) {
+                if (!songs.isEmpty()) {
                     MediaManager.startQueue(mediaBrowserListenableFuture, songs, 0);
                     activity.setBottomSheetInPeek(true);
                 } else {
@@ -180,12 +176,8 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
         bind.mostStreamedSongRecyclerView.setAdapter(songHorizontalAdapter);
         artistPageViewModel.getArtistTopSongList().observe(getViewLifecycleOwner(), songs -> {
             if (songs == null) {
-                if (bind != null)
-                    bind.artistPageTopTracksPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.artistPageTopSongsSector.setVisibility(View.GONE);
             } else {
-                if (bind != null)
-                    bind.artistPageTopTracksPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null)
                     bind.artistPageTopSongsSector.setVisibility(!songs.isEmpty() ? View.VISIBLE : View.GONE);
                 if (bind != null)
@@ -205,12 +197,8 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
 
         artistPageViewModel.getAlbumList().observe(getViewLifecycleOwner(), albums -> {
             if (albums == null) {
-                if (bind != null)
-                    bind.artistPageAlbumPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.artistPageAlbumsSector.setVisibility(View.GONE);
             } else {
-                if (bind != null)
-                    bind.artistPageAlbumPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null)
                     bind.artistPageAlbumsSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
                 albumCatalogueAdapter.setItems(albums);
@@ -228,12 +216,8 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
 
         artistPageViewModel.getArtistInfo(artistPageViewModel.getArtist().getId()).observe(getViewLifecycleOwner(), artist -> {
             if (artist == null) {
-                if (bind != null)
-                    bind.artistPageSimilarArtistPlaceholder.placeholder.setVisibility(View.VISIBLE);
                 if (bind != null) bind.similarArtistSector.setVisibility(View.GONE);
             } else {
-                if (bind != null)
-                    bind.artistPageSimilarArtistPlaceholder.placeholder.setVisibility(View.GONE);
                 if (bind != null && artist.getSimilarArtists() != null)
                     bind.similarArtistSector.setVisibility(!artist.getSimilarArtists().isEmpty() ? View.VISIBLE : View.GONE);
 

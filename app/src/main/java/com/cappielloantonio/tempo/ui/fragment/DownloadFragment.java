@@ -111,20 +111,14 @@ public class DownloadFragment extends Fragment implements ClickCallback {
                     if (bind != null) {
                         bind.emptyDownloadLayout.setVisibility(View.VISIBLE);
                         bind.fragmentDownloadNestedScrollView.setVisibility(View.GONE);
-
-                        bind.downloadDownloadedPlaceholder.placeholder.setVisibility(View.VISIBLE);
                         bind.downloadDownloadedSector.setVisibility(View.GONE);
-
                         bind.downloadedGroupByImageView.setVisibility(View.GONE);
                     }
                 } else {
                     if (bind != null) {
                         bind.emptyDownloadLayout.setVisibility(View.GONE);
                         bind.fragmentDownloadNestedScrollView.setVisibility(View.VISIBLE);
-
-                        bind.downloadDownloadedPlaceholder.placeholder.setVisibility(View.GONE);
                         bind.downloadDownloadedSector.setVisibility(View.VISIBLE);
-
                         bind.downloadedGroupByImageView.setVisibility(View.VISIBLE);
 
                         finishDownloadView(songs);

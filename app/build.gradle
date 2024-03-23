@@ -4,7 +4,7 @@ apply plugin: 'kotlin-parcelize'
 
 android {
     compileSdk = 34
-    buildToolsVersion = "34.0.0"
+    buildToolsVersion = '35.0.0 rc1'
 
     defaultConfig {
         minSdkVersion 24
@@ -94,7 +94,7 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.6.1'
 
     // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.10.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.12'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.10.0'
 }

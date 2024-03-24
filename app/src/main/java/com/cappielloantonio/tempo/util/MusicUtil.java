@@ -195,21 +195,6 @@ public class MusicUtil {
         return context.getString(R.string.label_placeholder);
     }
 
-    public static String getRatingNumber(Integer ratingNumber) {
-        if (ratingNumber == null || !Preferences.showItemRating()) return "";
-
-        StringBuilder builder = new StringBuilder();
-
-        builder.append("•");
-        builder.append(" ");
-
-        for (int i = 0; i < ratingNumber; i++) {
-            builder.append("★");
-        }
-
-        return builder.toString();
-    }
-
     public static String forceReadableString(String string) {
         if (string != null) {
             return getReadableString(string)

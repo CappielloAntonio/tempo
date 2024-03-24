@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.media3.common.util.UnstableApi;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -60,13 +61,11 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
                                         song.getArtist()
                         ),
                         MusicUtil.getReadableDurationString(song.getDuration(), false),
-                        MusicUtil.getReadableAudioQualityString(song),
-                        MusicUtil.getRatingNumber(song.getUserRating())
+                        MusicUtil.getReadableAudioQualityString(song)
                 )
         );
 
         holder.item.trackNumberTextView.setText(MusicUtil.getReadableTrackNumber(holder.itemView.getContext(), song.getTrack()));
-        if (Preferences.showItemRating()) holder.item.preferredIcon.setVisibility(song.getStarred() != null ? View.VISIBLE : View.GONE);
 
         if (DownloadUtil.getDownloadTracker(holder.itemView.getContext()).isDownloaded(song.getId())) {
             holder.item.searchResultDownloadIndicatorImageView.setVisibility(View.VISIBLE);
@@ -84,6 +83,25 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
 
         if (!showCoverArt && (position > 0 && songs.get(position - 1) != null && songs.get(position - 1).getDiscNumber() != null && songs.get(position).getDiscNumber() != null && songs.get(position - 1).getDiscNumber() < songs.get(position).getDiscNumber())) {
             holder.item.differentDiskDivider.setVisibility(View.VISIBLE);
+        }
+
+        if (Preferences.showItemRating()) {
+            if (song.getStarred() == null && song.getUserRating() == null) {
+                holder.item.ratingIndicatorImageView.setVisibility(View.GONE);
+            }
+
+            holder.item.preferredIcon.setVisibility(song.getStarred() != null ? View.VISIBLE : View.GONE);
+            holder.item.ratingBarLayout.setVisibility(song.getUserRating() != null ? View.VISIBLE : View.GONE);
+
+            if (song.getUserRating() != null) {
+                holder.item.oneStarIcon.setImageDrawable(AppCompatResources.getDrawable(holder.itemView.getContext(), song.getUserRating() >= 1 ? R.drawable.ic_star : R.drawable.ic_star_outlined));
+                holder.item.twoStarIcon.setImageDrawable(AppCompatResources.getDrawable(holder.itemView.getContext(), song.getUserRating() >= 2 ? R.drawable.ic_star : R.drawable.ic_star_outlined));
+                holder.item.threeStarIcon.setImageDrawable(AppCompatResources.getDrawable(holder.itemView.getContext(), song.getUserRating() >= 3 ? R.drawable.ic_star : R.drawable.ic_star_outlined));
+                holder.item.fourStarIcon.setImageDrawable(AppCompatResources.getDrawable(holder.itemView.getContext(), song.getUserRating() >= 4 ? R.drawable.ic_star : R.drawable.ic_star_outlined));
+                holder.item.fiveStarIcon.setImageDrawable(AppCompatResources.getDrawable(holder.itemView.getContext(), song.getUserRating() >= 5 ? R.drawable.ic_star : R.drawable.ic_star_outlined));
+            }
+        } else {
+            holder.item.ratingIndicatorImageView.setVisibility(View.GONE);
         }
     }
 

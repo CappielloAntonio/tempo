@@ -2,9 +2,11 @@ package com.cappielloantonio.tempo.ui.adapter;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.media3.session.MediaBrowser;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +19,7 @@ import com.cappielloantonio.tempo.service.MediaManager;
 import com.cappielloantonio.tempo.subsonic.models.Child;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.MusicUtil;
+import com.cappielloantonio.tempo.util.Preferences;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
@@ -66,12 +69,33 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
                 if (position < index) {
                     holder.item.queueSongTitleTextView.setAlpha(0.2f);
                     holder.item.queueSongSubtitleTextView.setAlpha(0.2f);
+                    holder.item.ratingIndicatorImageView.setAlpha(0.2f);
                 } else {
                     holder.item.queueSongTitleTextView.setAlpha(1.0f);
                     holder.item.queueSongSubtitleTextView.setAlpha(1.0f);
+                    holder.item.ratingIndicatorImageView.setAlpha(1.0f);
                 }
             }
         });
+
+        if (Preferences.showItemRating()) {
+            if (song.getStarred() == null && song.getUserRating() == null) {
+                holder.item.ratingIndicatorImageView.setVisibility(View.GONE);
+            }
+
+            holder.item.preferredIcon.setVisibility(song.getStarred() != null ? View.VISIBLE : View.GONE);
+            holder.item.ratingBarLayout.setVisibility(song.getUserRating() != null ? View.VISIBLE : View.GONE);
+
+            if (song.getUserRating() != null) {
+                holder.item.oneStarIcon.setImageDrawable(AppCompatResources.getDrawable(holder.itemView.getContext(), song.getUserRating() >= 1 ? R.drawable.ic_star : R.drawable.ic_star_outlined));
+                holder.item.twoStarIcon.setImageDrawable(AppCompatResources.getDrawable(holder.itemView.getContext(), song.getUserRating() >= 2 ? R.drawable.ic_star : R.drawable.ic_star_outlined));
+                holder.item.threeStarIcon.setImageDrawable(AppCompatResources.getDrawable(holder.itemView.getContext(), song.getUserRating() >= 3 ? R.drawable.ic_star : R.drawable.ic_star_outlined));
+                holder.item.fourStarIcon.setImageDrawable(AppCompatResources.getDrawable(holder.itemView.getContext(), song.getUserRating() >= 4 ? R.drawable.ic_star : R.drawable.ic_star_outlined));
+                holder.item.fiveStarIcon.setImageDrawable(AppCompatResources.getDrawable(holder.itemView.getContext(), song.getUserRating() >= 5 ? R.drawable.ic_star : R.drawable.ic_star_outlined));
+            }
+        } else {
+            holder.item.ratingIndicatorImageView.setVisibility(View.GONE);
+        }
     }
 
     public List<Child> getItems() {

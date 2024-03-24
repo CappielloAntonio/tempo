@@ -78,11 +78,11 @@
         app:layout_constraintStart_toEndOf="@+id/cover_image_separator"
         app:layout_constraintTop_toBottomOf="@+id/search_result_song_title_text_view" />
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rating_indicator_image_view"
-        android:layout_width="wrap_content"
+        android:layout_width="42dp"
         android:layout_height="wrap_content"
-        android:padding="12dp"
+        android:paddingVertical="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/song_cover_image_view"
         app:layout_constraintEnd_toStartOf="@+id/search_result_download_indicator_image_view"
         app:layout_constraintStart_toEndOf="@+id/search_result_song_title_text_view"
@@ -94,11 +94,53 @@
             android:layout_height="18dp"
             android:background="@drawable/ic_favorite"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/rating_bar"
-            app:layout_constraintEnd_toEndOf="@+id/rating_bar"
-            app:layout_constraintStart_toStartOf="@+id/rating_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
-    </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/rating_bar_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/preferred_icon">
+
+            <ImageView
+                android:id="@+id/one_star_icon"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                tools:src="@drawable/ic_star" />
+
+            <ImageView
+                android:id="@+id/two_star_icon"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                tools:src="@drawable/ic_star" />
+
+            <ImageView
+                android:id="@+id/three_star_icon"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                tools:src="@drawable/ic_star" />
+
+            <ImageView
+                android:id="@+id/four_star_icon"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                tools:src="@drawable/ic_star" />
+
+            <ImageView
+                android:id="@+id/five_star_icon"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                tools:src="@drawable/ic_star" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
         android:id="@+id/search_result_download_indicator_image_view"

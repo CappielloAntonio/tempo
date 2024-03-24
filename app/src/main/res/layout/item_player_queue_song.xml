@@ -1,11 +1,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipChildren="false"
     android:foreground="?attr/selectableItemBackground"
     android:orientation="horizontal"
-    android:paddingHorizontal="24dp"
+    android:paddingHorizontal="16dp"
     android:paddingTop="3dp"
     android:paddingBottom="3dp">
 
@@ -30,9 +31,11 @@
         android:paddingEnd="12dp"
         android:singleLine="true"
         android:text="@string/label_placeholder"
-        app:layout_constraintEnd_toStartOf="@+id/queue_song_holder_image"
+        app:layout_constraintEnd_toStartOf="@+id/rating_indicator_image_view"
         app:layout_constraintStart_toEndOf="@+id/queue_song_cover_image_view"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/queue_song_cover_image_view"
+        app:layout_constraintBottom_toTopOf="@id/queue_song_subtitle_text_view"
+        app:layout_constraintVertical_chainStyle="packed"/>
 
     <TextView
         android:id="@+id/queue_song_subtitle_text_view"
@@ -45,19 +48,84 @@
         android:singleLine="true"
         android:text="@string/label_placeholder"
         app:layout_constrainedWidth="true"
-        app:layout_constraintEnd_toStartOf="@+id/queue_song_holder_image"
+        app:layout_constraintEnd_toEndOf="@+id/queue_song_title_text_view"
         app:layout_constraintStart_toEndOf="@+id/queue_song_cover_image_view"
-        app:layout_constraintTop_toBottomOf="@+id/queue_song_title_text_view" />
+        app:layout_constraintTop_toBottomOf="@+id/queue_song_title_text_view"
+        app:layout_constraintBottom_toBottomOf="@+id/queue_song_cover_image_view"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rating_indicator_image_view"
+        android:layout_width="42dp"
+        android:layout_height="wrap_content"
+        android:paddingVertical="8dp"
+        android:layout_marginHorizontal="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/queue_song_cover_image_view"
+        app:layout_constraintEnd_toStartOf="@+id/queue_song_holder_image"
+        app:layout_constraintStart_toEndOf="@+id/queue_song_title_text_view"
+        app:layout_constraintTop_toTopOf="@+id/queue_song_cover_image_view">
+
+        <ImageView
+            android:id="@+id/preferred_icon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="@drawable/ic_favorite"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/rating_bar_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/preferred_icon">
+
+            <ImageView
+                android:id="@+id/one_star_icon"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                tools:src="@drawable/ic_star" />
+
+            <ImageView
+                android:id="@+id/two_star_icon"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                tools:src="@drawable/ic_star" />
+
+            <ImageView
+                android:id="@+id/three_star_icon"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                tools:src="@drawable/ic_star" />
+
+            <ImageView
+                android:id="@+id/four_star_icon"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                tools:src="@drawable/ic_star" />
+
+            <ImageView
+                android:id="@+id/five_star_icon"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                tools:src="@drawable/ic_star" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/queue_song_holder_image"
-        android:layout_width="36dp"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
         android:src="@drawable/ic_drag_handle"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/queue_song_cover_image_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/rating_indicator_image_view"
+        app:layout_constraintTop_toTopOf="@+id/queue_song_cover_image_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>

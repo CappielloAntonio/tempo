@@ -331,7 +331,7 @@
     <string name="song_list_page_starred">즐겨찾기한 트랙</string>
     <string name="song_list_page_top">%1$s\의 top tracks</string>
     <string name="song_list_page_year">년도 %1$d</string>
-    <string name="song_subtitle_formatter">%1$s  •  %2$s  %3$s %4$s</string>
+    <string name="song_subtitle_formatter">%1$s  •  %2$s  %3$s</string>
     <string name="starred_sync_dialog_negative_button">취소</string>
     <string name="starred_sync_dialog_neutral_button">계속</string>
     <string name="starred_sync_dialog_positive_button">계속해서 다운로드</string>

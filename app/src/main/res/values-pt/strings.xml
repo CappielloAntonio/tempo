@@ -330,7 +330,7 @@
     <string name="song_list_page_starred">Músicas favoritas</string>
     <string name="song_list_page_top">Músicas preferidas de %1$s</string>
     <string name="song_list_page_year">Ano %1$d</string>
-    <string name="song_subtitle_formatter">%1$s  •  %2$s  %3$s %4$s</string>
+    <string name="song_subtitle_formatter">%1$s  •  %2$s  %3$s</string>
     <string name="starred_sync_dialog_negative_button">Cancelar</string>
     <string name="starred_sync_dialog_neutral_button">Continuar</string>
     <string name="starred_sync_dialog_positive_button">Continuar e baixar</string>

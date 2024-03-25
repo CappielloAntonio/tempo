@@ -11,7 +11,7 @@ android {
         targetSdkVersion 34
 
         versionCode 24
-        versionName '3.7.0'
+        versionName '3.8.1'
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 

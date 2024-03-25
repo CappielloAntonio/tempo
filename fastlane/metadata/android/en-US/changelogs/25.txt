@@ -1,0 +1,16 @@
+Checked and saved usable OpenSubsonic APIs
+Implemented karaoke mode for synchronized lyrics
+Implemented customizable home, allowing users to toggle visibility of elements and change their order
+Added "Recent songs" and "Random" menu items in Android Auto
+Added an option to show the item's rating and whether it is marked as a favorite
+Added additional information about the album on the dedicated detail page
+Implemented sending "now playing" scrobbles to the server
+Implemented shuffle feature for downloaded songs based on set filter
+Added an option to prevent the phone from going into sleep mode if in-app
+Added Brazilian Portuguese localization
+Added optional information about audio quality for horizontal track adapters
+Added sorting by newest album added
+Upgraded German locale
+Updated dependencies
+Fixed new download caching
+Fixed scrolling issue in the server registration dialog

@@ -10,8 +10,8 @@
     <string name="album_bottom_sheet_instant_mix">"Мгновенный микс"</string>
     <string name="album_bottom_sheet_play_next">"Играть дальше"</string>
     <string name="album_bottom_sheet_remove_all">"Убрать все"</string>
-    <string name="album_bottom_sheet_share">"Делиться"</string>
-    <string name="album_bottom_sheet_shuffle">"Перетасовать"</string>
+    <string name="album_bottom_sheet_share">"Поделиться"</string>
+    <string name="album_bottom_sheet_shuffle">"Перемешать"</string>
     <string name="album_catalogue_title">"Альбомы"</string>
     <string name="album_catalogue_title_expanded">"Просмотр альбомов"</string>
     <string name="album_error_retrieving_artist">"Не удалось получить исполнителя."</string>
@@ -41,13 +41,13 @@
     <string name="artist_page_shuffle_button">"Смешать"</string>
     <string name="artist_page_switch_layout_button">"Переключить раскладку"</string>
     <string name="artist_page_title_album_more_like_this_button">"Больше подобного"</string>
-    <string name="artist_page_title_album_section">"Альюомы"</string>
+    <string name="artist_page_title_album_section">"Альбомы"</string>
     <string name="artist_page_title_biography_more_button">"Больше"</string>
     <string name="artist_page_title_biography_section">"Биография"</string>
     <string name="artist_page_title_most_streamed_song_section">"Самые прослушиваемые треки"</string>
     <string name="artist_page_title_most_streamed_song_see_all_button">"Посмотреть все"</string>
-    <string name="battery_optimization_negative_button">"игнорировать"</string>
-    <string name="battery_optimization_neutral_button">"Не спрашивай больше"</string>
+    <string name="battery_optimization_negative_button">"Игнорировать"</string>
+    <string name="battery_optimization_neutral_button">"Больше не спрашивать"</string>
     <string name="battery_optimization_positive_button">"Отключить"</string>
     <string name="connection_alert_dialog_negative_button">"Отмена"</string>
     <string name="connection_alert_dialog_neutral_button">"Включить сохранение данных"</string>
@@ -91,12 +91,10 @@
     <string name="home_rearrangement_dialog_negative_button">"Отмена"</string>
     <string name="home_rearrangement_dialog_neutral_button">"Перезагрузить"</string>
     <string name="home_rearrangement_dialog_positive_button">"Сохранять"</string>
-
-    <!-- Fuzzy -->
-    <string name="home_rearrangement_dialog_title">"Rearrange home"</string>
+    <string name="home_rearrangement_dialog_title">"Настроить главную"</string>
     <string name="home_rearrangement_dialog_subtitle">"Обратите внимание, чтобы внесенные изменения вступили в силу, необходимо перезапустить приложение."</string>
-    <string name="home_subtitle_best_of">"Лучшие песни любимых исполнителей"</string>
-    <string name="home_subtitle_made_for_you">"Запустите микс с понравившейся вам песни"</string>
+    <string name="home_subtitle_best_of">"Лучшие треки любимых исполнителей"</string>
+    <string name="home_subtitle_made_for_you">"Запустите микс с понравившимся вам треком"</string>
     <string name="home_subtitle_new_internet_radio_station">"Добавить новое радио"</string>
     <string name="home_subtitle_new_podcast_channel">"Добавить новый канал подкаста"</string>
     <string name="home_sync_starred_cancel">"Отмена"</string>
@@ -121,7 +119,7 @@
     <string name="home_title_radio_station">"Радиостанции"</string>
     <string name="home_title_recently_added">"Недавно добавленный"</string>
     <string name="home_title_recently_added_see_all_button">"Увидеть все"</string>
-    <string name="home_title_shares">"Поделился"</string>
+    <string name="home_title_shares">"Общий доступ"</string>
     <string name="home_title_starred_albums">"★ Отмеченные альбомы"</string>
     <string name="home_title_starred_albums_see_all_button">"Увидеть все"</string>
     <string name="home_title_starred_artists">"★ Рейтинговые артисты"</string>
@@ -157,7 +155,7 @@
     <string name="menu_group_by_year">"Год"</string>
 
     <!-- Fuzzy -->
-    <string name="menu_home_label">"Home"</string>
+    <string name="menu_home_label">"Главная"</string>
     <string name="menu_library_label">"Библиотека"</string>
     <string name="menu_search_button">"Поиск"</string>
     <string name="menu_settings_button">"Настройки"</string>
@@ -187,8 +185,6 @@
     <string name="playlist_song_count">"Плейлист • %1$d треки"</string>
     <string name="podcast_bottom_sheet_add_to_queue">"Добавить в очередь"</string>
     <string name="podcast_bottom_sheet_delete">"Удалить"</string>
-
-    <!-- Fuzzy -->
     <string name="podcast_bottom_sheet_download">"Скачать"</string>
     <string name="podcast_bottom_sheet_go_to_channel">"Перейти на канал"</string>
     <string name="podcast_bottom_sheet_play_next">"Играть дальше"</string>
@@ -259,7 +255,7 @@
     <string name="settings_buffering_strategy_summary">"Чтобы изменения вступили в силу, необходимо вручную перезапустить приложение."</string>
     <string name="settings_covers_cache">"Размер кэша обложек"</string>
     <string name="settings_data_saving_mode_summary">"Чтобы сократить потребление данных, избегайте загрузки обложек."</string>
-    <string name="settings_data_saving_mode_title">"Ограничьте использование мобильных данных"</string>
+    <string name="settings_data_saving_mode_title">"Ограничить использование мобильных данных"</string>
     <string name="settings_delete_download_storage_summary">"Продолжение приведет к необратимому удалению всех сохраненных элементов."</string>
     <string name="settings_delete_download_storage_title">"Удалить сохраненные элементы"</string>
     <string name="settings_download_storage_title">"Загрузить хранилище"</string>
@@ -274,14 +270,14 @@
     <string name="settings_max_bitrate_download">"Битрейт для скачиваний"</string>
 
     <!-- Fuzzy -->
-    <string name="settings_max_bitrate_mobile">"Битрейт в 4G/5G"</string>
-    <string name="settings_max_bitrate_wifi">"Битрейт в Wi-Fi"</string>
+    <string name="settings_max_bitrate_mobile">"Битрейт в мобильной сети 4G/5G"</string>
+    <string name="settings_max_bitrate_wifi">"Битрейт через соединение Wi-Fi"</string>
     <string name="settings_media_cache">"Размер кэша медиафайлов"</string>
     <string name="settings_music_directory">"Показать музыкальные каталоги"</string>
-    <string name="settings_music_directory_summary">"Если включено, показывать раздел музыкального каталога. Обратите внимание: для правильной работы навигации по папкам сервер должен поддерживать эту функцию."</string>
+    <string name="settings_music_directory_summary">"Если включено, то показывать раздел музыкального каталога. Обратите внимание: для правильной работы навигации по папкам сервер должен поддерживать эту функцию."</string>
     <string name="settings_podcast">"Показать подкаст"</string>
     <string name="settings_podcast_summary">"Если включено, показывать раздел подкаста. Перезапустите приложение, чтобы оно вступило в силу."</string>
-    <string name="settings_audio_quality">"Показать качество звука"</string>
+    <string name="settings_audio_quality">"Показать качество звука (битрейт)"</string>
     <string name="settings_audio_quality_summary">"Битрейт и аудиоформат будут показаны для каждой аудиодорожки."</string>
     <string name="settings_item_rating">"Показать рейтинг"</string>
     <string name="settings_item_rating_summary">"Если эта функция включена, будет отображаться рейтинг элемента и то, отмечен ли он как избранный."</string>
@@ -296,11 +292,9 @@
     <string name="settings_rounded_corner_size_summary">"Устанавливает величину угла кривизны."</string>
     <string name="settings_rounded_corner_summary">"Если этот параметр включен, задает угол кривизны для всех отображаемых обложек. Изменения вступят в силу при перезапуске."</string>
     <string name="settings_scan_title">"Сканировать библиотеку"</string>
-
-    <!-- Fuzzy -->
-    <string name="settings_scrobble_title">"Включить скробблинг музыки Last.FM"</string>
+    <string name="settings_scrobble_title">"Включить скробблинг музыки Last.FM и т.д."</string>
     <string name="settings_share_title">"Включить обмен музыкой"</string>
-    <string name="settings_sub_summary_scrobble">"Важно отметить, что скробблинг также зависит от того, разрешен ли сервер для получения этих данных."</string>
+    <string name="settings_sub_summary_scrobble">"Важно отметить, что скробблинг также зависит от того, настроен ли сервер для получения этих данных."</string>
     <string name="settings_summary_skip_min_star_rating">"При прослушивании радио исполнителя, мгновенном миксе или перемешивании всех, треки ниже определенного пользовательского рейтинга будут игнорироваться."</string>
     <string name="settings_summary_replay_gain">"Усиление воспроизведения — это функция, которая позволяет регулировать уровень громкости звуковых дорожек для обеспечения единообразного качества прослушивания. Этот параметр действует только в том случае, если трек содержит необходимые метаданные."</string>
     <string name="settings_summary_scrobble">"Скробблинг — это функция, которая позволяет вашему устройству отправлять информацию о песнях, которые вы слушаете, на музыкальный сервер. Эта информация помогает создавать персональные рекомендации на основе ваших музыкальных предпочтений."</string>
@@ -319,16 +313,14 @@
     <string name="settings_title_scrobble">"Скроббл"</string>
     <string name="settings_title_skip_min_star_rating">"Игнорировать треки по рейтингу"</string>
     <string name="settings_title_skip_min_star_rating_dialog">"Треки с рейтингом:"</string>
-    <string name="settings_title_share">"Делиться"</string>
+    <string name="settings_title_share">"Поделиться"</string>
     <string name="settings_title_syncing">"Синхронизации"</string>
     <string name="settings_title_transcoding">"Транскодирование"</string>
     <string name="settings_title_transcoding_download">"Транскодирование Скачать"</string>
-
-    <!-- Fuzzy -->
-    <string name="settings_title_ui">"UI"</string>
+    <string name="settings_title_ui">"UI (Пользовательский интерфейс)"</string>
     <string name="settings_transcoded_download">"Перекодированная загрузка"</string>
     <string name="settings_version_title">"Версия"</string>
-    <string name="settings_wifi_only_summary">"Попросите подтверждение пользователя перед потоковой передачей по мобильной сети."</string>
+    <string name="settings_wifi_only_summary">"Запросить подтверждение пользователя перед потоковой передачей по мобильной сети."</string>
     <string name="settings_wifi_only_title">"Оповещение о потоковой передаче только через Wi-Fi"</string>
     <string name="share_bottom_sheet_copy_link">"Копировать ссылку"</string>
     <string name="share_bottom_sheet_delete">"Удалить общий доступ"</string>
@@ -341,7 +333,7 @@
 
     <!-- Fuzzy -->
     <string name="share_update_dialog_positive_button">"Сохранять"</string>
-    <string name="share_update_dialog_title">"Делиться"</string>
+    <string name="share_update_dialog_title">"Поделиться"</string>
     <string name="song_bottom_sheet_add_to_playlist">"Добавить в плейлист"</string>
     <string name="song_bottom_sheet_add_to_queue">"Добавить в очередь"</string>
     <string name="song_bottom_sheet_download">"Скачать"</string>
@@ -354,9 +346,9 @@
 
     <!-- Fuzzy -->
     <string name="song_bottom_sheet_rate">"Оценить"</string>
-    <string name="song_bottom_sheet_remove">"Удалять"</string>
-    <string name="song_bottom_sheet_share">"Делиться"</string>
-    <string name="song_list_page_downloaded">"Скачано"</string>
+    <string name="song_bottom_sheet_remove">"Удалить"</string>
+    <string name="song_bottom_sheet_share">"Поделиться"</string>
+    <string name="song_list_page_downloaded">"Загружено"</string>
     <string name="song_list_page_most_played">"Самые популярные треки"</string>
     <string name="song_list_page_recently_added">"Недавно добавленные треки"</string>
     <string name="song_list_page_recently_played">"Недавно воспроизведенные треки"</string>
@@ -368,7 +360,7 @@
     <string name="starred_sync_dialog_neutral_button">"Продолжить"</string>
     <string name="starred_sync_dialog_positive_button">"Продолжить и скачать"</string>
     <string name="starred_sync_dialog_summary">"Для скачивания рейтинговых треков может потребоваться большой объем данных."</string>
-    <string name="starred_sync_dialog_title">"Синхронизировать помеченные треки"</string>
+    <string name="starred_sync_dialog_title">"Синхронизировать отмеченные треки"</string>
     <string name="track_info_album">"Альбом"</string>
     <string name="track_info_artist">"Исполнитель"</string>
     <string name="track_info_bitrate">"Битрейт"</string>

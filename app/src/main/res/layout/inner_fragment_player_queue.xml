@@ -20,20 +20,21 @@
                 android:paddingTop="8dp"
                 android:paddingBottom="@dimen/global_padding_bottom">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/player_queue_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
-
                 <TextView
                     android:id="@+id/player_clean_queue_button"
                     style="@style/TitleMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_marginTop="24dp"
-                    android:text="@string/player_queue_clean_all_button"/>
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center"
+                    android:text="@string/player_queue_clean_all_button" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/player_queue_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
@@ -47,5 +48,6 @@
         android:layout_margin="16dp"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         app:srcCompat="@drawable/ic_shuffle" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

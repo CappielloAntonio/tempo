@@ -31,6 +31,7 @@ import com.cappielloantonio.tempo.ui.dialog.DeleteDownloadStorageDialog;
 import com.cappielloantonio.tempo.ui.dialog.DownloadStorageDialog;
 import com.cappielloantonio.tempo.ui.dialog.StarredSyncDialog;
 import com.cappielloantonio.tempo.util.DownloadUtil;
+import com.cappielloantonio.tempo.util.MusicUtil;
 import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.util.UIUtil;
 import com.cappielloantonio.tempo.viewmodel.SettingViewModel;
@@ -85,6 +86,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         checkEqualizer();
         checkStorage();
 
+        setStreamingCacheSize();
         setAppLanguage();
         setVersion();
 
@@ -113,22 +115,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                         ThemeHelper.applyTheme(themeOption);
                         return true;
                     });
-        }
-
-        ListPreference streamingCachePreference = findPreference("streaming_cache_size");
-        if (streamingCachePreference != null) {
-            streamingCachePreference.setSummaryProvider(new Preference.SummaryProvider<ListPreference>() {
-                @Nullable
-                @Override
-                public CharSequence provideSummary(@NonNull ListPreference preference) {
-                    CharSequence entry = preference.getEntry();
-                    if (entry == null) {
-                        return null;
-                    }
-                    long currentSizeMb = DownloadUtil.getStreamingCacheSize(requireActivity()) / (1024 * 1024);
-                    return entry + "\nCurrently in use: " +  + currentSizeMb + " MiB\nRestarting is required if changed.";
-                }
-            });
         }
     }
 
@@ -162,6 +148,26 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
         } catch (Exception exception) {
             storage.setVisible(false);
+        }
+    }
+
+    private void setStreamingCacheSize() {
+        ListPreference streamingCachePreference = findPreference("streaming_cache_size");
+
+        if (streamingCachePreference != null) {
+            streamingCachePreference.setSummaryProvider(new Preference.SummaryProvider<ListPreference>() {
+                @Nullable
+                @Override
+                public CharSequence provideSummary(@NonNull ListPreference preference) {
+                    CharSequence entry = preference.getEntry();
+
+                    if (entry == null) return null;
+
+                    long currentSizeMb = DownloadUtil.getStreamingCacheSize(requireActivity()) / (1024 * 1024);
+
+                    return getString(R.string.settings_summary_streaming_cache_size, entry, currentSizeMb);
+                }
+            });
         }
     }
 

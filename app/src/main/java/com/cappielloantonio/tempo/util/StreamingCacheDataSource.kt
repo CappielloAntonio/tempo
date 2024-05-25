@@ -35,7 +35,6 @@ class StreamingCacheDataSource private constructor(
     override fun open(dataSpec: DataSpec): Long {
         val ret = cacheDataSource.open(dataSpec)
         currentDataSpec = dataSpec
-        Log.d(TAG, "Opened $currentDataSpec")
         return ret
     }
 
@@ -45,11 +44,13 @@ class StreamingCacheDataSource private constructor(
 
     override fun close() {
         cacheDataSource.close()
-        Log.d(TAG, "Closed $currentDataSpec")
+
         val dataSpec = currentDataSpec
+
         if (dataSpec != null) {
             val cacheKey = cacheDataSource.cacheKeyFactory.buildCacheKey(dataSpec)
             val contentLength = ContentMetadata.getContentLength(cacheDataSource.cache.getContentMetadata(cacheKey));
+
             if (contentLength == C.LENGTH_UNSET.toLong()) {
                 Log.d(TAG, "Removing partial cache for $cacheKey")
                 cacheDataSource.cache.removeResource(cacheKey)

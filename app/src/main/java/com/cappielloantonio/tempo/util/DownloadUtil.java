@@ -81,7 +81,6 @@ public final class DownloadUtil {
             DefaultDataSource.Factory upstreamFactory = new DefaultDataSource.Factory(context, getHttpDataSourceFactory());
 
             if (Preferences.getStreamingCacheSize() > 0) {
-                // Cache enabled
                 CacheDataSource.Factory streamCacheFactory = new CacheDataSource.Factory()
                         .setCache(getStreamingCache(context))
                         .setUpstreamDataSourceFactory(upstreamFactory);
@@ -97,7 +96,6 @@ public final class DownloadUtil {
 
                 dataSourceFactory = buildReadOnlyCacheDataSource(resolvingFactory, getDownloadCache(context));
             } else {
-                // Cache disabled
                 dataSourceFactory = buildReadOnlyCacheDataSource(upstreamFactory, getDownloadCache(context));
             }
         }
@@ -135,12 +133,14 @@ public final class DownloadUtil {
     private static synchronized SimpleCache getStreamingCache(Context context) {
         if (streamingCache == null) {
             File streamingCacheDirectory = new File(context.getCacheDir(), "streamingCache");
+
             streamingCache = new SimpleCache(
                     streamingCacheDirectory,
                     new LeastRecentlyUsedCacheEvictor(Preferences.getStreamingCacheSize() * 1024 * 1024),
                     getDatabaseProvider(context)
             );
         }
+
         return streamingCache;
     }
 

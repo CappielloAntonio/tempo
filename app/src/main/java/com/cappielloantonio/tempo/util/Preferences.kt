@@ -190,9 +190,6 @@ object Preferences {
         return App.getInstance().preferences.getString(IMAGE_SIZE, "-1")!!.toInt()
     }
 
-    /**
-     * Size of streaming cache in MiB.
-     */
     @JvmStatic
     fun getStreamingCacheSize(): Long {
         return App.getInstance().preferences.getString(STREAMING_CACHE_SIZE, "256")!!.toLong()

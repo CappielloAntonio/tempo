@@ -172,7 +172,7 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
     private void initTopSongsView() {
         bind.mostStreamedSongRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        songHorizontalAdapter = new SongHorizontalAdapter(this, true, true);
+        songHorizontalAdapter = new SongHorizontalAdapter(this, true, true, null);
         bind.mostStreamedSongRecyclerView.setAdapter(songHorizontalAdapter);
         artistPageViewModel.getArtistTopSongList().observe(getViewLifecycleOwner(), songs -> {
             if (songs == null) {

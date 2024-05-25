@@ -9,14 +9,41 @@
     android:paddingTop="2dp"
     android:paddingBottom="2dp">
 
-    <View
-        android:id="@+id/different_disk_divider"
-        style="@style/Divider"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/different_disk_divider_sector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:layout_marginHorizontal="16dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/disc_title_text_view"
+            style="@style/LabelSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:layout_marginEnd="12dp"
+            android:singleLine="true"
+            android:text="@string/label_placeholder"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/different_disk_divider"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/different_disk_divider"
+            style="@style/Divider"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/disc_title_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/disc_title_text_view"
+            app:layout_constraintTop_toTopOf="@+id/disc_title_text_view"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/song_cover_image_view"
@@ -26,7 +53,7 @@
         android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/different_disk_divider" />
+        app:layout_constraintTop_toBottomOf="@+id/different_disk_divider_sector" />
 
     <TextView
         android:id="@+id/track_number_text_view"
@@ -38,7 +65,7 @@
         android:text="@string/label_placeholder"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/different_disk_divider" />
+        app:layout_constraintTop_toBottomOf="@+id/different_disk_divider_sector" />
 
     <View
         android:id="@+id/cover_image_separator"

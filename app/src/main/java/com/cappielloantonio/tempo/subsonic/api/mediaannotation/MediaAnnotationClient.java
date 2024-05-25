@@ -9,7 +9,7 @@ import com.cappielloantonio.tempo.subsonic.base.ApiResponse;
 import retrofit2.Call;
 
 public class MediaAnnotationClient {
-    private static final String TAG = "BrowsingClient";
+    private static final String TAG = "MediaAnnotationClient";
 
     private final Subsonic subsonic;
     private final MediaAnnotationService mediaAnnotationService;
@@ -34,8 +34,8 @@ public class MediaAnnotationClient {
         return mediaAnnotationService.setRating(subsonic.getParams(), id, rating);
     }
 
-    public Call<ApiResponse> scrobble(String id) {
+    public Call<ApiResponse> scrobble(String id, boolean submission) {
         Log.d(TAG, "scrobble()");
-        return mediaAnnotationService.scrobble(subsonic.getParams(), id);
+        return mediaAnnotationService.scrobble(subsonic.getParams(), id, submission);
     }
 }

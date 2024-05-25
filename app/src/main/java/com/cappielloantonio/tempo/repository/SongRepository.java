@@ -104,10 +104,10 @@ public class SongRepository {
         return randomSongsSample;
     }
 
-    public void scrobble(String id) {
+    public void scrobble(String id, boolean submission) {
         App.getSubsonicClientInstance(false)
                 .getMediaAnnotationClient()
-                .scrobble(id)
+                .scrobble(id, submission)
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {

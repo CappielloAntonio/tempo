@@ -51,4 +51,7 @@ class SubsonicResponse {
     var version: String? = null
     var type: String? = null
     var serverVersion: String? = null
+    var openSubsonic: Boolean? = null
+    var openSubsonicExtensions: List<OpenSubsonicExtension>? = null
+    var lyricsList: LyricsList? = null
 }

@@ -24,6 +24,7 @@
     <string name="album_page_extra_info_button">More like this</string>
     <string name="album_page_play_button">Play</string>
     <string name="album_page_shuffle_button">Shuffle</string>
+    <string name="album_page_tracks_count_and_duration">%1$d songs  •  %2$d minutes</string>
     <string name="app_name">Tempo</string>
     <string name="artist_adapter_radio_station_starting">Searching…</string>
     <string name="artist_bottom_sheet_instant_mix">Instant mix</string>
@@ -65,6 +66,7 @@
     <string name="download_info_empty_title">No downloads yet!</string>
     <string name="download_item_multiple_subtitle_formatter">%1$s  •  %2$s items</string>
     <string name="download_item_single_subtitle_formatter">%1$s items</string>
+    <string name="download_shuffle_all_subtitle">Shuffle all</string>
     <string name="download_storage_dialog_sub_summary">For the changes to take effect, restart the app.</string>
     <string name="download_storage_dialog_summary">Changing the destination of downloaded files from one storage to another will result in the immediate deletion of any previously downloaded files in the other storage.</string>
     <string name="download_storage_dialog_title">Select storage option</string>
@@ -85,6 +87,11 @@
     <string name="filter_title_expanded">Filter Genres</string>
     <string name="genre_catalogue_title">Genre Catalogue</string>
     <string name="genre_catalogue_title_expanded">Browse Genres</string>
+    <string name="home_rearrangement_dialog_negative_button">Cancel</string>
+    <string name="home_rearrangement_dialog_neutral_button">Reset</string>
+    <string name="home_rearrangement_dialog_positive_button">Save</string>
+    <string name="home_rearrangement_dialog_title">Rearrange home</string>
+    <string name="home_rearrangement_dialog_subtitle">Please note that in order for the changes made to take effect, it is necessary to restart the application.</string>
     <string name="home_subtitle_best_of">Top songs of your favorite artists</string>
     <string name="home_subtitle_made_for_you">Start mix from a song you liked</string>
     <string name="home_subtitle_new_internet_radio_station">Add a new radio</string>
@@ -119,6 +126,7 @@
     <string name="home_title_starred_tracks">★ Starred tracks</string>
     <string name="home_title_starred_tracks_see_all_button">See all</string>
     <string name="home_title_top_songs">Your top songs</string>
+    <string name="home_option_reorganize">Reorganize</string>
     <string name="label_dot_separator" translatable="false">•</string>
     <string name="label_placeholder" translatable="false">--</string>
     <string name="library_title_album">Albums</string>
@@ -151,6 +159,7 @@
     <string name="menu_sort_artist">Artist</string>
     <string name="menu_sort_name">Name</string>
     <string name="menu_sort_random">Random</string>
+    <string name="menu_sort_recently_added">Recently added</string>
     <string name="menu_sort_year">Year</string>
     <string name="player_playback_speed">%1$.2fx</string>
     <string name="player_queue_clean_all_button">Clean play queue</string>
@@ -223,6 +232,7 @@
     <string name="server_unreachable_dialog_title">Server unreachable</string>
     <string name="settings_about_summary">Tempo is an open source and lightweight music client for Subsonic, designed and built natively for Android.</string>
     <string name="settings_about_title">About</string>
+    <string name="settings_always_on_display">Always on display</string>
     <string name="settings_audio_transcode_download_format">Transcode format</string>
     <string name="settings_audio_transcode_download_priority_summary">If enabled, Tempo will not force download the track with the transcode settings below.</string>
     <string name="settings_audio_transcode_download_priority_title">Prioritize server settings used for streaming in downloads</string>
@@ -259,12 +269,16 @@
     <string name="settings_music_directory">Show music directories</string>
     <string name="settings_music_directory_summary">If enabled, show the music directory section. Please note that for folder navigation to work properly, the server must support this feature.</string>
     <string name="settings_podcast">Show podcast</string>
-    <string name="settings_podcast_summary">If enabled, show the podcast section.</string>
+    <string name="settings_podcast_summary">If enabled, show the podcast section. Restart the app for it to take full effect.</string>
+    <string name="settings_audio_quality">Show audio quality</string>
+    <string name="settings_audio_quality_summary">The bitrate and audio format will be shown for each audio track.</string>
+    <string name="settings_item_rating">Show item rating</string>
+    <string name="settings_item_rating_summary">If enabled, the item\'s rating and whether it is marked as a favorite will be displayed.</string>
     <string name="settings_queue_syncing_countdown">Sync timer</string>
     <string name="settings_queue_syncing_summary">If enabled, the user will have the ability to save their play queue and will have the ability to load state when opening the application.</string>
     <string name="settings_queue_syncing_title">Sync play queue for this user</string>
     <string name="settings_radio">Show radio</string>
-    <string name="settings_radio_summary">If enabled, show the radio section.</string>
+    <string name="settings_radio_summary">If enabled, show the radio section. Restart the app for it to take full effect.</string>
     <string name="settings_replay_gain">Set replay gain mode</string>
     <string name="settings_rounded_corner">Rounded corners</string>
     <string name="settings_rounded_corner_size">Corners size</string>
@@ -331,7 +345,7 @@
     <string name="song_list_page_starred">Starred tracks</string>
     <string name="song_list_page_top">%1$s\'s top tracks</string>
     <string name="song_list_page_year">Year %1$d</string>
-    <string name="song_subtitle_formatter">%1$s  •  %2$s</string>
+    <string name="song_subtitle_formatter">%1$s  •  %2$s  %3$s</string>
     <string name="starred_sync_dialog_negative_button">Cancel</string>
     <string name="starred_sync_dialog_neutral_button">Continue</string>
     <string name="starred_sync_dialog_positive_button">Continue and download</string>

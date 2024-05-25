@@ -1,6 +1,12 @@
 package com.cappielloantonio.tempo.util
 
 import com.cappielloantonio.tempo.App
+import com.cappielloantonio.tempo.model.HomeSector
+import com.cappielloantonio.tempo.subsonic.models.OpenSubsonicExtension
+import com.google.gson.Gson
+
+
+
 
 object Preferences {
     const val THEME = "theme"
@@ -12,6 +18,8 @@ object Preferences {
     private const val LOW_SECURITY = "low_security"
     private const val BATTERY_OPTIMIZATION = "battery_optimization"
     private const val SERVER_ID = "server_id"
+    private const val OPEN_SUBSONIC = "open_subsonic"
+    private const val OPEN_SUBSONIC_EXTENSIONS = "open_subsonic_extensions"
     private const val PLAYBACK_SPEED = "playback_speed"
     private const val SKIP_SILENCE = "skip_silence"
     private const val IMAGE_CACHE_SIZE = "image_cache_size"
@@ -45,6 +53,10 @@ object Preferences {
     private const val BUFFERING_STRATEGY = "buffering_strategy"
     private const val SKIP_MIN_STAR_RATING = "skip_min_star_rating"
     private const val MIN_STAR_RATING = "min_star_rating"
+    private const val ALWAYS_ON_DISPLAY = "always_on_display"
+    private const val AUDIO_QUALITY_PER_ITEM = "audio_quality_per_item"
+    private const val HOME_SECTOR_LIST = "home_sector_list"
+    private const val RATING_PER_ITEM = "rating_per_item"
 
 
     @JvmStatic
@@ -115,6 +127,26 @@ object Preferences {
     @JvmStatic
     fun setServerId(serverId: String?) {
         App.getInstance().preferences.edit().putString(SERVER_ID, serverId).apply()
+    }
+
+    @JvmStatic
+    fun isOpenSubsonic(): Boolean {
+        return App.getInstance().preferences.getBoolean(OPEN_SUBSONIC, false)
+    }
+
+    @JvmStatic
+    fun setOpenSubsonic(isOpenSubsonic: Boolean) {
+        App.getInstance().preferences.edit().putBoolean(OPEN_SUBSONIC, isOpenSubsonic).apply()
+    }
+
+    @JvmStatic
+    fun getOpenSubsonicExtensions(): String? {
+        return App.getInstance().preferences.getString(OPEN_SUBSONIC_EXTENSIONS, null)
+    }
+
+    @JvmStatic
+    fun setOpenSubsonicExtensions(extension: List<OpenSubsonicExtension>) {
+        App.getInstance().preferences.edit().putString(OPEN_SUBSONIC_EXTENSIONS, Gson().toJson(extension)).apply()
     }
 
     @JvmStatic
@@ -344,5 +376,30 @@ object Preferences {
     @JvmStatic
     fun getMinStarRatingAccepted(): Int {
         return App.getInstance().preferences.getInt(MIN_STAR_RATING, 0)
+    }
+
+    @JvmStatic
+    fun isDisplayAlwaysOn(): Boolean {
+        return App.getInstance().preferences.getBoolean(ALWAYS_ON_DISPLAY, false)
+    }
+
+    @JvmStatic
+    fun showAudioQuality(): Boolean {
+        return App.getInstance().preferences.getBoolean(AUDIO_QUALITY_PER_ITEM, false)
+    }
+
+    @JvmStatic
+    fun getHomeSectorList(): String? {
+        return App.getInstance().preferences.getString(HOME_SECTOR_LIST, null)
+    }
+
+    @JvmStatic
+    fun setHomeSectorList(extension: List<HomeSector>?) {
+        App.getInstance().preferences.edit().putString(HOME_SECTOR_LIST, Gson().toJson(extension)).apply()
+    }
+
+    @JvmStatic
+    fun showItemRating(): Boolean {
+        return App.getInstance().preferences.getBoolean(RATING_PER_ITEM, false)
     }
 }

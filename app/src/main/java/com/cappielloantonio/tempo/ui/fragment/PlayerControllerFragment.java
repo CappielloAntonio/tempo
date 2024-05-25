@@ -257,10 +257,20 @@ public class PlayerControllerFragment extends Fragment {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
 
+                PlayerBottomSheetFragment playerBottomSheetFragment = (PlayerBottomSheetFragment) requireActivity().getSupportFragmentManager().findFragmentByTag("PlayerBottomSheet");
+
                 if (position == 0) {
                     activity.setBottomSheetDraggableState(true);
+
+                    if (playerBottomSheetFragment != null) {
+                        playerBottomSheetFragment.setPlayerControllerVerticalPagerDraggableState(true);
+                    }
                 } else if (position == 1) {
                     activity.setBottomSheetDraggableState(false);
+
+                    if (playerBottomSheetFragment != null) {
+                        playerBottomSheetFragment.setPlayerControllerVerticalPagerDraggableState(false);
+                    }
                 }
             }
         });
@@ -296,7 +306,7 @@ public class PlayerControllerFragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(Constants.ARTIST_OBJECT, artist);
                     NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
-                    activity.collapseBottomSheet();
+                    activity.collapseBottomSheetDelayed();
                 });
             }
         });

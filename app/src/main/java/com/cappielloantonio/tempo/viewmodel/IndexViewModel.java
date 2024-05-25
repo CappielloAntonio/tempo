@@ -15,8 +15,6 @@ public class IndexViewModel extends AndroidViewModel {
 
     private MusicFolder musicFolder;
 
-    private MutableLiveData<Indexes> indexes = new MutableLiveData<>(null);
-
     public IndexViewModel(@NonNull Application application) {
         super(application);
 

@@ -6,7 +6,11 @@ import androidx.lifecycle.MutableLiveData;
 import com.cappielloantonio.tempo.App;
 import com.cappielloantonio.tempo.interfaces.SystemCallback;
 import com.cappielloantonio.tempo.subsonic.base.ApiResponse;
+import com.cappielloantonio.tempo.subsonic.models.OpenSubsonicExtension;
 import com.cappielloantonio.tempo.subsonic.models.ResponseStatus;
+import com.cappielloantonio.tempo.subsonic.models.SubsonicResponse;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,8 +47,8 @@ public class SystemRepository {
                 });
     }
 
-    public MutableLiveData<Boolean> ping() {
-        MutableLiveData<Boolean> pingResult = new MutableLiveData<>();
+    public MutableLiveData<SubsonicResponse> ping() {
+        MutableLiveData<SubsonicResponse> pingResult = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(false)
                 .getSystemClient()
@@ -53,16 +57,39 @@ public class SystemRepository {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
                         if (response.isSuccessful() && response.body() != null) {
-                            pingResult.postValue(true);
+                            pingResult.postValue(response.body().getSubsonicResponse());
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
-                        pingResult.postValue(false);
+                        pingResult.postValue(null);
                     }
                 });
 
         return pingResult;
+    }
+
+    public MutableLiveData<List<OpenSubsonicExtension>> getOpenSubsonicExtensions() {
+        MutableLiveData<List<OpenSubsonicExtension>> extensionsResult = new MutableLiveData<>();
+
+        App.getSubsonicClientInstance(false)
+                .getSystemClient()
+                .getOpenSubsonicExtensions()
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            extensionsResult.postValue(response.body().getSubsonicResponse().getOpenSubsonicExtensions());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
+                        extensionsResult.postValue(null);
+                    }
+                });
+
+        return extensionsResult;
     }
 }

@@ -31,7 +31,8 @@ import java.util.Objects;
 public class PlaylistEditorDialog extends DialogFragment {
     private DialogPlaylistEditorBinding bind;
     private PlaylistEditorViewModel playlistEditorViewModel;
-    private PlaylistCallback playlistCallback;
+
+    private final PlaylistCallback playlistCallback;
 
     private String playlistName;
     private PlaylistDialogSongHorizontalAdapter playlistDialogSongHorizontalAdapter;

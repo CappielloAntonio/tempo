@@ -32,6 +32,7 @@
         app:layout_constraintTop_toBottomOf="@+id/empty_description_image_view" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/now_playing_song_lyrics_sroll_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -49,4 +50,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.core.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/sync_lyrics_tap_button"
+        style="@style/Widget.Material3.Button.TonalButton.Icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        app:cornerRadius="64dp"
+        android:alpha="0.7"
+        android:visibility="visible"
+        app:icon="@drawable/ic_lyrics_sync_lock"
+        app:layout_constraintEnd_toEndOf="@+id/now_playing_song_lyrics_sroll_view"
+        app:layout_constraintBottom_toBottomOf="@+id/now_playing_song_lyrics_sroll_view" />
+
+    <TextView
+        android:id="@+id/temp_lyrics_line_text_view"
+        style="@style/BodyLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="invisible"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,11 +3,7 @@
     <base-config cleartextTrafficPermitted="true">
         <trust-anchors>
             <certificates src="system" />
-        </trust-anchors>
-    </base-config>
-    <debug-overrides cleartextTrafficPermitted="true">
-        <trust-anchors>
             <certificates src="user" />
         </trust-anchors>
-    </debug-overrides>
+    </base-config>
 </network-security-config>

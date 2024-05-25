@@ -8,6 +8,7 @@ import com.cappielloantonio.tempo.interfaces.DecadesCallback;
 import com.cappielloantonio.tempo.interfaces.MediaCallback;
 import com.cappielloantonio.tempo.subsonic.base.ApiResponse;
 import com.cappielloantonio.tempo.subsonic.models.AlbumID3;
+import com.cappielloantonio.tempo.subsonic.models.AlbumInfo;
 import com.cappielloantonio.tempo.subsonic.models.Child;
 
 import java.util.ArrayList;
@@ -131,9 +132,10 @@ public class AlbumRepository {
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getArtist() != null) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getArtist() != null && response.body().getSubsonicResponse().getArtist().getAlbums() != null) {
                             List<AlbumID3> albums = response.body().getSubsonicResponse().getArtist().getAlbums();
                             albums.sort(Comparator.comparing(AlbumID3::getYear));
+                            Collections.reverse(albums);
                             artistsAlbum.setValue(albums);
                         }
                     }
@@ -168,6 +170,29 @@ public class AlbumRepository {
                 });
 
         return album;
+    }
+
+    public MutableLiveData<AlbumInfo> getAlbumInfo(String id) {
+        MutableLiveData<AlbumInfo> albumInfo = new MutableLiveData<>();
+
+        App.getSubsonicClientInstance(false)
+                .getBrowsingClient()
+                .getAlbumInfo2(id)
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getAlbumInfo() != null) {
+                            albumInfo.setValue(response.body().getSubsonicResponse().getAlbumInfo());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
+
+                    }
+                });
+
+        return albumInfo;
     }
 
     public void getInstantMix(AlbumID3 album, int count, MediaCallback callback) {
@@ -250,7 +275,7 @@ public class AlbumRepository {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
                         if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getAlbumList2() != null && response.body().getSubsonicResponse().getAlbumList2().getAlbums() != null) {
-                            if (response.body().getSubsonicResponse().getAlbumList2().getAlbums().size() > 0 && !response.body().getSubsonicResponse().getAlbumList2().getAlbums().isEmpty()) {
+                            if (!response.body().getSubsonicResponse().getAlbumList2().getAlbums().isEmpty() && !response.body().getSubsonicResponse().getAlbumList2().getAlbums().isEmpty()) {
                                 callback.onLoadYear(response.body().getSubsonicResponse().getAlbumList2().getAlbums().get(0).getYear());
                             } else {
                                 callback.onLoadYear(-1);

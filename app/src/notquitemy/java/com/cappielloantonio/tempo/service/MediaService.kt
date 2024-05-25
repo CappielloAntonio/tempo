@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.media3.common.*
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.source.TrackGroupArray
@@ -18,6 +19,7 @@ import com.cappielloantonio.tempo.R
 import com.cappielloantonio.tempo.ui.activity.MainActivity
 import com.cappielloantonio.tempo.util.Constants
 import com.cappielloantonio.tempo.util.DownloadUtil
+import com.cappielloantonio.tempo.util.Preferences
 import com.cappielloantonio.tempo.util.ReplayGainUtil
 import com.google.common.collect.ImmutableList
 import com.google.common.util.concurrent.Futures
@@ -143,6 +145,7 @@ class MediaService : MediaLibraryService() {
             .setAudioAttributes(AudioAttributes.DEFAULT, true)
             .setHandleAudioBecomingNoisy(true)
             .setWakeMode(C.WAKE_MODE_NETWORK)
+            .setLoadControl(initializeLoadControl())
             .build()
     }
 
@@ -175,6 +178,7 @@ class MediaService : MediaLibraryService() {
 
             override fun onTracksChanged(tracks: Tracks) {
                 ReplayGainUtil.setReplayGain(player, tracks)
+                MediaManager.scrobble(player.currentMediaItem, false)
             }
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {
@@ -183,6 +187,8 @@ class MediaService : MediaLibraryService() {
                         player.currentMediaItem,
                         player.currentPosition
                     )
+                } else {
+                    MediaManager.scrobble(player.currentMediaItem, false)
                 }
             }
 
@@ -192,7 +198,7 @@ class MediaService : MediaLibraryService() {
                     playbackState == Player.STATE_ENDED &&
                     player.mediaMetadata.extras?.getString("type") == Constants.MEDIA_TYPE_MUSIC
                 ) {
-                    MediaManager.scrobble(player.currentMediaItem)
+                    MediaManager.scrobble(player.currentMediaItem, true)
                     MediaManager.saveChronology(player.currentMediaItem)
                 }
             }
@@ -206,7 +212,7 @@ class MediaService : MediaLibraryService() {
 
                 if (reason == Player.DISCONTINUITY_REASON_AUTO_TRANSITION) {
                     if (oldPosition.mediaItem?.mediaMetadata?.extras?.getString("type") == Constants.MEDIA_TYPE_MUSIC) {
-                        MediaManager.scrobble(oldPosition.mediaItem)
+                        MediaManager.scrobble(oldPosition.mediaItem, true)
                         MediaManager.saveChronology(oldPosition.mediaItem)
                     }
 
@@ -244,6 +250,17 @@ class MediaService : MediaLibraryService() {
 
     private fun ignoreFuture(customLayout: ListenableFuture<SessionResult>) {
         /* Do nothing. */
+    }
+
+    private fun initializeLoadControl(): DefaultLoadControl {
+        return DefaultLoadControl.Builder()
+            .setBufferDurationsMs(
+                (DefaultLoadControl.DEFAULT_MIN_BUFFER_MS * Preferences.getBufferingStrategy()).toInt(),
+                (DefaultLoadControl.DEFAULT_MAX_BUFFER_MS * Preferences.getBufferingStrategy()).toInt(),
+                DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_MS,
+                DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS
+            )
+            .build()
     }
 
     private fun getRenderersFactory() = DownloadUtil.buildRenderersFactory(this, false)

@@ -80,7 +80,10 @@ public class PlayerCoverFragment extends Fragment {
 
         handler.removeCallbacksAndMessages(null);
 
-        final Runnable runnable = () -> bind.nowPlayingTapButton.setVisibility(View.GONE);
+        final Runnable runnable = () -> {
+            if (bind != null) bind.nowPlayingTapButton.setVisibility(View.GONE);
+        };
+
         handler.postDelayed(runnable, 10000);
     }
 

@@ -14,4 +14,7 @@ public interface SystemService {
 
     @GET("getLicense")
     Call<ApiResponse> getLicense(@QueryMap Map<String, String> params);
+
+    @GET("getOpenSubsonicExtensions")
+    Call<ApiResponse> getOpenSubsonicExtensions(@QueryMap Map<String, String> params);
 }

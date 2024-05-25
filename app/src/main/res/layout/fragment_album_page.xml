@@ -48,17 +48,32 @@
                     style="@style/LabelExtraLarge"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginEnd="18dp"
                     android:ellipsize="end"
                     android:maxLines="2"
                     android:paddingTop="8dp"
                     android:singleLine="false"
                     android:text="@string/label_placeholder"
                     android:textAlignment="center"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/album_cover_image_view"
+                    app:layout_constraintStart_toStartOf="@+id/album_cover_image_view"
                     app:layout_constraintTop_toBottomOf="@+id/album_cover_image_view" />
+
+                <FrameLayout
+                    android:id="@+id/album_other_info_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/album_name_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/album_name_label"
+                    app:layout_constraintTop_toTopOf="@+id/album_name_label"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/ic_arrow_down" />
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/album_artist_label"
@@ -88,6 +103,62 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/album_artist_label" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/album_detail_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/album_release_year_label"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="8dp"
+                    android:visibility="gone"
+                    android:animateLayoutChanges="true">
+
+                    <TextView
+                        android:id="@+id/album_genres_textview"
+                        style="@style/LabelSmall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:text="@string/label_placeholder"
+                        android:textAlignment="center"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/album_song_count_duration_textview"
+                        style="@style/LabelSmall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="2dp"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:text="@string/label_placeholder"
+                        android:textAlignment="center"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/album_genres_textview" />
+
+                    <TextView
+                        android:id="@+id/album_notes_textview"
+                        style="@style/LabelSmall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:text="@string/label_placeholder"
+                        android:justificationMode="inter_word"
+                        android:textAlignment="center"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/album_song_count_duration_textview" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <View
                     android:id="@+id/upper_button_divider"
                     style="@style/Divider"
@@ -96,7 +167,7 @@
                     android:layout_marginEnd="18dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/album_release_year_label" />
+                    app:layout_constraintTop_toBottomOf="@+id/album_detail_view" />
 
                 <LinearLayout
                     android:id="@+id/album_page_button_layout"

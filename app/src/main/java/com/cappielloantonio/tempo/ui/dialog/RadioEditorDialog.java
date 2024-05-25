@@ -21,7 +21,8 @@ import java.util.Objects;
 public class RadioEditorDialog extends DialogFragment {
     private DialogRadioEditorBinding bind;
     private RadioEditorViewModel radioEditorViewModel;
-    private RadioCallback radioCallback;
+
+    private final RadioCallback radioCallback;
 
     private String radioName;
     private String radioStreamURL;

@@ -82,6 +82,8 @@ public class MappingUtil {
                                 .setArtist(MusicUtil.getReadableString(media.getArtist()))
                                 .setArtworkUri(artworkUri)
                                 .setExtras(bundle)
+                                .setIsBrowsable(false)
+                                .setIsPlayable(true)
                                 .build()
                 )
                 .setRequestMetadata(
@@ -116,6 +118,8 @@ public class MappingUtil {
                                 .setReleaseYear(media.getYear() != null ? media.getYear() : 0)
                                 .setAlbumTitle(MusicUtil.getReadableString(media.getAlbum()))
                                 .setArtist(MusicUtil.getReadableString(media.getArtist()))
+                                .setIsBrowsable(false)
+                                .setIsPlayable(true)
                                 .build()
                 )
                 .setRequestMetadata(
@@ -145,6 +149,8 @@ public class MappingUtil {
                                 .setTitle(internetRadioStation.getName())
                                 .setArtist(internetRadioStation.getStreamUrl())
                                 .setExtras(bundle)
+                                .setIsBrowsable(false)
+                                .setIsPlayable(true)
                                 .build()
                 )
                 .setRequestMetadata(
@@ -193,6 +199,8 @@ public class MappingUtil {
                                 .setArtist(MusicUtil.getReadableString(podcastEpisode.getArtist()))
                                 .setArtworkUri(artworkUri)
                                 .setExtras(bundle)
+                                .setIsBrowsable(false)
+                                .setIsPlayable(true)
                                 .build()
                 )
                 .setRequestMetadata(
@@ -201,12 +209,6 @@ public class MappingUtil {
                                 .setExtras(bundle)
                                 .build()
                 )
-                /* .setClippingConfiguration(
-                        new MediaItem.ClippingConfiguration.Builder()
-                                .setStartPositionMs(0)
-                                .setEndPositionMs(podcastEpisode.getDuration() * 1000)
-                                .build()
-                ) */
                 .setMimeType(MimeTypes.BASE_TYPE_AUDIO)
                 .setUri(uri)
                 .build();

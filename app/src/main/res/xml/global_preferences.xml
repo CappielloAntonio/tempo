@@ -32,6 +32,11 @@
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreference
+            android:title="@string/settings_always_on_display"
+            android:defaultValue="false"
+            android:key="always_on_display" />
+
+        <SwitchPreference
             android:title="@string/settings_rounded_corner"
             android:defaultValue="true"
             android:summary="@string/settings_rounded_corner_summary"
@@ -45,6 +50,18 @@
             app:key="rounded_corner_size"
             app:title="@string/settings_rounded_corner_size"
             app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            android:title="@string/settings_audio_quality"
+            android:defaultValue="false"
+            android:summary="@string/settings_audio_quality_summary"
+            android:key="audio_quality_per_item" />
+
+        <SwitchPreference
+            android:title="@string/settings_item_rating"
+            android:defaultValue="false"
+            android:summary="@string/settings_item_rating_summary"
+            android:key="rating_per_item" />
 
         <SwitchPreference
             android:title="@string/settings_podcast"

@@ -121,7 +121,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
                     return;
                 }
 
-                if (songs.size() > 0) {
+                if (!songs.isEmpty()) {
                     MediaManager.enqueue(mediaBrowserListenableFuture, songs, true);
                     dismissBottomSheet();
                 }

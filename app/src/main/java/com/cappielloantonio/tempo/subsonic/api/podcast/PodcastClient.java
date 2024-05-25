@@ -9,7 +9,7 @@ import com.cappielloantonio.tempo.subsonic.base.ApiResponse;
 import retrofit2.Call;
 
 public class PodcastClient {
-    private static final String TAG = "SystemClient";
+    private static final String TAG = "PodcastClient";
 
     private final Subsonic subsonic;
     private final PodcastService podcastService;

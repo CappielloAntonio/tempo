@@ -12,4 +12,7 @@
     <item
         android:id="@+id/menu_album_sort_random"
         android:title="@string/menu_sort_random" />
+    <item
+        android:id="@+id/menu_album_sort_recently_added"
+        android:title="@string/menu_sort_recently_added" />
 </menu>

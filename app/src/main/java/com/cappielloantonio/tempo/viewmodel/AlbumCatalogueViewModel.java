@@ -20,8 +20,10 @@ import retrofit2.Callback;
 
 public class AlbumCatalogueViewModel extends AndroidViewModel {
     private final MutableLiveData<List<AlbumID3>> albumList = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<Boolean> loading = new MutableLiveData<>(true);
 
     private int page = 0;
+    private Status status = Status.STOPPED;
 
     public AlbumCatalogueViewModel(@NonNull Application application) {
         super(application);
@@ -31,7 +33,22 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
         return albumList;
     }
 
-    public void loadAlbums(int size) {
+    public LiveData<Boolean> getLoadingStatus() {
+        return loading;
+    }
+
+    public void loadAlbums() {
+        page = 0;
+        status = Status.RUNNING;
+        albumList.setValue(new ArrayList<>());
+        loadAlbums(500);
+    }
+
+    public void stopLoading() {
+        status = Status.STOPPED;
+    }
+
+    private void loadAlbums(int size) {
         retrieveAlbums(new MediaCallback() {
             @Override
             public void onError(Exception exception) {
@@ -39,15 +56,22 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
 
             @Override
             public void onLoadMedia(List<?> media) {
-                List<AlbumID3> liveAlbum = albumList.getValue();
+                if (status == Status.STOPPED) {
+                    loading.setValue(false);
+                    return;
+                }
 
-                if (liveAlbum == null) liveAlbum = new ArrayList<>();
+                List<AlbumID3> liveAlbum = albumList.getValue();
 
                 liveAlbum.addAll((List<AlbumID3>) media);
                 albumList.setValue(liveAlbum);
 
                 if (media.size() == size) {
                     loadAlbums(size);
+                    loading.setValue(true);
+                } else {
+                    status = Status.STOPPED;
+                    loading.setValue(false);
                 }
             }
         }, size, size * page++);
@@ -72,5 +96,10 @@ public class AlbumCatalogueViewModel extends AndroidViewModel {
                         callback.onError(new Exception(t.getMessage()));
                     }
                 });
+    }
+
+    private enum Status {
+        RUNNING,
+        STOPPED
     }
 }

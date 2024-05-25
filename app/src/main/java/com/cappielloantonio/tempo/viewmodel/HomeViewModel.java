@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.cappielloantonio.tempo.interfaces.StarCallback;
 import com.cappielloantonio.tempo.model.Chronology;
 import com.cappielloantonio.tempo.model.Favorite;
+import com.cappielloantonio.tempo.model.HomeSector;
 import com.cappielloantonio.tempo.repository.AlbumRepository;
 import com.cappielloantonio.tempo.repository.ArtistRepository;
 import com.cappielloantonio.tempo.repository.ChronologyRepository;
@@ -22,6 +23,8 @@ import com.cappielloantonio.tempo.subsonic.models.ArtistID3;
 import com.cappielloantonio.tempo.subsonic.models.Child;
 import com.cappielloantonio.tempo.subsonic.models.Share;
 import com.cappielloantonio.tempo.util.Preferences;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -59,9 +62,12 @@ public class HomeViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Child>> artistBestOf = new MutableLiveData<>(null);
     private final MutableLiveData<List<Share>> shares = new MutableLiveData<>(null);
 
+    private List<HomeSector> sectors;
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
+
+        setHomeSectorList();
 
         songRepository = new SongRepository();
         albumRepository = new AlbumRepository();
@@ -264,6 +270,26 @@ public class HomeViewModel extends AndroidViewModel {
 
     public void refreshShares(LifecycleOwner owner) {
         sharingRepository.getShares().observe(owner, this.shares::postValue);
+    }
+
+    private void setHomeSectorList() {
+        if (Preferences.getHomeSectorList() != null && !Preferences.getHomeSectorList().equals("null")) {
+            sectors = new Gson().fromJson(
+                    Preferences.getHomeSectorList(),
+                    new TypeToken<List<HomeSector>>() {
+                    }.getType()
+            );
+        }
+    }
+
+    public List<HomeSector> getHomeSectorList() {
+        return sectors;
+    }
+
+    public boolean checkHomeSectorVisibility(String sectorId) {
+        return sectors != null && sectors.stream().filter(sector -> sector.getId().equals(sectorId))
+                .findAny()
+                .orElse(null) == null;
     }
 
     public void setOfflineFavorite() {

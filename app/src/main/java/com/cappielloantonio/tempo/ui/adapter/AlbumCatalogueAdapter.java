@@ -2,6 +2,7 @@ package com.cappielloantonio.tempo.ui.adapter;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -23,6 +24,9 @@ import java.util.List;
 
 public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAdapter.ViewHolder> implements Filterable {
     private final ClickCallback click;
+    private String currentFilter;
+    private boolean showArtist;
+
     private final Filter filtering = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -32,6 +36,7 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
                 filteredList.addAll(albumsFull);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
+                currentFilter = filterPattern;
 
                 for (AlbumID3 item : albumsFull) {
                     if (item.getName().toLowerCase().contains(filterPattern)) {
@@ -48,8 +53,7 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            albums.clear();
-            albums.addAll((List) results.values);
+            albums = (List<AlbumID3>) results.values;
             notifyDataSetChanged();
         }
     };
@@ -57,9 +61,12 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
     private List<AlbumID3> albums;
     private List<AlbumID3> albumsFull;
 
-    public AlbumCatalogueAdapter(ClickCallback click) {
+    public AlbumCatalogueAdapter(ClickCallback click, boolean showArtist) {
         this.click = click;
         this.albums = Collections.emptyList();
+        this.albumsFull = Collections.emptyList();
+        this.currentFilter = "";
+        this.showArtist = showArtist;
     }
 
     @NonNull
@@ -75,6 +82,7 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
 
         holder.item.albumNameLabel.setText(MusicUtil.getReadableString(album.getName()));
         holder.item.artistNameLabel.setText(MusicUtil.getReadableString(album.getArtist()));
+        holder.item.artistNameLabel.setVisibility(showArtist ? View.VISIBLE : View.GONE);
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), album.getCoverArtId(), CustomGlideRequest.ResourceType.Album)
@@ -92,9 +100,8 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
     }
 
     public void setItems(List<AlbumID3> albums) {
-        this.albums = albums;
         this.albumsFull = new ArrayList<>(albums);
-        notifyDataSetChanged();
+        filtering.filter(currentFilter);
     }
 
     @Override
@@ -157,6 +164,10 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
                 break;
             case Constants.ALBUM_ORDER_BY_RANDOM:
                 Collections.shuffle(albums);
+                break;
+            case Constants.ALBUM_ORDER_BY_RECENTLY_ADDED:
+                albums.sort(Comparator.comparing(AlbumID3::getCreated));
+                Collections.reverse(albums);
                 break;
         }
 

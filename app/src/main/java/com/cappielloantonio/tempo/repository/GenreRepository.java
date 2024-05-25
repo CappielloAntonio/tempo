@@ -8,7 +8,9 @@ import com.cappielloantonio.tempo.subsonic.base.ApiResponse;
 import com.cappielloantonio.tempo.subsonic.models.Genre;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,7 +41,7 @@ public class GenreRepository {
                             if (size != -1) {
                                 genres.setValue(genreList.subList(0, Math.min(size, genreList.size())));
                             } else {
-                                genres.setValue(genreList);
+                                genres.setValue(genreList.stream().sorted(Comparator.comparing(Genre::getGenre)).collect(Collectors.toList()));
                             }
                         }
                     }

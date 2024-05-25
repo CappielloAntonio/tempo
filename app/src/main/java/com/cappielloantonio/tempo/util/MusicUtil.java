@@ -128,16 +128,18 @@ public class MusicUtil {
     }
 
 
-    public static String getReadableDurationString(long duration, boolean millis) {
+    public static String getReadableDurationString(Long duration, boolean millis) {
+        long lenght = duration != null ? duration : 0;
+
         long minutes;
         long seconds;
 
         if (millis) {
-            minutes = (duration / 1000) / 60;
-            seconds = (duration / 1000) % 60;
+            minutes = (lenght / 1000) / 60;
+            seconds = (lenght / 1000) % 60;
         } else {
-            minutes = duration / 60;
-            seconds = duration % 60;
+            minutes = lenght / 60;
+            seconds = lenght % 60;
         }
 
         if (minutes < 60) {
@@ -147,6 +149,22 @@ public class MusicUtil {
             minutes = minutes % 60;
             return String.format(Locale.getDefault(), "%d:%02d:%02d", hours, minutes, seconds);
         }
+    }
+
+    public static String getReadableDurationString(Integer duration, boolean millis) {
+        long lenght = duration != null ? duration : 0;
+        return getReadableDurationString(lenght, millis);
+    }
+
+    public static String getReadableAudioQualityString(Child child) {
+        if (!Preferences.showAudioQuality()) return "";
+
+        return "•" +
+                " " +
+                child.getBitrate() +
+                "kbps" +
+                " " +
+                child.getSuffix();
     }
 
     public static String getReadablePodcastDurationString(long duration) {
@@ -204,7 +222,7 @@ public class MusicUtil {
     public static List<String> getReadableStrings(List<String> strings) {
         List<String> readableStrings = new ArrayList<>();
 
-        if (strings.size() > 0) {
+        if (!strings.isEmpty()) {
             for (String string : strings) {
                 if (string != null) {
                     readableStrings.add(Html.fromHtml(string, Html.FROM_HTML_MODE_COMPACT).toString());

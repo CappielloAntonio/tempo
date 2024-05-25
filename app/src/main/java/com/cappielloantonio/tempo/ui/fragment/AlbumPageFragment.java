@@ -34,6 +34,7 @@ import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.cappielloantonio.tempo.util.MappingUtil;
 import com.cappielloantonio.tempo.util.MusicUtil;
 import com.cappielloantonio.tempo.viewmodel.AlbumPageViewModel;
+import com.google.android.material.chip.Chip;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.Collections;
@@ -73,6 +74,7 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
         init();
         initAppBar();
         initAlbumInfoTextButton();
+        initAlbumNotes();
         initMusicButton();
         initBackCover();
         initSongsView();
@@ -131,10 +133,20 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
         bind.albumNameLabel.setText(MusicUtil.getReadableString(albumPageViewModel.getAlbum().getName()));
         bind.albumArtistLabel.setText(MusicUtil.getReadableString(albumPageViewModel.getAlbum().getArtist()));
         bind.albumReleaseYearLabel.setText(albumPageViewModel.getAlbum().getYear() != 0 ? String.valueOf(albumPageViewModel.getAlbum().getYear()) : "");
+        bind.albumSongCountDurationTextview.setText(getString(R.string.album_page_tracks_count_and_duration, albumPageViewModel.getAlbum().getSongCount(), albumPageViewModel.getAlbum().getDuration() != null ? albumPageViewModel.getAlbum().getDuration() / 60 : 0));
+        bind.albumGenresTextview.setText(albumPageViewModel.getAlbum().getGenre());
 
         bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
 
         Objects.requireNonNull(bind.animToolbar.getOverflowIcon()).setTint(requireContext().getResources().getColor(R.color.titleTextColor, null));
+
+        bind.albumOtherInfoButton.setOnClickListener(v -> {
+            if (bind.albumDetailView.getVisibility() == View.GONE) {
+                bind.albumDetailView.setVisibility(View.VISIBLE);
+            } else if (bind.albumDetailView.getVisibility() == View.VISIBLE) {
+                bind.albumDetailView.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void initAlbumInfoTextButton() {
@@ -146,6 +158,18 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
             } else
                 Toast.makeText(requireContext(), getString(R.string.album_error_retrieving_artist), Toast.LENGTH_SHORT).show();
         }));
+    }
+
+    private void initAlbumNotes() {
+        albumPageViewModel.getAlbumInfo().observe(getViewLifecycleOwner(), albumInfo -> {
+            if (albumInfo != null) {
+                if (bind != null) bind.albumNotesTextview.setVisibility(View.VISIBLE);
+                if (bind != null)
+                    bind.albumNotesTextview.setText(MusicUtil.getReadableString(albumInfo.getNotes()));
+            } else {
+                if (bind != null) bind.albumNotesTextview.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void initMusicButton() {

@@ -14,17 +14,19 @@ import com.cappielloantonio.tempo.database.dao.FavoriteDao;
 import com.cappielloantonio.tempo.database.dao.QueueDao;
 import com.cappielloantonio.tempo.database.dao.RecentSearchDao;
 import com.cappielloantonio.tempo.database.dao.ServerDao;
+import com.cappielloantonio.tempo.database.dao.SessionMediaItemDao;
 import com.cappielloantonio.tempo.model.Chronology;
 import com.cappielloantonio.tempo.model.Download;
 import com.cappielloantonio.tempo.model.Favorite;
 import com.cappielloantonio.tempo.model.Queue;
 import com.cappielloantonio.tempo.model.RecentSearch;
 import com.cappielloantonio.tempo.model.Server;
+import com.cappielloantonio.tempo.model.SessionMediaItem;
 
 @Database(
-        version = 3,
-        entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Chronology.class, Favorite.class},
-        autoMigrations = {@AutoMigration(from = 2, to = 3)}
+        version = 8,
+        entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Chronology.class, Favorite.class, SessionMediaItem.class},
+        autoMigrations = {@AutoMigration(from = 7, to = 8)}
 )
 @TypeConverters({DateConverters.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -52,4 +54,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract ChronologyDao chronologyDao();
 
     public abstract FavoriteDao favoriteDao();
+
+    public abstract SessionMediaItemDao sessionMediaItemDao();
 }

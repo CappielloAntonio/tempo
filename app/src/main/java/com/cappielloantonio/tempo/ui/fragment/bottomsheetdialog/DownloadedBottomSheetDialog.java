@@ -82,11 +82,11 @@ public class DownloadedBottomSheetDialog extends BottomSheetDialogFragment imple
         CustomGlideRequest.Builder.from(requireContext(), songs.get(new Random().nextInt(songs.size())).getCoverArtId(), CustomGlideRequest.ResourceType.Unknown).build().into(coverAlbum);
 
         TextView groupTitleView = view.findViewById(R.id.group_title_text_view);
-        groupTitleView.setText(MusicUtil.getReadableString(this.groupTitle));
+        groupTitleView.setText(this.groupTitle);
         groupTitleView.setSelected(true);
 
         TextView groupSubtitleView = view.findViewById(R.id.group_subtitle_text_view);
-        groupSubtitleView.setText(MusicUtil.getReadableString(this.groupSubtitle));
+        groupSubtitleView.setText(this.groupSubtitle);
         groupSubtitleView.setSelected(true);
 
         TextView playRandom = view.findViewById(R.id.play_random_text_view);

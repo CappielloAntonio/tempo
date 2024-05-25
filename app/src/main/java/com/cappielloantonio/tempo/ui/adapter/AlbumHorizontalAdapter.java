@@ -40,8 +40,8 @@ public class AlbumHorizontalAdapter extends RecyclerView.Adapter<AlbumHorizontal
     public void onBindViewHolder(ViewHolder holder, int position) {
         AlbumID3 album = albums.get(position);
 
-        holder.item.albumTitleTextView.setText(MusicUtil.getReadableString(album.getName()));
-        holder.item.albumArtistTextView.setText(MusicUtil.getReadableString(album.getArtist()));
+        holder.item.albumTitleTextView.setText(album.getName());
+        holder.item.albumArtistTextView.setText(album.getArtist());
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), album.getCoverArtId(), CustomGlideRequest.ResourceType.Album)

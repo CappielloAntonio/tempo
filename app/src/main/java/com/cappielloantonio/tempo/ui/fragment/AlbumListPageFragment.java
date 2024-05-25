@@ -74,7 +74,7 @@ public class AlbumListPageFragment extends Fragment implements ClickCallback {
         } else if (requireArguments().getParcelable(Constants.ARTIST_OBJECT) != null) {
             albumListPageViewModel.artist = requireArguments().getParcelable(Constants.ARTIST_OBJECT);
             albumListPageViewModel.title = Constants.ALBUM_FROM_ARTIST;
-            bind.pageTitleLabel.setText(MusicUtil.getReadableString(albumListPageViewModel.artist.getName()));
+            bind.pageTitleLabel.setText(albumListPageViewModel.artist.getName());
         }
     }
 

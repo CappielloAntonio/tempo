@@ -68,7 +68,7 @@ public class PodcastChannelBottomSheetDialog extends BottomSheetDialogFragment i
                 .into(coverPodcast);
 
         TextView titlePodcast = view.findViewById(R.id.podcast_title_text_view);
-        titlePodcast.setText(MusicUtil.getReadableString(podcastChannelBottomSheetViewModel.getPodcastChannel().getTitle()));
+        titlePodcast.setText(podcastChannelBottomSheetViewModel.getPodcastChannel().getTitle());
 
         TextView delete = view.findViewById(R.id.delete_text_view);
         delete.setOnClickListener(v -> {

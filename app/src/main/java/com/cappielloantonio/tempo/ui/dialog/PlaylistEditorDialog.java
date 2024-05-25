@@ -81,7 +81,7 @@ public class PlaylistEditorDialog extends DialogFragment {
             playlistEditorViewModel.setPlaylistToEdit(requireArguments().getParcelable(Constants.PLAYLIST_OBJECT));
 
             if (playlistEditorViewModel.getPlaylistToEdit() != null) {
-                bind.playlistNameTextView.setText(MusicUtil.getReadableString(playlistEditorViewModel.getPlaylistToEdit().getName()));
+                bind.playlistNameTextView.setText(playlistEditorViewModel.getPlaylistToEdit().getName());
             }
         }
     }

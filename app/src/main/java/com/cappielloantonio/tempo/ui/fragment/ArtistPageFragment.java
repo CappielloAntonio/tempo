@@ -110,7 +110,7 @@ public class ArtistPageFragment extends Fragment implements ClickCallback {
         if (activity.getSupportActionBar() != null)
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        bind.collapsingToolbar.setTitle(MusicUtil.getReadableString(artistPageViewModel.getArtist().getName()));
+        bind.collapsingToolbar.setTitle(artistPageViewModel.getArtist().getName());
         bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
         bind.collapsingToolbar.setExpandedTitleColor(getResources().getColor(R.color.white, null));
     }

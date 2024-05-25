@@ -72,7 +72,7 @@ public class PodcastChannelCatalogueAdapter extends RecyclerView.Adapter<Podcast
     public void onBindViewHolder(ViewHolder holder, int position) {
         PodcastChannel podcastChannel = podcastChannels.get(position);
 
-        holder.item.podcastChannelTitleLabel.setText(MusicUtil.getReadableString(podcastChannel.getTitle()));
+        holder.item.podcastChannelTitleLabel.setText(podcastChannel.getTitle());
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), podcastChannel.getCoverArtId(), CustomGlideRequest.ResourceType.Podcast)

@@ -39,8 +39,8 @@ public class DiscoverSongAdapter extends RecyclerView.Adapter<DiscoverSongAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         Child song = songs.get(position);
 
-        holder.item.titleDiscoverSongLabel.setText(MusicUtil.getReadableString(song.getTitle()));
-        holder.item.albumDiscoverSongLabel.setText(MusicUtil.getReadableString(song.getAlbum()));
+        holder.item.titleDiscoverSongLabel.setText(song.getTitle());
+        holder.item.albumDiscoverSongLabel.setText(song.getAlbum());
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), song.getCoverArtId(), CustomGlideRequest.ResourceType.Song)

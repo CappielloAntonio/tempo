@@ -45,8 +45,8 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
         PodcastEpisode podcastEpisode = podcastEpisodes.get(position);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d");
 
-        holder.item.podcastTitleLabel.setText(MusicUtil.getReadableString(podcastEpisode.getTitle()));
-        holder.item.podcastSubtitleLabel.setText(MusicUtil.getReadableString(podcastEpisode.getArtist()));
+        holder.item.podcastTitleLabel.setText(podcastEpisode.getTitle());
+        holder.item.podcastSubtitleLabel.setText(podcastEpisode.getArtist());
         holder.item.podcastReleasesAndDurationLabel.setText(holder.itemView.getContext().getString(R.string.podcast_release_date_duration_formatter, simpleDateFormat.format(podcastEpisode.getPublishDate()), MusicUtil.getReadablePodcastDurationString(podcastEpisode.getDuration())));
         holder.item.podcastDescriptionText.setText(MusicUtil.getReadableString(podcastEpisode.getDescription()));
 

@@ -32,8 +32,8 @@ public class PlaylistDialogSongHorizontalAdapter extends RecyclerView.Adapter<Pl
     public void onBindViewHolder(ViewHolder holder, int position) {
         Child song = songs.get(position);
 
-        holder.item.playlistDialogSongTitleTextView.setText(MusicUtil.getReadableString(song.getTitle()));
-        holder.item.playlistDialogAlbumArtistTextView.setText(MusicUtil.getReadableString(song.getArtist()));
+        holder.item.playlistDialogSongTitleTextView.setText(song.getTitle());
+        holder.item.playlistDialogAlbumArtistTextView.setText(song.getArtist());
         holder.item.playlistDialogSongDurationTextView.setText(MusicUtil.getReadableDurationString(song.getDuration(), false));
 
         CustomGlideRequest.Builder

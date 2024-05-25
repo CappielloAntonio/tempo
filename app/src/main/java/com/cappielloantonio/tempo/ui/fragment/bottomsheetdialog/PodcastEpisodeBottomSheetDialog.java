@@ -70,7 +70,7 @@ public class PodcastEpisodeBottomSheetDialog extends BottomSheetDialogFragment i
                 .into(coverPodcast);
 
         TextView titlePodcast = view.findViewById(R.id.podcast_title_text_view);
-        titlePodcast.setText(MusicUtil.getReadableString(podcastEpisodeBottomSheetViewModel.getPodcastEpisode().getTitle()));
+        titlePodcast.setText(podcastEpisodeBottomSheetViewModel.getPodcastEpisode().getTitle());
 
         titlePodcast.setSelected(true);
 

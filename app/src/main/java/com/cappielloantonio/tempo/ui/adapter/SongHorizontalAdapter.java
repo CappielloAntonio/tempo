@@ -56,16 +56,14 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         Child song = songs.get(position);
 
-        holder.item.searchResultSongTitleTextView.setText(MusicUtil.getReadableString(song.getTitle()));
+        holder.item.searchResultSongTitleTextView.setText(song.getTitle());
 
         holder.item.searchResultSongSubtitleTextView.setText(
                 holder.itemView.getContext().getString(
                         R.string.song_subtitle_formatter,
-                        MusicUtil.getReadableString(
                                 this.showAlbum ?
                                         song.getAlbum() :
-                                        song.getArtist()
-                        ),
+                                        song.getArtist(),
                         MusicUtil.getReadableDurationString(song.getDuration(), false),
                         MusicUtil.getReadableAudioQualityString(song)
                 )

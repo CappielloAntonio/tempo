@@ -48,11 +48,11 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
     public void onBindViewHolder(ViewHolder holder, int position) {
         Child song = songs.get(position);
 
-        holder.item.queueSongTitleTextView.setText(MusicUtil.getReadableString(song.getTitle()));
+        holder.item.queueSongTitleTextView.setText(song.getTitle());
         holder.item.queueSongSubtitleTextView.setText(
                 holder.itemView.getContext().getString(
                         R.string.song_subtitle_formatter,
-                        MusicUtil.getReadableString(song.getArtist()),
+                        song.getArtist(),
                         MusicUtil.getReadableDurationString(song.getDuration(), false),
                         MusicUtil.getReadableAudioQualityString(song)
                 )

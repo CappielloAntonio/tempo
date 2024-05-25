@@ -39,7 +39,7 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
     public void onBindViewHolder(ViewHolder holder, int position) {
         ArtistID3 artist = artists.get(position);
 
-        holder.item.artistNameTextView.setText(MusicUtil.getReadableString(artist.getName()));
+        holder.item.artistNameTextView.setText(artist.getName());
 
         if (artist.getAlbumCount() > 0) {
             holder.item.artistInfoTextView.setText("Album count: " + artist.getAlbumCount());

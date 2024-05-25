@@ -38,7 +38,7 @@ public class SimilarTrackAdapter extends RecyclerView.Adapter<SimilarTrackAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         Child song = songs.get(position);
 
-        holder.item.titleTrackLabel.setText(MusicUtil.getReadableString(song.getTitle()));
+        holder.item.titleTrackLabel.setText(song.getTitle());
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), song.getCoverArtId(), CustomGlideRequest.ResourceType.Song)

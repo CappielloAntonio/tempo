@@ -128,10 +128,10 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
             activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        bind.animToolbar.setTitle(MusicUtil.getReadableString(albumPageViewModel.getAlbum().getName()));
+        bind.animToolbar.setTitle(albumPageViewModel.getAlbum().getName());
 
-        bind.albumNameLabel.setText(MusicUtil.getReadableString(albumPageViewModel.getAlbum().getName()));
-        bind.albumArtistLabel.setText(MusicUtil.getReadableString(albumPageViewModel.getAlbum().getArtist()));
+        bind.albumNameLabel.setText(albumPageViewModel.getAlbum().getName());
+        bind.albumArtistLabel.setText(albumPageViewModel.getAlbum().getArtist());
         bind.albumReleaseYearLabel.setText(albumPageViewModel.getAlbum().getYear() != 0 ? String.valueOf(albumPageViewModel.getAlbum().getYear()) : "");
         bind.albumSongCountDurationTextview.setText(getString(R.string.album_page_tracks_count_and_duration, albumPageViewModel.getAlbum().getSongCount(), albumPageViewModel.getAlbum().getDuration() != null ? albumPageViewModel.getAlbum().getDuration() / 60 : 0));
         bind.albumGenresTextview.setText(albumPageViewModel.getAlbum().getGenre());

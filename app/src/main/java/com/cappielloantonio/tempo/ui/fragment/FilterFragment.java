@@ -91,7 +91,7 @@ public class FilterFragment extends Fragment {
             bind.filterContainer.setVisibility(View.VISIBLE);
             for (Genre genre : genres) {
                 Chip chip = (Chip) requireActivity().getLayoutInflater().inflate(R.layout.chip_search_filter_genre, null, false);
-                chip.setText(MusicUtil.getReadableString(genre.getGenre()));
+                chip.setText(genre.getGenre());
                 chip.setChecked(filterViewModel.getFilters().contains(genre.getGenre()));
                 chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     if (isChecked)

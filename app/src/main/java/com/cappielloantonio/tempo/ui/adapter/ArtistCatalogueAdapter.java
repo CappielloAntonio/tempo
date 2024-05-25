@@ -74,7 +74,7 @@ public class ArtistCatalogueAdapter extends RecyclerView.Adapter<ArtistCatalogue
     public void onBindViewHolder(ViewHolder holder, int position) {
         ArtistID3 artist = artists.get(position);
 
-        holder.item.artistNameLabel.setText(MusicUtil.getReadableString(artist.getName()));
+        holder.item.artistNameLabel.setText(artist.getName());
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), artist.getCoverArtId(), CustomGlideRequest.ResourceType.Artist)

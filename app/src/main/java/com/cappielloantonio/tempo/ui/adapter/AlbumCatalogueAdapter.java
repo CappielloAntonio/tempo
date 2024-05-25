@@ -80,8 +80,8 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         AlbumID3 album = albums.get(position);
 
-        holder.item.albumNameLabel.setText(MusicUtil.getReadableString(album.getName()));
-        holder.item.artistNameLabel.setText(MusicUtil.getReadableString(album.getArtist()));
+        holder.item.albumNameLabel.setText(album.getName());
+        holder.item.artistNameLabel.setText(album.getArtist());
         holder.item.artistNameLabel.setVisibility(showArtist ? View.VISIBLE : View.GONE);
 
         CustomGlideRequest.Builder

@@ -38,7 +38,7 @@ public class PlaylistDialogHorizontalAdapter extends RecyclerView.Adapter<Playli
     public void onBindViewHolder(ViewHolder holder, int position) {
         Playlist playlist = playlists.get(position);
 
-        holder.item.playlistDialogTitleTextView.setText(MusicUtil.getReadableString(playlist.getName()));
+        holder.item.playlistDialogTitleTextView.setText(playlist.getName());
         holder.item.playlistDialogCountTextView.setText(holder.itemView.getContext().getString(R.string.playlist_counted_tracks, playlist.getSongCount(), MusicUtil.getReadableDurationString(playlist.getDuration(), false)));
     }
 

@@ -84,12 +84,12 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
                 .into(coverSong);
 
         TextView titleSong = view.findViewById(R.id.song_title_text_view);
-        titleSong.setText(MusicUtil.getReadableString(songBottomSheetViewModel.getSong().getTitle()));
+        titleSong.setText(songBottomSheetViewModel.getSong().getTitle());
 
         titleSong.setSelected(true);
 
         TextView artistSong = view.findViewById(R.id.song_artist_text_view);
-        artistSong.setText(MusicUtil.getReadableString(songBottomSheetViewModel.getSong().getArtist()));
+        artistSong.setText(songBottomSheetViewModel.getSong().getArtist());
 
         ToggleButton favoriteToggle = view.findViewById(R.id.button_favorite);
         favoriteToggle.setChecked(songBottomSheetViewModel.getSong().getStarred() != null);

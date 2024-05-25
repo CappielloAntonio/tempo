@@ -92,11 +92,11 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
                 .into(coverAlbum);
 
         TextView titleAlbum = view.findViewById(R.id.album_title_text_view);
-        titleAlbum.setText(MusicUtil.getReadableString(albumBottomSheetViewModel.getAlbum().getName()));
+        titleAlbum.setText(albumBottomSheetViewModel.getAlbum().getName());
         titleAlbum.setSelected(true);
 
         TextView artistAlbum = view.findViewById(R.id.album_artist_text_view);
-        artistAlbum.setText(MusicUtil.getReadableString(albumBottomSheetViewModel.getAlbum().getArtist()));
+        artistAlbum.setText(albumBottomSheetViewModel.getAlbum().getArtist());
 
         ToggleButton favoriteToggle = view.findViewById(R.id.button_favorite);
         favoriteToggle.setChecked(albumBottomSheetViewModel.getAlbum().getStarred() != null);

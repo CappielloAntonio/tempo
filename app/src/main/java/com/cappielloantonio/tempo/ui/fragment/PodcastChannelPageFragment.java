@@ -90,9 +90,9 @@ public class PodcastChannelPageFragment extends Fragment implements ClickCallbac
             activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        bind.toolbar.setTitle(MusicUtil.getReadableString(podcastChannelPageViewModel.getPodcastChannel().getTitle()));
+        bind.toolbar.setTitle(podcastChannelPageViewModel.getPodcastChannel().getTitle());
         bind.toolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
-        bind.toolbar.setTitle(MusicUtil.getReadableString(podcastChannelPageViewModel.getPodcastChannel().getTitle()));
+        bind.toolbar.setTitle(podcastChannelPageViewModel.getPodcastChannel().getTitle());
     }
 
     private void initPodcastChannelInfo() {

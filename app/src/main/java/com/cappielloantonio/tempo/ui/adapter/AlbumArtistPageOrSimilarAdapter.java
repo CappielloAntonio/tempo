@@ -38,8 +38,8 @@ public class AlbumArtistPageOrSimilarAdapter extends RecyclerView.Adapter<AlbumA
     public void onBindViewHolder(ViewHolder holder, int position) {
         AlbumID3 album = albums.get(position);
 
-        holder.item.albumNameLabel.setText(MusicUtil.getReadableString(album.getName()));
-        holder.item.artistNameLabel.setText(MusicUtil.getReadableString(album.getArtist()));
+        holder.item.albumNameLabel.setText(album.getName());
+        holder.item.artistNameLabel.setText(album.getArtist());
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), album.getCoverArtId(), CustomGlideRequest.ResourceType.Album)

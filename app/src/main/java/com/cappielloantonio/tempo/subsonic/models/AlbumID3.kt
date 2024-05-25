@@ -22,4 +22,18 @@ open class AlbumID3 : Parcelable {
     var starred: Date? = null
     var year: Int = 0
     var genre: String? = null
+    var played: String? = null
+    var userRating: Int? = 0
+    var recordLabels: List<RecordLabel>? = null
+    var musicBrainzId: String? = null
+    var genres: List<ItemGenre>? = null
+    var artists: List<ArtistID3>? = null
+    var displayArtist: String? = null
+    var releaseTypes: List<String>? = null
+    var moods: List<String>? = null
+    var sortName: String? = null
+    var originalReleaseDate: ItemDate? = null
+    var releaseDate: ItemDate? = null
+    var isCompilation: Boolean? = null
+    var discTitles: List<DiscTitle>? = null
 }

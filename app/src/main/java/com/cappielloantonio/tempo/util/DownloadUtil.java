@@ -69,7 +69,9 @@ public final class DownloadUtil {
             CookieManager cookieManager = new CookieManager();
             cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ORIGINAL_SERVER);
             CookieHandler.setDefault(cookieManager);
-            httpDataSourceFactory = new DefaultHttpDataSource.Factory();
+            httpDataSourceFactory = new DefaultHttpDataSource
+                    .Factory()
+                    .setAllowCrossProtocolRedirects(true);
         }
 
         return httpDataSourceFactory;

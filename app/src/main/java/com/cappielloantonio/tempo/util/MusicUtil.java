@@ -219,20 +219,6 @@ public class MusicUtil {
         return "";
     }
 
-    public static List<String> getReadableStrings(List<String> strings) {
-        List<String> readableStrings = new ArrayList<>();
-
-        if (!strings.isEmpty()) {
-            for (String string : strings) {
-                if (string != null) {
-                    readableStrings.add(Html.fromHtml(string, Html.FROM_HTML_MODE_COMPACT).toString());
-                }
-            }
-        }
-
-        return readableStrings;
-    }
-
     public static String getReadableByteCount(long bytes) {
         long absB = bytes == Long.MIN_VALUE ? Long.MAX_VALUE : Math.abs(bytes);
 

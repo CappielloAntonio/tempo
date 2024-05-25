@@ -53,6 +53,7 @@
     <string name="connection_alert_dialog_positive_button">OK</string>
     <string name="connection_alert_dialog_summary">Access to the Subsonic server on connections other than Wi-Fi has been restricted. To prevent this alert dialog from reappearing, disable the connection check in the app settings.</string>
     <string name="connection_alert_dialog_title">Wi-Fi not connected</string>
+    <string name="content_description_shuffle_button">Shuffle</string>
     <string name="delete_download_storage_dialog_negative_button">Cancel</string>
     <string name="delete_download_storage_dialog_positive_button">Continue</string>
     <string name="delete_download_storage_dialog_summary">Please be aware that continuing with this action will result in the permanent deletion of all saved items downloaded from all servers.</string>

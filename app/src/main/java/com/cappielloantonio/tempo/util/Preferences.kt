@@ -23,6 +23,7 @@ object Preferences {
     private const val PLAYBACK_SPEED = "playback_speed"
     private const val SKIP_SILENCE = "skip_silence"
     private const val IMAGE_CACHE_SIZE = "image_cache_size"
+    private const val STREAMING_CACHE_SIZE = "streaming_cache_size"
     private const val IMAGE_SIZE = "image_size"
     private const val MAX_BITRATE_WIFI = "max_bitrate_wifi"
     private const val MAX_BITRATE_MOBILE = "max_bitrate_mobile"
@@ -187,6 +188,14 @@ object Preferences {
     @JvmStatic
     fun getImageSize(): Int {
         return App.getInstance().preferences.getString(IMAGE_SIZE, "-1")!!.toInt()
+    }
+
+    /**
+     * Size of streaming cache in MiB.
+     */
+    @JvmStatic
+    fun getStreamingCacheSize(): Long {
+        return App.getInstance().preferences.getString(STREAMING_CACHE_SIZE, "256")!!.toLong()
     }
 
     @JvmStatic

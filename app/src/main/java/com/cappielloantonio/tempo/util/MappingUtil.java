@@ -159,7 +159,7 @@ public class MappingUtil {
                                 .setExtras(bundle)
                                 .build()
                 )
-                .setMimeType(MimeTypes.BASE_TYPE_AUDIO)
+                // .setMimeType(MimeTypes.BASE_TYPE_AUDIO)
                 .setUri(uri)
                 .build();
     }

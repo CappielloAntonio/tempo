@@ -91,9 +91,17 @@ public class HomeViewModel extends AndroidViewModel {
         return songRepository.getRandomSample(100, null, null);
     }
 
-    public LiveData<List<Chronology>> getGridSongSample(LifecycleOwner owner) {
+    public LiveData<List<Chronology>> getChronologySample(LifecycleOwner owner) {
+        Calendar cal = Calendar.getInstance();
         String server = Preferences.getServerId();
-        chronologyRepository.getLastWeek(server).observe(owner, thisGridTopSong::postValue);
+
+        int currentWeek = cal.get(Calendar.WEEK_OF_YEAR);
+        long start = cal.getTimeInMillis();
+
+        cal.set(Calendar.WEEK_OF_YEAR, currentWeek - 1);
+        long end = cal.getTimeInMillis();
+
+        chronologyRepository.getChronology(server, start, end).observe(owner, thisGridTopSong::postValue);
         return thisGridTopSong;
     }
 
@@ -226,6 +234,31 @@ public class HomeViewModel extends AndroidViewModel {
 
     public LiveData<List<Child>> getAllStarredTracks() {
         return songRepository.getStarredSongs(false, -1);
+    }
+
+    public void changeChronologyPeriod(LifecycleOwner owner, int period) {
+        Calendar cal = Calendar.getInstance();
+        String server = Preferences.getServerId();
+        int currentWeek = cal.get(Calendar.WEEK_OF_YEAR);
+
+        long start = 0;
+        long end = 0;
+
+        if (period == 0) {
+            start = cal.getTimeInMillis();
+            cal.set(Calendar.WEEK_OF_YEAR, currentWeek - 1);
+            end = cal.getTimeInMillis();
+        } else if (period == 1) {
+            start = cal.getTimeInMillis();
+            cal.set(Calendar.WEEK_OF_YEAR, currentWeek - 4);
+            end = cal.getTimeInMillis();
+        } else if (period == 2) {
+            start = cal.getTimeInMillis();
+            cal.set(Calendar.WEEK_OF_YEAR, currentWeek - 52);
+            end = cal.getTimeInMillis();
+        }
+
+        chronologyRepository.getChronology(server, start, end).observe(owner, thisGridTopSong::postValue);
     }
 
     public void refreshDiscoverySongSample(LifecycleOwner owner) {

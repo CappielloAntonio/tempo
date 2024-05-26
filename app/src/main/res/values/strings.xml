@@ -110,6 +110,8 @@
     <string name="home_title_last_played">Last played</string>
     <string name="home_title_last_played_see_all_button">See all</string>
     <string name="home_title_last_week">Last week</string>
+    <string name="home_title_last_month">Last month</string>
+    <string name="home_title_last_year">Last year</string>
     <string name="home_title_made_for_you">Made for you</string>
     <string name="home_title_most_played">Most played</string>
     <string name="home_title_most_played_see_all_button">See all</string>
@@ -155,6 +157,9 @@
     <string name="menu_group_by_track">Track</string>
     <string name="menu_group_by_year">Year</string>
     <string name="menu_home_label">Home</string>
+    <string name="menu_last_week_name">Last week</string>
+    <string name="menu_last_month_name">Last month</string>
+    <string name="menu_last_year_name">Last year</string>
     <string name="menu_library_label">Library</string>
     <string name="menu_search_button">Search</string>
     <string name="menu_settings_button">Settings</string>

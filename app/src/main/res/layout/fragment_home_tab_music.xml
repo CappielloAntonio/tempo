@@ -311,16 +311,15 @@
                 android:text="@string/home_title_top_songs" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/grid_tracks_recycler_view"
+                android:id="@+id/top_songs_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:clipToPadding="false"
-                android:paddingStart="16dp"
                 android:paddingTop="8dp"
-                android:paddingEnd="16dp"
                 android:paddingBottom="8dp" />
+
         </LinearLayout>
 
         <View

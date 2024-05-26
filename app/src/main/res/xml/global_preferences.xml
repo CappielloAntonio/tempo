@@ -138,6 +138,10 @@
             app:useSimpleSummaryProvider="false" />
 
         <Preference
+            android:key="streaming_cache_storage"
+            app:title="@string/settings_streaming_cache_storage_title" />
+
+        <Preference
             android:key="download_storage"
             app:title="@string/settings_download_storage_title" />
 

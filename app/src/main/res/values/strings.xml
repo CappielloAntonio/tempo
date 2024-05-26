@@ -289,8 +289,9 @@
     <string name="settings_scan_title">Scan library</string>
     <string name="settings_scrobble_title">Enable music scrobbling</string>
     <string name="settings_share_title">Enable music sharing</string>
-    <string name="settings_sub_summary_scrobble">It\'s important to note that scrobbling also relies on the server being enabled to receive this data.</string>
     <string name="settings_streaming_cache_size">Size of streaming cache</string>
+    <string name="settings_streaming_cache_storage_title">Streaming cache storage</string>
+    <string name="settings_sub_summary_scrobble">It\'s important to note that scrobbling also relies on the server being enabled to receive this data.</string>
     <string name="settings_summary_skip_min_star_rating">When listening to an artist\'s radio, an instant mix or when shuffling all, tracks below a certain user rating will be ignored.</string>
     <string name="settings_summary_replay_gain">Replay gain is a feature that allows you to adjust the volume level of audio tracks for a consistent listening experience. This setting is only effective if the track contains the necessary metadata.</string>
     <string name="settings_summary_scrobble">Scrobbling is a feature that allows your device to send information about the songs you listen to the music server. This information helps create personalized recommendations based on your music preferences.</string>
@@ -355,6 +356,11 @@
     <string name="starred_sync_dialog_positive_button">Continue and download</string>
     <string name="starred_sync_dialog_summary">Downloading starry tracks may require a large amount of data.</string>
     <string name="starred_sync_dialog_title">Sync starred tracks</string>
+    <string name="streaming_cache_storage_dialog_sub_summary">For the changes to take effect, restart the app.</string>
+    <string name="streaming_cache_storage_dialog_summary">Changing the destination of cached files from one storage to another may result in the deletion of any previously cached files in the other storage.</string>
+    <string name="streaming_cache_storage_dialog_title">Select storage option</string>
+    <string name="streaming_cache_storage_external_dialog_positive_button">External</string>
+    <string name="streaming_cache_storage_internal_dialog_negative_button">Internal</string>
     <string name="track_info_album">Album</string>
     <string name="track_info_artist">Artist</string>
     <string name="track_info_bitrate">Bitrate</string>

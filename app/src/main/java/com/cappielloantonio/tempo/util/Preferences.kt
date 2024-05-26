@@ -42,6 +42,7 @@ object Preferences {
     private const val MUSIC_DIRECTORY_SECTION_VISIBILITY = "music_directory_section_visibility"
     private const val REPLAY_GAIN_MODE = "replay_gain_mode"
     private const val AUDIO_TRANSCODE_PRIORITY = "audio_transcode_priority"
+    private const val STREAMING_CACHE_STORAGE = "streaming_cache_storage"
     private const val DOWNLOAD_STORAGE = "download_storage"
     private const val DEFAULT_DOWNLOAD_VIEW_TYPE = "default_download_view_type"
     private const val AUDIO_TRANSCODE_DOWNLOAD = "audio_transcode_download"
@@ -308,6 +309,19 @@ object Preferences {
     @JvmStatic
     fun isServerPrioritized(): Boolean {
         return App.getInstance().preferences.getBoolean(AUDIO_TRANSCODE_PRIORITY, false)
+    }
+
+    @JvmStatic
+    fun getStreamingCacheStoragePreference(): Int {
+        return App.getInstance().preferences.getString(STREAMING_CACHE_STORAGE, "0")!!.toInt()
+    }
+
+    @JvmStatic
+    fun setStreamingCacheStoragePreference(streamingCachePreference: Int) {
+        return App.getInstance().preferences.edit().putString(
+                STREAMING_CACHE_STORAGE,
+                streamingCachePreference.toString()
+        ).apply()
     }
 
     @JvmStatic

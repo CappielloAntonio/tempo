@@ -38,11 +38,13 @@ public final class DownloadUtil {
     public static final String DOWNLOAD_NOTIFICATION_SUCCESSFUL_GROUP = "com.cappielloantonio.tempo.SuccessfulDownload";
     public static final String DOWNLOAD_NOTIFICATION_FAILED_GROUP = "com.cappielloantonio.tempo.FailedDownload";
 
+    private static final String STREAMING_CACHE_CONTENT_DIRECTORY = "streaming_cache";
     private static final String DOWNLOAD_CONTENT_DIRECTORY = "downloads";
 
     private static DataSource.Factory dataSourceFactory;
     private static DataSource.Factory httpDataSourceFactory;
     private static DatabaseProvider databaseProvider;
+    private static File streamingCacheDirectory;
     private static File downloadDirectory;
     private static Cache downloadCache;
     private static SimpleCache streamingCache;
@@ -135,7 +137,7 @@ public final class DownloadUtil {
 
     private static synchronized SimpleCache getStreamingCache(Context context) {
         if (streamingCache == null) {
-            File streamingCacheDirectory = new File(context.getCacheDir(), "streamingCache");
+            File streamingCacheDirectory = new File(getStreamingCacheDirectory(context), STREAMING_CACHE_CONTENT_DIRECTORY);
 
             streamingCache = new SimpleCache(
                     streamingCacheDirectory,
@@ -167,6 +169,27 @@ public final class DownloadUtil {
         }
 
         return databaseProvider;
+    }
+
+    private static synchronized File getStreamingCacheDirectory(Context context) {
+        if (streamingCacheDirectory == null) {
+            if (Preferences.getStreamingCacheStoragePreference() == 0) {
+                streamingCacheDirectory = context.getExternalFilesDirs(null)[0];
+                if (streamingCacheDirectory == null) {
+                    streamingCacheDirectory = context.getFilesDir();
+                }
+            } else {
+                try {
+                    streamingCacheDirectory = context.getExternalFilesDirs(null)[1];
+                } catch (Exception exception) {
+                    streamingCacheDirectory = context.getExternalFilesDirs(null)[0];
+                    Preferences.setStreamingCacheStoragePreference(0);
+                }
+
+            }
+        }
+
+        return streamingCacheDirectory;
     }
 
     private static synchronized File getDownloadDirectory(Context context) {

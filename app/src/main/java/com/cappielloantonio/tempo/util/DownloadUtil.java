@@ -80,6 +80,7 @@ public final class DownloadUtil {
     public static synchronized DataSource.Factory getDataSourceFactory(Context context) {
         if (dataSourceFactory == null) {
             context = context.getApplicationContext();
+
             DefaultDataSource.Factory upstreamFactory = new DefaultDataSource.Factory(context, getHttpDataSourceFactory());
 
             if (Preferences.getStreamingCacheSize() > 0) {

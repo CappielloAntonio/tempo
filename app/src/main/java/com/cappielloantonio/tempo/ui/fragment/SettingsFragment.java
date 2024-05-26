@@ -165,7 +165,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
                     long currentSizeMb = DownloadUtil.getStreamingCacheSize(requireActivity()) / (1024 * 1024);
 
-                    return getString(R.string.settings_summary_streaming_cache_size, entry, currentSizeMb);
+                    return getString(R.string.settings_summary_streaming_cache_size, entry, String.valueOf(currentSizeMb));
                 }
             });
         }

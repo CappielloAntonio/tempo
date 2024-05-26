@@ -84,6 +84,14 @@
 
     <PreferenceCategory app:title="@string/settings_title_data">
         <ListPreference
+            app:defaultValue="256"
+            app:dialogTitle="@string/settings_streaming_cache_size"
+            app:entries="@array/streaming_cache_size_titles"
+            app:entryValues="@array/streaming_cache_size_values"
+            app:key="streaming_cache_size"
+            app:title="@string/settings_streaming_cache_size" />
+
+        <ListPreference
             app:defaultValue="500"
             app:dialogTitle="@string/settings_covers_cache"
             app:entries="@array/pref_cache_size_titles"
@@ -100,14 +108,6 @@
             app:key="image_size"
             app:title="@string/settings_image_size"
             app:useSimpleSummaryProvider="true" />
-
-        <ListPreference
-            app:defaultValue="256"
-            app:dialogTitle="@string/settings_streaming_cache_size"
-            app:entries="@array/streaming_cache_size_titles"
-            app:entryValues="@array/streaming_cache_size_values"
-            app:key="streaming_cache_size"
-            app:title="@string/settings_streaming_cache_size" />
 
         <SwitchPreference
             android:title="@string/settings_wifi_only_title"

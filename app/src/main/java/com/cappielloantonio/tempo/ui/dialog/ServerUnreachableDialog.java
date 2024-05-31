@@ -56,7 +56,7 @@ public class ServerUnreachableDialog extends DialogFragment {
         });
 
         alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
-            Preferences.setServerUnreachableDatetime(System.currentTimeMillis());
+            Preferences.setServerUnreachableDatetime();
             alertDialog.dismiss();
         });
     }

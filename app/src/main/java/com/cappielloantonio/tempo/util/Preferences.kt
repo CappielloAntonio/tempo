@@ -59,6 +59,7 @@ object Preferences {
     private const val AUDIO_QUALITY_PER_ITEM = "audio_quality_per_item"
     private const val HOME_SECTOR_LIST = "home_sector_list"
     private const val RATING_PER_ITEM = "rating_per_item"
+    private const val NEXT_UPDATE_CHECK = "next_update_check"
 
 
     @JvmStatic
@@ -248,12 +249,12 @@ object Preferences {
     fun showServerUnreachableDialog(): Boolean {
         return App.getInstance().preferences.getLong(
             SERVER_UNREACHABLE, 0
-        ) + 360000 < System.currentTimeMillis()
+        ) + 86400000 < System.currentTimeMillis()
     }
 
     @JvmStatic
-    fun setServerUnreachableDatetime(datetime: Long) {
-        App.getInstance().preferences.edit().putLong(SERVER_UNREACHABLE, datetime).apply()
+    fun setServerUnreachableDatetime() {
+        App.getInstance().preferences.edit().putLong(SERVER_UNREACHABLE, System.currentTimeMillis()).apply()
     }
 
     @JvmStatic
@@ -421,5 +422,17 @@ object Preferences {
     @JvmStatic
     fun showItemRating(): Boolean {
         return App.getInstance().preferences.getBoolean(RATING_PER_ITEM, false)
+    }
+
+    @JvmStatic
+    fun showTempoUpdateDialog(): Boolean {
+        return App.getInstance().preferences.getLong(
+                NEXT_UPDATE_CHECK, 0
+        ) + 86400000 < System.currentTimeMillis()
+    }
+
+    @JvmStatic
+    fun setTempoUpdateReminder() {
+        App.getInstance().preferences.edit().putLong(NEXT_UPDATE_CHECK, System.currentTimeMillis()).apply()
     }
 }

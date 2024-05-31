@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 import androidx.preference.PreferenceManager;
 
+import com.cappielloantonio.tempo.github.Github;
 import com.cappielloantonio.tempo.helper.ThemeHelper;
 import com.cappielloantonio.tempo.subsonic.Subsonic;
 import com.cappielloantonio.tempo.subsonic.SubsonicPreferences;
@@ -15,6 +16,7 @@ public class App extends Application {
     private static App instance;
     private static Context context;
     private static Subsonic subsonic;
+    private static Github github;
     private static SharedPreferences preferences;
 
     @Override
@@ -51,6 +53,13 @@ public class App extends Application {
             subsonic = getSubsonicClient();
         }
         return subsonic;
+    }
+
+    public static Github getGithubClientInstance() {
+        if (github == null) {
+            github = new Github();
+        }
+        return github;
     }
 
     public SharedPreferences getPreferences() {

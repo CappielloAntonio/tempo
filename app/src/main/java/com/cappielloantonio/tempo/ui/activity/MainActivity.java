@@ -18,12 +18,15 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.cappielloantonio.tempo.BuildConfig;
 import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.broadcast.receiver.ConnectivityStatusBroadcastReceiver;
 import com.cappielloantonio.tempo.databinding.ActivityMainBinding;
+import com.cappielloantonio.tempo.github.utils.UpdateUtil;
 import com.cappielloantonio.tempo.service.MediaManager;
 import com.cappielloantonio.tempo.ui.activity.base.BaseActivity;
 import com.cappielloantonio.tempo.ui.dialog.ConnectionAlertDialog;
+import com.cappielloantonio.tempo.ui.dialog.GithubTempoUpdateDialog;
 import com.cappielloantonio.tempo.ui.dialog.ServerUnreachableDialog;
 import com.cappielloantonio.tempo.ui.fragment.PlayerBottomSheetFragment;
 import com.cappielloantonio.tempo.util.Constants;
@@ -71,6 +74,7 @@ public class MainActivity extends BaseActivity {
         init();
         checkConnectionType();
         getOpenSubsonicExtensions();
+        checkTempoUpdate();
     }
 
     @Override
@@ -353,6 +357,17 @@ public class MainActivity extends BaseActivity {
             mainViewModel.getOpenSubsonicExtensions().observe(this, openSubsonicExtensions -> {
                 if (openSubsonicExtensions != null) {
                     Preferences.setOpenSubsonicExtensions(openSubsonicExtensions);
+                }
+            });
+        }
+    }
+
+    private void checkTempoUpdate() {
+        if (BuildConfig.FLAVOR.equals("tempo") && Preferences.showTempoUpdateDialog()) {
+            mainViewModel.checkTempoUpdate().observe(this, latestRelease -> {
+                if (latestRelease != null && UpdateUtil.showUpdateDialog(latestRelease)) {
+                    GithubTempoUpdateDialog dialog = new GithubTempoUpdateDialog(latestRelease);
+                    dialog.show(getSupportFragmentManager(), null);
                 }
             });
         }

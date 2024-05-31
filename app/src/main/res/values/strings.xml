@@ -89,13 +89,11 @@
     <string name="filter_title_expanded">Filter Genres</string>
     <string name="genre_catalogue_title">Genre Catalogue</string>
     <string name="genre_catalogue_title_expanded">Browse Genres</string>
-
     <string name="github_update_dialog_negative_button">Remind me later</string>
     <string name="github_update_dialog_neutral_button">Support me</string>
     <string name="github_update_dialog_positive_button">Download now</string>
     <string name="github_update_dialog_summary">There is a new version of the app available on Github.</string>
     <string name="github_update_dialog_title">Update available</string>
-
     <string name="home_rearrangement_dialog_negative_button">Cancel</string>
     <string name="home_rearrangement_dialog_neutral_button">Reset</string>
     <string name="home_rearrangement_dialog_positive_button">Save</string>

@@ -1,5 +1,7 @@
 package com.cappielloantonio.tempo.repository;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
@@ -59,6 +61,8 @@ public class SystemRepository {
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
                         if (response.isSuccessful() && response.body() != null) {
                             pingResult.postValue(response.body().getSubsonicResponse());
+                        } else {
+                            pingResult.postValue(null);
                         }
                     }
 

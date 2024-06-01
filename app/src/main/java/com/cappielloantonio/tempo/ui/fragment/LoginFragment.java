@@ -117,7 +117,7 @@ public class LoginFragment extends Fragment implements ClickCallback {
     @Override
     public void onServerClick(Bundle bundle) {
         Server server = bundle.getParcelable("server_object");
-        saveServerPreference(server.getServerId(), server.getAddress(), server.getUsername(), server.getPassword(), server.isLowSecurity());
+        saveServerPreference(server.getServerId(), server.getAddress(), server.getLocalAddress(), server.getUsername(), server.getPassword(), server.isLowSecurity());
 
         SystemRepository systemRepository = new SystemRepository();
         systemRepository.checkUserCredential(new SystemCallback() {
@@ -141,9 +141,10 @@ public class LoginFragment extends Fragment implements ClickCallback {
         dialog.show(activity.getSupportFragmentManager(), null);
     }
 
-    private void saveServerPreference(String serverId, String server, String user, String password, boolean isLowSecurity) {
+    private void saveServerPreference(String serverId, String server, String localAddress, String user, String password, boolean isLowSecurity) {
         Preferences.setServerId(serverId);
         Preferences.setServer(server);
+        Preferences.setLocalAddress(localAddress);
         Preferences.setUser(user);
         Preferences.setPassword(password);
         Preferences.setLowSecurity(isLowSecurity);

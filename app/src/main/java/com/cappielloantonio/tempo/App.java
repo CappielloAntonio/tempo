@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
 import com.cappielloantonio.tempo.github.Github;
@@ -70,18 +71,12 @@ public class App extends Application {
         return preferences;
     }
 
-    private static Subsonic getSubsonicClient() {
-        String server = Preferences.getServer();
-        String username = Preferences.getUser();
-        String password = Preferences.getPassword();
-        String token = Preferences.getToken();
-        String salt = Preferences.getSalt();
-        boolean isLowSecurity = Preferences.isLowScurity();
+    public static void refreshSubsonicClient() {
+        subsonic = getSubsonicClient();
+    }
 
-        SubsonicPreferences preferences = new SubsonicPreferences();
-        preferences.setServerUrl(server);
-        preferences.setUsername(username);
-        preferences.setAuthentication(password, token, salt, isLowSecurity);
+    private static Subsonic getSubsonicClient() {
+        SubsonicPreferences preferences = getSubsonicPreferences();
 
         if (preferences.getAuthentication() != null) {
             if (preferences.getAuthentication().getPassword() != null)
@@ -93,5 +88,22 @@ public class App extends Application {
         }
 
         return new Subsonic(preferences);
+    }
+
+    @NonNull
+    private static SubsonicPreferences getSubsonicPreferences() {
+        String server = Preferences.getInUseServerAddress();
+        String username = Preferences.getUser();
+        String password = Preferences.getPassword();
+        String token = Preferences.getToken();
+        String salt = Preferences.getSalt();
+        boolean isLowSecurity = Preferences.isLowScurity();
+
+        SubsonicPreferences preferences = new SubsonicPreferences();
+        preferences.setServerUrl(server);
+        preferences.setUsername(username);
+        preferences.setAuthentication(password, token, salt, isLowSecurity);
+
+        return preferences;
     }
 }

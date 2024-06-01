@@ -28,6 +28,7 @@ public class ServerSignupDialog extends DialogFragment {
     private String username;
     private String password;
     private String server;
+    private String localAddress;
     private boolean lowSecurity = false;
 
     @NonNull
@@ -69,6 +70,7 @@ public class ServerSignupDialog extends DialogFragment {
                 bind.usernameTextView.setText(loginViewModel.getServerToEdit().getUsername());
                 bind.passwordTextView.setText("");
                 bind.serverTextView.setText(loginViewModel.getServerToEdit().getAddress());
+                bind.localAddressTextView.setText(loginViewModel.getServerToEdit().getLocalAddress());
                 bind.lowSecurityCheckbox.setChecked(loginViewModel.getServerToEdit().isLowSecurity());
             }
         } else {
@@ -97,6 +99,7 @@ public class ServerSignupDialog extends DialogFragment {
         username = Objects.requireNonNull(bind.usernameTextView.getText()).toString().trim();
         password = bind.lowSecurityCheckbox.isChecked() ? MusicUtil.passwordHexEncoding(Objects.requireNonNull(bind.passwordTextView.getText()).toString()) : Objects.requireNonNull(bind.passwordTextView.getText()).toString();
         server = Objects.requireNonNull(bind.serverTextView.getText()).toString().trim();
+        localAddress = Objects.requireNonNull(bind.localAddressTextView.getText()).toString().trim();
         lowSecurity = bind.lowSecurityCheckbox.isChecked();
 
         if (TextUtils.isEmpty(serverName)) {
@@ -114,6 +117,11 @@ public class ServerSignupDialog extends DialogFragment {
             return false;
         }
 
+        if (!TextUtils.isEmpty(localAddress) && !localAddress.matches("^https?://(.*)")) {
+            bind.localAddressTextView.setError(getString(R.string.error_server_prefix));
+            return false;
+        }
+
         if (!server.matches("^https?://(.*)")) {
             bind.serverTextView.setError(getString(R.string.error_server_prefix));
             return false;
@@ -124,6 +132,6 @@ public class ServerSignupDialog extends DialogFragment {
 
     private void saveServerPreference() {
         String serverID = loginViewModel.getServerToEdit() != null ? loginViewModel.getServerToEdit().getServerId() : UUID.randomUUID().toString();
-        loginViewModel.addServer(new Server(serverID, this.serverName, this.username, this.password, this.server, System.currentTimeMillis(), this.lowSecurity));
+        loginViewModel.addServer(new Server(serverID, this.serverName, this.username, this.password, this.server, this.localAddress, System.currentTimeMillis(), this.lowSecurity));
     }
 }

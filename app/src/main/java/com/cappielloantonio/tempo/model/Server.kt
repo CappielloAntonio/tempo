@@ -2,6 +2,7 @@ package com.cappielloantonio.tempo.model
 
 import android.os.Parcelable
 import androidx.annotation.Keep
+import androidx.annotation.Nullable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -26,6 +27,9 @@ data class Server(
 
     @ColumnInfo(name = "address")
     val address: String,
+
+    @ColumnInfo(name = "local_address")
+    val localAddress: String?,
 
     @ColumnInfo(name = "timestamp")
     val timestamp: Long,

@@ -1,5 +1,6 @@
 package com.cappielloantonio.tempo.database;
 
+import androidx.media3.common.util.UnstableApi;
 import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.Room;
@@ -23,10 +24,11 @@ import com.cappielloantonio.tempo.model.RecentSearch;
 import com.cappielloantonio.tempo.model.Server;
 import com.cappielloantonio.tempo.model.SessionMediaItem;
 
+@UnstableApi
 @Database(
-        version = 8,
+        version = 9,
         entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Chronology.class, Favorite.class, SessionMediaItem.class},
-        autoMigrations = {@AutoMigration(from = 7, to = 8)}
+        autoMigrations = {@AutoMigration(from = 8, to = 9)}
 )
 @TypeConverters({DateConverters.class})
 public abstract class AppDatabase extends RoomDatabase {

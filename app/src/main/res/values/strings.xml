@@ -229,6 +229,7 @@
     <string name="search_title_artist">Artists</string>
     <string name="search_title_song">Songs</string>
     <string name="server_signup_dialog_action_low_security">Low security</string>
+    <string name="server_signup_dialog_hint_local_address">Local URL</string>
     <string name="server_signup_dialog_hint_name">Server Name</string>
     <string name="server_signup_dialog_hint_password">Password</string>
     <string name="server_signup_dialog_hint_url">Server URL</string>

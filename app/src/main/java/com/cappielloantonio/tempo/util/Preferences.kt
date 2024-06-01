@@ -1,11 +1,10 @@
 package com.cappielloantonio.tempo.util
 
+import android.util.Log
 import com.cappielloantonio.tempo.App
 import com.cappielloantonio.tempo.model.HomeSector
 import com.cappielloantonio.tempo.subsonic.models.OpenSubsonicExtension
 import com.google.gson.Gson
-
-
 
 
 object Preferences {
@@ -20,6 +19,9 @@ object Preferences {
     private const val SERVER_ID = "server_id"
     private const val OPEN_SUBSONIC = "open_subsonic"
     private const val OPEN_SUBSONIC_EXTENSIONS = "open_subsonic_extensions"
+    private const val LOCAL_ADDRESS = "local_address"
+    private const val IN_USE_SERVER_ADDRESS = "in_use_server_address"
+    private const val NEXT_SERVER_SWITCH = "next_server_switch"
     private const val PLAYBACK_SPEED = "playback_speed"
     private const val SKIP_SILENCE = "skip_silence"
     private const val IMAGE_CACHE_SIZE = "image_cache_size"
@@ -64,6 +66,7 @@ object Preferences {
 
     @JvmStatic
     fun getServer(): String? {
+        Log.d("Preferences++", "getServer()")
         return App.getInstance().preferences.getString(SERVER, null)
     }
 
@@ -153,6 +156,44 @@ object Preferences {
     }
 
     @JvmStatic
+    fun getLocalAddress(): String? {
+        return App.getInstance().preferences.getString(LOCAL_ADDRESS, null)
+    }
+
+    @JvmStatic
+    fun setLocalAddress(address: String?) {
+        App.getInstance().preferences.edit().putString(LOCAL_ADDRESS, address).apply()
+    }
+
+    @JvmStatic
+    fun getInUseServerAddress(): String? {
+        return App.getInstance().preferences.getString(IN_USE_SERVER_ADDRESS, getServer())
+    }
+
+    @JvmStatic
+    fun isInUseServerAddressLocal(): Boolean {
+        return getInUseServerAddress() == getLocalAddress()
+    }
+
+    @JvmStatic
+    fun switchInUseServerAddress() {
+        val inUseAddress = if (getInUseServerAddress() == getServer()) getLocalAddress() else getServer()
+        App.getInstance().preferences.edit().putString(IN_USE_SERVER_ADDRESS, inUseAddress).apply()
+    }
+
+    @JvmStatic
+    fun isServerSwitchable(): Boolean {
+        return App.getInstance().preferences.getLong(
+                NEXT_SERVER_SWITCH, 0
+        ) + 600000 < System.currentTimeMillis()
+    }
+
+    @JvmStatic
+    fun setServerSwitchableTimer() {
+        App.getInstance().preferences.edit().putLong(NEXT_SERVER_SWITCH, System.currentTimeMillis()).apply()
+    }
+
+    @JvmStatic
     fun askForOptimization(): Boolean {
         return App.getInstance().preferences.getBoolean(BATTERY_OPTIMIZATION, true)
     }
@@ -230,7 +271,7 @@ object Preferences {
     @JvmStatic
     fun setDataSavingMode(isDataSavingModeEnabled: Boolean) {
         App.getInstance().preferences.edit().putBoolean(DATA_SAVING_MODE, isDataSavingModeEnabled)
-            .apply()
+                .apply()
     }
 
     @JvmStatic
@@ -241,14 +282,14 @@ object Preferences {
     @JvmStatic
     fun setStarredSyncEnabled(isStarredSyncEnabled: Boolean) {
         App.getInstance().preferences.edit().putBoolean(
-            SYNC_STARRED_TRACKS_FOR_OFFLINE_USE, isStarredSyncEnabled
+                SYNC_STARRED_TRACKS_FOR_OFFLINE_USE, isStarredSyncEnabled
         ).apply()
     }
 
     @JvmStatic
     fun showServerUnreachableDialog(): Boolean {
         return App.getInstance().preferences.getLong(
-            SERVER_UNREACHABLE, 0
+                SERVER_UNREACHABLE, 0
         ) + 86400000 < System.currentTimeMillis()
     }
 
@@ -333,24 +374,24 @@ object Preferences {
     @JvmStatic
     fun setDownloadStoragePreference(storagePreference: Int) {
         return App.getInstance().preferences.edit().putString(
-            DOWNLOAD_STORAGE,
-            storagePreference.toString()
+                DOWNLOAD_STORAGE,
+                storagePreference.toString()
         ).apply()
     }
 
     @JvmStatic
     fun getDefaultDownloadViewType(): String {
         return App.getInstance().preferences.getString(
-            DEFAULT_DOWNLOAD_VIEW_TYPE,
-            Constants.DOWNLOAD_TYPE_TRACK
+                DEFAULT_DOWNLOAD_VIEW_TYPE,
+                Constants.DOWNLOAD_TYPE_TRACK
         )!!
     }
 
     @JvmStatic
     fun setDefaultDownloadViewType(viewType: String) {
         return App.getInstance().preferences.edit().putString(
-            DEFAULT_DOWNLOAD_VIEW_TYPE,
-            viewType
+                DEFAULT_DOWNLOAD_VIEW_TYPE,
+                viewType
         ).apply()
     }
 

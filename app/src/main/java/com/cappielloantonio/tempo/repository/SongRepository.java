@@ -1,13 +1,9 @@
 package com.cappielloantonio.tempo.repository;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.tempo.App;
-import com.cappielloantonio.tempo.database.AppDatabase;
-import com.cappielloantonio.tempo.database.dao.FavoriteDao;
 import com.cappielloantonio.tempo.subsonic.base.ApiResponse;
 import com.cappielloantonio.tempo.subsonic.models.Child;
 
@@ -54,12 +50,12 @@ public class SongRepository {
         return starredSongs;
     }
 
-    public MutableLiveData<List<Child>> getInstantMix(Child song, int count) {
+    public MutableLiveData<List<Child>> getInstantMix(String id, int count) {
         MutableLiveData<List<Child>> instantMix = new MutableLiveData<>();
 
         App.getSubsonicClientInstance(false)
                 .getBrowsingClient()
-                .getSimilarSongs2(song.getId(), count)
+                .getSimilarSongs2(id, count)
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {

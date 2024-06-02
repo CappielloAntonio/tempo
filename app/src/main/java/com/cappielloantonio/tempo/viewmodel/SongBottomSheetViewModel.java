@@ -128,7 +128,7 @@ public class SongBottomSheetViewModel extends AndroidViewModel {
     public LiveData<List<Child>> getInstantMix(LifecycleOwner owner, Child media) {
         instantMix.setValue(Collections.emptyList());
 
-        songRepository.getInstantMix(media, 20).observe(owner, instantMix::postValue);
+        songRepository.getInstantMix(media.getId(), 20).observe(owner, instantMix::postValue);
 
         return instantMix;
     }

@@ -1,8 +1,16 @@
 package com.cappielloantonio.tempo.service;
 
-import androidx.media3.common.MediaItem;
-import androidx.media3.session.MediaBrowser;
+import android.content.ComponentName;
 
+import androidx.annotation.OptIn;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.media3.common.MediaItem;
+import androidx.media3.common.util.UnstableApi;
+import androidx.media3.session.MediaBrowser;
+import androidx.media3.session.SessionToken;
+
+import com.cappielloantonio.tempo.App;
 import com.cappielloantonio.tempo.interfaces.MediaIndexCallback;
 import com.cappielloantonio.tempo.model.Chronology;
 import com.cappielloantonio.tempo.repository.ChronologyRepository;
@@ -296,6 +304,30 @@ public class MediaManager {
     public static void scrobble(MediaItem mediaItem, boolean submission) {
         if (mediaItem != null && Preferences.isScrobblingEnabled()) {
             getSongRepository().scrobble(mediaItem.mediaMetadata.extras.getString("id"), submission);
+        }
+    }
+
+    @OptIn(markerClass = UnstableApi.class)
+    public static void continuousPlay(MediaItem mediaItem) {
+        if (mediaItem != null && Preferences.isContinuousPlayEnabled() && Preferences.isInstantMixUsable()) {
+            Preferences.setLastInstantMix();
+
+            LiveData<List<Child>> instantMix = getSongRepository().getInstantMix(mediaItem.mediaId, 10);
+            instantMix.observeForever(new Observer<List<Child>>() {
+                @Override
+                public void onChanged(List<Child> media) {
+                    if (media != null) {
+                        ListenableFuture<MediaBrowser> mediaBrowserListenableFuture = new MediaBrowser.Builder(
+                                App.getContext(),
+                                new SessionToken(App.getContext(), new ComponentName(App.getContext(), MediaService.class))
+                        ).buildAsync();
+
+                        enqueue(mediaBrowserListenableFuture, media, true);
+                    }
+
+                    instantMix.removeObserver(this);
+                }
+            });
         }
     }
 

@@ -203,7 +203,7 @@ public class HomeViewModel extends AndroidViewModel {
     public LiveData<List<Child>> getMediaInstantMix(LifecycleOwner owner, Child media) {
         mediaInstantMix.setValue(Collections.emptyList());
 
-        songRepository.getInstantMix(media, 20).observe(owner, mediaInstantMix::postValue);
+        songRepository.getInstantMix(media.getId(), 20).observe(owner, mediaInstantMix::postValue);
 
         return mediaInstantMix;
     }

@@ -110,6 +110,12 @@
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreference
+            android:title="@string/settings_continuous_play_title"
+            android:defaultValue="true"
+            android:summary="@string/settings_continuous_play_summary"
+            android:key="continuous_play" />
+
+        <SwitchPreference
             android:title="@string/settings_wifi_only_title"
             android:defaultValue="false"
             android:summary="@string/settings_wifi_only_summary"

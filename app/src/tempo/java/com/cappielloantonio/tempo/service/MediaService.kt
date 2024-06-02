@@ -29,7 +29,6 @@ import com.google.android.gms.common.GoogleApiAvailability
 
 @UnstableApi
 class MediaService : MediaLibraryService(), SessionAvailabilityListener {
-
     private lateinit var automotiveRepository: AutomotiveRepository
     private lateinit var player: ExoPlayer
     private lateinit var castPlayer: CastPlayer
@@ -45,8 +44,8 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
         initializePlayerListener()
 
         setPlayer(
-            null,
-            if (this::castPlayer.isInitialized && castPlayer.isCastSessionAvailable) castPlayer else player
+                null,
+                if (this::castPlayer.isInitialized && castPlayer.isCastSessionAvailable) castPlayer else player
         )
     }
 
@@ -73,18 +72,18 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
 
     private fun initializePlayer() {
         player = ExoPlayer.Builder(this)
-            .setRenderersFactory(getRenderersFactory())
-            .setMediaSourceFactory(getMediaSourceFactory())
-            .setAudioAttributes(AudioAttributes.DEFAULT, true)
-            .setHandleAudioBecomingNoisy(true)
-            .setWakeMode(C.WAKE_MODE_NETWORK)
-            .setLoadControl(initializeLoadControl())
-            .build()
+                .setRenderersFactory(getRenderersFactory())
+                .setMediaSourceFactory(getMediaSourceFactory())
+                .setAudioAttributes(AudioAttributes.DEFAULT, true)
+                .setHandleAudioBecomingNoisy(true)
+                .setWakeMode(C.WAKE_MODE_NETWORK)
+                .setLoadControl(initializeLoadControl())
+                .build()
     }
 
     private fun initializeCastPlayer() {
         if (GoogleApiAvailability.getInstance()
-                .isGooglePlayServicesAvailable(this) == ConnectionResult.SUCCESS
+                        .isGooglePlayServicesAvailable(this) == ConnectionResult.SUCCESS
         ) {
             castPlayer = CastPlayer(CastContext.getSharedInstance(this))
             castPlayer.setSessionAvailabilityListener(this)
@@ -93,15 +92,15 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
 
     private fun initializeMediaLibrarySession() {
         val sessionActivityPendingIntent =
-            TaskStackBuilder.create(this).run {
-                addNextIntent(Intent(this@MediaService, MainActivity::class.java))
-                getPendingIntent(0, FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT)
-            }
+                TaskStackBuilder.create(this).run {
+                    addNextIntent(Intent(this@MediaService, MainActivity::class.java))
+                    getPendingIntent(0, FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT)
+                }
 
         mediaLibrarySession =
-            MediaLibrarySession.Builder(this, player, createLibrarySessionCallback())
-                .setSessionActivity(sessionActivityPendingIntent)
-                .build()
+                MediaLibrarySession.Builder(this, player, createLibrarySessionCallback())
+                        .setSessionActivity(sessionActivityPendingIntent)
+                        .build()
     }
 
     private fun createLibrarySessionCallback(): MediaLibrarySession.Callback {
@@ -121,13 +120,16 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
             override fun onTracksChanged(tracks: Tracks) {
                 ReplayGainUtil.setReplayGain(player, tracks)
                 MediaManager.scrobble(player.currentMediaItem, false)
+
+                if (player.currentMediaItemIndex + 1 == player.mediaItemCount)
+                    MediaManager.continuousPlay(player.currentMediaItem)
             }
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 if (!isPlaying) {
                     MediaManager.setPlayingPausedTimestamp(
-                        player.currentMediaItem,
-                        player.currentPosition
+                            player.currentMediaItem,
+                            player.currentPosition
                     )
                 } else {
                     MediaManager.scrobble(player.currentMediaItem, false)
@@ -138,8 +140,8 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
                 super.onPlaybackStateChanged(playbackState)
 
                 if (!player.hasNextMediaItem() &&
-                    playbackState == Player.STATE_ENDED &&
-                    player.mediaMetadata.extras?.getString("type") == Constants.MEDIA_TYPE_MUSIC
+                        playbackState == Player.STATE_ENDED &&
+                        player.mediaMetadata.extras?.getString("type") == Constants.MEDIA_TYPE_MUSIC
                 ) {
                     MediaManager.scrobble(player.currentMediaItem, true)
                     MediaManager.saveChronology(player.currentMediaItem)
@@ -147,9 +149,9 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
             }
 
             override fun onPositionDiscontinuity(
-                oldPosition: Player.PositionInfo,
-                newPosition: Player.PositionInfo,
-                reason: Int
+                    oldPosition: Player.PositionInfo,
+                    newPosition: Player.PositionInfo,
+                    reason: Int
             ) {
                 super.onPositionDiscontinuity(oldPosition, newPosition, reason)
 
@@ -169,13 +171,13 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
 
     private fun initializeLoadControl(): DefaultLoadControl {
         return DefaultLoadControl.Builder()
-            .setBufferDurationsMs(
-                (DefaultLoadControl.DEFAULT_MIN_BUFFER_MS * Preferences.getBufferingStrategy()).toInt(),
-                (DefaultLoadControl.DEFAULT_MAX_BUFFER_MS * Preferences.getBufferingStrategy()).toInt(),
-                DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_MS,
-                DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS
-            )
-            .build()
+                .setBufferDurationsMs(
+                        (DefaultLoadControl.DEFAULT_MIN_BUFFER_MS * Preferences.getBufferingStrategy()).toInt(),
+                        (DefaultLoadControl.DEFAULT_MAX_BUFFER_MS * Preferences.getBufferingStrategy()).toInt(),
+                        DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_MS,
+                        DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS
+                )
+                .build()
     }
 
     private fun setPlayer(oldPlayer: Player?, newPlayer: Player) {
@@ -196,7 +198,7 @@ class MediaService : MediaLibraryService(), SessionAvailabilityListener {
     private fun getRenderersFactory() = DownloadUtil.buildRenderersFactory(this, false)
 
     private fun getMediaSourceFactory() =
-        DefaultMediaSourceFactory(this).setDataSourceFactory(DownloadUtil.getDataSourceFactory(this))
+            DefaultMediaSourceFactory(this).setDataSourceFactory(DownloadUtil.getDataSourceFactory(this))
 
     override fun onCastSessionAvailable() {
         setPlayer(player, castPlayer)

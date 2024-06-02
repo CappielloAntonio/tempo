@@ -62,6 +62,8 @@ object Preferences {
     private const val HOME_SECTOR_LIST = "home_sector_list"
     private const val RATING_PER_ITEM = "rating_per_item"
     private const val NEXT_UPDATE_CHECK = "next_update_check"
+    private const val CONTINUOUS_PLAY = "continuous_play"
+    private const val LAST_INSTANT_MIX = "last_instant_mix"
 
 
     @JvmStatic
@@ -475,5 +477,22 @@ object Preferences {
     @JvmStatic
     fun setTempoUpdateReminder() {
         App.getInstance().preferences.edit().putLong(NEXT_UPDATE_CHECK, System.currentTimeMillis()).apply()
+    }
+
+    @JvmStatic
+    fun isContinuousPlayEnabled(): Boolean {
+        return App.getInstance().preferences.getBoolean(CONTINUOUS_PLAY, true)
+    }
+
+    @JvmStatic
+    fun setLastInstantMix() {
+        App.getInstance().preferences.edit().putLong(LAST_INSTANT_MIX, System.currentTimeMillis()).apply()
+    }
+
+    @JvmStatic
+    fun isInstantMixUsable(): Boolean {
+        return App.getInstance().preferences.getLong(
+                LAST_INSTANT_MIX, 0
+        ) + 5000 < System.currentTimeMillis()
     }
 }

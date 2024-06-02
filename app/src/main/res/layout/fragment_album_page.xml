@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -63,11 +64,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
                     app:layout_constraintBottom_toBottomOf="@+id/album_name_label"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/album_name_label"
-                    app:layout_constraintTop_toTopOf="@+id/album_name_label"
-                    android:foreground="?android:attr/selectableItemBackgroundBorderless">
+                    app:layout_constraintTop_toTopOf="@+id/album_name_label">
 
                     <ImageView
                         android:layout_width="24dp"
@@ -107,13 +108,14 @@
                     android:id="@+id/album_detail_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/album_release_year_label"
+                    android:animateLayoutChanges="true"
                     android:paddingTop="12dp"
                     android:paddingBottom="8dp"
                     android:visibility="gone"
-                    android:animateLayoutChanges="true">
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/album_release_year_label"
+                    tools:visibility="visible">
 
                     <TextView
                         android:id="@+id/album_genres_textview"
@@ -124,18 +126,18 @@
                         android:layout_marginEnd="18dp"
                         android:text="@string/label_placeholder"
                         android:textAlignment="center"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/album_song_count_duration_textview"
                         style="@style/LabelSmall"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:paddingVertical="2dp"
                         android:layout_marginStart="18dp"
                         android:layout_marginEnd="18dp"
+                        android:paddingVertical="2dp"
                         android:text="@string/label_placeholder"
                         android:textAlignment="center"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -149,12 +151,27 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="18dp"
                         android:layout_marginEnd="18dp"
-                        android:text="@string/label_placeholder"
                         android:justificationMode="inter_word"
+                        android:text="@string/label_placeholder"
                         android:textAlignment="center"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/album_song_count_duration_textview" />
+
+                    <TextView
+                        android:id="@+id/album_release_years_textview"
+                        style="@style/LabelSmall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:paddingVertical="4dp"
+                        android:text="@string/label_placeholder"
+                        android:textAlignment="center"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/album_notes_textview" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

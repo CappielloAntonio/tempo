@@ -104,10 +104,7 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_download_album) {
             albumPageViewModel.getAlbumSongLiveList().observe(getViewLifecycleOwner(), songs -> {
-                DownloadUtil.getDownloadTracker(requireContext()).download(
-                        MappingUtil.mapDownloads(songs),
-                        songs.stream().map(Download::new).collect(Collectors.toList())
-                );
+                DownloadUtil.getDownloadTracker(requireContext()).download(MappingUtil.mapDownloads(songs), songs.stream().map(Download::new).collect(Collectors.toList()));
             });
             return true;
         }
@@ -137,6 +134,22 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
                 bind.albumReleaseYearLabel.setText(album.getYear() != 0 ? String.valueOf(album.getYear()) : "");
                 bind.albumSongCountDurationTextview.setText(getString(R.string.album_page_tracks_count_and_duration, album.getSongCount(), album.getDuration() != null ? album.getDuration() / 60 : 0));
                 bind.albumGenresTextview.setText(album.getGenre());
+
+                if (album.getReleaseDate() != null && album.getOriginalReleaseDate() != null) {
+                    bind.albumReleaseYearsTextview.setVisibility(View.VISIBLE);
+
+                    if (album.getReleaseDate() == null || album.getOriginalReleaseDate() == null) {
+                        bind.albumReleaseYearsTextview.setText(getString(R.string.album_page_release_date_label, album.getReleaseDate() != null ? album.getReleaseDate().getFormattedDate() : album.getOriginalReleaseDate().getFormattedDate()));
+                    }
+
+                    if (album.getReleaseDate() != null && album.getOriginalReleaseDate() != null) {
+                        if (Objects.equals(album.getReleaseDate().getYear(), album.getOriginalReleaseDate().getYear()) && Objects.equals(album.getReleaseDate().getMonth(), album.getOriginalReleaseDate().getMonth()) && Objects.equals(album.getReleaseDate().getDay(), album.getOriginalReleaseDate().getDay())) {
+                            bind.albumReleaseYearsTextview.setText(getString(R.string.album_page_release_date_label, album.getReleaseDate().getFormattedDate()));
+                        } else {
+                            bind.albumReleaseYearsTextview.setText(getString(R.string.album_page_release_dates_label, album.getReleaseDate().getFormattedDate(), album.getOriginalReleaseDate().getFormattedDate()));
+                        }
+                    }
+                }
             }
         });
 
@@ -168,7 +181,8 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
         albumPageViewModel.getAlbumInfo().observe(getViewLifecycleOwner(), albumInfo -> {
             if (albumInfo != null) {
                 if (bind != null) bind.albumNotesTextview.setVisibility(View.VISIBLE);
-                if (bind != null) bind.albumNotesTextview.setText(MusicUtil.getReadableString(albumInfo.getNotes()));
+                if (bind != null)
+                    bind.albumNotesTextview.setText(MusicUtil.getReadableString(albumInfo.getNotes()));
 
                 if (bind != null && albumInfo.getLastFmUrl() != null && !albumInfo.getLastFmUrl().isEmpty()) {
                     bind.albumNotesTextview.setOnClickListener(v -> {
@@ -208,10 +222,7 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
     private void initBackCover() {
         albumPageViewModel.getAlbum().observe(getViewLifecycleOwner(), album -> {
             if (bind != null && album != null) {
-                CustomGlideRequest.Builder
-                        .from(requireContext(), album.getCoverArtId(), CustomGlideRequest.ResourceType.Album)
-                        .build()
-                        .into(bind.albumCoverImageView);
+                CustomGlideRequest.Builder.from(requireContext(), album.getCoverArtId(), CustomGlideRequest.ResourceType.Album).build().into(bind.albumCoverImageView);
             }
         });
     }

@@ -43,7 +43,7 @@ public class AlbumPageViewModel extends AndroidViewModel {
         this.album.postValue(album);
 
         albumRepository.getAlbum(album.getId()).observe(owner, albums -> {
-            if (albums != null) this.album.setValue(album);
+            if (albums != null) this.album.setValue(albums);
         });
     }
 

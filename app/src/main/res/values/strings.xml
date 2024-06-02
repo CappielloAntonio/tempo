@@ -23,6 +23,8 @@
     <string name="album_list_page_title">Albums</string>
     <string name="album_page_extra_info_button">More like this</string>
     <string name="album_page_play_button">Play</string>
+    <string name="album_page_release_date_label">Released on %1$s</string>
+    <string name="album_page_release_dates_label">Released on %1$s, originally %2$s</string>
     <string name="album_page_shuffle_button">Shuffle</string>
     <string name="album_page_tracks_count_and_duration">%1$d songs  •  %2$d minutes</string>
     <string name="app_name">Tempo</string>

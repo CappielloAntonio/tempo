@@ -61,9 +61,9 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         holder.item.searchResultSongSubtitleTextView.setText(
                 holder.itemView.getContext().getString(
                         R.string.song_subtitle_formatter,
-                                this.showAlbum ?
-                                        song.getAlbum() :
-                                        song.getArtist(),
+                        this.showAlbum ?
+                                song.getAlbum() :
+                                song.getArtist(),
                         MusicUtil.getReadableDurationString(song.getDuration(), false),
                         MusicUtil.getReadableAudioQualityString(song)
                 )
@@ -100,8 +100,8 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
             if (album.getDiscTitles() != null) {
                 Optional<DiscTitle> discTitle = album.getDiscTitles().stream().filter(title -> Objects.equals(title.getDisc(), songs.get(position).getDiscNumber())).findFirst();
 
-                if (discTitle.isPresent() && discTitle.get().getTitle() != null) {
-                    holder.item.discTitleTextView.setText(holder.itemView.getContext().getString(R.string.disc_titleless, discTitle.get().getTitle()));
+                if (discTitle.isPresent() && discTitle.get().getDisc() != null && discTitle.get().getTitle() != null && !discTitle.get().getTitle().isEmpty()) {
+                    holder.item.discTitleTextView.setText(holder.itemView.getContext().getString(R.string.disc_titlefull, discTitle.get().getDisc().toString() , discTitle.get().getTitle()));
                 }
             }
         }

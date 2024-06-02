@@ -1,6 +1,8 @@
 package com.cappielloantonio.tempo.ui.fragment;
 
 import android.content.ComponentName;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,7 +36,6 @@ import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.cappielloantonio.tempo.util.MappingUtil;
 import com.cappielloantonio.tempo.util.MusicUtil;
 import com.cappielloantonio.tempo.viewmodel.AlbumPageViewModel;
-import com.google.android.material.chip.Chip;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.Collections;
@@ -46,9 +47,7 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
     private FragmentAlbumPageBinding bind;
     private MainActivity activity;
     private AlbumPageViewModel albumPageViewModel;
-
     private SongHorizontalAdapter songHorizontalAdapter;
-
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
 
     @Override
@@ -117,7 +116,7 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
     }
 
     private void init() {
-        albumPageViewModel.setAlbum(requireArguments().getParcelable(Constants.ALBUM_OBJECT));
+        albumPageViewModel.setAlbum(getViewLifecycleOwner(), requireArguments().getParcelable(Constants.ALBUM_OBJECT));
     }
 
     private void initAppBar() {
@@ -126,15 +125,20 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
         if (activity.getSupportActionBar() != null) {
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         }
 
-        bind.animToolbar.setTitle(albumPageViewModel.getAlbum().getName());
+        albumPageViewModel.getAlbum().observe(getViewLifecycleOwner(), album -> {
+            if (bind != null && album != null) {
+                bind.animToolbar.setTitle(album.getName());
 
-        bind.albumNameLabel.setText(albumPageViewModel.getAlbum().getName());
-        bind.albumArtistLabel.setText(albumPageViewModel.getAlbum().getArtist());
-        bind.albumReleaseYearLabel.setText(albumPageViewModel.getAlbum().getYear() != 0 ? String.valueOf(albumPageViewModel.getAlbum().getYear()) : "");
-        bind.albumSongCountDurationTextview.setText(getString(R.string.album_page_tracks_count_and_duration, albumPageViewModel.getAlbum().getSongCount(), albumPageViewModel.getAlbum().getDuration() != null ? albumPageViewModel.getAlbum().getDuration() / 60 : 0));
-        bind.albumGenresTextview.setText(albumPageViewModel.getAlbum().getGenre());
+                bind.albumNameLabel.setText(album.getName());
+                bind.albumArtistLabel.setText(album.getArtist());
+                bind.albumReleaseYearLabel.setText(album.getYear() != 0 ? String.valueOf(album.getYear()) : "");
+                bind.albumSongCountDurationTextview.setText(getString(R.string.album_page_tracks_count_and_duration, album.getSongCount(), album.getDuration() != null ? album.getDuration() / 60 : 0));
+                bind.albumGenresTextview.setText(album.getGenre());
+            }
+        });
 
         bind.animToolbar.setNavigationOnClickListener(v -> activity.navController.navigateUp());
 
@@ -164,8 +168,15 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
         albumPageViewModel.getAlbumInfo().observe(getViewLifecycleOwner(), albumInfo -> {
             if (albumInfo != null) {
                 if (bind != null) bind.albumNotesTextview.setVisibility(View.VISIBLE);
-                if (bind != null)
-                    bind.albumNotesTextview.setText(MusicUtil.getReadableString(albumInfo.getNotes()));
+                if (bind != null) bind.albumNotesTextview.setText(MusicUtil.getReadableString(albumInfo.getNotes()));
+
+                if (bind != null && albumInfo.getLastFmUrl() != null && !albumInfo.getLastFmUrl().isEmpty()) {
+                    bind.albumNotesTextview.setOnClickListener(v -> {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(albumInfo.getLastFmUrl()));
+                        startActivity(intent);
+                    });
+                }
             } else {
                 if (bind != null) bind.albumNotesTextview.setVisibility(View.GONE);
             }
@@ -195,20 +206,28 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
     }
 
     private void initBackCover() {
-        CustomGlideRequest.Builder
-                .from(requireContext(), albumPageViewModel.getAlbum().getCoverArtId(), CustomGlideRequest.ResourceType.Album)
-                .build()
-                .into(bind.albumCoverImageView);
+        albumPageViewModel.getAlbum().observe(getViewLifecycleOwner(), album -> {
+            if (bind != null && album != null) {
+                CustomGlideRequest.Builder
+                        .from(requireContext(), album.getCoverArtId(), CustomGlideRequest.ResourceType.Album)
+                        .build()
+                        .into(bind.albumCoverImageView);
+            }
+        });
     }
 
     private void initSongsView() {
-        bind.songRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        bind.songRecyclerView.setHasFixedSize(true);
+        albumPageViewModel.getAlbum().observe(getViewLifecycleOwner(), album -> {
+            if (bind != null && album != null) {
+                bind.songRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+                bind.songRecyclerView.setHasFixedSize(true);
 
-        songHorizontalAdapter = new SongHorizontalAdapter(this, false, false, albumPageViewModel.getAlbum());
-        bind.songRecyclerView.setAdapter(songHorizontalAdapter);
+                songHorizontalAdapter = new SongHorizontalAdapter(this, false, false, album);
+                bind.songRecyclerView.setAdapter(songHorizontalAdapter);
 
-        albumPageViewModel.getAlbumSongLiveList().observe(getViewLifecycleOwner(), songs -> songHorizontalAdapter.setItems(songs));
+                albumPageViewModel.getAlbumSongLiveList().observe(getViewLifecycleOwner(), songs -> songHorizontalAdapter.setItems(songs));
+            }
+        });
     }
 
     private void initializeMediaBrowser() {

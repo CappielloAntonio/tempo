@@ -179,6 +179,9 @@ class MediaService : MediaLibraryService() {
             override fun onTracksChanged(tracks: Tracks) {
                 ReplayGainUtil.setReplayGain(player, tracks)
                 MediaManager.scrobble(player.currentMediaItem, false)
+
+                if (player.currentMediaItemIndex + 1 == player.mediaItemCount)
+                    MediaManager.continuousPlay(player.currentMediaItem)
             }
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {

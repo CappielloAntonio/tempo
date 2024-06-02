@@ -185,7 +185,7 @@ object Preferences {
     fun isServerSwitchable(): Boolean {
         return App.getInstance().preferences.getLong(
                 NEXT_SERVER_SWITCH, 0
-        ) + 600000 < System.currentTimeMillis()
+        ) + 60000 < System.currentTimeMillis()
     }
 
     @JvmStatic

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -101,9 +102,12 @@ public class PlaylistEditorDialog extends DialogFragment {
             }
         });
 
-        alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
+        alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> Toast.makeText(requireContext(), R.string.playlist_editor_dialog_action_delete_toast, Toast.LENGTH_SHORT).show());
+
+        alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEUTRAL).setOnLongClickListener(v -> {
             playlistEditorViewModel.deletePlaylist();
             dialogDismiss();
+            return false;
         });
 
         bind.playlistShareButton.setOnClickListener(view -> {

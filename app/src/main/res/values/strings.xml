@@ -187,6 +187,7 @@
     <string name="playlist_chooser_dialog_title">Add to a playlist</string>
     <string name="playlist_counted_tracks">%1$d tracks •  %2$s</string>
     <string name="playlist_duration">Duration  •  %1$s</string>
+    <string name="playlist_editor_dialog_action_delete_toast">Long press to delete</string>
     <string name="playlist_editor_dialog_hint_name">Playlist Name</string>
     <string name="playlist_editor_dialog_negative_button">Cancel</string>
     <string name="playlist_editor_dialog_neutral_button">Delete</string>
@@ -232,6 +233,7 @@
     <string name="search_title_artist">Artists</string>
     <string name="search_title_song">Songs</string>
     <string name="server_signup_dialog_action_low_security">Low security</string>
+    <string name="server_signup_dialog_action_delete_toast">Long press to delete</string>
     <string name="server_signup_dialog_hint_local_address">Local URL</string>
     <string name="server_signup_dialog_hint_name">Server Name</string>
     <string name="server_signup_dialog_hint_password">Password</string>

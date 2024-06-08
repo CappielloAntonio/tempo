@@ -156,6 +156,7 @@ public class PlayerBottomSheetFragment extends Fragment {
     private void setMetadata(MediaMetadata mediaMetadata) {
         if (mediaMetadata.extras != null) {
             playerBottomSheetViewModel.setLiveMedia(getViewLifecycleOwner(), mediaMetadata.extras.getString("type"), mediaMetadata.extras.getString("id"));
+            playerBottomSheetViewModel.setLiveAlbum(getViewLifecycleOwner(), mediaMetadata.extras.getString("type"), mediaMetadata.extras.getString("albumId"));
             playerBottomSheetViewModel.setLiveArtist(getViewLifecycleOwner(), mediaMetadata.extras.getString("type"), mediaMetadata.extras.getString("artistId"));
             playerBottomSheetViewModel.setLiveDescription(mediaMetadata.extras.getString("description", null));
 

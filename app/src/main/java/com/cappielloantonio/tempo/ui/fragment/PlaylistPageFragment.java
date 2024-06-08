@@ -60,6 +60,7 @@ public class PlaylistPageFragment extends Fragment implements ClickCallback {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.playlist_page_menu, menu);
+        initMenuOption(menu);
     }
 
     @Override
@@ -115,6 +116,12 @@ public class PlaylistPageFragment extends Fragment implements ClickCallback {
                 }
             });
             return true;
+        } else if (item.getItemId() == R.id.action_pin_playlist) {
+            playlistPageViewModel.setPinned(true);
+            return true;
+        } else if (item.getItemId() == R.id.action_unpin_playlist) {
+            playlistPageViewModel.setPinned(false);
+            return true;
         }
 
         return false;
@@ -122,6 +129,13 @@ public class PlaylistPageFragment extends Fragment implements ClickCallback {
 
     private void init() {
         playlistPageViewModel.setPlaylist(requireArguments().getParcelable(Constants.PLAYLIST_OBJECT));
+    }
+
+    private void initMenuOption(Menu menu) {
+        playlistPageViewModel.isPinned(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), isPinned -> {
+            menu.findItem(R.id.action_unpin_playlist).setVisible(isPinned);
+            menu.findItem(R.id.action_pin_playlist).setVisible(!isPinned);
+        });
     }
 
     private void initAppBar() {

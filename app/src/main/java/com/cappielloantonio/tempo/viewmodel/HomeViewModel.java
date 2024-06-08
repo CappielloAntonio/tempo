@@ -16,11 +16,13 @@ import com.cappielloantonio.tempo.repository.AlbumRepository;
 import com.cappielloantonio.tempo.repository.ArtistRepository;
 import com.cappielloantonio.tempo.repository.ChronologyRepository;
 import com.cappielloantonio.tempo.repository.FavoriteRepository;
+import com.cappielloantonio.tempo.repository.PlaylistRepository;
 import com.cappielloantonio.tempo.repository.SharingRepository;
 import com.cappielloantonio.tempo.repository.SongRepository;
 import com.cappielloantonio.tempo.subsonic.models.AlbumID3;
 import com.cappielloantonio.tempo.subsonic.models.ArtistID3;
 import com.cappielloantonio.tempo.subsonic.models.Child;
+import com.cappielloantonio.tempo.subsonic.models.Playlist;
 import com.cappielloantonio.tempo.subsonic.models.Share;
 import com.cappielloantonio.tempo.util.Preferences;
 import com.google.common.reflect.TypeToken;
@@ -32,6 +34,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HomeViewModel extends AndroidViewModel {
     private static final String TAG = "HomeViewModel";
@@ -41,6 +44,7 @@ public class HomeViewModel extends AndroidViewModel {
     private final ArtistRepository artistRepository;
     private final ChronologyRepository chronologyRepository;
     private final FavoriteRepository favoriteRepository;
+    private final PlaylistRepository playlistRepository;
     private final SharingRepository sharingRepository;
 
     private final MutableLiveData<List<Child>> dicoverSongSample = new MutableLiveData<>(null);
@@ -60,6 +64,7 @@ public class HomeViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Child>> mediaInstantMix = new MutableLiveData<>(null);
     private final MutableLiveData<List<Child>> artistInstantMix = new MutableLiveData<>(null);
     private final MutableLiveData<List<Child>> artistBestOf = new MutableLiveData<>(null);
+    private final MutableLiveData<List<Playlist>> pinnedPlaylists = new MutableLiveData<>(null);
     private final MutableLiveData<List<Share>> shares = new MutableLiveData<>(null);
 
     private List<HomeSector> sectors;
@@ -74,6 +79,7 @@ public class HomeViewModel extends AndroidViewModel {
         artistRepository = new ArtistRepository();
         chronologyRepository = new ChronologyRepository();
         favoriteRepository = new FavoriteRepository();
+        playlistRepository = new PlaylistRepository();
         sharingRepository = new SharingRepository();
 
         setOfflineFavorite();
@@ -222,6 +228,24 @@ public class HomeViewModel extends AndroidViewModel {
         artistRepository.getTopSongs(artist.getName(), 10).observe(owner, artistBestOf::postValue);
 
         return artistBestOf;
+    }
+
+    public LiveData<List<Playlist>> getPinnedPlaylists(LifecycleOwner owner) {
+        pinnedPlaylists.setValue(Collections.emptyList());
+
+        playlistRepository.getPlaylists(false, -1).observe(owner, remotes -> {
+            playlistRepository.getPinnedPlaylists().observe(owner, locals -> {
+                if (remotes != null && locals != null) {
+                    List<Playlist> toReturn = remotes.stream()
+                            .filter(remote -> locals.stream().anyMatch(local -> local.getId().equals(remote.getId())))
+                            .collect(Collectors.toList());
+
+                    pinnedPlaylists.setValue(toReturn);
+                }
+            });
+        });
+
+        return pinnedPlaylists;
     }
 
     public LiveData<List<Share>> getShares(LifecycleOwner owner) {

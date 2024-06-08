@@ -4,7 +4,9 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.cappielloantonio.tempo.repository.PlaylistRepository;
 import com.cappielloantonio.tempo.subsonic.models.Child;
@@ -34,5 +36,23 @@ public class PlaylistPageViewModel extends AndroidViewModel {
 
     public void setPlaylist(Playlist playlist) {
         this.playlist = playlist;
+    }
+
+    public LiveData<Boolean> isPinned(LifecycleOwner owner) {
+        MutableLiveData<Boolean> isPinnedLive = new MutableLiveData<>();
+
+        playlistRepository.getPinnedPlaylists().observe(owner, playlists -> {
+            isPinnedLive.postValue(playlists.stream().anyMatch(obj -> obj.getId().equals(playlist.getId())));
+        });
+
+        return isPinnedLive;
+    }
+
+    public void setPinned(boolean isNowPinned) {
+        if (isNowPinned) {
+            playlistRepository.insert(playlist);
+        } else {
+            playlistRepository.delete(playlist);
+        }
     }
 }

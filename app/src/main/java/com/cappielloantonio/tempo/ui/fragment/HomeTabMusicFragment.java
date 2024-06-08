@@ -31,6 +31,7 @@ import com.cappielloantonio.tempo.databinding.FragmentHomeTabMusicBinding;
 import com.cappielloantonio.tempo.helper.recyclerview.CustomLinearSnapHelper;
 import com.cappielloantonio.tempo.helper.recyclerview.DotsIndicatorDecoration;
 import com.cappielloantonio.tempo.interfaces.ClickCallback;
+import com.cappielloantonio.tempo.interfaces.PlaylistCallback;
 import com.cappielloantonio.tempo.model.Download;
 import com.cappielloantonio.tempo.model.HomeSector;
 import com.cappielloantonio.tempo.service.DownloaderManager;
@@ -44,12 +45,13 @@ import com.cappielloantonio.tempo.ui.adapter.AlbumHorizontalAdapter;
 import com.cappielloantonio.tempo.ui.adapter.ArtistAdapter;
 import com.cappielloantonio.tempo.ui.adapter.ArtistHorizontalAdapter;
 import com.cappielloantonio.tempo.ui.adapter.DiscoverSongAdapter;
-import com.cappielloantonio.tempo.ui.adapter.GridTrackAdapter;
+import com.cappielloantonio.tempo.ui.adapter.PlaylistHorizontalAdapter;
 import com.cappielloantonio.tempo.ui.adapter.ShareHorizontalAdapter;
 import com.cappielloantonio.tempo.ui.adapter.SimilarTrackAdapter;
 import com.cappielloantonio.tempo.ui.adapter.SongHorizontalAdapter;
 import com.cappielloantonio.tempo.ui.adapter.YearAdapter;
 import com.cappielloantonio.tempo.ui.dialog.HomeRearrangementDialog;
+import com.cappielloantonio.tempo.ui.dialog.PlaylistEditorDialog;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.cappielloantonio.tempo.util.MappingUtil;
@@ -85,7 +87,7 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
     private AlbumAdapter mostPlayedAlbumAdapter;
     private AlbumHorizontalAdapter newReleasesAlbumAdapter;
     private YearAdapter yearAdapter;
-    private GridTrackAdapter gridTrackAdapter;
+    private PlaylistHorizontalAdapter playlistHorizontalAdapter;
     private ShareHorizontalAdapter shareHorizontalAdapter;
 
     private ListenableFuture<MediaBrowser> mediaBrowserListenableFuture;
@@ -122,6 +124,7 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         initYearSongView();
         initRecentAddedAlbumView();
         initTopSongsView();
+        initPinnedPlaylistsView();
         initSharesView();
         initHomeReorganizer();
 
@@ -422,7 +425,8 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
             } else {
                 if (bind != null) bind.homeGridTracksSector.setVisibility(View.VISIBLE);
                 if (bind != null) bind.afterGridDivider.setVisibility(View.VISIBLE);
-                if (bind != null) bind.topSongsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(chronologies.size(), 5), GridLayoutManager.HORIZONTAL, false));
+                if (bind != null)
+                    bind.topSongsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), UIUtil.getSpanCount(chronologies.size(), 5), GridLayoutManager.HORIZONTAL, false));
 
                 List<Child> topSongs = chronologies.stream()
                         .map(cronologia -> (Child) cronologia)
@@ -671,6 +675,26 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         recentAddedAlbumSnapHelper.attachToRecyclerView(bind.recentlyAddedAlbumsRecyclerView);
     }
 
+    private void initPinnedPlaylistsView() {
+        if (homeViewModel.checkHomeSectorVisibility(Constants.HOME_SECTOR_PINNED_PLAYLISTS)) return;
+
+        bind.pinnedPlaylistsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        bind.pinnedPlaylistsRecyclerView.setHasFixedSize(true);
+
+        playlistHorizontalAdapter = new PlaylistHorizontalAdapter(this);
+        bind.pinnedPlaylistsRecyclerView.setAdapter(playlistHorizontalAdapter);
+        homeViewModel.getPinnedPlaylists(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), playlists -> {
+            if (playlists == null) {
+                if (bind != null) bind.pinnedPlaylistsSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null)
+                    bind.pinnedPlaylistsSector.setVisibility(!playlists.isEmpty() ? View.VISIBLE : View.GONE);
+
+                playlistHorizontalAdapter.setItems(playlists);
+            }
+        });
+    }
+
     private void initSharesView() {
         if (homeViewModel.checkHomeSectorVisibility(Constants.HOME_SECTOR_SHARED)) return;
 
@@ -708,7 +732,9 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
 
     private void initHomeReorganizer() {
         final Handler handler = new Handler();
-        final Runnable runnable = () -> { if (bind != null) bind.homeSectorRearrangementButton.setVisibility(View.VISIBLE); };
+        final Runnable runnable = () -> {
+            if (bind != null) bind.homeSectorRearrangementButton.setVisibility(View.VISIBLE);
+        };
         handler.postDelayed(runnable, 5000);
 
         bind.homeSectorRearrangementButton.setOnClickListener(v -> {
@@ -789,6 +815,9 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
                     case Constants.HOME_SECTOR_RECENTLY_ADDED:
                         bind.homeLinearLayoutContainer.addView(bind.homeRecentlyAddedAlbumsSector);
                         break;
+                    case Constants.HOME_SECTOR_PINNED_PLAYLISTS:
+                        bind.homeLinearLayoutContainer.addView(bind.pinnedPlaylistsSector);
+                        break;
                     case Constants.HOME_SECTOR_SHARED:
                         bind.homeLinearLayoutContainer.addView(bind.sharesSector);
                         break;
@@ -822,6 +851,17 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         });
 
         popup.show();
+    }
+
+    private void refreshPlaylistView() {
+        final Handler handler = new Handler();
+
+        final Runnable runnable = () -> {
+            if (getView() != null && bind != null && homeViewModel != null)
+                homeViewModel.getPinnedPlaylists(getViewLifecycleOwner());
+        };
+
+        handler.postDelayed(runnable, 100);
     }
 
     private void initializeMediaBrowser() {
@@ -920,6 +960,24 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
         Share share = bundle.getParcelable(Constants.SHARE_OBJECT);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(share.getUrl())).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    @Override
+    public void onPlaylistClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.playlistPageFragment, bundle);
+    }
+
+    @Override
+    public void onPlaylistLongClick(Bundle bundle) {
+        PlaylistEditorDialog dialog = new PlaylistEditorDialog(new PlaylistCallback() {
+            @Override
+            public void onDismiss() {
+                refreshPlaylistView();
+            }
+        });
+
+        dialog.setArguments(bundle);
+        dialog.show(activity.getSupportFragmentManager(), null);
     }
 
     @Override

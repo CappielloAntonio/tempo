@@ -720,6 +720,36 @@
                 android:paddingBottom="8dp" />
         </LinearLayout>
 
+        <!-- Playlists -->
+        <LinearLayout
+            android:id="@+id/pinned_playlists_sector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/pinned_playlists_text_view"
+                style="@style/TitleLarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/home_title_pinned_playlists" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/pinned_playlists_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:clipToPadding="false"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp" />
+        </LinearLayout>
+
         <!-- Shares -->
         <LinearLayout
             android:id="@+id/shares_sector"

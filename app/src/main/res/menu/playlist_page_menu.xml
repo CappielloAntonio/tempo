@@ -6,4 +6,14 @@
         android:icon="@drawable/ic_file_download"
         android:title="@string/menu_download_all_button"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_pin_playlist"
+        android:icon="@drawable/ic_add"
+        android:title="@string/menu_pin_button"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_unpin_playlist"
+        android:icon="@drawable/ic_close"
+        android:title="@string/menu_unpin_button"
+        app:showAsAction="never" />
 </menu>

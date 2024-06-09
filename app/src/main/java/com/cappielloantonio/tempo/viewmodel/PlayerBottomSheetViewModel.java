@@ -14,11 +14,13 @@ import androidx.media3.common.util.UnstableApi;
 import com.cappielloantonio.tempo.interfaces.StarCallback;
 import com.cappielloantonio.tempo.model.Download;
 import com.cappielloantonio.tempo.model.Queue;
+import com.cappielloantonio.tempo.repository.AlbumRepository;
 import com.cappielloantonio.tempo.repository.ArtistRepository;
 import com.cappielloantonio.tempo.repository.FavoriteRepository;
 import com.cappielloantonio.tempo.repository.OpenRepository;
 import com.cappielloantonio.tempo.repository.QueueRepository;
 import com.cappielloantonio.tempo.repository.SongRepository;
+import com.cappielloantonio.tempo.subsonic.models.AlbumID3;
 import com.cappielloantonio.tempo.subsonic.models.ArtistID3;
 import com.cappielloantonio.tempo.subsonic.models.Child;
 import com.cappielloantonio.tempo.subsonic.models.LyricsList;
@@ -40,6 +42,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     private static final String TAG = "PlayerBottomSheetViewModel";
 
     private final SongRepository songRepository;
+    private final AlbumRepository albumRepository;
     private final ArtistRepository artistRepository;
     private final QueueRepository queueRepository;
     private final FavoriteRepository favoriteRepository;
@@ -48,6 +51,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     private final MutableLiveData<LyricsList> lyricsListLiveData = new MutableLiveData<>(null);
     private final MutableLiveData<String> descriptionLiveData = new MutableLiveData<>(null);
     private final MutableLiveData<Child> liveMedia = new MutableLiveData<>(null);
+    private final MutableLiveData<AlbumID3> liveAlbum = new MutableLiveData<>(null);
     private final MutableLiveData<ArtistID3> liveArtist = new MutableLiveData<>(null);
     private final MutableLiveData<List<Child>> instantMix = new MutableLiveData<>(null);
     private boolean lyricsSyncState = true;
@@ -57,6 +61,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         super(application);
 
         songRepository = new SongRepository();
+        albumRepository = new AlbumRepository();
         artistRepository = new ArtistRepository();
         queueRepository = new QueueRepository();
         favoriteRepository = new FavoriteRepository();
@@ -157,6 +162,23 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
                     break;
                 case Constants.MEDIA_TYPE_PODCAST:
                     liveMedia.postValue(null);
+                    break;
+            }
+        }
+    }
+
+    public LiveData<AlbumID3> getLiveAlbum() {
+        return liveAlbum;
+    }
+
+    public void setLiveAlbum(LifecycleOwner owner, String mediaType, String AlbumId) {
+        if (mediaType != null) {
+            switch (mediaType) {
+                case Constants.MEDIA_TYPE_MUSIC:
+                    albumRepository.getAlbum(AlbumId).observe(owner, liveAlbum::postValue);
+                    break;
+                case Constants.MEDIA_TYPE_PODCAST:
+                    liveAlbum.postValue(null);
                     break;
             }
         }

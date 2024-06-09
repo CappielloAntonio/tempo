@@ -76,6 +76,7 @@ public class PlayerControllerFragment extends Fragment {
         initQuickActionView();
         initCoverLyricsSlideView();
         initMediaListenable();
+        initMediaLabelButton();
         initArtistLabelButton();
 
         return view;
@@ -295,6 +296,19 @@ public class PlayerControllerFragment extends Fragment {
                 if (getActivity() != null) {
                     playerBottomSheetViewModel.refreshMediaInfo(requireActivity(), media);
                 }
+            }
+        });
+    }
+
+    private void initMediaLabelButton() {
+        playerBottomSheetViewModel.getLiveAlbum().observe(getViewLifecycleOwner(), album -> {
+            if (album != null) {
+                playerMediaTitleLabel.setOnClickListener(view -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(Constants.ALBUM_OBJECT, album);
+                    NavHostFragment.findNavController(this).navigate(R.id.albumPageFragment, bundle);
+                    activity.collapseBottomSheetDelayed();
+                });
             }
         });
     }

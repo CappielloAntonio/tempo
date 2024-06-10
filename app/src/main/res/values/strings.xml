@@ -409,4 +409,8 @@
     <string name="undraw_page">unDraw</string>
     <string name="undraw_thanks">A special thanks goes to unDraw without whose illustrations we could not have made this application more beautiful.</string>
     <string name="undraw_url">https://undraw.co/</string>
+    <string name="playlist_duplicate_song_dialog_title">Duplicate song</string>
+    <string name="playlist_duplicate_song_dialog_summary">The song \"%1$s\" already exists in playlist \"%2$s\".</string>
+    <string name="playlist_duplicate_song_dialog_positive_button">Add anyway</string>
+    <string name="playlist_duplicate_song_dialog_negative_button">Don\'t add</string>
 </resources>

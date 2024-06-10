@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cappielloantonio.tempo.R;
 import com.cappielloantonio.tempo.databinding.DialogPlaylistChooserBinding;
 import com.cappielloantonio.tempo.interfaces.ClickCallback;
+import com.cappielloantonio.tempo.interfaces.DialogClickCallback;
 import com.cappielloantonio.tempo.subsonic.models.Playlist;
 import com.cappielloantonio.tempo.ui.adapter.PlaylistDialogHorizontalAdapter;
 import com.cappielloantonio.tempo.util.Constants;
@@ -36,7 +37,8 @@ public class PlaylistChooserDialog extends DialogFragment implements ClickCallba
         return new MaterialAlertDialogBuilder(getActivity())
                 .setView(bind.getRoot())
                 .setTitle(R.string.playlist_chooser_dialog_title)
-                .setNeutralButton(R.string.playlist_chooser_dialog_neutral_button, (dialog, id) -> { })
+                .setNeutralButton(R.string.playlist_chooser_dialog_neutral_button, (dialog, id) -> {
+                })
                 .setNegativeButton(R.string.playlist_chooser_dialog_negative_button, (dialog, id) -> dialog.cancel())
                 .create();
     }
@@ -98,7 +100,23 @@ public class PlaylistChooserDialog extends DialogFragment implements ClickCallba
     @Override
     public void onPlaylistClick(Bundle bundle) {
         Playlist playlist = bundle.getParcelable(Constants.PLAYLIST_OBJECT);
-        playlistChooserViewModel.addSongToPlaylist(playlist.getId());
-        dismiss();
+
+        playlistChooserViewModel.isSongInPlaylist(Objects.requireNonNull(playlist).getId(), requireActivity()).observe(requireActivity(), songInPlaylist -> {
+            if (songInPlaylist) {
+                playlistChooserViewModel.addSongToPlaylist(playlist.getId());
+                dismiss();
+            } else {
+                PlaylistDuplicateSongDialog playlistDuplicateSongDialog = new PlaylistDuplicateSongDialog(playlist,
+                        playlistChooserViewModel.getSongToAdd(),
+                        new DialogClickCallback() {
+                            @Override
+                            public void onPositiveClick() {
+                                playlistChooserViewModel.addSongToPlaylist(playlist.getId());
+                                dismiss();
+                            }
+                        });
+                playlistDuplicateSongDialog.show(getActivity().getSupportFragmentManager(), null);
+            }
+        });
     }
 }

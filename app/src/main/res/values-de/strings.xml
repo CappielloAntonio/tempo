@@ -345,4 +345,8 @@
     <string name="track_info_summary_transcoding_codec">Tempo wird den Server bitten, die Datei zu transkodieren. Der vom Benutzer gewünschte Codec ist %1$s, die Bitrate wird dieselbe wie bei der original Datei sein. Die potentielle Transkodierung der Datei in das gewünschte Format ist vom Server abhängig. Dieser kann die Operation gegebenenfalls nicht unterstützen.</string>
     <string name="track_info_summary_transcoding_bitrate">Tempo wird den Server bitten, die Bitrate der Datei zu erändern. Die vom Benutzer gewünschte Bitrate ist %1$s, der Codec der Originaldatei wird nicht verändert. Änderungen an der Bitrate der Datei werden vom Server ausgeführt, dieser kann die Operation gegebenenfalls nicht unterstützen.</string>
     <string name="track_info_summary_full_transcode">Die Anwendung wird den Server bitten die Datei zu transkodieren und die Bitrate zu verändern. Der vom Benutzer gewünschte Codec ist %1$s, mit der Bitrate %2$s. Änderungen am Codec und an der Bitrate der Datei werden vom Server ausgeführt, dieser kann die Operation gegebenenfalls nicht unterstützen.</string>
+    <string name="playlist_duplicate_song_dialog_title">Doppelter Track</string>
+    <string name="playlist_duplicate_song_dialog_summary">Der Track \"%1$s\" existiert bereits in der Playlist \"%2$s\"</string>
+    <string name="playlist_duplicate_song_dialog_positive_button">Trotzdem hinzufügen</string>
+    <string name="playlist_duplicate_song_dialog_negative_button">Nicht hinzufügen</string>
 </resources>

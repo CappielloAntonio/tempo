@@ -174,7 +174,7 @@ object Preferences {
 
     @JvmStatic
     fun isInUseServerAddressLocal(): Boolean {
-        return getInUseServerAddress() == getLocalAddress()
+        return getInUseServerAddress() == getLocalAddress() && !getLocalAddress().isNullOrEmpty()
     }
 
     @JvmStatic
@@ -187,7 +187,7 @@ object Preferences {
     fun isServerSwitchable(): Boolean {
         return App.getInstance().preferences.getLong(
                 NEXT_SERVER_SWITCH, 0
-        ) + 15000 < System.currentTimeMillis()
+        ) + 15000 < System.currentTimeMillis() && !getServer().isNullOrEmpty() && !getLocalAddress().isNullOrEmpty()
     }
 
     @JvmStatic

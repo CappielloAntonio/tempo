@@ -37,8 +37,7 @@ public class PlaylistChooserDialog extends DialogFragment implements ClickCallba
         return new MaterialAlertDialogBuilder(getActivity())
                 .setView(bind.getRoot())
                 .setTitle(R.string.playlist_chooser_dialog_title)
-                .setNeutralButton(R.string.playlist_chooser_dialog_neutral_button, (dialog, id) -> {
-                })
+                .setNeutralButton(R.string.playlist_chooser_dialog_neutral_button, (dialog, id) -> { })
                 .setNegativeButton(R.string.playlist_chooser_dialog_negative_button, (dialog, id) -> dialog.cancel())
                 .create();
     }

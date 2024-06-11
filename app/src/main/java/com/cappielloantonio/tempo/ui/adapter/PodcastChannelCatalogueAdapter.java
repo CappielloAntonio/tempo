@@ -76,7 +76,7 @@ public class PodcastChannelCatalogueAdapter extends RecyclerView.Adapter<Podcast
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), podcastChannel.getCoverArtId(), CustomGlideRequest.ResourceType.Podcast)
-                .build()
+                .build(true)
                 .into(holder.item.podcastChannelCatalogueCoverImageView);
     }
 

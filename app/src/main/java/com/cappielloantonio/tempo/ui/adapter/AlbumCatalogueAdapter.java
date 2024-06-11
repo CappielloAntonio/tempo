@@ -86,7 +86,7 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), album.getCoverArtId(), CustomGlideRequest.ResourceType.Album)
-                .build()
+                .build(true)
                 .into(holder.item.albumCatalogueCoverImageView);
     }
 

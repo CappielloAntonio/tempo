@@ -44,7 +44,7 @@ public class InternetRadioStationAdapter extends RecyclerView.Adapter<InternetRa
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), internetRadioStation.getStreamUrl(), CustomGlideRequest.ResourceType.Radio)
-                .build()
+                .build(true)
                 .into(holder.item.internetRadioStationCoverImageView);
     }
 

@@ -71,7 +71,7 @@ public class ArtistBottomSheetDialog extends BottomSheetDialogFragment implement
         ImageView coverArtist = view.findViewById(R.id.artist_cover_image_view);
         CustomGlideRequest.Builder
                 .from(requireContext(), artistBottomSheetViewModel.getArtist().getCoverArtId(), CustomGlideRequest.ResourceType.Artist)
-                .build()
+                .build(true)
                 .into(coverArtist);
 
         TextView nameArtist = view.findViewById(R.id.song_title_text_view);

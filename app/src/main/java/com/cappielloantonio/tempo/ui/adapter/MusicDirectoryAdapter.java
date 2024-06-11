@@ -49,7 +49,7 @@ public class MusicDirectoryAdapter extends RecyclerView.Adapter<MusicDirectoryAd
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), child.getCoverArtId(), type)
-                .build()
+                .build(true)
                 .into(holder.item.musicDirectoryCoverImageView);
 
         holder.item.musicDirectoryMoreButton.setVisibility(child.isDir() ? View.VISIBLE : View.INVISIBLE);

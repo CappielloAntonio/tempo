@@ -64,7 +64,7 @@ public class PodcastChannelBottomSheetDialog extends BottomSheetDialogFragment i
 
         CustomGlideRequest.Builder
                 .from(requireContext(), podcastChannelBottomSheetViewModel.getPodcastChannel().getCoverArtId(), CustomGlideRequest.ResourceType.Podcast)
-                .build()
+                .build(true)
                 .into(coverPodcast);
 
         TextView titlePodcast = view.findViewById(R.id.podcast_title_text_view);

@@ -52,7 +52,7 @@ public class PodcastEpisodeAdapter extends RecyclerView.Adapter<PodcastEpisodeAd
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), podcastEpisode.getCoverArtId(), CustomGlideRequest.ResourceType.Podcast)
-                .build()
+                .build(true)
                 .into(holder.item.podcastCoverImageView);
 
         holder.item.podcastPlayButton.setEnabled(podcastEpisode.getStatus().equals("completed"));

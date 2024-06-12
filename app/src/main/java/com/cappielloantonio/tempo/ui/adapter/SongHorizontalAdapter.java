@@ -86,7 +86,7 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
         holder.item.songCoverImageView.setVisibility(showCoverArt ? View.VISIBLE : View.INVISIBLE);
 
         if (!showCoverArt &&
-                (position == 0 ||
+                ((position == 0 && songs.get(position).getDiscNumber() != null) ||
                         (position > 0 && songs.get(position - 1) != null &&
                                 songs.get(position - 1).getDiscNumber() != null &&
                                 songs.get(position).getDiscNumber() != null &&

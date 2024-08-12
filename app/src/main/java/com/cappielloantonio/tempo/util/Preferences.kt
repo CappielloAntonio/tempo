@@ -169,7 +169,10 @@ object Preferences {
 
     @JvmStatic
     fun getInUseServerAddress(): String? {
-        return App.getInstance().preferences.getString(IN_USE_SERVER_ADDRESS, getServer())
+        var inUseServer : String? = App.getInstance().preferences.getString(IN_USE_SERVER_ADDRESS, getServer())
+        if (inUseServer.isNullOrEmpty())
+            return getServer()
+        return inUseServer
     }
 
     @JvmStatic

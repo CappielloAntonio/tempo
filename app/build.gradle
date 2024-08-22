@@ -37,6 +37,11 @@ android {
             dimension = "default"
             applicationId "com.cappielloantonio.notquitemy.tempo"
         }
+
+        play {
+            dimension = "default"
+            applicationId "com.cappielloantonio.play.tempo"
+        }
     }
 
     buildTypes {
@@ -90,6 +95,7 @@ dependencies {
     implementation 'androidx.media3:media3-ui:1.4.0'
     implementation 'androidx.media3:media3-exoplayer-hls:1.4.0'
     tempoImplementation 'androidx.media3:media3-cast:1.4.0'
+    playImplementation 'androidx.media3:media3-cast:1.4.0'
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
     annotationProcessor 'androidx.room:room-compiler:2.6.1'

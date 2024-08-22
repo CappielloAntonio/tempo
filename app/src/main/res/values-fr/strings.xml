@@ -78,7 +78,7 @@
     <string name="downloaded_bottom_sheet_shuffle">Mélanger</string>
     <string name="empty_string" />
     <string name="error_required">Requis</string>
-    <string name="error_server_prefix">prefix http ou https requis</string>
+    <string name="error_server_prefix">préfixe http ou https requis</string>
     <string name="exo_download_notification_channel_name">Téléchargements</string>
     <string name="filter_info_selection">Sélectionnez deux filtres ou plus</string>
     <string name="filter_title">Filtrer</string>
@@ -201,7 +201,7 @@
     <string name="rating_dialog_positive_button">Enregistrer</string>
     <string name="rating_dialog_title">Noter</string>
     <string name="search_hint">Rechercher des titres, artistes ou albums</string>
-    <string name="search_info_minimum_characters">Entrez 3 charactères minimum</string>
+    <string name="search_info_minimum_characters">Entrez 3 caractères minimum</string>
     <string name="search_title_album">Albums</string>
     <string name="search_title_artist">Artistes</string>
     <string name="search_title_song">Pistes</string>
@@ -222,7 +222,7 @@
     <string name="settings_about_summary">Tempo est un client open source et léger pour Subsonic, développé et build nativement pour Android.</string>
     <string name="settings_about_title">À propos</string>
     <string name="settings_audio_transcode_download_format">Format de transcodage</string>
-    <string name="settings_audio_transcode_download_priority_summary">Si activé, Tempo ne forcera pas le téléchargement de la piste avec les paramètre de transcodage ci-dessous.</string>
+    <string name="settings_audio_transcode_download_priority_summary">Si activé, Tempo ne forcera pas le téléchargement de la piste avec les paramètres de transcodage ci-dessous.</string>
     <string name="settings_audio_transcode_download_priority_title">Prioriser les paramètres du serveurs, utilisés pour le streaming, dans les téléchargements</string>
     <string name="settings_audio_transcode_download_summary">Si activé, Tempo téléchargera les pistes transcodées.</string>
     <string name="settings_audio_transcode_download_title">Télécharger les pistes transcodées</string>
@@ -310,7 +310,7 @@
     <string name="share_update_dialog_positive_button">Enregistrer</string>
     <string name="share_update_dialog_title">Partager</string>
     <string name="song_bottom_sheet_add_to_playlist">Ajouter à une playlist</string>
-    <string name="song_bottom_sheet_add_to_queue">Ajouter à la fil d\'attente</string>
+    <string name="song_bottom_sheet_add_to_queue">Ajouter à la file d\'attente</string>
     <string name="song_bottom_sheet_download">Télécharger</string>
     <string name="song_bottom_sheet_error_retrieving_album">Erreur de récupération de l\'album</string>
     <string name="song_bottom_sheet_error_retrieving_artist">Erreur de récupération de l\'artiste</string>

@@ -89,13 +89,13 @@ dependencies {
     implementation 'com.github.bumptech.glide:annotations:4.16.0'
 
     // Media3
-    implementation 'androidx.media3:media3-session:1.4.0'
-    implementation 'androidx.media3:media3-common:1.4.0'
-    implementation 'androidx.media3:media3-exoplayer:1.4.0'
-    implementation 'androidx.media3:media3-ui:1.4.0'
-    implementation 'androidx.media3:media3-exoplayer-hls:1.4.0'
-    tempoImplementation 'androidx.media3:media3-cast:1.4.0'
-    playImplementation 'androidx.media3:media3-cast:1.4.0'
+    implementation 'androidx.media3:media3-session:1.4.1'
+    implementation 'androidx.media3:media3-common:1.4.1'
+    implementation 'androidx.media3:media3-exoplayer:1.4.1'
+    implementation 'androidx.media3:media3-ui:1.4.1'
+    implementation 'androidx.media3:media3-exoplayer-hls:1.4.1'
+    tempoImplementation 'androidx.media3:media3-cast:1.4.1'
+    playImplementation 'androidx.media3:media3-cast:1.4.1'
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
     annotationProcessor 'androidx.room:room-compiler:2.6.1'

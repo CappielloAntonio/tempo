@@ -106,6 +106,7 @@
     <string name="home_title_most_played_see_all_button">查看全部</string>
     <string name="home_title_new_releases">新发行</string>
     <string name="home_title_newest_podcasts">最新播客</string>
+    <string name="home_title_pinned_playlists">播放列表</string>
     <string name="home_title_podcast_channels">频道</string>
     <string name="home_title_podcast_channels_see_all_button">查看全部</string>
     <string name="home_title_radio_station">广播电台</string>
@@ -145,12 +146,14 @@
     <string name="menu_group_by_track">曲目</string>
     <string name="menu_group_by_year">年份</string>
     <string name="menu_home_label">首页</string>
+    <string name="menu_last_year_name">去年</string>
     <string name="menu_library_label">曲库</string>
     <string name="menu_search_button">搜索</string>
     <string name="menu_settings_button">设置</string>
     <string name="menu_sort_artist">艺术家</string>
     <string name="menu_sort_name">姓名</string>
     <string name="menu_sort_random">随机</string>
+    <string name="menu_sort_recently_added">最近添加</string>
     <string name="menu_sort_year">年份</string>
     <string name="player_playback_speed">%1$.2fx</string>
     <string name="player_queue_clean_all_button">清空队列</string>
@@ -223,6 +226,7 @@
     <string name="server_unreachable_dialog_title">服务器无法访问</string>
     <string name="settings_about_summary">Tempo 是 Subsonic 的开源轻量级音乐客户端，专为 Android 设计和构建。</string>
     <string name="settings_about_title">关于</string>
+    <string name="settings_always_on_display">保持屏幕常亮</string>
     <string name="settings_audio_transcode_download_format">转码格式</string>
     <string name="settings_audio_transcode_download_priority_summary">如果启用，Tempo 将不会强制使用下面的转码设置下载曲目。</string>
     <string name="settings_audio_transcode_download_priority_title">优先考虑服务器上用于流式传输的设置</string>
@@ -238,6 +242,8 @@
     <string name="settings_audio_transcode_priority_toast">曲目转码设置优先级设置为服务器</string>
     <string name="settings_buffering_strategy">缓存策略</string>
     <string name="settings_buffering_strategy_summary">为了使更改生效，您必须手动重新启动应用程序。</string>
+    <string name="settings_continuous_play_summary">允许在播放列表结束后，播放相似的曲目。</string>
+    <string name="settings_continuous_play_title">连续播放</string>
     <string name="settings_covers_cache">图片缓存大小</string>
     <string name="settings_data_saving_mode_summary">为了减少数据消耗，请避免下载封面。</string>
     <string name="settings_data_saving_mode_title">限制移动数据使用</string>
@@ -260,6 +266,10 @@
     <string name="settings_music_directory_summary">如果启用，则显示音乐目录部分。 请注意，要使文件夹导航正常工作，服务器必须支持此功能。</string>
     <string name="settings_podcast">显示播客</string>
     <string name="settings_podcast_summary">如果启用，则显示播客部分。</string>
+    <string name="settings_audio_quality">显示音频质量</string>
+    <string name="settings_audio_quality_summary">显示曲目的比特率和音频格式。</string>
+    <string name="settings_item_rating">显示评分</string>
+    <string name="settings_item_rating_summary">如果启用，则显示项目的评分和收藏状态。</string>
     <string name="settings_queue_syncing_countdown">同步定时器</string>
     <string name="settings_queue_syncing_summary">如果启用，将允许当前用户保存其播放队列，并能够在打开应用程序时加载保存状态。</string>
     <string name="settings_queue_syncing_title">同步当前用户的播放队列</string>
@@ -273,11 +283,14 @@
     <string name="settings_scan_title">扫描曲库</string>
     <string name="settings_scrobble_title">启用音乐记录</string>
     <string name="settings_share_title">启用音乐共享</string>
+    <string name="settings_streaming_cache_size">播放缓存大小</string>
     <string name="settings_sub_summary_scrobble">请注意，音乐记录同时也依赖于服务器是否能够接收这些数据。</string>
+    <string name="settings_summary_skip_min_star_rating">收听电台，即时混合和随机播放时，低于特定评分的曲目将会被忽略</string>
     <string name="settings_summary_replay_gain">播放增益（Replay gain）允许您通过调整音轨的音量，以获得始终如一的聆听体验。 仅当曲目标签包含必要的元数据时，此设置才有效。</string>
     <string name="settings_summary_scrobble">音乐记录（Scrobbling）允许您的设备将您收听的歌曲的相关信息发送到音乐服务器。 这些信息有助于基于您的音乐偏好生成个性化推荐。</string>
     <string name="settings_summary_share">允许用户通过链接共享音乐。 该功能需要服务器端支持并启用，并且仅限于单个曲目、专辑和队列。</string>
     <string name="settings_summary_syncing">返回当前用户的播放队列状态。 这包括播放队列中的曲目、正在播放的曲目以及曲目播放进度。需要服务器支持此功能。</string>
+    <string name="settings_summary_streaming_cache_size">%1$s \n已使用:   %2$s MiB</string>
     <string name="settings_summary_transcoding">转码模式优先级设置。 如果设置为“播放原始”，文件的比特率将不会更改。</string>
     <string name="settings_summary_transcoding_download">下载转码后的媒体。 如果启用，将不会下载原始数据，而是使用以下设置。\n如果“用于下载的转码格式”设置为“下载原始”，则文件的比特率不会更改。</string>
     <string name="settings_summary_transcoding_estimate_content_length">当文件即时转码时，客户端通常不会显示曲目长度。 可以向支持该功能的服务器发送请求，估计正在播放的曲目的持续时间，但可能响应变慢。</string>
@@ -286,8 +299,10 @@
     <string name="settings_theme">主题</string>
     <string name="settings_title_data">数据</string>
     <string name="settings_title_general">通用</string>
+    <string name="settings_title_rating">评分</string>
     <string name="settings_title_replay_gain">播放增益</string>
     <string name="settings_title_scrobble">音乐记录</string>
+    <string name="settings_title_skip_min_star_rating">根据评分忽略歌曲</string>
     <string name="settings_title_share">分享</string>
     <string name="settings_title_syncing">同步</string>
     <string name="settings_title_transcoding">转码</string>
@@ -356,6 +371,8 @@
     <string name="track_info_transcoded_content_type">转码内容类型</string>
     <string name="track_info_transcoded_suffix">转码后缀</string>
     <string name="track_info_year">年份</string>
+    <string name="streaming_cache_storage_external_dialog_positive_button">外部</string>
+    <string name="streaming_cache_storage_internal_dialog_negative_button">内部</string>
     <string name="undraw_page">unDraw</string>
     <string name="undraw_thanks">特别感谢 unDraw，没有它提供的插图，我们的应用不可能会如此精美。</string>
     <string name="undraw_url">https://undraw.co/</string>

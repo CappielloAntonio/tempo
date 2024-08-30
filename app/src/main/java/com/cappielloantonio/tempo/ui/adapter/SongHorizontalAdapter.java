@@ -95,7 +95,10 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
                 )
         ) {
             holder.item.differentDiskDividerSector.setVisibility(View.VISIBLE);
-            holder.item.discTitleTextView.setText(holder.itemView.getContext().getString(R.string.disc_titleless, songs.get(position).getDiscNumber().toString()));
+
+            if (songs.get(position).getDiscNumber() != null && !Objects.requireNonNull(songs.get(position).getDiscNumber()).toString().isBlank()) {
+                holder.item.discTitleTextView.setText(holder.itemView.getContext().getString(R.string.disc_titleless, songs.get(position).getDiscNumber().toString()));
+            }
 
             if (album.getDiscTitles() != null) {
                 Optional<DiscTitle> discTitle = album.getDiscTitles().stream().filter(title -> Objects.equals(title.getDisc(), songs.get(position).getDiscNumber())).findFirst();

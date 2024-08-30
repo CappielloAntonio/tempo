@@ -168,7 +168,9 @@ object Preferences {
 
     @JvmStatic
     fun getInUseServerAddress(): String? {
-        return App.getInstance().preferences.getString(IN_USE_SERVER_ADDRESS, getServer())
+        return App.getInstance().preferences.getString(IN_USE_SERVER_ADDRESS, null)
+            ?.takeIf { it.isNotBlank() }
+            ?: getServer()
     }
 
     @JvmStatic
@@ -186,7 +188,7 @@ object Preferences {
     fun isServerSwitchable(): Boolean {
         return App.getInstance().preferences.getLong(
                 NEXT_SERVER_SWITCH, 0
-        ) + 15000 < System.currentTimeMillis()
+        ) + 15000 < System.currentTimeMillis() && !getServer().isNullOrEmpty() && !getLocalAddress().isNullOrEmpty()
     }
 
     @JvmStatic

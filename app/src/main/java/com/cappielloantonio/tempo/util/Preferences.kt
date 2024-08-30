@@ -68,7 +68,6 @@ object Preferences {
 
     @JvmStatic
     fun getServer(): String? {
-        Log.d("Preferences++", "getServer()")
         return App.getInstance().preferences.getString(SERVER, null)
     }
 

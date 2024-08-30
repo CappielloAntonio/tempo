@@ -179,20 +179,20 @@ public class MusicUtil {
         }
     }
 
-    public static String getReadableString(String string) {
-        if (string != null) {
-            return Html.fromHtml(string, Html.FROM_HTML_MODE_COMPACT).toString();
-        }
-
-        return "";
-    }
-
     public static String getReadableTrackNumber(Context context, Integer trackNumber) {
         if (trackNumber != null) {
             return String.valueOf(trackNumber);
         }
 
         return context.getString(R.string.label_placeholder);
+    }
+
+    public static String getReadableString(String string) {
+        if (string != null) {
+            return Html.fromHtml(string, Html.FROM_HTML_MODE_COMPACT).toString();
+        }
+
+        return "";
     }
 
     public static String forceReadableString(String string) {

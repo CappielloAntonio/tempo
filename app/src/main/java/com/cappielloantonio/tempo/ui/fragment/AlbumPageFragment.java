@@ -182,7 +182,7 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
             if (albumInfo != null) {
                 if (bind != null) bind.albumNotesTextview.setVisibility(View.VISIBLE);
                 if (bind != null)
-                    bind.albumNotesTextview.setText(MusicUtil.getReadableString(albumInfo.getNotes()));
+                    bind.albumNotesTextview.setText(MusicUtil.forceReadableString(albumInfo.getNotes()));
 
                 if (bind != null && albumInfo.getLastFmUrl() != null && !albumInfo.getLastFmUrl().isEmpty()) {
                     bind.albumNotesTextview.setOnClickListener(v -> {

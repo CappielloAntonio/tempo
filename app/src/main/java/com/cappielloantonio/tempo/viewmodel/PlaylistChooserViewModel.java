@@ -33,6 +33,13 @@ public class PlaylistChooserViewModel extends AndroidViewModel {
         return playlists;
     }
 
+    public LiveData<Boolean> isSongInPlaylist(String playlistId, LifecycleOwner owner) {
+        MutableLiveData<Boolean> songs = new MutableLiveData<>();
+
+        playlistRepository.isSongInPlaylist(playlistId, toAdd.getId()).observe(owner, songs::postValue);
+        return songs;
+    }
+
     public void addSongToPlaylist(String playlistId) {
         playlistRepository.addSongToPlaylist(playlistId, new ArrayList(Collections.singletonList(toAdd.getId())));
     }

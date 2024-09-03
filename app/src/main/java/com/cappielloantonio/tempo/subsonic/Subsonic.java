@@ -1,5 +1,7 @@
 package com.cappielloantonio.tempo.subsonic;
 
+import android.util.Base64;
+
 import com.cappielloantonio.tempo.subsonic.api.albumsonglist.AlbumSongListClient;
 import com.cappielloantonio.tempo.subsonic.api.bookmarks.BookmarksClient;
 import com.cappielloantonio.tempo.subsonic.api.browsing.BrowsingClient;
@@ -15,6 +17,7 @@ import com.cappielloantonio.tempo.subsonic.api.sharing.SharingClient;
 import com.cappielloantonio.tempo.subsonic.api.system.SystemClient;
 import com.cappielloantonio.tempo.subsonic.base.Version;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -158,5 +161,14 @@ public class Subsonic {
         params.put("f", "json");
 
         return params;
+    }
+
+    public String getBasicAuthHeader() {
+        URI parsedUri = URI.create(getUrl());
+        if (parsedUri.getUserInfo() != null) {
+            return "Basic " + Base64.encodeToString(parsedUri.getUserInfo().getBytes(), Base64.NO_WRAP);
+        }
+
+        return null;
     }
 }

@@ -165,7 +165,7 @@ public class PlayerBottomSheetFragment extends Fragment {
 
             CustomGlideRequest.Builder
                     .from(requireContext(), mediaMetadata.extras.getString("coverArtId"), CustomGlideRequest.ResourceType.Song)
-                    .build()
+                    .build(true)
                     .into(bind.playerHeaderLayout.playerHeaderMediaCoverImage);
 
             bind.playerHeaderLayout.playerHeaderMediaTitleLabel.setVisibility(mediaMetadata.extras.getString("title") != null && !Objects.equals(mediaMetadata.extras.getString("title"), "") ? View.VISIBLE : View.GONE);

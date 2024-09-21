@@ -79,7 +79,7 @@ public class DownloadedBottomSheetDialog extends BottomSheetDialogFragment imple
 
     private void init(View view) {
         ImageView coverAlbum = view.findViewById(R.id.group_cover_image_view);
-        CustomGlideRequest.Builder.from(requireContext(), songs.get(new Random().nextInt(songs.size())).getCoverArtId(), CustomGlideRequest.ResourceType.Unknown).build().into(coverAlbum);
+        CustomGlideRequest.Builder.from(requireContext(), songs.get(new Random().nextInt(songs.size())).getCoverArtId(), CustomGlideRequest.ResourceType.Unknown).build(true).into(coverAlbum);
 
         TextView groupTitleView = view.findViewById(R.id.group_title_text_view);
         groupTitleView.setText(this.groupTitle);

@@ -48,7 +48,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), artist.getCoverArtId(), CustomGlideRequest.ResourceType.Artist)
-                .build()
+                .build(true)
                 .into(holder.item.artistCoverImageView);
     }
 

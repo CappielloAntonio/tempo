@@ -88,7 +88,7 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
         ImageView coverAlbum = view.findViewById(R.id.album_cover_image_view);
         CustomGlideRequest.Builder
                 .from(requireContext(), albumBottomSheetViewModel.getAlbum().getCoverArtId(), CustomGlideRequest.ResourceType.Album)
-                .build()
+                .build(true)
                 .into(coverAlbum);
 
         TextView titleAlbum = view.findViewById(R.id.album_title_text_view);

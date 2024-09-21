@@ -132,5 +132,9 @@ public class CustomGlideRequest {
                     .load(item)
                     .transition(DrawableTransitionOptions.withCrossFade());
         }
+
+        public RequestBuilder<Drawable> build(boolean fitCenter) {
+            return fitCenter ? build().optionalFitCenter() : build();
+        }
     }
 }

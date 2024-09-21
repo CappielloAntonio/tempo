@@ -80,7 +80,7 @@ public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHori
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), playlist.getCoverArtId(), CustomGlideRequest.ResourceType.Playlist)
-                .build()
+                .build(true)
                 .into(holder.item.playlistCoverImageView);
     }
 

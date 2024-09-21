@@ -49,7 +49,7 @@ public class ArtistHorizontalAdapter extends RecyclerView.Adapter<ArtistHorizont
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), artist.getCoverArtId(), CustomGlideRequest.ResourceType.Artist)
-                .build()
+                .build(true)
                 .into(holder.item.artistCoverImageView);
     }
 

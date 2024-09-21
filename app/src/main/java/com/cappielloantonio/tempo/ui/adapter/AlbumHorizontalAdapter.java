@@ -45,7 +45,7 @@ public class AlbumHorizontalAdapter extends RecyclerView.Adapter<AlbumHorizontal
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), album.getCoverArtId(), CustomGlideRequest.ResourceType.Album)
-                .build()
+                .build(true)
                 .into(holder.item.albumCoverImageView);
     }
 

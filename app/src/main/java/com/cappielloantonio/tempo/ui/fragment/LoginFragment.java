@@ -123,6 +123,7 @@ public class LoginFragment extends Fragment implements ClickCallback {
         systemRepository.checkUserCredential(new SystemCallback() {
             @Override
             public void onError(Exception exception) {
+                Preferences.switchInUseServerAddress();
                 resetServerPreference();
                 Toast.makeText(requireContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
             }

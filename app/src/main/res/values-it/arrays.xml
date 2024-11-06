@@ -5,9 +5,9 @@
         <item>Predefinito del sistema</item>
     </string-array>
     <string-array name="theme_list_values">
-        <item>chiaro</item>
-        <item>scuro</item>
-        <item>predefinito</item>
+        <item>light</item>
+        <item>dark</item>
+        <item>default</item>
     </string-array>
 
     <string-array name="pref_cache_size_titles">
@@ -208,8 +208,8 @@
         <item>Auto</item>
     </string-array>
     <string-array name="replay_gain_values">
-        <item>disabilitato</item>
-        <item>traccia</item>
+        <item>disabled</item>
+        <item>track</item>
         <item>album</item>
         <item>auto</item>
     </string-array>

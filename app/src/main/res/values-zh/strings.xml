@@ -24,6 +24,7 @@
     <string name="album_page_extra_info_button">更多相似</string>
     <string name="album_page_play_button">播放</string>
     <string name="album_page_shuffle_button">随机播放</string>
+    <string name="album_page_tracks_count_and_duration">%1$d 首歌曲 • %2$d 分钟</string>
     <string name="app_name">Tempo</string>
     <string name="artist_adapter_radio_station_starting">正在搜索...</string>
     <string name="artist_bottom_sheet_instant_mix">即时混合</string>
@@ -63,8 +64,8 @@
     <string name="download_directory_dialog_title">下载曲目</string>
     <string name="download_info_empty_subtitle">下载歌曲后，您可以在这里找到它。</string>
     <string name="download_info_empty_title">还没有下载！</string>
-    <string name="download_item_multiple_subtitle_formatter">%1$s • %2$s items</string>
-    <string name="download_item_single_subtitle_formatter">%1$s items</string>
+    <string name="download_item_multiple_subtitle_formatter">%1$s • %2$s 个项目</string>
+    <string name="download_item_single_subtitle_formatter">%1$s 个项目</string>
     <string name="download_storage_dialog_sub_summary">要使更改生效，请重新启动应用程序。</string>
     <string name="download_storage_dialog_summary">更改已下载文件的目录将会立即删除以前已下载的所有文件。</string>
     <string name="download_storage_dialog_title">选择存储选项</string>
@@ -164,7 +165,7 @@
     <string name="playlist_chooser_dialog_negative_button">取消</string>
     <string name="playlist_chooser_dialog_neutral_button">新建</string>
     <string name="playlist_chooser_dialog_title">添加到播放列表</string>
-    <string name="playlist_counted_tracks">%1$d tracks • %2$s</string>
+    <string name="playlist_counted_tracks">%1$d 首曲目 • %2$s</string>
     <string name="playlist_duration">持续时间 • %1$s</string>
     <string name="playlist_editor_dialog_hint_name">播放列表名称</string>
     <string name="playlist_editor_dialog_negative_button">取消</string>
@@ -173,7 +174,7 @@
     <string name="playlist_editor_dialog_title">编辑播放列表</string>
     <string name="playlist_page_play_button">播放</string>
     <string name="playlist_page_shuffle_button">随机播放</string>
-    <string name="playlist_song_count">播放列表 • %1$d songs</string>
+    <string name="playlist_song_count">播放列表 • %1$d 首歌曲</string>
     <string name="podcast_bottom_sheet_add_to_queue">添加到队列</string>
     <string name="podcast_bottom_sheet_delete">删除</string>
     <string name="podcast_bottom_sheet_download">下载</string>
@@ -285,7 +286,7 @@
     <string name="settings_share_title">启用音乐共享</string>
     <string name="settings_streaming_cache_size">播放缓存大小</string>
     <string name="settings_sub_summary_scrobble">请注意，音乐记录同时也依赖于服务器是否能够接收这些数据。</string>
-    <string name="settings_summary_skip_min_star_rating">收听电台，即时混合和随机播放时，低于特定评分的曲目将会被忽略</string>
+    <string name="settings_summary_skip_min_star_rating">收听电台，即时混合和随机播放时，低于特定评分的曲目将会被忽略。</string>
     <string name="settings_summary_replay_gain">播放增益（Replay gain）允许您通过调整音轨的音量，以获得始终如一的聆听体验。 仅当曲目标签包含必要的元数据时，此设置才有效。</string>
     <string name="settings_summary_scrobble">音乐记录（Scrobbling）允许您的设备将您收听的歌曲的相关信息发送到音乐服务器。 这些信息有助于基于您的音乐偏好生成个性化推荐。</string>
     <string name="settings_summary_share">允许用户通过链接共享音乐。 该功能需要服务器端支持并启用，并且仅限于单个曲目、专辑和队列。</string>
@@ -376,4 +377,23 @@
     <string name="undraw_page">unDraw</string>
     <string name="undraw_thanks">特别感谢 unDraw，没有它提供的插图，我们的应用不可能会如此精美。</string>
     <string name="undraw_url">https://undraw.co/</string>
+    <string name="album_page_release_date_label">发布于 %1$s</string>
+    <string name="disc_titlefull">第 %1$s 张光盘 - %2$s</string>
+    <string name="disc_titleless">第 %1$s 张光盘</string>
+    <string name="download_shuffle_all_subtitle">随机播放</string>
+    <string name="github_update_dialog_negative_button">稍后提醒</string>
+    <string name="github_update_dialog_positive_button">现在下载</string>
+    <string name="github_update_dialog_title">有可用更新</string>
+    <string name="home_rearrangement_dialog_negative_button">取消</string>
+    <string name="home_rearrangement_dialog_neutral_button">重置</string>
+    <string name="home_rearrangement_dialog_positive_button">保存</string>
+    <string name="home_title_last_month">上个月</string>
+    <string name="home_title_last_year">去年</string>
+    <string name="menu_last_week_name">上周</string>
+    <string name="menu_last_month_name">上个月</string>
+    <string name="menu_pin_button">添加到主屏幕</string>
+    <string name="menu_unpin_button">从主屏幕移除</string>
+    <string name="playlist_editor_dialog_action_delete_toast">长按删除</string>
+    <string name="server_signup_dialog_action_delete_toast">长按删除</string>
+    <string name="server_signup_dialog_hint_local_address">本地 URL</string>
 </resources>

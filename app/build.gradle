@@ -3,12 +3,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-parcelize'
 
 android {
-    compileSdk = 34
-    buildToolsVersion = '34.0.0'
+    compileSdk 35
+    buildToolsVersion = '35.0.0'
 
     defaultConfig {
         minSdkVersion 24
-        targetSdkVersion 34
+        targetSdk 35
 
         versionCode 25
         versionName '3.8.1'
@@ -64,6 +64,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 
     namespace 'com.cappielloantonio.tempo'

@@ -192,6 +192,9 @@ public class PlayerLyricsFragment extends Fragment {
     private void defineProgressHandler() {
         playerBottomSheetViewModel.getLiveLyricsList().observe(getViewLifecycleOwner(), lyricsList -> {
             if (lyricsList != null) {
+                if (lyricsList.getStructuredLyrics() != null && lyricsList.getStructuredLyrics().isEmpty()) {
+                    lyricsList.setStructuredLyrics(null);
+                }
 
                 if (lyricsList.getStructuredLyrics() != null && lyricsList.getStructuredLyrics().get(0) != null && !lyricsList.getStructuredLyrics().get(0).getSynced()) {
                     releaseHandler();

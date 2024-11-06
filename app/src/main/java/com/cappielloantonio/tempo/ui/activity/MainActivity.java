@@ -341,7 +341,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void pingServer() {
-        if (Preferences.getToken() == null) return;
+        if (Preferences.getToken() == null && Preferences.getPassword() == null) return;
 
         if (Preferences.isInUseServerAddressLocal()) {
             mainViewModel.ping().observe(this, subsonicResponse -> {
@@ -376,7 +376,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void getOpenSubsonicExtensions() {
-        if (Preferences.getToken() != null) {
+        if (Preferences.getToken() != null || Preferences.getPassword() != null) {
             mainViewModel.getOpenSubsonicExtensions().observe(this, openSubsonicExtensions -> {
                 if (openSubsonicExtensions != null) {
                     Preferences.setOpenSubsonicExtensions(openSubsonicExtensions);

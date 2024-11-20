@@ -71,6 +71,8 @@ android {
 }
 
 dependencies {
+    implementation files('../libs/lib-decoder-ffmpeg-release.aar')
+
     // AndroidX
     implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'

@@ -176,6 +176,8 @@
     <string name="menu_sort_name">Name</string>
     <string name="menu_sort_random">Random</string>
     <string name="menu_sort_recently_added">Recently added</string>
+    <string name="menu_sort_recently_played">Recently played</string>
+    <string name="menu_sort_most_played">Most played</string>
     <string name="menu_pin_button">Add to home screen</string>
     <string name="menu_unpin_button">Remove from home screen</string>
     <string name="menu_sort_year">Year</string>

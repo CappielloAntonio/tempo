@@ -187,6 +187,12 @@ public class AlbumCatalogueFragment extends Fragment implements ClickCallback {
             } else if (menuItem.getItemId() == R.id.menu_album_sort_recently_added) {
                 albumAdapter.sort(Constants.ALBUM_ORDER_BY_RECENTLY_ADDED);
                 return true;
+            } else if (menuItem.getItemId() == R.id.menu_album_sort_recently_played) {
+                albumAdapter.sort(Constants.ALBUM_ORDER_BY_RECENTLY_PLAYED);
+                return true;
+            } else if (menuItem.getItemId() == R.id.menu_album_sort_most_played) {
+                albumAdapter.sort(Constants.ALBUM_ORDER_BY_MOST_PLAYED);
+                return true;
             }
 
             return false;

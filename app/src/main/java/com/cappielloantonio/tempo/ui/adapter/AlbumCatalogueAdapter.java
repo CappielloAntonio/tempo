@@ -169,6 +169,14 @@ public class AlbumCatalogueAdapter extends RecyclerView.Adapter<AlbumCatalogueAd
                 albums.sort(Comparator.comparing(AlbumID3::getCreated));
                 Collections.reverse(albums);
                 break;
+            case Constants.ALBUM_ORDER_BY_RECENTLY_PLAYED:
+                albums.sort(Comparator.comparing(AlbumID3::getPlayed));
+                Collections.reverse(albums);
+                break;
+            case Constants.ALBUM_ORDER_BY_MOST_PLAYED:
+                albums.sort(Comparator.comparing(AlbumID3::getPlayCount));
+                Collections.reverse(albums);
+                break;
         }
 
         notifyDataSetChanged();

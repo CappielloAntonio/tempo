@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -29,19 +31,54 @@ import java.util.Objects;
 import java.util.Optional;
 
 @UnstableApi
-public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAdapter.ViewHolder> {
+public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAdapter.ViewHolder> implements Filterable {
     private final ClickCallback click;
     private final boolean showCoverArt;
     private final boolean showAlbum;
     private final AlbumID3 album;
 
+    private List<Child> songsFull;
     private List<Child> songs;
+    private String currentFilter;
+
+    private final Filter filtering = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Child> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(songsFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                currentFilter = filterPattern;
+
+                for (Child item : songsFull) {
+                    if (item.getTitle().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            songs = (List<Child>) results.values;
+            notifyDataSetChanged();
+        }
+    };
 
     public SongHorizontalAdapter(ClickCallback click, boolean showCoverArt, boolean showAlbum, AlbumID3 album) {
         this.click = click;
         this.showCoverArt = showCoverArt;
         this.showAlbum = showAlbum;
         this.songs = Collections.emptyList();
+        this.songsFull = Collections.emptyList();
+        this.currentFilter = "";
         this.album = album;
     }
 
@@ -135,7 +172,8 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
     }
 
     public void setItems(List<Child> songs) {
-        this.songs = songs != null ? songs : Collections.emptyList();
+        this.songsFull = songs != null ? songs : Collections.emptyList();
+        filtering.filter(currentFilter);
         notifyDataSetChanged();
     }
 
@@ -147,6 +185,11 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return filtering;
     }
 
     public Child getItem(int id) {

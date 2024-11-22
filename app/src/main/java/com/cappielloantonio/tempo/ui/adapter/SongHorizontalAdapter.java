@@ -26,6 +26,7 @@ import com.cappielloantonio.tempo.util.Preferences;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -229,5 +230,21 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
 
             return true;
         }
+    }
+
+    public void sort(String order) {
+        switch (order) {
+            case Constants.MEDIA_BY_TITLE:
+                songs.sort(Comparator.comparing(Child::getTitle));
+                break;
+            case Constants.MEDIA_MOST_RECENTLY_STARRED:
+                songs.sort(Comparator.comparing(Child::getStarred, Comparator.nullsLast(Comparator.reverseOrder())));
+                break;
+            case Constants.MEDIA_LEAST_RECENTLY_STARRED:
+                songs.sort(Comparator.comparing(Child::getStarred, Comparator.nullsLast(Comparator.naturalOrder())));
+                break;
+        }
+
+        notifyDataSetChanged();
     }
 }

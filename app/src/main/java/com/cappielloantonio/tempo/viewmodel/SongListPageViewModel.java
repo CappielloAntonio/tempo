@@ -36,6 +36,8 @@ public class SongListPageViewModel extends AndroidViewModel {
     public ArrayList<String> filterNames = new ArrayList<>();
 
     public int year = 0;
+    public int maxNumberByYear = 500;
+    public int maxNumberByGenre = 100;
 
     public SongListPageViewModel(@NonNull Application application) {
         super(application);
@@ -58,7 +60,7 @@ public class SongListPageViewModel extends AndroidViewModel {
                 songList = songRepository.getSongsByGenres(filters);
                 break;
             case Constants.MEDIA_BY_YEAR:
-                songList = songRepository.getRandomSample(500, year, year + 10);
+                songList = songRepository.getRandomSample(maxNumberByYear, year, year + 10);
                 break;
             case Constants.MEDIA_STARRED:
                 songList = songRepository.getStarredSongs(false, -1);
@@ -73,9 +75,9 @@ public class SongListPageViewModel extends AndroidViewModel {
             case Constants.MEDIA_BY_GENRE:
                 int songCount = songList.getValue() != null ? songList.getValue().size() : 0;
 
-                if (songCount > 0 && songCount % 100 != 0) return;
+                if (songCount > 0 && songCount % maxNumberByGenre != 0) return;
 
-                int page = songCount / 100;
+                int page = songCount / maxNumberByGenre;
                 songRepository.getSongsByGenre(genre.getGenre(), page).observe(owner, children -> {
                     if (children != null && !children.isEmpty()) {
                         List<Child> currentMedia = songList.getValue();

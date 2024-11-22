@@ -157,7 +157,7 @@ public class MusicUtil {
     }
 
     public static String getReadableAudioQualityString(Child child) {
-        if (!Preferences.showAudioQuality()) return "";
+        if (!Preferences.showAudioQuality() || child.getBitrate() == null) return "";
 
         return "•" +
                 " " +

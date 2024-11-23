@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_horizontal_artist_sort_name"
+        android:title="@string/menu_sort_name" />
+    <item
+        android:id="@+id/menu_horizontal_artist_sort_most_recently_starred"
+        android:title="@string/menu_sort_most_recently_starred" />
+    <item
+        android:id="@+id/menu_horizontal_artist_sort_least_recently_starred"
+        android:title="@string/menu_sort_least_recently_starred" />
+</menu>

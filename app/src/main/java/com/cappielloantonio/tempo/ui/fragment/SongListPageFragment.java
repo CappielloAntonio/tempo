@@ -274,20 +274,20 @@ public class SongListPageFragment extends Fragment implements ClickCallback {
         switch (songListPageViewModel.title) {
             case Constants.MEDIA_BY_GENRE:
                 bind.pageSubtitleLabel.setText(children.size() < songListPageViewModel.maxNumberByGenre ?
-                        getString(R.string.song_list_page_count, children.size()) :
-                        getString(R.string.song_list_page_count_unknown, songListPageViewModel.maxNumberByGenre)
+                        getString(R.string.generic_list_page_count, children.size()) :
+                        getString(R.string.generic_list_page_count_unknown, songListPageViewModel.maxNumberByGenre)
                 );
                 break;
             case Constants.MEDIA_BY_YEAR:
                 bind.pageSubtitleLabel.setText(children.size() < songListPageViewModel.maxNumberByYear ?
-                        getString(R.string.song_list_page_count, children.size()) :
-                        getString(R.string.song_list_page_count_unknown, songListPageViewModel.maxNumberByYear)
+                        getString(R.string.generic_list_page_count, children.size()) :
+                        getString(R.string.generic_list_page_count_unknown, songListPageViewModel.maxNumberByYear)
                 );
                 break;
             case Constants.MEDIA_BY_ARTIST:
             case Constants.MEDIA_BY_GENRES:
             case Constants.MEDIA_STARRED:
-                bind.pageSubtitleLabel.setText(getString(R.string.song_list_page_count, children.size()));
+                bind.pageSubtitleLabel.setText(getString(R.string.generic_list_page_count, children.size()));
                 break;
         }
     }

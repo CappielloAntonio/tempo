@@ -90,6 +90,8 @@
     <string name="filter_info_selection">Select two or more filters</string>
     <string name="filter_title">Filter</string>
     <string name="filter_title_expanded">Filter Genres</string>
+    <string name="generic_list_page_count">(%1$d)</string>
+    <string name="generic_list_page_count_unknown">(+%1$d)</string>
     <string name="genre_catalogue_title">Genre Catalogue</string>
     <string name="genre_catalogue_title_expanded">Browse Genres</string>
     <string name="github_update_dialog_negative_button">Remind me later</string>
@@ -375,8 +377,6 @@
     <string name="song_list_page_starred">Starred tracks</string>
     <string name="song_list_page_top">%1$s\'s top tracks</string>
     <string name="song_list_page_year">Year %1$d</string>
-    <string name="song_list_page_count">(%1$d)</string>
-    <string name="song_list_page_count_unknown">(+%1$d)</string>
     <string name="song_subtitle_formatter">%1$s  •  %2$s  %3$s</string>
     <string name="starred_sync_dialog_negative_button">Cancel</string>
     <string name="starred_sync_dialog_neutral_button">Continue</string>

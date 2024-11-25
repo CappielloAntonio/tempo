@@ -52,7 +52,7 @@ public class ShareBottomSheetDialog extends BottomSheetDialogFragment implements
 
         CustomGlideRequest.Builder
                 .from(requireContext(), shareBottomSheetViewModel.getShare().getEntries().get(0).getCoverArtId(), CustomGlideRequest.ResourceType.Unknown)
-                .build()
+                .build(true)
                 .into(shareCover);
 
         TextView shareTitle = view.findViewById(R.id.share_title_text_view);

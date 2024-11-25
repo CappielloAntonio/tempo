@@ -45,7 +45,7 @@ public class MusicIndexAdapter extends RecyclerView.Adapter<MusicIndexAdapter.Vi
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), artist.getName(), CustomGlideRequest.ResourceType.Directory)
-                .build()
+                .build(true)
                 .into(holder.item.musicIndexCoverImageView);
     }
 

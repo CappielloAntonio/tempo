@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -24,24 +26,60 @@ import com.cappielloantonio.tempo.util.Preferences;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @UnstableApi
-public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAdapter.ViewHolder> {
+public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAdapter.ViewHolder> implements Filterable {
     private final ClickCallback click;
     private final boolean showCoverArt;
     private final boolean showAlbum;
     private final AlbumID3 album;
 
+    private List<Child> songsFull;
     private List<Child> songs;
+    private String currentFilter;
+
+    private final Filter filtering = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Child> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(songsFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                currentFilter = filterPattern;
+
+                for (Child item : songsFull) {
+                    if (item.getTitle().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            songs = (List<Child>) results.values;
+            notifyDataSetChanged();
+        }
+    };
 
     public SongHorizontalAdapter(ClickCallback click, boolean showCoverArt, boolean showAlbum, AlbumID3 album) {
         this.click = click;
         this.showCoverArt = showCoverArt;
         this.showAlbum = showAlbum;
         this.songs = Collections.emptyList();
+        this.songsFull = Collections.emptyList();
+        this.currentFilter = "";
         this.album = album;
     }
 
@@ -95,7 +133,10 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
                 )
         ) {
             holder.item.differentDiskDividerSector.setVisibility(View.VISIBLE);
-            holder.item.discTitleTextView.setText(holder.itemView.getContext().getString(R.string.disc_titleless, songs.get(position).getDiscNumber().toString()));
+
+            if (songs.get(position).getDiscNumber() != null && !Objects.requireNonNull(songs.get(position).getDiscNumber()).toString().isBlank()) {
+                holder.item.discTitleTextView.setText(holder.itemView.getContext().getString(R.string.disc_titleless, songs.get(position).getDiscNumber().toString()));
+            }
 
             if (album.getDiscTitles() != null) {
                 Optional<DiscTitle> discTitle = album.getDiscTitles().stream().filter(title -> Objects.equals(title.getDisc(), songs.get(position).getDiscNumber())).findFirst();
@@ -132,7 +173,8 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
     }
 
     public void setItems(List<Child> songs) {
-        this.songs = songs != null ? songs : Collections.emptyList();
+        this.songsFull = songs != null ? songs : Collections.emptyList();
+        filtering.filter(currentFilter);
         notifyDataSetChanged();
     }
 
@@ -144,6 +186,11 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return filtering;
     }
 
     public Child getItem(int id) {
@@ -183,5 +230,21 @@ public class SongHorizontalAdapter extends RecyclerView.Adapter<SongHorizontalAd
 
             return true;
         }
+    }
+
+    public void sort(String order) {
+        switch (order) {
+            case Constants.MEDIA_BY_TITLE:
+                songs.sort(Comparator.comparing(Child::getTitle));
+                break;
+            case Constants.MEDIA_MOST_RECENTLY_STARRED:
+                songs.sort(Comparator.comparing(Child::getStarred, Comparator.nullsLast(Comparator.reverseOrder())));
+                break;
+            case Constants.MEDIA_LEAST_RECENTLY_STARRED:
+                songs.sort(Comparator.comparing(Child::getStarred, Comparator.nullsLast(Comparator.naturalOrder())));
+                break;
+        }
+
+        notifyDataSetChanged();
     }
 }

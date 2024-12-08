@@ -103,8 +103,8 @@ public class ServerSignupDialog extends DialogFragment {
         serverName = Objects.requireNonNull(bind.serverNameTextView.getText()).toString().trim();
         username = Objects.requireNonNull(bind.usernameTextView.getText()).toString().trim();
         password = bind.lowSecurityCheckbox.isChecked() ? MusicUtil.passwordHexEncoding(Objects.requireNonNull(bind.passwordTextView.getText()).toString()) : Objects.requireNonNull(bind.passwordTextView.getText()).toString();
-        server = Objects.requireNonNull(bind.serverTextView.getText()).toString().trim();
-        localAddress = Objects.requireNonNull(bind.localAddressTextView.getText()).toString().trim();
+        server = bind.serverTextView.getText() != null && !bind.serverTextView.getText().toString().trim().isBlank() ? bind.serverTextView.getText().toString().trim() : null;
+        localAddress = bind.localAddressTextView.getText() != null && !bind.localAddressTextView.getText().toString().trim().isBlank() ? bind.localAddressTextView.getText().toString().trim() : null;
         lowSecurity = bind.lowSecurityCheckbox.isChecked();
 
         if (TextUtils.isEmpty(serverName)) {

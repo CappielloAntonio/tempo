@@ -28,6 +28,8 @@ public class AlbumListPageViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<AlbumID3>> albumList;
 
+    public int maxNumber = 500;
+
     public AlbumListPageViewModel(@NonNull Application application) {
         super(application);
 
@@ -40,20 +42,20 @@ public class AlbumListPageViewModel extends AndroidViewModel {
 
         switch (title) {
             case Constants.ALBUM_RECENTLY_PLAYED:
-                albumRepository.getAlbums("recent", 500, null, null).observe(owner, albums -> albumList.setValue(albums));
+                albumRepository.getAlbums("recent", maxNumber, null, null).observe(owner, albums -> albumList.setValue(albums));
                 break;
             case Constants.ALBUM_MOST_PLAYED:
-                albumRepository.getAlbums("frequent", 500, null, null).observe(owner, albums -> albumList.setValue(albums));
+                albumRepository.getAlbums("frequent", maxNumber, null, null).observe(owner, albums -> albumList.setValue(albums));
                 break;
             case Constants.ALBUM_RECENTLY_ADDED:
-                albumRepository.getAlbums("newest", 500, null, null).observe(owner, albums -> albumList.setValue(albums));
+                albumRepository.getAlbums("newest", maxNumber, null, null).observe(owner, albums -> albumList.setValue(albums));
                 break;
             case Constants.ALBUM_STARRED:
                 albumList = albumRepository.getStarredAlbums(false, -1);
                 break;
             case Constants.ALBUM_NEW_RELEASES:
                 int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-                albumRepository.getAlbums("byYear", 500, currentYear, currentYear).observe(owner, albums -> {
+                albumRepository.getAlbums("byYear", maxNumber, currentYear, currentYear).observe(owner, albums -> {
                     albums.sort(Comparator.comparing(AlbumID3::getCreated).reversed());
                     albumList.postValue(albums.subList(0, Math.min(20, albums.size())));
                 });

@@ -40,7 +40,7 @@ public class ShareHorizontalAdapter extends RecyclerView.Adapter<ShareHorizontal
     public void onBindViewHolder(ViewHolder holder, int position) {
         Share share = shares.get(position);
 
-        holder.item.shareTitleTextView.setText(MusicUtil.getReadableString(share.getDescription()));
+        holder.item.shareTitleTextView.setText(share.getDescription());
         holder.item.shareSubtitleTextView.setText(holder.itemView.getContext().getString(R.string.share_subtitle_item, UIUtil.getReadableDate(share.getExpires())));
 
         if (share.getEntries() != null && !share.getEntries().isEmpty()) CustomGlideRequest.Builder

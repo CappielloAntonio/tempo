@@ -90,6 +90,8 @@
     <string name="filter_info_selection">Select two or more filters</string>
     <string name="filter_title">Filter</string>
     <string name="filter_title_expanded">Filter Genres</string>
+    <string name="generic_list_page_count">(%1$d)</string>
+    <string name="generic_list_page_count_unknown">(+%1$d)</string>
     <string name="genre_catalogue_title">Genre Catalogue</string>
     <string name="genre_catalogue_title_expanded">Browse Genres</string>
     <string name="github_update_dialog_negative_button">Remind me later</string>
@@ -176,6 +178,10 @@
     <string name="menu_sort_name">Name</string>
     <string name="menu_sort_random">Random</string>
     <string name="menu_sort_recently_added">Recently added</string>
+    <string name="menu_sort_recently_played">Recently played</string>
+    <string name="menu_sort_most_played">Most played</string>
+    <string name="menu_sort_most_recently_starred">Most recently starred</string>
+    <string name="menu_sort_least_recently_starred">Least recently starred</string>
     <string name="menu_pin_button">Add to home screen</string>
     <string name="menu_unpin_button">Remove from home screen</string>
     <string name="menu_sort_year">Year</string>

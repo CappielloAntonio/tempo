@@ -53,8 +53,7 @@ public final class DownloadUtil {
     private static DownloadNotificationHelper downloadNotificationHelper;
 
     public static boolean useExtensionRenderers() {
-        // return true;
-        return false;
+        return true;
     }
 
     public static RenderersFactory buildRenderersFactory(Context context, boolean preferExtensionRenderer) {

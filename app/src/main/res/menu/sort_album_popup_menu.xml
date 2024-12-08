@@ -15,4 +15,10 @@
     <item
         android:id="@+id/menu_album_sort_recently_added"
         android:title="@string/menu_sort_recently_added" />
+    <item
+        android:id="@+id/menu_album_sort_recently_played"
+        android:title="@string/menu_sort_recently_played" />
+    <item
+        android:id="@+id/menu_album_sort_most_played"
+        android:title="@string/menu_sort_most_played" />
 </menu>

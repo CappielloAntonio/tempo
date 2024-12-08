@@ -4,6 +4,8 @@ import android.os.Parcelable
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+import java.time.Instant
+import java.time.LocalDate
 import java.util.*
 
 @Keep
@@ -17,12 +19,12 @@ open class AlbumID3 : Parcelable {
     var coverArtId: String? = null
     var songCount: Int? = 0
     var duration: Int? = 0
-    var playCount: Long? = null
+    var playCount: Long? = 0
     var created: Date? = null
     var starred: Date? = null
     var year: Int = 0
     var genre: String? = null
-    var played: String? = null
+    var played: Date? = Date(0)
     var userRating: Int? = 0
     var recordLabels: List<RecordLabel>? = null
     var musicBrainzId: String? = null

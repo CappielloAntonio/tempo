@@ -7,4 +7,5 @@
     <locale android:name="ko-KR"/>         <!-- Korean-->
     <locale android:name="pt-BR"/>         <!-- Brazilian Portuguese -->
     <locale android:name="it-IT"/>         <!-- Italian -->
+    <locale android:name="ru-RU"/>         <!-- Russian -->
 </locale-config>

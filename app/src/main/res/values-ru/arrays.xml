@@ -32,6 +32,21 @@
         <item>300</item>
     </string-array>
 
+    <string-array name="streaming_cache_size_titles">
+        <item>Отключено</item>
+        <item>128 MiB</item>
+        <item>256 MiB</item>
+        <item>512 MiB</item>
+        <item>1024 MiB</item>
+    </string-array>
+    <string-array name="streaming_cache_size_values">
+        <item>0</item>
+        <item>128</item>
+        <item>256</item>
+        <item>512</item>
+        <item>1024</item>
+    </string-array>
+
     <string-array name="max_bitrate_wifi_list_titles">
         <item>Оригинал</item>
         <item>32 kbps</item>

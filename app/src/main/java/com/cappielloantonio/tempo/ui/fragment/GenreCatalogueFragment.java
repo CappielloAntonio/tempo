@@ -105,7 +105,7 @@ public class GenreCatalogueFragment extends Fragment implements ClickCallback {
         genreCatalogueAdapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
         bind.genreCatalogueRecyclerView.setAdapter(genreCatalogueAdapter);
 
-        genreCatalogueViewModel.getGenreList().observe(getViewLifecycleOwner(), genres -> { /* genreCatalogueAdapter.setItems(genres) */});
+        genreCatalogueViewModel.getGenreList().observe(getViewLifecycleOwner(), genres -> genreCatalogueAdapter.setItems(genres) );
 
         bind.genreCatalogueRecyclerView.setOnTouchListener((v, event) -> {
             hideKeyboard(v);

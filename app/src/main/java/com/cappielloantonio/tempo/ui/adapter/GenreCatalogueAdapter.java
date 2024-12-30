@@ -13,7 +13,6 @@ import com.cappielloantonio.tempo.databinding.ItemLibraryCatalogueGenreBinding;
 import com.cappielloantonio.tempo.interfaces.ClickCallback;
 import com.cappielloantonio.tempo.subsonic.models.Genre;
 import com.cappielloantonio.tempo.util.Constants;
-import com.cappielloantonio.tempo.util.MusicUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +48,7 @@ public class GenreCatalogueAdapter extends RecyclerView.Adapter<GenreCatalogueAd
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             genres.clear();
-            genres.addAll((List) results.values);
+            if (results.count > 0) genres.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };

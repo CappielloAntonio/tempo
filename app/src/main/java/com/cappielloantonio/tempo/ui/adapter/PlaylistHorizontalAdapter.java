@@ -54,7 +54,7 @@ public class PlaylistHorizontalAdapter extends RecyclerView.Adapter<PlaylistHori
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             playlists.clear();
-            playlists.addAll((List) results.values);
+            if (results.count > 0) playlists.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };

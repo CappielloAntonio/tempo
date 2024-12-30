@@ -361,7 +361,7 @@
     <string name="song_list_page_recently_added">Недавно добавленные треки</string>
     <string name="song_list_page_recently_played">Недавно воспроизведенные треки</string>
     <string name="song_list_page_starred">Помеченные треки</string>
-    <string name="song_list_page_top">%1$s's Лучшие треки</string>
+    <string name="song_list_page_top">%1$s\'s Лучшие треки</string>
     <string name="song_list_page_year">Год %1$d</string>
     <string name="song_subtitle_formatter">%1$s • %2$s %3$s</string>
     <string name="starred_sync_dialog_negative_button">Отмена</string>

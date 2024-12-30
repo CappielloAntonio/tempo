@@ -2,7 +2,8 @@ package com.cappielloantonio.tempo.subsonic.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 
 import com.cappielloantonio.tempo.App;
 
@@ -39,7 +40,19 @@ public class CacheUtil {
 
     private boolean isConnected() {
         ConnectivityManager connectivityManager = (ConnectivityManager) App.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
-        return (netInfo != null && netInfo.isConnected());
+
+        if (connectivityManager != null) {
+            Network network = connectivityManager.getActiveNetwork();
+
+            if (network != null) {
+                NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(network);
+
+                if (capabilities != null) {
+                    return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
+                }
+            }
+        }
+
+        return false;
     }
 }

@@ -52,7 +52,7 @@ jobs:
           BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOL_VERSION }}
 
       - name: Make artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: app-release-signed
           path: ${{steps.sign_apk.outputs.signedReleaseFile}}

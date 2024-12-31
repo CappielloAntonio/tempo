@@ -35,5 +35,8 @@ data class Server(
     val timestamp: Long,
 
     @ColumnInfo(name = "low_security", defaultValue = "false")
-    val isLowSecurity: Boolean
+    val isLowSecurity: Boolean,
+
+    @ColumnInfo(name = "custom_headers")
+    var customHeaders: Map<String, String>? = null,
 ) : Parcelable

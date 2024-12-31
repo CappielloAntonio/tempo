@@ -13,6 +13,8 @@ import com.cappielloantonio.tempo.subsonic.Subsonic;
 import com.cappielloantonio.tempo.subsonic.SubsonicPreferences;
 import com.cappielloantonio.tempo.util.Preferences;
 
+import java.util.Map;
+
 public class App extends Application {
     private static App instance;
     private static Context context;
@@ -98,11 +100,13 @@ public class App extends Application {
         String token = Preferences.getToken();
         String salt = Preferences.getSalt();
         boolean isLowSecurity = Preferences.isLowScurity();
+        Map<String, String> customHeaders = Preferences.getCustomHeaders();
 
         SubsonicPreferences preferences = new SubsonicPreferences();
         preferences.setServerUrl(server);
         preferences.setUsername(username);
         preferences.setAuthentication(password, token, salt, isLowSecurity);
+        preferences.setCustomHeaders(customHeaders);
 
         return preferences;
     }

@@ -30,6 +30,8 @@ import com.cappielloantonio.tempo.ui.dialog.ServerSignupDialog;
 import com.cappielloantonio.tempo.util.Preferences;
 import com.cappielloantonio.tempo.viewmodel.LoginViewModel;
 
+import java.util.Map;
+
 @UnstableApi
 public class LoginFragment extends Fragment implements ClickCallback {
     private static final String TAG = "LoginFragment";
@@ -117,7 +119,7 @@ public class LoginFragment extends Fragment implements ClickCallback {
     @Override
     public void onServerClick(Bundle bundle) {
         Server server = bundle.getParcelable("server_object");
-        saveServerPreference(server.getServerId(), server.getAddress(), server.getLocalAddress(), server.getUsername(), server.getPassword(), server.isLowSecurity());
+        saveServerPreference(server.getServerId(), server.getAddress(), server.getLocalAddress(), server.getUsername(), server.getPassword(), server.isLowSecurity(), server.getCustomHeaders());
 
         SystemRepository systemRepository = new SystemRepository();
         systemRepository.checkUserCredential(new SystemCallback() {
@@ -142,13 +144,14 @@ public class LoginFragment extends Fragment implements ClickCallback {
         dialog.show(activity.getSupportFragmentManager(), null);
     }
 
-    private void saveServerPreference(String serverId, String server, String localAddress, String user, String password, boolean isLowSecurity) {
+    private void saveServerPreference(String serverId, String server, String localAddress, String user, String password, boolean isLowSecurity, Map<String, String> customHeaders) {
         Preferences.setServerId(serverId);
         Preferences.setServer(server);
         Preferences.setLocalAddress(localAddress);
         Preferences.setUser(user);
         Preferences.setPassword(password);
         Preferences.setLowSecurity(isLowSecurity);
+        Preferences.setCustomHeaders(customHeaders);
 
         App.getSubsonicClientInstance(true);
     }

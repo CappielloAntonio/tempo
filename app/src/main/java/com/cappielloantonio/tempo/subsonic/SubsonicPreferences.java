@@ -2,6 +2,8 @@ package com.cappielloantonio.tempo.subsonic;
 
 import com.cappielloantonio.tempo.subsonic.utils.StringUtil;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class SubsonicPreferences {
@@ -9,6 +11,7 @@ public class SubsonicPreferences {
     private String username;
     private String clientName = "Tempo";
     private SubsonicAuthentication authentication;
+    private Map<String, String> customHeaders;
 
     public String getServerUrl() {
         return serverUrl;
@@ -46,6 +49,19 @@ public class SubsonicPreferences {
         if (token != null && salt != null) {
             this.authentication = new SubsonicAuthentication(token, salt);
         }
+    }
+
+    public void setCustomHeaders(Map<String, String> headers) {
+        if (headers != null && !headers.isEmpty()) {
+            this.customHeaders = headers;
+        }
+    }
+
+    public Map<String, String> getCustomHeaders() {
+        if (this.customHeaders != null) {
+            return this.customHeaders;
+        }
+        return new HashMap<>();
     }
 
     public static class SubsonicAuthentication {

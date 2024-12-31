@@ -73,6 +73,29 @@ public class PlaylistRepository {
         return listLivePlaylistSongs;
     }
 
+    public MutableLiveData<Boolean> isSongInPlaylist(String playlistId, String songId) {
+        MutableLiveData<Boolean> songInPlayList = new MutableLiveData<>();
+
+        App.getSubsonicClientInstance(false)
+                .getPlaylistClient()
+                .getPlaylist(playlistId)
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if (response.isSuccessful() && response.body() != null && response.body().getSubsonicResponse().getPlaylist() != null && response.body().getSubsonicResponse().getPlaylist().getEntries() != null) {
+                            List<Child> songs = response.body().getSubsonicResponse().getPlaylist().getEntries();
+                            songInPlayList.setValue(songs.stream().anyMatch(s -> s.getId().equals(songId)));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<ApiResponse> call, @NonNull Throwable t) {
+                    }
+                });
+
+        return songInPlayList;
+    }
+
     public void addSongToPlaylist(String playlistId, ArrayList<String> songsId) {
         App.getSubsonicClientInstance(false)
                 .getPlaylistClient()

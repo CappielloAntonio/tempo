@@ -1,10 +1,10 @@
 package com.cappielloantonio.tempo.util
 
-import android.util.Log
 import com.cappielloantonio.tempo.App
 import com.cappielloantonio.tempo.model.HomeSector
 import com.cappielloantonio.tempo.subsonic.models.OpenSubsonicExtension
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 
 object Preferences {
@@ -15,6 +15,7 @@ object Preferences {
     private const val TOKEN = "token"
     private const val SALT = "salt"
     private const val LOW_SECURITY = "low_security"
+    private const val CUSTOM_HEADERS = "custom_headers"
     private const val BATTERY_OPTIMIZATION = "battery_optimization"
     private const val SERVER_ID = "server_id"
     private const val OPEN_SUBSONIC = "open_subsonic"
@@ -127,6 +128,22 @@ object Preferences {
     }
 
     @JvmStatic
+    fun getCustomHeaders(): Map<String, String>? {
+        val json = App.getInstance().preferences.getString(CUSTOM_HEADERS, null)
+        return if (json != null) {
+            Gson().fromJson(json, object : TypeToken<Map<String, String>>() {}.type)
+        } else {
+            null
+        }
+    }
+
+    @JvmStatic
+    fun setCustomHeaders(customHeaders: Map<String, String>) {
+        val json = Gson().toJson(customHeaders)
+        App.getInstance().preferences.edit().putString(CUSTOM_HEADERS, json).apply()
+    }
+
+    @JvmStatic
     fun getServerId(): String? {
         return App.getInstance().preferences.getString(SERVER_ID, null)
     }
@@ -153,7 +170,8 @@ object Preferences {
 
     @JvmStatic
     fun setOpenSubsonicExtensions(extension: List<OpenSubsonicExtension>) {
-        App.getInstance().preferences.edit().putString(OPEN_SUBSONIC_EXTENSIONS, Gson().toJson(extension)).apply()
+        App.getInstance().preferences.edit()
+            .putString(OPEN_SUBSONIC_EXTENSIONS, Gson().toJson(extension)).apply()
     }
 
     @JvmStatic
@@ -180,20 +198,22 @@ object Preferences {
 
     @JvmStatic
     fun switchInUseServerAddress() {
-        val inUseAddress = if (getInUseServerAddress() == getServer()) getLocalAddress() else getServer()
+        val inUseAddress =
+            if (getInUseServerAddress() == getServer()) getLocalAddress() else getServer()
         App.getInstance().preferences.edit().putString(IN_USE_SERVER_ADDRESS, inUseAddress).apply()
     }
 
     @JvmStatic
     fun isServerSwitchable(): Boolean {
         return App.getInstance().preferences.getLong(
-                NEXT_SERVER_SWITCH, 0
+            NEXT_SERVER_SWITCH, 0
         ) + 15000 < System.currentTimeMillis() && !getServer().isNullOrEmpty() && !getLocalAddress().isNullOrEmpty()
     }
 
     @JvmStatic
     fun setServerSwitchableTimer() {
-        App.getInstance().preferences.edit().putLong(NEXT_SERVER_SWITCH, System.currentTimeMillis()).apply()
+        App.getInstance().preferences.edit().putLong(NEXT_SERVER_SWITCH, System.currentTimeMillis())
+            .apply()
     }
 
     @JvmStatic
@@ -274,7 +294,7 @@ object Preferences {
     @JvmStatic
     fun setDataSavingMode(isDataSavingModeEnabled: Boolean) {
         App.getInstance().preferences.edit().putBoolean(DATA_SAVING_MODE, isDataSavingModeEnabled)
-                .apply()
+            .apply()
     }
 
     @JvmStatic
@@ -285,20 +305,21 @@ object Preferences {
     @JvmStatic
     fun setStarredSyncEnabled(isStarredSyncEnabled: Boolean) {
         App.getInstance().preferences.edit().putBoolean(
-                SYNC_STARRED_TRACKS_FOR_OFFLINE_USE, isStarredSyncEnabled
+            SYNC_STARRED_TRACKS_FOR_OFFLINE_USE, isStarredSyncEnabled
         ).apply()
     }
 
     @JvmStatic
     fun showServerUnreachableDialog(): Boolean {
         return App.getInstance().preferences.getLong(
-                SERVER_UNREACHABLE, 0
+            SERVER_UNREACHABLE, 0
         ) + 86400000 < System.currentTimeMillis()
     }
 
     @JvmStatic
     fun setServerUnreachableDatetime() {
-        App.getInstance().preferences.edit().putLong(SERVER_UNREACHABLE, System.currentTimeMillis()).apply()
+        App.getInstance().preferences.edit().putLong(SERVER_UNREACHABLE, System.currentTimeMillis())
+            .apply()
     }
 
     @JvmStatic
@@ -364,8 +385,8 @@ object Preferences {
     @JvmStatic
     fun setStreamingCacheStoragePreference(streamingCachePreference: Int) {
         return App.getInstance().preferences.edit().putString(
-                STREAMING_CACHE_STORAGE,
-                streamingCachePreference.toString()
+            STREAMING_CACHE_STORAGE,
+            streamingCachePreference.toString()
         ).apply()
     }
 
@@ -377,24 +398,24 @@ object Preferences {
     @JvmStatic
     fun setDownloadStoragePreference(storagePreference: Int) {
         return App.getInstance().preferences.edit().putString(
-                DOWNLOAD_STORAGE,
-                storagePreference.toString()
+            DOWNLOAD_STORAGE,
+            storagePreference.toString()
         ).apply()
     }
 
     @JvmStatic
     fun getDefaultDownloadViewType(): String {
         return App.getInstance().preferences.getString(
-                DEFAULT_DOWNLOAD_VIEW_TYPE,
-                Constants.DOWNLOAD_TYPE_TRACK
+            DEFAULT_DOWNLOAD_VIEW_TYPE,
+            Constants.DOWNLOAD_TYPE_TRACK
         )!!
     }
 
     @JvmStatic
     fun setDefaultDownloadViewType(viewType: String) {
         return App.getInstance().preferences.edit().putString(
-                DEFAULT_DOWNLOAD_VIEW_TYPE,
-                viewType
+            DEFAULT_DOWNLOAD_VIEW_TYPE,
+            viewType
         ).apply()
     }
 
@@ -460,7 +481,8 @@ object Preferences {
 
     @JvmStatic
     fun setHomeSectorList(extension: List<HomeSector>?) {
-        App.getInstance().preferences.edit().putString(HOME_SECTOR_LIST, Gson().toJson(extension)).apply()
+        App.getInstance().preferences.edit().putString(HOME_SECTOR_LIST, Gson().toJson(extension))
+            .apply()
     }
 
     @JvmStatic
@@ -471,13 +493,14 @@ object Preferences {
     @JvmStatic
     fun showTempoUpdateDialog(): Boolean {
         return App.getInstance().preferences.getLong(
-                NEXT_UPDATE_CHECK, 0
+            NEXT_UPDATE_CHECK, 0
         ) + 86400000 < System.currentTimeMillis()
     }
 
     @JvmStatic
     fun setTempoUpdateReminder() {
-        App.getInstance().preferences.edit().putLong(NEXT_UPDATE_CHECK, System.currentTimeMillis()).apply()
+        App.getInstance().preferences.edit().putLong(NEXT_UPDATE_CHECK, System.currentTimeMillis())
+            .apply()
     }
 
     @JvmStatic
@@ -487,13 +510,14 @@ object Preferences {
 
     @JvmStatic
     fun setLastInstantMix() {
-        App.getInstance().preferences.edit().putLong(LAST_INSTANT_MIX, System.currentTimeMillis()).apply()
+        App.getInstance().preferences.edit().putLong(LAST_INSTANT_MIX, System.currentTimeMillis())
+            .apply()
     }
 
     @JvmStatic
     fun isInstantMixUsable(): Boolean {
         return App.getInstance().preferences.getLong(
-                LAST_INSTANT_MIX, 0
+            LAST_INSTANT_MIX, 0
         ) + 5000 < System.currentTimeMillis()
     }
 }

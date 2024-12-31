@@ -8,6 +8,8 @@
 
 <p align="center">
     <a href="https://github.com/CappielloAntonio/tempo/releases"><img src="https://i.ibb.co/q0mdc4Z/get-it-on-github.png" width="200"></a>
+</p>
+<p align="center">
     <a href="https://f-droid.org/packages/com.cappielloantonio.notquitemy.tempo"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" width="200"></a>
     <a href="https://apt.izzysoft.de/fdroid/index/apk/com.cappielloantonio.tempo"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" width="200"></a>
 </p>
@@ -17,6 +19,8 @@
 Tempo does not rely on magic algorithms to decide what you should listen to. Instead, the interface is built around your listening history, randomness, and optionally integrates with services like Last.fm to personalize your music experience.
 
 **If you find Tempo useful, please consider starring the project on GitHub. It would mean a lot to me and help promote the app to a wider audience.**
+
+**Use the Github version of the app for full Android Auto and Chromecast support.**
 
 ## Features
 - **Subsonic Integration**: Tempo seamlessly integrates with your Subsonic server, providing you with easy access to your entire music collection on the go.

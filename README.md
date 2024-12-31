@@ -29,6 +29,7 @@ Tempo does not rely on magic algorithms to decide what you should listen to. Ins
 - **Scrobbling Integration**: Optionally integrate Tempo with Last.fm to scrobble your played tracks, gather music insights, and further personalize your music recommendations, if supported by your Subsonic server.
 - **Podcasts and Radio**: If your Subsonic server supports it, listen to podcasts and radio shows directly within Tempo, expanding your audio entertainment options.
 - **Transcoding Support**: Activate transcoding of tracks on your Subsonic server, allowing you to set a transcoding profile for optimized streaming directly from the app. This feature requires support from your Subsonic server.
+- **Android Auto Support**: Enjoy your favorite music on the go with full Android Auto integration, allowing you to seamlessly control and listen to your tracks directly from your mobile device while driving.
 
 <p align="center">
     <img src="mockup/feat/1_screenshot.png" width=200>

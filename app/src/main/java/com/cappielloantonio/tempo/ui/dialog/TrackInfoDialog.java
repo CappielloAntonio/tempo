@@ -56,7 +56,7 @@ public class TrackInfoDialog extends DialogFragment {
         if (mediaMetadata.extras != null) {
             CustomGlideRequest.Builder
                     .from(requireContext(), mediaMetadata.extras.getString("coverArtId", ""), CustomGlideRequest.ResourceType.Song)
-                    .build()
+                    .build(true)
                     .into(bind.trackCoverInfoImageView);
 
             bind.titleValueSector.setText(mediaMetadata.extras.getString("title", getString(R.string.label_placeholder)));

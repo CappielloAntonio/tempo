@@ -12,6 +12,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -111,7 +113,7 @@ public class CustomGlideRequest {
 
     public static class Builder {
         private final RequestManager requestManager;
-        private Object item;
+        private String item;
 
         private Builder(Context context, String item, ResourceType type) {
             this.requestManager = Glide.with(context);
@@ -128,9 +130,22 @@ public class CustomGlideRequest {
         }
 
         public RequestBuilder<Drawable> build() {
-            return requestManager
-                    .load(item)
-                    .transition(DrawableTransitionOptions.withCrossFade());
+
+            RequestBuilder<Drawable> requestBuilder;
+
+            String basicAuthHeader = App.getSubsonicClientInstance(false).getBasicAuthHeader();
+            if (basicAuthHeader == null || item == null) {
+                requestBuilder = requestManager.load(item);
+            } else {
+                //Add HTTP basic auth
+                requestBuilder = requestManager.load(new GlideUrl(item,
+                        new LazyHeaders.Builder()
+                                .addHeader("Authorization", basicAuthHeader)
+                                .build()
+                ));
+            }
+
+            return requestBuilder.transition(DrawableTransitionOptions.withCrossFade());
         }
     }
 }

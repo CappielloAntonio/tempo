@@ -14,6 +14,17 @@
     <a href="https://apt.izzysoft.de/fdroid/index/apk/com.cappielloantonio.tempo"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" width="200"></a>
 </p>
 
+<!-- TOC start -->
+
+- [Features](#features)
+- [Sponsors](#sponsors)
+- [Screenshots](#screenshots)
+- [License](#license)
+
+<!-- TOC end -->
+
+---
+
 **Tempo** is an open-source and lightweight music client for Subsonic, designed and built natively for Android. It provides a seamless and intuitive music streaming experience, allowing you to access and play your Subsonic music library directly from your Android device. 
 
 Tempo does not rely on magic algorithms to decide what you should listen to. Instead, the interface is built around your listening history, randomness, and optionally integrates with services like Last.fm to personalize your music experience.
@@ -34,6 +45,7 @@ Tempo does not rely on magic algorithms to decide what you should listen to. Ins
 - **Podcasts and Radio**: If your Subsonic server supports it, listen to podcasts and radio shows directly within Tempo, expanding your audio entertainment options.
 - **Transcoding Support**: Activate transcoding of tracks on your Subsonic server, allowing you to set a transcoding profile for optimized streaming directly from the app. This feature requires support from your Subsonic server.
 - **Android Auto Support**: Enjoy your favorite music on the go with full Android Auto integration, allowing you to seamlessly control and listen to your tracks directly from your mobile device while driving.
+- **ReplayGain Support**: Normalize loudness for tracks with ReplayGain tags. Supported tags: `REPLAYGAIN_TRACK_GAIN`, `replaygain_track_gain`, `REPLAYGAIN_ALBUM_GAIN`, `replaygain_album_gain`, `R128_TRACK_GAIN`, `R128_ALBUM_GAIN`
 
 <p align="center">
     <img src="mockup/feat/1_screenshot.png" width=200>
@@ -51,7 +63,7 @@ Tempo is an open-source project developed and maintained solely by me. I would l
 
 If you would like to sponsor the project and show your support, you can make a donation or contribution by visiting the [**sponsorship page**](https://www.buymeacoffee.com/a.cappiello). Your generosity will help cover the costs of development and further enhancements.
 
-## Screenshot
+## Screenshots
 
 <p align="center">
   <b>Light theme</b>

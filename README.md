@@ -8,6 +8,8 @@
 
 <p align="center">
     <a href="https://github.com/CappielloAntonio/tempo/releases"><img src="https://i.ibb.co/q0mdc4Z/get-it-on-github.png" width="200"></a>
+</p>
+<p align="center">
     <a href="https://f-droid.org/packages/com.cappielloantonio.notquitemy.tempo"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" width="200"></a>
     <a href="https://apt.izzysoft.de/fdroid/index/apk/com.cappielloantonio.tempo"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" width="200"></a>
 </p>
@@ -17,6 +19,8 @@
 Tempo does not rely on magic algorithms to decide what you should listen to. Instead, the interface is built around your listening history, randomness, and optionally integrates with services like Last.fm to personalize your music experience.
 
 **If you find Tempo useful, please consider starring the project on GitHub. It would mean a lot to me and help promote the app to a wider audience.**
+
+**Use the Github version of the app for full Android Auto and Chromecast support.**
 
 ## Features
 - **Subsonic Integration**: Tempo seamlessly integrates with your Subsonic server, providing you with easy access to your entire music collection on the go.
@@ -29,6 +33,7 @@ Tempo does not rely on magic algorithms to decide what you should listen to. Ins
 - **Scrobbling Integration**: Optionally integrate Tempo with Last.fm to scrobble your played tracks, gather music insights, and further personalize your music recommendations, if supported by your Subsonic server.
 - **Podcasts and Radio**: If your Subsonic server supports it, listen to podcasts and radio shows directly within Tempo, expanding your audio entertainment options.
 - **Transcoding Support**: Activate transcoding of tracks on your Subsonic server, allowing you to set a transcoding profile for optimized streaming directly from the app. This feature requires support from your Subsonic server.
+- **Android Auto Support**: Enjoy your favorite music on the go with full Android Auto integration, allowing you to seamlessly control and listen to your tracks directly from your mobile device while driving.
 
 <p align="center">
     <img src="mockup/feat/1_screenshot.png" width=200>

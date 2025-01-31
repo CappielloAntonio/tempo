@@ -1,7 +1,9 @@
 package com.cappielloantonio.tempo.github.models
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class LatestRelease(
         @SerializedName("url")
         var url: String? = null,

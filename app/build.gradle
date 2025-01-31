@@ -10,8 +10,8 @@ android {
         minSdkVersion 24
         targetSdk 35
 
-        versionCode 25
-        versionName '3.8.1'
+        versionCode 26
+        versionName '3.9.0'
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
@@ -77,9 +77,9 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
     implementation 'androidx.preference:preference-ktx:1.2.1'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.8.5'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.8.5'
-    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.8.6'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.8.6'
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'androidx.room:room-runtime:2.6.1'
     implementation 'androidx.core:core-splashscreen:1.0.1'
     implementation 'androidx.appcompat:appcompat:1.7.0'

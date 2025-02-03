@@ -45,7 +45,7 @@ public class ShareHorizontalAdapter extends RecyclerView.Adapter<ShareHorizontal
 
         if (share.getEntries() != null && !share.getEntries().isEmpty()) CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), share.getEntries().get(0).getCoverArtId(), CustomGlideRequest.ResourceType.Album)
-                .build()
+                .build(true)
                 .into(holder.item.shareCoverImageView);
     }
 

@@ -60,7 +60,7 @@ public class PlayerSongQueueAdapter extends RecyclerView.Adapter<PlayerSongQueue
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), song.getCoverArtId(), CustomGlideRequest.ResourceType.Song)
-                .build()
+                .build(true)
                 .into(holder.item.queueSongCoverImageView);
 
         MediaManager.getCurrentIndex(mediaBrowserListenableFuture, new MediaIndexCallback() {

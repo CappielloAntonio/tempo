@@ -199,7 +199,7 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), song.getCoverArtId(), CustomGlideRequest.ResourceType.Song)
-                .build()
+                .build(true)
                 .into(holder.item.itemCoverImageView);
 
         holder.item.itemCoverImageView.setVisibility(View.VISIBLE);
@@ -222,7 +222,7 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), song.getCoverArtId(), CustomGlideRequest.ResourceType.Song)
-                .build()
+                .build(true)
                 .into(holder.item.itemCoverImageView);
 
         holder.item.itemCoverImageView.setVisibility(View.VISIBLE);
@@ -244,7 +244,7 @@ public class DownloadHorizontalAdapter extends RecyclerView.Adapter<DownloadHori
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), song.getCoverArtId(), CustomGlideRequest.ResourceType.Song)
-                .build()
+                .build(true)
                 .into(holder.item.itemCoverImageView);
 
         holder.item.itemCoverImageView.setVisibility(View.VISIBLE);

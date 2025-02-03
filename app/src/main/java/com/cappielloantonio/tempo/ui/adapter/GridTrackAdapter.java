@@ -40,7 +40,7 @@ public class GridTrackAdapter extends RecyclerView.Adapter<GridTrackAdapter.View
 
         CustomGlideRequest.Builder
                 .from(holder.itemView.getContext(), item.getCoverArtId(), CustomGlideRequest.ResourceType.Song)
-                .build()
+                .build(true)
                 .into(holder.item.trackCoverImageView);
     }
 

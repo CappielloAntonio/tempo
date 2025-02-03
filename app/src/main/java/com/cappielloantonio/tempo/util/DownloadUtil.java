@@ -22,6 +22,7 @@ import androidx.media3.exoplayer.RenderersFactory;
 import androidx.media3.exoplayer.offline.DownloadManager;
 import androidx.media3.exoplayer.offline.DownloadNotificationHelper;
 
+import com.cappielloantonio.tempo.App;
 import com.cappielloantonio.tempo.service.DownloaderManager;
 
 import java.io.File;
@@ -29,6 +30,8 @@ import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executors;
 
 @UnstableApi
@@ -73,6 +76,13 @@ public final class DownloadUtil {
             httpDataSourceFactory = new DefaultHttpDataSource
                     .Factory()
                     .setAllowCrossProtocolRedirects(true);
+
+            String basicAuthHeader = App.getSubsonicClientInstance(false).getBasicAuthHeader();
+            if (basicAuthHeader != null) {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", basicAuthHeader);
+                ((DefaultHttpDataSource.Factory) httpDataSourceFactory).setDefaultRequestProperties(headers);
+            }
         }
 
         return httpDataSourceFactory;

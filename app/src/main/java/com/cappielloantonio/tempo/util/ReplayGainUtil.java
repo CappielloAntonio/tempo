@@ -15,7 +15,7 @@ import java.util.Objects;
 
 @OptIn(markerClass = UnstableApi.class)
 public class ReplayGainUtil {
-    private static final String[] tags = {"REPLAYGAIN_TRACK_GAIN", "REPLAYGAIN_ALBUM_GAIN", "R128_TRACK_GAIN", "R128_ALBUM_GAIN"};
+    private static final String[] tags = {"REPLAYGAIN_TRACK_GAIN", "replaygain_track_gain", "REPLAYGAIN_ALBUM_GAIN", "replaygain_album_gain", "R128_TRACK_GAIN", "R128_ALBUM_GAIN"};
 
     public static void setReplayGain(ExoPlayer player, Tracks tracks) {
         List<Metadata> metadata = getMetadata(tracks);

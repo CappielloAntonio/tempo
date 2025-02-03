@@ -51,4 +51,14 @@
         <item name="background">?attr/colorErrorContainer</item>
         <item name="android:textColor">?attr/colorOnErrorContainer</item>
     </style>
+
+    <style name="FullScreenDialog" parent="Theme.Material3.Light.Dialog">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:windowBackground">@color/md_theme_light_background</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="colorPrimary">@color/md_theme_light_primary</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>

@@ -9,6 +9,7 @@ import androidx.room.TypeConverters;
 
 import com.cappielloantonio.tempo.App;
 import com.cappielloantonio.tempo.database.converter.DateConverters;
+import com.cappielloantonio.tempo.database.converter.MapTypeConverter;
 import com.cappielloantonio.tempo.database.dao.ChronologyDao;
 import com.cappielloantonio.tempo.database.dao.DownloadDao;
 import com.cappielloantonio.tempo.database.dao.FavoriteDao;
@@ -32,7 +33,7 @@ import com.cappielloantonio.tempo.subsonic.models.Playlist;
         entities = {Queue.class, Server.class, RecentSearch.class, Download.class, Chronology.class, Favorite.class, SessionMediaItem.class, Playlist.class},
         autoMigrations = {@AutoMigration(from = 9, to = 10)}
 )
-@TypeConverters({DateConverters.class})
+@TypeConverters({DateConverters.class, MapTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
     private final static String DB_NAME = "tempo_db";
     private static AppDatabase instance;

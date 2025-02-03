@@ -142,6 +142,10 @@ public class Subsonic {
         return url.replace("//rest", "/rest");
     }
 
+    public Map<String, String> getCustomHeaders() {
+        return preferences.getCustomHeaders();
+    }
+
     public Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
         params.put("u", preferences.getUsername());

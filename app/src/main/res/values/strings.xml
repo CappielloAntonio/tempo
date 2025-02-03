@@ -242,8 +242,12 @@
     <string name="search_title_artist">Artists</string>
     <string name="search_title_song">Songs</string>
     <string name="server_signup_dialog_action_low_security">Low security</string>
+    <string name="server_signup_dialog_action_custom_header_add">Add new header</string>
+    <string name="server_signup_dialog_action_allow_custom_headers">Send custom headers</string>
     <string name="server_signup_dialog_action_delete_toast">Long press to delete</string>
     <string name="server_signup_dialog_hint_local_address">Local URL</string>
+    <string name="server_signup_dialog_hint_custom_header_key">Custom Header Key</string>
+    <string name="server_signup_dialog_hint_custom_header_value">Custom Header Value</string>
     <string name="server_signup_dialog_hint_name">Server Name</string>
     <string name="server_signup_dialog_hint_password">Password</string>
     <string name="server_signup_dialog_hint_url">Server URL</string>
@@ -257,6 +261,9 @@
     <string name="server_unreachable_dialog_positive_button">Continue anyway</string>
     <string name="server_unreachable_dialog_summary">The requested server is unavailable. If you choose to continue this dialog will not appear for the next hour.</string>
     <string name="server_unreachable_dialog_title">Server unreachable</string>
+    <string name="server_signup_dialog_hint_custom_values_required">Custom header and custom header value are required.</string>
+    <string name="server_signup_dialog_custom_header_delete_failed">Failed to delete custom header. Please try again.</string>
+    <string name="server_signup_dialog_custom_header_delete_success">Custom header deleted successfully.</string>
     <string name="settings_about_summary">Tempo is an open source and lightweight music client for Subsonic, designed and built natively for Android.</string>
     <string name="settings_about_title">About</string>
     <string name="settings_always_on_display">Always on display</string>

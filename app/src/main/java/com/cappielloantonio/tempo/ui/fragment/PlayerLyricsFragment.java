@@ -32,6 +32,9 @@ import com.cappielloantonio.tempo.viewmodel.PlayerBottomSheetViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 
+import cn.lyric.getter.api.API;
+import cn.lyric.getter.api.data.ExtraData;
+
 import java.util.List;
 
 
@@ -45,6 +48,7 @@ public class PlayerLyricsFragment extends Fragment {
     private MediaBrowser mediaBrowser;
     private Handler syncLyricsHandler;
     private Runnable syncLyricsRunnable;
+    private API lga = new API();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -243,6 +247,7 @@ public class PlayerLyricsFragment extends Fragment {
                 spannableString.setSpan(new ForegroundColorSpan(requireContext().getResources().getColor(R.color.lyricsTextColor, null)), startingPosition, endingPosition, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                 bind.nowPlayingSongLyricsTextView.setText(spannableString);
+                lga.sendLyric(spannableString.subSequence(startingPosition,endingPosition).toString(), new ExtraData());
 
                 if (playerBottomSheetViewModel.getSyncLyricsState()) {
                     bind.nowPlayingSongLyricsSrollView.smoothScrollTo(0, getScroll(lines, toHighlight));

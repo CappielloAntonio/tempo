@@ -116,4 +116,11 @@ object Constants {
     const val HOME_SECTOR_RECENTLY_ADDED = "HOME_SECTOR_RECENTLY_ADDED"
     const val HOME_SECTOR_PINNED_PLAYLISTS = "HOME_SECTOR_PINNED_PLAYLISTS"
     const val HOME_SECTOR_SHARED = "HOME_SECTOR_SHARED"
+
+    const val CUSTOM_COMMAND_TOGGLE_SHUFFLE_MODE_ON = "android.media3.session.demo.SHUFFLE_ON"
+    const val CUSTOM_COMMAND_TOGGLE_SHUFFLE_MODE_OFF = "android.media3.session.demo.SHUFFLE_OFF"
+    const val CUSTOM_COMMAND_TOGGLE_HEART_ON = "android.media3.session.demo.HEART_ON"
+    const val CUSTOM_COMMAND_TOGGLE_HEART_OFF = "android.media3.session.demo.HEART_OFF"
+    const val CUSTOM_COMMAND_TOGGLE_HEART_LOADING = "android.media3.session.demo.HEART_LOADING"
+
 }

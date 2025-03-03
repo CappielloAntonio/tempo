@@ -3,6 +3,7 @@ package com.cappielloantonio.tempo.model
 import android.net.Uri
 import android.os.Bundle
 import androidx.annotation.Keep
+import androidx.media3.common.HeartRating
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaItem.RequestMetadata
 import androidx.media3.common.MediaMetadata
@@ -243,6 +244,13 @@ class SessionMediaItem() {
                     .setAlbumTitle(album)
                     .setArtist(artist)
                     .setArtworkUri(artworkUri)
+                    .setUserRating(HeartRating(starred != null))
+                    .setSupportedCommands(
+                        listOf(
+                            Constants.CUSTOM_COMMAND_TOGGLE_HEART_ON,
+                            Constants.CUSTOM_COMMAND_TOGGLE_HEART_OFF
+                        )
+                    )
                     .setExtras(bundle)
                     .setIsBrowsable(false)
                     .setIsPlayable(true)

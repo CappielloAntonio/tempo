@@ -135,6 +135,7 @@
     <string name="login_title_expanded">Subsonic 서버</string>
     <string name="media_route_menu_title">Cast</string>
     <string name="menu_add_button">추가</string>
+    <string name="menu_add_to_queue_button">재생목록에 추가</string>
     <string name="menu_download_all_button">모두 다운로드</string>
     <string name="menu_download_label">다운로드</string>
     <string name="menu_filter_all">모두</string>

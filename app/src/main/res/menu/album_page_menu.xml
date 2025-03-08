@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_add_to_queue"
+        android:icon="@drawable/ic_add"
+        android:title="@string/menu_add_to_queue_button"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_download_album"
         android:icon="@drawable/ic_file_download"
         android:title="@string/menu_download_all_button"

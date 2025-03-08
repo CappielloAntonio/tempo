@@ -156,7 +156,8 @@
 	<string name="login_title_expanded">Server Subsonic</string>
 	<string name="media_route_menu_title">Trasmetti</string>
 	<string name="menu_add_button">Aggiungi</string>
-	<string name="menu_download_all_button">Scarica tutto</string>
+    <string name="menu_add_to_queue_button">Aggiungi alla coda</string>
+    <string name="menu_download_all_button">Scarica tutto</string>
 	<string name="menu_download_label">Scarica</string>
 	<string name="menu_filter_all">Tutti</string>
 	<string name="menu_filter_download">Scaricati</string>

@@ -108,6 +108,13 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
             });
             return true;
         }
+        if (item.getItemId() == R.id.action_add_to_queue) {
+            albumPageViewModel.getAlbumSongLiveList().observe(getViewLifecycleOwner(), songs -> {
+                MediaManager.enqueue(mediaBrowserListenableFuture, songs, false);
+            });
+
+            return true;
+        }
 
         return false;
     }

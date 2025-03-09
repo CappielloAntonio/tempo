@@ -3,6 +3,7 @@
     <string name="activity_battery_optimizations_summary">Please disable battery optimizations for media playback while the screen is off.</string>
     <string name="activity_battery_optimizations_title">Battery Optimizations</string>
     <string name="activity_info_offline_mode">Offline mode</string>
+    <string name="album_bottom_sheet_add_to_playlist">Add to playlist</string>
     <string name="album_bottom_sheet_add_to_queue">Add to queue</string>
     <string name="album_bottom_sheet_download_all">Download all</string>
     <string name="album_bottom_sheet_go_to_artist">Go to artist</string>
@@ -158,6 +159,7 @@
     <string name="login_title_expanded">Subsonic servers</string>
     <string name="media_route_menu_title">Cast</string>
     <string name="menu_add_button">Add</string>
+    <string name="menu_add_to_playlist_button">Add to playlist</string>
     <string name="menu_download_all_button">Download all</string>
     <string name="menu_download_label">Download</string>
     <string name="menu_filter_all">All</string>

@@ -39,6 +39,9 @@ import com.cappielloantonio.tempo.viewmodel.SongBottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.common.util.concurrent.ListenableFuture;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 @UnstableApi
 public class SongBottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener {
     private HomeViewModel homeViewModel;
@@ -177,7 +180,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
         TextView addToPlaylist = view.findViewById(R.id.add_to_playlist_text_view);
         addToPlaylist.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putParcelable(Constants.TRACK_OBJECT, song);
+            bundle.putParcelableArrayList(Constants.TRACKS_OBJECT, new ArrayList<>(Collections.singletonList(song)));
 
             PlaylistChooserDialog dialog = new PlaylistChooserDialog();
             dialog.setArguments(bundle);

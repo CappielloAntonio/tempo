@@ -31,6 +31,7 @@ import com.cappielloantonio.tempo.service.MediaManager;
 import com.cappielloantonio.tempo.service.MediaService;
 import com.cappielloantonio.tempo.ui.activity.MainActivity;
 import com.cappielloantonio.tempo.ui.adapter.SongHorizontalAdapter;
+import com.cappielloantonio.tempo.ui.dialog.PlaylistChooserDialog;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.cappielloantonio.tempo.util.MappingUtil;
@@ -38,6 +39,7 @@ import com.cappielloantonio.tempo.util.MusicUtil;
 import com.cappielloantonio.tempo.viewmodel.AlbumPageViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -105,6 +107,17 @@ public class AlbumPageFragment extends Fragment implements ClickCallback {
         if (item.getItemId() == R.id.action_download_album) {
             albumPageViewModel.getAlbumSongLiveList().observe(getViewLifecycleOwner(), songs -> {
                 DownloadUtil.getDownloadTracker(requireContext()).download(MappingUtil.mapDownloads(songs), songs.stream().map(Download::new).collect(Collectors.toList()));
+            });
+            return true;
+        }
+        if (item.getItemId() == R.id.action_add_to_playlist) {
+            albumPageViewModel.getAlbumSongLiveList().observe(getViewLifecycleOwner(), songs -> {
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList(Constants.TRACKS_OBJECT, new ArrayList<>(songs));
+
+                PlaylistChooserDialog dialog = new PlaylistChooserDialog();
+                dialog.setArguments(bundle);
+                dialog.show(requireActivity().getSupportFragmentManager(), null);
             });
             return true;
         }

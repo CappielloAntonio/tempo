@@ -3,6 +3,7 @@
     <string name="activity_battery_optimizations_summary">Пожалуйста, отключите оптимизацию батареи для воспроизведения мультимедиа при выключенном экране.</string>
     <string name="activity_battery_optimizations_title">Оптимизация батареи</string>
     <string name="activity_info_offline_mode">Офлайн-режим</string>
+    <string name="album_bottom_sheet_add_to_playlist">Добавить в плейлист</string>
     <string name="album_bottom_sheet_add_to_queue">Добавить в очередь</string>
     <string name="album_bottom_sheet_download_all">Скачать все</string>
     <string name="album_bottom_sheet_go_to_artist">Перейти к исполнителю</string>
@@ -153,6 +154,7 @@
     <string name="login_title_expanded">Subsonic серверы</string>
     <string name="media_route_menu_title">Cast</string>
     <string name="menu_add_button">Добавить</string>
+    <string name="menu_add_to_playlist_button">Добавить в плейлист</string>
     <string name="menu_download_all_button">Скачать все</string>
     <string name="menu_download_label">Скачать</string>
     <string name="menu_filter_all">Все</string>

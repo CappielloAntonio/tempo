@@ -31,6 +31,7 @@ import com.cappielloantonio.tempo.service.MediaService;
 import com.cappielloantonio.tempo.subsonic.models.AlbumID3;
 import com.cappielloantonio.tempo.subsonic.models.Child;
 import com.cappielloantonio.tempo.ui.activity.MainActivity;
+import com.cappielloantonio.tempo.ui.dialog.PlaylistChooserDialog;
 import com.cappielloantonio.tempo.util.Constants;
 import com.cappielloantonio.tempo.util.DownloadUtil;
 import com.cappielloantonio.tempo.util.MappingUtil;
@@ -163,6 +164,20 @@ public class AlbumBottomSheetDialog extends BottomSheetDialogFragment implements
 
             downloadAll.setOnClickListener(v -> {
                 DownloadUtil.getDownloadTracker(requireContext()).download(mediaItems, downloads);
+                dismissBottomSheet();
+            });
+        });
+
+        TextView addToPlaylist = view.findViewById(R.id.add_to_playlist_text_view);
+        addToPlaylist.setOnClickListener(v -> {
+            albumBottomSheetViewModel.getAlbumTracks().observe(getViewLifecycleOwner(), songs -> {
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList(Constants.TRACKS_OBJECT, new ArrayList<>(songs));
+
+                PlaylistChooserDialog dialog = new PlaylistChooserDialog();
+                dialog.setArguments(bundle);
+                dialog.show(requireActivity().getSupportFragmentManager(), null);
+
                 dismissBottomSheet();
             });
         });

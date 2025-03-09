@@ -3,6 +3,7 @@
     <string name="activity_battery_optimizations_summary">화면이 꺼진 상태에서 음악 재생을 하기 위해서는 배터리 최적화를 비활성화 해주세요.</string>
     <string name="activity_battery_optimizations_title">배터리 최적화</string>
     <string name="activity_info_offline_mode">오프라인 모드</string>
+    <string name="album_bottom_sheet_add_to_playlist">플레이리스트에 추가</string>
     <string name="album_bottom_sheet_add_to_queue">재생목록에 추가</string>
     <string name="album_bottom_sheet_download_all">모두 다운로드</string>
     <string name="album_bottom_sheet_go_to_artist">아티스트로 이동</string>

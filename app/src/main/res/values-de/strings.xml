@@ -3,6 +3,7 @@
     <string name="activity_battery_optimizations_summary">Bitte deaktiviere die Batterieoptimierung, damit die Medienwiedergabe bei ausgeschaltetem Bildschirm richtig funktioniert.</string>
     <string name="activity_battery_optimizations_title">Batterie Optimierung</string>
     <string name="activity_info_offline_mode">Offlinebetrieb</string>
+    <string name="album_bottom_sheet_add_to_playlist">Zu Playliste hinzufügen</string>
     <string name="album_bottom_sheet_add_to_queue">Zur Warteschlange hinzufügen</string>
     <string name="album_bottom_sheet_download_all">Alle herunterladen</string>
     <string name="album_bottom_sheet_go_to_artist">Gehe zu Künstler</string>

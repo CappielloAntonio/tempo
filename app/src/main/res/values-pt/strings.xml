@@ -3,6 +3,7 @@
     <string name="activity_battery_optimizations_summary">Por favor, desative as otimizações de bateria para a reprodução de mídia enquanto a tela estiver desligada.</string>
     <string name="activity_battery_optimizations_title">Otimizações de bateria</string>
     <string name="activity_info_offline_mode">Modo offline</string>
+    <string name="album_bottom_sheet_add_to_playlist">Adicionar a uma playlist</string>
     <string name="album_bottom_sheet_add_to_queue">Adicionar à fila</string>
     <string name="album_bottom_sheet_download_all">Baixar todos</string>
     <string name="album_bottom_sheet_go_to_artist">Ir para o(a) artista</string>

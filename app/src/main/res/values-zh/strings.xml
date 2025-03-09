@@ -3,6 +3,7 @@
     <string name="activity_battery_optimizations_summary">请禁用针对媒体锁屏播放的电池优化。</string>
     <string name="activity_battery_optimizations_title">电池优化</string>
     <string name="activity_info_offline_mode">离线模式</string>
+    <string name="album_bottom_sheet_add_to_playlist">添加到播放列表</string>
     <string name="album_bottom_sheet_add_to_queue">添加到队列</string>
     <string name="album_bottom_sheet_download_all">全部下载</string>
     <string name="album_bottom_sheet_go_to_artist">查看该艺术家</string>

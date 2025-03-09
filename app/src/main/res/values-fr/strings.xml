@@ -3,6 +3,7 @@
     <string name="activity_battery_optimizations_summary">Veuillez désactiver les optimisations de la batterie pour permettre la lecture des médias lorsque l\'écran est éteint.</string>
     <string name="activity_battery_optimizations_title">Optimisations de la batterie</string>
     <string name="activity_info_offline_mode">Mode hors-ligne</string>
+    <string name="album_bottom_sheet_add_to_playlist">Ajouter à une playlist</string>
     <string name="album_bottom_sheet_add_to_queue">Ajouter à la file d\'attente</string>
     <string name="album_bottom_sheet_download_all">Télécharger tout</string>
     <string name="album_bottom_sheet_go_to_artist">Aller à l\'artiste</string>

@@ -3,7 +3,8 @@
 	<string name="activity_battery_optimizations_summary">Per favore, disabilita le ottimizzazioni della batteria per la riproduzione multimediale quando lo schermo è spento.</string>
 	<string name="activity_battery_optimizations_title">Ottimizzazioni della Batteria</string>
 	<string name="activity_info_offline_mode">Modalità offline</string>
-	<string name="album_bottom_sheet_add_to_queue">Aggiungi alla coda</string>
+    <string name="album_bottom_sheet_add_to_playlist">Aggiungi alla playlist</string>
+    <string name="album_bottom_sheet_add_to_queue">Aggiungi alla coda</string>
 	<string name="album_bottom_sheet_download_all">Scarica tutto</string>
 	<string name="album_bottom_sheet_go_to_artist">Vai all\'artista</string>
 	<string name="album_bottom_sheet_instant_mix">Mix istantaneo</string>

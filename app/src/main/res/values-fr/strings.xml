@@ -134,6 +134,7 @@
     <string name="login_title_expanded">Serveurs Subsonic</string>
     <string name="media_route_menu_title">Cast</string>
     <string name="menu_add_button">Ajouter</string>
+    <string name="menu_add_to_playlist_button">Ajouter à une playlist</string>
     <string name="menu_download_all_button">Télécharger tout</string>
     <string name="menu_download_label">Téléchargé</string>
     <string name="menu_filter_all">Tout</string>

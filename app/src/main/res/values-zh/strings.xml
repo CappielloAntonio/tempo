@@ -138,6 +138,7 @@
     <string name="login_title_expanded">Subsonic 服务器</string>
     <string name="media_route_menu_title">投送</string>
     <string name="menu_add_button">添加</string>
+    <string name="menu_add_to_playlist_button">添加到播放列表</string>
     <string name="menu_download_all_button">全部下载</string>
     <string name="menu_download_label">下载</string>
     <string name="menu_filter_all">全部</string>

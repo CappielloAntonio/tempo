@@ -155,6 +155,7 @@
     <string name="login_title_expanded">Subsonic Server</string>
     <string name="media_route_menu_title">Cast</string>
     <string name="menu_add_button">Hinzufügen</string>
+    <string name="menu_add_to_playlist_button">Zu Playliste hinzufügen</string>
     <string name="menu_download_all_button">Alle Herunterladen</string>
     <string name="menu_download_label">Downloads</string>
     <string name="menu_filter_all">Alle</string>

@@ -129,15 +129,20 @@ public class PlaylistPageFragment extends Fragment implements ClickCallback {
             playlistPageViewModel.getPlaylistSongLiveList().observe(getViewLifecycleOwner(), songs -> {
                 if (isVisible() && getActivity() != null) {
                     DownloadUtil.getDownloadTracker(requireContext()).download(
-                            MappingUtil.mapDownloads(songs),
-                            songs.stream().map(child -> {
-                                Download toDownload = new Download(child);
-                                toDownload.setPlaylistId(playlistPageViewModel.getPlaylist().getId());
-                                toDownload.setPlaylistName(playlistPageViewModel.getPlaylist().getName());
-                                return toDownload;
-                            }).collect(Collectors.toList())
+                        MappingUtil.mapDownloads(songs),
+                        songs.stream().map(child -> {
+                            Download toDownload = new Download(child);
+                            toDownload.setPlaylistId(playlistPageViewModel.getPlaylist().getId());
+                            toDownload.setPlaylistName(playlistPageViewModel.getPlaylist().getName());
+                            return toDownload;
+                        }).collect(Collectors.toList())
                     );
                 }
+            });
+            return true;
+        } else if (item.getItemId() == R.id.action_add_to_queue) {
+            playlistPageViewModel.getPlaylistSongLiveList().observe(getViewLifecycleOwner(), songs -> {
+                MediaManager.enqueue(mediaBrowserListenableFuture, songs, false);
             });
             return true;
         } else if (item.getItemId() == R.id.action_pin_playlist) {

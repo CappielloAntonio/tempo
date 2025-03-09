@@ -157,6 +157,7 @@
     <string name="login_title">Subsonic servers</string>
     <string name="login_title_expanded">Subsonic servers</string>
     <string name="media_route_menu_title">Cast</string>
+    <string name="menu_add_to_queue_button">Add to queue</string>
     <string name="menu_add_button">Add</string>
     <string name="menu_download_all_button">Download all</string>
     <string name="menu_download_label">Download</string>

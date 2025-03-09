@@ -57,14 +57,14 @@ public class PlaylistChooserDialog extends DialogFragment implements ClickCallba
     }
 
     private void setSongInfo() {
-        playlistChooserViewModel.setSongToAdd(requireArguments().getParcelable(Constants.TRACK_OBJECT));
+        playlistChooserViewModel.setSongsToAdd(requireArguments().getParcelableArrayList(Constants.TRACKS_OBJECT));
     }
 
     private void setButtonAction() {
         androidx.appcompat.app.AlertDialog alertDialog = (androidx.appcompat.app.AlertDialog) Objects.requireNonNull(getDialog());
         alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putParcelable(Constants.TRACK_OBJECT, playlistChooserViewModel.getSongToAdd());
+            bundle.putParcelableArrayList(Constants.TRACKS_OBJECT, playlistChooserViewModel.getSongsToAdd());
 
             PlaylistEditorDialog dialog = new PlaylistEditorDialog(null);
             dialog.setArguments(bundle);
@@ -98,7 +98,7 @@ public class PlaylistChooserDialog extends DialogFragment implements ClickCallba
     @Override
     public void onPlaylistClick(Bundle bundle) {
         Playlist playlist = bundle.getParcelable(Constants.PLAYLIST_OBJECT);
-        playlistChooserViewModel.addSongToPlaylist(playlist.getId());
+        playlistChooserViewModel.addSongsToPlaylist(playlist.getId());
         dismiss();
     }
 }

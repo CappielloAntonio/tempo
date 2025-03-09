@@ -12,6 +12,7 @@ import com.cappielloantonio.tempo.repository.SharingRepository;
 import com.cappielloantonio.tempo.subsonic.models.Child;
 import com.cappielloantonio.tempo.subsonic.models.Playlist;
 import com.cappielloantonio.tempo.subsonic.models.Share;
+import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,7 +25,7 @@ public class PlaylistEditorViewModel extends AndroidViewModel {
     private final PlaylistRepository playlistRepository;
     private final SharingRepository sharingRepository;
 
-    private Child toAdd;
+    private ArrayList<Child> toAdd;
     private Playlist toEdit;
 
     private MutableLiveData<List<Child>> songLiveList = new MutableLiveData<>();
@@ -37,7 +38,7 @@ public class PlaylistEditorViewModel extends AndroidViewModel {
     }
 
     public void createPlaylist(String name) {
-        playlistRepository.createPlaylist(null, name, new ArrayList(Collections.singletonList(toAdd.getId())));
+        playlistRepository.createPlaylist(null, name, new ArrayList(Lists.transform(toAdd, Child::getId)));
     }
 
     public void updatePlaylist(String name) {
@@ -48,12 +49,12 @@ public class PlaylistEditorViewModel extends AndroidViewModel {
         if (toEdit != null) playlistRepository.deletePlaylist(toEdit.getId());
     }
 
-    public Child getSongToAdd() {
-        return toAdd;
+    public void setSongsToAdd(ArrayList<Child> songs) {
+        toAdd = songs;
     }
 
-    public void setSongToAdd(Child song) {
-        this.toAdd = song;
+    public ArrayList<Child> getSongsToAdd() {
+        return toAdd;
     }
 
     public Playlist getPlaylistToEdit() {

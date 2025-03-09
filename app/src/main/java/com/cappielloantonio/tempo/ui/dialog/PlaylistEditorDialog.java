@@ -74,11 +74,11 @@ public class PlaylistEditorDialog extends DialogFragment {
     }
 
     private void setParameterInfo() {
-        if (requireArguments().getParcelable(Constants.TRACK_OBJECT) != null) {
-            playlistEditorViewModel.setSongToAdd(requireArguments().getParcelable(Constants.TRACK_OBJECT));
+        if (requireArguments().getParcelableArrayList(Constants.TRACKS_OBJECT) != null) {
+            playlistEditorViewModel.setSongsToAdd(requireArguments().getParcelableArrayList(Constants.TRACKS_OBJECT));
             playlistEditorViewModel.setPlaylistToEdit(null);
         } else if (requireArguments().getParcelable(Constants.PLAYLIST_OBJECT) != null) {
-            playlistEditorViewModel.setSongToAdd(null);
+            playlistEditorViewModel.setSongsToAdd(null);
             playlistEditorViewModel.setPlaylistToEdit(requireArguments().getParcelable(Constants.PLAYLIST_OBJECT));
 
             if (playlistEditorViewModel.getPlaylistToEdit() != null) {
@@ -92,7 +92,7 @@ public class PlaylistEditorDialog extends DialogFragment {
 
         alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
             if (validateInput()) {
-                if (playlistEditorViewModel.getSongToAdd() != null) {
+                if (playlistEditorViewModel.getSongsToAdd() != null) {
                     playlistEditorViewModel.createPlaylist(playlistName);
                 } else if (playlistEditorViewModel.getPlaylistToEdit() != null) {
                     playlistEditorViewModel.updatePlaylist(playlistName);
